@@ -1,0 +1,44 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ---- Super Ninja: keep the repo to code, content and shipped assets ----
+# bot/treadmill output (regenerable, gigabytes of screenshots)
+playtest/runs/
+playtest/.build/
+playtest/hero/
+# raw art, video renders, caches (regenerable; shipped results live in public/)
+assets-src/**
+!assets-src/**/
+!assets-src/**/*.ts
+!assets-src/**/*.py
+!assets-src/**/*.md
+!assets-src/**/*.sh
+!assets-src/**/*.json
+assets-src/trailer/cache/
+# third-party Sounds~Write documents downloaded for research: copyrighted, never publish
+assets-src/sw-sources/
+# secrets, just in case
+.env*
+*.pem

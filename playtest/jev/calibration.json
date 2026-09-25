@@ -1,0 +1,2850 @@
+{
+ "generated": "2026-09-25T21:23:40.707Z",
+ "usage": {
+  "model": "jev-1.13.0",
+  "calls": 990,
+  "retries": 203,
+  "retryCauses": {
+   "429": 203
+  },
+  "inputTokens": 518599,
+  "outputTokens": 30036,
+  "usd": 0.021781,
+  "p50ms": 424,
+  "p95ms": 1165,
+  "wallMs": 275290
+ },
+ "partialRerun": "words",
+ "previousUsage": {
+  "model": "jev-1.13.0",
+  "calls": 1145,
+  "retries": 99,
+  "retryCauses": {
+   "429": 99
+  },
+  "inputTokens": 848103,
+  "outputTokens": 72000,
+  "usd": 0.03562,
+  "p50ms": 396,
+  "p95ms": 509,
+  "wallMs": 117616
+ },
+ "repeatability": {
+  "n": 5,
+  "ids": [
+   "help_sort",
+   "baron_w4",
+   "baron_w6",
+   "timer_intro_2",
+   "tut_help",
+   "place_sound",
+   "kai_says",
+   "two_letters_one_sound",
+   "yay_9",
+   "read_intro",
+   "s1/1",
+   "listen_here"
+  ],
+  "perQuestion": {
+   "kind": {
+    "maxSpread": 0.11,
+    "meanSpread": 0.02,
+    "flips": 0
+   },
+   "letters_talk": {
+    "maxSpread": 0.1,
+    "meanSpread": 0.02,
+    "flips": 0
+   },
+   "letter_names": {
+    "maxSpread": 0.02,
+    "meanSpread": 0.01,
+    "flips": 0
+   },
+   "letter_word": {
+    "maxSpread": 0.05,
+    "meanSpread": 0.01,
+    "flips": 0
+   },
+   "sw_other": {
+    "maxSpread": 0.08,
+    "meanSpread": 0.02,
+    "flips": 0
+   },
+   "vocab": {
+    "maxSpread": 0.06,
+    "meanSpread": 0.04,
+    "flips": 1
+   },
+   "load": {
+    "maxSpread": 0.06,
+    "meanSpread": 0.02,
+    "flips": 1
+   },
+   "unclear": {
+    "maxSpread": 0.06,
+    "meanSpread": 0.03,
+    "flips": 1
+   },
+   "scary": {
+    "maxSpread": 0.01,
+    "meanSpread": 0,
+    "flips": 0
+   },
+   "deflating": {
+    "maxSpread": 0.04,
+    "meanSpread": 0.01,
+    "flips": 0
+   },
+   "american": {
+    "maxSpread": 0.01,
+    "meanSpread": 0,
+    "flips": 0
+   }
+  },
+  "detail": {
+   "help_sort": {
+    "kind": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "letters_talk": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "letter_names": [
+     0.06,
+     0.06,
+     0.06,
+     0.07,
+     0.06
+    ],
+    "letter_word": [
+     0.91,
+     0.9,
+     0.9,
+     0.89,
+     0.9
+    ],
+    "sw_other": [
+     0.07,
+     0.08,
+     0.07,
+     0.08,
+     0.09
+    ],
+    "vocab": [
+     0.48,
+     0.44,
+     0.45,
+     0.44,
+     0.44
+    ],
+    "load": [
+     0.66,
+     0.66,
+     0.66,
+     0.65,
+     0.66
+    ],
+    "unclear": [
+     0.76,
+     0.74,
+     0.75,
+     0.74,
+     0.74
+    ],
+    "scary": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "deflating": [
+     0.09,
+     0.09,
+     0.08,
+     0.08,
+     0.08
+    ],
+    "american": [
+     0.06,
+     0.05,
+     0.05,
+     0.05,
+     0.05
+    ]
+   },
+   "baron_w4": {
+    "kind": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "letters_talk": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "letter_names": [
+     0.05,
+     0.05,
+     0.05,
+     0.05,
+     0.04
+    ],
+    "letter_word": [
+     0.04,
+     0.03,
+     0.03,
+     0.04,
+     0.04
+    ],
+    "sw_other": [
+     0.14,
+     0.13,
+     0.14,
+     0.2,
+     0.14
+    ],
+    "vocab": [
+     0.61,
+     0.61,
+     0.62,
+     0.61,
+     0.62
+    ],
+    "load": [
+     0.77,
+     0.76,
+     0.76,
+     0.77,
+     0.72
+    ],
+    "unclear": [
+     0.15,
+     0.12,
+     0.13,
+     0.13,
+     0.13
+    ],
+    "scary": [
+     0.59,
+     0.59,
+     0.58,
+     0.58,
+     0.59
+    ],
+    "deflating": [
+     0.46,
+     0.48,
+     0.49,
+     0.45,
+     0.48
+    ],
+    "american": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ]
+   },
+   "baron_w6": {
+    "kind": [
+     1,
+     1,
+     1,
+     0.99,
+     1
+    ],
+    "letters_talk": [
+     0.14,
+     0.14,
+     0.13,
+     0.13,
+     0.15
+    ],
+    "letter_names": [
+     0.07,
+     0.08,
+     0.07,
+     0.08,
+     0.08
+    ],
+    "letter_word": [
+     0.78,
+     0.73,
+     0.73,
+     0.73,
+     0.74
+    ],
+    "sw_other": [
+     0.11,
+     0.11,
+     0.12,
+     0.12,
+     0.12
+    ],
+    "vocab": [
+     0.84,
+     0.79,
+     0.81,
+     0.83,
+     0.79
+    ],
+    "load": [
+     0.9,
+     0.91,
+     0.91,
+     0.91,
+     0.9
+    ],
+    "unclear": [
+     0.13,
+     0.13,
+     0.13,
+     0.14,
+     0.13
+    ],
+    "scary": [
+     0.4,
+     0.39,
+     0.39,
+     0.39,
+     0.39
+    ],
+    "deflating": [
+     0.46,
+     0.44,
+     0.44,
+     0.48,
+     0.45
+    ],
+    "american": [
+     0.05,
+     0.05,
+     0.05,
+     0.05,
+     0.05
+    ]
+   },
+   "timer_intro_2": {
+    "kind": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "letters_talk": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "letter_names": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "letter_word": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "sw_other": [
+     0.06,
+     0.07,
+     0.07,
+     0.06,
+     0.06
+    ],
+    "vocab": [
+     0.69,
+     0.68,
+     0.69,
+     0.66,
+     0.64
+    ],
+    "load": [
+     0.96,
+     0.96,
+     0.96,
+     0.96,
+     0.96
+    ],
+    "unclear": [
+     0.45,
+     0.49,
+     0.47,
+     0.46,
+     0.5
+    ],
+    "scary": [
+     0.47,
+     0.47,
+     0.46,
+     0.46,
+     0.46
+    ],
+    "deflating": [
+     0.71,
+     0.71,
+     0.71,
+     0.71,
+     0.72
+    ],
+    "american": [
+     0.06,
+     0.06,
+     0.05,
+     0.05,
+     0.06
+    ]
+   },
+   "tut_help": {
+    "kind": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "letters_talk": [
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03
+    ],
+    "letter_names": [
+     0.05,
+     0.06,
+     0.06,
+     0.07,
+     0.06
+    ],
+    "letter_word": [
+     0.02,
+     0.02,
+     0.02,
+     0.02,
+     0.02
+    ],
+    "sw_other": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "vocab": [
+     0.5,
+     0.51,
+     0.52,
+     0.48,
+     0.5
+    ],
+    "load": [
+     0.89,
+     0.86,
+     0.9,
+     0.88,
+     0.89
+    ],
+    "unclear": [
+     0.3,
+     0.29,
+     0.25,
+     0.3,
+     0.3
+    ],
+    "scary": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "deflating": [
+     0.06,
+     0.06,
+     0.06,
+     0.07,
+     0.06
+    ],
+    "american": [
+     0.04,
+     0.05,
+     0.04,
+     0.04,
+     0.04
+    ]
+   },
+   "place_sound": {
+    "kind": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "letters_talk": [
+     0.29,
+     0.28,
+     0.27,
+     0.19,
+     0.2
+    ],
+    "letter_names": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "letter_word": [
+     0.06,
+     0.06,
+     0.05,
+     0.05,
+     0.06
+    ],
+    "sw_other": [
+     0.06,
+     0.07,
+     0.07,
+     0.06,
+     0.07
+    ],
+    "vocab": [
+     0.41,
+     0.42,
+     0.39,
+     0.43,
+     0.41
+    ],
+    "load": [
+     0.48,
+     0.51,
+     0.51,
+     0.5,
+     0.45
+    ],
+    "unclear": [
+     0.69,
+     0.69,
+     0.65,
+     0.69,
+     0.71
+    ],
+    "scary": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "deflating": [
+     0.2,
+     0.21,
+     0.21,
+     0.2,
+     0.2
+    ],
+    "american": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ]
+   },
+   "kai_says": {
+    "kind": [
+     0.58,
+     0.52,
+     0.55,
+     0.55,
+     0.5
+    ],
+    "letters_talk": [
+     0.06,
+     0.06,
+     0.05,
+     0.06,
+     0.06
+    ],
+    "letter_names": [
+     0.07,
+     0.07,
+     0.07,
+     0.06,
+     0.07
+    ],
+    "letter_word": [
+     0.03,
+     0.03,
+     0.04,
+     0.03,
+     0.04
+    ],
+    "sw_other": [
+     0.1,
+     0.11,
+     0.11,
+     0.11,
+     0.1
+    ],
+    "vocab": [
+     0.21,
+     0.2,
+     0.23,
+     0.26,
+     0.22
+    ],
+    "load": [
+     0.11,
+     0.1,
+     0.1,
+     0.11,
+     0.12
+    ],
+    "unclear": [
+     0.19,
+     0.19,
+     0.2,
+     0.22,
+     0.2
+    ],
+    "scary": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "deflating": [
+     0.08,
+     0.07,
+     0.08,
+     0.08,
+     0.07
+    ],
+    "american": [
+     0.04,
+     0.05,
+     0.04,
+     0.04,
+     0.05
+    ]
+   },
+   "two_letters_one_sound": {
+    "kind": [
+     0.83,
+     0.86,
+     0.88,
+     0.87,
+     0.77
+    ],
+    "letters_talk": [
+     0.33,
+     0.38,
+     0.34,
+     0.38,
+     0.32
+    ],
+    "letter_names": [
+     0.04,
+     0.05,
+     0.05,
+     0.04,
+     0.05
+    ],
+    "letter_word": [
+     0.09,
+     0.1,
+     0.1,
+     0.1,
+     0.09
+    ],
+    "sw_other": [
+     0.12,
+     0.11,
+     0.11,
+     0.1,
+     0.11
+    ],
+    "vocab": [
+     0.17,
+     0.22,
+     0.19,
+     0.19,
+     0.2
+    ],
+    "load": [
+     0.42,
+     0.41,
+     0.4,
+     0.44,
+     0.4
+    ],
+    "unclear": [
+     0.19,
+     0.22,
+     0.19,
+     0.19,
+     0.21
+    ],
+    "scary": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "deflating": [
+     0.17,
+     0.17,
+     0.16,
+     0.18,
+     0.17
+    ],
+    "american": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ]
+   },
+   "yay_9": {
+    "kind": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "letters_talk": [
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.02
+    ],
+    "letter_names": [
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03
+    ],
+    "letter_word": [
+     0.02,
+     0.02,
+     0.02,
+     0.02,
+     0.02
+    ],
+    "sw_other": [
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03
+    ],
+    "vocab": [
+     0.5,
+     0.5,
+     0.5,
+     0.51,
+     0.51
+    ],
+    "load": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "unclear": [
+     0.04,
+     0.04,
+     0.03,
+     0.03,
+     0.04
+    ],
+    "scary": [
+     0,
+     0.01,
+     0.01,
+     0.01,
+     0.01
+    ],
+    "deflating": [
+     0.03,
+     0.02,
+     0.02,
+     0.03,
+     0.03
+    ],
+    "american": [
+     0.07,
+     0.07,
+     0.07,
+     0.07,
+     0.07
+    ]
+   },
+   "read_intro": {
+    "kind": [
+     0.98,
+     0.99,
+     0.98,
+     0.99,
+     0.98
+    ],
+    "letters_talk": [
+     0.06,
+     0.06,
+     0.06,
+     0.06,
+     0.06
+    ],
+    "letter_names": [
+     0.07,
+     0.07,
+     0.07,
+     0.06,
+     0.07
+    ],
+    "letter_word": [
+     0.04,
+     0.04,
+     0.05,
+     0.04,
+     0.04
+    ],
+    "sw_other": [
+     0.19,
+     0.2,
+     0.22,
+     0.22,
+     0.27
+    ],
+    "vocab": [
+     0.64,
+     0.63,
+     0.65,
+     0.64,
+     0.66
+    ],
+    "load": [
+     0.95,
+     0.96,
+     0.95,
+     0.95,
+     0.95
+    ],
+    "unclear": [
+     0.74,
+     0.73,
+     0.71,
+     0.74,
+     0.74
+    ],
+    "scary": [
+     0.01,
+     0,
+     0,
+     0.01,
+     0
+    ],
+    "deflating": [
+     0.34,
+     0.33,
+     0.33,
+     0.33,
+     0.33
+    ],
+    "american": [
+     0.05,
+     0.05,
+     0.05,
+     0.05,
+     0.05
+    ]
+   },
+   "s1/1": {
+    "kind": [
+     1,
+     0.99,
+     1,
+     0.99,
+     0.99
+    ],
+    "letters_talk": [
+     0.05,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "letter_names": [
+     0.07,
+     0.07,
+     0.07,
+     0.07,
+     0.09
+    ],
+    "letter_word": [
+     0.04,
+     0.03,
+     0.03,
+     0.03,
+     0.03
+    ],
+    "sw_other": [
+     0.08,
+     0.08,
+     0.08,
+     0.08,
+     0.08
+    ],
+    "vocab": [
+     0.85,
+     0.87,
+     0.88,
+     0.87,
+     0.87
+    ],
+    "load": [
+     0.98,
+     0.98,
+     0.99,
+     0.98,
+     0.98
+    ],
+    "unclear": [
+     0.09,
+     0.08,
+     0.08,
+     0.08,
+     0.08
+    ],
+    "scary": [
+     0.32,
+     0.32,
+     0.32,
+     0.33,
+     0.32
+    ],
+    "deflating": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ],
+    "american": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ]
+   },
+   "listen_here": {
+    "kind": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "letters_talk": [
+     0.04,
+     0.04,
+     0.05,
+     0.04,
+     0.04
+    ],
+    "letter_names": [
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03
+    ],
+    "letter_word": [
+     0.03,
+     0.03,
+     0.03,
+     0.03,
+     0.03
+    ],
+    "sw_other": [
+     0.06,
+     0.06,
+     0.06,
+     0.06,
+     0.05
+    ],
+    "vocab": [
+     0.22,
+     0.23,
+     0.22,
+     0.23,
+     0.24
+    ],
+    "load": [
+     0.55,
+     0.56,
+     0.58,
+     0.55,
+     0.57
+    ],
+    "unclear": [
+     0.53,
+     0.53,
+     0.51,
+     0.54,
+     0.51
+    ],
+    "scary": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "deflating": [
+     0.13,
+     0.13,
+     0.13,
+     0.13,
+     0.14
+    ],
+    "american": [
+     0.04,
+     0.04,
+     0.04,
+     0.04,
+     0.04
+    ]
+   }
+  }
+ },
+ "perturbations": {
+  "summary": {
+   "negation_meanAbs_1_minus_sum": {
+    "letters_talk": 0.05,
+    "letter_word": 0.02,
+    "deflating": 0.05
+   },
+   "reversedScale_meanAbsDiff": {
+    "vocab": 0.05,
+    "load": 0.02,
+    "scary": 0.01
+   },
+   "alone_vs_batched_meanAbsDiff": {
+    "letters_talk": 0.01,
+    "load": 0.01,
+    "scary": 0
+   },
+   "paraphrase_meanAbsDiff": {
+    "letters_talk": 0.55,
+    "scary": 0.02
+   },
+   "stringVsJsonState_meanAbsDiff": {
+    "kind": 0.02,
+    "letters_talk": 0.02,
+    "letter_names": 0.01,
+    "letter_word": 0.01,
+    "sw_other": 0.01,
+    "vocab": 0.06,
+    "load": 0.02,
+    "unclear": 0.06,
+    "scary": 0.01,
+    "deflating": 0.04,
+    "american": 0
+   }
+  },
+  "detail": {
+   "negation": {
+    "letters_talk": [
+     {
+      "id": "timer_intro_2",
+      "p": 0.04,
+      "pNeg": 0.97,
+      "sum": 1.01
+     },
+     {
+      "id": "tut_help",
+      "p": 0.03,
+      "pNeg": 0.98,
+      "sum": 1.01
+     },
+     {
+      "id": "place_sound",
+      "p": 0.28,
+      "pNeg": 0.9,
+      "sum": 1.18
+     },
+     {
+      "id": "s1/1",
+      "p": 0.04,
+      "pNeg": 0.98,
+      "sum": 1.02
+     },
+     {
+      "id": "baron_w4",
+      "p": 0.04,
+      "pNeg": 0.94,
+      "sum": 0.98
+     },
+     {
+      "id": "baron_w6",
+      "p": 0.15,
+      "pNeg": 0.91,
+      "sum": 1.06
+     },
+     {
+      "id": "yay_9",
+      "p": 0.03,
+      "pNeg": 0.98,
+      "sum": 1.01
+     },
+     {
+      "id": "read_intro",
+      "p": 0.06,
+      "pNeg": 0.88,
+      "sum": 0.94
+     },
+     {
+      "id": "two_letters_one_sound",
+      "p": 0.26,
+      "pNeg": 0.55,
+      "sum": 0.81
+     },
+     {
+      "id": "help_sort",
+      "p": 0.04,
+      "pNeg": 0.98,
+      "sum": 1.02
+     },
+     {
+      "id": "kai_says",
+      "p": 0.06,
+      "pNeg": 0.96,
+      "sum": 1.02
+     },
+     {
+      "id": "listen_here",
+      "p": 0.04,
+      "pNeg": 0.97,
+      "sum": 1.01
+     }
+    ],
+    "letter_word": [
+     {
+      "id": "timer_intro_2",
+      "p": 0.04,
+      "pNeg": 0.95,
+      "sum": 0.99
+     },
+     {
+      "id": "tut_help",
+      "p": 0.03,
+      "pNeg": 0.96,
+      "sum": 0.99
+     },
+     {
+      "id": "place_sound",
+      "p": 0.05,
+      "pNeg": 0.97,
+      "sum": 1.02
+     },
+     {
+      "id": "s1/1",
+      "p": 0.03,
+      "pNeg": 0.96,
+      "sum": 0.99
+     },
+     {
+      "id": "baron_w4",
+      "p": 0.03,
+      "pNeg": 0.98,
+      "sum": 1.01
+     },
+     {
+      "id": "baron_w6",
+      "p": 0.73,
+      "pNeg": 0.29,
+      "sum": 1.02
+     },
+     {
+      "id": "yay_9",
+      "p": 0.02,
+      "pNeg": 0.97,
+      "sum": 0.99
+     },
+     {
+      "id": "read_intro",
+      "p": 0.05,
+      "pNeg": 0.97,
+      "sum": 1.02
+     },
+     {
+      "id": "two_letters_one_sound",
+      "p": 0.1,
+      "pNeg": 0.85,
+      "sum": 0.95
+     },
+     {
+      "id": "help_sort",
+      "p": 0.9,
+      "pNeg": 0.13,
+      "sum": 1.03
+     },
+     {
+      "id": "kai_says",
+      "p": 0.04,
+      "pNeg": 0.94,
+      "sum": 0.98
+     },
+     {
+      "id": "listen_here",
+      "p": 0.03,
+      "pNeg": 0.97,
+      "sum": 1
+     }
+    ],
+    "deflating": [
+     {
+      "id": "timer_intro_2",
+      "p": 0.71,
+      "pNeg": 0.5,
+      "sum": 1.21
+     },
+     {
+      "id": "tut_help",
+      "p": 0.06,
+      "pNeg": 0.94,
+      "sum": 1
+     },
+     {
+      "id": "place_sound",
+      "p": 0.21,
+      "pNeg": 0.81,
+      "sum": 1.02
+     },
+     {
+      "id": "s1/1",
+      "p": 0.04,
+      "pNeg": 0.95,
+      "sum": 0.99
+     },
+     {
+      "id": "baron_w4",
+      "p": 0.49,
+      "pNeg": 0.63,
+      "sum": 1.12
+     },
+     {
+      "id": "baron_w6",
+      "p": 0.45,
+      "pNeg": 0.64,
+      "sum": 1.09
+     },
+     {
+      "id": "yay_9",
+      "p": 0.02,
+      "pNeg": 0.97,
+      "sum": 0.99
+     },
+     {
+      "id": "read_intro",
+      "p": 0.34,
+      "pNeg": 0.65,
+      "sum": 0.99
+     },
+     {
+      "id": "two_letters_one_sound",
+      "p": 0.19,
+      "pNeg": 0.85,
+      "sum": 1.04
+     },
+     {
+      "id": "help_sort",
+      "p": 0.07,
+      "pNeg": 0.9,
+      "sum": 0.97
+     },
+     {
+      "id": "kai_says",
+      "p": 0.08,
+      "pNeg": 0.91,
+      "sum": 0.99
+     },
+     {
+      "id": "listen_here",
+      "p": 0.14,
+      "pNeg": 0.89,
+      "sum": 1.03
+     }
+    ]
+   },
+   "reversedScale": {
+    "vocab": [
+     {
+      "id": "timer_intro_2",
+      "v": 0.68,
+      "vRev": 0.64
+     },
+     {
+      "id": "tut_help",
+      "v": 0.54,
+      "vRev": 0.48
+     },
+     {
+      "id": "place_sound",
+      "v": 0.38,
+      "vRev": 0.41
+     },
+     {
+      "id": "s1/1",
+      "v": 0.85,
+      "vRev": 0.84
+     },
+     {
+      "id": "baron_w4",
+      "v": 0.63,
+      "vRev": 0.61
+     },
+     {
+      "id": "baron_w6",
+      "v": 0.81,
+      "vRev": 0.75
+     },
+     {
+      "id": "yay_9",
+      "v": 0.51,
+      "vRev": 0.51
+     },
+     {
+      "id": "read_intro",
+      "v": 0.63,
+      "vRev": 0.55
+     },
+     {
+      "id": "two_letters_one_sound",
+      "v": 0.18,
+      "vRev": 0.16
+     },
+     {
+      "id": "help_sort",
+      "v": 0.45,
+      "vRev": 0.55
+     },
+     {
+      "id": "kai_says",
+      "v": 0.18,
+      "vRev": 0.31
+     },
+     {
+      "id": "listen_here",
+      "v": 0.22,
+      "vRev": 0.24
+     }
+    ],
+    "load": [
+     {
+      "id": "timer_intro_2",
+      "v": 0.96,
+      "vRev": 0.96
+     },
+     {
+      "id": "tut_help",
+      "v": 0.88,
+      "vRev": 0.83
+     },
+     {
+      "id": "place_sound",
+      "v": 0.47,
+      "vRev": 0.47
+     },
+     {
+      "id": "s1/1",
+      "v": 0.99,
+      "vRev": 0.98
+     },
+     {
+      "id": "baron_w4",
+      "v": 0.76,
+      "vRev": 0.76
+     },
+     {
+      "id": "baron_w6",
+      "v": 0.9,
+      "vRev": 0.86
+     },
+     {
+      "id": "yay_9",
+      "v": 0,
+      "vRev": 0.01
+     },
+     {
+      "id": "read_intro",
+      "v": 0.95,
+      "vRev": 0.94
+     },
+     {
+      "id": "two_letters_one_sound",
+      "v": 0.43,
+      "vRev": 0.38
+     },
+     {
+      "id": "help_sort",
+      "v": 0.67,
+      "vRev": 0.65
+     },
+     {
+      "id": "kai_says",
+      "v": 0.11,
+      "vRev": 0.13
+     },
+     {
+      "id": "listen_here",
+      "v": 0.58,
+      "vRev": 0.57
+     }
+    ],
+    "scary": [
+     {
+      "id": "timer_intro_2",
+      "v": 0.46,
+      "vRev": 0.46
+     },
+     {
+      "id": "tut_help",
+      "v": 0,
+      "vRev": 0
+     },
+     {
+      "id": "place_sound",
+      "v": 0,
+      "vRev": 0
+     },
+     {
+      "id": "s1/1",
+      "v": 0.32,
+      "vRev": 0.31
+     },
+     {
+      "id": "baron_w4",
+      "v": 0.58,
+      "vRev": 0.56
+     },
+     {
+      "id": "baron_w6",
+      "v": 0.39,
+      "vRev": 0.37
+     },
+     {
+      "id": "yay_9",
+      "v": 0.01,
+      "vRev": 0
+     },
+     {
+      "id": "read_intro",
+      "v": 0.01,
+      "vRev": 0
+     },
+     {
+      "id": "two_letters_one_sound",
+      "v": 0,
+      "vRev": 0
+     },
+     {
+      "id": "help_sort",
+      "v": 0,
+      "vRev": 0
+     },
+     {
+      "id": "kai_says",
+      "v": 0,
+      "vRev": 0
+     },
+     {
+      "id": "listen_here",
+      "v": 0,
+      "vRev": 0
+     }
+    ]
+   },
+   "alone": {
+    "letters_talk": [
+     {
+      "id": "timer_intro_2",
+      "batched": 0.04,
+      "alone": 0.04
+     },
+     {
+      "id": "tut_help",
+      "batched": 0.03,
+      "alone": 0.03
+     },
+     {
+      "id": "place_sound",
+      "batched": 0.28,
+      "alone": 0.32
+     },
+     {
+      "id": "s1/1",
+      "batched": 0.04,
+      "alone": 0.04
+     },
+     {
+      "id": "baron_w4",
+      "batched": 0.04,
+      "alone": 0.04
+     },
+     {
+      "id": "baron_w6",
+      "batched": 0.15,
+      "alone": 0.13
+     },
+     {
+      "id": "yay_9",
+      "batched": 0.03,
+      "alone": 0.03
+     },
+     {
+      "id": "read_intro",
+      "batched": 0.06,
+      "alone": 0.06
+     },
+     {
+      "id": "two_letters_one_sound",
+      "batched": 0.26,
+      "alone": 0.35
+     },
+     {
+      "id": "help_sort",
+      "batched": 0.04,
+      "alone": 0.04
+     },
+     {
+      "id": "kai_says",
+      "batched": 0.06,
+      "alone": 0.06
+     },
+     {
+      "id": "listen_here",
+      "batched": 0.04,
+      "alone": 0.04
+     }
+    ],
+    "load": [
+     {
+      "id": "timer_intro_2",
+      "batched": 0.96,
+      "alone": 0.96
+     },
+     {
+      "id": "tut_help",
+      "batched": 0.88,
+      "alone": 0.89
+     },
+     {
+      "id": "place_sound",
+      "batched": 0.47,
+      "alone": 0.48
+     },
+     {
+      "id": "s1/1",
+      "batched": 0.99,
+      "alone": 0.98
+     },
+     {
+      "id": "baron_w4",
+      "batched": 0.76,
+      "alone": 0.76
+     },
+     {
+      "id": "baron_w6",
+      "batched": 0.9,
+      "alone": 0.88
+     },
+     {
+      "id": "yay_9",
+      "batched": 0,
+      "alone": 0
+     },
+     {
+      "id": "read_intro",
+      "batched": 0.95,
+      "alone": 0.96
+     },
+     {
+      "id": "two_letters_one_sound",
+      "batched": 0.43,
+      "alone": 0.44
+     },
+     {
+      "id": "help_sort",
+      "batched": 0.67,
+      "alone": 0.66
+     },
+     {
+      "id": "kai_says",
+      "batched": 0.11,
+      "alone": 0.09
+     },
+     {
+      "id": "listen_here",
+      "batched": 0.58,
+      "alone": 0.57
+     }
+    ],
+    "scary": [
+     {
+      "id": "timer_intro_2",
+      "batched": 0.46,
+      "alone": 0.45
+     },
+     {
+      "id": "tut_help",
+      "batched": 0,
+      "alone": 0
+     },
+     {
+      "id": "place_sound",
+      "batched": 0,
+      "alone": 0
+     },
+     {
+      "id": "s1/1",
+      "batched": 0.32,
+      "alone": 0.32
+     },
+     {
+      "id": "baron_w4",
+      "batched": 0.58,
+      "alone": 0.58
+     },
+     {
+      "id": "baron_w6",
+      "batched": 0.39,
+      "alone": 0.39
+     },
+     {
+      "id": "yay_9",
+      "batched": 0.01,
+      "alone": 0
+     },
+     {
+      "id": "read_intro",
+      "batched": 0.01,
+      "alone": 0
+     },
+     {
+      "id": "two_letters_one_sound",
+      "batched": 0,
+      "alone": 0
+     },
+     {
+      "id": "help_sort",
+      "batched": 0,
+      "alone": 0
+     },
+     {
+      "id": "kai_says",
+      "batched": 0,
+      "alone": 0
+     },
+     {
+      "id": "listen_here",
+      "batched": 0,
+      "alone": 0
+     }
+    ]
+   },
+   "paraphrase": {
+    "letters_talk": [
+     {
+      "id": "timer_intro_2",
+      "v": 0.04,
+      "para": 0.5
+     },
+     {
+      "id": "tut_help",
+      "v": 0.03,
+      "para": 0.52
+     },
+     {
+      "id": "place_sound",
+      "v": 0.28,
+      "para": 0.76
+     },
+     {
+      "id": "s1/1",
+      "v": 0.04,
+      "para": 0.64
+     },
+     {
+      "id": "baron_w4",
+      "v": 0.04,
+      "para": 0.59
+     },
+     {
+      "id": "baron_w6",
+      "v": 0.15,
+      "para": 0.75
+     },
+     {
+      "id": "yay_9",
+      "v": 0.03,
+      "para": 0.52
+     },
+     {
+      "id": "read_intro",
+      "v": 0.06,
+      "para": 0.66
+     },
+     {
+      "id": "two_letters_one_sound",
+      "v": 0.26,
+      "para": 0.86
+     },
+     {
+      "id": "help_sort",
+      "v": 0.04,
+      "para": 0.51
+     },
+     {
+      "id": "kai_says",
+      "v": 0.06,
+      "para": 0.78
+     },
+     {
+      "id": "listen_here",
+      "v": 0.04,
+      "para": 0.6
+     }
+    ],
+    "scary": [
+     {
+      "id": "timer_intro_2",
+      "v": 0.46,
+      "para": 0.47
+     },
+     {
+      "id": "tut_help",
+      "v": 0,
+      "para": 0
+     },
+     {
+      "id": "place_sound",
+      "v": 0,
+      "para": 0.01
+     },
+     {
+      "id": "s1/1",
+      "v": 0.32,
+      "para": 0.31
+     },
+     {
+      "id": "baron_w4",
+      "v": 0.58,
+      "para": 0.44
+     },
+     {
+      "id": "baron_w6",
+      "v": 0.39,
+      "para": 0.39
+     },
+     {
+      "id": "yay_9",
+      "v": 0.01,
+      "para": 0
+     },
+     {
+      "id": "read_intro",
+      "v": 0.01,
+      "para": 0.01
+     },
+     {
+      "id": "two_letters_one_sound",
+      "v": 0,
+      "para": 0
+     },
+     {
+      "id": "help_sort",
+      "v": 0,
+      "para": 0
+     },
+     {
+      "id": "kai_says",
+      "v": 0,
+      "para": 0.01
+     },
+     {
+      "id": "listen_here",
+      "v": 0,
+      "para": 0
+     }
+    ]
+   },
+   "stringState": {
+    "kind": [
+     0,
+     0,
+     0,
+     0.01,
+     0,
+     0.01,
+     0,
+     0,
+     0.08,
+     0,
+     0.1,
+     0
+    ],
+    "letters_talk": [
+     0.01,
+     0.01,
+     0.04,
+     0.01,
+     0.01,
+     0.03,
+     0,
+     0.01,
+     0.05,
+     0,
+     0,
+     0.01
+    ],
+    "letter_names": [
+     0,
+     0.02,
+     0,
+     0,
+     0,
+     0.01,
+     0,
+     0.01,
+     0,
+     0,
+     0.03,
+     0.01
+    ],
+    "letter_word": [
+     0.01,
+     0.01,
+     0,
+     0.01,
+     0,
+     0.07,
+     0,
+     0.01,
+     0,
+     0.01,
+     0.01,
+     0
+    ],
+    "sw_other": [
+     0.01,
+     0.01,
+     0.01,
+     0,
+     0.01,
+     0.01,
+     0,
+     0.01,
+     0.03,
+     0.01,
+     0.05,
+     0.01
+    ],
+    "vocab": [
+     0.09,
+     0.02,
+     0.06,
+     0.01,
+     0.01,
+     0.01,
+     0.02,
+     0.14,
+     0.04,
+     0.1,
+     0.22,
+     0.04
+    ],
+    "load": [
+     0.02,
+     0.02,
+     0.02,
+     0,
+     0,
+     0.02,
+     0,
+     0.02,
+     0.02,
+     0.01,
+     0.07,
+     0.04
+    ],
+    "unclear": [
+     0.01,
+     0.02,
+     0.05,
+     0.01,
+     0.02,
+     0.05,
+     0.01,
+     0.06,
+     0.16,
+     0.04,
+     0.27,
+     0.06
+    ],
+    "scary": [
+     0.04,
+     0,
+     0,
+     0,
+     0.03,
+     0,
+     0.01,
+     0.01,
+     0,
+     0,
+     0.01,
+     0
+    ],
+    "deflating": [
+     0.01,
+     0,
+     0.05,
+     0.01,
+     0.11,
+     0.07,
+     0.01,
+     0.09,
+     0.02,
+     0.01,
+     0.06,
+     0.01
+    ],
+    "american": [
+     0.01,
+     0.01,
+     0,
+     0,
+     0,
+     0,
+     0.01,
+     0,
+     0,
+     0.01,
+     0,
+     0
+    ]
+   }
+  }
+ },
+ "labelled": {
+  "perQuestion": {
+   "letters_talk": {
+    "n": 24,
+    "auc": 1,
+    "accAt05": 0.96,
+    "brier": 0.03,
+    "bestThreshold": {
+     "at": 0.6,
+     "acc": 1
+    },
+    "misses": [
+     {
+      "text": "Two letters, one sound!",
+      "bad": false,
+      "v": 0.57
+     }
+    ]
+   },
+   "letter_names": {
+    "n": 20,
+    "auc": 1,
+    "accAt05": 0.95,
+    "brier": 0.02,
+    "bestThreshold": {
+     "at": 0.65,
+     "acc": 1
+    },
+    "misses": [
+     {
+      "text": "I can see a bee!",
+      "bad": false,
+      "v": 0.64
+     }
+    ]
+   },
+   "letter_word": {
+    "n": 16,
+    "auc": 1,
+    "accAt05": 1,
+    "brier": 0.01,
+    "bestThreshold": {
+     "at": 0.15,
+     "acc": 1
+    },
+    "misses": []
+   },
+   "american": {
+    "n": 21,
+    "auc": 1,
+    "accAt05": 0.95,
+    "brier": 0.05,
+    "bestThreshold": {
+     "at": 0.1,
+     "acc": 1
+    },
+    "misses": [
+     {
+      "text": "Turn on the faucet.",
+      "bad": true,
+      "v": 0.27
+     }
+    ]
+   },
+   "scary": {
+    "n": 14,
+    "auc": 1,
+    "accAt05": 1,
+    "brier": 0.1,
+    "bestThreshold": {
+     "at": 0.45,
+     "acc": 1
+    },
+    "misses": []
+   },
+   "deflating": {
+    "n": 14,
+    "auc": 1,
+    "accAt05": 1,
+    "brier": 0.03,
+    "bestThreshold": {
+     "at": 0.25,
+     "acc": 1
+    },
+    "misses": []
+   },
+   "vocab": {
+    "n": 12,
+    "auc": 1,
+    "accAt05": 1,
+    "brier": 0.04,
+    "bestThreshold": {
+     "at": 0.4,
+     "acc": 1
+    },
+    "misses": []
+   },
+   "load": {
+    "n": 8,
+    "auc": 1,
+    "accAt05": 0.88,
+    "brier": 0.05,
+    "bestThreshold": {
+     "at": 0.6,
+     "acc": 1
+    },
+    "misses": [
+     {
+      "text": "Tap the ninja you want to be!",
+      "bad": false,
+      "v": 0.59
+     }
+    ]
+   }
+  },
+  "reliability": [
+   {
+    "bin": "0-0.2",
+    "n": 42,
+    "meanP": 0.07,
+    "fracTrue": 0
+   },
+   {
+    "bin": "0.2-0.4",
+    "n": 5,
+    "meanP": 0.26,
+    "fracTrue": 0.2
+   },
+   {
+    "bin": "0.4-0.6",
+    "n": 1,
+    "meanP": 0.57,
+    "fracTrue": 0
+   },
+   {
+    "bin": "0.6-0.8",
+    "n": 12,
+    "meanP": 0.74,
+    "fracTrue": 0.92
+   },
+   {
+    "bin": "0.8-1",
+    "n": 35,
+    "meanP": 0.93,
+    "fracTrue": 1
+   }
+  ]
+ },
+ "words": {
+  "unsafe": {
+   "n": 24,
+   "auc": 0.98,
+   "recallAt05": "8/12",
+   "falsePosAt05": "0/12",
+   "rows": [
+    {
+     "w": "bum",
+     "t": true,
+     "v": 0.45
+    },
+    {
+     "w": "willy",
+     "t": true,
+     "v": 0.6
+    },
+    {
+     "w": "shag",
+     "t": true,
+     "v": 0.3
+    },
+    {
+     "w": "knob",
+     "t": true,
+     "v": 0.1
+    },
+    {
+     "w": "slag",
+     "t": true,
+     "v": 0.66
+    },
+    {
+     "w": "piss",
+     "t": true,
+     "v": 0.8
+    },
+    {
+     "w": "crap",
+     "t": true,
+     "v": 0.88
+    },
+    {
+     "w": "kill",
+     "t": true,
+     "v": 0.82
+    },
+    {
+     "w": "stab",
+     "t": true,
+     "v": 0.74
+    },
+    {
+     "w": "gun",
+     "t": true,
+     "v": 0.71
+    },
+    {
+     "w": "fart",
+     "t": true,
+     "v": 0.81
+    },
+    {
+     "w": "snog",
+     "t": true,
+     "v": 0.47
+    },
+    {
+     "w": "cat",
+     "t": false,
+     "v": 0.02
+    },
+    {
+     "w": "dog",
+     "t": false,
+     "v": 0.02
+    },
+    {
+     "w": "sun",
+     "t": false,
+     "v": 0.02
+    },
+    {
+     "w": "bin",
+     "t": false,
+     "v": 0.06
+    },
+    {
+     "w": "gas",
+     "t": false,
+     "v": 0.37
+    },
+    {
+     "w": "pop",
+     "t": false,
+     "v": 0.05
+    },
+    {
+     "w": "pot",
+     "t": false,
+     "v": 0.04
+    },
+    {
+     "w": "nip",
+     "t": false,
+     "v": 0.14
+    },
+    {
+     "w": "hug",
+     "t": false,
+     "v": 0.03
+    },
+    {
+     "w": "jam",
+     "t": false,
+     "v": 0.05
+    },
+    {
+     "w": "tub",
+     "t": false,
+     "v": 0.06
+    },
+    {
+     "w": "pump",
+     "t": false,
+     "v": 0.09
+    }
+   ]
+  },
+  "american": {
+   "n": 24,
+   "auc": 1,
+   "recallAt05": "6/12",
+   "falsePosAt05": "0/12",
+   "rows": [
+    {
+     "w": "faucet",
+     "t": true,
+     "v": 0.89
+    },
+    {
+     "w": "candy",
+     "t": true,
+     "v": 0.48
+    },
+    {
+     "w": "cookie",
+     "t": true,
+     "v": 0.31
+    },
+    {
+     "w": "diaper",
+     "t": true,
+     "v": 0.9
+    },
+    {
+     "w": "stroller",
+     "t": true,
+     "v": 0.35
+    },
+    {
+     "w": "sidewalk",
+     "t": true,
+     "v": 0.84
+    },
+    {
+     "w": "trash",
+     "t": true,
+     "v": 0.34
+    },
+    {
+     "w": "mom",
+     "t": true,
+     "v": 0.6
+    },
+    {
+     "w": "flashlight",
+     "t": true,
+     "v": 0.86
+    },
+    {
+     "w": "eraser",
+     "t": true,
+     "v": 0.37
+    },
+    {
+     "w": "fries",
+     "t": true,
+     "v": 0.45
+    },
+    {
+     "w": "pacifier",
+     "t": true,
+     "v": 0.83
+    },
+    {
+     "w": "tap",
+     "t": false,
+     "v": 0.07
+    },
+    {
+     "w": "sweets",
+     "t": false,
+     "v": 0.09
+    },
+    {
+     "w": "biscuit",
+     "t": false,
+     "v": 0.09
+    },
+    {
+     "w": "nappy",
+     "t": false,
+     "v": 0.09
+    },
+    {
+     "w": "pram",
+     "t": false,
+     "v": 0.05
+    },
+    {
+     "w": "pavement",
+     "t": false,
+     "v": 0.13
+    },
+    {
+     "w": "rubbish",
+     "t": false,
+     "v": 0.08
+    },
+    {
+     "w": "mum",
+     "t": false,
+     "v": 0.05
+    },
+    {
+     "w": "torch",
+     "t": false,
+     "v": 0.22
+    },
+    {
+     "w": "crisps",
+     "t": false,
+     "v": 0.11
+    },
+    {
+     "w": "jumper",
+     "t": false,
+     "v": 0.12
+    },
+    {
+     "w": "dummy",
+     "t": false,
+     "v": 0.24
+    }
+   ]
+  },
+  "homophoneRecall": {
+   "examplesA": {
+    "n": 42,
+    "auc": 0.88,
+    "recallAt05": "5/22",
+    "falsePosAt05": "0/20",
+    "positives": {
+     "which": 0.48,
+     "high": 0.3,
+     "not": 0.19,
+     "in": 0.24,
+     "mist": 0.22,
+     "red": 0.16,
+     "sell": 0.33,
+     "check": 0.18,
+     "sun": 0.21,
+     "ring": 0.23,
+     "rain": 0.23,
+     "tail": 0.83,
+     "sea": 0.87,
+     "tea": 0.34,
+     "bee": 0.68,
+     "night": 0.7,
+     "pie": 0.26,
+     "tie": 0.36,
+     "road": 0.27,
+     "beach": 0.14,
+     "lie": 0.39,
+     "witch": 0.63
+    }
+   },
+   "examplesB": {
+    "n": 42,
+    "auc": 0.8,
+    "recallAt05": "4/22",
+    "falsePosAt05": "0/20",
+    "positives": {
+     "which": 0.24,
+     "high": 0.33,
+     "not": 0.46,
+     "in": 0.36,
+     "mist": 0.27,
+     "red": 0.25,
+     "sell": 0.88,
+     "check": 0.2,
+     "sun": 0.91,
+     "ring": 0.27,
+     "rain": 0.27,
+     "tail": 0.3,
+     "sea": 0.58,
+     "tea": 0.33,
+     "bee": 0.42,
+     "night": 0.31,
+     "pie": 0.29,
+     "tie": 0.38,
+     "road": 0.51,
+     "beach": 0.18,
+     "lie": 0.43,
+     "witch": 0.21
+    }
+   },
+   "none": {
+    "n": 42,
+    "auc": 0.79,
+    "recallAt05": "8/22",
+    "falsePosAt05": "1/20",
+    "positives": {
+     "which": 0.34,
+     "high": 0.56,
+     "not": 0.39,
+     "in": 0.44,
+     "mist": 0.41,
+     "red": 0.36,
+     "sell": 0.56,
+     "check": 0.31,
+     "sun": 0.49,
+     "ring": 0.44,
+     "rain": 0.46,
+     "tail": 0.49,
+     "sea": 0.69,
+     "tea": 0.52,
+     "bee": 0.57,
+     "night": 0.48,
+     "pie": 0.44,
+     "tie": 0.55,
+     "road": 0.51,
+     "beach": 0.3,
+     "lie": 0.52,
+     "witch": 0.37
+    }
+   }
+  },
+  "altFirstLeakage": {
+   "spearman": {
+    "A_B": 0.96,
+    "A_none": 0.97,
+    "B_none": 0.96
+   },
+   "top10": {
+    "examplesA": [
+     "nap:0.87",
+     "sea:0.81",
+     "tea:0.8",
+     "hot:0.78",
+     "vet:0.78",
+     "fog:0.75",
+     "cup:0.73",
+     "hug:0.73",
+     "beach:0.72",
+     "insect:0.69"
+    ],
+    "examplesB": [
+     "fog:0.75",
+     "vet:0.75",
+     "hot:0.73",
+     "hug:0.72",
+     "nap:0.68",
+     "insect:0.68",
+     "web:0.66",
+     "night:0.64",
+     "cob:0.63",
+     "hutch:0.63"
+    ],
+    "none": [
+     "hot:0.84",
+     "vet:0.81",
+     "fog:0.8",
+     "hug:0.79",
+     "insect:0.79",
+     "sand:0.76",
+     "light:0.76",
+     "nap:0.75",
+     "cob:0.74",
+     "cup:0.73"
+    ]
+   }
+  },
+  "homophonePairs": {
+   "n": 40,
+   "auc": 0.73,
+   "recallAt05": "13/20",
+   "falsePosAt05": "3/20",
+   "rows": [
+    {
+     "pair": "which/witch",
+     "t": true,
+     "v": 0.57
+    },
+    {
+     "pair": "not/knot",
+     "t": true,
+     "v": 0.25
+    },
+    {
+     "pair": "mist/missed",
+     "t": true,
+     "v": 0.3
+    },
+    {
+     "pair": "red/read (past tense)",
+     "t": true,
+     "v": 0.52
+    },
+    {
+     "pair": "sell/cell",
+     "t": true,
+     "v": 0.61
+    },
+    {
+     "pair": "check/cheque",
+     "t": true,
+     "v": 0.61
+    },
+    {
+     "pair": "sun/son",
+     "t": true,
+     "v": 0.73
+    },
+    {
+     "pair": "ring/wring",
+     "t": true,
+     "v": 0.5
+    },
+    {
+     "pair": "rain/reign",
+     "t": true,
+     "v": 0.72
+    },
+    {
+     "pair": "tail/tale",
+     "t": true,
+     "v": 0.71
+    },
+    {
+     "pair": "sea/see",
+     "t": true,
+     "v": 0.78
+    },
+    {
+     "pair": "tea/tee",
+     "t": true,
+     "v": 0.77
+    },
+    {
+     "pair": "bee/be",
+     "t": true,
+     "v": 0.2
+    },
+    {
+     "pair": "night/knight",
+     "t": true,
+     "v": 0.69
+    },
+    {
+     "pair": "pie/pi",
+     "t": true,
+     "v": 0.47
+    },
+    {
+     "pair": "road/rode",
+     "t": true,
+     "v": 0.5
+    },
+    {
+     "pair": "beach/beech",
+     "t": true,
+     "v": 0.66
+    },
+    {
+     "pair": "high/hi",
+     "t": true,
+     "v": 0.23
+    },
+    {
+     "pair": "in/inn",
+     "t": true,
+     "v": 0.38
+    },
+    {
+     "pair": "him/hymn",
+     "t": true,
+     "v": 0.25
+    },
+    {
+     "pair": "cat/cut",
+     "t": false,
+     "v": 0.37
+    },
+    {
+     "pair": "bed/bad",
+     "t": false,
+     "v": 0.5
+    },
+    {
+     "pair": "pin/pen",
+     "t": false,
+     "v": 0.45
+    },
+    {
+     "pair": "ship/sip",
+     "t": false,
+     "v": 0.32
+    },
+    {
+     "pair": "fish/fist",
+     "t": false,
+     "v": 0.28
+    },
+    {
+     "pair": "moth/mouth",
+     "t": false,
+     "v": 0.41
+    },
+    {
+     "pair": "rain/ran",
+     "t": false,
+     "v": 0.36
+    },
+    {
+     "pair": "not/note",
+     "t": false,
+     "v": 0.16
+    },
+    {
+     "pair": "red/reed",
+     "t": false,
+     "v": 0.47
+    },
+    {
+     "pair": "sit/seat",
+     "t": false,
+     "v": 0.26
+    },
+    {
+     "pair": "hop/hope",
+     "t": false,
+     "v": 0.28
+    },
+    {
+     "pair": "tap/tape",
+     "t": false,
+     "v": 0.28
+    },
+    {
+     "pair": "pan/pain",
+     "t": false,
+     "v": 0.34
+    },
+    {
+     "pair": "cot/coat",
+     "t": false,
+     "v": 0.26
+    },
+    {
+     "pair": "bit/bite",
+     "t": false,
+     "v": 0.29
+    },
+    {
+     "pair": "fox/fax",
+     "t": false,
+     "v": 0.59
+    },
+    {
+     "pair": "mist/mast",
+     "t": false,
+     "v": 0.54
+    },
+    {
+     "pair": "sell/sale",
+     "t": false,
+     "v": 0.46
+    },
+    {
+     "pair": "check/chuck",
+     "t": false,
+     "v": 0.26
+    },
+    {
+     "pair": "sun/soon",
+     "t": false,
+     "v": 0.35
+    }
+   ]
+  },
+  "segments": {
+   "gameLabels": {
+    "n": 40,
+    "auc": 0.74,
+    "recallAt05": "19/20",
+    "falsePosAt05": "12/20"
+   },
+   "ipa": {
+    "n": 40,
+    "auc": 0.8,
+    "recallAt05": "12/20",
+    "falsePosAt05": "2/20"
+   }
+  },
+  "knownLabelled": {
+   "n": 60,
+   "auc": 0.99,
+   "recallAt05": "24/25",
+   "falsePosAt05": "2/35",
+   "at": [
+    {
+     "at": 0.5,
+     "precision": 0.92,
+     "recall": 0.96,
+     "flagged": 26
+    },
+    {
+     "at": 0.6,
+     "precision": 1,
+     "recall": 0.88,
+     "flagged": 22
+    },
+    {
+     "at": 0.7,
+     "precision": 1,
+     "recall": 0.76,
+     "flagged": 19
+    }
+   ],
+   "knownWordsAbove04": [
+    "map:0.47",
+    "zip:0.47",
+    "net:0.42",
+    "web:0.56",
+    "tie:0.49",
+    "peg:0.5",
+    "nail:0.48",
+    "pin:0.42",
+    "match:0.45"
+   ],
+   "unknownMissedAt06": [
+    "kin:0.57",
+    "cab:0.29",
+    "quilt:0.52"
+   ]
+  },
+  "picturesVsVision": {
+   "source": "playtest/runs/pics-test/pics-all.json",
+   "name_agree": {
+    "truth": "intended word is not the most likely name",
+    "n": 160,
+    "auc": 0.71,
+    "recallAt05": "31/68",
+    "falsePosAt05": "15/92",
+    "at": [
+     {
+      "at": 0.5,
+      "precision": 0.67,
+      "recall": 0.46,
+      "flagged": 46
+     },
+     {
+      "at": 0.6,
+      "precision": 0.79,
+      "recall": 0.34,
+      "flagged": 29
+     },
+     {
+      "at": 0.7,
+      "precision": 0.93,
+      "recall": 0.19,
+      "flagged": 14
+     }
+    ]
+   },
+   "alt_first": {
+    "truth": "top name is another word with a different first sound",
+    "n": 160,
+    "auc": 0.76,
+    "recallAt05": "20/52",
+    "falsePosAt05": "8/108",
+    "at": [
+     {
+      "at": 0.5,
+      "precision": 0.71,
+      "recall": 0.38,
+      "flagged": 28
+     },
+     {
+      "at": 0.6,
+      "precision": 0.8,
+      "recall": 0.23,
+      "flagged": 15
+     },
+     {
+      "at": 0.7,
+      "precision": 1,
+      "recall": 0.13,
+      "flagged": 7
+     }
+    ]
+   },
+   "baselinePromptLength": {
+    "truth": "same as name_agree",
+    "auc": 0.79
+   }
+  },
+  "familiarityVsAoA": {
+   "n": 400,
+   "spearman": 0.73,
+   "flaggedAmongAoAunder4_5": "0/124",
+   "flaggedAmongAoAover7": "31/70"
+  }
+ }
+}

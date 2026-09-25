@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Super Ninja: watch</title>
+<meta name="robots" content="noindex" />
+<style>
+  html,body{margin:0;height:100%;background:#1d1230;color:#fff4dc;font:600 16px/1.4 system-ui,sans-serif}
+  body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+  video{width:min(100vw,177.78vh);max-height:calc(100vh - 70px);background:#000}
+  a{color:#ffc53d}
+</style>
+</head>
+<body>
+<video id="v" controls playsinline autoplay preload="metadata"></video>
+<p><a href="/">superninja.templestein.com</a> · <a href="/play/">Play now</a></p>
+<script>
+  // /watch/?v=trailer | story | trailer-vertical
+  const films = { story: "/media/intro_film.mp4", trailer: "/media/trailer.mp4", "trailer-vertical": "/media/trailer-vertical.mp4" };
+  const k = new URLSearchParams(location.search).get("v") || "trailer";
+  const v = document.getElementById("v");
+  v.src = films[k] || films.story;
+  v.poster = k.startsWith("trailer") ? "/media/trailer-poster.jpg" : "/media/landing/film-poster.webp";
+  v.onerror = () => { if (v.src.indexOf(films.story) < 0) v.src = films.story; };
+</script>
+</body>
+</html>

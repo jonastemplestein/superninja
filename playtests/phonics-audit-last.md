@@ -1,0 +1,3 @@
+The audit is in [playtests/phonics-audit.md](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtests/phonics-audit.md). It prioritises the `<x>` and `<qu>` sound-mapping errors, then covers story decodability, correction language, sequencing, and British usage with line-referenced fixes.
+
+Both requested `bun` commands ran. The validator passed, but the report explains the pronunciation and “special word” issues that its check does not catch. No source files were modified.

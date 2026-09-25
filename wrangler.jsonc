@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "super-ninja",
+  // Jonas personal account (owns templestein.com)
+  "account_id": "05958bb7b57a2ac7eb5d3906fd3cf8bb",
+  "compatibility_date": "2026-09-01",
+  "routes": [{ "pattern": "superninja.templestein.com", "custom_domain": true }],
+  "workers_dev": false,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

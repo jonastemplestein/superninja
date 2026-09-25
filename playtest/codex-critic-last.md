@@ -1,0 +1,3 @@
+Built the [visual critic](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/scripts/treadmill/critic.ts). It creates timestamped contact sheets, reviews each case with Gemini, retries an invalid response once, and writes deduplicated findings to [critic.json](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/fixtures/run-demo/critic.json).
+
+The fixture run scored **w1-2: 9/10** and **w1-4: 10/10**. Top findings: none. The Bun build and Doppler-backed run both passed. Fixture captions are blank and `snState` is `null` because those values cannot be recovered from the PNGs.

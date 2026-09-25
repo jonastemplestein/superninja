@@ -1,0 +1,104 @@
+{
+ "generated": "2026-09-25T21:41:46.948Z",
+ "run": "playtest/runs/2026-09-25-21-40-38-quick",
+ "usage": {
+  "model": "jev-1.13.0",
+  "calls": 3,
+  "retries": 0,
+  "inputTokens": 2450,
+  "outputTokens": 310,
+  "usd": 0.000103,
+  "p50ms": 426,
+  "p95ms": 795,
+  "wallMs": 1186
+ },
+ "input": {
+  "files": [
+   "sweep.json"
+  ],
+  "findings": 2,
+  "groups": 2,
+  "pairsAsked": 1,
+  "pairsSkipped": 0
+ },
+ "clusters": [
+  {
+   "id": "c1",
+   "title": "tiny-target: button.btn-round.go[aria-label=\"Next\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round.go[label]",
+    "bot:tiny-target:button.btn-round[label]"
+   ],
+   "findings": 2,
+   "cases": [
+    "w1-6"
+   ],
+   "impact": 0.78,
+   "childFacing": 0.79,
+   "severity": "major",
+   "area": "layout"
+  }
+ ],
+ "groups": [
+  {
+   "i": 0,
+   "key": "bot:tiny-target:button.btn-round[label]",
+   "cluster": 1,
+   "n": 1,
+   "cases": [
+    "w1-6"
+   ],
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.79,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 1,
+   "key": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": 1,
+   "n": 1,
+   "cases": [
+    "w1-6"
+   ],
+   "title": "tiny-target: button.btn-round.go[aria-label=\"Next\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.79,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  }
+ ],
+ "merges": [
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.71
+  }
+ ],
+ "findings": [],
+ "triage": {
+  "bot:w1-6:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c1",
+   "childFacing": 0.79,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w1-6:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c1",
+   "childFacing": 0.79,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major"
+  }
+ }
+}

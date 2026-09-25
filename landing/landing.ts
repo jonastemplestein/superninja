@@ -1,0 +1,189 @@
+// Landing page behaviour: scroll reveals, lazy gameplay videos, the story film, hero blossom petals,
+// the top bar, version stamp and site-wide sound.
+declare const __APP_VERSION__: string;
+const ver = document.getElementById("ver");
+if (ver) ver.textContent = `v${__APP_VERSION__}`;
+
+// numbers on the page come from the content (scripts/stats.ts), so they never go stale
+fetch("/media/stats.json")
+  .then((r) => r.json())
+  .then((s) => document.querySelectorAll<HTMLElement>("[data-stat]").forEach((el) => s[el.dataset.stat!] != null && (el.textContent = String(s[el.dataset.stat!]))))
+  .catch(() => {});
+
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// reveal sections as they scroll in
+const io = new IntersectionObserver(
+  (entries) => {
+    for (const e of entries) if (e.isIntersecting) {
+      e.target.classList.add("in");
+      io.unobserve(e.target);
+    }
+  },
+  { rootMargin: "0px 0px -8% 0px" },
+);
+document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+// gameplay clips: load when near, play only while visible (saves data and battery on phones)
+const vids = new IntersectionObserver(
+  (entries) => {
+    for (const e of entries) {
+      const v = e.target as HTMLVideoElement;
+      if (e.isIntersecting) {
+        if (v.dataset.src && !v.src) v.src = v.dataset.src;
+        v.play().catch(() => {});
+      } else v.pause();
+    }
+  },
+  { rootMargin: "200px 0px" },
+);
+document.querySelectorAll<HTMLVideoElement>("video[data-src], video[autoplay]").forEach((v) => vids.observe(v));
+
+// top bar: just the sound button over the hero sky; a paper bar with brand + Play once the hero has scrolled away
+const hero = document.querySelector<HTMLElement>(".hero")!;
+const bar = document.getElementById("bar")!;
+let heroVisible = true;
+new IntersectionObserver(
+  ([e]) => {
+    heroVisible = e.isIntersecting;
+    bar.classList.toggle("solid", !e.isIntersecting);
+    bar.querySelectorAll("a").forEach((a) => (a.tabIndex = e.isIntersecting ? -1 : 0));
+    if (heroVisible && !reduced) requestAnimationFrame(tick);
+  },
+  { rootMargin: "-70px 0px 0px 0px" },
+).observe(hero);
+
+// a few blossom petals drifting across the hero art only (behind the words), and only while it's on screen
+const canvas = document.getElementById("petals") as HTMLCanvasElement;
+const g = canvas.getContext("2d")!;
+const petal = new Image();
+petal.src = "/a/i/item_petal.webp";
+type P = { x: number; y: number; s: number; vx: number; vy: number; r: number; vr: number; ph: number };
+let ps: P[] = [];
+let W = 0, H = 0;
+const spawn = (anywhere = false): P => ({
+  x: Math.random() * W * 1.1, y: anywhere ? Math.random() * H : -30, s: 10 + Math.random() * 14,
+  vx: -0.25 - Math.random() * 0.4, vy: 0.35 + Math.random() * 0.5, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.02, ph: Math.random() * 6,
+});
+const resize = () => {
+  W = canvas.clientWidth;
+  H = canvas.clientHeight;
+  canvas.width = W * devicePixelRatio;
+  canvas.height = H * devicePixelRatio;
+  ps = Array.from({ length: Math.round(Math.max(6, Math.min(14, W / 90))) }, () => spawn(true));
+};
+addEventListener("resize", resize);
+resize();
+let t = 0;
+let running = false;
+function tick() {
+  if (running) return;
+  running = true;
+  const frame = () => {
+    if (!heroVisible || document.hidden) { running = false; return; }
+    t++;
+    g.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    g.clearRect(0, 0, W, H);
+    for (const p of ps) {
+      p.x += p.vx + Math.sin(t / 70 + p.ph) * 0.35;
+      p.y += p.vy;
+      p.r += p.vr;
+      if (p.y > H + 30 || p.x < -30) Object.assign(p, spawn());
+      if (!petal.complete) continue;
+      g.save();
+      g.globalAlpha = 0.6;
+      g.translate(p.x, p.y);
+      g.rotate(p.r);
+      g.drawImage(petal, -p.s / 2, -p.s / 2, p.s, p.s);
+      g.restore();
+    }
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+}
+if (!reduced) tick();
+document.addEventListener("visibilitychange", () => !document.hidden && heroVisible && !reduced && tick());
+
+// ---------- sound: the whole site has sound. Browsers only allow it after the first tap/click/key,
+// so the first interaction anywhere switches it on (and the button toggles it).
+const soundBtn = document.getElementById("sound") as HTMLButtonElement;
+const soundLabel = soundBtn.querySelector(".s-label")!;
+const music = new Audio("/a/m/title.mp3");
+music.loop = true;
+music.volume = 0.35;
+let soundOn = false;
+let userChose = false;
+const film = document.getElementById("film-video") as HTMLVideoElement;
+const allVideos = [...document.querySelectorAll<HTMLVideoElement>("video")];
+const visibility = new Map<HTMLVideoElement, number>();
+const filmPlaying = () => !film.paused && !film.ended && (visibility.get(film) ?? 0) > 0;
+const loudest = () => {
+  if (filmPlaying()) return film;
+  let best: HTMLVideoElement | null = null;
+  let bestV = 0.35;
+  for (const [v, r] of visibility) if (v !== film && r > bestV) { best = v; bestV = r; }
+  return best;
+};
+function applySound() {
+  soundBtn.setAttribute("aria-pressed", String(soundOn));
+  soundLabel.textContent = soundOn ? "Sound on" : "Tap for sound";
+  const lead = soundOn ? loudest() : null;
+  for (const v of allVideos) {
+    v.muted = v !== lead;
+    if (v === lead) v.volume = 1;
+  }
+  if (soundOn && lead !== film) {
+    music.play().catch(() => {});
+    music.volume = lead ? 0.08 : 0.35; // duck the music under a video that's speaking
+  } else music.pause(); // the story film has its own music
+}
+const vis = new IntersectionObserver(
+  (es) => {
+    for (const e of es) visibility.set(e.target as HTMLVideoElement, e.intersectionRatio);
+    if (film.paused === false && (visibility.get(film) ?? 0) === 0) film.pause(); // scrolled away from the film
+    applySound();
+  },
+  { threshold: [0, 0.25, 0.5, 0.75, 1] },
+);
+allVideos.forEach((v) => vis.observe(v));
+soundBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  userChose = true;
+  soundOn = !soundOn;
+  applySound();
+});
+const firstGesture = () => {
+  if (!userChose) {
+    soundOn = true;
+    applySound();
+  }
+  removeEventListener("pointerdown", firstGesture, true);
+  removeEventListener("keydown", firstGesture, true);
+};
+addEventListener("pointerdown", firstGesture, true);
+addEventListener("keydown", firstGesture, true);
+// try immediately too: some browsers allow sound for returning visitors
+music.play().then(() => {
+  soundOn = true;
+  applySound();
+}).catch(() => {});
+document.addEventListener("visibilitychange", () => (document.hidden ? music.pause() : soundOn && applySound()));
+
+// the story film: a poster with a big play button; tapping plays it with sound
+const filmBox = film.closest(".film")!;
+filmBox.querySelector(".film-play")!.addEventListener("click", () => {
+  if (!film.src) film.src = film.dataset.film!;
+  film.controls = true;
+  filmBox.classList.add("playing");
+  soundOn = true;
+  userChose = true;
+  visibility.set(film, 1);
+  film.muted = false;
+  film.play().catch(() => {});
+  applySound();
+});
+for (const ev of ["play", "pause", "ended"]) film.addEventListener(ev, applySound);
+film.addEventListener("ended", () => {
+  film.controls = false;
+  filmBox.classList.remove("playing");
+});

@@ -1,0 +1,193 @@
+{
+ "generated": "2026-09-25T21:11:15.734Z",
+ "run": "playtest/runs/2026-09-25-21-09-58-quick",
+ "usage": {
+  "model": "jev-1.13.0",
+  "calls": 8,
+  "retries": 0,
+  "inputTokens": 6071,
+  "outputTokens": 660,
+  "usd": 0.000255,
+  "p50ms": 456,
+  "p95ms": 881,
+  "wallMs": 1320
+ },
+ "input": {
+  "files": [
+   "sweep.json"
+  ],
+  "findings": 5,
+  "groups": 4,
+  "pairsAsked": 4,
+  "pairsSkipped": 0
+ },
+ "clusters": [
+  {
+   "id": "c1",
+   "title": "covered-target: div.tile.pop-in[aria-label=\"t\"]",
+   "groups": [
+    "bot:covered-target:div.tile.pop-in[label]"
+   ],
+   "findings": 2,
+   "cases": [
+    "w1-15"
+   ],
+   "impact": 0.93,
+   "childFacing": 0.63,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c3",
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round[label]",
+    "bot:tiny-target:button.pop-in[label]"
+   ],
+   "findings": 2,
+   "cases": [
+    "w1-15",
+    "map"
+   ],
+   "impact": 0.69,
+   "childFacing": 0.75,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c0",
+   "title": "tiny-target: button",
+   "groups": [
+    "bot:tiny-target:button"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-14"
+   ],
+   "impact": 0.52,
+   "childFacing": 0.43,
+   "severity": "minor",
+   "area": "layout"
+  }
+ ],
+ "groups": [
+  {
+   "i": 0,
+   "key": "bot:tiny-target:button",
+   "cluster": 0,
+   "n": 1,
+   "cases": [
+    "w1-14"
+   ],
+   "title": "tiny-target: button",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.43,
+   "impact": 0.52,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 1,
+   "key": "bot:covered-target:div.tile.pop-in[label]",
+   "cluster": 1,
+   "n": 2,
+   "cases": [
+    "w1-15"
+   ],
+   "title": "covered-target: div.tile.pop-in[aria-label=\"t\"]",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.63,
+   "impact": 0.93,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 2,
+   "key": "bot:tiny-target:button.btn-round[label]",
+   "cluster": 3,
+   "n": 1,
+   "cases": [
+    "w1-15"
+   ],
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.75,
+   "impact": 0.69,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 3,
+   "key": "bot:tiny-target:button.pop-in[label]",
+   "cluster": 3,
+   "n": 1,
+   "cases": [
+    "map"
+   ],
+   "title": "tiny-target: button.pop-in[aria-label=\"level w1-2\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.72,
+   "impact": 0.69,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  }
+ ],
+ "merges": [
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button.pop-in[label]",
+   "p": 0.66
+  }
+ ],
+ "findings": [],
+ "triage": {
+  "bot:w1-14:tiny-target:button": {
+   "group": "bot:tiny-target:button",
+   "cluster": "c0",
+   "childFacing": 0.43,
+   "impact": 0.52,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w1-15:covered-target:div.tile.pop-in[aria-label=\"t\"]": {
+   "group": "bot:covered-target:div.tile.pop-in[label]",
+   "cluster": "c1",
+   "childFacing": 0.63,
+   "impact": 0.93,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w1-15:covered-target:div.tile.pop-in[aria-label=\"i\"]": {
+   "group": "bot:covered-target:div.tile.pop-in[label]",
+   "cluster": "c1",
+   "childFacing": 0.63,
+   "impact": 0.93,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w1-15:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c3",
+   "childFacing": 0.75,
+   "impact": 0.69,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:map:tiny-target:button.pop-in[aria-label=\"level w1-2\"]": {
+   "group": "bot:tiny-target:button.pop-in[label]",
+   "cluster": "c3",
+   "childFacing": 0.72,
+   "impact": 0.69,
+   "area": "layout",
+   "severity": "minor"
+  }
+ }
+}

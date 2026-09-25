@@ -1,0 +1,108 @@
+# Feedback backlog
+
+Every piece of feedback from Jonas, in the order received, with its status. ✅ done · 🔨 in progress · ⏳ queued · 🅿️ parked
+
+## Round 1 (after first iPhone play)
+- ✅ The /a/ sound was high-pitched and breathy, not a normal teacher "a". All vowels and 23 words were re-recorded with a pitch check (170–290 Hz).
+- ✅ The screen zoomed weirdly when a monster hit you (screen-shake overwrote the stage scale).
+- 🔨 Play from the home screen with no browser chrome. The manifest and iOS meta tags are done, and a tip is shown in Safari. iPhone Safari cannot hide its bars without an install. See round 3.
+- ✅ Time pressure came too early and was scary. Early battles now have no timer; this is being reworked into Gem Trials (round 2).
+- 🅿️ Work out the child's real level (parked by Jonas, then asked for in round 2 as a "get to know you" mini-game).
+
+## Round 2 (gems, landing page)
+- ✅ The timer is something you *earn*. You practise a spelling until its gem is full of energy, then take a timed Gem Trial to win the gem.
+- 🔨 A petal-chart model: each petal is one sound (the /ae/ petal), and its gems are that sound's spellings (ai, ay, ea, a‑e …). All gems place the petal into the flower, and a complete flower beats the game. (The PDF mentioned never arrived; this is modelled on the published Sounds~Write Extended Code progression.)
+- ✅ A starting-level "get to know you" mini-game (Show Sensei).
+- ✅ A very strong landing page: story, mechanics and narrative, artsy, gameplay videos on a phone, free with no accounts, UK phonics, linked to Sounds~Write (no logo without permission, since it is a registered trade mark).
+- ✅ A repeatable release process (`scripts/release.sh`, (docs/RELEASING.md) to go from each game version to an updated landing page and videos.
+
+## Round 3 (map, bubbles, phone ergonomics)
+- ✅ The map never makes it clear what to tap. The next stone is now big, gold and bouncing with a pointing hand, tapping the ninja also opens it, and locked stones recede.
+- ✅ Speech bubbles cover the things that need tapping. Captions are now off by default (players can't read yet), and the map Sensei is voice-only.
+- 🔨 Browser chrome gets in the way.
+- ✅ Kids drag instead of tapping. Buttons now act on finger-down, and page drag, pinch-zoom and long-press are blocked.
+- ✅ Tap targets near the top and bottom screen edges trigger iPhone system gestures. The game now fits inside a safe box away from the edges on touch screens.
+
+## Round 4
+- ✅ When the game is minimised, iPhone shows a media player. All sound now pauses when hidden, and the silent-audio trick was removed.
+- ✅ One big, consistent help button on every screen that says what to do. Pressing it repeatedly gives more and more hints.
+- ✅ A tutorial that teaches how the UI works (tapping, the help button, tiles, replay) and checks the child can use it.
+- 🔨 32 petals is wrong; there are 44 sounds. The flower now has all 44 petals and 183 gems. The petal-chart PDF is still needed to match the look exactly.
+
+## Round 5
+- ✅ The landing page should show screenshots as well as videos.
+- ✅ Introduce different spellings of the same sound early. There are now "same sound, different spelling" sorting levels from world 3 (c/k, l/ll, s/ss) and world 5 (c/k/ck, ch/tch), and Sensei points out each new spelling of a sound the child already knows.
+- ✅ A Word Book: a scrapbook that collects the words a child has learned, with pictures.
+
+## Round 6 (petal chart PDFs, villain, website sound)
+- ✅ Model the petals on the school's laminated Extended Code sheet (two A4 pages of teardrop petals, each with an outline colour, a little picture, and its spellings stacked inside), with a glow-up. Source: Yr1/Yr2 parents' presentation, p23.
+- ✅ Make it clear which character is speaking (animated portrait, name).
+- ✅ Baron Muddle must look obviously evil and his arrivals must feel menacing. He was mistaken for the dojo master.
+- ✅ The website and its videos should have sound from the start, even before playing.
+
+## Round 7
+- ✅ Title-screen ninjas overlapped.
+- ✅ A "Get ready" page before playing: install / full screen on Android, Share → Add to Home Screen on iPhone.
+- ✅ "Tap…" ran into the target word ("tap sat"). Prompts are now said once, with a pause, and then just the word.
+- ✅ Starting-level game rebuilt from the school's own questions: which spelling makes this sound, minimal pairs (cat/cot/cap), spell a word, "which spelling of /ae/ is in rain?", and "tap every word with this sound".
+- ✅ Player profiles: "Who's playing?", type a name with the real keyboard, each player's progress stored locally.
+- 🔨 "Purple screen and music when pressing Play" on Jonas's iPhone. Can't reproduce in Chrome or WebKit. Added a crash screen showing the error with Try again / Choose player.
+- ❓ "Remove the sort of copy. It's just…" (message cut off). Ask what to remove.
+
+## Round 8
+- ✅ "This is how we write the sound" had a stray /s/ at the end (TTS artefact). Re-recorded, and every line was audited with a blind transcription.
+- ✅ The intro was confusing: no petals scattering, and the villain wasn't interacting with anyone. It is now a 7-shot storyboarded film (docs/INTRO_STORYBOARD.md): Sensei vs Baron, petals landing across the lands, confused villagers.
+- ✅ Fat white borders around characters were removed from all sprites.
+- ✅ The landing page must look like high-end children's art. Redesigned as an illustrated picture book with new key art.
+
+## Round 9
+- ✅ Hosted at https://superninja.templestein.com (Worker custom domain on the Jonas personal account).
+- ✅ Share tags: og:video and a Twitter player card, the /watch/ player page, and film links at the bottom of the landing page.
+- 🔨 A competing marketing trailer, built as a config-driven pipeline, after researching the best video and sound models (sub-agent).
+- ✅ Remove all "free" wording.
+- ✅ Age guidance is now 3–8.
+- ✅ Baron appeared twice (cut-in portrait over his own video). The cut-in is now suppressed whenever he's on screen.
+- ✅ A bearded Sensei with a female voice made no sense. Sensei Maple is now a grandmotherly female red panda (silver bun, spectacles, green robe): sprites, help-button face and mouth shapes, intro shots, landing art.
+
+## Round 10 (lipsync, beginner progression, jump ahead, exposition)
+- ✅ Real-time lipsync: 7 mouth shapes per character, driven by a frequency analyser on the speech bus (src/engine/lipsync.ts). Used on the help button, the villain cut-in and the intro.
+- ✅ The Sensei in the corner didn't show when she was talking, and her face was off-centre. Face crops are now automatic, with a gold glow and sound waves while she talks.
+- ✅ The jump from s, a, t to spelling three-sound words was far too fast. Bamboo Village is rebuilt sound-first (docs/PEDAGOGY.md):
+  - listening, then first sound, then how that sound is written, then two-sound words, then three-sound words
+  - I do / we do / you do, with stretched modelling ("mmmaaat")
+  - errorless correction
+  - "Who read it right?" reading checks, and middle-sound hunts
+- ✅ Words 3–4 year olds don't know were replaced ("dojo" is explained first; "gem battle" replaces "trial"), and there's more exposition about words being made of sounds.
+- ✅ The Sound Flower and the Word Book are introduced step by step with animations the first time.
+- ✅ Jump ahead: the grown-ups area and the reward screen offer "end of Reception / Year 1 / Year 2" start points. The progression is built from units, so any start point works.
+- ✅ Intro pacing and AV sync: every shot is re-cut so its key action lands on its narration word (Whisper-timed), and the in-game film reads public/a/v/intro_timing.json. The pandas are redrawn in the game's art style.
+- ✅ "Hear the word" card for words without a picture is now one big bouncing listen button.
+- ✅ The hint glow was too faint to notice; it's now a steady gold ring that bobs.
+- ✅ A rest nudge ("Ninjas need rest too") for little ones after about 12 minutes.
+
+## Round 11 (feedback treadmill)
+- ✅ "How can you get a super tight feedback loop… put bots on a treadmill that produces feedback so humans don't have to." Built `scripts/treadmill/` (docs/TREADMILL.md):
+  - fast-forward mode (`?fast=N`)
+  - Playwright bots with invariant checks and a random-tapping monkey on every level
+  - a Gemini visual critic over filmstrips (built by Codex)
+  - Jev (TypeSafe's decision model, via Cloudflare AI Gateway) for linting and triage
+  - Codex persona playtesters (a 3¾-year-old, an impatient 6-year-old, a Sounds~Write teacher, a parent)
+  - one de-duplicated inbox, `playtest/INBOX.md`
+- ✅ Use Codex (gpt-6-sol, extra-high reasoning) for well-specified tasks.
+- ✅ Explore what Jev can do (docs/JEV.md). It's an excellent, stable judge of Sounds~Write wording rules and word familiarity at pennies per run. It's weak at picture naming from text, and no good as an adaptive tutor. "Use Jev in the development process, not in the product": it only runs in the treadmill.
+- ✅ Fixes from the first treadmill and persona runs:
+  - A Gem Trial with no words (after m and s only) stranded children. Trials now wait until three words exist.
+  - Jump-ahead was lost on reload (debounced save). The reward-screen jump now needs a grown-up press-and-hold.
+  - Errorless correction in battles, bosses and Swap: the first miss hears the word stretched again, the second shows "That's /s/. We need /m/."
+  - The first-sound demo shows the spelling for picture-only words too, and says "This is an apple", not "a apple".
+  - Captions in the early games; Kai and Suki light up when they read.
+  - Decodable text in story s1; "which/witch" is no longer dictated without a picture; words with two /k/ spellings are left out of sorts; the sort highlight is now a hint rather than a giveaway.
+  - Child-proofing: a child who can't type can play as "Ninja 2"; the hero choice can be changed; too-early taps wiggle; taps during the question count as answers.
+  - Parents: Play fits on the first screen of a landscape phone; readable grown-ups page; "press and hold" hint on the gear; "Skip film"; clearer delete warning; profile badges.
+  - Layout: a listen card for words with no picture; captions above the help button; battle slots clear of monsters; 44 px tap targets; stickers in a row; beginner runs have two lanterns; the progress bar moves item by item.
+  - Pictures: a blind picture audit feeds pic-names.ts, so picture games avoid pictures children name differently (fin → "shark", wig → "hair", hot → "soup").
+
+## Round 12 (World Flower, Sounds~Write model, full programme)
+- 🔨 "Why is there this pink tree?" The story is rebuilt around the **World Flower**: a many-coloured flower of sound petals at the heart of the island, which all life depends on. Baron blows it apart; islanders cower; Sensei faces him. The intro is re-directed with Gemini Omni, with several flower design iterations (sub-agent).
+- 🔨 "Make our data model for challenges, evaluation and exercise generators align super closely with Sounds~Write." A typed Sounds~Write spec (concepts, skills, Initial Code, Bridging, 49 Extended Code units, Polysyllabic, lessons and error corrections) is being written from the official scope and sequence (sub-agent). The game will then be re-keyed onto it.
+- 🔨 "Go all the way up to however far Sounds~Write goes": a content build-out plan for all Extended Code units and polysyllabic words.

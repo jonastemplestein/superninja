@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<title>Super Ninja trailer card</title>
+<!--
+  Motion-graphics title cards for the trailer. Rendered frame-by-frame by scripts/trailer/cards.ts:
+  the page is opened with #<json card spec>, then window.seek(t) is called for every frame and screenshotted.
+  Everything is a pure function of t, so renders are deterministic. Works at any viewport (16:9 and 9:16).
+  Open it in a browser with ?play to preview: card.html?play#{"style":"slam","text":"HELLO","dur":2}
+-->
+<style>
+  @font-face { font-family: "Luckiest Guy"; src: url("../fonts/luckiest-guy.woff2") format("woff2"); font-display: block; }
+  @font-face { font-family: "Baloo 2"; src: url("../fonts/baloo2.woff2") format("woff2"); font-weight: 400 800; font-display: block; }
+  :root {
+    --ink: #2b1d14; --paper: #fff4dc; --blossom: #ff7aa2; --blossom-deep: #d9477a; --gold: #ffc53d; --red: #e2412f; --purple: #9b6cf0;
+    --u: min(1vw, 1.7778vh); /* 1% of a 16:9 frame's width, whatever the viewport */
+  }
+  html, body { margin: 0; width: 100vw; height: 100vh; overflow: hidden; background: transparent; }
+  body.portrait { --u: 1.2vw; }
+  #stage { position: absolute; inset: 0; overflow: hidden; }
+  #bg, #fx { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .layer { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .title { font-family: "Luckiest Guy", sans-serif; color: var(--paper); text-align: center; line-height: .92; letter-spacing: .03em; }
+  .line { display: table; margin: 0 auto; white-space: nowrap; -webkit-text-stroke: calc(var(--u) * .9) var(--ink); paint-order: stroke fill; will-change: transform; }
+  .slam .line { font-size: calc(var(--u) * 10.5); text-shadow: 0 calc(var(--u) * .7) 0 var(--ink), 0 calc(var(--u) * 1.2) 0 var(--acc), 0 0 calc(var(--u) * 6) rgba(0,0,0,.45); }
+  body.portrait .slam .line { font-size: calc(var(--u) * 11); white-space: nowrap; }
+  body:not(.portrait) .slam.has-sprite .title { margin-right: 24%; }
+  body.portrait .slam.has-sprite .title { margin-bottom: 30%; }
+  .sprite { position: absolute; height: 50%; bottom: -3%; filter: drop-shadow(0 calc(var(--u) * .6) 0 rgba(43,29,20,.55)); will-change: transform; }
+  body.portrait .sprite { height: 30%; }
+  .logo-card .sprite, .url-card .sprite { height: 46%; }
+  body.portrait .logo-card .sprite, body.portrait .url-card .sprite { height: 26%; }
+  .shine { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: overlay; }
+  .logo .l1, .logo .l2 { display: block; -webkit-text-stroke: calc(var(--u) * 1.1) var(--ink); paint-order: stroke fill; text-shadow: 0 calc(var(--u) * .9) 0 var(--ink), 0 calc(var(--u) * 2) calc(var(--u) * 2.4) rgba(0,0,0,.35); }
+  .logo { transform: rotate(-4deg); }
+  .logo .l1 { color: var(--gold); font-size: calc(var(--u) * 10.5); }
+  .logo .l2 { color: var(--red); font-size: calc(var(--u) * 15.5); margin-top: calc(var(--u) * -.6); }
+  .sub { font-family: "Luckiest Guy", sans-serif; color: var(--paper); font-size: calc(var(--u) * 3.3); letter-spacing: .06em; -webkit-text-stroke: calc(var(--u) * .45) var(--ink); paint-order: stroke fill; text-shadow: 0 calc(var(--u) * .35) 0 var(--ink); margin-top: calc(var(--u) * 2.2); text-align: center; }
+  .small { font-family: "Baloo 2", sans-serif; font-weight: 800; color: var(--ink); font-size: calc(var(--u) * 2.3); margin-top: calc(var(--u) * 1.6); text-align: center; padding: 0 calc(var(--u) * 4); }
+  .pill { font-family: "Luckiest Guy", sans-serif; background: var(--paper); color: var(--ink); border: calc(var(--u) * .5) solid var(--ink); border-radius: calc(var(--u) * 3); padding: calc(var(--u) * 1.3) calc(var(--u) * 3) calc(var(--u) * .7); font-size: calc(var(--u) * 4.4); letter-spacing: .02em; box-shadow: 0 calc(var(--u) * .8) 0 var(--ink); margin-top: calc(var(--u) * 2.4); white-space: nowrap; }
+  .pill b { color: var(--blossom-deep); font-weight: 400; }
+  .logo .pill, .layer.logo .pill { font-size: calc(var(--u) * 3.6); }
+  .url .pill { font-size: calc(var(--u) * 4.3); }
+  body.portrait .pill, body.portrait .url .pill { font-size: calc(var(--u) * 4.4); padding: calc(var(--u) * 1.8) calc(var(--u) * 2.4) calc(var(--u) * 1); }
+  body.portrait .sub { font-size: calc(var(--u) * 3.6); }
+  body.portrait .logo .l1 { font-size: calc(var(--u) * 14); }
+  body.portrait .logo .l2 { font-size: calc(var(--u) * 20); }
+  body.portrait .url .kicker { font-size: calc(var(--u) * 8); }
+  body.portrait .flower .line { font-size: calc(var(--u) * 10); }
+  body.portrait .small { font-size: calc(var(--u) * 3); }
+  .url .kicker { font-family: "Luckiest Guy", sans-serif; color: var(--red); font-size: calc(var(--u) * 5); -webkit-text-stroke: calc(var(--u) * .55) var(--ink); paint-order: stroke fill; text-shadow: 0 calc(var(--u) * .5) 0 var(--ink); }
+  .stamp { justify-content: flex-end; align-items: flex-start; padding: 0 0 calc(var(--u) * 5) calc(var(--u) * 5); }
+  .stamp .line { font-size: calc(var(--u) * 6.4); background: var(--acc); padding: calc(var(--u) * 1.2) calc(var(--u) * 2) calc(var(--u) * .4); border: calc(var(--u) * .5) solid var(--ink); border-radius: calc(var(--u) * 1.2); box-shadow: 0 calc(var(--u) * .7) 0 var(--ink); -webkit-text-stroke: calc(var(--u) * .6) var(--ink); }
+  .vframe { justify-content: space-between; padding: calc(var(--u) * 7) 0 calc(var(--u) * 9); box-sizing: border-box; }
+  body .vframe .logo .l1, body.portrait .vframe .logo .l1 { font-size: calc(var(--u) * 7.5); }
+  body .vframe .logo .l2, body.portrait .vframe .logo .l2 { font-size: calc(var(--u) * 11); }
+  body .vframe .pill, body.portrait .vframe .pill { font-size: calc(var(--u) * 4.2); }
+  .flower { justify-content: flex-start; padding-top: calc(var(--u) * 2.5); }
+  body.portrait .flower { padding-top: calc(var(--u) * 26); }
+  .flower .line { font-size: calc(var(--u) * 7.5); text-shadow: 0 calc(var(--u) * .6) 0 var(--ink), 0 0 calc(var(--u) * 4) rgba(0,0,0,.5); }
+  .whisper .line { font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: calc(var(--u) * 3.2); letter-spacing: .5em; -webkit-text-stroke: 0; color: var(--paper); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="bg"></canvas>
+  <div id="content" class="layer"></div>
+  <canvas id="fx"></canvas>
+</div>
+<script>
+const spec = JSON.parse(decodeURIComponent(location.hash.slice(1) || "{}"));
+const W = innerWidth, H = innerHeight, portrait = H > W;
+if (portrait) document.body.classList.add("portrait");
+const ACC = { pink: "#ff7aa2", gold: "#ffc53d", purple: "#9b6cf0", cream: "#fff4dc" }[spec.accent || "pink"];
+document.documentElement.style.setProperty("--acc", ACC);
+const DUR = spec.dur || 2;
+const root = document.getElementById("content");
+const bg = document.getElementById("bg"), fx = document.getElementById("fx");
+for (const c of [bg, fx]) { c.width = W; c.height = H; }
+const bx = bg.getContext("2d"), fxx = fx.getContext("2d");
+
+// ---------- helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+const easeIn = (x) => x * x * x;
+const back = (x, s = 2.2) => 1 + (s + 1) * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2);
+const elastic = (x) => (x === 0 || x === 1 ? x : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * (2 * Math.PI / 3)) + 1);
+function rng(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
+const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+const img = (src) => { const i = new Image(); i.src = "../../" + src; return i; };
+const petalImg = img("public/a/i/item_petal.webp");
+
+// petals: deterministic drift as a function of t
+const R = rng(7);
+const petals = Array.from({ length: portrait ? 34 : 42 }, () => ({ x: R(), y: R(), s: 0.5 + R() * 0.9, sp: 0.04 + R() * 0.08, sw: R() * 6.28, rot: R() * 6.28, vr: (R() - 0.5) * 3, z: R() }));
+function drawPetals(ctx, t, { alpha = 1, speed = 1, tint = null, near = false } = {}) {
+  const u = Math.min(W, H * 16 / 9) / 100;
+  for (const p of petals) {
+    if (near !== (p.z > 0.7)) continue;
+    const y = ((p.y + t * p.sp * speed * (1 + p.z)) % 1.15) - 0.08;
+    const x = p.x + Math.sin(t * 1.3 + p.sw) * 0.02;
+    // foreground petals never cross the words (text must stay readable on a phone)
+    if (near && keepClear().some((r) => x * W > r.left - 30 && x * W < r.right + 30 && y * H > r.top - 30 && y * H < r.bottom + 30)) continue;
+    const sz = u * (1.4 + p.s * 1.8) * (0.6 + p.z);
+    ctx.save();
+    ctx.globalAlpha = alpha * (0.55 + p.z * 0.45);
+    ctx.translate(x * W, y * H);
+    ctx.rotate(p.rot + t * p.vr);
+    if (petalImg.complete && petalImg.naturalWidth) ctx.drawImage(petalImg, -sz / 2, -sz / 2, sz, sz);
+    else { ctx.fillStyle = "#ff9dbb"; ctx.beginPath(); ctx.ellipse(0, 0, sz / 2, sz / 3, 0, 0, 7); ctx.fill(); }
+    ctx.restore();
+  }
+}
+function rays(ctx, t, cx, cy, colour, alpha, n = 16, spin = 0.12) {
+  const r = Math.hypot(W, H);
+  ctx.save(); ctx.translate(cx, cy); ctx.rotate(t * spin); ctx.globalAlpha = alpha; ctx.fillStyle = colour;
+  for (let i = 0; i < n; i++) { const a = (i / n) * Math.PI * 2; ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, r, a, a + Math.PI / n * 0.9); ctx.closePath(); ctx.fill(); }
+  ctx.restore();
+}
+function vignette(ctx, strength = 0.65) {
+  const g = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.25, W / 2, H / 2, Math.hypot(W, H) * 0.6);
+  g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, `rgba(0,0,0,${strength})`);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+function sparks(ctx, t, t0, cx, cy, colour, n = 26) {
+  const k = seg(t, t0, t0 + 0.7); if (k <= 0 || k >= 1) return;
+  const r = rng(99), u = Math.min(W, H * 16 / 9) / 100;
+  ctx.save(); ctx.globalAlpha = 1 - k; ctx.fillStyle = colour;
+  for (let i = 0; i < n; i++) { const a = r() * 6.28, d = easeOut(k) * u * (16 + r() * 30), s = u * (0.5 + r() * 0.9) * (1 - k);
+    ctx.beginPath(); ctx.arc(cx + Math.cos(a) * d * (portrait ? 0.8 : 1.6), cy + Math.sin(a) * d, s, 0, 7); ctx.fill(); }
+  ctx.restore();
+}
+
+let clearRects = null;
+const keepClear = () => (clearRects ??= [...document.querySelectorAll(".line, .l1, .l2, .sub, .pill, .small, .kicker")].map((e) => e.getBoundingClientRect()));
+
+// ---------- build DOM per style ----------
+const lines = (spec.text || "").split("\n");
+let els = {};
+function build() {
+  const st = spec.style;
+  root.className = "layer " + st + (spec.sprite ? " has-sprite" : "");
+  document.body.classList.add(st + "-card");
+  if (st === "vframe") { spec.sprite = spec.sprite2 = undefined; }
+  if (st === "slam" || st === "stamp" || st === "whisper") {
+    root.innerHTML = `<div class="title">${lines.map((l) => `<span class="line">${esc(l)}</span>`).join("")}</div>`;
+  } else if (st === "logo") {
+    const [a, b] = (spec.text || "SUPER NINJA").split(" ");
+    root.innerHTML = `<div class="title logo"><span class="l1">${esc(a)}</span><span class="l2">${esc(b || "")}</span></div>
+      ${spec.sub ? `<div class="sub">${esc(spec.sub)}</div>` : ""}
+      ${spec.url ? `<div class="pill">${urlHtml(spec.url)}</div>` : ""}`;
+  } else if (st === "flower") {
+    root.innerHTML = `<div class="title flower-title">${lines.map((l) => `<span class="line">${esc(l)}</span>`).join("")}</div>`;
+  } else if (st === "vframe") {
+    root.innerHTML = `<div class="title logo vtop"><span class="l1">SUPER</span><span class="l2">NINJA</span></div><div class="pill vbot">${urlHtml(spec.text)}</div>`;
+  } else if (st === "url") {
+    root.innerHTML = `<div class="kicker">PLAY NOW</div><div class="pill">${urlHtml(spec.text)}</div>${spec.sub ? `<div class="small">${esc(spec.sub)}</div>` : ""}`;
+  }
+  els.lines = [...root.querySelectorAll(".line")];
+  els.l1 = root.querySelector(".l1"); els.l2 = root.querySelector(".l2");
+  els.sub = root.querySelector(".sub"); els.pill = root.querySelector(".pill"); els.small = root.querySelector(".small"); els.kicker = root.querySelector(".kicker");
+  els.title = root.querySelector(".title");
+  for (const [k, side] of [["sprite", "right"], ["sprite2", "left"]]) {
+    if (!spec[k]) continue;
+    const i = document.createElement("img"); i.className = "sprite"; i.src = "../../" + spec[k];
+    i.style[side] = portrait ? "-2%" : "1%";
+    if (side === "left") i.style.transform = "scaleX(-1)";
+    document.getElementById("stage").insertBefore(i, fx); els[k] = i;
+  }
+}
+function urlHtml(u) { const [a, ...rest] = u.split("."); return `<b>${esc(a)}</b>.${esc(rest.join("."))}`; }
+
+// ---------- per-style frame functions ----------
+function shake(t, t0, amp, len = 0.3) {
+  const k = seg(t, t0, t0 + len); if (k <= 0 || k >= 1) return [0, 0];
+  const u = Math.min(W, H * 16 / 9) / 100, a = amp * u * (1 - k);
+  return [Math.sin(t * 91) * a, Math.cos(t * 77) * a];
+}
+const setT = (el, s) => { if (el) el.style.transform = s; };
+const setO = (el, o) => { if (el) el.style.opacity = o; };
+
+function frameSlam(t) {
+  // background: ink with accent light rays and petals
+  bx.clearRect(0, 0, W, H);
+  const g = bx.createRadialGradient(W / 2, H * 0.45, 0, W / 2, H / 2, Math.hypot(W, H) * 0.6);
+  g.addColorStop(0, "#4a2f22"); g.addColorStop(1, "#140b07");
+  bx.fillStyle = g; bx.fillRect(0, 0, W, H);
+  rays(bx, t, W / 2, H * 0.5, ACC, 0.07 + 0.05 * seg(t, 0, 0.2));
+  drawPetals(bx, t + 3, { alpha: 0.55, speed: 1.6 });
+  vignette(bx, 0.7);
+  const [sx, sy] = shake(t, 0.12, 1.4);
+  els.title.style.transform = `translate(${sx}px, ${sy}px) scale(${1 + 0.07 * easeOut(seg(t, 0.2, DUR))})`;
+  els.lines.forEach((l, i) => {
+    const k = seg(t, i * 0.1, i * 0.1 + 0.2);
+    const s = k < 1 ? 2.6 - 1.6 * easeOut(k) : 1;
+    l.style.transform = `scale(${s})`;
+    l.style.opacity = k > 0 ? Math.min(1, k * 3) : 0;
+    l.style.filter = k < 1 ? `blur(${(1 - k) * 8}px)` : "none";
+  });
+  if (els.sprite) {
+    const k = seg(t, 0.16, 0.5);
+    els.sprite.style.transform = `translateY(${(1 - back(k)) * 60}%) rotate(${(1 - k) * 8}deg) translateX(${-4 * seg(t, 0.5, DUR)}%)`;
+    els.sprite.style.opacity = k > 0 ? 1 : 0;
+  }
+  fxx.clearRect(0, 0, W, H);
+  // impact flash + sparks
+  const fl = 1 - seg(t, 0.12, 0.3); if (t >= 0.12 && fl > 0) { fxx.fillStyle = `rgba(255,244,220,${fl * 0.35})`; fxx.fillRect(0, 0, W, H); }
+  sparks(fxx, t, 0.14, W / 2, H / 2, ACC);
+  drawPetals(fxx, t + 3, { alpha: 0.6, speed: 1.6, near: true });
+}
+
+function frameStamp(t) {
+  bx.clearRect(0, 0, W, H); fxx.clearRect(0, 0, W, H);
+  els.lines.forEach((l, i) => {
+    const k = seg(t, i * 0.08, i * 0.08 + 0.22);
+    l.style.transform = `rotate(-3deg) scale(${k < 1 ? 1.8 - 0.8 * back(k) : 1})`;
+    l.style.opacity = k > 0 ? 1 : 0;
+  });
+  setO(els.title, 1 - seg(t, DUR - 0.15, DUR));
+}
+
+function frameWhisper(t) {
+  bx.fillStyle = "#000"; bx.fillRect(0, 0, W, H); fxx.clearRect(0, 0, W, H);
+  const o = seg(t, 0.1, 0.6) * (1 - seg(t, DUR - 0.5, DUR - 0.05));
+  els.lines.forEach((l) => { l.style.opacity = o; l.style.letterSpacing = `${0.45 + 0.1 * seg(t, 0, DUR)}em`; });
+}
+
+function sunrise(t, warm = 1) {
+  const g = bx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, "#ff9a6b"); g.addColorStop(0.5, "#ffb4b8"); g.addColorStop(1, "#ffd98a");
+  bx.fillStyle = g; bx.fillRect(0, 0, W, H);
+  rays(bx, t, W / 2, H * 0.42, "#fff4dc", 0.18 * warm, 20, 0.08);
+  const r = bx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.42, Math.min(W, H) * 0.55);
+  r.addColorStop(0, "rgba(255,244,220,.75)"); r.addColorStop(1, "rgba(255,244,220,0)");
+  bx.fillStyle = r; bx.fillRect(0, 0, W, H);
+}
+
+function frameLogo(t) {
+  sunrise(t);
+  drawPetals(bx, t, { alpha: 0.8, speed: 0.9 });
+  vignette(bx, 0.35);
+  const [sx, sy] = shake(t, 0.25, 1.6, 0.35);
+  const k1 = seg(t, 0.0, 0.28), k2 = seg(t, 0.14, 0.42);
+  const settle = 1 + 0.035 * easeOut(seg(t, 0.5, DUR));
+  els.title.style.transform = `translate(${sx}px, ${sy}px) rotate(-4deg) scale(${settle})`;
+  setT(els.l1, `translateY(${(1 - easeOut(k1)) * -120}%) scale(${k1 < 1 ? 1.8 - 0.8 * back(k1) : 1})`); setO(els.l1, k1 > 0 ? 1 : 0);
+  setT(els.l2, `scale(${k2 < 1 ? 3 - 2 * back(k2, 1.6) : 1})`); setO(els.l2, k2 > 0 ? Math.min(1, k2 * 4) : 0);
+  const ks = seg(t, 0.9, 1.3); setO(els.sub, easeOut(ks)); setT(els.sub, `translateY(${(1 - easeOut(ks)) * 40}%)`);
+  const kp = seg(t, 1.5, 1.9); setO(els.pill, kp > 0 ? 1 : 0); setT(els.pill, `scale(${kp < 1 ? back(kp) : 1 + 0.02 * Math.sin((t - 1.9) * 4)})`);
+  for (const [k, t0, dir] of [["sprite2", 0.45, -1], ["sprite", 0.6, 1]]) {
+    if (!els[k]) continue;
+    const kk = seg(t, t0, t0 + 0.45), bob = Math.sin((t - t0) * 5) * 1.2 * seg(t, t0 + 0.45, t0 + 0.8);
+    const flip = dir < 0 ? "scaleX(-1) " : "";
+    els[k].style.transform = `${flip}translateY(${(1 - back(kk)) * 90 + bob}%)`;
+    els[k].style.opacity = kk > 0 ? 1 : 0;
+  }
+  fxx.clearRect(0, 0, W, H);
+  const fl = 1 - seg(t, 0, 0.35); if (fl > 0) { fxx.fillStyle = `rgba(255,255,255,${fl * 0.9})`; fxx.fillRect(0, 0, W, H); }
+  sparks(fxx, t, 0.3, W / 2, H * 0.4, "#ffc53d", 40);
+  shineSweep(t, 1.0);
+  drawPetals(fxx, t, { alpha: 0.7, speed: 0.9, near: true });
+}
+
+function shineSweep(t, t0) {
+  const k = seg(t, t0, t0 + 0.6); if (k <= 0 || k >= 1) return;
+  const x = -W * 0.3 + k * W * 1.6;
+  const g = fxx.createLinearGradient(x - W * 0.08, 0, x + W * 0.08, H);
+  g.addColorStop(0, "rgba(255,255,255,0)"); g.addColorStop(0.5, "rgba(255,255,255,.28)"); g.addColorStop(1, "rgba(255,255,255,0)");
+  fxx.fillStyle = g; fxx.fillRect(0, 0, W, H);
+}
+
+function frameUrl(t) {
+  const g = bx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, "#fff4dc"); g.addColorStop(1, "#ffd9e4");
+  bx.fillStyle = g; bx.fillRect(0, 0, W, H);
+  rays(bx, t, W / 2, H * 0.45, "#ffc53d", 0.12, 20, 0.05);
+  drawPetals(bx, t + 9, { alpha: 0.7, speed: 0.6 });
+  const kk = seg(t, 0.05, 0.35); setO(els.kicker, kk > 0 ? 1 : 0); setT(els.kicker, `rotate(-3deg) scale(${kk < 1 ? back(kk) : 1})`);
+  const kp = seg(t, 0.2, 0.55); setO(els.pill, kp > 0 ? 1 : 0); setT(els.pill, `scale(${kp < 1 ? back(kp) : 1 + 0.025 * Math.sin((t - 0.55) * 3.5)})`);
+  const ks = seg(t, 0.6, 1.0); setO(els.small, easeOut(ks));
+  for (const [k, t0, dir] of [["sprite2", 0.3, -1], ["sprite", 0.45, 1]]) {
+    if (!els[k]) continue;
+    const kk2 = seg(t, t0, t0 + 0.45), bob = Math.sin((t - t0) * 4) * 1.5 * seg(t, t0 + 0.45, t0 + 0.8);
+    els[k].style.transform = `${dir < 0 ? "scaleX(-1) " : ""}translateY(${(1 - back(kk2)) * 90 + bob}%)`;
+    els[k].style.opacity = kk2 > 0 ? 1 : 0;
+  }
+  fxx.clearRect(0, 0, W, H);
+  drawPetals(fxx, t + 9, { alpha: 0.7, speed: 0.6, near: true });
+}
+
+// the Sound Flower: teardrop petals (the game's shape) fill with colour one by one, gems charge and glow
+const PETAL_COLOURS = ["#e8312f", "#f5821f", "#f3c74a", "#2fa65a", "#6ec9f2", "#23208f", "#8a3be0", "#c42fd1", "#f59ac0", "#ee2e63", "#9ae29a", "#f7a23b"];
+function teardrop(ctx, w, h) {
+  const r = w / 2, cy = -h / 2 + r;
+  ctx.beginPath(); ctx.moveTo(0, h / 2);
+  ctx.bezierCurveTo(-w * 0.12, h * 0.28, -r, h * 0.06, -r, cy);
+  ctx.arc(0, cy, r, Math.PI, 0);
+  ctx.bezierCurveTo(r, h * 0.06, w * 0.12, h * 0.28, 0, h / 2); ctx.closePath();
+}
+function gemPath(ctx, s) { const p = [[50,4],[88,24],[96,62],[50,96],[4,62],[12,24]]; ctx.beginPath(); p.forEach(([x, y], i) => (i ? ctx.lineTo : ctx.moveTo).call(ctx, (x - 50) * s / 100, (y - 50) * s / 100)); ctx.closePath(); }
+function frameFlower(t) {
+  const g = bx.createRadialGradient(W / 2, H * 0.58, 0, W / 2, H / 2, Math.hypot(W, H) * 0.6);
+  g.addColorStop(0, "#3a2466"); g.addColorStop(1, "#140a24");
+  bx.fillStyle = g; bx.fillRect(0, 0, W, H);
+  const n = PETAL_COLOURS.length, cx = W / 2, cy = portrait ? H * 0.55 : H * 0.6;
+  const R = Math.min(W, H) * (portrait ? 0.38 : 0.36);
+  const fillAt = (i) => DUR * 0.1 + DUR * 0.58 * Math.pow(i / n, 0.72); // accelerating; complete at 68% of the card
+  const done = fillAt(n);
+  rays(bx, t, cx, cy, "#ffc53d", 0.05 + 0.12 * seg(t, done, done + 0.2), 20, 0.1);
+  drawPetals(bx, t, { alpha: 0.35, speed: 1.2 });
+  fxx.clearRect(0, 0, W, H);
+  const spin = t * 0.25 + 0.4 * easeOut(seg(t, done, done + 0.6));
+  const grow = 0.85 + 0.15 * easeOut(seg(t, 0, 0.3)) + 0.06 * back(seg(t, done, done + 0.35));
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2 + spin, k = seg(t, fillAt(i), fillAt(i) + 0.18);
+    const col = PETAL_COLOURS[i], pw = R * 0.36, ph = R * 0.92;
+    bx.save(); bx.translate(cx, cy); bx.rotate(a); bx.translate(0, -(ph / 2 + R * 0.12) * grow); // tip points at the centre, round end outwards
+    const pop = k > 0 && k < 1 ? 1 + 0.25 * Math.sin(k * Math.PI) : 1;
+    bx.scale(grow * pop, grow * pop);
+    teardrop(bx, pw, ph);
+    bx.lineWidth = Math.max(3, pw * 0.06); bx.strokeStyle = col;
+    if (k > 0) {
+      const rg = bx.createRadialGradient(0, -ph * 0.15, 0, 0, -ph * 0.1, ph * 0.6);
+      rg.addColorStop(0, "#ffffff"); rg.addColorStop(1, col);
+      bx.globalAlpha = 0.35 + 0.65 * k; bx.fillStyle = rg; bx.shadowColor = col; bx.shadowBlur = pw * 0.5 * k; bx.fill(); bx.globalAlpha = 1; bx.shadowBlur = 0;
+    } else { bx.fillStyle = "rgba(255,244,220,.10)"; bx.fill(); }
+    bx.stroke();
+    // gem inside the petal: an energy ring charges, then the gem lights up
+    const ring = seg(t, fillAt(i) - 0.35, fillAt(i));
+    bx.save(); bx.translate(0, -ph / 2 + pw / 2); bx.rotate(-a);
+    const gs = pw * 0.5;
+    if (k <= 0 && ring > 0) { bx.beginPath(); bx.arc(0, 0, gs * 0.62, -Math.PI / 2, -Math.PI / 2 + ring * Math.PI * 2); bx.strokeStyle = "#ffc53d"; bx.lineWidth = gs * 0.12; bx.lineCap = "round"; bx.stroke(); }
+    gemPath(bx, gs); bx.fillStyle = k > 0 ? col : "rgba(255,244,220,.25)"; if (k > 0) { bx.shadowColor = "#fff"; bx.shadowBlur = gs * 0.6; }
+    bx.fill(); bx.shadowBlur = 0; bx.lineWidth = gs * 0.07; bx.strokeStyle = "#2b1d14"; bx.stroke();
+    bx.restore(); bx.restore();
+    if (k > 0 && k < 1) sparks(fxx, t, fillAt(i), cx + Math.cos(a - Math.PI / 2) * R * 0.95, cy + Math.sin(a - Math.PI / 2) * R * 0.95, col, 12);
+  }
+  // centre: the big gem, glowing brighter as the flower fills, bursting when it is complete
+  const filled = seg(t, 0.25, done);
+  bx.save(); bx.translate(cx, cy); bx.rotate(Math.sin(t * 2) * 0.05);
+  const cs = R * 0.34 * (1 + 0.25 * back(seg(t, done, done + 0.3)) - 0.25 * seg(t, done, done + 0.3));
+  bx.shadowColor = "#ffc53d"; bx.shadowBlur = cs * (0.2 + filled);
+  gemPath(bx, cs); const cg = bx.createLinearGradient(-cs / 2, -cs / 2, cs / 2, cs / 2); cg.addColorStop(0, "#fff6c8"); cg.addColorStop(1, "#ffc53d");
+  bx.fillStyle = cg; bx.fill(); bx.shadowBlur = 0; bx.lineWidth = cs * 0.06; bx.strokeStyle = "#2b1d14"; bx.stroke(); bx.restore();
+  const fl = t >= done ? 1 - seg(t, done, done + 0.35) : 0; if (fl > 0) { fxx.fillStyle = `rgba(255,246,220,${fl * 0.45})`; fxx.fillRect(0, 0, W, H); }
+  sparks(fxx, t, done, cx, cy, "#ffc53d", 60);
+  drawPetals(fxx, t, { alpha: 0.6, speed: 1.2, near: true });
+  els.lines.forEach((l, i) => { const kk = seg(t, 0.05 + i * 0.1, 0.25 + i * 0.1); l.style.transform = `scale(${kk < 1 ? 2 - back(kk) : 1 + 0.08 * back(seg(t, done, done + 0.3)) - 0.08 * seg(t, done, done + 0.3)})`; l.style.opacity = kk > 0 ? 1 : 0; });
+}
+
+// vertical-cut chrome: small logo in the top band, URL in the bottom band (transparent, static)
+function frameVframe(t) { bx.clearRect(0, 0, W, H); fxx.clearRect(0, 0, W, H); }
+const FRAMES = { flower: frameFlower, vframe: frameVframe, slam: frameSlam, stamp: frameStamp, whisper: frameWhisper, logo: frameLogo, url: frameUrl };
+build();
+window.seek = (t) => FRAMES[spec.style](t);
+// shrink any line (or pill) that would not fit, so editing the text in the config can never overflow the frame
+function fit() {
+  const room = portrait ? 0.9 : spec.sprite && spec.style === "slam" ? 0.68 : 0.88;
+  for (const el of [...els.lines, els.pill, els.sub].filter(Boolean)) {
+    const w = el.offsetWidth, max = W * room;
+    if (w > max) el.style.fontSize = parseFloat(getComputedStyle(el).fontSize) * (max / w) + "px";
+  }
+}
+window.ready = Promise.all([document.fonts.ready, ...[...document.images, petalImg].map((i) => i.decode().catch(() => {}))]).then(() => { fit(); keepClear(); /* measure the settled layout before any animation transform */ window.seek(0); return true; });
+if (location.search.includes("play")) { const t0 = performance.now(); const loop = () => { window.seek(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); }; window.ready.then(loop); }
+</script>
+</body>
+</html>

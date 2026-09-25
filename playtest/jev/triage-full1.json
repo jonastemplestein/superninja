@@ -1,0 +1,1690 @@
+{
+ "generated": "2026-09-25T21:10:57.411Z",
+ "run": "/private/tmp/claude-501/-Users-jonastemplestein-src-github-com-jonastemplestein-superninja/54e4e5ac-7dd8-4095-abce-8fcfe5b79f64/scratchpad/full1",
+ "usage": {
+  "model": "jev-1.13.0",
+  "calls": 65,
+  "retries": 0,
+  "inputTokens": 52100,
+  "outputTokens": 4100,
+  "usd": 0.002188,
+  "p50ms": 433,
+  "p95ms": 487,
+  "wallMs": 2180
+ },
+ "input": {
+  "files": [
+   "critic.json",
+   "sweep.json"
+  ],
+  "findings": 104,
+  "groups": 22,
+  "pairsAsked": 43,
+  "pairsSkipped": 0
+ },
+ "clusters": [
+  {
+   "id": "c20",
+   "title": "crash-screen: body",
+   "groups": [
+    "bot:crash-screen:body",
+    "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  "
+   ],
+   "findings": 18,
+   "cases": [
+    "w5-2",
+    "w6-1",
+    "w6-5",
+    "w6-6",
+    "w6-7",
+    "w6-8",
+    "w6-2",
+    "w6-3",
+    "w6-4",
+    "w6-9",
+    "w6-10",
+    "w6-11"
+   ],
+   "impact": 1,
+   "childFacing": 0.63,
+   "severity": "blocker",
+   "area": "crash"
+  },
+  {
+   "id": "c21",
+   "title": "monkey-crash: crash screen",
+   "groups": [
+    "bot:monkey-crash:crash screen"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-6"
+   ],
+   "impact": 1,
+   "childFacing": 0.63,
+   "severity": "blocker",
+   "area": "crash"
+  },
+  {
+   "id": "c10",
+   "title": "covered-target: button.tile.pop-in[aria-label=\"k\"]",
+   "groups": [
+    "bot:covered-target:button.tile.pop-in[label]"
+   ],
+   "findings": 12,
+   "cases": [
+    "w3-3",
+    "w4-7",
+    "w4-9",
+    "w5-11",
+    "w6-11"
+   ],
+   "impact": 0.95,
+   "childFacing": 0.73,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c17",
+   "title": "covered-target: div[aria-label=\"sticker mat\"]",
+   "groups": [
+    "bot:covered-target:div[label]",
+    "bot:covered-target:button.btn-round[label]",
+    "bot:covered-target:button.btn-round.sm[label]"
+   ],
+   "findings": 14,
+   "cases": [
+    "book"
+   ],
+   "impact": 0.96,
+   "childFacing": 0.72,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c13",
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round[label]",
+    "bot:tiny-target:button.btn-round.go[label]"
+   ],
+   "findings": 8,
+   "cases": [
+    "w5-3",
+    "w5-6",
+    "w6-3",
+    "w6-7",
+    "w6-10",
+    "title"
+   ],
+   "impact": 0.81,
+   "childFacing": 0.84,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c6",
+   "title": "covered-target: button.tile.lg[aria-label=\"h\"]",
+   "groups": [
+    "bot:covered-target:button.tile.lg[label]"
+   ],
+   "findings": 2,
+   "cases": [
+    "w2-1"
+   ],
+   "impact": 0.93,
+   "childFacing": 0.68,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c1",
+   "title": "Unidentifiable object on picture card",
+   "groups": [
+    "critic:ambiguous-illustration"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-2"
+   ],
+   "impact": 0.73,
+   "childFacing": 0.82,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c5",
+   "title": "tiny-target: button",
+   "groups": [
+    "bot:tiny-target:button"
+   ],
+   "findings": 7,
+   "cases": [
+    "w1-14",
+    "w2-7",
+    "w3-11",
+    "w4-8",
+    "w5-10",
+    "w6-10",
+    "grownups"
+   ],
+   "impact": 0.77,
+   "childFacing": 0.8,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c2",
+   "title": "Letter choice cards are significantly smaller",
+   "groups": [
+    "critic:undersized-tap-targets"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-2"
+   ],
+   "impact": 0.75,
+   "childFacing": 0.81,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c0",
+   "title": "Demonstrated letter is tiny and lacks contrast",
+   "groups": [
+    "critic:illegible-grapheme"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-2"
+   ],
+   "impact": 0.66,
+   "childFacing": 0.8,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c14",
+   "title": "tiny-target: button.btn-round.pulse[aria-label=\"Hear the sound\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round.pulse[label]",
+    "bot:tiny-target:button.pop-in[label]"
+   ],
+   "findings": 2,
+   "cases": [
+    "w3-4",
+    "map"
+   ],
+   "impact": 0.68,
+   "childFacing": 0.73,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c3",
+   "title": "Faded avatar selection buttons",
+   "groups": [
+    "critic:dimmed-interactive-targets"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-4"
+   ],
+   "impact": 0.69,
+   "childFacing": 0.7,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c18",
+   "title": "offscreen: button",
+   "groups": [
+    "bot:offscreen:button"
+   ],
+   "findings": 1,
+   "cases": [
+    "grownups"
+   ],
+   "impact": 0.84,
+   "childFacing": 0.51,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c4",
+   "title": "Prompt card container missing and illustration semi-transparent",
+   "groups": [
+    "critic:missing-card-background"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-1"
+   ],
+   "impact": 0.65,
+   "childFacing": 0.64,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c9",
+   "title": "did-not-finish: timeout",
+   "groups": [
+    "bot:did-not-finish:timeout"
+   ],
+   "findings": 2,
+   "cases": [
+    "w1-10",
+    "w6-9"
+   ],
+   "impact": 0.98,
+   "childFacing": 0.37,
+   "severity": "minor",
+   "area": "crash"
+  },
+  {
+   "id": "c8",
+   "title": "console-error: In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "groups": [
+    "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+    "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt"
+   ],
+   "findings": 32,
+   "cases": [
+    "w3-2",
+    "w3-7",
+    "w3-10",
+    "w5-4",
+    "w5-7",
+    "w6-2",
+    "w6-4",
+    "w6-7",
+    "w6-8",
+    "w3-3",
+    "w3-6",
+    "w3-8",
+    "w3-9",
+    "w3-12",
+    "w4-5",
+    "w5-5"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.2,
+   "severity": "polish",
+   "area": "crash"
+  }
+ ],
+ "groups": [
+  {
+   "i": 0,
+   "key": "critic:illegible-grapheme",
+   "cluster": 0,
+   "n": 1,
+   "cases": [
+    "w1-2"
+   ],
+   "title": "Demonstrated letter is tiny and lacks contrast",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.8,
+   "impact": 0.66,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 1,
+   "key": "critic:ambiguous-illustration",
+   "cluster": 1,
+   "n": 1,
+   "cases": [
+    "w1-2"
+   ],
+   "title": "Unidentifiable object on picture card",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.82,
+   "impact": 0.73,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 2,
+   "key": "critic:undersized-tap-targets",
+   "cluster": 2,
+   "n": 1,
+   "cases": [
+    "w1-2"
+   ],
+   "title": "Letter choice cards are significantly smaller",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.81,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 3,
+   "key": "critic:dimmed-interactive-targets",
+   "cluster": 3,
+   "n": 1,
+   "cases": [
+    "w1-4"
+   ],
+   "title": "Faded avatar selection buttons",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.7,
+   "impact": 0.69,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 4,
+   "key": "critic:missing-card-background",
+   "cluster": 4,
+   "n": 1,
+   "cases": [
+    "w2-1"
+   ],
+   "title": "Prompt card container missing and illustration semi-transparent",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.64,
+   "impact": 0.65,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 5,
+   "key": "bot:tiny-target:button",
+   "cluster": 5,
+   "n": 7,
+   "cases": [
+    "w1-14",
+    "w2-7",
+    "w3-11",
+    "w4-8",
+    "w5-10",
+    "w6-10",
+    "grownups"
+   ],
+   "title": "tiny-target: button",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.8,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 6,
+   "key": "bot:covered-target:button.tile.lg[label]",
+   "cluster": 6,
+   "n": 2,
+   "cases": [
+    "w2-1"
+   ],
+   "title": "covered-target: button.tile.lg[aria-label=\"h\"]",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.68,
+   "impact": 0.93,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 7,
+   "key": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": 8,
+   "n": 16,
+   "cases": [
+    "w3-2",
+    "w3-7",
+    "w3-10",
+    "w5-4",
+    "w5-7",
+    "w6-2",
+    "w6-4",
+    "w6-7",
+    "w6-8",
+    "w3-3",
+    "w3-6",
+    "w3-8",
+    "w3-9",
+    "w3-12",
+    "w4-5",
+    "w5-5"
+   ],
+   "title": "console-error: In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "source": "bot",
+   "reported": "minor",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish",
+   "jevSeverity": "blocker"
+  },
+  {
+   "i": 8,
+   "key": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": 8,
+   "n": 16,
+   "cases": [
+    "w3-2",
+    "w3-7",
+    "w3-10",
+    "w5-4",
+    "w5-7",
+    "w6-2",
+    "w6-4",
+    "w6-7",
+    "w6-8",
+    "w3-3",
+    "w3-6",
+    "w3-8",
+    "w3-9",
+    "w3-12",
+    "w4-5",
+    "w5-5"
+   ],
+   "title": "console-error: <%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "source": "bot",
+   "reported": "minor",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 9,
+   "key": "bot:did-not-finish:timeout",
+   "cluster": 9,
+   "n": 2,
+   "cases": [
+    "w1-10",
+    "w6-9"
+   ],
+   "title": "did-not-finish: timeout",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.37,
+   "impact": 0.98,
+   "area": "crash",
+   "severity": "minor",
+   "jevSeverity": "blocker",
+   "stuck": "slow",
+   "stuckP": {
+    "stuck": 0.33,
+    "unclear": 0.01,
+    "slow": 0.66
+   }
+  },
+  {
+   "i": 10,
+   "key": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": 10,
+   "n": 12,
+   "cases": [
+    "w3-3",
+    "w4-7",
+    "w4-9",
+    "w5-11",
+    "w6-11"
+   ],
+   "title": "covered-target: button.tile.pop-in[aria-label=\"k\"]",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 11,
+   "key": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": 14,
+   "n": 1,
+   "cases": [
+    "w3-4"
+   ],
+   "title": "tiny-target: button.btn-round.pulse[aria-label=\"Hear the sound\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.72,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 12,
+   "key": "bot:tiny-target:button.btn-round[label]",
+   "cluster": 13,
+   "n": 5,
+   "cases": [
+    "w5-3",
+    "w5-6",
+    "w6-3",
+    "w6-7",
+    "w6-10"
+   ],
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.84,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 13,
+   "key": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": 13,
+   "n": 3,
+   "cases": [
+    "w5-3",
+    "w6-10",
+    "title"
+   ],
+   "title": "tiny-target: button.btn-round.go[aria-label=\"Next\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.81,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 14,
+   "key": "bot:tiny-target:button.pop-in[label]",
+   "cluster": 14,
+   "n": 1,
+   "cases": [
+    "map"
+   ],
+   "title": "tiny-target: button.pop-in[aria-label=\"level w1-5\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.73,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 15,
+   "key": "bot:covered-target:div[label]",
+   "cluster": 17,
+   "n": 12,
+   "cases": [
+    "book"
+   ],
+   "title": "covered-target: div[aria-label=\"sticker mat\"]",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 16,
+   "key": "bot:covered-target:button.btn-round[label]",
+   "cluster": 17,
+   "n": 1,
+   "cases": [
+    "book"
+   ],
+   "title": "covered-target: button.btn-round[aria-label=\"next page\"]",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 17,
+   "key": "bot:covered-target:button.btn-round.sm[label]",
+   "cluster": 17,
+   "n": 1,
+   "cases": [
+    "book"
+   ],
+   "title": "covered-target: button.btn-round.sm[aria-label=\"back\"]",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.72,
+   "impact": 0.84,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 18,
+   "key": "bot:offscreen:button",
+   "cluster": 18,
+   "n": 1,
+   "cases": [
+    "grownups"
+   ],
+   "title": "offscreen: button",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.51,
+   "impact": 0.84,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 19,
+   "key": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": 20,
+   "n": 12,
+   "cases": [
+    "w5-2",
+    "w6-1",
+    "w6-2",
+    "w6-3",
+    "w6-4",
+    "w6-5",
+    "w6-6",
+    "w6-7",
+    "w6-8",
+    "w6-9",
+    "w6-10",
+    "w6-11"
+   ],
+   "title": "console-error: %o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "source": "bot",
+   "reported": "minor",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish",
+   "jevSeverity": "blocker"
+  },
+  {
+   "i": 20,
+   "key": "bot:crash-screen:body",
+   "cluster": 20,
+   "n": 6,
+   "cases": [
+    "w5-2",
+    "w6-1",
+    "w6-5",
+    "w6-6",
+    "w6-7",
+    "w6-8"
+   ],
+   "title": "crash-screen: body",
+   "source": "bot",
+   "reported": "blocker",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker",
+   "jevSeverity": "blocker"
+  },
+  {
+   "i": 21,
+   "key": "bot:monkey-crash:crash screen",
+   "cluster": 21,
+   "n": 1,
+   "cases": [
+    "w6-6"
+   ],
+   "title": "monkey-crash: crash screen",
+   "source": "bot",
+   "reported": "blocker",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker",
+   "jevSeverity": "blocker"
+  }
+ ],
+ "merges": [
+  {
+   "a": "bot:tiny-target:button",
+   "b": "bot:tiny-target:button.btn-round.pulse[label]",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button",
+   "b": "bot:tiny-target:button.btn-round[label]",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button",
+   "b": "bot:tiny-target:button.pop-in[label]",
+   "p": 0.49
+  },
+  {
+   "a": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "b": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "p": 0.66
+  },
+  {
+   "a": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "b": "bot:crash-screen:body",
+   "p": 0.47
+  },
+  {
+   "a": "bot:did-not-finish:timeout",
+   "b": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "p": 0.42
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round.pulse[label]",
+   "b": "bot:tiny-target:button.btn-round[label]",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round.pulse[label]",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round.pulse[label]",
+   "b": "bot:tiny-target:button.pop-in[label]",
+   "p": 0.62
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.69
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button.pop-in[label]",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round.go[label]",
+   "b": "bot:tiny-target:button.pop-in[label]",
+   "p": 0.53
+  },
+  {
+   "a": "bot:covered-target:div[label]",
+   "b": "bot:covered-target:button.btn-round[label]",
+   "p": 0.89
+  },
+  {
+   "a": "bot:covered-target:div[label]",
+   "b": "bot:covered-target:button.btn-round.sm[label]",
+   "p": 0.88
+  },
+  {
+   "a": "bot:covered-target:button.btn-round[label]",
+   "b": "bot:covered-target:button.btn-round.sm[label]",
+   "p": 0.89
+  },
+  {
+   "a": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "b": "bot:crash-screen:body",
+   "p": 0.75
+  },
+  {
+   "a": "bot:crash-screen:body",
+   "b": "bot:monkey-crash:crash screen",
+   "p": 0.41
+  }
+ ],
+ "findings": [],
+ "triage": {
+  "critic:w1-2:illegible-grapheme": {
+   "group": "critic:illegible-grapheme",
+   "cluster": "c0",
+   "childFacing": 0.8,
+   "impact": 0.66,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w1-2:ambiguous-illustration": {
+   "group": "critic:ambiguous-illustration",
+   "cluster": "c1",
+   "childFacing": 0.82,
+   "impact": 0.73,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w1-2:undersized-tap-targets": {
+   "group": "critic:undersized-tap-targets",
+   "cluster": "c2",
+   "childFacing": 0.81,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w1-4:dimmed-interactive-targets": {
+   "group": "critic:dimmed-interactive-targets",
+   "cluster": "c3",
+   "childFacing": 0.7,
+   "impact": 0.69,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w2-1:missing-card-background": {
+   "group": "critic:missing-card-background",
+   "cluster": "c4",
+   "childFacing": 0.64,
+   "impact": 0.65,
+   "area": "art",
+   "severity": "minor"
+  },
+  "bot:w1-14:tiny-target:button": {
+   "group": "bot:tiny-target:button",
+   "cluster": "c5",
+   "childFacing": 0.8,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button": {
+   "group": "bot:tiny-target:button",
+   "cluster": "c5",
+   "childFacing": 0.8,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button": {
+   "group": "bot:tiny-target:button",
+   "cluster": "c5",
+   "childFacing": 0.8,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button": {
+   "group": "bot:tiny-target:button",
+   "cluster": "c5",
+   "childFacing": 0.8,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button": {
+   "group": "bot:tiny-target:button",
+   "cluster": "c5",
+   "childFacing": 0.8,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button": {
+   "group": "bot:tiny-target:button",
+   "cluster": "c5",
+   "childFacing": 0.8,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:grownups:tiny-target:button": {
+   "group": "bot:tiny-target:button",
+   "cluster": "c5",
+   "childFacing": 0.8,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-1:covered-target:button.tile.lg[aria-label=\"h\"]": {
+   "group": "bot:covered-target:button.tile.lg[label]",
+   "cluster": "c6",
+   "childFacing": 0.68,
+   "impact": 0.93,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w2-1:covered-target:button.tile.lg[aria-label=\"g\"]": {
+   "group": "bot:covered-target:button.tile.lg[label]",
+   "cluster": "c6",
+   "childFacing": 0.68,
+   "impact": 0.93,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w3-2:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-7:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-10:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w5-4:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w5-7:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-2:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-4:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-7:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-8:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-3:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-6:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-8:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-9:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-12:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w4-5:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w5-5:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s": {
+   "group": "bot:console-error:In HTML, %s cannot be a descendant of <%s>.\nThis will cause a hydration error.%s",
+   "cluster": "c8",
+   "childFacing": 0.2,
+   "impact": 0.67,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-2:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-7:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-10:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w5-4:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w5-7:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-2:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-4:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-7:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-8:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-3:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-6:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-8:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-9:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w3-12:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w4-5:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w5-5:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt": {
+   "group": "bot:console-error:<%s> cannot contain a nested %s.\nSee this log for the ancestor stack trace. butt",
+   "cluster": "c8",
+   "childFacing": 0.11,
+   "impact": 0.13,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w1-10:did-not-finish:timeout": {
+   "group": "bot:did-not-finish:timeout",
+   "cluster": "c9",
+   "childFacing": 0.37,
+   "impact": 0.98,
+   "area": "crash",
+   "severity": "minor",
+   "stuck": "slow"
+  },
+  "bot:w6-9:did-not-finish:timeout": {
+   "group": "bot:did-not-finish:timeout",
+   "cluster": "c9",
+   "childFacing": 0.37,
+   "impact": 0.98,
+   "area": "crash",
+   "severity": "minor",
+   "stuck": "slow"
+  },
+  "bot:w3-3:covered-target:button.tile.pop-in[aria-label=\"k\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-7:covered-target:button.tile.pop-in[aria-label=\"b\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-7:covered-target:button.tile.pop-in[aria-label=\"d\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-7:covered-target:button.tile.pop-in[aria-label=\"t\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-9:covered-target:button.tile.pop-in[aria-label=\"t\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-9:covered-target:button.tile.pop-in[aria-label=\"d\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-9:covered-target:button.tile.pop-in[aria-label=\"n\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-9:covered-target:button.tile.pop-in[aria-label=\"p\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-9:covered-target:button.tile.pop-in[aria-label=\"m\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-11:covered-target:button.tile.pop-in[aria-label=\"ck\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-11:covered-target:button.tile.pop-in[aria-label=\"m\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w6-11:covered-target:button.tile.pop-in[aria-label=\"p\"]": {
+   "group": "bot:covered-target:button.tile.pop-in[label]",
+   "cluster": "c10",
+   "childFacing": 0.73,
+   "impact": 0.95,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w3-4:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c14",
+   "childFacing": 0.72,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-3:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c13",
+   "childFacing": 0.84,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-6:tiny-target:button.btn-round[aria-label=\"Hear the word\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c13",
+   "childFacing": 0.84,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w6-3:tiny-target:button.btn-round[aria-label=\"Hear the word\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c13",
+   "childFacing": 0.84,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w6-7:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c13",
+   "childFacing": 0.84,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w6-10:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c13",
+   "childFacing": 0.84,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-3:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c13",
+   "childFacing": 0.81,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w6-10:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c13",
+   "childFacing": 0.81,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:title:tiny-target:button.btn-round.go[aria-label=\"Start\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c13",
+   "childFacing": 0.81,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:map:tiny-target:button.pop-in[aria-label=\"level w1-5\"]": {
+   "group": "bot:tiny-target:button.pop-in[label]",
+   "cluster": "c14",
+   "childFacing": 0.73,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker mat\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker sit\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker at\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker am\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker it\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker sat\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker man\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker pan\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker nap\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker tap\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker map\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:div[aria-label=\"sticker pin\"]": {
+   "group": "bot:covered-target:div[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:button.btn-round[aria-label=\"next page\"]": {
+   "group": "bot:covered-target:button.btn-round[label]",
+   "cluster": "c17",
+   "childFacing": 0.71,
+   "impact": 0.96,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:book:covered-target:button.btn-round.sm[aria-label=\"back\"]": {
+   "group": "bot:covered-target:button.btn-round.sm[label]",
+   "cluster": "c17",
+   "childFacing": 0.72,
+   "impact": 0.84,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:grownups:offscreen:button": {
+   "group": "bot:offscreen:button",
+   "cluster": "c18",
+   "childFacing": 0.51,
+   "impact": 0.84,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-2:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-1:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-2:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-3:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-4:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-5:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-6:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-7:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-8:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-9:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-10:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w6-11:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ": {
+   "group": "bot:console-error:%o\n\n%s\n\n%s\n TypeError: Cannot read properties of undefined (reading 'levels')\n  ",
+   "cluster": "c20",
+   "childFacing": 0.2,
+   "impact": 0.68,
+   "area": "crash",
+   "severity": "polish"
+  },
+  "bot:w5-2:crash-screen:body": {
+   "group": "bot:crash-screen:body",
+   "cluster": "c20",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker"
+  },
+  "bot:w6-1:crash-screen:body": {
+   "group": "bot:crash-screen:body",
+   "cluster": "c20",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker"
+  },
+  "bot:w6-5:crash-screen:body": {
+   "group": "bot:crash-screen:body",
+   "cluster": "c20",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker"
+  },
+  "bot:w6-6:crash-screen:body": {
+   "group": "bot:crash-screen:body",
+   "cluster": "c20",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker"
+  },
+  "bot:w6-7:crash-screen:body": {
+   "group": "bot:crash-screen:body",
+   "cluster": "c20",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker"
+  },
+  "bot:w6-8:crash-screen:body": {
+   "group": "bot:crash-screen:body",
+   "cluster": "c20",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker"
+  },
+  "bot:w6-6:monkey-crash:crash screen": {
+   "group": "bot:monkey-crash:crash screen",
+   "cluster": "c21",
+   "childFacing": 0.63,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker"
+  }
+ }
+}

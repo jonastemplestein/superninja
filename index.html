@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8d9c0" />
+    <title>Super Ninja: a phonics adventure for UK children aged 3–8</title>
+    <meta name="description" content="Super Ninja is a phonics video game for British children aged 3–8. Rescue the 44 sounds of English, spell magic spells, beat Baron Muddle and read real stories. Play on any phone, tablet or computer." />
+    <link rel="canonical" href="https://superninja.templestein.com/" />
+    <meta property="og:type" content="video.other" />
+    <meta property="og:site_name" content="Super Ninja" />
+    <meta property="og:url" content="https://superninja.templestein.com/" />
+    <meta property="og:title" content="Super Ninja: rescue the sounds, learn to read" />
+    <meta property="og:description" content="A phonics adventure for UK children aged 3–8. Spell magic spells, beat Baron Muddle, read real stories." />
+    <meta property="og:image" content="https://superninja.templestein.com/media/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Super Ninja: two young ninjas leap past the Great Blossom Tree as Baron Muddle looms in a storm" />
+    <!-- SHARE_VIDEO: the film used for link previews (the trailer: public/media/trailer.mp4 is the 720p web encode, masters in assets-src/trailer/out; see docs/TRAILER.md) -->
+    <meta property="og:video" content="https://superninja.templestein.com/media/trailer.mp4" />
+    <meta property="og:video:secure_url" content="https://superninja.templestein.com/media/trailer.mp4" />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1280" />
+    <meta property="og:video:height" content="720" />
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:title" content="Super Ninja: rescue the sounds, learn to read" />
+    <meta name="twitter:description" content="A phonics adventure for UK children aged 3–8. Spell magic spells, beat Baron Muddle." />
+    <meta name="twitter:image" content="https://superninja.templestein.com/media/trailer-poster.jpg" />
+    <meta name="twitter:player" content="https://superninja.templestein.com/watch/?v=trailer" />
+    <meta name="twitter:player:width" content="1280" />
+    <meta name="twitter:player:height" content="720" />
+    <meta name="twitter:player:stream" content="https://superninja.templestein.com/media/trailer.mp4" />
+    <meta name="twitter:player:stream:content_type" content="video/mp4" />
+    <!-- /SHARE_VIDEO -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,500..800,100;1,9..144,500..700,100&family=Luckiest+Guy&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="/media/landing/hero-portrait.webp" media="(max-width: 899px)" />
+    <link rel="preload" as="image" href="/media/landing/hero-wide.webp" media="(min-width: 900px)" />
+    <link rel="stylesheet" href="/landing/landing.css" />
+    <script>
+      // Opened from the home-screen icon? Go straight into the game.
+      if (matchMedia("(display-mode: standalone), (display-mode: fullscreen)").matches || navigator.standalone) location.replace("/play/");
+    </script>
+  </head>
+  <body>
+    <!-- top bar: only the sound button over the hero sky; brand + Play appear on a paper bar once you scroll -->
+    <div class="bar" id="bar">
+      <a class="bar-brand" href="#top" tabindex="-1">Super Ninja</a>
+      <button id="sound" class="sound-btn" aria-label="Sound on or off" aria-pressed="false">
+        <svg viewBox="0 0 24 24" class="s-on" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M16 8.5c1.5 1.5 1.5 5.5 0 7M18.5 6c3 3 3 9 0 12" fill="none" /></svg>
+        <svg viewBox="0 0 24 24" class="s-off" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" /><path d="M17 9l5 6M22 9l-5 6" fill="none" /></svg>
+        <span class="s-label"></span>
+      </button>
+      <a class="bar-play" href="/play/" tabindex="-1">Play now</a>
+    </div>
+
+    <!-- ============ HERO ============ -->
+    <header class="hero" id="top">
+      <picture class="hero-art">
+        <source media="(min-width: 900px), (orientation: landscape) and (min-width: 600px) and (max-height: 540px)" srcset="/media/landing/hero-wide.webp" />
+        <img src="/media/landing/hero-portrait.webp" alt="Kai and Suki leap for glowing petals by the Great Blossom Tree while Sensei Maple cheers and Baron Muddle glowers from a storm cloud" fetchpriority="high" />
+      </picture>
+      <canvas id="petals" aria-hidden="true"></canvas>
+      <div class="hero-copy">
+        <div class="hero-title">
+          <h1 class="logo"><span class="l1">Super</span> <span class="l2">Ninja</span></h1>
+          <p class="tagline">A phonics adventure for children aged&nbsp;3&nbsp;to&nbsp;8</p>
+        </div>
+        <div class="hero-more">
+          <p class="lede">Baron Muddle has blown every sound in the land off the Great Blossom Tree. Only a Super Ninja can win them back, <em>one sound at a time.</em></p>
+          <div class="cta-row">
+            <a class="btn btn-go" href="/play/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" /></svg>Play now</a>
+            <a class="btn-link" href="#film"><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" /></svg></span>Watch the story</a>
+          </div>
+          <ul class="promises"><li>Proper British sounds</li><li>44 sounds, every spelling</li><li>Phones, tablets, computers</li></ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ STORY (night) ============ -->
+    <section class="story night torn" id="story">
+      <div class="wrap story-grid">
+        <figure class="story-art reveal"><img loading="lazy" src="/media/landing/baron-night.webp" alt="Baron Muddle flaps his fan under the moon, blowing the glowing petals off the Great Blossom Tree" /></figure>
+        <div class="story-copy reveal">
+          <p class="kicker">Chapter one</p>
+          <h2>The Island of Sounds</h2>
+          <p class="dropcap">On the Island of Sounds grows a Great Blossom Tree. Every petal on it is a <em>sound</em>. With sounds, the islanders made words, and with words, stories.</p>
+          <p>Then came <b>Baron Muddle</b>. <em>“Words, words, words! Too much NOISE!”</em> One flap of his fan and every sound was scattered across the island.</p>
+          <p>Now nobody can read. The island needs a hero. <b>It needs your child.</b></p>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="film reveal" id="film">
+          <video id="film-video" data-film="/media/intro_film.mp4" poster="/media/landing/film-poster.webp" playsinline preload="none"></video>
+          <button class="film-play" type="button" aria-label="Play the story film with sound">
+            <span class="film-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" /></svg></span>
+            <span class="film-label"><b>Watch the story</b><span>47 seconds · sound on</span></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CAST ============ -->
+    <section class="cast-sec torn alt">
+      <div class="wrap">
+        <p class="kicker">Heroes, helpers &amp; a villain</p>
+        <h2>Meet the cast</h2>
+        <div class="cast">
+          <figure class="reveal"><div class="duo"><img src="/a/i/hero_kai_jump.webp" alt="Kai" loading="lazy" /><img src="/a/i/hero_suki_jump.webp" alt="Suki" loading="lazy" /></div><figcaption><b>Kai &amp; Suki</b>Pick your ninja. Brave, bouncy and armed with letter tiles.</figcaption></figure>
+          <figure class="reveal"><img src="/a/i/sensei_talk.webp" alt="Sensei Maple" loading="lazy" /><figcaption><b>Sensei Maple</b>A 300-year-old red panda who says every sound and every word. Stuck? Tap Sensei.</figcaption></figure>
+          <figure class="reveal"><img src="/a/i/baron_idle.webp" alt="Baron Muddle" loading="lazy" /><figcaption><b>Baron Muddle</b>Hates noise. Loves muddle. Secretly rather lonely.</figcaption></figure>
+          <figure class="reveal"><img src="/a/i/mon_boss_yeti.webp" alt="A yeti Muddling" loading="lazy" /><figcaption><b><span data-stat="muddlings">18</span> Muddlings</b>Gloops, crabs, yetis, a river dragon and one very grumpy sumo panda.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT PLAYS ============ -->
+    <section class="play torn" id="play">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker"><span data-stat="worlds">6</span> worlds · <span data-stat="levels">54</span> levels · <span data-stat="words">412</span> words</p>
+          <h2>Every move is a reading move</h2>
+          <p class="sec-lede">No bolted-on quiz. Hearing sounds, blending, spelling and reading <em>are</em> the controls.</p>
+        </div>
+        <div class="modes" tabindex="0" aria-label="Six ways to play. On a phone, swipe sideways.">
+          <article class="mode reveal">
+            <div class="screen"><video data-src="/media/clips/battle.mp4" poster="/media/clips/battle.jpg" muted loop playsinline></video></div>
+            <h3>Spell Battles</h3>
+            <p>A Muddling blocks the path. Sensei says a word; tap its sounds in order and every right one throws a shuriken. <i>Kaboom.</i></p>
+            <p class="note"><b>For grown-ups:</b> dictation. Segmenting a spoken word and choosing a spelling for each sound.</p>
+          </article>
+          <article class="mode reveal">
+            <div class="screen"><video data-src="/media/clips/run.mp4" poster="/media/clips/run.jpg" muted loop playsinline></video></div>
+            <h3>Ninja Run</h3>
+            <p>Leap the crates, grab the petals and listen: “c… a… t”. Catch the lantern that says <i>cat</i> before it floats away.</p>
+            <p class="note"><b>For grown-ups:</b> blending separate sounds into a written word.</p>
+          </article>
+          <article class="mode reveal">
+            <div class="screen"><video data-src="/media/clips/dojo.mp4" poster="/media/clips/dojo.jpg" muted loop playsinline></video></div>
+            <h3>The Dojo</h3>
+            <p>New sounds, sound-first: hear it, say it, then see how it’s written. Then build real words, tile by tile.</p>
+            <p class="note"><b>For grown-ups:</b> new sound–spelling links, in the order children meet them at school.</p>
+          </article>
+          <article class="mode reveal">
+            <div class="screen"><video data-src="/media/clips/swap.mp4" poster="/media/clips/swap.jpg" muted loop playsinline></video></div>
+            <h3>Sound Swap</h3>
+            <p>The Baron has muddled the words! Change one sound at a time: <i>tin → tan → pan → pat</i>.</p>
+            <p class="note"><b>For grown-ups:</b> phoneme manipulation, a strong predictor of reading success.</p>
+          </article>
+          <article class="mode reveal">
+            <div class="screen"><video data-src="/media/clips/story.mp4" poster="/media/landing/poster-story.webp" muted loop playsinline></video></div>
+            <h3>Stories you read together</h3>
+            <p>Sensei reads the exciting bits and your child reads the rest, using only sounds they’ve learned. <span data-stat="stories">6</span> stories to unlock.</p>
+            <p class="note"><b>For grown-ups:</b> fully decodable text, with sound buttons under every spelling.</p>
+          </article>
+          <article class="mode reveal">
+            <div class="screen"><video data-src="/media/clips/boss.mp4" poster="/media/landing/poster-boss.webp" muted loop playsinline></video></div>
+            <h3>Boss Battles</h3>
+            <p>Every land ends with a big one: a sumo panda, a one-horned oni, a roaring yeti, a river dragon… and finally the Baron himself.</p>
+            <p class="note"><b>For grown-ups:</b> a mixed review of everything taught in that land.</p>
+          </article>
+        </div>
+        <p class="swipe-hint" aria-hidden="true">Swipe for all six <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></p>
+      </div>
+    </section>
+
+    <!-- ============ SOUND FLOWER ============ -->
+    <section class="flower torn alt" id="flower">
+      <div class="wrap flower-grid">
+        <figure class="flower-art reveal"><img loading="lazy" src="/media/landing/sound-flower.webp" alt="Sensei Maple gazes up at the glowing Sound Flower, its jewel-coloured petals set with gems" /></figure>
+        <div class="flower-copy reveal">
+          <p class="kicker">The big goal</p>
+          <h2>Grow the Sound Flower</h2>
+          <p>English has <b><span data-stat="sounds">44</span> sounds</b>, and most can be spelt more than one way. The sound in <i>rain</i> can be <span class="g">ai</span> <span class="g">ay</span> <span class="g">a‑e</span> <span class="g">eigh</span>…</p>
+          <p>So every sound is a <b>petal</b>, and every spelling is a <b>gem</b> inside it.</p>
+          <ol class="steps">
+            <li><span>1</span><div><b>Charge it.</b> Use a spelling correctly, in any game, and its gem fills with ninja energy.</div></li>
+            <li><span>2</span><div><b>Prove it.</b> A full gem glows. Win it in a Gem Trial. The timer only appears once a child is ready.</div></li>
+            <li><span>3</span><div><b>Bloom it.</b> Win every gem and the petal joins the flower. Complete it, and you’ve cracked the code of English.</div></li>
+          </ol>
+        </div>
+      </div>
+      <div class="wrap flower-media">
+        <figure class="reveal"><div class="screen"><video data-src="/media/clips/flower.mp4" poster="/media/clips/flower.jpg" muted loop playsinline></video></div><figcaption>One teardrop petal per sound, just like the chart from school.</figcaption></figure>
+        <figure class="reveal"><div class="screen"><video data-src="/media/clips/trial.mp4" poster="/media/clips/trial.jpg" muted loop playsinline></video></div><figcaption>A Gem Trial: spell it to win it.</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- ============ LITTLE HANDS ============ -->
+    <section class="hands torn">
+      <div class="wrap hands-grid">
+        <figure class="hands-art reveal"><img loading="lazy" src="/media/landing/reading-together.webp" alt="Sensei Maple reads a picture book with Kai and Suki under a blossom tree" /></figure>
+        <div class="hands-copy">
+          <p class="kicker">Built for children who can’t read yet</p>
+          <h2>No reading needed to play</h2>
+          <ul class="points">
+            <li class="reveal"><img src="/a/i/sensei_cheer.webp" alt="" loading="lazy" /><div><b>Sensei is always there.</b> Tap him once and he says what to do. Again for a clue. Again and he shows the way.</div></li>
+            <li class="reveal"><img src="/a/i/item_gong.webp" alt="" loading="lazy" /><div><b>Ninja Training first.</b> Two minutes teach every control before the adventure starts.</div></li>
+            <li class="reveal"><img src="/a/i/item_star.webp" alt="" loading="lazy" /><div><b>Starts at the right level.</b> A quick “Show Sensei” game finds what your child already knows.</div></li>
+            <li class="reveal"><img src="/a/i/item_heart.webp" alt="" loading="lazy" /><div><b>Kind by design.</b> No timers until they’re earned. Mistakes get a gentle, specific correction, never a buzzer.</div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GROWN-UPS ============ -->
+    <section class="grownups torn alt" id="grownups">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker">For parents &amp; teachers</p>
+          <h2>Serious phonics, dressed as a&nbsp;ninja</h2>
+        </div>
+        <div class="letter">
+          <div class="reveal">
+            <h3>How it teaches</h3>
+            <ul class="ticks">
+              <li><b>Sounds first.</b> Letters are taught as ways of <i>writing sounds</i>: linguistic phonics.</li>
+              <li><b>Pure British sounds.</b> Southern British English, “mmm” not “muh”, every recording checked by an automated listener.</li>
+              <li><b>Both directions.</b> Reading and spelling are tracked separately for every spelling.</li>
+              <li><b>The school order.</b> Initial Code, then Extended Code, in the order Sounds~Write schools use.</li>
+              <li><b>No mnemonics.</b> No letter mascots, songs or actions. Just sounds and spellings.</li>
+              <li><b>Spaced review.</b> Tricky spellings return in “Sensei’s Challenge” until they stick.</li>
+              <li><b>Short sessions.</b> After about 18 minutes, Sensei suggests reading a real book together.</li>
+            </ul>
+          </div>
+          <div class="reveal">
+            <h3>Made for Sounds~Write schools</h3>
+            <p>Many UK primary schools teach reading with <a href="https://sounds-write.co.uk/" target="_blank" rel="noopener">Sounds~Write</a>. Super Ninja was built to sit alongside it at home: same sounds, same order, same language (“say the sounds, read the word”). A grown-ups area shows exactly which spellings your child can read and spell.</p>
+            <p class="small">Super Ninja is an independent project. It is not made, endorsed or approved by Sounds-Write Ltd. Sounds~Write is their registered trade mark.</p>
+            <h3>Private by design</h3>
+            <p>No analytics or tracking. Each child's progress is saved only on your device.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INSTALL ============ -->
+    <section class="install torn">
+      <div class="wrap install-grid">
+        <img class="reveal install-kai" src="/a/i/hero_kai_cheer.webp" alt="" loading="lazy" />
+        <div class="reveal">
+          <h2>Make it an app in 10&nbsp;seconds</h2>
+          <p>For full-screen play with no browser bars:</p>
+          <ol class="steps">
+            <li><span>1</span><div>Open this page in <b>Safari</b> (iPhone, iPad) or <b>Chrome</b> (Android).</div></li>
+            <li><span>2</span><div>Tap <b>Share</b> <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 12v8h14v-8" /></svg> then <b>Add to Home Screen</b>. On Android: <b>⋮</b> then <b>Install app</b>.</div></li>
+            <li><span>3</span><div>Open <b>Super Ninja</b> from your home screen and hold the phone sideways.</div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="faq torn alt">
+      <div class="wrap narrow">
+        <h2>Questions</h2>
+        <details><summary>What age is it for?</summary><p>3 to 8: from pre-school through Reception, Year 1 and Year 2 (and beyond for extra practice). The first land starts with five single sounds (a, i, m, s, t). The last reaches the long vowel spellings children meet in Year 1.</p></details>
+        <details><summary>Does my child need to read already?</summary><p>No. Everything is spoken aloud, and Ninja Training teaches the controls before the adventure begins.</p></details>
+        <details><summary>What devices does it work on?</summary><p>Any recent phone, tablet or computer with a modern browser. It’s designed for phones held sideways, and a keyboard works too: type the letters.</p></details>
+        <details><summary>Our school doesn’t use Sounds~Write. Is it still useful?</summary><p>Yes. The sounds and spellings are the same for every synthetic phonics programme. The order and language follow Sounds~Write, so other schemes may teach some sounds in a different order. You can unlock every level from the grown-ups area (hold the gear button).</p></details>
+        <details><summary>Does it work offline?</summary><p>Once you’ve played a level, its pictures and sounds are saved on your device, so it keeps working on car journeys.</p></details>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="finale">
+      <picture class="finale-art"><img loading="lazy" src="/media/landing/finale.webp" alt="Kai, Suki and Sensei Maple cheer as the Great Blossom Tree blooms again at sunrise" /></picture>
+      <div class="finale-card">
+        <h2>The sounds won’t rescue themselves.</h2>
+        <a class="btn btn-go btn-huge" href="/play/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" /></svg>Play Super Ninja</a>
+        <p>Any phone, tablet or computer</p>
+      </div>
+    </section>
+
+    <footer>
+      <p class="films">Films: <a href="/watch/?v=trailer">The trailer</a> · <a href="/watch/?v=story">The story (intro film)</a> · <a href="/media/trailer.mp4" download>trailer.mp4</a> · <a href="/media/intro_film.mp4" download>story.mp4</a></p>
+      <p>Super Ninja <span id="ver"></span> · Made in the UK for British readers · <a href="https://sounds-write.co.uk/" target="_blank" rel="noopener">About Sounds~Write</a></p>
+    </footer>
+
+    <script type="module" src="/landing/landing.ts"></script>
+  </body>
+</html>

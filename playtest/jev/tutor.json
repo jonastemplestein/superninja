@@ -1,0 +1,433 @@
+{
+ "generated": "2026-09-25T21:12:29.721Z",
+ "usage": {
+  "model": "jev-1.13.0",
+  "calls": 120,
+  "retries": 0,
+  "inputTokens": 288676,
+  "outputTokens": 22226,
+  "usd": 0.012124,
+  "p50ms": 482,
+  "p95ms": 936,
+  "wallMs": 2053
+ },
+ "variantsPerArchetype": 6,
+ "accuracy": {
+  "raw": {
+   "guessing": 0.7,
+   "offerBreak": 0.9,
+   "next": 0.5,
+   "reteach": 0.72
+  },
+  "withFeatures": {
+   "guessing": 0.7,
+   "offerBreak": 0.9,
+   "next": 0.67,
+   "reteach": 0.6
+  },
+  "heuristic": {
+   "guessing": 0.82,
+   "offerBreak": 0.9,
+   "next": 0.62,
+   "reteach": 0.6
+  }
+ },
+ "brier": {
+  "raw": {
+   "guessing": 0.19,
+   "offerBreak": 0.09
+  },
+  "withFeatures": {
+   "guessing": 0.16,
+   "offerBreak": 0.08
+  }
+ },
+ "byKind": {
+  "secure": {
+   "truth": {
+    "guessing": false,
+    "offerBreak": false,
+    "next": [
+     "harder"
+    ],
+    "reteach": "none"
+   },
+   "raw": {
+    "guessingP": 0.12,
+    "breakP": 0.14,
+    "next": "same,harder,same,same,same,same",
+    "reteach": "none,none,none,none,none,none",
+    "mastery": 2.42
+   },
+   "withFeatures": {
+    "guessingP": 0.08,
+    "breakP": 0.09,
+    "next": "harder,harder,same,same,same,same",
+    "reteach": "none,none,none,none,t,none",
+    "mastery": 2.52
+   },
+   "heuristic": "-- jump none | -- jump none | -- jump none | -- jump none | -- same none | -- jump none"
+  },
+  "guesser": {
+   "truth": {
+    "guessing": true,
+    "offerBreak": false,
+    "next": [
+     "remodel",
+     "easier"
+    ],
+    "reteach": "none"
+   },
+   "raw": {
+    "guessingP": 0.29,
+    "breakP": 0.27,
+    "next": "same,same,same,remodel,same,same",
+    "reteach": "none,none,p,none,none,none",
+    "mastery": 1.05
+   },
+   "withFeatures": {
+    "guessingP": 0.3,
+    "breakP": 0.14,
+    "next": "same,same,same,remodel,remodel,remodel",
+    "reteach": "o,t,none,none,m,t",
+    "mastery": 0.81
+   },
+   "heuristic": "G- same none | G- easier t | G- same none | G- easier t | G- easier a | G- easier t"
+  },
+  "left_bias": {
+   "truth": {
+    "guessing": true,
+    "offerBreak": false,
+    "next": [
+     "remodel",
+     "easier"
+    ],
+    "reteach": "none"
+   },
+   "raw": {
+    "guessingP": 0.26,
+    "breakP": 0.26,
+    "next": "remodel,same,same,same,same,same",
+    "reteach": "s,none,none,none,p,none",
+    "mastery": 1.07
+   },
+   "withFeatures": {
+    "guessingP": 0.38,
+    "breakP": 0.15,
+    "next": "remodel,same,same,same,same,same",
+    "reteach": "none,t,none,i,o,t",
+    "mastery": 1
+   },
+   "heuristic": "-- easier t | -- same t | -- same none | -- harder i | -- easier t | -- easier t"
+  },
+  "o_confusion": {
+   "truth": {
+    "guessing": false,
+    "offerBreak": false,
+    "next": [
+     "same",
+     "remodel"
+    ],
+    "reteach": "o"
+   },
+   "raw": {
+    "guessingP": 0.17,
+    "breakP": 0.2,
+    "next": "same,same,same,same,same,same",
+    "reteach": "p,p,o,none,p,none",
+    "mastery": 1.63
+   },
+   "withFeatures": {
+    "guessingP": 0.11,
+    "breakP": 0.13,
+    "next": "same,same,same,same,same,same",
+    "reteach": "p,o,none,none,o,o",
+    "mastery": 1.55
+   },
+   "heuristic": "-- same none | -- same none | -- same n | -- harder none | -- harder none | -- same o"
+  },
+  "fatigue": {
+   "truth": {
+    "guessing": false,
+    "offerBreak": true,
+    "next": [
+     "easier",
+     "same"
+    ],
+    "reteach": "none"
+   },
+   "raw": {
+    "guessingP": 0.17,
+    "breakP": 0.83,
+    "next": "same,same,same,same,same,same",
+    "reteach": "none,none,p,s,none,none",
+    "mastery": 1.37
+   },
+   "withFeatures": {
+    "guessingP": 0.12,
+    "breakP": 0.89,
+    "next": "same,same,same,same,same,same",
+    "reteach": "p,n,none,t,none,none",
+    "mastery": 1.35
+   },
+   "heuristic": "-B same none | -B same n | -B same none | -B same none | -B same none | -B same none"
+  },
+  "struggling": {
+   "truth": {
+    "guessing": false,
+    "offerBreak": false,
+    "next": [
+     "easier",
+     "remodel"
+    ],
+    "reteach": "none"
+   },
+   "raw": {
+    "guessingP": 0.31,
+    "breakP": 0.31,
+    "next": "same,same,remodel,remodel,remodel,same",
+    "reteach": "a,none,none,p,none,p",
+    "mastery": 0.83
+   },
+   "withFeatures": {
+    "guessingP": 0.21,
+    "breakP": 0.22,
+    "next": "same,same,remodel,remodel,remodel,remodel",
+    "reteach": "t,none,s,none,t,none",
+    "mastery": 0.48
+   },
+   "heuristic": "-- easier t | -- easier none | -- easier a | -- easier p | -- easier t | -- easier t"
+  },
+  "too_easy": {
+   "truth": {
+    "guessing": false,
+    "offerBreak": false,
+    "next": [
+     "jump",
+     "harder"
+    ],
+    "reteach": "none"
+   },
+   "raw": {
+    "guessingP": 0.09,
+    "breakP": 0.1,
+    "next": "same,same,same,same,same,same",
+    "reteach": "none,none,none,none,none,none",
+    "mastery": 2.95
+   },
+   "withFeatures": {
+    "guessingP": 0.07,
+    "breakP": 0.06,
+    "next": "harder,harder,harder,harder,harder,harder",
+    "reteach": "none,none,none,none,none,none",
+    "mastery": 2.87
+   },
+   "heuristic": "-- jump none | -- jump none | -- jump none | -- jump none | -- jump none | -- jump none"
+  },
+  "improving": {
+   "truth": {
+    "guessing": false,
+    "offerBreak": false,
+    "next": [
+     "same",
+     "harder"
+    ],
+    "reteach": "none"
+   },
+   "raw": {
+    "guessingP": 0.21,
+    "breakP": 0.13,
+    "next": "same,same,same,same,same,same",
+    "reteach": "none,none,none,none,none,s",
+    "mastery": 1.62
+   },
+   "withFeatures": {
+    "guessingP": 0.14,
+    "breakP": 0.1,
+    "next": "same,same,same,same,same,same",
+    "reteach": "none,none,m,none,t,none",
+    "mastery": 1.46
+   },
+   "heuristic": "-- harder none | -- harder none | -- harder none | -- harder none | -- harder none | -- harder t"
+  },
+  "frustrated": {
+   "truth": {
+    "guessing": true,
+    "offerBreak": true,
+    "next": [
+     "easier",
+     "remodel"
+    ],
+    "reteach": "none"
+   },
+   "raw": {
+    "guessingP": 0.26,
+    "breakP": 0.36,
+    "next": "same,same,same,same,same,same",
+    "reteach": "none,none,p,none,p,none",
+    "mastery": 1.25
+   },
+   "withFeatures": {
+    "guessingP": 0.26,
+    "breakP": 0.2,
+    "next": "same,same,same,same,same,same",
+    "reteach": "none,none,p,s,o,s",
+    "mastery": 1.18
+   },
+   "heuristic": "-- same none | -- same none | G- easier p | -- same none | -- same none | -- same a"
+  },
+  "new_p": {
+   "truth": {
+    "guessing": false,
+    "offerBreak": false,
+    "next": [
+     "same",
+     "remodel"
+    ],
+    "reteach": "p"
+   },
+   "raw": {
+    "guessingP": 0.24,
+    "breakP": 0.31,
+    "next": "remodel,same,remodel,same,same,same",
+    "reteach": "p,p,p,p,none,p",
+    "mastery": 1.02
+   },
+   "withFeatures": {
+    "guessingP": 0.18,
+    "breakP": 0.19,
+    "next": "remodel,same,remodel,same,same,same",
+    "reteach": "p,p,p,p,p,p",
+    "mastery": 0.88
+   },
+   "heuristic": "-- easier p | -- easier p | -- easier p | -- easier p | -- same none | -- easier p"
+  }
+ },
+ "example": {
+  "state": {
+   "child": "4-year-old",
+   "level": "Bamboo Village w1-11: reading two-choice 'who read it right?' and first-sound items",
+   "soundsTaught": [
+    "s",
+    "a",
+    "t",
+    "i",
+    "m",
+    "n",
+    "o",
+    "p"
+   ],
+   "newestSound": "p (and o)",
+   "summary": {
+    "accuracyAll": 0.95,
+    "accuracyFirst10": 0.9,
+    "accuracyLast10": 1,
+    "medianMsFirst10": 3288,
+    "medianMsLast10": 3527,
+    "fastAnswersUnder1s": 0,
+    "shareOfTapsOnLeftOption": 0.45,
+    "sessionMinutes": 4.76,
+    "errorsBySound": {
+     "o": "1/6",
+     "t": "1/11",
+     "n": "1/11"
+    }
+   },
+   "attempts": [
+    {
+     "n": 1,
+     "minute": 2.26,
+     "game": "first-sound",
+     "target": "pop",
+     "options": [
+      "pop",
+      "pip"
+     ],
+     "picked": "pop",
+     "ok": true,
+     "ms": 3228
+    },
+    {
+     "n": 2,
+     "minute": 2.39,
+     "game": "read",
+     "target": "at",
+     "options": [
+      "at",
+      "it"
+     ],
+     "picked": "at",
+     "ok": true,
+     "ms": 3093
+    },
+    {
+     "n": 3,
+     "minute": 2.53,
+     "game": "first-sound",
+     "target": "an",
+     "options": [
+      "on",
+      "an"
+     ],
+     "picked": "an",
+     "ok": true,
+     "ms": 3731
+    }
+   ]
+  },
+  "questions": {
+   "guessing": {
+    "type": "noul",
+    "instructions": "Is the child mostly guessing (tapping without really listening or reading: very fast answers near chance, always tapping the same side, or rapid taps after mistakes) rather than genuinely trying?",
+    "criteria": {
+     "true": "mostly guessing",
+     "false": "genuinely listening or reading, even if they make mistakes"
+    }
+   },
+   "offerBreak": {
+    "type": "noul",
+    "instructions": "Should Sensei gently offer a break now? Signs: a long session (over about 10-12 minutes for a 4-year-old) together with slowing down and more mistakes than earlier, or signs of frustration.",
+    "criteria": {
+     "true": "offer a break now",
+     "false": "keep playing"
+    }
+   },
+   "next": {
+    "type": "choice",
+    "instructions": "What should the next few items be?",
+    "criteria": {
+     "harder": "move on to harder items or the next level",
+     "same": "keep practising at this level",
+     "easier": "make it easier: fewer choices or easier words",
+     "remodel": "stop and show a worked example again ('watch me'), then try together",
+     "jump": "skip ahead: this is far too easy"
+    }
+   },
+   "reteach": {
+    "type": "choice",
+    "instructions": "Is there ONE sound the child keeps getting wrong that Sensei should re-teach? Only choose a sound if the mistakes concentrate on it; otherwise none.",
+    "criteria": {
+     "none": "no single sound stands out",
+     "a": "the sound /a/",
+     "i": "the sound /i/",
+     "m": "the sound /m/",
+     "s": "the sound /s/",
+     "t": "the sound /t/",
+     "n": "the sound /n/",
+     "o": "the sound /o/",
+     "p": "the sound /p/"
+    }
+   },
+   "mastery": {
+    "type": "score",
+    "instructions": "How secure is the child on this level's reading?",
+    "criteria": [
+     "not yet",
+     "emerging",
+     "nearly secure",
+     "secure"
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,3041 @@
+{
+ "generated": "2026-09-25T21:32:51.497Z",
+ "run": "playtest/runs/2026-09-25-21-21-38",
+ "usage": {
+  "model": "jev-1.13.0",
+  "calls": 200,
+  "retries": 0,
+  "inputTokens": 138629,
+  "outputTokens": 10250,
+  "usd": 0.005822,
+  "p50ms": 398,
+  "p95ms": 504,
+  "wallMs": 5539
+ },
+ "input": {
+  "files": [
+   "sweep.json"
+  ],
+  "findings": 98,
+  "groups": 50,
+  "pairsAsked": 150,
+  "pairsSkipped": 1075
+ },
+ "clusters": [
+  {
+   "id": "c49",
+   "title": "tiny-target: div[aria-label=\"petal ae\"]",
+   "groups": [
+    "bot:tiny-target:div[label]"
+   ],
+   "findings": 32,
+   "cases": [
+    "tree"
+   ],
+   "impact": 0.81,
+   "childFacing": 0.81,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c31",
+   "title": "tiny-target: button.btn-round.go[aria-label=\"Next\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round.go[label]"
+   ],
+   "findings": 2,
+   "cases": [
+    "w5-4",
+    "w5-3"
+   ],
+   "impact": 0.79,
+   "childFacing": 0.81,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c44",
+   "title": "tiny-target: button(\"is\")",
+   "groups": [
+    "bot:tiny-target:button(\"is\")",
+    "bot:tiny-target:button(\"a\")",
+    "bot:tiny-target:button(\"It\")",
+    "bot:tiny-target:button(\"on\")",
+    "bot:tiny-target:button(\"to\")",
+    "bot:tiny-target:button(\"in\")",
+    "bot:tiny-target:button(\"sit\")",
+    "bot:tiny-target:button(\"He\")",
+    "bot:tiny-target:button(\"map\")",
+    "bot:tiny-target:button(\"his\")"
+   ],
+   "findings": 19,
+   "cases": [
+    "w1-14",
+    "w2-7",
+    "w3-11",
+    "w5-10",
+    "w6-10",
+    "w4-8"
+   ],
+   "impact": 0.75,
+   "childFacing": 0.79,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c26",
+   "title": "tiny-target: button(\"I\")",
+   "groups": [
+    "bot:tiny-target:button(\"I\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.73,
+   "childFacing": 0.75,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c0",
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round[label]"
+   ],
+   "findings": 3,
+   "cases": [
+    "w1-4",
+    "w5-4",
+    "w5-3"
+   ],
+   "impact": 0.7,
+   "childFacing": 0.75,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c5",
+   "title": "tiny-target: button.btn-round.pulse[aria-label=\"Hear the sound\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round.pulse[label]"
+   ],
+   "findings": 4,
+   "cases": [
+    "w2-1",
+    "w3-1",
+    "w3-6",
+    "w5-1"
+   ],
+   "impact": 0.7,
+   "childFacing": 0.75,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c24",
+   "title": "tiny-target: button(\"Gran\")",
+   "groups": [
+    "bot:tiny-target:button(\"Gran\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.68,
+   "childFacing": 0.69,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c14",
+   "title": "tiny-target: button(\"yak\")",
+   "groups": [
+    "bot:tiny-target:button(\"yak\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "impact": 0.66,
+   "childFacing": 0.64,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c33",
+   "title": "tiny-target: button(\"chest\")",
+   "groups": [
+    "bot:tiny-target:button(\"chest\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.66,
+   "childFacing": 0.64,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c35",
+   "title": "tiny-target: button(\"black\")",
+   "groups": [
+    "bot:tiny-target:button(\"black\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.65,
+   "childFacing": 0.64,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c12",
+   "title": "tiny-target: button(\"Get\")",
+   "groups": [
+    "bot:tiny-target:button(\"Get\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "impact": 0.66,
+   "childFacing": 0.63,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c21",
+   "title": "tiny-target: button(\"must\")",
+   "groups": [
+    "bot:tiny-target:button(\"must\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.66,
+   "childFacing": 0.62,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c40",
+   "title": "tiny-target: button(\"went\")",
+   "groups": [
+    "bot:tiny-target:button(\"went\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.65,
+   "childFacing": 0.62,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c29",
+   "title": "tiny-target: button(\"Drift\")",
+   "groups": [
+    "bot:tiny-target:button(\"Drift\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.64,
+   "childFacing": 0.62,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c41",
+   "title": "tiny-target: button(\"click\")",
+   "groups": [
+    "bot:tiny-target:button(\"click\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.65,
+   "childFacing": 0.61,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c45",
+   "title": "tiny-target: button(\"own\")",
+   "groups": [
+    "bot:tiny-target:button(\"own\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "impact": 0.64,
+   "childFacing": 0.61,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c48",
+   "title": "tiny-target: button(\"grin\")",
+   "groups": [
+    "bot:tiny-target:button(\"grin\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "impact": 0.63,
+   "childFacing": 0.61,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c30",
+   "title": "tiny-target: button(\"drift\")",
+   "groups": [
+    "bot:tiny-target:button(\"drift\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.63,
+   "childFacing": 0.6,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c39",
+   "title": "tiny-target: button(\"lock\")",
+   "groups": [
+    "bot:tiny-target:button(\"lock\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.63,
+   "childFacing": 0.6,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c36",
+   "title": "tiny-target: button(\"rock\")",
+   "groups": [
+    "bot:tiny-target:button(\"rock\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.63,
+   "childFacing": 0.59,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c20",
+   "title": "tiny-target: button(\"Frog\")",
+   "groups": [
+    "bot:tiny-target:button(\"Frog\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.61,
+   "childFacing": 0.6,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c46",
+   "title": "tiny-target: button(\"sad\")",
+   "groups": [
+    "bot:tiny-target:button(\"sad\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "impact": 0.63,
+   "childFacing": 0.54,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c47",
+   "title": "tiny-target: button(\"can\")",
+   "groups": [
+    "bot:tiny-target:button(\"can\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "impact": 0.61,
+   "childFacing": 0.55,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c13",
+   "title": "tiny-target: button(\"Rex\")",
+   "groups": [
+    "bot:tiny-target:button(\"Rex\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "impact": 0.59,
+   "childFacing": 0.56,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c43",
+   "title": "tiny-target: button(\"sits\")",
+   "groups": [
+    "bot:tiny-target:button(\"sits\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "impact": 0.61,
+   "childFacing": 0.54,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c17",
+   "title": "tiny-target: button(\"not\")",
+   "groups": [
+    "bot:tiny-target:button(\"not\")"
+   ],
+   "findings": 2,
+   "cases": [
+    "w3-11",
+    "w6-10"
+   ],
+   "impact": 0.62,
+   "childFacing": 0.53,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c25",
+   "title": "tiny-target: button(\"and\")",
+   "groups": [
+    "bot:tiny-target:button(\"and\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.62,
+   "childFacing": 0.53,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c16",
+   "title": "tiny-target: button(\"bell\")",
+   "groups": [
+    "bot:tiny-target:button(\"bell\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "impact": 0.6,
+   "childFacing": 0.53,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c19",
+   "title": "tiny-target: button(\"him\")",
+   "groups": [
+    "bot:tiny-target:button(\"him\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "impact": 0.61,
+   "childFacing": 0.51,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c37",
+   "title": "tiny-target: button(\"Tap\")",
+   "groups": [
+    "bot:tiny-target:button(\"Tap\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.58,
+   "childFacing": 0.53,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c6",
+   "title": "tiny-target: button(\"Peg\")",
+   "groups": [
+    "bot:tiny-target:button(\"Peg\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "impact": 0.59,
+   "childFacing": 0.52,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c11",
+   "title": "tiny-target: button(\"den\")",
+   "groups": [
+    "bot:tiny-target:button(\"den\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "impact": 0.59,
+   "childFacing": 0.52,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c7",
+   "title": "tiny-target: button(\"the\")",
+   "groups": [
+    "bot:tiny-target:button(\"the\")"
+   ],
+   "findings": 2,
+   "cases": [
+    "w2-7",
+    "w4-8"
+   ],
+   "impact": 0.59,
+   "childFacing": 0.51,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c32",
+   "title": "tiny-target: button(\"The\")",
+   "groups": [
+    "bot:tiny-target:button(\"The\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.6,
+   "childFacing": 0.5,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c34",
+   "title": "tiny-target: button(\"big\")",
+   "groups": [
+    "bot:tiny-target:button(\"big\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.6,
+   "childFacing": 0.5,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c38",
+   "title": "tiny-target: button(\"tap\")",
+   "groups": [
+    "bot:tiny-target:button(\"tap\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "impact": 0.6,
+   "childFacing": 0.5,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c8",
+   "title": "tiny-target: button(\"hen\")",
+   "groups": [
+    "bot:tiny-target:button(\"hen\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "impact": 0.58,
+   "childFacing": 0.5,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c10",
+   "title": "tiny-target: button(\"fog\")",
+   "groups": [
+    "bot:tiny-target:button(\"fog\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "impact": 0.59,
+   "childFacing": 0.49,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c15",
+   "title": "tiny-target: button(\"His\")",
+   "groups": [
+    "bot:tiny-target:button(\"His\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "impact": 0.58,
+   "childFacing": 0.47,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c22",
+   "title": "tiny-target: button(\"get\")",
+   "groups": [
+    "bot:tiny-target:button(\"get\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.52,
+   "childFacing": 0.43,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c28",
+   "title": "tiny-target: button(\"log\")",
+   "groups": [
+    "bot:tiny-target:button(\"log\")"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "impact": 0.34,
+   "childFacing": 0.31,
+   "severity": "polish",
+   "area": "layout"
+  }
+ ],
+ "groups": [
+  {
+   "i": 0,
+   "key": "bot:tiny-target:button.btn-round[label]",
+   "cluster": 0,
+   "n": 3,
+   "cases": [
+    "w1-4",
+    "w5-4",
+    "w5-3"
+   ],
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 1,
+   "key": "bot:tiny-target:button(\"It\")",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "w1-14"
+   ],
+   "title": "tiny-target: button(\"It\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.73,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 2,
+   "key": "bot:tiny-target:button(\"is\")",
+   "cluster": 44,
+   "n": 5,
+   "cases": [
+    "w1-14",
+    "w2-7",
+    "w3-11",
+    "w5-10",
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"is\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.79,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 3,
+   "key": "bot:tiny-target:button(\"a\")",
+   "cluster": 44,
+   "n": 3,
+   "cases": [
+    "w1-14",
+    "w3-11",
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"a\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.79,
+   "impact": 0.74,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 4,
+   "key": "bot:tiny-target:button(\"map\")",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "w1-14"
+   ],
+   "title": "tiny-target: button(\"map\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.57,
+   "impact": 0.64,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 5,
+   "key": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": 5,
+   "n": 4,
+   "cases": [
+    "w2-1",
+    "w3-1",
+    "w3-6",
+    "w5-1"
+   ],
+   "title": "tiny-target: button.btn-round.pulse[aria-label=\"Hear the sound\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 6,
+   "key": "bot:tiny-target:button(\"Peg\")",
+   "cluster": 6,
+   "n": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "title": "tiny-target: button(\"Peg\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.52,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 7,
+   "key": "bot:tiny-target:button(\"the\")",
+   "cluster": 7,
+   "n": 2,
+   "cases": [
+    "w2-7",
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"the\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.51,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 8,
+   "key": "bot:tiny-target:button(\"hen\")",
+   "cluster": 8,
+   "n": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "title": "tiny-target: button(\"hen\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.5,
+   "impact": 0.58,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 9,
+   "key": "bot:tiny-target:button(\"in\")",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "title": "tiny-target: button(\"in\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.76,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 10,
+   "key": "bot:tiny-target:button(\"fog\")",
+   "cluster": 10,
+   "n": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "title": "tiny-target: button(\"fog\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.49,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 11,
+   "key": "bot:tiny-target:button(\"den\")",
+   "cluster": 11,
+   "n": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "title": "tiny-target: button(\"den\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.52,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 12,
+   "key": "bot:tiny-target:button(\"Get\")",
+   "cluster": 12,
+   "n": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "title": "tiny-target: button(\"Get\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.63,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 13,
+   "key": "bot:tiny-target:button(\"Rex\")",
+   "cluster": 13,
+   "n": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "title": "tiny-target: button(\"Rex\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.56,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 14,
+   "key": "bot:tiny-target:button(\"yak\")",
+   "cluster": 14,
+   "n": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "title": "tiny-target: button(\"yak\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.64,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 15,
+   "key": "bot:tiny-target:button(\"His\")",
+   "cluster": 15,
+   "n": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "title": "tiny-target: button(\"His\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.47,
+   "impact": 0.58,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 16,
+   "key": "bot:tiny-target:button(\"bell\")",
+   "cluster": 16,
+   "n": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "title": "tiny-target: button(\"bell\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.53,
+   "impact": 0.6,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 17,
+   "key": "bot:tiny-target:button(\"not\")",
+   "cluster": 17,
+   "n": 2,
+   "cases": [
+    "w3-11",
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"not\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.53,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 18,
+   "key": "bot:tiny-target:button(\"on\")",
+   "cluster": 44,
+   "n": 4,
+   "cases": [
+    "w3-11",
+    "w4-8",
+    "w5-10",
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"on\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.75,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 19,
+   "key": "bot:tiny-target:button(\"him\")",
+   "cluster": 19,
+   "n": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "title": "tiny-target: button(\"him\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.51,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 20,
+   "key": "bot:tiny-target:button(\"Frog\")",
+   "cluster": 20,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"Frog\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.6,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 21,
+   "key": "bot:tiny-target:button(\"must\")",
+   "cluster": 21,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"must\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.62,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 22,
+   "key": "bot:tiny-target:button(\"get\")",
+   "cluster": 22,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"get\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.43,
+   "impact": 0.52,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 23,
+   "key": "bot:tiny-target:button(\"to\")",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"to\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.74,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 24,
+   "key": "bot:tiny-target:button(\"Gran\")",
+   "cluster": 24,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"Gran\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.69,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 25,
+   "key": "bot:tiny-target:button(\"and\")",
+   "cluster": 25,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"and\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.53,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 26,
+   "key": "bot:tiny-target:button(\"I\")",
+   "cluster": 26,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"I\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.75,
+   "impact": 0.73,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 27,
+   "key": "bot:tiny-target:button(\"sit\")",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"sit\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.74,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 28,
+   "key": "bot:tiny-target:button(\"log\")",
+   "cluster": 28,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"log\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.31,
+   "impact": 0.34,
+   "area": "layout",
+   "severity": "polish",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 29,
+   "key": "bot:tiny-target:button(\"Drift\")",
+   "cluster": 29,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"Drift\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.62,
+   "impact": 0.64,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 30,
+   "key": "bot:tiny-target:button(\"drift\")",
+   "cluster": 30,
+   "n": 1,
+   "cases": [
+    "w4-8"
+   ],
+   "title": "tiny-target: button(\"drift\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.6,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 31,
+   "key": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": 31,
+   "n": 2,
+   "cases": [
+    "w5-4",
+    "w5-3"
+   ],
+   "title": "tiny-target: button.btn-round.go[aria-label=\"Next\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.81,
+   "impact": 0.79,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 32,
+   "key": "bot:tiny-target:button(\"The\")",
+   "cluster": 32,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"The\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.5,
+   "impact": 0.6,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 33,
+   "key": "bot:tiny-target:button(\"chest\")",
+   "cluster": 33,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"chest\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.64,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 34,
+   "key": "bot:tiny-target:button(\"big\")",
+   "cluster": 34,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"big\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.5,
+   "impact": 0.6,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 35,
+   "key": "bot:tiny-target:button(\"black\")",
+   "cluster": 35,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"black\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.64,
+   "impact": 0.65,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 36,
+   "key": "bot:tiny-target:button(\"rock\")",
+   "cluster": 36,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"rock\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.59,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 37,
+   "key": "bot:tiny-target:button(\"Tap\")",
+   "cluster": 37,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"Tap\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.53,
+   "impact": 0.58,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 38,
+   "key": "bot:tiny-target:button(\"tap\")",
+   "cluster": 38,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"tap\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.5,
+   "impact": 0.6,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 39,
+   "key": "bot:tiny-target:button(\"lock\")",
+   "cluster": 39,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"lock\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.6,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 40,
+   "key": "bot:tiny-target:button(\"went\")",
+   "cluster": 40,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"went\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.62,
+   "impact": 0.65,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 41,
+   "key": "bot:tiny-target:button(\"click\")",
+   "cluster": 41,
+   "n": 1,
+   "cases": [
+    "w5-10"
+   ],
+   "title": "tiny-target: button(\"click\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.61,
+   "impact": 0.65,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 42,
+   "key": "bot:tiny-target:button(\"He\")",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"He\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.69,
+   "impact": 0.67,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 43,
+   "key": "bot:tiny-target:button(\"sits\")",
+   "cluster": 43,
+   "n": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"sits\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.54,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 44,
+   "key": "bot:tiny-target:button(\"his\")",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"his\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.51,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 45,
+   "key": "bot:tiny-target:button(\"own\")",
+   "cluster": 45,
+   "n": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"own\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.61,
+   "impact": 0.64,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 46,
+   "key": "bot:tiny-target:button(\"sad\")",
+   "cluster": 46,
+   "n": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"sad\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.54,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 47,
+   "key": "bot:tiny-target:button(\"can\")",
+   "cluster": 47,
+   "n": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"can\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.55,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 48,
+   "key": "bot:tiny-target:button(\"grin\")",
+   "cluster": 48,
+   "n": 1,
+   "cases": [
+    "w6-10"
+   ],
+   "title": "tiny-target: button(\"grin\")",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.61,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 49,
+   "key": "bot:tiny-target:div[label]",
+   "cluster": 49,
+   "n": 32,
+   "cases": [
+    "tree"
+   ],
+   "title": "tiny-target: div[aria-label=\"petal ae\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  }
+ ],
+ "merges": [
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"It\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"is\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"a\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"map\")",
+   "p": 0.45
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button.btn-round.pulse[label]",
+   "p": 0.56
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"Peg\")",
+   "p": 0.42
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"the\")",
+   "p": 0.4
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"hen\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"in\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"fog\")",
+   "p": 0.42
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"den\")",
+   "p": 0.42
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"Get\")",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"Rex\")",
+   "p": 0.41
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"yak\")",
+   "p": 0.49
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"His\")",
+   "p": 0.41
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"bell\")",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"not\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"on\")",
+   "p": 0.53
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"him\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"Frog\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"must\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"get\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"to\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"Gran\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"and\")",
+   "p": 0.4
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"I\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"sit\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"Drift\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"The\")",
+   "p": 0.45
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"chest\")",
+   "p": 0.45
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"black\")",
+   "p": 0.4
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"rock\")",
+   "p": 0.42
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"tap\")",
+   "p": 0.4
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"lock\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"went\")",
+   "p": 0.41
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"click\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"He\")",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"sits\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"his\")",
+   "p": 0.45
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"own\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"sad\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"can\")",
+   "p": 0.4
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button(\"grin\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:div[label]",
+   "p": 0.4
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"is\")",
+   "p": 0.65
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"a\")",
+   "p": 0.63
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"map\")",
+   "p": 0.6
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button.btn-round.pulse[label]",
+   "p": 0.53
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"Peg\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"the\")",
+   "p": 0.54
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"hen\")",
+   "p": 0.55
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"in\")",
+   "p": 0.68
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"fog\")",
+   "p": 0.53
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"den\")",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"Get\")",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"Rex\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"yak\")",
+   "p": 0.51
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"His\")",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"bell\")",
+   "p": 0.51
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"not\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"on\")",
+   "p": 0.55
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"him\")",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"Frog\")",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"must\")",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"get\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"to\")",
+   "p": 0.62
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"Gran\")",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"and\")",
+   "p": 0.54
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"I\")",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"sit\")",
+   "p": 0.54
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"log\")",
+   "p": 0.44
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"Drift\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"drift\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.42
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"The\")",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"chest\")",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"black\")",
+   "p": 0.4
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"rock\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"Tap\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"tap\")",
+   "p": 0.45
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"lock\")",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"went\")",
+   "p": 0.51
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"click\")",
+   "p": 0.41
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"He\")",
+   "p": 0.55
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"sits\")",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"his\")",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"own\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"sad\")",
+   "p": 0.49
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"can\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:button(\"grin\")",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button(\"It\")",
+   "b": "bot:tiny-target:div[label]",
+   "p": 0.41
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"a\")",
+   "p": 0.65
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"map\")",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button.btn-round.pulse[label]",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"Peg\")",
+   "p": 0.49
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"the\")",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"hen\")",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"in\")",
+   "p": 0.58
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"fog\")",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"den\")",
+   "p": 0.55
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"Get\")",
+   "p": 0.51
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"Rex\")",
+   "p": 0.49
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"yak\")",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"His\")",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"bell\")",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"not\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"on\")",
+   "p": 0.61
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"him\")",
+   "p": 0.56
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"Frog\")",
+   "p": 0.51
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"must\")",
+   "p": 0.47
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"get\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"to\")",
+   "p": 0.56
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"Gran\")",
+   "p": 0.54
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"and\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"I\")",
+   "p": 0.56
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"sit\")",
+   "p": 0.62
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"Drift\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"drift\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.42
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"The\")",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"chest\")",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"big\")",
+   "p": 0.4
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"black\")",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"rock\")",
+   "p": 0.49
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"Tap\")",
+   "p": 0.49
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"tap\")",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"lock\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"went\")",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"click\")",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"He\")",
+   "p": 0.6
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"sits\")",
+   "p": 0.54
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"his\")",
+   "p": 0.62
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"own\")",
+   "p": 0.51
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"sad\")",
+   "p": 0.51
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"can\")",
+   "p": 0.53
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:button(\"grin\")",
+   "p": 0.52
+  },
+  {
+   "a": "bot:tiny-target:button(\"is\")",
+   "b": "bot:tiny-target:div[label]",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button(\"a\")",
+   "b": "bot:tiny-target:button(\"map\")",
+   "p": 0.53
+  },
+  {
+   "a": "bot:tiny-target:button(\"a\")",
+   "b": "bot:tiny-target:button.btn-round.pulse[label]",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button(\"a\")",
+   "b": "bot:tiny-target:button(\"Peg\")",
+   "p": 0.5
+  },
+  {
+   "a": "bot:tiny-target:button(\"a\")",
+   "b": "bot:tiny-target:button(\"the\")",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button(\"a\")",
+   "b": "bot:tiny-target:button(\"hen\")",
+   "p": 0.53
+  },
+  {
+   "a": "bot:tiny-target:button(\"a\")",
+   "b": "bot:tiny-target:button(\"in\")",
+   "p": 0.55
+  }
+ ],
+ "findings": [],
+ "triage": {
+  "bot:w1-4:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c0",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-4:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c0",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-3:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c0",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w1-14:tiny-target:button(\"It\")": {
+   "group": "bot:tiny-target:button(\"It\")",
+   "cluster": "c44",
+   "childFacing": 0.73,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w1-14:tiny-target:button(\"is\")": {
+   "group": "bot:tiny-target:button(\"is\")",
+   "cluster": "c44",
+   "childFacing": 0.79,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button(\"is\")": {
+   "group": "bot:tiny-target:button(\"is\")",
+   "cluster": "c44",
+   "childFacing": 0.79,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"is\")": {
+   "group": "bot:tiny-target:button(\"is\")",
+   "cluster": "c44",
+   "childFacing": 0.79,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"is\")": {
+   "group": "bot:tiny-target:button(\"is\")",
+   "cluster": "c44",
+   "childFacing": 0.79,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"is\")": {
+   "group": "bot:tiny-target:button(\"is\")",
+   "cluster": "c44",
+   "childFacing": 0.79,
+   "impact": 0.75,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w1-14:tiny-target:button(\"a\")": {
+   "group": "bot:tiny-target:button(\"a\")",
+   "cluster": "c44",
+   "childFacing": 0.79,
+   "impact": 0.74,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"a\")": {
+   "group": "bot:tiny-target:button(\"a\")",
+   "cluster": "c44",
+   "childFacing": 0.79,
+   "impact": 0.74,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"a\")": {
+   "group": "bot:tiny-target:button(\"a\")",
+   "cluster": "c44",
+   "childFacing": 0.79,
+   "impact": 0.74,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w1-14:tiny-target:button(\"map\")": {
+   "group": "bot:tiny-target:button(\"map\")",
+   "cluster": "c44",
+   "childFacing": 0.57,
+   "impact": 0.64,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-1:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c5",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-1:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c5",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-6:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c5",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-1:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c5",
+   "childFacing": 0.75,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button(\"Peg\")": {
+   "group": "bot:tiny-target:button(\"Peg\")",
+   "cluster": "c6",
+   "childFacing": 0.52,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button(\"the\")": {
+   "group": "bot:tiny-target:button(\"the\")",
+   "cluster": "c7",
+   "childFacing": 0.51,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"the\")": {
+   "group": "bot:tiny-target:button(\"the\")",
+   "cluster": "c7",
+   "childFacing": 0.51,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button(\"hen\")": {
+   "group": "bot:tiny-target:button(\"hen\")",
+   "cluster": "c8",
+   "childFacing": 0.5,
+   "impact": 0.58,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button(\"in\")": {
+   "group": "bot:tiny-target:button(\"in\")",
+   "cluster": "c44",
+   "childFacing": 0.76,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button(\"fog\")": {
+   "group": "bot:tiny-target:button(\"fog\")",
+   "cluster": "c10",
+   "childFacing": 0.49,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button(\"den\")": {
+   "group": "bot:tiny-target:button(\"den\")",
+   "cluster": "c11",
+   "childFacing": 0.52,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button(\"Get\")": {
+   "group": "bot:tiny-target:button(\"Get\")",
+   "cluster": "c12",
+   "childFacing": 0.63,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"Rex\")": {
+   "group": "bot:tiny-target:button(\"Rex\")",
+   "cluster": "c13",
+   "childFacing": 0.56,
+   "impact": 0.59,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"yak\")": {
+   "group": "bot:tiny-target:button(\"yak\")",
+   "cluster": "c14",
+   "childFacing": 0.64,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"His\")": {
+   "group": "bot:tiny-target:button(\"His\")",
+   "cluster": "c15",
+   "childFacing": 0.47,
+   "impact": 0.58,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"bell\")": {
+   "group": "bot:tiny-target:button(\"bell\")",
+   "cluster": "c16",
+   "childFacing": 0.53,
+   "impact": 0.6,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"not\")": {
+   "group": "bot:tiny-target:button(\"not\")",
+   "cluster": "c17",
+   "childFacing": 0.53,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"not\")": {
+   "group": "bot:tiny-target:button(\"not\")",
+   "cluster": "c17",
+   "childFacing": 0.53,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"on\")": {
+   "group": "bot:tiny-target:button(\"on\")",
+   "cluster": "c44",
+   "childFacing": 0.75,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"on\")": {
+   "group": "bot:tiny-target:button(\"on\")",
+   "cluster": "c44",
+   "childFacing": 0.75,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"on\")": {
+   "group": "bot:tiny-target:button(\"on\")",
+   "cluster": "c44",
+   "childFacing": 0.75,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"on\")": {
+   "group": "bot:tiny-target:button(\"on\")",
+   "cluster": "c44",
+   "childFacing": 0.75,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button(\"him\")": {
+   "group": "bot:tiny-target:button(\"him\")",
+   "cluster": "c19",
+   "childFacing": 0.51,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"Frog\")": {
+   "group": "bot:tiny-target:button(\"Frog\")",
+   "cluster": "c20",
+   "childFacing": 0.6,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"must\")": {
+   "group": "bot:tiny-target:button(\"must\")",
+   "cluster": "c21",
+   "childFacing": 0.62,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"get\")": {
+   "group": "bot:tiny-target:button(\"get\")",
+   "cluster": "c22",
+   "childFacing": 0.43,
+   "impact": 0.52,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"to\")": {
+   "group": "bot:tiny-target:button(\"to\")",
+   "cluster": "c44",
+   "childFacing": 0.74,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"Gran\")": {
+   "group": "bot:tiny-target:button(\"Gran\")",
+   "cluster": "c24",
+   "childFacing": 0.69,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"and\")": {
+   "group": "bot:tiny-target:button(\"and\")",
+   "cluster": "c25",
+   "childFacing": 0.53,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"I\")": {
+   "group": "bot:tiny-target:button(\"I\")",
+   "cluster": "c26",
+   "childFacing": 0.75,
+   "impact": 0.73,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"sit\")": {
+   "group": "bot:tiny-target:button(\"sit\")",
+   "cluster": "c44",
+   "childFacing": 0.74,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"log\")": {
+   "group": "bot:tiny-target:button(\"log\")",
+   "cluster": "c28",
+   "childFacing": 0.31,
+   "impact": 0.34,
+   "area": "layout",
+   "severity": "polish"
+  },
+  "bot:w4-8:tiny-target:button(\"Drift\")": {
+   "group": "bot:tiny-target:button(\"Drift\")",
+   "cluster": "c29",
+   "childFacing": 0.62,
+   "impact": 0.64,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button(\"drift\")": {
+   "group": "bot:tiny-target:button(\"drift\")",
+   "cluster": "c30",
+   "childFacing": 0.6,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-4:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c31",
+   "childFacing": 0.81,
+   "impact": 0.79,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-3:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c31",
+   "childFacing": 0.81,
+   "impact": 0.79,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-10:tiny-target:button(\"The\")": {
+   "group": "bot:tiny-target:button(\"The\")",
+   "cluster": "c32",
+   "childFacing": 0.5,
+   "impact": 0.6,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"chest\")": {
+   "group": "bot:tiny-target:button(\"chest\")",
+   "cluster": "c33",
+   "childFacing": 0.64,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"big\")": {
+   "group": "bot:tiny-target:button(\"big\")",
+   "cluster": "c34",
+   "childFacing": 0.5,
+   "impact": 0.6,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"black\")": {
+   "group": "bot:tiny-target:button(\"black\")",
+   "cluster": "c35",
+   "childFacing": 0.64,
+   "impact": 0.65,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"rock\")": {
+   "group": "bot:tiny-target:button(\"rock\")",
+   "cluster": "c36",
+   "childFacing": 0.59,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"Tap\")": {
+   "group": "bot:tiny-target:button(\"Tap\")",
+   "cluster": "c37",
+   "childFacing": 0.53,
+   "impact": 0.58,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"tap\")": {
+   "group": "bot:tiny-target:button(\"tap\")",
+   "cluster": "c38",
+   "childFacing": 0.5,
+   "impact": 0.6,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"lock\")": {
+   "group": "bot:tiny-target:button(\"lock\")",
+   "cluster": "c39",
+   "childFacing": 0.6,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"went\")": {
+   "group": "bot:tiny-target:button(\"went\")",
+   "cluster": "c40",
+   "childFacing": 0.62,
+   "impact": 0.65,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button(\"click\")": {
+   "group": "bot:tiny-target:button(\"click\")",
+   "cluster": "c41",
+   "childFacing": 0.61,
+   "impact": 0.65,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"He\")": {
+   "group": "bot:tiny-target:button(\"He\")",
+   "cluster": "c44",
+   "childFacing": 0.69,
+   "impact": 0.67,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"sits\")": {
+   "group": "bot:tiny-target:button(\"sits\")",
+   "cluster": "c43",
+   "childFacing": 0.54,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"his\")": {
+   "group": "bot:tiny-target:button(\"his\")",
+   "cluster": "c44",
+   "childFacing": 0.51,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"own\")": {
+   "group": "bot:tiny-target:button(\"own\")",
+   "cluster": "c45",
+   "childFacing": 0.61,
+   "impact": 0.64,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"sad\")": {
+   "group": "bot:tiny-target:button(\"sad\")",
+   "cluster": "c46",
+   "childFacing": 0.54,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"can\")": {
+   "group": "bot:tiny-target:button(\"can\")",
+   "cluster": "c47",
+   "childFacing": 0.55,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button(\"grin\")": {
+   "group": "bot:tiny-target:button(\"grin\")",
+   "cluster": "c48",
+   "childFacing": 0.61,
+   "impact": 0.63,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ae\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ee\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal oy\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ie\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal oe\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal uu\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal er\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ar\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ou\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal oo\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ue\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal or\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal air\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal s\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal l\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal f\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal e\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal u\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal o\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal d\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal i\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal n\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal v\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal j\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal g\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal m\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal h\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal k\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal r\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal t\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal z\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal eer\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c49",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  }
+ }
+}

@@ -1,0 +1,5 @@
+Updated [critic.ts](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/scripts/treadmill/critic.ts) to review up to 10 separate full-resolution frames per case, cite their PNGs, verify every major or blocker finding in a second Gemini call, and skip `~monkey` cases unless `--monkey` is set.
+
+I backed up the original [critic.json](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/runs/full1/critic.json) as [critic.v1.json](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/runs/full1/critic.v1.json) and reran exactly the nine requested cases. On my manual review of the saved frames, **precision rose from 6/19 findings (32%) to 7/7 (100%)**. The three named false positives are gone; the mop, missing replay, tile overlap, and tiny petal text findings remain. Verification verdicts are in `critic.json`.
+
+TypeScript and oxlint checks passed. The precision figure covers these nine saved cases; Gemini findings can vary between runs.
