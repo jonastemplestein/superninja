@@ -1,0 +1,37 @@
+{
+ "findings": [
+  {
+   "sig": "jev:line:help_sort:unclear",
+   "source": "jev",
+   "severity": "minor",
+   "case": "line:help_sort",
+   "title": "help_sort: unclear instruction for a pre-reader",
+   "detail": "\"Tap the chest with the same spelling as the word.\" (sensei, instruction, Help button) — jev unclear=0.79 (confidence 0.79); used in src/scenes/Sort.tsx",
+   "evidence": [
+    "src/content/lines.ts"
+   ]
+  },
+  {
+   "sig": "jev:line:timer_intro_2:deflating",
+   "source": "jev",
+   "severity": "minor",
+   "case": "line:timer_intro_2",
+   "title": "timer_intro_2: could make the child feel bad, rushed or like a failure",
+   "detail": "\"Spell each word before the bar is full, or the monster jumps!\" (sensei, instruction, Battle) — jev deflating=0.64 (confidence 0.64); used in src/scenes/Battle.tsx",
+   "evidence": [
+    "src/content/lines.ts"
+   ]
+  },
+  {
+   "sig": "jev:line:timer_intro_2:vocab",
+   "source": "jev",
+   "severity": "polish",
+   "case": "line:timer_intro_2",
+   "title": "timer_intro_2: vocabulary too hard for a 3–4 year old",
+   "detail": "\"Spell each word before the bar is full, or the monster jumps!\" (sensei, instruction, Battle) — jev vocab=0.76 (confidence 0.27); used in src/scenes/Battle.tsx",
+   "evidence": [
+    "src/content/lines.ts"
+   ]
+  }
+ ]
+}

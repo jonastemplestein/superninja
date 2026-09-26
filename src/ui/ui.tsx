@@ -1,8 +1,11 @@
 // Shared UI: stage scaling, sprites, icons, sensei dock, tiles, particles.
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { onCaption, sfx, say, unlockAudio } from "../engine/audio";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { onCaption, currentCaption, sfx, sfxOver, say, unlockAudio, audioCtx, load, urls, pauseSpeech, settings as audioSettings, setMusicVolume } from "../engine/audio";
+import { FAST } from "../engine/fast";
 import { store, useSave } from "../engine/store";
 import { useViseme, VISEMES } from "../engine/lipsync";
+import { LINES } from "../content/lines";
+import { poseSrc, usePoseVersion } from "./poses";
 
 export const W = 1280;
 export const H = 720;
@@ -48,10 +51,7 @@ export function Stage({ children, worldColour }: { children: ReactNode; worldCol
       <div className="stage" ref={ref}>
         {children}
       </div>
-      <div className="rotate">
-        <img src={img("hero_kai_idle")} alt="" />
-        Turn your device sideways!
-      </div>
+      <RotatePrompt />
     </div>
   );
 }
@@ -61,6 +61,153 @@ export function stageXY(el: Element | null): { x: number; y: number } {
   const r = el.getBoundingClientRect();
   const s = stageEl.getBoundingClientRect();
   return { x: (r.left + r.width / 2 - s.left) / stageScale, y: (r.top + r.height / 2 - s.top) / stageScale };
+}
+/** An element's box in stage coordinates. */
+export function stageRect(el: Element | null): { x: number; y: number; w: number; h: number } {
+  if (!el || !stageEl) return { x: W / 2, y: H / 2, w: 0, h: 0 };
+  const r = el.getBoundingClientRect();
+  const s = stageEl.getBoundingClientRect();
+  return { x: (r.left - s.left) / stageScale, y: (r.top - s.top) / stageScale, w: r.width / stageScale, h: r.height / stageScale };
+}
+
+// ---------- "turn your phone": a phone held upright gets an animated picture, an uh-oh and Sensei saying it
+const PORTRAIT = "(orientation: portrait) and (max-width: 700px)";
+const uprightQ = typeof window !== "undefined" ? matchMedia(PORTRAIT) : null;
+const uprightSubs = new Set<() => void>();
+uprightQ?.addEventListener?.("change", () => uprightSubs.forEach((f) => f()));
+/** Is the phone held upright right now (the game is covered by the turn-your-phone picture)? */
+export const isUpright = () => !!uprightQ?.matches;
+/** Scenes with timers (e.g. a monster's attack) can pause while the phone is upright. */
+export function useUpright(): boolean {
+  return useSyncExternalStore(
+    (cb) => {
+      uprightSubs.add(cb);
+      return () => void uprightSubs.delete(cb);
+    },
+    isUpright,
+  );
+}
+const hasLine = (id: string) => LINES.some((l) => l.id === id);
+/** Play a line outside the speech queue (which is paused while the phone is upright). Returns a stop function. */
+function sayOver(id: string, done: () => void): () => void {
+  let src: AudioBufferSourceNode | null = null, stopped = false;
+  load(urls.line(id)).then((buf) => {
+    if (!buf || stopped) return done();
+    const c = audioCtx();
+    src = c.createBufferSource();
+    src.buffer = buf;
+    src.connect(c.destination);
+    src.onended = done;
+    src.start();
+    ((window as any).__audioLog as unknown[] | undefined)?.push({ t: Date.now(), url: urls.line(id), kind: "speech" });
+  });
+  return () => {
+    stopped = true;
+    try {
+      src?.stop();
+    } catch {}
+  };
+}
+
+function RotatePrompt() {
+  const upright = useUpright();
+  const hero = useHero();
+  usePoseVersion();
+  const [locked, setLocked] = useState(false);
+  const speakRef = useRef<() => void>(() => {});
+  useEffect(() => {
+    if (!upright) return;
+    let alive = true, mine = false, last = -1e9, autos = 0;
+    let stopLine = () => {};
+    // the game pauses while upright: its speech waits (scripted scenes stop at their next line), music goes quiet
+    pauseSpeech(true);
+    const music = audioSettings.music;
+    setMusicVolume(0);
+    const speak = async () => {
+      if (!alive) return;
+      const running = audioCtx().state === "running";
+      setLocked(!running);
+      if (!running) return; // iOS before the first tap: the hand pulses, and the first tap speaks
+      last = performance.now();
+      mine = true;
+      stopLine();
+      sfxOver("oops"); // (the game's own sound effects are hushed while upright)
+      await sleep(620);
+      if (alive && hasLine("turn_phone")) await new Promise<void>((r) => (stopLine = sayOver("turn_phone", r)));
+      mine = false;
+    };
+    speakRef.current = () => {
+      unlockAudio().then(() => {
+        setLocked(false);
+        if (performance.now() - last > 1500) speak();
+      });
+    };
+    speak();
+    const tick = window.setInterval(() => {
+      // only count an automatic repeat when it can actually be heard (iOS keeps audio locked until the first tap)
+      if (!mine && autos < 4 && performance.now() - last > 6000 && audioCtx().state === "running") {
+        autos++;
+        speak();
+      }
+    }, 250);
+    return () => {
+      alive = false;
+      clearInterval(tick);
+      stopLine();
+      setMusicVolume(music);
+      pauseSpeech(false);
+      // turned the right way: a happy little twinkle
+      try {
+        if (audioCtx().state === "running") sfxOver("twinkle");
+      } catch {}
+    };
+  }, [upright]);
+  if (!upright) return null;
+  return (
+    <div className="rotate" onPointerDown={() => speakRef.current()} role="dialog" aria-label="Turn your phone sideways">
+      <div className="rotate-art">
+        <svg viewBox="0 0 300 300" className="rotate-svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="rot-screen" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#8fd8ff" />
+              <stop offset="0.62" stopColor="#c9f0ff" />
+              <stop offset="0.63" stopColor="#7ccf5a" />
+              <stop offset="1" stopColor="#4fa83a" />
+            </linearGradient>
+          </defs>
+          {/* the big curved arrow, drawn on as the phone turns */}
+          <g className="rot-arrow">
+            <path className="rot-arc-ink" d="M214 40 A126 126 0 0 0 27 126" />
+            <path className="rot-arc" d="M214 40 A126 126 0 0 0 27 126" />
+            <path className="rot-head" d="M4 112 L28 160 L54 114 Z" />
+          </g>
+          <g className="rot-phone">
+            <rect x="103" y="62" width="94" height="176" rx="18" fill="#2b1d14" />
+            <rect x="110" y="72" width="80" height="156" rx="11" fill="url(#rot-screen)" />
+            <rect x="136" y="67" width="28" height="6" rx="3" fill="#5a4636" />
+            <path className="rot-star" d="M150 118l5 11 12 1.5-9 8 2.5 12-10.5-6-10.5 6 2.5-12-9-8 12-1.5z" fill="#ffc53d" stroke="#2b1d14" strokeWidth="3" strokeLinejoin="round" />
+            <g className="rot-tick">
+              <circle cx="150" cy="182" r="17" fill="#3fbf6a" stroke="#2b1d14" strokeWidth="4" />
+              <path d="M141 182l7 7 12-13" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+            </g>
+          </g>
+        </svg>
+        <div className="rotate-ninja">
+          <img className="rn-think" src={poseSrc(hero, "think")} alt="" />
+          <img className="rn-cheer" src={poseSrc(hero, "cheer")} alt="" />
+        </div>
+        {locked && (
+          <div className="rotate-tap">
+            <span className="rotate-ring" />
+            <svg viewBox="0 0 64 64" width="100%" height="100%">
+              <path d="M26 30V12a5 5 0 0 1 10 0v16l3-1a5 5 0 0 1 6 3l1 1a5 5 0 0 1 6 4v8c0 9-6 16-15 16h-3c-6 0-10-3-13-8l-7-11a4 4 0 0 1 6-5l6 6z" fill="#fff4dc" stroke="#2b1d14" strokeWidth="4" strokeLinejoin="round" />
+            </svg>
+          </div>
+        )}
+      </div>
+      <div className="rotate-note">Turn your phone sideways to play</div>
+    </div>
+  );
 }
 export function shakeStage() {
   if (!stageEl) return;
@@ -149,14 +296,17 @@ export function RoundButton({ onClick, children, className = "", label, style, s
   );
 }
 
-// ---------- sensei dock with live captions
-export function SenseiDock({ hidden, auto }: { hidden?: boolean; auto?: boolean }) {
-  const [cap, setCap] = useState<{ text: string; who: string } | null>(null);
+// ---------- live captions (for grown-ups; off by default)
+/** The caption bubble. Sensei himself is the Help button (bottom-right); the bubble sits above him with its tail
+ *  pointing down at him. It picks up a line already being said when it mounts. */
+export function SenseiDock({ hidden }: { hidden?: boolean }) {
+  const [cap, setCap] = useState(currentCaption);
   const captions = useSave((s) => s.settings.captions);
-  useEffect(() => onCaption(setCap), []);
+  useEffect(() => {
+    setCap(currentCaption());
+    return onCaption(setCap);
+  }, []);
   if (hidden) return null;
-  void auto;
-  // Sensei himself lives in the Help button (bottom-left); this only shows the caption bubble beside him.
   return cap && captions ? <div className={`bubble ${cap.who === "baron" ? "baron" : ""}`} key={cap.text}>{cap.text}</div> : null;
 }
 
@@ -246,8 +396,47 @@ export function Stars({ n, size = 64 }: { n: number; size?: number }) {
 }
 
 // ---------- particles (single canvas over the stage)
-type Particle = { x: number; y: number; vx: number; vy: number; r: number; vr: number; life: number; max: number; size: number; kind: string; color?: string };
+type Particle = {
+  x: number; y: number; vx: number; vy: number; r: number; vr: number; life: number; max: number; size: number; kind: string; color?: string;
+  /** ring: start/end radius and line width; implode: start point and target */
+  r0?: number; r1?: number; w?: number; sx?: number; sy?: number; tx?: number; ty?: number;
+};
 const particles: Particle[] = [];
+/** Particle time scale (the ninja demo's slow motion sets this below 1). */
+let fxSpeed = 1;
+export const setFxSpeed = (s: number) => void (fxSpeed = s);
+const glowCache = new Map<string, HTMLCanvasElement>();
+function glowSprite(color: string) {
+  let c = glowCache.get(color);
+  if (!c) {
+    c = document.createElement("canvas");
+    c.width = c.height = 64;
+    const g = c.getContext("2d")!;
+    const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, "rgba(255,255,255,1)");
+    grad.addColorStop(0.25, color);
+    grad.addColorStop(1, "rgba(0,0,0,0)");
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    glowCache.set(color, c);
+  }
+  return c;
+}
+function star4(g: CanvasRenderingContext2D, s: number) {
+  g.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const a = (i * Math.PI) / 4;
+    const r = i % 2 ? s * 0.22 : s * 0.5;
+    g.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+  }
+  g.closePath();
+  g.fill();
+}
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+const easeIn = (t: number) => t * t * t;
+/** The DOM effects layer (projectiles, impact stars, flashes), in stage coordinates. Mounted by FxLayer. */
+let fxDomEl: HTMLDivElement | null = null;
+export const fxDom = (): HTMLElement | null => fxDomEl ?? stageEl;
 const imgs: Record<string, HTMLImageElement> = {};
 function getImg(id: string) {
   if (!imgs[id]) {
@@ -280,46 +469,170 @@ export const fx = {
       });
     }
   },
+  /** An expanding shockwave ring. */
+  ring(x: number, y: number, o: { color?: string; r0?: number; r1?: number; width?: number; life?: number } = {}) {
+    particles.push({ x, y, vx: 0, vy: 0, r: 0, vr: 0, life: 0, max: o.life ?? 22, size: 0, kind: "ring", color: o.color ?? "#fff4dc", r0: o.r0 ?? 12, r1: o.r1 ?? 150, w: o.width ?? 12 });
+  },
+  /** Soft glowing dots (additive), e.g. a spell's trail. `drift` is the random speed. */
+  glow(x: number, y: number, colors: string[] = ["#ffe38a"], n = 1, size = 34, drift = 1.2, life = 26) {
+    for (let i = 0; i < n; i++)
+      particles.push({
+        x, y, vx: (Math.random() - 0.5) * 2 * drift, vy: (Math.random() - 0.5) * 2 * drift, r: 0, vr: 0, life: 0, max: life * (0.7 + Math.random() * 0.6),
+        size: size * (0.6 + Math.random() * 0.8), kind: "glow", color: colors[(Math.random() * colors.length) | 0],
+      });
+  },
+  /** Four-pointed twinkles flying outwards. */
+  twinkle(x: number, y: number, colors: string[] = ["#fff4dc", "#ffe38a"], n = 10, speed = 6, size = 26) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, sp = speed * (0.4 + Math.random() * 0.8);
+      particles.push({
+        x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: Math.random() * 2, vr: (Math.random() - 0.5) * 0.25, life: 0, max: 30 + Math.random() * 22,
+        size: size * (0.5 + Math.random() * 0.8), kind: "twinkle", color: colors[i % colors.length],
+      });
+    }
+  },
+  /** Impact speed lines radiating from a point. */
+  lines(x: number, y: number, n = 10, color = "#fff4dc", len = 70) {
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + Math.random() * 0.4;
+      particles.push({ x, y, vx: 0, vy: 0, r: a, vr: 0, life: 0, max: 14 + Math.random() * 6, size: len * (0.7 + Math.random() * 0.6), kind: "line", color });
+    }
+  },
+  /** Dust kicked up along the ground (landings). */
+  puff(x: number, y: number, n = 8) {
+    for (let i = 0; i < n; i++) {
+      const side = i % 2 ? 1 : -1;
+      particles.push({
+        x: x + side * Math.random() * 30, y: y - Math.random() * 8, vx: side * (2 + Math.random() * 5), vy: -0.3 - Math.random() * 1.2, r: 0, vr: 0, life: 0,
+        max: 26 + Math.random() * 16, size: 12 + Math.random() * 14, kind: "puff",
+      });
+    }
+  },
+  /** Energy gathering inwards to a point (a power-up's anticipation). */
+  implode(x: number, y: number, colors: string[] = ["#ffe38a", "#fff4dc"], n = 22, r = 190, life = 26) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, d = r * (0.6 + Math.random() * 0.5);
+      particles.push({
+        x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, sx: x + Math.cos(a) * d, sy: y + Math.sin(a) * d, tx: x, ty: y,
+        vx: 0, vy: 0, r: 0, vr: 0, life: -Math.random() * 8, max: life, size: 22 + Math.random() * 20, kind: "implode", color: colors[i % colors.length],
+      });
+    }
+  },
 };
 export function FxLayer() {
   const ref = useRef<HTMLCanvasElement>(null);
+  const domRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    fxDomEl = domRef.current;
     const c = ref.current!;
     const g = c.getContext("2d")!;
     let raf = 0;
+    let last = performance.now();
     const petal = getImg("item_petal");
     const star = getImg("item_star");
-    const loop = () => {
+    const loop = (now: number) => {
+      // time-based, so 120 Hz phones don't run particles at double speed
+      const k = (Math.min(50, Math.max(0, now - last)) / (1000 / 60)) * fxSpeed * FAST; // bots' fast-forward too
+      last = now;
       g.clearRect(0, 0, W, H);
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
-        p.life++;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.r += p.vr;
+        p.life += k;
+        p.x += p.vx * k;
+        p.y += p.vy * k;
+        p.r += p.vr * k;
         if (p.kind === "petals" || p.kind === "confetti") {
-          p.vx *= 0.97;
-          p.vy = p.vy * 0.97 + 0.18;
-          p.x += Math.sin(p.life / 9 + i) * 0.8;
-        } else if (p.kind === "dust") {
-          p.vx *= 0.9;
-          p.vy *= 0.9;
+          p.vx *= Math.pow(0.97, k);
+          p.vy = p.vy * Math.pow(0.97, k) + 0.18 * k;
+          p.x += Math.sin(p.life / 9 + i) * 0.8 * k;
+        } else if (p.kind === "dust" || p.kind === "glow" || p.kind === "puff") {
+          p.vx *= Math.pow(0.9, k);
+          p.vy *= Math.pow(0.9, k);
+        } else if (p.kind === "twinkle") {
+          p.vx *= Math.pow(0.9, k);
+          p.vy = p.vy * Math.pow(0.9, k) + 0.08 * k;
+        } else if (p.kind === "ring" || p.kind === "line" || p.kind === "implode") {
+          // positioned from life below
         } else {
-          p.vx *= 0.93;
-          p.vy = p.vy * 0.93 + 0.25;
+          p.vx *= Math.pow(0.93, k);
+          p.vy = p.vy * Math.pow(0.93, k) + 0.25 * k;
         }
         const t = p.life / p.max;
         if (t >= 1 || p.y > H + 80) {
           particles.splice(i, 1);
           continue;
         }
+        if (t < 0) continue; // not started yet
         g.save();
         g.globalAlpha = t > 0.7 ? (1 - t) / 0.3 : 1;
+        if (p.kind === "ring") {
+          const e = easeOut(t);
+          g.globalAlpha = 1 - t;
+          g.strokeStyle = p.color!;
+          g.lineWidth = Math.max(1, p.w! * (1 - e * 0.8));
+          g.beginPath();
+          g.arc(p.x, p.y, p.r0! + (p.r1! - p.r0!) * e, 0, Math.PI * 2);
+          g.stroke();
+          g.restore();
+          continue;
+        }
+        if (p.kind === "line") {
+          const e = easeOut(t);
+          const d0 = 30 + e * p.size * 1.2, d1 = d0 + p.size * (1 - e);
+          const ux = Math.cos(p.r), uy = Math.sin(p.r);
+          g.globalAlpha = 1 - t * 0.8;
+          g.lineCap = "round";
+          g.strokeStyle = "#2b1d14";
+          g.lineWidth = 11 * (1 - e) + 2;
+          g.beginPath();
+          g.moveTo(p.x + ux * d0, p.y + uy * d0);
+          g.lineTo(p.x + ux * d1, p.y + uy * d1);
+          g.stroke();
+          g.strokeStyle = p.color!;
+          g.lineWidth = 6 * (1 - e) + 1;
+          g.stroke();
+          g.restore();
+          continue;
+        }
+        if (p.kind === "implode") {
+          const e = easeIn(t);
+          p.x = p.sx! + (p.tx! - p.sx!) * e;
+          p.y = p.sy! + (p.ty! - p.sy!) * e;
+          g.globalAlpha = Math.min(1, t * 3);
+          g.globalCompositeOperation = "lighter";
+          const s = p.size * (1 - t * 0.6);
+          g.drawImage(glowSprite(p.color!), p.x - s / 2, p.y - s / 2, s, s);
+          g.restore();
+          continue;
+        }
+        if (p.kind === "puff") {
+          g.globalAlpha = 0.6 * (1 - t);
+          g.fillStyle = "#f3e6c8";
+          g.beginPath();
+          g.arc(p.x, p.y, p.size * (0.6 + t * 0.9), 0, Math.PI * 2);
+          g.fill();
+          g.restore();
+          continue;
+        }
+        if (p.kind === "glow") {
+          g.globalCompositeOperation = "lighter";
+          g.globalAlpha = 1 - t;
+          const s = p.size * (1 - t * 0.5);
+          g.drawImage(glowSprite(p.color!), p.x - s / 2, p.y - s / 2, s, s);
+          g.restore();
+          continue;
+        }
         g.translate(p.x, p.y);
         g.rotate(p.r);
         if (p.kind === "petals" && petal.complete) g.drawImage(petal, -p.size / 2, -p.size / 2, p.size, p.size);
         else if (p.kind === "stars" && star.complete) g.drawImage(star, -p.size / 2, -p.size / 2, p.size, p.size);
-        else if (p.kind === "dust") {
+        else if (p.kind === "twinkle") {
+          const s = p.size * (t < 0.2 ? t / 0.2 : 1 - (t - 0.2) * 0.6);
+          g.fillStyle = "#2b1d14";
+          star4(g, s + 7);
+          g.fillStyle = p.color ?? "#fff";
+          star4(g, s);
+        } else if (p.kind === "dust") {
           g.fillStyle = "rgba(255,244,220,.8)";
           g.beginPath();
           g.arc(0, 0, p.size * (0.5 + t), 0, Math.PI * 2);
@@ -337,10 +650,18 @@ export function FxLayer() {
       }
       raf = requestAnimationFrame(loop);
     };
-    loop();
-    return () => cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(loop);
+    return () => {
+      cancelAnimationFrame(raf);
+      if (fxDomEl === domRef.current) fxDomEl = null;
+    };
   }, []);
-  return <canvas ref={ref} width={W} height={H} style={{ position: "absolute", inset: 0, zIndex: 80, pointerEvents: "none" }} />;
+  return (
+    <>
+      <canvas ref={ref} width={W} height={H} style={{ position: "absolute", inset: 0, zIndex: 80, pointerEvents: "none" }} />
+      <div ref={domRef} className="fx-dom" aria-hidden="true" />
+    </>
+  );
 }
 
 /** Tap-to-begin gate that also unlocks audio. */
@@ -421,7 +742,11 @@ export function pressHelp() {
 export function HelpButton() {
   const [talking, setTalking] = useState(false);
   const [nudge, setNudge] = useState(false);
-  useEffect(() => onCaption((c) => setTalking(!!c && c.who === "sensei")), []);
+  useEffect(() => {
+    const c = currentCaption();
+    setTalking(!!c && c.who === "sensei");
+    return onCaption((c) => setTalking(!!c && c.who === "sensei"));
+  }, []);
   useEffect(() => {
     const f = (on: boolean) => setNudge(on);
     nudgeListeners.add(f);
@@ -481,7 +806,8 @@ export function VillainCutIn() {
   );
   if (!on) return null;
   return (
-    <div key={n} style={{ position: "absolute", inset: 0, zIndex: 75, pointerEvents: "none" }}>
+    // above the effects layer (80/81), so no stars or petals drift over Baron Muddle; below the Help button (85)
+    <div key={n} style={{ position: "absolute", inset: 0, zIndex: 83, pointerEvents: "none" }}>
       <div className="villain-dark" />
       <div className="villain-card">
         <div className="villain-clip">

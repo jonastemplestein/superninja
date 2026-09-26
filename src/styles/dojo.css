@@ -1,0 +1,69 @@
+/* Dojo (src/scenes/Dojo.tsx).
+   Layout contract (docs/HERO.md, stage 1280×720): the player's ninja stands bottom-left (x 0-330, y 380-720) and
+   Sensei's Help button sits bottom-right (x 1116-1280, y 556-720). Everything here is centred on the play area
+   (x 722): the new spelling and the "find it" row in the middle, the word card and its slots above, the letter bank
+   along the bottom between x 340 and 1100. */
+
+/* The spelling the child is working on sits above the effects layer (canvas z 80, .fx-dom z 81), so the ninja's
+   impacts bloom behind it and never hide its letters while their sound is said: the new spelling once it is shown,
+   the "find it" row, and the finished word. Projectiles crossing the row pass behind the other spellings. */
+.dojo .dj-front { z-index: 85; }
+
+/* learn: once the ninja starts its spell, the ear can't be tapped (that would cut off the explanation); it charges up
+   with the spell's light until the spell turns it into the letters */
+.dojo .dj-ear.casting { pointer-events: none; animation: dj-ear-charge 0.7s ease-in forwards; }
+@keyframes dj-ear-charge {
+  0% { transform: scale(1); filter: brightness(1); }
+  30% { transform: scale(1.08) rotate(-5deg); filter: brightness(1.12) drop-shadow(0 0 16px rgba(255, 214, 110, 0.9)); }
+  100% { transform: scale(0.74) rotate(7deg); filter: brightness(1.45) drop-shadow(0 0 36px rgba(255, 214, 110, 1)); }
+}
+
+/* learn: the new spelling pops out of the ninja's spell */
+.dojo .dj-reveal { display: inline-block; animation: dj-reveal 0.5s cubic-bezier(0.3, 1.6, 0.6, 1) both; }
+/* starts at 0.55, not smaller: even mid-pop it is a proper tap target */
+@keyframes dj-reveal { from { scale: 0.55; rotate: -10deg; opacity: 0; } 40% { opacity: 1; } to { scale: 1; rotate: 0deg; opacity: 1; } }
+
+/* learn: the two petals under the new spelling fill as the child taps it and says the sound */
+.dojo .dj-petal { width: 54px; opacity: 0.25; filter: grayscale(1); transition: opacity 0.2s, filter 0.2s, scale 0.3s; }
+.dojo .dj-petal.on { opacity: 1; filter: none; animation: dj-petal 0.45s cubic-bezier(0.3, 1.6, 0.6, 1); }
+@keyframes dj-petal { from { scale: 0.4; rotate: -40deg; } to { scale: 1; rotate: 0deg; } }
+
+/* find: once the right spelling is found, the others fade back... */
+.dojo .dj-dim { opacity: 0.5; scale: 0.9; filter: saturate(0.5); transition: opacity 0.3s, scale 0.3s, filter 0.3s, translate 0.35s cubic-bezier(0.2, 1.4, 0.4, 1), rotate 0.35s cubic-bezier(0.2, 1.4, 0.4, 1); }
+/* ...and the ninja's hit blows them aside */
+.dojo .dj-blown { translate: calc(var(--dir, 1) * 30px) 10px; rotate: calc(var(--dir, 1) * 9deg); }
+
+/* build: the word's picture stays inside its card (a tall picture used to hang over the slots below) */
+.dojo .card img { position: absolute; inset: 0; margin: auto; width: 86%; height: 86%; object-fit: contain; }
+
+/* build: the slots come in two layers at the same spot (Dojo.tsx). The empty slots (.dj-slotbg) sit below the effects,
+   so a letter's glowing copy is seen arriving in them; they are solid enough to read against the shoji windows. */
+.dojo .dj-slotbg .slot { background: rgba(255, 244, 220, 0.94); }
+.dojo .dj-slotbg .slot.active { background: rgba(255, 229, 150, 0.9); }
+.dojo .dj-slotbg .slot.filled { background: none; }
+/* a slot whose letter is on its way keeps glowing until it lands */
+.dojo .dj-slotbg .slot.incoming { border-color: var(--gold-deep); background: rgba(255, 229, 150, 0.8); }
+/* the letters that have landed (.dj-slots) sit above the effects: landing sparkles, glow trails and impacts fall
+   behind them and never change a letter's shape (a sparkle on l reads as i) */
+.dojo .dj-slots { z-index: 85; pointer-events: none; }
+.dojo .dj-slots .slot { border-color: transparent; background: none; box-shadow: none; animation: none; }
+.dojo .dj-seat { position: absolute; inset: 0; display: block; }
+/* the letter arrives with a squash */
+.dojo .dj-land { animation: dj-land 0.36s cubic-bezier(0.2, 0.9, 0.3, 1.3) both; transform-origin: 50% 100%; }
+@keyframes dj-land { 0% { scale: 1.22 0.72; } 45% { scale: 0.9 1.12; } 75% { scale: 1.04 0.97; } 100% { scale: 1 1; } }
+/* once the word is built, the leftover letters sink away so the word has the stage */
+.dojo .dj-bank.dj-cleared .tile { opacity: 0; translate: 0 46px; pointer-events: none; transition: opacity 0.35s ease-in, translate 0.35s ease-in; }
+.dojo .dj-bank.dj-cleared .tile:nth-child(2n) { transition-delay: 0.06s; }
+.dojo .dj-bank.dj-cleared .tile:nth-child(3n) { transition-delay: 0.12s; }
+/* the finished word hops, letter by letter */
+.dojo .dj-hop { animation: dj-hop 0.55s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+@keyframes dj-hop { 0%, 100% { translate: 0 0; scale: 1 1; } 35% { translate: 0 -38px; scale: 0.95 1.07; } 65% { translate: 0 0; scale: 1.07 0.93; } }
+
+/* letters flying home, above the effects and the letters already landed (so the ninja's impact bursts out behind the
+   letter it hits, and a letter is never hidden on its way); never tappable */
+.dojo .dj-flies { position: absolute; inset: 0; z-index: 86; pointer-events: none; overflow: hidden; }
+.dojo .dj-flies > * { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.dj-fly { z-index: 2; }
+.dj-fly .tile { box-shadow: 0 8px 0 var(--ink); }
+/* the caption bubble (a grown-ups' setting) sits above the letters flying into their slots and their impact stars */
+.dojo .bubble { z-index: 87; }

@@ -31,7 +31,7 @@ const CONTEXT: [prefix: string, context: string][] = [
   ["Sort", "Sorting, from world 3 (children aged 5+ who read simple words): words on cards, treasure chests labelled with spellings."],
   ["Story", "Story levels at the end of each world. The child is learning to read and sounds out the short on-screen sentences; Sensei reads the narration aloud."],
   ["Rewards", "End-of-level rewards and session end."],
-  ["Sound Flower", "The Sound Flower screen: a big flower whose petals are sounds and whose gems are spellings."],
+  ["World Flower", "The World Flower screen: a big flower whose petals are sounds and whose gems are spellings."],
   ["Word Book", "A sticker book of words the child has read or spelt."],
   ["Early learning", "Beginner activities for 3-to-4-year-olds: two or three big pictures on screen, Sensei demonstrates first ('watch me, together, your turn')."],
   ["Jump ahead", "Offer to skip ahead after a perfect level."],
@@ -84,7 +84,7 @@ export const LINE_QUESTIONS = {
     "none of these problems",
   ),
   vocab: score(
-    "Vocabulary. Ignore the game's own names and taught terms (Sensei, Baron Muddle, ninja, dojo, petal, gem, Sound Flower, sound, spelling, tile). How many of the remaining words would a typical 3-to-4-year-old British child NOT understand?",
+    "Vocabulary. Ignore the game's own names and taught terms (Sensei, Baron Muddle, ninja, dojo, petal, gem, World Flower, sound, spelling, tile). How many of the remaining words would a typical 3-to-4-year-old British child NOT understand?",
     ["every word is familiar to a 3-year-old", "one slightly unusual word whose meaning is clear from context", "one word most 3-to-4-year-olds would not know", "several words a 3-to-4-year-old would not know, or abstract/technical language"],
   ),
   load: score(

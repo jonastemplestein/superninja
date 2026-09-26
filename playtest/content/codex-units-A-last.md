@@ -1,0 +1,5 @@
+Created all twelve [unit files](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/src/content/units/IC1.ts), plus the reusable [builder](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/scripts/content/build-unit.ts), [15-rule validator](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/scripts/content/validate-units.ts), curated lists and judgement caches. The [phase A report](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/content/units-A-report.md) lists review words and picture prompts.
+
+The files contain **356 words, 164 pictureable entries, 24 chains and 72 dictation sentences**. All twelve units passed the requested validator command; app and script type checks passed.
+
+The main gaps are word quotas in IC3 (23/30), IC4 (26/30) and IC6 (11/30), and dictation sentence quotas in IC1–3 because of the two-unit lag. The report also identifies **33 new pictures**, **16 existing pictures to replace**, and quota conflicts in `sw.ts`.

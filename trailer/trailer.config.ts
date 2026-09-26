@@ -75,37 +75,37 @@ const KAI = "Kai: a small boy ninja with spiky black hair in a top knot, a long 
 const SUKI = "Suki: a small girl ninja with two big auburn hair buns, a pink headband with flowing tails, freckles, teal trousers, cream-and-pink top with a gold sash (exactly like the girl reference)";
 const BARON = "Baron Muddle: a dark charcoal-green toad sorcerer with glowing red eyes, a jagged black iron crown with a purple gem, torn black-and-crimson cloak, clawed hands crackling with purple magic, holding a dark tattered war fan (exactly like the toad reference)";
 const CUT = "assets-src/cut/";
+// The World Flower (docs/ART_STYLE.md): the heart of the island, rebuilt petal by petal in the game.
+const WF = "assets-src/world-flower/";
+const FLOWER_DARK = "the World Flower towering behind them in its destroyed state (exactly like the destroyed World Flower reference): a gigantic magical flower plant, every petal torn away, its bare round centre dark grey and drooping, its big leaves limp; it is NOT a tree";
+// the intro film's chosen 1080p takes (docs/INTRO_STORYBOARD.md); the cold open cuts these directly
+const IV3 = "assets-src/intro-v3/";
 
 // ───────────────────────────── the edit ─────────────────────────────
 const config: TrailerConfig = {
   title: "Super Ninja — trailer",
 
-  // Start frames (Nano Banana Pro). Sensei is being redesigned, so no new shot includes her.
+  // Start frames (Nano Banana Pro). The Baron close-up (x_baron) is a frozen earlier take: assets-src/trailer/shots/baron.mp4.
   images: {
     hero: {
-      refs: [CUT + "hero_kai_jump.png", CUT + "hero_suki_cast.png", "assets-src/art/title_bg.png"],
-      prompt: `${STYLE} Low heroic angle on the grassy cliff top at golden dawn, the bare grey Great Blossom Tree behind them (the environment reference: cliff, bare tree, valley). ${KAI} on the LEFT and ${SUKI} on the RIGHT have just landed side by side in bold ninja fighting stances, fists and palms ready, determined confident grins, headband tails whipping in the wind. Swirls of glowing golden magic light spiral around their hands, a few glowing pink blossom petals drift past, sun rays burst behind them. Epic hero reveal.`,
-    },
-    baron: {
-      refs: [CUT + "baron_angry.png", CUT + "mon_boss_baron.png", "assets-src/art/title_bg.png"],
-      prompt: `${STYLE} Dramatic close-up of ${BARON}, framed from the chest up, filling the right two-thirds of the frame, leaning towards the camera with a slow sly villain grin, glowing red eyes narrowed, purple lightning crackling in the stormy night sky behind him, purple magic flickering between his raised claws. Moody purple and crimson lighting. Menacing like a cartoon movie villain, but not scary for small children.`,
+      refs: [CUT + "hero_kai_jump.png", CUT + "hero_suki_cast.png", WF + "world_flower_destroyed.png", IV3 + "shot8_frame.png"],
+      prompt: `${STYLE} Low heroic angle on the grassy hilltop at golden dawn (the environment of the last reference), ${FLOWER_DARK}, with one tiny golden spark glinting in its dark centre. ${KAI} on the LEFT and ${SUKI} on the RIGHT have just landed side by side in bold ninja fighting stances, fists and palms ready, determined confident grins, headband tails whipping in the wind. Swirls of glowing golden magic light spiral around their hands, a few glowing rainbow-coloured teardrop petals drift past, sun rays burst behind them. Epic hero reveal.`,
     },
     clash: {
-      refs: [CUT + "hero_kai_cast.png", CUT + "baron_angry.png", "assets-src/art/title_bg.png"],
-      prompt: `${STYLE} Wide showdown on the stormy cliff top at night, the bare Great Blossom Tree in the centre background. LEFT: ${KAI}, feet planted, both palms thrust forward firing a blazing beam of golden light full of glowing golden sparkles. RIGHT: ${BARON}, sweeping his war fan and firing a crackling purple magic blast. The golden beam and the purple blast collide exactly in the centre in a huge bright burst of light and sparks. Wind whips cloaks and headband tails. Epic, bright, exciting.`,
+      refs: [CUT + "hero_kai_cast.png", CUT + "baron_angry.png", WF + "world_flower_destroyed.png", IV3 + "shot7_frame.png"],
+      prompt: `${STYLE} Wide showdown on the stormy hilltop at night, ${FLOWER_DARK.replace("towering behind them", "towering in the centre background")}. LEFT: ${KAI}, feet planted, both palms thrust forward firing a blazing beam of golden light full of glowing golden sparkles. RIGHT: ${BARON}, sweeping his war fan and firing a crackling purple magic blast. The golden beam and the purple blast collide exactly in the centre in a huge bright burst of light and sparks. Wind whips cloaks and headband tails. Epic, bright, exciting.`,
     },
     win: {
-      refs: [CUT + "hero_suki_throw.png", CUT + "hero_kai_cast.png", CUT + "baron_defeated.png", "assets-src/art/title_bg.png"],
-      prompt: `${STYLE} On the cliff top as the storm breaks into golden sunrise: ${SUKI} and ${KAI} stand together on the LEFT, arms raised in triumph as their golden magic fades to sparkles. On the RIGHT, ${BARON} has been knocked onto his bottom in a puff of purple smoke, dizzy, crown tilted, looking silly and defeated (like the defeated toad reference). Hundreds of glowing pink blossom petals burst out of the purple smoke and stream up and back towards the bare Great Blossom Tree in the background. Joyful and triumphant.`,
+      refs: [CUT + "hero_suki_throw.png", CUT + "hero_kai_cast.png", CUT + "baron_defeated.png", WF + "world_flower_partial.png"],
+      prompt: `${STYLE} On the hilltop as the storm breaks into golden sunrise: ${SUKI} and ${KAI} stand together on the LEFT, arms raised in triumph as their golden magic fades to sparkles. On the RIGHT, ${BARON} has been knocked onto his bottom in a puff of purple smoke, dizzy, crown tilted, looking silly and defeated (like the defeated toad reference). Hundreds of glowing rainbow-coloured teardrop petals burst out of the purple smoke and stream up and back towards the World Flower in the background (exactly like the World Flower reference: a gigantic flower whose bloom is two rings of glowing teardrop petals round a golden centre, on a jade stem with big leaves; a few petals already back, the rest pale outlines). It is NOT a tree. Joyful and triumphant.`,
     },
   },
 
   // Generated shots (Gemini Omni 1.1 Flash image-to-video, 1080p).
   videos: {
-    hero: { engine: "omni", frame: "img:hero", prompt: `${MOTION} The two little ninjas have just landed: dust and petals burst up around their feet, they snap into their fighting stances with a cool spin of their hands, golden magic swirling brighter, headband tails whipping in the wind. The camera does a fast dramatic push-in and slight low-angle tilt up. Sun rays flare. Big heroic whoosh and boom.` },
-    baron: { engine: "omni", frame: "img:baron", prompt: `${MOTION} Baron Muddle slowly leans towards the camera, his red eyes glow brighter and narrow, his grin widens into a sly villain smile, purple magic crackles between his claws and lightning flashes behind him lighting up his crown. Very slow ominous push-in. Low rumbling thunder.` },
-    clash: { engine: "omni", frame: "img:clash", prompt: `${MOTION} The golden beam from the little ninja and the purple blast from Baron Muddle push against each other in the centre, sparks flying, the ground shaking; the golden light surges forward and starts winning, pushing the purple magic back towards the Baron, who strains and grimaces. Fast dynamic camera push-in with slight shake. Huge magical energy crackle and wind.` },
-    win: { engine: "omni", frame: "img:win", prompt: `${MOTION} Baron Muddle wobbles dizzily in the purple smoke and flops back comically; a fountain of glowing pink petals pours out of the smoke and swirls up into the sky in a spiral, streaming back to the Great Blossom Tree, which starts to glow pink. The ninjas cheer and jump. Golden sunrise breaks through the clouds. Camera cranes up to follow the petals. Triumphant.` },
+    hero: { engine: "omni", frame: "img:hero", prompt: `${MOTION} [00:00-00:01.5] The two little ninjas have just landed: dust and glowing petals burst up around their feet and they snap into their fighting stances with a cool spin of their hands. [00:01.5-00:04] The golden magic swirls brighter, headband tails whip in the wind, and the tiny spark in the dark World Flower behind them twinkles (the flower stays bare and dark: no petals grow). A fast dramatic push-in with a slight low-angle tilt up; sun rays flare. Big heroic whoosh and boom.` },
+    clash: { engine: "omni", frame: "img:clash", prompt: `${MOTION} [00:00-00:02] The golden beam from the little ninja and the purple blast from Baron Muddle push against each other in the centre, sparks flying, the ground shaking. [00:02-00:04] The golden light surges forward and starts winning, pushing the purple magic back towards the Baron, who strains and grimaces. Baron keeps his crown on the whole time. The dark World Flower in the background stays exactly as it is. Fast dynamic camera push-in with slight shake. Huge magical energy crackle and wind.` },
+    win: { engine: "omni", frame: "img:win", prompt: `${MOTION} [00:00-00:01.5] Baron Muddle wobbles dizzily in the purple smoke and flops back comically; a fountain of glowing rainbow-coloured teardrop petals pours out of the smoke. [00:01.5-00:04] The petals swirl up in a spiral and stream back to the World Flower, landing in two rings round its golden centre, which lights up; the ninjas cheer and jump. Golden sunrise breaks through the clouds. The camera cranes up to follow the petals. The flower keeps its design (two rings of teardrop petals round a golden centre), never a tree. Triumphant.` },
   },
 
   // Casting: Sensei and Baron use the game's own Gemini TTS voices, so the trailer sounds like the game.
@@ -115,13 +115,13 @@ const config: TrailerConfig = {
     narrator: { engine: "eleven", voice: "JBFqnCBsd6RMkjVDRZzb" }, // ElevenLabs "George": warm British storyteller
   },
   voices: {
-    intro_1: { who: "sensei", file: "public/a/l/intro_1.mp3" }, // "Long ago, on the Island of Sounds, there grew a Great Blossom Tree."
-    intro_2: { who: "sensei", file: "public/a/l/intro_2.mp3" }, // "Every petal was a sound. And with sounds... we make words!"
-    intro_3: { who: "baron", file: "public/a/l/intro_3.mp3" }, // "Words, words, WORDS! How I HATE them!"
-    intro_4: { who: "baron", file: "public/a/l/intro_4.mp3" }, // "I am Baron Muddle! Every sound on this island is MINE! Mwa-ha-ha-ha!"
-    intro_6: { who: "sensei", file: "public/a/l/intro_6.mp3" }, // "Now nobody can read!"
-    cold_1: { who: "sensei", text: "On the Island of Sounds... every petal is a sound." },
-    mine: { who: "baron", text: "Every sound on this island... is MINE!" },
+    // Baron's lines are the game's own takes, re-timed onto the lip-synced intro shots (docs/INTRO_STORYBOARD.md, "Lip-sync"),
+    // so every shot that shows him speaking must place its line at the shot's in-point (see o_baron, o_storm)
+    film_3: { who: "baron", file: "public/a/l/film_3.mp3" }, // "Words, words, WORDS! How I HATE them!" (starts 0.419 s into shot3_raw)
+    film_4_mine: { who: "baron", file: "public/a/l/film_4.mp3", in: 1.7 }, // "Every sound on this island is MINE! Mwa-ha-ha-ha!" (the file starts 0.2 s into shot4_raw)
+    noread: { who: "sensei", file: "assets-src/world-flower/old-lines/intro_6.mp3" }, // "Now nobody can read!" (the v2 intro take)
+    cold_1: { who: "sensei", text: "On the Island of Sounds... grows the World Flower." },
+    cold_2: { who: "sensei", text: "Every petal is a sound." },
     need_hero: { who: "sensei", text: "We need a hero." },
     super_ninja: { who: "sensei", text: "We need... a Super Ninja!" },
     strongest: { who: "sensei", text: "Listen carefully... and spell your strongest spells!" },
@@ -175,16 +175,18 @@ const config: TrailerConfig = {
   shots: [
     // ── ACT 1 · COLD OPEN (letterboxed) ─────────────────────────────
     { id: "o_black", dur: 0.6, letterbox: true, sfx: [{ name: "shimmer", at: 0.1, gain: 0.4 }] },
-    { id: "o_island", dur: 3.0, letterbox: true, fadeIn: 0.4, video: { src: "public/media/intro_1_sound.mp4", in: 0.8, zoom: [1.0, 1.1], focus: [0.62, 0.5], audio: 0.35, vfocus: 0.7 }, vo: [{ line: "cold_1", at: 0.1 }] },
-    { id: "o_petals", dur: 2.2, letterbox: true, video: { src: "public/media/intro_2_sound.mp4", in: 2.4, zoom: [1.04, 1.12], focus: [0.6, 0.5], audio: 0.3, vfocus: 0.6 } },
-    { id: "o_baron", dur: 3.7, letterbox: true, flash: "in", shake: 0.5, video: { src: "public/media/intro_3_sound.mp4", in: 1.0, zoom: [1.05, 1.15], focus: [0.7, 0.45], audio: 0.5, vfocus: 0.72 }, vo: [{ line: "intro_3", at: 0.1 }], sfx: [{ name: "boom", at: 0 }, { name: "thunder", at: 0.05, gain: 0.8 }] },
-    { id: "o_storm", dur: 4.6, letterbox: true, video: { src: "public/media/intro_4_sound.mp4", in: 1.2, zoom: [1.0, 1.08], audio: 0.7, vfocus: 0.6 }, vo: [{ line: "mine", at: 0.75 }], sfx: [{ name: "whoosh", at: 0.3, gain: 0.8 }, { name: "hit", at: 0.35, gain: 0.6 }] },
-    { id: "o_scatter", dur: 1.8, letterbox: true, video: { src: "public/media/intro_5_sound.mp4", in: 1.2, speed: 1.3, audio: 0.5, vfocus: 0.4 } },
-    { id: "o_noread", dur: 1.8, letterbox: true, video: { src: "public/media/intro_6_sound.mp4", in: 1.2, zoom: [1.0, 1.06], audio: 0.2, vfocus: 0.5 }, vo: [{ line: "intro_6", at: 0.0 }] },
-    { id: "o_beat", dur: 1.4, letterbox: true, music: 0, vo: [{ line: "super_ninja", at: 0.0 }], sfx: [{ name: "reverse", at: 0.2, gain: 0.8 }] },
+    { id: "o_island", dur: 3.4, letterbox: true, fadeIn: 0.4, video: { src: IV3 + "shot1_raw.mp4", in: 1.2, zoom: [1.0, 1.06], focus: [0.5, 0.4], audio: 0.35, vfocus: 0.5 }, vo: [{ line: "cold_1", at: 0.1 }] },
+    { id: "o_petals", dur: 2.4, letterbox: true, video: { src: IV3 + "shot2_raw.mp4", in: 1.6, zoom: [1.02, 1.1], focus: [0.45, 0.6], audio: 0.3, vfocus: 0.4 }, vo: [{ line: "cold_2", at: 0.1 }], sfx: [{ name: "shimmer", at: 1.4, gain: 0.5 }] },
+    // lip-synced: never change `speed`, and keep `at` = 0.419 − `in` (the line's offset in the take)
+    { id: "o_baron", dur: 5.45, letterbox: true, flash: "in", shake: 0.5, video: { src: IV3 + "shot3_raw.mp4", in: 0.25, zoom: [1.05, 1.18], focus: [0.66, 0.4], audio: 0.5, vfocus: 0.66 }, vo: [{ line: "film_3", at: 0.169 }], sfx: [{ name: "boom", at: 0 }, { name: "thunder", at: 3.2, gain: 0.8 }] },
+    // lip-synced: the line's file time 1.7 s = the take's 1.9 s, so it starts at 0; the laugh runs on over o_scatter
+    { id: "o_storm", dur: 4.6, letterbox: true, video: { src: IV3 + "shot4_raw.mp4", in: 1.9, zoom: [1.0, 1.08], audio: 0.7, vfocus: 0.55 }, vo: [{ line: "film_4_mine", at: 0.0 }], sfx: [{ name: "whoosh", at: 1.85, gain: 0.8 }, { name: "hit", at: 2.0, gain: 0.6 }] },
+    { id: "o_scatter", dur: 1.8, letterbox: true, video: { src: IV3 + "shot5_raw.mp4", in: 1.2, speed: 1.3, audio: 0.5, vfocus: 0.35 } },
+    { id: "o_noread", dur: 2.4, letterbox: true, video: { src: IV3 + "shot6_raw.mp4", in: 0.2, zoom: [1.0, 1.06], audio: 0.2, vfocus: 0.5 }, vo: [{ line: "noread", at: 0.3 }] },
+    { id: "o_beat", dur: 2.2, letterbox: true, music: 0, video: { src: IV3 + "shot7_raw.mp4", in: 1.4, zoom: [1.0, 1.08], focus: [0.35, 0.45], audio: 0, vfocus: 0.3 }, vo: [{ line: "super_ninja", at: 0.1 }], sfx: [{ name: "reverse", at: 0.3, gain: 0.8 }] },
 
     // ── ACT 2 · HERO REVEAL ───────────────────────────────────────
-    { id: "r_hero", dur: 3.0, flash: "in", shake: 0.4, video: { src: "gen:hero", in: 1.9, zoom: [1.02, 1.1], audio: 0.25, vfocus: 0.5 }, sfx: [{ name: "boom", at: 0 }, { name: "hit", at: 0 }] },
+    { id: "r_hero", dur: 3.0, flash: "in", shake: 0.4, video: { src: "gen:hero", in: 0.2, zoom: [1.02, 1.1], audio: 0.25, vfocus: 0.5 }, sfx: [{ name: "boom", at: 0 }, { name: "hit", at: 0 }] },
 
     // ── ACT 3 · THE BUILD (cuts get shorter and shorter) ─────────────
     { id: "c_train", dur: 1.7, card: { style: "slam", text: "MASTER\nEVERY SOUND", sprite: "public/a/i/sensei_cheer.webp", accent: "gold" }, sfx: [{ name: "hit", at: 0 }] },
@@ -210,16 +212,16 @@ const config: TrailerConfig = {
 
     // ── ACT 4 · THE SHOWDOWN ─────────────────────────────────────
     { id: "x_silence", dur: 0.6, music: 0.15, vo: [{ line: "come_far", at: 0.3 }], sfx: [{ name: "boom_low", at: 0, gain: 0.8 }] },
-    { id: "x_baron", dur: 2.7, fadeIn: 0.3, video: { src: "gen:baron", in: 5.6, zoom: [1.0, 1.08], focus: [0.65, 0.45], audio: 0.2, vfocus: 0.65 }, music: 0.3 },
+    { id: "x_baron", dur: 2.7, fadeIn: 0.3, video: { src: "assets-src/trailer/shots/baron.mp4", in: 5.6, zoom: [1.0, 1.08], focus: [0.65, 0.45], audio: 0.2, vfocus: 0.65 }, music: 0.3 },
     { id: "c_final", dur: 1.2, card: { style: "slam", text: "THE FINAL\nSHOWDOWN", accent: "purple" }, sfx: [{ name: "boom", at: 0 }] },
-    // clash: Omni loses Baron's crown between ~1.5 s and ~3 s of the take, so we cut around it
+    // clash: from ~3 s into the take Omni turns Baron's iron crown gold, so both clash shots stay before it
     { id: "x_clash", dur: 1.4, shake: 0.6, video: { src: "gen:clash", in: 0.0, zoom: [1.0, 1.08], audio: 0.35, vfocus: 0.5 }, vo: [{ line: "dare", at: 0.1, gain: 0.9 }], sfx: [{ name: "hit", at: 0 }] },
-    { id: "x_clash2", dur: 1.6, shake: 0.3, video: { src: "gen:clash", in: 3.0, zoom: [1.1, 1.2], focus: [0.55, 0.5], audio: 0.35, vfocus: 0.6 }, sfx: [{ name: "zap", at: 0, gain: 0.8 }] },
+    { id: "x_clash2", dur: 1.6, shake: 0.3, video: { src: "gen:clash", in: 1.1, zoom: [1.1, 1.2], focus: [0.55, 0.5], audio: 0.35, vfocus: 0.6 }, sfx: [{ name: "zap", at: 0, gain: 0.8 }] },
     { id: "g_baron1", dur: 0.55, flash: "in", video: { src: "assets-src/trailer/clips/tr_boss_baron.mp4", in: 24.6, zoom: [1.1, 1.2], focus: [0.6, 0.45], vfocus: 0.75 }, sfx: [{ name: "hit", at: 0, gain: 0.8 }] },
     { id: "g_baron2", dur: 0.5, video: { src: "assets-src/trailer/clips/tr_boss_baron.mp4", in: 26.0, zoom: [1.1, 1.2], focus: [0.6, 0.45], vfocus: 0.7 }, sfx: [{ name: "zap", at: 0, gain: 0.8 }] },
     { id: "g_baron3", dur: 0.45, video: { src: "assets-src/trailer/clips/tr_boss_baron.mp4", in: 55.8, zoom: [1.1, 1.2], focus: [0.6, 0.45], vfocus: 0.7 }, sfx: [{ name: "hit", at: 0, gain: 0.8 }] },
-    { id: "x_win", dur: 3.0, flash: "in", video: { src: "gen:win", in: 0.3, zoom: [1.0, 1.05], audio: 0.3, vfocus: 0.45 }, sfx: [{ name: "boom", at: 0 }, { name: "riser_long", at: 0.4, gain: 0.7 }] },
-    { id: "x_bloom", dur: 2.0, fadeOut: 0.15, video: { src: "public/media/finale_sound.mp4", in: 2.2, zoom: [1.0, 1.08], audio: 0.3, vfocus: 0.5 }, sfx: [{ name: "shimmer", at: 0.2, gain: 0.6 }] },
+    { id: "x_win", dur: 3.0, flash: "in", video: { src: "gen:win", in: 0.2, zoom: [1.0, 1.05], audio: 0.3, vfocus: 0.45 }, sfx: [{ name: "boom", at: 0 }, { name: "riser_long", at: 0.4, gain: 0.7 }] },
+    { id: "x_bloom", dur: 2.0, fadeOut: 0.15, video: { src: IV3 + "finale_raw.mp4", in: 2.0, zoom: [1.0, 1.08], audio: 0.3, vfocus: 0.5 }, sfx: [{ name: "shimmer", at: 0.2, gain: 0.6 }] },
 
     // ── ACT 5 · TITLE ────────────────────────────────────────────
     { id: "e_logo", dur: 5.0, flash: "in", card: { style: "logo", text: "SUPER NINJA", sub: "READ. SPELL. SAVE THE ISLAND.", url: "superninja.templestein.com", sprite: "public/a/i/hero_kai_cheer.webp", sprite2: "public/a/i/hero_suki_cheer.webp" }, vo: [{ line: "title", at: 0.35 }], sfx: [{ name: "boom", at: 0 }, { name: "hit", at: 0 }] },

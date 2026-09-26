@@ -5,7 +5,7 @@
   --ink-2: #5c4332;
   --ink-3: #6e5341;
   --paper: #fbecd8;
-  --paper-2: #f5e8d5; /* matches the Sound Flower painting */
+  --paper-2: #f5e8d5; /* matches the World Flower painting */
   --peach: #f7dcc4;
   --sage: #e5e8d2;
   --night: #1e1636;
@@ -159,7 +159,7 @@ section.torn.alt::before { -webkit-mask-image: var(--edge-b); mask-image: var(--
 .note { font-size: 15px; line-height: 1.5; color: var(--ink-3); border-top: 2px dotted rgba(58,36,22,.2); padding-top: 10px; margin-top: 12px !important; }
 .note b { color: var(--ink-2); font-weight: 800; }
 
-/* ---------- sound flower */
+/* ---------- world flower */
 .flower { --bg: var(--paper-2); background-image: var(--grain); }
 .flower-grid { display: grid; gap: 10px; align-items: center; }
 .flower-art img { width: min(100%, 560px); margin: -20px auto 0; -webkit-mask: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent); -webkit-mask-composite: source-in; mask: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent); mask-composite: intersect; }

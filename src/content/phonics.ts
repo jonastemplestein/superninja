@@ -20,7 +20,7 @@ export interface Phoneme {
   ipa: string;
   /** a word that starts with / contains the sound, for grown-ups */
   example: string;
-  /** petal colour on the Blossom Tree */
+  /** petal colour on the World Flower */
   colour: string;
   /** plain-text spellings to feed TTS when generating the pure sound (best take is chosen by an audio judge) */
   tts: string[];
@@ -69,7 +69,7 @@ export const PHONEMES: Record<PhonemeId, Phoneme> = {
   // Extended Code sounds (Sky Temple)
   ae: { id: "ae", label: "ae", ipa: "eɪ", example: "rain", colour: C.vLong, vowel: true, tts: ["ay", "ay.", "eɪ", "a (as in rain)"], judge: "the long vowel /eɪ/ as in 'rain' and 'day'" },
   ee: { id: "ee", label: "ee", ipa: "iː", example: "tree", colour: C.vLong, vowel: true, tts: ["ee", "ee.", "iː", "eee"], judge: "the long vowel /iː/ as in 'tree' and 'sea'" },
-  ie: { id: "ie", label: "ie", ipa: "aɪ", example: "night", colour: C.vLong, vowel: true, tts: ["eye", "ie.", "aɪ", "igh"], judge: "the long vowel /aɪ/ as in 'night' and 'pie'" },
+  ie: { id: "ie", label: "ie", ipa: "aɪ", example: "night", colour: C.vLong, vowel: true, tts: ["eye", "aɪ", "igh", "eye."], judge: "the long vowel /aɪ/ as in 'night' and 'pie'" },
   oe: { id: "oe", label: "oe", ipa: "əʊ", example: "boat", colour: C.vLong, vowel: true, tts: ["oh", "oh.", "əʊ", "oe"], judge: "the Southern British long vowel /əʊ/ as in 'boat' and 'snow'" },
   oo: { id: "oo", label: "oo", ipa: "uː", example: "moon", colour: C.vLong, vowel: true, tts: ["oo", "ooo.", "uː", "oo!"], judge: "the long vowel /uː/ as in 'moon'" },
   ar: { id: "ar", label: "ar", ipa: "ɑː", example: "car", colour: C.vR, vowel: true, tts: ["ah", "ar.", "ɑː", "aah"], judge: "the long vowel /ɑː/ as in 'car' (non-rhotic British, no r sound)" },
@@ -142,12 +142,12 @@ export interface Unit {
 export const UNITS: Unit[] = [
   {
     id: 1, spellings: ["a", "i", "m", "s", "t"], focus: "One sound, one letter",
-    words: ["at", "am", "it", "sat", "mat|a small woven floor mat", "sit|one child seen clearly from the side, sitting upright on a low stool, bottom on the seat, knees bent and both bare feet on the floor, hands resting on knees, with the whole seated pose visible"],
+    words: ["at", "am", "it", "sat", "mat|a rectangular striped mat with a short fringe at both ends, lying flat, seen from slightly above", "sit|one smiling little girl sitting down: curly brown hair, a friendly face with two eyes and a big smile, a yellow T-shirt and blue shorts, sitting on a small red chair that is mostly hidden under her, both feet on the floor, facing the viewer, the whole girl visible from head to toe"],
   },
   {
     id: 2, spellings: ["n", "o", "p"], focus: "One sound, one letter",
     words: [
-      "an", "in", "on", "man|a friendly grown-up man in a green jumper waving", "pan|a frying pan", "nap|a sleepy cat taking a nap", "tap|a kitchen water tap",
+      "an", "in", "on", "man|a grown-up man with a friendly face (two eyes and a big smile), short brown hair, a green jumper and blue jeans, whole from head to toe, facing the viewer and waving", "pan|a frying pan", "nap|a sleepy cat taking a nap", "tap|a kitchen water tap",
       "map|a treasure map", "pat", "pit", "pin|a big red drawing pin (a push pin) standing on its point, seen from the side", "tin|a tin can", "nip", "tip", "sip", "pot|a clay cooking pot",
       "top|a spinning top toy", "not", "mop|a floor mop", "pop", "pip", "tan",
     ],
@@ -156,15 +156,15 @@ export const UNITS: Unit[] = [
     id: 3, spellings: ["b", "c", "g", "h"], focus: "One sound, one letter",
     words: [
       "cat|a cat", "cap|a baseball cap", "can", "cot|a baby's cot", "bat|a cute bat flying", "bag|a school bag", "big",
-      "bin|a rubbish bin", "bit", "bib|a baby bib", "hat|a blue sun hat with a wide brim", "hit", "him", "hop|one happy child hopping on one bare foot, other knee lifted high, arms out for balance, shown side-on with an energetic upward bounce", "hot|a bowl of steaming hot soup with big curly steam",
-      "hip", "gap", "gas", "got", "pig|a pink pig", "cab|a black taxi cab", "tag", "cob|a yellow corn on the cob with green leaves",
+      "bin|a rubbish bin", "bit", "bib|a baby bib", "hat|a red woolly bobble hat with a big white bobble on top", "hit", "him", "hop|one happy child hopping on one bare foot, other knee lifted high, arms out for balance, shown side-on with an energetic upward bounce", "hot|a bowl of steaming hot soup with big curly steam",
+      "hip", "gap", "gas", "got", "pig|a round pink pig standing side-on with its head turned to smile at the viewer, flat snout, curly tail", "cab|a black taxi cab", "tag", "cob|a yellow corn on the cob with green leaves",
       "big", "hob|one built-in black glass kitchen hob seen from slightly above, a completely flat rectangular top with four circular electric cooking rings and four small controls along one edge, no raised cooker body, oven, pan or food",
     ],
   },
   {
     id: 4, spellings: ["d", "e", "f", "v"], focus: "One sound, one letter",
     words: [
-      "dad", "did", "dog|a dog", "dot|a single big shiny red ball-shaped spot, like a round red button", "den|a small cosy den made of blankets draped over chairs", "dip", "fan|an electric fan", "fit",
+      "dad", "did", "dog|a friendly brown-and-white puppy sitting and facing the viewer, floppy ears, big shiny eyes, a little pink tongue, a wagging tail", "dot|a single big shiny red ball-shaped spot, like a round red button", "den|a small cosy den made of blankets draped over chairs", "dip", "fan|an electric fan", "fit",
       "fig|one whole purple fig fruit beside a cut half showing its distinctive pink seed-filled centre, short stem and teardrop shape", "fog|a small tree half hidden in thick swirling grey fog", "fin|a shark fin", "fed", "bed|a bed", "pet", "peg|a clothes peg", "pen|a pen",
       "hen|a hen", "ten", "net|a fishing net", "get", "set", "men", "vet|a friendly woman vet in teal scrubs examining a small puppy on a low table, wearing a stethoscope around her neck, full person and puppy both clearly visible", "van|a tall boxy delivery van with a large windowless cargo box behind the cab, two front seats only, sliding side door and rear doors, in bright blue", "beg",
     ],
@@ -188,7 +188,7 @@ export const UNITS: Unit[] = [
   {
     id: 7, spellings: ["x", "y", "ff", "ll", "ss", "zz"], focus: "Two letters can spell one sound",
     words: [
-      "box|a simple open cardboard box with four folded flaps, hollow inside and clearly made of brown cardboard", "fox|a fox", "six", "fix", "mix", "wax", "yes", "yak|a yak", "yum", "yet", "yap", "yell", "off", "puff",
+      "box|a simple open cardboard box with four folded flaps, hollow inside and clearly made of brown cardboard", "fox|an orange fox sitting and facing the viewer with a friendly face: two big shiny eyes, a little black nose and a smile, white cheeks and chest, black-tipped ears, a bushy white-tipped tail", "six", "fix", "mix", "wax", "yes", "yak|a yak", "yum", "yet", "yap", "yell", "off", "puff",
       "huff", "cuff", "doll|a doll", "bell|a bell", "hill|a green hill", "well|a stone well", "fell", "sell", "tell", "bill",
       "kiss", "mess", "boss", "less", "fuss", "hiss", "miss", "buzz", "fizz", "jazz",
     ],
@@ -206,7 +206,7 @@ export const UNITS: Unit[] = [
   {
     id: 9, spellings: [], focus: "Words with two consonants together at the start",
     words: [
-      "stop", "spot", "step", "swim|a child actively swimming across a little patch of bright blue water, side view with face above the water and one arm reaching forward in a swimming stroke, small splashes around them", "frog|a frog", "flag|a flag", "flat", "plug|a plug", "plum|a plum", "pram|a pram",
+      "stop", "spot", "step", "swim|a child actively swimming across a little patch of bright blue water, side view with face above the water and one arm reaching forward in a swimming stroke, small splashes around them", "frog|a green frog sitting and facing the viewer, big round eyes with shiny black pupils, a wide smile", "flag|a flag", "flat", "plug|a plug", "plum|a plum", "pram|a pram",
       "drum|a drum", "drip", "crab|a crab", "clap", "clip", "trip", "trap", "slip", "snap", "snip", "spin", "skip",
       "skid", "grin", "grub", "grip", "glum", "glad", "twig|a twig", "swam", "brag", "blot", "flip", "flop", "from", "prop",
       "slim", "smug", "snug", "spit", "stem", "stun", "trim", "trot", "twin", "scab", "sniff", "stuff", "spell", "smell", "dress|one simple bright red child-sized dress on a plain hanger, clear fitted bodice and wide flared skirt, shown full length with no person",
@@ -223,10 +223,10 @@ export const UNITS: Unit[] = [
   {
     id: 11, spellings: ["sh", "ch", "th", "ck", "ng", "wh", "q", "ve", "tch"], focus: "Two or three letters can spell one sound",
     words: [
-      "ship|one big ocean liner ship with a tall funnel, several decks and rows of round portholes along a long hull, floating on a small patch of blue water, no sails", "shop|a shop", "shed|a garden shed", "shell|a sea shell", "fish|a fish", "dish", "wish", "cash", "rush", "shut",
+      "ship|one big ocean liner ship with a tall funnel, several decks and rows of round portholes along a long hull, floating on a small patch of blue water, no sails", "shop|a shop", "shed|a garden shed", "shell|a sea shell", "fish|an orange goldfish swimming side-on, one big round friendly eye, a small smile, flowing tail fins", "dish", "wish", "cash", "rush", "shut",
       "chip", "chop", "chin", "chat", "chest|a plain wooden storage chest with a curved lid and simple iron bands, closed, no treasure or coins or lock", "rich", "much", "lunch", "bench|a park bench", "munch", "chimp|a chimpanzee with black fur, pale face, large round ears and long arms walking on its knuckles, no tail, seen full-body from the side",
       "thin", "thick", "moth|a moth", "cloth", "thud", "thump", "th=dh.i.s", "th=dh.a.t", "th=dh.e.m", "th=dh.e.n", "w.i.th=dh",
-      "duck|a duck", "sock|a sock", "rock|a rock", "kick", "pick", "back", "neck", "lock|a padlock", "stuck", "snack", "black", "clock|a clock", "ring|a ring", "king|a friendly grown-up king wearing a golden crown and a long red royal robe, with his face, full body and hands visible, waving", "sing", "song", "long", "wing|a wing", "bang", "hang",
+      "duck|a white farm duck standing side-on with a friendly face: one big round shiny black eye clearly drawn on its head, an orange beak with a little smile, and orange feet", "sock|a sock", "rock|a rock", "kick", "pick", "back", "neck", "lock|a padlock", "stuck", "snack", "black", "clock|a clock", "ring|a ring", "king|a friendly grown-up king wearing a golden crown and a long red royal robe, with his face, full body and hands visible, waving", "sing", "song", "long", "wing|a wing", "bang", "hang",
       "strong", "swing|a swing", "thing", "when", "which", "whip", "whisk|a whisk", "q.u=w.i.ck", "q.u=w.i.z", "q.u=w.i.t", "q.u=w.i.l.t|a quilt",
       "s.q.u=w.i.d|a squid", "q.u=w.a.ck", "h.a.ve", "g.i.ve", "catch", "patch", "match|a match stick", "fetch", "witch|a friendly full-body witch with a face, purple pointed hat and dark dress, holding a little broom, clearly a person rather than just a hat", "itch",
       "hutch|a rabbit hutch", "ditch", "sketch", "chick|a chick", "shock", "check",
@@ -253,6 +253,15 @@ export const ORAL_WORDS: Record<string, { pic: string; first: PhonemeId }> = {
   igloo: { pic: "a small snowy igloo", first: "i" },
   octopus: { pic: "a friendly purple octopus", first: "o" },
   otter: { pic: "a cute brown otter floating on its back", first: "o" },
+  // first minutes (docs/FIRST_MINUTES.md): Lesson 1 and 2 pictures, the compound words and the fish-dog gag
+  sausage: { pic: "one plump golden-brown cooked sausage, slightly curved", first: "s" },
+  moon: { pic: "a glowing pale-yellow crescent moon", first: "m" },
+  flower: { pic: "one red flower with five round petals, a yellow middle, a green stem and two leaves", first: "f" },
+  sunflower: { pic: "one tall sunflower with big bright yellow petals, a round brown middle, a green stem and two leaves", first: "s" },
+  star: { pic: "one plump bright yellow five-pointed star with rounded points, on its own (no card, no frame, no background shape)", first: "s" },
+  starfish: { pic: "an orange starfish with five chunky rounded arms and little dots, facing the viewer with a friendly smile", first: "s" },
+  fishdog: { pic: "a funny goldfish with floppy brown puppy ears, a pink tongue and a wagging puppy tail, facing the viewer and smiling", first: "f" },
+  dogfish: { pic: "a funny brown-and-white puppy with orange goldfish fins on its back and a goldfish tail, sitting and facing the viewer, smiling", first: "d" },
 };
 
 /** Special (tricky) words: taught whole, with their unusual part noted. */
@@ -295,7 +304,7 @@ export const teachEntry = (t: string): Seg => {
   return { g, p: (p as PhonemeId) ?? GRAPHEMES[g] };
 };
 
-/** Spelling→sound pairs shown on the Blossom Tree, in teaching order. <x> is one spelling for two sounds, /k/+/s/. */
+/** Spelling→sound pairs shown on the World Flower, in teaching order. <x> is one spelling for two sounds, /k/+/s/. */
 export const CHART: Seg[] = UNITS.flatMap((u) =>
   u.spellings.flatMap((g): Seg[] =>
     g === "x" ? [{ g, p: "k" }, { g, p: "s" }] : g === "th" ? [{ g, p: "th" }, { g, p: "dh" }] : g === "q" ? [{ g, p: "k" }, { g: "u", p: "w" }] : [{ g, p: GRAPHEMES[g] }],

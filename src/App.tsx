@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { Stage, FxLayer, HelpButton, VillainCutIn, useHelp, SenseiDock, img, heroImg, useHero, Icon, RoundButton, Stars, fx, sleep, W, tapProps, TapHint } from "./ui/ui";
-import { say, sfx, playMusic, unlockAudio, hush, preload, urls } from "./engine/audio";
+import { Stage, FxLayer, HelpButton, VillainCutIn, useHelp, SenseiDock, img, heroImg, useHero, Icon, RoundButton, fx, sleep, W, tapProps, TapHint, stageXY } from "./ui/ui";
+import { say, sfx, playMusic, unlockAudio, hush, preload, urls, isSpeaking } from "./engine/audio";
 import { store, useSave } from "./engine/store";
 import { WORLDS, LEVELS, levelById, worldOf, makeReview, type Level } from "./content/worlds";
 import { STORIES } from "./content/stories";
@@ -25,7 +25,10 @@ import { JumpAhead } from "./scenes/JumpAhead";
 import { levelGains, levelNewWords, resetLevelGains, ENERGY_FULL } from "./engine/store";
 import { GemIcon } from "./ui/Gem";
 import { PHONEMES, WORD_BY_TEXT } from "./content/phonics";
-import { CaptionTop } from "./scenes/Battle";
+import { NinjaDemo } from "./scenes/NinjaDemo";
+import { NinjaSpot, ninja, type Move } from "./ui/Ninja";
+import { streak } from "./engine/streak";
+import "./styles/shell.css";
 
 type Route =
   | { name: "title" }
@@ -115,10 +118,16 @@ export default function App() {
           level={levelById(route.id)}
           onDone={(stars) => {
             const lv = levelById(route.id);
+            // a finished level's streak carries over into the next level (docs/HERO.md)
+            if (stars > 0) streak.bank();
+            else streak.drop();
             if (lv.trialGem) go({ name: "tree", celebrate: { gem: lv.trialGem, won: stars > 0 } });
             else go({ name: "reward", id: route.id, stars });
           }}
-          onQuit={() => go({ name: "map", world: levelById(route.id).world })}
+          onQuit={() => {
+            streak.drop();
+            go({ name: "map", world: levelById(route.id).world });
+          }}
         />
       )}
       {route.name === "reward" && (
@@ -148,6 +157,7 @@ export default function App() {
       {route.name === "grownups" && <Grownups onBack={() => go({ name: "map" })} />}
       {route.name === "book" && <Book onBack={() => go({ name: "map" })} />}
       {route.name === "finale" && <Intro finale onDone={() => go({ name: "map", world: 6 })} />}
+      {(route.name as string) === "ninja-demo" && <NinjaDemo />}
       <VillainCutIn />
       <HelpButton />
       <FxLayer />
@@ -185,6 +195,7 @@ function LevelHost(props: LevelProps) {
 // ---------------------------------------------------------------- Title
 function Title({ onStart }: { onStart: () => void }) {
   const [ready, setReady] = useState(false);
+  const [going, setGoing] = useState(false);
   useHelp(() => {
     unlockAudio();
     say({ line: "help_start" });
@@ -195,9 +206,17 @@ function Title({ onStart }: { onStart: () => void }) {
     return () => clearTimeout(t);
   }, []);
   const start = async () => {
+    if (going) return;
     await unlockAudio();
     sfx.gong();
     fx.burst(640, 560, "petals", 40, 1.5);
+    // a ninja exit: both heroes crouch and vanish upwards in a puff of smoke
+    setGoing(true);
+    sfx.whoosh();
+    fx.puff(835, 560, 12);
+    fx.puff(1080, 608, 12);
+    fx.twinkle(835, 420, ["#fff4dc", "#ffe38a", "#ffc53d"], 10, 8);
+    fx.twinkle(1080, 440, ["#fff4dc", "#ffe38a", "#ffc53d"], 10, 8);
     playMusic("title");
     store.set((s) => void (s.sessions += 1));
     await sleep(500);
@@ -208,13 +227,14 @@ function Title({ onStart }: { onStart: () => void }) {
       <img className="bg-img" src={img("title_bg")} alt="" style={{ filter: "saturate(1) brightness(1)" }} />
       <div className="vignette" />
       <PetalDrift />
-      <img className="sprite" src={heroImg("suki", "jump")} style={{ left: 700, top: 230, width: 270, animation: "floaty 3.2s ease-in-out infinite" }} alt="" />
-      <img className="sprite" src={heroImg("kai", "throw")} style={{ left: 985, top: 300, width: 280, animation: "floaty 2.7s ease-in-out -1s infinite" }} alt="" />
+      <img className={`sprite title-hero ${going ? "vanish" : ""}`} src={heroImg("suki", "jump")} style={{ left: 700, top: 230, width: 270, animation: "floaty 3.2s ease-in-out infinite" }} alt="" />
+      {/* Kai stands on the cliff, clear of Sensei's Help button (bottom-right) */}
+      <img className={`sprite title-hero late ${going ? "vanish" : ""}`} src={heroImg("kai", "throw")} style={{ left: 930, top: 236, width: 262, animation: "floaty 2.7s ease-in-out -1s infinite" }} alt="" />
       <div className="logo" style={{ position: "absolute", left: 60, top: 70 }}>
         <span className="l1">Super</span>
         <span className="l2">Ninja</span>
       </div>
-      <div style={{ position: "absolute", left: 250, top: 500 }} className={ready ? "pop-in" : ""}>
+      <div style={{ position: "absolute", left: 250, top: 500 }} className={ready ? "title-start-in" : ""}>
         <RoundButton label="Start" className="go pulse" onClick={start} style={{ width: 150, height: 150 }}>
           <Icon.play />
         </RoundButton>
@@ -267,7 +287,7 @@ function Choose({ onDone }: { onDone: () => void }) {
     if (latest.current === my) onDone();
   };
   return (
-    <div className="scene">
+    <div className="scene choose">
       <img className="bg-img" src={img("dojo_bg")} alt="" />
       <div className="vignette" />
       <div className="display" style={{ position: "absolute", top: 34, width: "100%", textAlign: "center", fontSize: 64 }}>
@@ -278,23 +298,43 @@ function Choose({ onDone }: { onDone: () => void }) {
           key={h}
           {...tapProps(() => choose(h))}
           aria-label={h}
-          className="panel pop-in"
+          className={`panel pop-in choose-card ${picked && picked !== h ? "other" : ""}`}
           style={{
-            position: "absolute", left: 250 + i * 420, top: 140, width: 360, height: 440, animationDelay: `${i * 0.12}s`,
+            // the two cards sit left of centre; Sensei's caption bubble has the right-hand side, above his Help button
+            position: "absolute", left: 150 + i * 390, top: 140, width: 350, height: 440, animationDelay: `${i * 0.12}s`,
             background: i ? "linear-gradient(180deg,#d7fbf3,#8fe0cf)" : "linear-gradient(180deg,#dfe0ff,#9ea3f0)",
             transform: picked === h ? "scale(1.06)" : picked ? "scale(0.9)" : undefined, opacity: picked && picked !== h ? 0.5 : 1, transition: "transform .3s, opacity .3s",
           }}
         >
-          <img src={heroImg(h, picked === h ? "cheer" : "idle")} alt="" style={{ width: 280, position: "absolute", left: 40, bottom: 22 }} className="breathe" />
+          {picked === h ? (
+            <PickedNinja key={h} />
+          ) : (
+            <img src={heroImg(h, "idle")} alt="" style={{ width: 280, position: "absolute", left: 35, bottom: 22 }} className="breathe" />
+          )}
         </button>
       ))}
-      <SenseiDock hidden />
-      <CaptionTop top={612} />
+      <SenseiDock />
     </div>
   );
 }
 
+/** The ninja the child just picked: it powers up on the spot (energy gathers, a flash and rings), then cheers. */
+function PickedNinja() {
+  useEffect(() => {
+    let live = true;
+    (async () => {
+      const t = setTimeout(() => live && ninja.say(), 200); // kiai! as the power bursts
+      await ninja.act("power");
+      clearTimeout(t);
+      if (live) await ninja.act("cheer");
+    })();
+    return () => void (live = false);
+  }, []);
+  return <NinjaSpot size={280} x={35} bottom={22} z={3} noFlames />;
+}
+
 // ---------------------------------------------------------------- World map
+const MAP_HERO_W = 128, MAP_HERO_H = 172; // the idle sprites are ~1.34 tall per wide; the img's box is bottom-aligned
 const KIND_ICON: Record<string, string> = { dojo: "sensei_idle", run: "item_gong", swap: "item_scroll", sort: "item_chest", story: "item_lantern", listen: "pic_sun", firstsound: "pic_mat", soundhunt: "pic_pig" };
 function nodePos(i: number, n: number) {
   if (n > 10) {
@@ -304,11 +344,14 @@ function nodePos(i: number, n: number) {
     const j = row ? i - half : i;
     const cnt = row ? n - half : half;
     const t = cnt === 1 ? 0.5 : j / (cnt - 1);
-    const x = row ? 1080 - t * 860 : 220 + t * 860;
+    // the bottom row stops at x 1020, so even the big current stone and its pointing hand stay clear of Sensei's
+    // Help button (bottom-right); the top row starts left of the Word Book / Flower column (right edge). Both rows
+    // start far enough left that neighbouring stones don't overlap (8 stones: ~124 px apart)
+    const x = row ? 1060 - t * 880 : 150 + t * 870;
     return { x, y: (row ? 330 : 540) + Math.sin(t * Math.PI * 2) * 18 };
   }
   const t = n === 1 ? 0.5 : i / (n - 1);
-  const x = 130 + t * (W - 260);
+  const x = 130 + t * (1050 - 130); // the last stone stays clear of Sensei's Help button (bottom-right)
   const y = 470 + Math.sin(t * Math.PI * 2.2 + 0.4) * 80;
   return { x, y };
 }
@@ -333,19 +376,27 @@ function WorldMap({ world, onLevel, onTree, onBook, onGrownups, onTitle }: { wor
   const fromIdx = useRef(w.levels.findIndex((l) => l.id === mapAnim.from)).current;
   // 0 = at the finished stone, 1 = running to the next, 2 = arrived
   const [walk, setWalk] = useState(fromIdx < 0 || heroAt < 0 ? 2 : 0);
+  const [arrived, setArrived] = useState(false); // the little victory hop on reaching the next stone
   useEffect(() => {
     mapAnim.from = null;
     if (walk === 2) return;
     const t1 = setTimeout(() => setWalk(1), 450);
+    let t3 = 0;
     const t2 = setTimeout(() => {
       setWalk(2);
+      setArrived(true);
+      t3 = window.setTimeout(() => setArrived(false), 800);
       const p = nodePos(heroAt, w.levels.length);
       sfx.petal();
+      sfx.jump();
       fx.burst(p.x, p.y, "petals", 24);
+      fx.ring(p.x, p.y - 20, { color: "#ffe38a", r0: 20, r1: 130, width: 10 });
+      fx.twinkle(p.x, p.y - 130, ["#fff4dc", "#ffe38a", "#ffc53d"], 10, 6);
     }, 1350);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
+      clearTimeout(t3);
     };
   }, []);
 
@@ -374,7 +425,7 @@ function WorldMap({ world, onLevel, onTree, onBook, onGrownups, onTitle }: { wor
         const isCur = l.id === cur.id;
         const boss = l.kind === "boss";
         // the ONE thing to tap is big, gold and bouncing; finished stones are normal; locked ones recede
-        const size = isCur ? 158 : !open ? 84 : boss ? 128 : 104;
+        const size = isCur ? (w.levels.length > 10 ? 146 : 158) : !open ? 84 : boss ? 128 : 104; // two-row maps are tighter
         const icon = l.kind === "battle" || l.kind === "boss" ? `mon_${l.monster}` : KIND_ICON[l.kind];
         return (
           <button
@@ -399,7 +450,8 @@ function WorldMap({ world, onLevel, onTree, onBook, onGrownups, onTitle }: { wor
           >
             <img src={img(icon)} alt="" style={{ width: "86%", height: "86%", objectFit: "contain", filter: open ? "none" : "grayscale(.85) opacity(.7)" }} />
             {!open && <span style={{ position: "absolute", right: -10, bottom: -10, width: 40, height: 40 }}><Icon.lock /></span>}
-            {isCur && <TapHint show style={{ right: -70, bottom: -60 }} />}
+            {/* the pointing hand sits below-right, or straight below for stones near the right edge (Help corner) */}
+            {isCur && <TapHint show style={p.x > 900 ? { left: "calc(50% - 50px)", bottom: -84 } : { right: -70, bottom: -60 }} />}
             {st > 0 && (
               <span style={{ position: "absolute", left: "50%", bottom: -34, translate: "-50% 0", display: "flex", gap: 0 }}>
                 {[1, 2, 3].map((k) => <span key={k} style={{ width: 34, height: 34 }}><Icon.star on={k <= st} /></span>)}
@@ -410,6 +462,8 @@ function WorldMap({ world, onLevel, onTree, onBook, onGrownups, onTitle }: { wor
       })}
       {heroAt >= 0 && (() => {
         const p = nodePos(walk === 0 ? fromIdx : heroAt, w.levels.length);
+        // the ninja stands ON its stone like a game piece (feet just below the stone's centre, in front of it), so on
+        // two-row maps it never drifts up among the other row's stones
         return (
           <div
             {...tapProps(() => {
@@ -417,9 +471,10 @@ function WorldMap({ world, onLevel, onTree, onBook, onGrownups, onTitle }: { wor
               onLevel(cur.id);
             })}
             data-tap-proxy // the hero is a shortcut into the current level (treadmill: may cover a node)
-            style={{ position: "absolute", left: p.x - 70, top: p.y - 250, width: 140, zIndex: 6, transition: "left .9s ease-in-out, top .9s ease-in-out", cursor: "pointer" }}
+            className="map-hero"
+            style={{ left: p.x - MAP_HERO_W / 2, top: p.y + 26 - MAP_HERO_H }}
           >
-            <img className={`sprite ${walk === 2 ? "bob" : ""}`} src={heroImg(hero, walk === 2 ? "idle" : "run")} alt="" style={{ position: "relative", width: 140 }} />
+            <img className={`sprite ${arrived ? "map-hero-hop" : walk === 2 ? "bob" : ""}`} src={heroImg(hero, arrived ? "cheer" : walk === 2 ? "idle" : "run")} alt="" />
           </div>
         );
       })()}
@@ -437,21 +492,27 @@ function WorldMap({ world, onLevel, onTree, onBook, onGrownups, onTitle }: { wor
       <div style={{ position: "absolute", top: 18, right: 18 }}>
         <HoldButton onHold={onGrownups} />
       </div>
-      <div style={{ position: "absolute", bottom: 18, right: 22, display: "flex", gap: 16, zIndex: 8 }}>
-        {LEVELS.indexOf(cur) >= 2 && (
-          <RoundButton label="Sensei's Challenge" onClick={() => { makeReview(cur); onLevel("review"); }}>
-            <img src={img("sensei_cheer")} alt="" style={{ width: "86%", height: "86%", objectFit: "contain" }} />
-          </RoundButton>
-        )}
+      {/* the Word Book, the World Flower and Sensei's Challenge stack down the right edge (the Help button owns bottom-right) */}
+      <div className="map-side">
         <RoundButton label="Word Book" onClick={onBook} style={{ background: "radial-gradient(circle at 35% 30%, #ffd9c9 0%, #c9553f 55%, #7a2e2a 100%)" }}>
           <svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" strokeWidth={5} strokeLinejoin="round" d="M8 14c8-3 16-3 24 2v36c-8-5-16-5-24-2zM56 14c-8-3-16-3-24 2v36c8-5 16-5 24-2z" /></svg>
         </RoundButton>
         <div style={{ position: "relative" }}>
-          <RoundButton label="Sound Flower" className={`pink ${readyCount ? "pulse" : ""}`} onClick={onTree}><Icon.tree /></RoundButton>
-          {readyCount > 0 && (
-            <span style={{ position: "absolute", right: -8, top: -8, minWidth: 40, height: 40, borderRadius: 20, background: "#ffc53d", border: "4px solid #2b1d14", display: "grid", placeItems: "center", fontFamily: "var(--font-display)", fontSize: 24, pointerEvents: "none" }}>{readyCount}</span>
-          )}
+          <RoundButton label="World Flower" className={`pink ${readyCount ? "pulse" : ""}`} onClick={onTree}><Icon.tree /></RoundButton>
+          {readyCount > 0 && <span className="map-badge">{readyCount}</span>}
         </div>
+        {LEVELS.indexOf(cur) >= 2 && (
+          <RoundButton label="Sensei's Challenge" className="map-challenge" onClick={() => { makeReview(cur); onLevel("review"); }}>
+            {/* a target with a shuriken stuck in the bullseye: "a challenge", with no second Sensei face on screen */}
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="26" fill="#fff4dc" stroke="#2b1d14" strokeWidth="4" />
+              <circle cx="32" cy="32" r="18.5" fill="#e8453c" stroke="#2b1d14" strokeWidth="3" />
+              <circle cx="32" cy="32" r="11" fill="#fff4dc" stroke="#2b1d14" strokeWidth="3" />
+              <circle cx="32" cy="32" r="4.5" fill="#e8453c" stroke="#2b1d14" strokeWidth="2.5" />
+            </svg>
+            <img src={img("item_shuriken")} alt="" className="map-challenge-star" />
+          </RoundButton>
+        )}
       </div>
       <SenseiDock hidden />
     </div>
@@ -505,6 +566,8 @@ function HoldButton({ onHold }: { onHold: () => void }) {
 }
 
 // ---------------------------------------------------------------- Reward
+/** The moves that fill the stars, left to right: a leaping star shot, a shuriken, then the big one. */
+const STAR_MOVES: Move[][] = [["jump"], ["throw", "punch"], ["cast", "kick"]];
 function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level: Level; stars: number; onNext: (finale: boolean) => void; onReplay: () => void; onFlower: () => void; onJumped: () => void }) {
   // snapshot this level's energy gains (largest first)
   const [gains] = useState(() =>
@@ -522,9 +585,13 @@ function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level:
   const [newWords] = useState(() => levelNewWords.slice(0, 4).map((t) => WORD_BY_TEXT[t]).filter(Boolean));
   useHelp(() => say({ line: "help_next" }));
   const [filled, setFilled] = useState(false);
+  const [lit, setLit] = useState(0); // stars the ninja has filled so far
+  const starEls = useRef<(HTMLDivElement | null)[]>([]);
   const [offerJump] = useState(() => level.id !== "review" && !level.trialGem && shouldOfferJump({ ...store.get(), stars: { ...store.get().stars, [level.id]: Math.max(store.get().stars[level.id] ?? 0, stars) } }));
   const [jumping, setJumping] = useState(false);
-  const hero = useHero();
+  const [talked, setTalked] = useState(false); // Sensei has finished the reward speech: from now on, nudge towards Next
+  const [nudge, setNudge] = useState(false);
+  const nextEl = useRef<HTMLDivElement>(null);
   const w = worldOf(level);
   const newPetals = [...new Set((level.teach ?? []).map((t) => t.split("=")[0]))];
   const isLastInWorld = w.levels[w.levels.length - 1].id === level.id;
@@ -537,8 +604,28 @@ function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level:
       for (const g of newPetals) if (!s.petals.includes(g)) s.petals.push(g);
     });
     playMusic(null);
-    sfx.fanfare();
-    fx.rain("confetti", 90);
+    let live = true;
+    // the ninja fills each star it earned with a different move (the level's streak still glowing), then celebrates
+    (async () => {
+      await sleep(420);
+      for (let i = 0; i < stars && live; i++) {
+        const pool = STAR_MOVES[i];
+        const move = pool[streak.tier >= 2 ? pool.length - 1 : 0];
+        await ninja.act(move, starEls.current[i]);
+        if (!live) return;
+        setLit(i + 1);
+        sfx.coin();
+        const p = stageXY(starEls.current[i]);
+        fx.burst(p.x, p.y, "stars", 10 + i * 4, 1.1);
+        fx.ring(p.x, p.y, { color: "#ffe38a", r0: 30, r1: 150 + i * 30, width: 12 });
+        await sleep(140);
+      }
+      if (!live) return;
+      sfx.fanfare();
+      fx.rain("confetti", 90);
+      if (stars >= 3) await ninja.act("power");
+      if (live) await ninja.act("cheer");
+    })();
     (async () => {
       await sleep(600);
       const seq: any[] = [{ line: level.kind === "boss" ? "battle_boss_win" : "yay_7" }];
@@ -556,49 +643,82 @@ function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level:
       const mins = performance.now() / 60_000;
       if (!restNudged && (mins > 18 || (mins > 12 && w.key === WORLDS[0].key))) {
         restNudged = true;
-        say({ line: mins > 18 ? "break_time" : "dojo_nap" }, { keep: true });
+        await say({ line: mins > 18 ? "break_time" : "dojo_nap" }, { keep: true });
       }
+      if (live) setTalked(true);
     })();
+    return () => void (live = false);
   }, []);
+  // A child who doesn't know what to do next isn't left staring at a still screen: after ~3 s a hand points at the
+  // green Next arrow, and after ~6 s the ninja leaps and points at it with a star while Sensei says "Tap the green
+  // arrow to carry on!". Once more after ~14 s, then it stays quiet. (Leaving the screen clears the timers.)
+  useEffect(() => {
+    if (!talked || jumping) return;
+    const nudgeNext = () => {
+      if (isSpeaking()) return;
+      void ninja.act("jump", nextEl.current?.querySelector("button") ?? undefined);
+      say({ line: "help_next" });
+    };
+    const ts = [setTimeout(() => setNudge(true), 3000), setTimeout(nudgeNext, 6000), setTimeout(nudgeNext, 14000)];
+    return () => ts.forEach(clearTimeout);
+  }, [talked, jumping]);
+  const gemSize = gains.length > 4 || newWords.length ? 96 : 118;
+  // the panel fits what there is to show (stars; new Word Book stickers; gem energy), centred in the space above the bubble
+  const gemsTop = newWords.length ? 250 : 176;
+  const panelH = gains.length ? gemsTop + gemSize + 24 : newWords.length ? 254 : 186;
+  const panelTop = 18 + Math.max(0, (402 - panelH) / 2);
   return (
-    <div className="scene">
+    <div className="scene reward">
       <img className="bg-img" src={img(`bg_${w.key}`)} alt="" style={{ filter: "blur(3px) brightness(.8)" }} />
       <div className="vignette" />
-      <div className="panel pop-in" style={{ position: "absolute", left: 290, top: 70, width: 700, height: 540, background: "linear-gradient(180deg,#fffaf0,#f6e3bb)" }}>
-        <div style={{ position: "absolute", top: 26, width: "100%", display: "flex", justifyContent: "center" }}><Stars n={stars} size={110} /></div>
-        <img src={heroImg(hero, "cheer")} alt="" className="bob" style={{ position: "absolute", left: 40, bottom: 30, width: 260 }} />
+      {/* the child's ninja, bottom-left as in every level, still wearing the level's streak */}
+      <NinjaSpot size={270} x={34} />
+      <div className="panel pop-in reward-panel" style={{ top: panelTop, height: panelH }}>
+        {/* three star slots: the ninja strikes each star the child earned, and it lights up */}
+        <div className="reward-stars">
+          {[0, 1, 2].map((i) => (
+            <div key={i} ref={(el) => void (starEls.current[i] = el)} className={`reward-star ${i < lit ? "on" : ""}`}>
+              <span className="empty"><Icon.star on={false} /></span>
+              <span className="full"><Icon.star on /></span>
+            </div>
+          ))}
+        </div>
         {/* new Word Book stickers */}
         {newWords.length > 0 && (
-          <div style={{ position: "absolute", left: 300, right: 20, top: 146, display: "flex", gap: 10, alignItems: "center", justifyContent: "center", flexWrap: "nowrap" }}>
+          <div className="reward-words">
             {newWords.map((w, i) => (
-              <div key={w.text} className="pop-in" style={{ animationDelay: `${1 + i * 0.12}s`, width: 64, height: 64, borderRadius: 12, background: "#fff", border: "3px solid #2b1d14", display: "grid", placeItems: "center", rotate: `${(i % 3) * 4 - 4}deg` }}>
-                {w.pic ? <img src={img(`pic_${w.text}`)} alt="" style={{ width: 54, height: 54, objectFit: "contain" }} /> : <span style={{ fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: 20 }}>{w.text}</span>}
+              <div key={w.text} className="pop-in reward-word" style={{ animationDelay: `${1 + i * 0.12}s`, rotate: `${(i % 3) * 4 - 4}deg` }}>
+                {w.pic ? <img src={img(`pic_${w.text}`)} alt="" /> : <span>{w.text}</span>}
               </div>
             ))}
           </div>
         )}
         {/* gem energy earned this level: rings fill up; a full gem glows and offers its Gem Trial */}
-        <div style={{ position: "absolute", left: 300, top: newWords.length ? 222 : 160, right: 20, height: newWords.length ? 170 : 230, display: "flex", flexWrap: "wrap", alignContent: "center", justifyContent: "center", gap: 6 }}>
+        <div className="reward-gems" style={{ top: gemsTop }}>
           {gains.map(({ gem, before, after }, i) => {
             const full = after >= 1 && !store.get().gems.includes(gem.key);
             return (
               <div key={gem.key} className="pop-in" style={{ animationDelay: `${0.5 + i * 0.18}s` }}>
-                <GemIcon g={gem.g} colour={PHONEMES[gem.p].colour} state={full && filled ? "ready" : "charging"} energy={filled ? after : before} size={gains.length > 4 || newWords.length ? 96 : 124} />
+                <GemIcon g={gem.g} colour={PHONEMES[gem.p].colour} state={full && filled ? "ready" : "charging"} energy={filled ? after : before} size={gemSize} />
               </div>
             );
           })}
         </div>
-        <div style={{ position: "absolute", right: 36, bottom: 30, display: "flex", gap: 18, alignItems: "center" }}>
-          {offerJump && filled && (
-            <RoundButton label="Jump ahead" className="pulse" onClick={() => setJumping(true)} style={{ width: 110, height: 110, background: "radial-gradient(circle at 35% 30%, #e6f0ff 0%, #6aa8ff 55%, #2d5fb8 100%)" }}>
-              <svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" strokeWidth={5} strokeLinejoin="round" d="M10 40l14-14 10 10 20-22v14h6V6H38v6h14L34 32 24 22 6 40z" /></svg>
-            </RoundButton>
-          )}
-          {readyNow && filled && (
-            <RoundButton label="Go to the Sound Flower" className="pink pulse" onClick={onFlower} style={{ width: 110, height: 110 }}><Icon.tree /></RoundButton>
-          )}
-          <RoundButton label="Play again" onClick={onReplay}><svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" strokeWidth={7} strokeLinecap="round" d="M48 34a16 16 0 1 1-6-13M44 10v12H32" /></svg></RoundButton>
-          <RoundButton label="Next" className="go pulse" onClick={() => onNext(isFinale)} style={{ width: 120, height: 120 }}><Icon.next /></RoundButton>
+      </div>
+      {/* below the panel, clear of the ninja (bottom-left), Sensei's Help button (bottom-right) and his caption bubble */}
+      <div className="reward-buttons">
+        {offerJump && filled && (
+          <RoundButton label="Jump ahead" className="pulse" onClick={() => setJumping(true)} style={{ width: 110, height: 110, background: "radial-gradient(circle at 35% 30%, #e6f0ff 0%, #6aa8ff 55%, #2d5fb8 100%)" }}>
+            <svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" strokeWidth={5} strokeLinejoin="round" d="M10 40l14-14 10 10 20-22v14h6V6H38v6h14L34 32 24 22 6 40z" /></svg>
+          </RoundButton>
+        )}
+        {readyNow && filled && (
+          <RoundButton label="Go to the World Flower" className="pink pulse" onClick={onFlower} style={{ width: 110, height: 110 }}><Icon.tree /></RoundButton>
+        )}
+        <RoundButton label="Play again" onClick={onReplay}><svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" strokeWidth={7} strokeLinecap="round" d="M48 34a16 16 0 1 1-6-13M44 10v12H32" /></svg></RoundButton>
+        <div ref={nextEl} style={{ position: "relative" }}>
+          <RoundButton label="Next" className="go pulse" onClick={() => onNext(isFinale)} style={{ width: 128, height: 128 }}><Icon.next /></RoundButton>
+          <TapHint show={nudge && !jumping} style={{ right: -84, bottom: -12 }} />
         </div>
       </div>
       {jumping && <JumpAhead gated onClose={() => setJumping(false)} onJumped={onJumped} />}

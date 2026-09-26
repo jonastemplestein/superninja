@@ -44,6 +44,7 @@ export function mergeRun(runDir: string) {
   try { sweepCases = Object.keys(JSON.parse(readFileSync(`${runDir}/sweep.json`, "utf8")).results).map((c) => c.replace("~monkey", "")); } catch {}
   const gone = Object.entries(known).filter(([sig, k]) => k.status === "open" && !bySig.has(sig) && (k.source === "invariant" || k.source === "bot") && sweepCases.includes(k.case));
   for (const [, k] of gone) k.status = "fixed";
+  for (const s of arg("wontfix")) known[s] && (known[s].status = "wontfix"); // also dismisses first sightings
   writeFileSync(KNOWN, JSON.stringify(known, null, 1));
   writeFileSync(`${runDir}/findings.json`, JSON.stringify(tagged, null, 1));
 

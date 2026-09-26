@@ -1,10 +1,10 @@
-// First-time, step-by-step introductions for the Sound Flower and the Word Book.
+// First-time, step-by-step introductions for the World Flower and the Word Book.
 // Each step is one short spoken line with its own little animation. Tapping skips to the next step.
 import { useEffect, useRef, useState } from "react";
 import { say, sfx, hush } from "../engine/audio";
 import { img, tapProps, fx, RoundButton, Icon } from "../ui/ui";
 import { GemIcon } from "../ui/Gem";
-import { teardrop } from "./Tree";
+import { teardrop, WorldFlower } from "./Tree";
 
 function useSteps(lines: (string | [string, ...any[]])[], onDone: () => void) {
   const [step, setStep] = useState(0);
@@ -49,15 +49,10 @@ export function FlowerIntro({ onDone }: { onDone: () => void }) {
   const petalColour = "#ff6b5b";
   return (
     <div className="intro-overlay" data-modal {...tapProps(next)}>
-      {/* the broken flower: a golden centre with empty petal outlines */}
-      <svg viewBox="-300 -300 600 600" className={`intro-flower ${step >= 1 ? "shrink" : ""}`}>
-        {Array.from({ length: 12 }, (_, i) => (
-          <g key={i} transform={`rotate(${i * 30}) translate(0 -150) rotate(180)`}>
-            <path d={teardrop(80, 150)} fill={step >= 5 && i === 0 ? petalColour : "rgba(255,255,255,.35)"} stroke={step >= 5 && i === 0 ? "#2b1d14" : "rgba(255,255,255,.7)"} strokeWidth={4} strokeDasharray={step >= 5 && i === 0 ? undefined : "8 8"} className={step >= 5 && i === 0 ? "petal-land" : ""} />
-          </g>
-        ))}
-        <circle r="70" fill="#ffc53d" stroke="#2b1d14" strokeWidth="6" />
-      </svg>
+      {/* the World Flower with every petal gone; at the last step the /a/ petal flies home */}
+      <div className={`intro-flower ${step >= 1 && step < 5 ? "shrink" : ""}`}>
+        <WorldFlower light={(p) => (step >= 5 && p === "a" ? 1 : 0)} landing={step >= 5 ? "a" : null} />
+      </div>
       {step >= 1 && step < 5 && (
         <div className={`intro-petal pop-in`}>
           <svg viewBox="-110 -160 220 320" width="260" height="380">

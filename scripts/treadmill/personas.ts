@@ -26,7 +26,7 @@ it's not obvious what to tap, anything that punishes random tapping, and whether
     brief: `You are Oscar. You can read CVC words and some digraphs, you're bored by slow bits and you try to skip, break or
 speed-run things. Use ${BASE}/play/?level=<id> deep links (ids like w1-8, w2-3, w3-2 … w6-11; see src/content/worlds.ts) to play at
 least one level of every kind across worlds 2–6, including a sort, a swap, a run, a story and a boss. Try the jump-ahead offer and
-the Word Book / Sound Flower. Report pacing problems (waiting too long, repetition), exploits, softlocks and anything too easy/hard.`,
+the Word Book / World Flower (a swipeable scroll of petals). Report pacing problems (waiting too long, repetition), exploits, softlocks and anything too easy/hard.`,
   },
   patel: {
     who: "Ms Patel, Reception teacher trained in Sounds~Write",

@@ -1,0 +1,22 @@
+/// <reference types="node" />
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { stamp, append, retention, compact, forStorage } from './events';
+import { fold as genericFold } from './fold';
+import { jonas, said, start } from '../test-fixtures';
+import { fold as foldLedger } from '../ledger';
+import { learner } from '../learner';
+import { learnerConfig } from '../config/defaults';
+import { createCurriculum } from '../content/curriculum';
+import type { EventDraft, GameEvent } from '../types';
+const env={curriculum:createCurriculum({split:'consonant-e'}),cfg:learnerConfig};
+test('log 1 stamp uses context and retains explicit beat and item',()=>{const draft={kind:'obs.replay'} as EventDraft;const e=stamp(draft,{seq:4,t:100,sid:'p:s1',beat:'p:s1:b2',item:'p:s1:b2:i3'});assert.deepEqual([e.v,e.seq,e.t,e.sid,e.beat,e.item],[1,5,100,'p:s1','p:s1:b2','p:s1:b2:i3']);assert.equal(stamp({...draft,beat:'own'} as EventDraft,{seq:0,t:1,sid:'p:s1',beat:'other'}).beat,'own');});
+test('log 2 duplicate append is idempotent and conflict throws',()=>{const e=start();assert.deepEqual(append([e],e),[e]);assert.deepEqual(append([e],Object.fromEntries(Object.entries(e).reverse()) as GameEvent),[e]);assert.throws(()=>append([e],{...e,t:2}));assert.throws(()=>append([], {...e,seq:2}));});
+test('log 3 sorted and shuffled folds agree',()=>{const es=[start(),said('gpc:a>a','explain',true,2),jonas({seq:3})];const sum=(n:number,e:GameEvent)=>n+e.seq;assert.equal(genericFold(es,sum,0),genericFold([es[2],es[0],es[1]],sum,0));});
+test('log 4 every split point preserves both reducers',()=>{const es=[start(),said('gpc:a>a','explain',true,2),jonas({seq:3}),said('word:pan','mention',true,4)];const fullL=foldLedger(es),fullA=learner.fold(es,env);for(let k=0;k<=es.length;k++){assert.deepEqual(foldLedger(es.slice(k),foldLedger(es.slice(0,k))),fullL);assert.deepEqual(learner.fold(es.slice(k),env,learner.fold(es.slice(0,k),env,learner.initial('p7',{schoolYear:'unset',band:'none',ageBand:'4'},env))),fullA);}});
+test('log 5 compacting thirty sessions leaves folds equal',()=>{const es:GameEvent[]=[];let seq=1;for(let n=1;n<=30;n++){es.push(start(seq++,`p7:s${n}`,n*100000),{...said('gpc:a>a','explain',true,seq++,n*100000+1,`p7:s${n}:b1`),sid:`p7:s${n}`});}const pruned=es.map(e=>retention(e)==='compact'?compact(e):e).filter(e=>retention(e)!=='recent');assert.deepEqual(foldLedger(es),foldLedger(pruned));assert.deepEqual(learner.fold(es,env),learner.fold(pruned,env));});
+test('log 7 retention classes and durable cues',()=>{const e=said('gpc:a>a');assert.equal(retention(e),'compact');assert.equal(retention({...start(),kind:'input',input:{kind:'life',what:'boot',t:1}} as never),'recent');assert.equal(retention({...e,kind:'exp.cue',cue:{cue:'scene',bg:'x'},tags:[],needs:[]} as never),'recent');assert.equal(retention({...e,kind:'exp.cue',cue:{cue:'hint',target:'x',kind:'glow'},tags:[],needs:[]} as never),'durable');});
+test('log 8 Jonas fixture has the complete attempt envelope',()=>{const a:GameEvent=jonas();assert.equal(a.kind,'obs.attempt');if(a.kind==='obs.attempt'){assert.equal(a.timing.idleMs,3000);assert.equal(a.support.hints.length,2);assert.equal(a.target.word,'mat');assert.equal(a.target.gpc,'a>a');}});
+test('log 9 dictation item.start contains the full presented tile bank',()=>{const e={...start(),kind:'item.start',activity:'dictation-word',mechanic:'tile-to-line',phase:'you-do',spec:{kind:'dictation',activity:'dictation-word',unit:'IC1',targets:[],mode:'word',text:'mat',words:[{text:'mat',segs:[]}],maxUnit:'IC1',board:[]},options:['m','a','t','i','s'].map((value,position)=>({aff:`tile:${position}:${value}`,value,label:value,position})),scaffold:{},choices:5,predicted:.7,why:[]} as unknown as GameEvent;assert.equal(e.kind,'item.start');if(e.kind==='item.start')assert.deepEqual(e.options.map(o=>o.value),['m','a','t','i','s']);});
+test('log 10 shadow events are filtered before persistence',()=>{assert.deepEqual(forStorage([start(),{...jonas(),origin:'shadow'}]),[start()]);});
+test('log 11 JSON export and import gives the same folds',()=>{const es=[start(),said('gpc:a>a','explain',true,2),jonas({seq:3})];const imported=JSON.parse(JSON.stringify(es)) as GameEvent[];assert.deepEqual(foldLedger(imported),foldLedger(es));assert.deepEqual(learner.fold(imported,env),learner.fold(es,env));});

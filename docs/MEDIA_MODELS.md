@@ -49,6 +49,29 @@ This page covers which generative models to use for Super Ninja's video, music, 
 - Four trailer shots cost about $4 and were all usable.
 - Takes run 10 s and sometimes contain a hard cut or drift off-model after about 4–5 s: Baron's crown vanished, and a headband changed colour. Review the take and pick in-points (the trailer config cuts around these).
 - Always give it a Nano Banana Pro start frame that was made from the game's sprites.
+- **Take length follows the prompt's timestamps.** A prompt timed `[00:00-00:04.5]…` gives a take of about 4.5 s (3–7 s in practice). Front-load the key action, because a take drifts once it runs past about 4 s.
+- **First + last frame works** (`genOmni(..., { image, lastFrame })`). The World Flower finale went from a bare-flower frame to the story's bloom still in one take, and ended exactly on the still.
+- **Constraints the intro film needed** (docs/INTRO_STORYBOARD.md):
+  - "the camera stays still and never orbits", or it may swing round so a character faces the viewer;
+  - "X stays exactly as it is for the whole shot", or a bare flower sprouts new petals or morphs;
+  - the characters' facing is set by the start frame, so a character meant to look at the action needs a profile or rear-view pose in that frame.
+- **Nano Banana Pro copies a sprite's pose.** Give it a pose ref facing the right way (for example `assets-src/intro-v3/refs/sensei_brave.png`, made with `gen-intro-v2.ts poses`). Prompt text alone doesn't turn a front-facing character.
+
+## 1b. Lip-sync: pick **Seedance 2.5 with reference audio**, then re-time our line to the take ✓ verified (26 Sep 2026)
+
+For a character who speaks on screen (Baron in the intro film), tried with a start frame and the game's own TTS line:
+- **Gemini Omni 1.1 Flash** has an `audio` input in Cloudflare's schema, but both the Gemini API and Cloudflare reject it ("Audio input modality is not enabled for this model").
+- **Pruna p-video-avatar** (`pruna/p-video-avatar`, Cloudflare) gives the best mouth sync and returns our exact audio, but it only animates a talking shot. Big action (a fan blast tearing a flower apart) breaks the scene's props.
+  - Pruna models take only HTTP(S) URLs for `image` and `audio`; data URIs fail with "property input is required".
+  - The gateway's own output URLs work. Nano Banana Pro through the gateway repaints a frame unchanged and returns one (`assets-src/intro-v3/lipsync/host.ts`).
+  - Watch for `=` in signed URLs when parsing CLI flags.
+- **Pruna p-video** with `audio`: weak mouth movement.
+- **ByteDance Seedance 2.5** (`bytedance/seedance-2.5`, `reference_audios: [data URI]`, `image`, `duration` 4–30, 720p max) animates the action *and* lip-syncs, in one continuous take, on-model. **Use this.**
+  - It re-performs the line: our recording's words with its own pauses, and it may swap in its own laugh. Keep the game's recording and re-time it onto the take with `assets-src/intro-v3/lipsync/retime.py`, using DTW against the take's Demucs vocals stem.
+  - For the take's soundtrack, use the Demucs `no_vocals` stem.
+  - Calls take 2–4 minutes and exceed fetch's idle timeout, so call `/ai/run` with curl `--max-time`. About one call in three returns "Upstream service unavailable"; retry.
+- Judging lip-sync: look at 10 fps mouth crops against Whisper word times. Gemini samples video at about 1 fps and can't judge it.
+- The catalogue has no video-to-video lip-sync model (Sync, LatentSync, Kling lip-sync).
 
 ## 2. Music: pick **ElevenLabs Music v2 with a composition plan** ✓ verified. Alternative: Lyria 3.5 ✓
 

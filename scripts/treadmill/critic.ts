@@ -188,7 +188,7 @@ function imageParts(frames: Frame[], images: Map<string, string>, includeCaption
     const number = frame.file.match(/^f_(\d+)\.png$/)?.[1] ?? frame.file;
     return [
       { text: includeCaption
-        ? `Frame ${number} at ${frame.label} — caption: ${frame.caption?.trim() || "(none)"}; file: ${frame.file}`
+        ? `Frame ${number} at ${frame.label} — caption: ${frame.caption?.trim() || "(none)"}; file: ${frame.file}${(frame as any).settling ? " — MID-ANIMATION: elements may still be popping or dropping in, so don't report clipping, missing or overlapping elements from this frame alone" : ""}`
         : `Frame ${number} at ${frame.label}; file: ${frame.file}` },
       { inlineData: { mimeType: "image/jpeg", data } },
     ];

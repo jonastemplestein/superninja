@@ -28,7 +28,7 @@ The site is live at **https://superninja.templestein.com** (landing page at `/`,
 2. **Update the copy** in `index.html` if a feature was added, changed or removed. Numbers (worlds, levels, words, stories, Muddlings) come from `public/media/stats.json` automatically. Anything else is hand-written, so check:
    - the hero line and promises (British sounds, ages 3–8),
    - "Every move is a reading move": one card per game mode, each with a clip,
-   - "Grow the Sound Flower": how gems and trials work,
+   - "Regrow the World Flower": how gems and trials work,
    - "No reading needed to play": the help button, training and placement,
    - "For parents & teachers": teaching claims must stay true,
    - the FAQ.
@@ -51,3 +51,7 @@ bun scripts/screenshots.ts                                          # all galler
 bun scripts/smoke.ts                                                # just the bot test
 bun scripts/check-assets.ts                                         # missing files?
 ```
+
+## Preview channel
+
+`scripts/preview.sh` deploys the current working copy to **https://next.superninja.templestein.com**, a separate worker (`super-ninja-next`, wrangler.next.jsonc) on the same account. Before deploying, it type-checks, runs the quick bot treadmill and refuses if there are blockers. Production (superninja.templestein.com) only changes through `scripts/release.sh`. The preview is a different web address, so its saved progress and players are separate from the live site's.

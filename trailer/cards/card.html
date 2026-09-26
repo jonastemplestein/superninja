@@ -290,7 +290,7 @@ function frameUrl(t) {
   drawPetals(fxx, t + 9, { alpha: 0.7, speed: 0.6, near: true });
 }
 
-// the Sound Flower: teardrop petals (the game's shape) fill with colour one by one, gems charge and glow
+// the World Flower: teardrop petals (the game's shape) fill with colour one by one, gems charge and glow
 const PETAL_COLOURS = ["#e8312f", "#f5821f", "#f3c74a", "#2fa65a", "#6ec9f2", "#23208f", "#8a3be0", "#c42fd1", "#f59ac0", "#ee2e63", "#9ae29a", "#f7a23b"];
 function teardrop(ctx, w, h) {
   const r = w / 2, cy = -h / 2 + r;
@@ -337,13 +337,16 @@ function frameFlower(t) {
     bx.restore(); bx.restore();
     if (k > 0 && k < 1) sparks(fxx, t, fillAt(i), cx + Math.cos(a - Math.PI / 2) * R * 0.95, cy + Math.sin(a - Math.PI / 2) * R * 0.95, col, 12);
   }
-  // centre: the big gem, glowing brighter as the flower fills, bursting when it is complete
+  // centre: the World Flower's golden heart (a domed disc ringed by stamens), glowing brighter as the flower fills,
+  // bursting when it is complete
   const filled = seg(t, 0.25, done);
-  bx.save(); bx.translate(cx, cy); bx.rotate(Math.sin(t * 2) * 0.05);
-  const cs = R * 0.34 * (1 + 0.25 * back(seg(t, done, done + 0.3)) - 0.25 * seg(t, done, done + 0.3));
+  bx.save(); bx.translate(cx, cy);
+  const cs = R * 0.3 * (1 + 0.25 * back(seg(t, done, done + 0.3)) - 0.25 * seg(t, done, done + 0.3));
+  for (let i = 0; i < 20; i++) { const a = (i / 20) * Math.PI * 2 + t * 0.2; bx.beginPath(); bx.arc(Math.cos(a) * cs * 0.6, Math.sin(a) * cs * 0.6, cs * 0.06, 0, Math.PI * 2); bx.fillStyle = "#ffd35a"; bx.fill(); bx.lineWidth = cs * 0.025; bx.strokeStyle = "#2b1d14"; bx.stroke(); }
   bx.shadowColor = "#ffc53d"; bx.shadowBlur = cs * (0.2 + filled);
-  gemPath(bx, cs); const cg = bx.createLinearGradient(-cs / 2, -cs / 2, cs / 2, cs / 2); cg.addColorStop(0, "#fff6c8"); cg.addColorStop(1, "#ffc53d");
-  bx.fillStyle = cg; bx.fill(); bx.shadowBlur = 0; bx.lineWidth = cs * 0.06; bx.strokeStyle = "#2b1d14"; bx.stroke(); bx.restore();
+  bx.beginPath(); bx.arc(0, 0, cs * 0.5, 0, Math.PI * 2);
+  const cg = bx.createRadialGradient(-cs * 0.15, -cs * 0.18, 0, 0, 0, cs * 0.55); cg.addColorStop(0, "#fff6c8"); cg.addColorStop(0.55, "#ffc53d"); cg.addColorStop(1, "#e08a12");
+  bx.fillStyle = cg; bx.fill(); bx.shadowBlur = 0; bx.lineWidth = cs * 0.05; bx.strokeStyle = "#2b1d14"; bx.stroke(); bx.restore();
   const fl = t >= done ? 1 - seg(t, done, done + 0.35) : 0; if (fl > 0) { fxx.fillStyle = `rgba(255,246,220,${fl * 0.45})`; fxx.fillRect(0, 0, W, H); }
   sparks(fxx, t, done, cx, cy, "#ffc53d", 60);
   drawPetals(fxx, t, { alpha: 0.6, speed: 1.2, near: true });

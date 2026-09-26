@@ -2,7 +2,10 @@
 // Usage:
 //   bun scripts/gen-intro-v2.ts refs   [id ...]        -> assets-src/intro-v2/refs/<id>.png (on-style villager sprites used as frame refs)
 //   bun scripts/gen-intro-v2.ts frames [n ...] [--v=k] -> assets-src/intro-v3/shotN_frame[_k].png (candidates; the chosen one is copied to shotN_frame.png)
-//   bun scripts/gen-intro-v2.ts video  [n ...] [--take=k] -> assets-src/intro-v3/shotN_takeK.mp4 (Omni, 10 s, 1080p, with audio)
+//   bun scripts/gen-intro-v2.ts video  [n ...] [--take=k] -> assets-src/intro-v3/shotN_takeK.mp4 (Omni, 1080p, with audio;
+//                                                            the take's length follows the [mm:ss] timestamps in the prompt)
+//   bun scripts/gen-intro-v2.ts finale [--take=k]      -> assets-src/intro-v3/finale_takeK.mp4 (the World Flower blooms again;
+//                                                            first frame finale_frame.png, last frame finale_last.png = the story_s6_bloom art)
 // Run under: doppler run -p os-legacy-2026-04 -c dev -- bun scripts/gen-intro-v2.ts ...
 // See docs/INTRO_STORYBOARD.md for the shot list. The chosen take per shot is copied to shotN_raw.mp4, and
 // scripts/intro-v2-encode.sh cuts and encodes the film. Omni takes drift off-model after about 4 s, so every
@@ -140,7 +143,16 @@ async function pose(id: string, v = 0) {
   console.log("pose", out);
 }
 
-if (mode === "poses") {
+// The finale (src/scenes/Intro.tsx plays it under the "finale" line): the petals come home and the flower blooms.
+const FINALE = `One continuous shot, slow gentle push-in. [00:00-00:01.5] The glowing ribbons of rainbow-coloured teardrop petals swoop down out of the dawn sky and spiral round the bare, dark World Flower on its rock, while the villagers point and gasp. [00:01.5-00:03.5] The petals land on the flower one after another, forming two rings of glowing teardrop petals round its round centre, which lights up warm gold; the stem straightens and the leaves turn glossy green with glowing gold veins. [00:03.5-00:05.5] The World Flower bursts into full glorious bloom with a warm glow and swirling rainbow sparkles; bunting and confetti appear, and the pandas, foxes, rabbit and owl cheer and dance for joy. The flower keeps its design the whole time: two rings of separate teardrop petals round a golden centre, never a tree. ${MOTION} Magical rising chimes and harp, swelling into a joyful triumphant fanfare with happy cheering.`;
+
+if (mode === "finale") {
+  const take = Number(flags.take ?? 1);
+  const out = `${DIR}/finale_take${take}.mp4`;
+  if (existsSync(out)) throw new Error(`${out} exists; pass --take=<n>`);
+  await genOmni(out, { image: `${DIR}/finale_frame.png`, lastFrame: `${DIR}/finale_last.png`, prompt: FINALE, resolution: "1080p" });
+  console.log("video", out);
+} else if (mode === "poses") {
   const ids = ns.length ? ns : Object.keys(POSES);
   const vs = Number(flags.v ?? 0);
   await Promise.all(ids.flatMap((id) => (vs ? Array.from({ length: vs }, (_, i) => i + 1) : [0]).map((v) => pose(id, v).catch((e) => console.error("FAILED", id, e.message)))));

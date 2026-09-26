@@ -103,6 +103,51 @@ Every piece of feedback from Jonas, in the order received, with its status. ✅ 
   - Pictures: a blind picture audit feeds pic-names.ts, so picture games avoid pictures children name differently (fin → "shark", wig → "hair", hot → "soup").
 
 ## Round 12 (World Flower, Sounds~Write model, full programme)
-- 🔨 "Why is there this pink tree?" The story is rebuilt around the **World Flower**: a many-coloured flower of sound petals at the heart of the island, which all life depends on. Baron blows it apart; islanders cower; Sensei faces him. The intro is re-directed with Gemini Omni, with several flower design iterations (sub-agent).
+- ✅ "Why is there this pink tree?" The story is rebuilt around the **World Flower**: a many-coloured flower of sound petals at the heart of the island, which all life depends on. Baron blows it apart; islanders cower; Sensei faces him. The intro is re-directed with Gemini Omni, with several flower design iterations (sub-agent).
 - 🔨 "Make our data model for challenges, evaluation and exercise generators align super closely with Sounds~Write." A typed Sounds~Write spec (concepts, skills, Initial Code, Bridging, 49 Extended Code units, Polysyllabic, lessons and error corrections) is being written from the official scope and sequence (sub-agent). The game will then be re-keyed onto it.
 - 🔨 "Go all the way up to however far Sounds~Write goes": a content build-out plan for all Extended Code units and polysyllabic words.
+- ✅ "Make the petal chart a scroll that is scrollable. Kids understand touch scrolling." One long ninja scroll you swipe through, with big petals; taps open a petal only if the finger didn't move (World Flower agent).
+- ✅ "Make it a bit mysterious": sounds and spellings not yet met are hidden in mist; met-but-unwon spellings are unpolished; won gems shine. An overall progress vine along the scroll, and petals fill as their gems are won (World Flower agent).
+- ✅ "Swelling epic victory music when you master a new gem": `public/a/m/gem_victory.mp3`, a 10 s sting that builds, bursts into brass and flute, and rings out. Made with `scripts/gen-sting.ts` (ElevenLabs Music via Cloudflare, 5 takes). Each take was judged 3 times with no voices allowed, plus a loudness-shape check.
+- ⏳ Next, once the ninja rework and the World Flower scroll land:
+  - an epic "gem mastered" sequence: the gem flies into its petal, the petal blooms, and the new music plays
+  - tapping a sound shows the words met with it (tap to hear), plus "Practise" to open a dojo for that sound
+  - bring children to the scroll often, explaining and re-explaining in Sounds~Write teacher language with many examples (taken from the research dossier)
+- ⏳ "When you think you are done, do another few rounds of production values, motion design, polish. Kids should feel in their bones how amazing this game is. It's like dancing with phonics in an imaginary land of wonder." This becomes the closing phase after the current work: several critique → polish → verify rounds covering every screen, transition and tap, until independent reviewers find nothing that feels like a prototype.
+- ⏳ Left-to-right warm-up (Jonas: "games that help kids understand left to right order. Mentava … makes users 'read' images in order: a fish followed by a dog becomes 'fish dog', the other way round 'dog fish'. Then kids don't need to learn letter shapes and direction at the same time."). Mentava uses 🐶🐟 vs 🐟🐶 in its readiness check ("understanding that order matters"). Our version is a pre-letter warm-up world:
+  1. **Read the pictures:** two pictures on a reading line. The ninja sweeps left to right ("Ninjas read this way!"), then the child taps them in order: fish… dog, "fish dog!". A tap on the right-hand picture first makes the arrow pulse from the left (a gentle, errorless correction).
+  2. **Which did I read?:** [fish][dog] or [dog][fish]. Sensei says "dog fish", and the child picks the matching order.
+  3. **Picture words:** compound words, blended orally as the first taste of blending: sun+flower, foot+ball, rain+bow, cup+cake, star+fish, pan+cake, snow+man, lady+bird, jelly+fish, butter+fly.
+  4. **Three in a row**, and swapping the order ("cat dog fish" / "fish dog cat").
+  5. **Bridge to letters:** sound dots under the pictures, read left to right exactly like the sound buttons under letters in Unit 1.
+  It's also a quick readiness check in the placement game.
+- ✅ Quota watch and auto-wake (Jonas: "keep an eye on token quota and trigger yourself to wake yourself up in herdr after session resets"):
+  - `scripts/ops/statusline.py` (project-only status line) shows the 5-hour and 7-day quota and saves it.
+  - `scripts/ops/wake-watchdog.py` runs in herdr tab "wake-watchdog" (pane w9V:p3) and watches this session (w9V:p1). When the session stops on a usage limit, it waits for the exact reset time and submits an auto-wake prompt.
+- ⏳ Loose ends from the World Flower rework, to do once the ninja workflow releases these files:
+  - replace `Icon.tree` in ui.tsx (still a pink blossom) with Tree.tsx's `FlowerIcon`
+  - sweep.ts: rename the tree intent to the World Flower, and skip targets that sit sideways off-screen inside a `.scrollable` container
+  - record-clips.ts: show the scroll
+  - optionally tint the fx petals in the chart colours
+
+## Round 13 (Jonas playing the preview with his 3-year-old, 26 Sep)
+- ⏳ Picture cards are sometimes hard to recognise ("too abstract" for a 3-year-old) and sometimes weirdly clipped; every picture sits on a plain white card.
+- ✅ Intro film: Baron Muddle must lip-sync. (Now he speaks on screen in his real voice, with Seedance 2.5 animating from our recording. The destruction is one continuous 7.7 s take: the gloat, the fan sweep on "MINE!", the petal vortex and the laugh. The "overlay" was the talking Sensei help button glowing over the film; it now stays quiet and faded during the film.) When he destroys the flower it should be one real video clip, not one thing overlaid on another.
+- ⏳ When Sensei names the pictures ("This is a mat… this is a hat"), highlight the card being named.
+- ⏳ "Tap the mat" is three separate recordings spliced together; it must sound smooth (record whole sentences).
+- ⏳ Explain that there are fast and slow ways to say a word and how that works; that words are made of sounds; "notice the sound". New games: "tap all the words with /a/ in them", "tap all the words that start with /s/".
+- ⏳ The first game was far too long for a 3-year-old: the same thing over and over, boring.
+- ⏳ Let children opt into a level on their own within about 30 seconds: "Are you in school yet? Which class: not yet / Reception / Year 1 / Year 2?", then set the game up accordingly and say that grown-ups can change it later in the grown-ups settings.
+- ⏳ The second game repeating the first is fine only if it's fast and has a really good reward: a celebration after the first game, where the word cards just seen (pictures, not spellings) go into the sticker book, celebrated and introduced; then another short lesson.
+- 🔨 Architecture (Jonas): logic modules separate from graphics and gameplay, each tested on its own.
+  - An event log of exposures and observations (e.g. "3 s staring, 2 hints, wrong answer on this word, sound or spelling") feeds a learner model.
+  - A separate exercise planner, with spaced repetition.
+  - A narrative director that makes sure every interaction makes sense and challenge is right.
+  - The game playable as a text adventure (Jev or bots can play it), producing transcripts of everything said and done.
+  - Transcripts are audited: what's never explained, what's said once but needs three times.
+  - Status:
+    - `scripts/treadmill/transcript.ts` already turns bot play of today's game into text-adventure transcripts (perfect and learner personas).
+    - The core architecture design workflow is running (it writes docs/ARCHITECTURE.md and src/core/types.ts).
+    - Codex then builds the core with unit tests, the UI moves over to it, and the transcript audit loop runs.
+- ✅ "Never ask me questions using your dumb question tool again. Never block … add big questions or decisions to a log": docs/DECISIONS.md (decisions made on Jonas's behalf, plus open questions), and saved as a standing rule.
+- 🔨 "Have the same let me show you, now you try mechanism in the warm ups": added as an amendment to docs/FIRST_MINUTES.md and ARCHITECTURE §15.2; built in the integration workflow.

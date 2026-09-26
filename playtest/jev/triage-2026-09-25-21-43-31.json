@@ -1,0 +1,1790 @@
+{
+ "generated": "2026-09-25T21:59:11.041Z",
+ "run": "playtest/runs/2026-09-25-21-43-31",
+ "usage": {
+  "model": "jev-1.13.0",
+  "calls": 57,
+  "retries": 0,
+  "inputTokens": 47653,
+  "outputTokens": 4643,
+  "usd": 0.002001,
+  "p50ms": 393,
+  "p95ms": 732,
+  "wallMs": 2244
+ },
+ "input": {
+  "files": [
+   "critic.json",
+   "sweep.json"
+  ],
+  "findings": 95,
+  "groups": 28,
+  "pairsAsked": 29,
+  "pairsSkipped": 0
+ },
+ "clusters": [
+  {
+   "id": "c11",
+   "title": "Letter tile contains two letters ('at') instead of a single grapheme",
+   "groups": [
+    "critic:invalid-letter-tile"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-6"
+   ],
+   "impact": 0.97,
+   "childFacing": 0.81,
+   "severity": "major",
+   "area": "content"
+  },
+  {
+   "id": "c3",
+   "title": "Microscopic and low-contrast grapheme text",
+   "groups": [
+    "critic:unreadable-tiny-text"
+   ],
+   "findings": 1,
+   "cases": [
+    "tree"
+   ],
+   "impact": 0.94,
+   "childFacing": 0.83,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c8",
+   "title": "Picture cards cut off by top edge of screen",
+   "groups": [
+    "critic:clipped-cards"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-3"
+   ],
+   "impact": 0.94,
+   "childFacing": 0.72,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c27",
+   "title": "tiny-target: div[aria-label=\"petal ae\"]",
+   "groups": [
+    "bot:tiny-target:div[label]"
+   ],
+   "findings": 32,
+   "cases": [
+    "tree"
+   ],
+   "impact": 0.81,
+   "childFacing": 0.81,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c26",
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round[label]",
+    "bot:tiny-target:button.btn-round.go[label]"
+   ],
+   "findings": 8,
+   "cases": [
+    "w4-3",
+    "w5-3",
+    "w5-7",
+    "w6-10"
+   ],
+   "impact": 0.8,
+   "childFacing": 0.82,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c22",
+   "title": "Written instruction presented to non-reading child",
+   "groups": [
+    "critic:written-instruction"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-9"
+   ],
+   "impact": 0.7,
+   "childFacing": 0.85,
+   "severity": "major",
+   "area": "content"
+  },
+  {
+   "id": "c21",
+   "title": "Audio replay button disappears during prompt",
+   "groups": [
+    "critic:missing-replay-button"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-9"
+   ],
+   "impact": 0.81,
+   "childFacing": 0.73,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c10",
+   "title": "Speech bubble obscures letter choices",
+   "groups": [
+    "critic:speech-bubble-overlap"
+   ],
+   "findings": 16,
+   "cases": [
+    "w1-5",
+    "w1-8",
+    "w2-5",
+    "w3-10",
+    "w3-2",
+    "w3-7",
+    "w3-8",
+    "w4-2",
+    "w4-5",
+    "w5-4",
+    "w5-7",
+    "w5-8",
+    "w6-2",
+    "w6-4",
+    "w6-7",
+    "w6-8"
+   ],
+   "impact": 0.71,
+   "childFacing": 0.81,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c15",
+   "title": "Word card is clipped at the top of the screen",
+   "groups": [
+    "critic:element-clipped"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-7"
+   ],
+   "impact": 0.68,
+   "childFacing": 0.75,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c5",
+   "title": "Dog illustration appears featureless and ambiguous",
+   "groups": [
+    "critic:unclear-picture-card"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-11"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.86,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c6",
+   "title": "Mop illustration overlaps the first letter slot",
+   "groups": [
+    "critic:target-overlap"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-11"
+   ],
+   "impact": 0.76,
+   "childFacing": 0.75,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c23",
+   "title": "tiny-target: button.word-btn",
+   "groups": [
+    "bot:tiny-target:button.word-btn"
+   ],
+   "findings": 6,
+   "cases": [
+    "w1-14",
+    "w2-7",
+    "w3-11",
+    "w4-8",
+    "w5-10",
+    "w6-10"
+   ],
+   "impact": 0.72,
+   "childFacing": 0.78,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c24",
+   "title": "tiny-target: button.btn-round.pulse[aria-label=\"Hear the sound\"]",
+   "groups": [
+    "bot:tiny-target:button.btn-round.pulse[label]"
+   ],
+   "findings": 9,
+   "cases": [
+    "w2-4",
+    "w3-1",
+    "w3-4",
+    "w3-6",
+    "w5-3",
+    "w5-6",
+    "w6-1",
+    "w6-3",
+    "w6-6"
+   ],
+   "impact": 0.7,
+   "childFacing": 0.79,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c7",
+   "title": "Mop illustration looks like a broom",
+   "groups": [
+    "critic:picture-word-mismatch"
+   ],
+   "findings": 2,
+   "cases": [
+    "w1-12",
+    "w5-8"
+   ],
+   "impact": 0.62,
+   "childFacing": 0.87,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c12",
+   "title": "Particle effects obscure the final letter tile",
+   "groups": [
+    "critic:particle-obscuring-target"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-6"
+   ],
+   "impact": 0.7,
+   "childFacing": 0.76,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c2",
+   "title": "Letter tiles contain conjoined characters ('fs' and 'ub')",
+   "groups": [
+    "critic:malformed-letter-tiles"
+   ],
+   "findings": 1,
+   "cases": [
+    "placement"
+   ],
+   "impact": 0.66,
+   "childFacing": 0.8,
+   "severity": "minor",
+   "area": "content"
+  },
+  {
+   "id": "c14",
+   "title": "Audio replay button appears inconsistently",
+   "groups": [
+    "critic:inconsistent-controls"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-3"
+   ],
+   "impact": 0.68,
+   "childFacing": 0.71,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c16",
+   "title": "Grapheme text overflows answer slot tile",
+   "groups": [
+    "critic:text-overflow"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-9"
+   ],
+   "impact": 0.61,
+   "childFacing": 0.75,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c18",
+   "title": "Sorted words appear as tiny unstyled text on the ground",
+   "groups": [
+    "critic:illegible-sorted-words-text"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-4"
+   ],
+   "impact": 0.5,
+   "childFacing": 0.84,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c13",
+   "title": "Prompt card overlaps the progress bar",
+   "groups": [
+    "critic:ui-overlap"
+   ],
+   "findings": 2,
+   "cases": [
+    "w2-3",
+    "w3-6"
+   ],
+   "impact": 0.43,
+   "childFacing": 0.8,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c9",
+   "title": "Letter cards clipped at top screen boundary",
+   "groups": [
+    "critic:target-clipped-top-edge"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-3"
+   ],
+   "impact": 0.52,
+   "childFacing": 0.64,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c17",
+   "title": "Word card overlaps the progress bar",
+   "groups": [
+    "critic:card-progress-bar-overlap"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-2"
+   ],
+   "impact": 0.38,
+   "childFacing": 0.76,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c0",
+   "title": "Bottom settings button clipped by screen edge",
+   "groups": [
+    "critic:clipped-button"
+   ],
+   "findings": 1,
+   "cases": [
+    "grownups"
+   ],
+   "impact": 0.33,
+   "childFacing": 0.57,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c4",
+   "title": "Instruction text is cut off mid-sentence",
+   "groups": [
+    "critic:incomplete-text"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-1"
+   ],
+   "impact": 0.26,
+   "childFacing": 0.66,
+   "severity": "minor",
+   "area": "content"
+  },
+  {
+   "id": "c19",
+   "title": "Progress bar does not show complete upon activity finish",
+   "groups": [
+    "critic:incomplete-progress-bar"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-4"
+   ],
+   "impact": 0.46,
+   "childFacing": 0.79,
+   "severity": "polish",
+   "area": "logic"
+  },
+  {
+   "id": "c20",
+   "title": "Tiny unstyled sorted words appear on the floor",
+   "groups": [
+    "critic:unstyled-text-overlay"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-8"
+   ],
+   "impact": 0.47,
+   "childFacing": 0.66,
+   "severity": "polish",
+   "area": "art"
+  },
+  {
+   "id": "c1",
+   "title": "Initial blank screen",
+   "groups": [
+    "critic:blank-screen"
+   ],
+   "findings": 1,
+   "cases": [
+    "grownups"
+   ],
+   "impact": 0.54,
+   "childFacing": 0.54,
+   "severity": "polish",
+   "area": "art"
+  }
+ ],
+ "groups": [
+  {
+   "i": 0,
+   "key": "critic:clipped-button",
+   "cluster": 0,
+   "n": 1,
+   "cases": [
+    "grownups"
+   ],
+   "title": "Bottom settings button clipped by screen edge",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.57,
+   "impact": 0.33,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 1,
+   "key": "critic:blank-screen",
+   "cluster": 1,
+   "n": 1,
+   "cases": [
+    "grownups"
+   ],
+   "title": "Initial blank screen",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.54,
+   "impact": 0.54,
+   "area": "art",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 2,
+   "key": "critic:malformed-letter-tiles",
+   "cluster": 2,
+   "n": 1,
+   "cases": [
+    "placement"
+   ],
+   "title": "Letter tiles contain conjoined characters ('fs' and 'ub')",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.8,
+   "impact": 0.66,
+   "area": "content",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 3,
+   "key": "critic:unreadable-tiny-text",
+   "cluster": 3,
+   "n": 1,
+   "cases": [
+    "tree"
+   ],
+   "title": "Microscopic and low-contrast grapheme text",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.83,
+   "impact": 0.94,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 4,
+   "key": "critic:incomplete-text",
+   "cluster": 4,
+   "n": 1,
+   "cases": [
+    "w1-1"
+   ],
+   "title": "Instruction text is cut off mid-sentence",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.66,
+   "impact": 0.26,
+   "area": "content",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 5,
+   "key": "critic:unclear-picture-card",
+   "cluster": 5,
+   "n": 1,
+   "cases": [
+    "w1-11"
+   ],
+   "title": "Dog illustration appears featureless and ambiguous",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.86,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 6,
+   "key": "critic:target-overlap",
+   "cluster": 6,
+   "n": 1,
+   "cases": [
+    "w1-11"
+   ],
+   "title": "Mop illustration overlaps the first letter slot",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.75,
+   "impact": 0.76,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 7,
+   "key": "critic:picture-word-mismatch",
+   "cluster": 7,
+   "n": 2,
+   "cases": [
+    "w1-12",
+    "w5-8"
+   ],
+   "title": "Mop illustration looks like a broom",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.87,
+   "impact": 0.62,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 8,
+   "key": "critic:clipped-cards",
+   "cluster": 8,
+   "n": 1,
+   "cases": [
+    "w1-3"
+   ],
+   "title": "Picture cards cut off by top edge of screen",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.72,
+   "impact": 0.94,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 9,
+   "key": "critic:target-clipped-top-edge",
+   "cluster": 9,
+   "n": 1,
+   "cases": [
+    "w1-3"
+   ],
+   "title": "Letter cards clipped at top screen boundary",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.64,
+   "impact": 0.52,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 10,
+   "key": "critic:speech-bubble-overlap",
+   "cluster": 10,
+   "n": 16,
+   "cases": [
+    "w1-5",
+    "w1-8",
+    "w2-5",
+    "w3-10",
+    "w3-2",
+    "w3-7",
+    "w3-8",
+    "w4-2",
+    "w4-5",
+    "w5-4",
+    "w5-7",
+    "w5-8",
+    "w6-2",
+    "w6-4",
+    "w6-7",
+    "w6-8"
+   ],
+   "title": "Speech bubble obscures letter choices",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 11,
+   "key": "critic:invalid-letter-tile",
+   "cluster": 11,
+   "n": 1,
+   "cases": [
+    "w1-6"
+   ],
+   "title": "Letter tile contains two letters ('at') instead of a single grapheme",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.81,
+   "impact": 0.97,
+   "area": "content",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 12,
+   "key": "critic:particle-obscuring-target",
+   "cluster": 12,
+   "n": 1,
+   "cases": [
+    "w1-6"
+   ],
+   "title": "Particle effects obscure the final letter tile",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.76,
+   "impact": 0.7,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 13,
+   "key": "critic:ui-overlap",
+   "cluster": 13,
+   "n": 2,
+   "cases": [
+    "w2-3",
+    "w3-6"
+   ],
+   "title": "Prompt card overlaps the progress bar",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.8,
+   "impact": 0.43,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 14,
+   "key": "critic:inconsistent-controls",
+   "cluster": 14,
+   "n": 1,
+   "cases": [
+    "w2-3"
+   ],
+   "title": "Audio replay button appears inconsistently",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.71,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 15,
+   "key": "critic:element-clipped",
+   "cluster": 15,
+   "n": 1,
+   "cases": [
+    "w5-7"
+   ],
+   "title": "Word card is clipped at the top of the screen",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.75,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 16,
+   "key": "critic:text-overflow",
+   "cluster": 16,
+   "n": 1,
+   "cases": [
+    "w5-9"
+   ],
+   "title": "Grapheme text overflows answer slot tile",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.75,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 17,
+   "key": "critic:card-progress-bar-overlap",
+   "cluster": 17,
+   "n": 1,
+   "cases": [
+    "w6-2"
+   ],
+   "title": "Word card overlaps the progress bar",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.76,
+   "impact": 0.38,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 18,
+   "key": "critic:illegible-sorted-words-text",
+   "cluster": 18,
+   "n": 1,
+   "cases": [
+    "w6-4"
+   ],
+   "title": "Sorted words appear as tiny unstyled text on the ground",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.84,
+   "impact": 0.5,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 19,
+   "key": "critic:incomplete-progress-bar",
+   "cluster": 19,
+   "n": 1,
+   "cases": [
+    "w6-4"
+   ],
+   "title": "Progress bar does not show complete upon activity finish",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.79,
+   "impact": 0.46,
+   "area": "logic",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 20,
+   "key": "critic:unstyled-text-overlay",
+   "cluster": 20,
+   "n": 1,
+   "cases": [
+    "w6-8"
+   ],
+   "title": "Tiny unstyled sorted words appear on the floor",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.66,
+   "impact": 0.47,
+   "area": "art",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 21,
+   "key": "critic:missing-replay-button",
+   "cluster": 21,
+   "n": 1,
+   "cases": [
+    "w6-9"
+   ],
+   "title": "Audio replay button disappears during prompt",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.73,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 22,
+   "key": "critic:written-instruction",
+   "cluster": 22,
+   "n": 1,
+   "cases": [
+    "w6-9"
+   ],
+   "title": "Written instruction presented to non-reading child",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.85,
+   "impact": 0.7,
+   "area": "content",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 23,
+   "key": "bot:tiny-target:button.word-btn",
+   "cluster": 23,
+   "n": 6,
+   "cases": [
+    "w1-14",
+    "w2-7",
+    "w3-11",
+    "w4-8",
+    "w5-10",
+    "w6-10"
+   ],
+   "title": "tiny-target: button.word-btn",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.78,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 24,
+   "key": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": 24,
+   "n": 9,
+   "cases": [
+    "w2-4",
+    "w3-1",
+    "w3-4",
+    "w3-6",
+    "w5-3",
+    "w5-6",
+    "w6-1",
+    "w6-3",
+    "w6-6"
+   ],
+   "title": "tiny-target: button.btn-round.pulse[aria-label=\"Hear the sound\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 25,
+   "key": "bot:tiny-target:button.btn-round[label]",
+   "cluster": 26,
+   "n": 4,
+   "cases": [
+    "w4-3",
+    "w5-3",
+    "w5-7",
+    "w6-10"
+   ],
+   "title": "tiny-target: button.btn-round[aria-label=\"Play again\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.82,
+   "impact": 0.8,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 26,
+   "key": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": 26,
+   "n": 4,
+   "cases": [
+    "w4-3",
+    "w5-3",
+    "w5-7",
+    "w6-10"
+   ],
+   "title": "tiny-target: button.btn-round.go[aria-label=\"Next\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.8,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 27,
+   "key": "bot:tiny-target:div[label]",
+   "cluster": 27,
+   "n": 32,
+   "cases": [
+    "tree"
+   ],
+   "title": "tiny-target: div[aria-label=\"petal ae\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  }
+ ],
+ "merges": [
+  {
+   "a": "critic:clipped-cards",
+   "b": "critic:target-clipped-top-edge",
+   "p": 0.57
+  },
+  {
+   "a": "bot:tiny-target:button.word-btn",
+   "b": "bot:tiny-target:button.btn-round.pulse[label]",
+   "p": 0.48
+  },
+  {
+   "a": "bot:tiny-target:button.word-btn",
+   "b": "bot:tiny-target:button.btn-round[label]",
+   "p": 0.41
+  },
+  {
+   "a": "bot:tiny-target:button.word-btn",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.41
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round.pulse[label]",
+   "b": "bot:tiny-target:button.btn-round[label]",
+   "p": 0.46
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round.pulse[label]",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.54
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:button.btn-round.go[label]",
+   "p": 0.75
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round[label]",
+   "b": "bot:tiny-target:div[label]",
+   "p": 0.43
+  },
+  {
+   "a": "bot:tiny-target:button.btn-round.go[label]",
+   "b": "bot:tiny-target:div[label]",
+   "p": 0.46
+  }
+ ],
+ "findings": [],
+ "triage": {
+  "critic:grownups:clipped-button": {
+   "group": "critic:clipped-button",
+   "cluster": "c0",
+   "childFacing": 0.57,
+   "impact": 0.33,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:grownups:blank-screen": {
+   "group": "critic:blank-screen",
+   "cluster": "c1",
+   "childFacing": 0.54,
+   "impact": 0.54,
+   "area": "art",
+   "severity": "polish"
+  },
+  "critic:placement:malformed-letter-tiles": {
+   "group": "critic:malformed-letter-tiles",
+   "cluster": "c2",
+   "childFacing": 0.8,
+   "impact": 0.66,
+   "area": "content",
+   "severity": "minor"
+  },
+  "critic:tree:unreadable-tiny-text": {
+   "group": "critic:unreadable-tiny-text",
+   "cluster": "c3",
+   "childFacing": 0.83,
+   "impact": 0.94,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w1-1:incomplete-text": {
+   "group": "critic:incomplete-text",
+   "cluster": "c4",
+   "childFacing": 0.66,
+   "impact": 0.26,
+   "area": "content",
+   "severity": "minor"
+  },
+  "critic:w1-11:unclear-picture-card": {
+   "group": "critic:unclear-picture-card",
+   "cluster": "c5",
+   "childFacing": 0.86,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w1-11:target-overlap": {
+   "group": "critic:target-overlap",
+   "cluster": "c6",
+   "childFacing": 0.75,
+   "impact": 0.76,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w1-12:picture-word-mismatch": {
+   "group": "critic:picture-word-mismatch",
+   "cluster": "c7",
+   "childFacing": 0.87,
+   "impact": 0.62,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w5-8:picture-word-mismatch": {
+   "group": "critic:picture-word-mismatch",
+   "cluster": "c7",
+   "childFacing": 0.87,
+   "impact": 0.62,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w1-3:clipped-cards": {
+   "group": "critic:clipped-cards",
+   "cluster": "c8",
+   "childFacing": 0.72,
+   "impact": 0.94,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w1-3:target-clipped-top-edge": {
+   "group": "critic:target-clipped-top-edge",
+   "cluster": "c9",
+   "childFacing": 0.64,
+   "impact": 0.52,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w1-5:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w1-8:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w2-5:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w3-10:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w3-2:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w3-7:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w3-8:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w4-2:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w4-5:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w5-4:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w5-7:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w5-8:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w6-2:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w6-4:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w6-7:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w6-8:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c10",
+   "childFacing": 0.81,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w1-6:invalid-letter-tile": {
+   "group": "critic:invalid-letter-tile",
+   "cluster": "c11",
+   "childFacing": 0.81,
+   "impact": 0.97,
+   "area": "content",
+   "severity": "major"
+  },
+  "critic:w1-6:particle-obscuring-target": {
+   "group": "critic:particle-obscuring-target",
+   "cluster": "c12",
+   "childFacing": 0.76,
+   "impact": 0.7,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w2-3:ui-overlap": {
+   "group": "critic:ui-overlap",
+   "cluster": "c13",
+   "childFacing": 0.8,
+   "impact": 0.43,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w3-6:ui-overlap": {
+   "group": "critic:ui-overlap",
+   "cluster": "c13",
+   "childFacing": 0.8,
+   "impact": 0.43,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w2-3:inconsistent-controls": {
+   "group": "critic:inconsistent-controls",
+   "cluster": "c14",
+   "childFacing": 0.71,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w5-7:element-clipped": {
+   "group": "critic:element-clipped",
+   "cluster": "c15",
+   "childFacing": 0.75,
+   "impact": 0.68,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w5-9:text-overflow": {
+   "group": "critic:text-overflow",
+   "cluster": "c16",
+   "childFacing": 0.75,
+   "impact": 0.61,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w6-2:card-progress-bar-overlap": {
+   "group": "critic:card-progress-bar-overlap",
+   "cluster": "c17",
+   "childFacing": 0.76,
+   "impact": 0.38,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w6-4:illegible-sorted-words-text": {
+   "group": "critic:illegible-sorted-words-text",
+   "cluster": "c18",
+   "childFacing": 0.84,
+   "impact": 0.5,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w6-4:incomplete-progress-bar": {
+   "group": "critic:incomplete-progress-bar",
+   "cluster": "c19",
+   "childFacing": 0.79,
+   "impact": 0.46,
+   "area": "logic",
+   "severity": "polish"
+  },
+  "critic:w6-8:unstyled-text-overlay": {
+   "group": "critic:unstyled-text-overlay",
+   "cluster": "c20",
+   "childFacing": 0.66,
+   "impact": 0.47,
+   "area": "art",
+   "severity": "polish"
+  },
+  "critic:w6-9:missing-replay-button": {
+   "group": "critic:missing-replay-button",
+   "cluster": "c21",
+   "childFacing": 0.73,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w6-9:written-instruction": {
+   "group": "critic:written-instruction",
+   "cluster": "c22",
+   "childFacing": 0.85,
+   "impact": 0.7,
+   "area": "content",
+   "severity": "major"
+  },
+  "bot:w1-14:tiny-target:button.word-btn": {
+   "group": "bot:tiny-target:button.word-btn",
+   "cluster": "c23",
+   "childFacing": 0.78,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-7:tiny-target:button.word-btn": {
+   "group": "bot:tiny-target:button.word-btn",
+   "cluster": "c23",
+   "childFacing": 0.78,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-11:tiny-target:button.word-btn": {
+   "group": "bot:tiny-target:button.word-btn",
+   "cluster": "c23",
+   "childFacing": 0.78,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-8:tiny-target:button.word-btn": {
+   "group": "bot:tiny-target:button.word-btn",
+   "cluster": "c23",
+   "childFacing": 0.78,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-10:tiny-target:button.word-btn": {
+   "group": "bot:tiny-target:button.word-btn",
+   "cluster": "c23",
+   "childFacing": 0.78,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-10:tiny-target:button.word-btn": {
+   "group": "bot:tiny-target:button.word-btn",
+   "cluster": "c23",
+   "childFacing": 0.78,
+   "impact": 0.72,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w2-4:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-1:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-4:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w3-6:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-3:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w5-6:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-1:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-3:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w6-6:tiny-target:button.btn-round.pulse[aria-label=\"Hear the sound\"]": {
+   "group": "bot:tiny-target:button.btn-round.pulse[label]",
+   "cluster": "c24",
+   "childFacing": 0.79,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:w4-3:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c26",
+   "childFacing": 0.82,
+   "impact": 0.8,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-3:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c26",
+   "childFacing": 0.82,
+   "impact": 0.8,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-7:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c26",
+   "childFacing": 0.82,
+   "impact": 0.8,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w6-10:tiny-target:button.btn-round[aria-label=\"Play again\"]": {
+   "group": "bot:tiny-target:button.btn-round[label]",
+   "cluster": "c26",
+   "childFacing": 0.82,
+   "impact": 0.8,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-3:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c26",
+   "childFacing": 0.8,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-3:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c26",
+   "childFacing": 0.8,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w5-7:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c26",
+   "childFacing": 0.8,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w6-10:tiny-target:button.btn-round.go[aria-label=\"Next\"]": {
+   "group": "bot:tiny-target:button.btn-round.go[label]",
+   "cluster": "c26",
+   "childFacing": 0.8,
+   "impact": 0.78,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ae\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ee\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal oy\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ie\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal oe\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal uu\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal er\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ar\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ou\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal oo\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal ue\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal or\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal air\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal s\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal l\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal f\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal e\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal u\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal o\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal d\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal i\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal n\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal v\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal j\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal g\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal m\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal h\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal k\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal r\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal t\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal z\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:tree:tiny-target:div[aria-label=\"petal eer\"]": {
+   "group": "bot:tiny-target:div[label]",
+   "cluster": "c27",
+   "childFacing": 0.81,
+   "impact": 0.81,
+   "area": "layout",
+   "severity": "major"
+  }
+ }
+}

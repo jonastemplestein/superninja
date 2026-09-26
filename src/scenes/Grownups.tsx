@@ -21,8 +21,8 @@ export function Grownups({ onBack }: { onBack: () => void }) {
         <div className="display" style={{ fontSize: 48 }}>Grown-ups</div>
       </div>
       {/* the stage is scaled to ~half size on a phone: grown-up text needs to be much bigger than game text.
-          Left padding keeps the copy clear of Sensei's help button (bottom-left). */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24, padding: "20px 40px 160px 40px", zoom: 1.5, marginLeft: 60 }}>
+          Right padding keeps the copy clear of Sensei's Help button (bottom-right: ×1.5 zoom puts the edge at x 1106). */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24, padding: "20px 116px 160px 40px", zoom: 1.5 }}>
         <section className="panel" style={{ padding: 24 }}>
           <h2 style={{ margin: "0 0 10px" }}>Settings</h2>
           <Toggle label="Relaxed mode (no timers anywhere; timers normally start in the Misty Mountains)" on={s.settings.relaxed} onChange={(v) => set((x) => void (x.relaxed = v))} />

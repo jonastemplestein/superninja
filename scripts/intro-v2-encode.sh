@@ -12,14 +12,16 @@ cd "$(dirname "$0")/.."
 SRC=assets-src/intro-v3
 mkdir -p public/a/v public/media "$SRC/tmp"
 
+# Shots 3 and 4 are lip-synced Seedance 2.5 takes (Baron speaks film_3 / film_4): never retime them, and their line
+# delays come from assets-src/intro-v3/lipsync/retime.py (the line files are re-timed onto each take).
 # shot: start end lineDelayMs [a:b:speed]  (in/out points chosen so each key action lands on its narration words;
 # lineDelayMs = when the narration line starts inside the shot; optional a:b:speed plays raw seconds a..b at that speed
 # (e.g. 0.6 = slow-mo) before cutting, and start/end are then on the retimed timeline; see docs/INTRO_STORYBOARD.md "Timing")
 CUTS=(
   "1 0 5.68 200 0:5:0.88"
   "2 0 5.37 0 0:4.3:0.8"
-  "3 0 4.29 500 0:3.0:0.7"
-  "4 0 6.6 0"
+  "3 0 6.0 419"
+  "4 0 7.7 200"
   "5 0 4.0 200"
   "6 0 4.0 200"
   "7 0 4.0 300"
@@ -62,4 +64,15 @@ json.dump(out, open("public/a/v/intro_timing.json", "w"), indent=1)
 print("timing", sum(o["minMs"] for o in out) / 1000, "s")
 PY
 
+# the finale (the World Flower blooms again; src/scenes/Intro.tsx plays it muted under the "finale" line,
+# and the trailer uses the version with sound)
+if [[ -f "$SRC/finale_raw.mp4" ]]; then
+  fd=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$SRC/finale_raw.mp4"); ffo=$(awk "BEGIN{print $fd-0.3}")
+  ffmpeg -loglevel error -y -i "$SRC/finale_raw.mp4" -an -vf "scale=1280:720:flags=lanczos" \
+    -c:v libx264 -crf 26 -preset slow -pix_fmt yuv420p -movflags +faststart public/a/v/finale.mp4
+  ffmpeg -loglevel error -y -i "$SRC/finale_raw.mp4" -vf "scale=1280:720:flags=lanczos" \
+    -af "loudnorm=I=-16:TP=-1.5:LRA=11,afade=t=in:d=0.08,afade=t=out:st=${ffo}:d=0.3" -ar 48000 \
+    -c:v libx264 -crf 26 -preset slow -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart public/media/finale_sound.mp4
+  echo "finale: ${fd}s"
+fi
 rm -rf "$SRC/tmp"

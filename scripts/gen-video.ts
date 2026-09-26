@@ -5,8 +5,9 @@ const KEY = process.env.APP_CONFIG_GEMINI_API_KEY!;
 const BASE = "https://generativelanguage.googleapis.com/v1beta";
 const STYLE = "Hand-painted 2D cartoon animation in exactly the same illustrated style as the image, bold ink outlines, rich colours. No text. Smooth, gentle camera. Family friendly.";
 const jobs = [
+  // "intro" is superseded by the 8-shot World Flower film (scripts/gen-intro-v2.ts, docs/INTRO_STORYBOARD.md)
   { id: "intro", frame: "assets-src/veo_intro_frame.jpg", prompt: `The sky darkens and thunder rumbles; the menacing toad sorcerer villain with glowing red eyes, a black iron crown and a torn crimson cloak raises his clawed hands crackling with purple magic and sweeps his dark fan; a sinister purple storm rips all the glowing pink blossom petals off the ancient tree and swirls them away across the valley, leaving the branches bare and grey. He laughs with an evil grin as purple lightning flashes. Dramatic and menacing but suitable for young children. ${STYLE}` },
-  { id: "finale", frame: "assets-src/veo_finale_frame.jpg", prompt: `Thousands of glowing pink petals swirl back onto the giant ancient tree, which bursts into full magnificent bloom with sparkles and rainbows; the sun rises; petals drift joyfully across the whole island. Triumphant, magical celebration. ${STYLE}` },
+  { id: "finale", frame: "assets-src/veo_finale_frame.jpg", prompt: `Forty-four glowing rainbow teardrop-shaped sound petals swirl home to the magical World Flower on its hilltop, and it bursts into full magnificent bloom around its golden heart with sparkles and rainbows; the sun rises; petals drift joyfully across the whole island. Triumphant, magical celebration. ${STYLE}` },
 ];
 mkdirSync("public/a/v", { recursive: true });
 await Promise.all(jobs.map(async (j) => {

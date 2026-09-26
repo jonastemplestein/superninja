@@ -92,14 +92,19 @@ for (const w of WORLDS) {
   ART.push({ id: `run_${w.key}`, w: 2400, aspect: "21:9", prompt: `${SCENE} ${w.scene}. A side-scrolling platformer game background (far layer only): horizon and scenery, sky in the upper half, NO foreground ground or platforms in the bottom fifth (keep the bottom fifth as soft distant scenery). Edges should be similar on the left and right so it can tile. ${STYLE}` });
 }
 ART.push({ id: "worldmap", w: 1600, aspect: "9:16", prompt: `A tall illustrated fantasy adventure map of a magical island seen from above at a slight angle, like a treasure map painted as a game level-select screen. A winding dotted stone path climbs from the bottom to the top through six regions in order: at the bottom ${WORLDS[0].scene}; then ${WORLDS[1].scene}; then ${WORLDS[2].scene}; then ${WORLDS[3].scene}; then ${WORLDS[4].scene}; and at the very top ${WORLDS[5].scene}. Rich detail, cosy and magical. No characters, no text, no labels. ${STYLE}` });
-ART.push({ id: "title_bg", w: 1920, aspect: "16:9", prompt: `Epic cinematic title screen background for a kids' ninja adventure game: a giant ancient magical cherry blossom tree on a cliff at sunrise, its branches bare with only a few glowing petals left, the rest of the petals swirling away across a valley of bamboo forests, pagodas and misty mountains. Leave the centre-left area slightly calmer for a logo. No characters, no text. ${STYLE}` });
-ART.push({ id: "tree", w: 1400, aspect: "1:1", cut: true, prompt: `A single magnificent ancient cherry blossom tree with a thick twisting trunk and wide spreading branches, but with NO blossoms and no leaves yet (bare, graceful branches ready for flowers), on a small grassy mound. Centred on a plain flat pure white background, nothing else. ${STYLE}` });
+// The World Flower: the heart of the island, 44 glassy teardrop petals (one per sound) in the school chart's colours round a
+// golden centre. Its design, model sheet and the recipes for these jobs (with the model sheet as refs) are in
+// assets-src/world-flower/ (rounds.ts, model_sheet.png); the prompts here are summaries for regeneration.
+const WORLD_FLOWER = "THE WORLD FLOWER: a gigantic magical flower whose bloom is two rings of separate glowing glassy teardrop-shaped petals (round outer tips, pointed at the centre), every petal a different colour in rainbow order, around a glowing domed golden centre with a thin golden halo, on an S-curved jade-green stem with big curling leaves veined with glowing gold and ancient roots gripping a mossy rock. Never a tree.";
+ART.push({ id: "title_bg", w: 1920, aspect: "16:9", prompt: `Epic cinematic title screen background for a kids' ninja adventure game, at sunrise: ${WORLD_FLOWER} It towers on a grassy cliff top on the right, its bloom high in the upper right; Baron Muddle's storm has torn many of its petals away (the missing ones are faint pale outlines) and a long glowing ribbon of rainbow teardrop petals streams off it across the sky to the left, over a valley of bamboo forests, a pagoda and misty mountains. Dark storm clouds linger at the top right. Leave the left third calmer for a logo. No characters, no text. ${STYLE}` });
+ART.push({ id: "world_flower_stem", w: 900, cut: true, prompt: `${WORLD_FLOWER} Draw the plant with the WHOLE BLOOM REMOVED: the stem ends at the top in a small round green cup (a calyx) facing the viewer, where the bloom sits (the game draws the bloom on top). Plain flat pure white background, nothing else. ${STYLE}` });
+ART.push({ id: "world_flower_bg", w: 1920, aspect: "16:9", prompt: `${SCENE} The grassy hilltop at the heart of the Island of Sounds at a soft golden dawn: an open green hilltop with wildflowers across the bottom third and an empty patch of grass in the middle (the World Flower is drawn on top in game); far below, misty bamboo forest, pink blossom hills with a pagoda, snowy mountains, a turquoise river and a golden temple on a cloud; a big calm peach and gold sky with swirl clouds. ${STYLE}` });
 ART.push({ id: "dojo_bg", w: 1920, aspect: "16:9", prompt: `${SCENE} The inside of a warm, cosy wooden ninja training dojo with tatami mats, paper screen doors open to a garden with a cherry tree, hanging scrolls with ink paintings of mountains (no writing), lanterns, soft golden light. ${STYLE}` });
 
 // Items
 const items: [string, string][] = [
   ["shuriken", "a single shiny golden ninja throwing star (shuriken) with a glowing edge"],
-  ["petal", "a single glowing pink cherry blossom flower with five petals, sparkling"],
+  ["petal", "a single magical World Flower petal: a plump glassy teardrop (round top, pointed bottom) glowing with a shimmering iridescent rainbow sheen, bold ink outline, two tiny sparkles"],
   ["scroll", "a single rolled-open blank paper scroll with wooden handles, completely empty parchment, no writing"],
   ["lantern", "a single glowing round red paper lantern with a golden top, blank with no writing"],
   ["heart", "a single cute glossy red heart gem"],
@@ -131,7 +136,7 @@ for (const st of STORIES) {
   }
 }
 
-// Sound Flower petal pictures (the little corner picture on each petal, like the school's sheet)
+// World Flower petal pictures (the little corner picture on each petal, like the school's sheet)
 import { CHART_PETALS } from "../src/content/flower";
 for (const c of CHART_PETALS) {
   ART.push({ id: `petal_${c.p}`, w: 256, cut: true, model: "gemini-3.1-flash-image", prompt: `${c.icon}. ${PIC_STYLE}` });

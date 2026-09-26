@@ -68,7 +68,9 @@ async function blindScore(file: string, id: PhonemeId) {
 // choose winners: highest score, prefer sensible durations
 const summary: any[] = [];
 for (const id of ids) {
-  const cands = (report[id] ?? []).filter((r) => r.blind).slice().sort((a, b) => b.score - a.score || Math.abs(a.dur - 0.7) - Math.abs(b.dur - 0.7));
+  // objective check: a pure vowel is ONE part. Letter names read as sounds ("ie" → "eye-ee") have two (scripts/syllables.py)
+  const onePart = (f: string) => PHONEMES[id].vowel ? execFileSync("uv", ["run", "-q", "--with", "numpy", "python", "scripts/syllables.py", f]).toString().trim() === "1" : true;
+  const cands = (report[id] ?? []).filter((r) => r.blind && existsSync(r.file) && onePart(r.file)).slice().sort((a, b) => b.score - a.score || Math.abs(a.dur - 0.7) - Math.abs(b.dur - 0.7));
   const best = cands[0];
   if (!best || best.score <= 0) {
     console.log("⚠ no take identified correctly for", id, "— keeping previous clip");

@@ -1,0 +1,1602 @@
+{
+  "concepts": [
+    {
+      "group": "game and story",
+      "id": "world_flower",
+      "name": "World Flower",
+      "firstNeeded": "Opening film; first reward reference w1-2",
+      "explainedBy": [
+        {
+          "id": "film_1",
+          "text": "Long ago, on the Island of Sounds, there grew a magic World Flower."
+        },
+        {
+          "id": "flower_i1",
+          "text": "This is the World Flower. Baron Muddle blew all its petals away!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Film and first Flower visit are outside both level traces."
+      },
+      "beforeNeeded": "conditional",
+      "verdict": "missing",
+      "note": "The child can skip the film; FlowerIntro runs only on opening Tree."
+    },
+    {
+      "group": "game and story",
+      "id": "petals",
+      "name": "Sound petals",
+      "firstNeeded": "Opening film; w1-2 reward at 134.5s perfect",
+      "explainedBy": [
+        {
+          "id": "film_2",
+          "text": "Every petal was a sound. With sounds, we could talk, and read, and sing!"
+        },
+        {
+          "id": "flower_i2",
+          "text": "Every petal is one sound. Listen! This is the petal for the sound..."
+        },
+        {
+          "id": "petals_got",
+          "text": "You won back some sounds!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "First two lines: 0/0; reward claim: 14/14 from w1-2 to w6-6."
+      },
+      "beforeNeeded": "conditional",
+      "verdict": "missing",
+      "note": "Winning a sound is repeatedly announced, but petal=sound is unobserved in the level traces."
+    },
+    {
+      "group": "game and story",
+      "id": "gems",
+      "name": "Gems as spellings",
+      "firstNeeded": "w1-4 reward gem ring; first Tree visit if chosen",
+      "explainedBy": [
+        {
+          "id": "flower_i3",
+          "text": "Inside each petal are shiny gems. Each gem is a way to write the sound."
+        },
+        {
+          "id": "gem_energy",
+          "text": "Look! Your gems are filling up with ninja energy!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Definition 0/0; gem_energy 51/50 across w1-4..w6-11."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": "Gem explanation is gated on opening the Flower."
+    },
+    {
+      "group": "game and story",
+      "id": "gem_energy",
+      "name": "Gem energy and filling",
+      "firstNeeded": "w1-4 reward (perfect); first gem reward varies in learner path",
+      "explainedBy": [
+        {
+          "id": "flower_i4",
+          "text": "When you play and get it right, a gem fills up with ninja power."
+        },
+        {
+          "id": "gem_energy",
+          "text": "Look! Your gems are filling up with ninja energy!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Definition 0/0; reminder 51/50, almost every rewarded level."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": "The reward repeatedly names filling without first teaching the cause."
+    },
+    {
+      "group": "game and story",
+      "id": "gem_battle",
+      "name": "Gem battle and winning a gem",
+      "firstNeeded": "First ready gem: w1-10 perfect, w1-4 learner; optional trial thereafter",
+      "explainedBy": [
+        {
+          "id": "flower_i5",
+          "text": "When a gem is full, it glows. Then you can win it in a gem battle!"
+        },
+        {
+          "id": "gem_ready",
+          "text": "A gem is glowing! It's ready for a gem battle."
+        },
+        {
+          "id": "trial_start",
+          "text": "Gem battle! Spell the words to win the gem!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Definition and trial 0/0; gem_ready 1/2."
+      },
+      "beforeNeeded": "conditional",
+      "verdict": "too late",
+      "note": "A ready-gem message can precede FlowerIntro; trial itself was not played by bots."
+    },
+    {
+      "group": "game and story",
+      "id": "gem_timer",
+      "name": "Purple bar, time and hearts",
+      "firstNeeded": "First timed gem trial (not sampled)",
+      "explainedBy": [
+        {
+          "id": "timer_intro_1",
+          "text": "This is a gem battle! See this purple bar? It fills up slowly."
+        },
+        {
+          "id": "timer_intro_2",
+          "text": "Spell each word before the bar is full, or the monster jumps!"
+        },
+        {
+          "id": "timer_intro_3",
+          "text": "Don't worry. If you run out of hearts, I'll help you. Ready? Let's go!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "0/0; optional trial not entered."
+      },
+      "beforeNeeded": "conditional",
+      "verdict": "once only",
+      "note": "Battle.tsx queues this once using seenTimer, before first timed word, but never explicitly links a full bar to losing a heart."
+    },
+    {
+      "group": "game and story",
+      "id": "streaks",
+      "name": "Streaks and ninja power",
+      "firstNeeded": "Tutorial at 16.2s perfect; first sound games afterward",
+      "explainedBy": [
+        {
+          "id": "streak_3",
+          "text": "Ninja power!"
+        },
+        {
+          "id": "streak_6",
+          "text": "Wow! Super ninja streak!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "No definition; praise signals 62/59 and 60/30 from tutorial through w6-11."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": "A streak is named at tier 6 but consecutive successes are never explained."
+    },
+    {
+      "group": "game and story",
+      "id": "word_book",
+      "name": "Word Book and stickers",
+      "firstNeeded": "w1-4 reward first book_new (perfect); opening Book is optional",
+      "explainedBy": [
+        {
+          "id": "book_i1",
+          "text": "This is your Word Book. It's a book of stickers!"
+        },
+        {
+          "id": "book_i2",
+          "text": "Every time you read or spell a word, you win its sticker."
+        },
+        {
+          "id": "book_new",
+          "text": "New stickers for your Word Book!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Definition 0/0; book_new 50/34 across rewarded levels."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": "BookIntro runs only after tapping the book; stickers appear on earlier reward screens."
+    },
+    {
+      "group": "game and story",
+      "id": "map",
+      "name": "Map and next stone",
+      "firstNeeded": "After tutorial, before w1-1",
+      "explainedBy": [
+        {
+          "id": "map_hint",
+          "text": "Tap the glowing stone to start your next adventure."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 1,
+        "learner": 2,
+        "spacing": "Training/map arrival; no further map visits in isolated level cases."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "once only",
+      "note": "Code repeats map_hint on first visit to the current world; isolated traces cannot verify that spacing."
+    },
+    {
+      "group": "game and story",
+      "id": "help",
+      "name": "Sensei Help button and repeated clues",
+      "firstNeeded": "Tutorial, 1.8s perfect",
+      "explainedBy": [
+        {
+          "id": "tut_help",
+          "text": "Whenever you're stuck, tap me! I'm always here in the corner, and I'll tell you what to do. Try it now. Tap me!"
+        },
+        {
+          "id": "tut_help_ok",
+          "text": "That's it! And if you're still stuck, tap me again, and again, and I'll give you bigger clues."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 1,
+        "learner": 1,
+        "spacing": "Both lines in tutorial, 1.8s and 2.8s perfect; no later Help in perfect trace."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "Learner errors do not reliably press Help, so later use is not assessed."
+    },
+    {
+      "group": "game and story",
+      "id": "speaker",
+      "name": "Speaker replay button",
+      "firstNeeded": "Tutorial, 10.8s perfect",
+      "explainedBy": [
+        {
+          "id": "tut_speaker",
+          "text": "Tap the speaker to hear the sound again."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 1,
+        "learner": 1,
+        "spacing": "Tutorial only; replay is used there."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": ""
+    },
+    {
+      "group": "game and story",
+      "id": "ninja",
+      "name": "The child is the Super Ninja",
+      "firstNeeded": "Hero selection / opening film; tutorial nickname",
+      "explainedBy": [
+        {
+          "id": "film_7",
+          "text": "We need a hero. We need... a Super Ninja!"
+        },
+        {
+          "id": "intro_8",
+          "text": "I am Sensei Maple. I will train you. Now, choose your ninja!"
+        },
+        {
+          "id": "tut_done",
+          "text": "You're ready, ninja! Let's go!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Role-setting film/selection 0/0; tut_done names ninja once."
+      },
+      "beforeNeeded": "conditional",
+      "verdict": "once only",
+      "note": "The ordinary opening is not present in the deep-linked bot cases."
+    },
+    {
+      "group": "game and story",
+      "id": "baron",
+      "name": "Baron Muddle and why he opposes words",
+      "firstNeeded": "Opening film; first ordinary battle w1-6",
+      "explainedBy": [
+        {
+          "id": "film_3",
+          "text": "Words, words, WORDS! How I HATE them!"
+        },
+        {
+          "id": "film_4",
+          "text": "I am Baron Muddle! Every sound on this island is MINE! Mwa-ha-ha-ha!"
+        },
+        {
+          "id": "battle_start",
+          "text": "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Film 0/0; battle_start 11/11 across worlds, mentions rather than explains."
+      },
+      "beforeNeeded": "conditional",
+      "verdict": "too late",
+      "note": "A skipped film leaves the first monster before any villain explanation."
+    },
+    {
+      "group": "game and story",
+      "id": "dojo",
+      "name": "Dojo as a place to practise",
+      "firstNeeded": "First dojo w1-4",
+      "explainedBy": [
+        {
+          "id": "dojo_hello",
+          "text": "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 6,
+        "learner": 4,
+        "spacing": "First heard w2-4 perfect and learner; later w3-1 and other dojos."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": "Early dojo scenes use the mechanic before this definition."
+    },
+    {
+      "group": "game and story",
+      "id": "battles",
+      "name": "Ordinary battles and spelling to zap a monster",
+      "firstNeeded": "w1-6 start",
+      "explainedBy": [
+        {
+          "id": "battle_start",
+          "text": "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!"
+        },
+        {
+          "id": "battle_boss",
+          "text": "A big boss monster! Listen carefully, and spell your best!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 11,
+        "learner": 11,
+        "spacing": "battle_start in 11 ordinary battles from w1-6; boss line 6/6."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": ""
+    },
+    {
+      "group": "game and story",
+      "id": "runs",
+      "name": "Ninja Run: catch heard or read word",
+      "firstNeeded": "w1-9 start",
+      "explainedBy": [
+        {
+          "id": "run_start",
+          "text": "Ninja Run! Tap to jump, and catch the right word!"
+        },
+        {
+          "id": "run_blend",
+          "text": "Listen to the sounds. What word do they make?"
+        },
+        {
+          "id": "run_read",
+          "text": "Read the word, and catch the matching picture!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 6,
+        "learner": 6,
+        "spacing": "run_start once per run (six levels); run_blend 39/38 item cues."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": ""
+    },
+    {
+      "group": "game and story",
+      "id": "swaps",
+      "name": "Swap one sound to change a word",
+      "firstNeeded": "w1-8 start",
+      "explainedBy": [
+        {
+          "id": "swap_start",
+          "text": "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time."
+        },
+        {
+          "id": "swap_make",
+          "text": "Change it to make..."
+        },
+        {
+          "id": "swap_pick",
+          "text": "Now pick the new sound."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 3,
+        "learner": 2,
+        "spacing": "Opening line w1-8 and some later swaps; item prompts 39/39 across six swaps."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "Some later starts are cut short, but item directions recur."
+    },
+    {
+      "group": "game and story",
+      "id": "sorts",
+      "name": "Sort same-sound spellings into chests",
+      "firstNeeded": "w3-2 start",
+      "explainedBy": [
+        {
+          "id": "sort_start",
+          "text": "Sorting time! These words have the same sound, but it's written in different ways. Put each word in the right chest!"
+        },
+        {
+          "id": "same_sound_diff",
+          "text": "Same sound, different spellings!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 8,
+        "learner": 7,
+        "spacing": "Opening line 8/7; same_sound_diff 9/9 across nine sorts."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "The explanation gives no paired example before first choice, and first sort is earlier than the model’s Bridging Unit."
+    },
+    {
+      "group": "game and story",
+      "id": "story_read",
+      "name": "Stories: listen and take a turn reading",
+      "firstNeeded": "w1-14 first child-read page",
+      "explainedBy": [
+        {
+          "id": "story_start",
+          "text": "Story time! I'll read, and you read too."
+        },
+        {
+          "id": "story_your_turn",
+          "text": "Your turn to read! Tap a word if you need help."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 18,
+        "learner": 18,
+        "spacing": "story_your_turn on every child-read page from w1-14 to w6-10; story_start 1/0, first at w5-10."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "The turn instruction arrives before each read page, even when story_start is cut off."
+    },
+    {
+      "group": "game and story",
+      "id": "story_choice",
+      "name": "Stories: read two words and choose",
+      "firstNeeded": "w1-14 first story fork",
+      "explainedBy": [
+        {
+          "id": "story_choose",
+          "text": "What should Super Ninja do? Read the words and choose!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "0/0 despite a choice in every story."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": "The story page asks where to go, but never says to read the two option words and tap one."
+    },
+    {
+      "group": "phonics",
+      "id": "words_sounds",
+      "name": "Words are made of sounds",
+      "firstNeeded": "w1-1 before sounds-only item at 93.3s perfect",
+      "explainedBy": [
+        {
+          "id": "words_made",
+          "text": "Words are made of sounds. Listen!"
+        },
+        {
+          "id": "listen_sounds",
+          "text": "Now I'll say it in sounds. Can you hear the word? Tap the..."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "words_made 0/0; listen_sounds 6/9, all in w1-1."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": "The question asks for the word but never first says how sounds join to make it."
+    },
+    {
+      "group": "phonics",
+      "id": "fast_slow",
+      "name": "Fast and slow ways to say the same word",
+      "firstNeeded": "w1-1 at first stretched item, 50.8s perfect",
+      "explainedBy": [
+        {
+          "id": "listen_slow",
+          "text": "Now I'll say it slowly. Tap the..."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Instruction 4/12, clustered only in w1-1; no comparison or definition."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": ""
+    },
+    {
+      "group": "phonics",
+      "id": "sound_letter",
+      "name": "Heard sounds versus visible spellings",
+      "firstNeeded": "w1-2 first revealed m/s spelling",
+      "explainedBy": [
+        {
+          "id": "how_we_spell",
+          "text": "This is how we spell..."
+        },
+        {
+          "id": "dojo_this_sound",
+          "text": "And this is how we write it."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "how_we_spell 18/32 in w1-2, w1-3, w1-7, w1-10, w1-11; no explicit contrast."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": "The mapping is demonstrated; the sound/spelling distinction is never said."
+    },
+    {
+      "group": "phonics",
+      "id": "left_right",
+      "name": "Read and build from left to right",
+      "firstNeeded": "w1-2 sound line reveal; w1-4 first build",
+      "explainedBy": [
+        {
+          "id": "build_ido_3",
+          "text": "Now I find each sound, one at a time."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "No left-to-right line; build_ido_3 5/8 is only one-at-a-time."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": ""
+    },
+    {
+      "group": "phonics",
+      "id": "first_sound",
+      "name": "First sound in a word",
+      "firstNeeded": "w1-2 first question at 9.6s perfect",
+      "explainedBy": [
+        {
+          "id": "first_intro",
+          "text": "Every word starts with a sound. Let's listen for the very first sound!"
+        },
+        {
+          "id": "first_sound_q",
+          "text": "What's the first sound?"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 1,
+        "learner": 6,
+        "spacing": "first_intro first heard w1-10 perfect, w1-2 at 107.4s learner; prompts recur."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": "Start-of-level introduction is susceptible to being cut by bot input."
+    },
+    {
+      "group": "phonics",
+      "id": "middle_sound",
+      "name": "Sound in the middle",
+      "firstNeeded": "w1-7 first hunt question at 8.5s perfect",
+      "explainedBy": [
+        {
+          "id": "hunt_intro",
+          "text": "Now let's listen for a sound in the middle of a word!"
+        },
+        {
+          "id": "has_in_middle",
+          "text": "has this sound in the middle..."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 1,
+        "learner": 3,
+        "spacing": "hunt_intro first heard w1-11 perfect; learner w1-7 then w1-11; response phrase repeatedly used."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": ""
+    },
+    {
+      "group": "phonics",
+      "id": "last_sound",
+      "name": "Last sound in a word",
+      "firstNeeded": "w1-4 first two-sound word at 29.2s perfect",
+      "explainedBy": [
+        {
+          "id": "last_sound_q",
+          "text": "What's the last sound?"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Question 32/47, but no explanation of last as word-end."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": ""
+    },
+    {
+      "group": "phonics",
+      "id": "pure_sounds",
+      "name": "Say a pure sound without adding a vowel or letter name",
+      "firstNeeded": "w1-2 first sound/spelling reveal",
+      "explainedBy": [
+        {
+          "id": "t_everyone_say",
+          "text": "Say that sound with me!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Pure sound clips are played often, but no spoken cue or correction line; t_everyone_say 0/0."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": "The app cannot hear a child’s pronunciation; this is a modelling and caregiver cue."
+    },
+    {
+      "group": "phonics",
+      "id": "say_sounds_read",
+      "name": "Say the sounds and read the word",
+      "firstNeeded": "w1-4 first completed build, 17.4s perfect",
+      "explainedBy": [
+        {
+          "id": "say_sounds_read",
+          "text": "Say the sounds... and read the word!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 37,
+        "learner": 54,
+        "spacing": "Across w1-4, w1-5, w1-7, w1-10, w1-11; repeated after builds."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "The wording recurs at high density inside long early levels."
+    },
+    {
+      "group": "phonics",
+      "id": "spellings_represent",
+      "name": "A spelling represents a sound",
+      "firstNeeded": "w1-2 m/s letter reveal",
+      "explainedBy": [
+        {
+          "id": "how_we_spell",
+          "text": "This is how we spell..."
+        },
+        {
+          "id": "t_way_we_spell",
+          "text": "This is the way we spell..."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 18,
+        "learner": 32,
+        "spacing": "First phrase 18/32 in early levels; t_way_we_spell 0/0 optional Flower."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "The sound is heard while the spelling appears; prefer spell to write consistently."
+    },
+    {
+      "group": "phonics",
+      "id": "two_letters",
+      "name": "Two letters can spell one sound",
+      "firstNeeded": "w3-6 first ff; w5-1 first sh",
+      "explainedBy": [
+        {
+          "id": "two_letters_one_sound",
+          "text": "Two letters, one sound!"
+        },
+        {
+          "id": "t_two_letters",
+          "text": "It's two letters, but it's one sound."
+        },
+        {
+          "id": "baron_w5",
+          "text": "Welcome to my castle, little ninja! In here, some sounds are spelt with two letters. How muddling! Mwa-ha-ha!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 1,
+        "learner": 1,
+        "spacing": "Dojo and teacher-engine lines 0/0; Baron says it once in w5-11, well after first need."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": "Learn narration is interrupted by taps after the spelling appears; the only heard statement is a late villain taunt."
+    },
+    {
+      "group": "phonics",
+      "id": "three_letters",
+      "name": "Three letters can spell one sound",
+      "firstNeeded": "w5-6 tch; w6-6 igh",
+      "explainedBy": [
+        {
+          "id": "three_letters_one_sound",
+          "text": "Three letters, one sound!"
+        },
+        {
+          "id": "t_three_letters",
+          "text": "It's three letters, but it's just one sound."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Both 0/0 across two bot journeys."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": ""
+    },
+    {
+      "group": "phonics",
+      "id": "four_letters",
+      "name": "Four letters can spell one sound",
+      "firstNeeded": "Future Extended Code units; no four-letter spelling in current worlds",
+      "explainedBy": [
+        {
+          "id": "t_four_letters",
+          "text": "It's four letters, but it's just one sound."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "0/0; teach.ts can say it only on Flower gem visits, which were not sampled."
+      },
+      "beforeNeeded": "not yet",
+      "verdict": "missing",
+      "note": "Future content gap, not a defect in the present 66-level journey."
+    },
+    {
+      "group": "phonics",
+      "id": "same_sound",
+      "name": "One sound, different spellings",
+      "firstNeeded": "w3-2 c/k sort; earlier c at w2-1, k at w3-1",
+      "explainedBy": [
+        {
+          "id": "sort_start",
+          "text": "Sorting time! These words have the same sound, but it's written in different ways. Put each word in the right chest!"
+        },
+        {
+          "id": "same_sound_diff",
+          "text": "Same sound, different spellings!"
+        },
+        {
+          "id": "t_diff_spellings_of",
+          "text": "Different spellings of..."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 8,
+        "learner": 7,
+        "spacing": "8/7 sort introductions and 9/9 taglines, from w3-2 to w6-8; teach.ts line 0/0."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "Repeated, but mostly as an abstract slogan without contrasted examples; first formal sort is early in the model."
+    },
+    {
+      "group": "phonics",
+      "id": "one_spelling_many_sounds",
+      "name": "One spelling can represent different sounds",
+      "firstNeeded": "w5-1 th and th=dh; future EC3 ea",
+      "explainedBy": [
+        {
+          "id": "t_same_spelling_sometimes",
+          "text": "The same spelling can sometimes be..."
+        },
+        {
+          "id": "t_this_can_be",
+          "text": "This can be..."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Both 0/0; sameSpelling is defined in teach.ts but never called."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": ""
+    },
+    {
+      "group": "phonics",
+      "id": "consonant_e",
+      "name": "Consonant + e spellings (not split spellings)",
+      "firstNeeded": "Future EC1: gate=g·a·te, cave=c·a·ve",
+      "explainedBy": [
+        {
+          "id": "t_two_letters",
+          "text": "It's two letters, but it's one sound."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "0/0; current worlds contain no EC1 consonant+e teaching."
+      },
+      "beforeNeeded": "not yet",
+      "verdict": "missing",
+      "note": "Future content must use the Decisions section and DEFAULT_SPLIT=consonant-e."
+    },
+    {
+      "group": "phonics",
+      "id": "adjacent_consonants",
+      "name": "Adjacent consonants are separate sounds",
+      "firstNeeded": "w4-1 Unit 8; again w4-3 Unit 9",
+      "explainedBy": [
+        {
+          "id": "dojo_longer",
+          "text": "Longer words today! Some sounds sit very close together. Listen for every one."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 2,
+        "learner": 1,
+        "spacing": "First heard w4-3 perfect; w4-1 learner; all in Dragon River."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": "Says sounds sit close but never explicitly says each consonant keeps its sound."
+    },
+    {
+      "group": "phonics",
+      "id": "syllables",
+      "name": "A long word may have more than one syllable",
+      "firstNeeded": "Future PW1; no current polysyllabic level",
+      "explainedBy": [
+        {
+          "id": "t_listen_for_word",
+          "text": "Say the sounds, and listen for the word."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "0/0; current lines have no syllable explanation."
+      },
+      "beforeNeeded": "not yet",
+      "verdict": "missing",
+      "note": "Placeholder evidence is only a reading prompt; no syllable line exists."
+    },
+    {
+      "group": "phonics",
+      "id": "special_words",
+      "name": "Read a common word with an untaught spelling",
+      "firstNeeded": "w2-7 first child-read line “Peg the hen is in the fog.”; earlier model lists is/a at IC2",
+      "explainedBy": [
+        {
+          "id": "stories:s2:2",
+          "text": "Peg the hen is in the fog."
+        },
+        {
+          "id": "t_say_it_here",
+          "text": "Say it here!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "Story line is heard once per journey; no special-word teaching line is heard."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": "The/the and is occur in read text without the official “This is /X/. Say /X/ here” support being surfaced."
+    },
+    {
+      "group": "phonics",
+      "id": "x_two_sounds",
+      "name": "< x > is one spelling for /k/ /s/",
+      "firstNeeded": "w3-6 Learn x and box word work",
+      "explainedBy": [
+        {
+          "id": "t_one_spelling_two_sounds",
+          "text": "This spelling is two sounds together!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "0/0; teach.ts reserves this for Flower explanation, which was not visited."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": ""
+    },
+    {
+      "group": "Sounds~Write concepts",
+      "id": "cu1",
+      "name": "Concept 1: letters are spellings representing sounds",
+      "firstNeeded": "w1-2 first spelling reveal",
+      "explainedBy": [
+        {
+          "id": "how_we_spell",
+          "text": "This is how we spell..."
+        },
+        {
+          "id": "t_way_we_spell",
+          "text": "This is the way we spell..."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 18,
+        "learner": 32,
+        "spacing": "Early reveals w1-2, w1-3, w1-7, w1-10, w1-11; optional teacher-engine line 0/0."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "Shown repeatedly, but no explicit heard/seen contrast."
+    },
+    {
+      "group": "Sounds~Write concepts",
+      "id": "cu2",
+      "name": "Concept 2: one sound may use 1, 2, 3 or 4 letters",
+      "firstNeeded": "w3-6 ff (IC7), w5-1 sh (IC11), later Extended Code four-letter spelling",
+      "explainedBy": [
+        {
+          "id": "two_letters_one_sound",
+          "text": "Two letters, one sound!"
+        },
+        {
+          "id": "three_letters_one_sound",
+          "text": "Three letters, one sound!"
+        },
+        {
+          "id": "t_four_letters",
+          "text": "It's four letters, but it's just one sound."
+        },
+        {
+          "id": "baron_w5",
+          "text": "Welcome to my castle, little ninja! In here, some sounds are spelt with two letters. How muddling! Mwa-ha-ha!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 1,
+        "learner": 1,
+        "spacing": "Only Baron’s w5-11 two-letter statement is heard, once per journey; three/four-letter claims 0/0."
+      },
+      "beforeNeeded": "no",
+      "verdict": "too late",
+      "note": ""
+    },
+    {
+      "group": "Sounds~Write concepts",
+      "id": "cu3",
+      "name": "Concept 3: same sound, different spellings",
+      "firstNeeded": "w3-2 c/k sort; formally Bridging after IC11",
+      "explainedBy": [
+        {
+          "id": "sort_start",
+          "text": "Sorting time! These words have the same sound, but it's written in different ways. Put each word in the right chest!"
+        },
+        {
+          "id": "same_sound_diff",
+          "text": "Same sound, different spellings!"
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 8,
+        "learner": 7,
+        "spacing": "8/7 introductions, 9/9 taglines in sorts w3-2..w6-8."
+      },
+      "beforeNeeded": "yes",
+      "verdict": "fine",
+      "note": "Frequent but introduced as a formal sorting mechanic before the official Bridging Unit."
+    },
+    {
+      "group": "Sounds~Write concepts",
+      "id": "cu4",
+      "name": "Concept 4: one spelling, different sounds",
+      "firstNeeded": "w5-1 th/th=dh in current game; formally EC3 ea in model",
+      "explainedBy": [
+        {
+          "id": "t_same_spelling_sometimes",
+          "text": "The same spelling can sometimes be..."
+        },
+        {
+          "id": "t_this_can_be",
+          "text": "This can be..."
+        }
+      ],
+      "observedExplanations": {
+        "perfect": 0,
+        "learner": 0,
+        "spacing": "0/0, even when th is taught twice."
+      },
+      "beforeNeeded": "no",
+      "verdict": "missing",
+      "note": ""
+    }
+  ],
+  "fixes": [
+    {
+      "id": "F01",
+      "priority": "P0",
+      "problem": "Implement the already specified fast/slow explanation in warm-up W1.",
+      "lines": [
+        {
+          "id": "fm_fast_sun",
+          "text": "I can say a word fast. Sun!"
+        },
+        {
+          "id": "fm_slow",
+          "text": "Or I can say it slowly..."
+        },
+        {
+          "id": "fm_same_word",
+          "text": "Fast or slow, it's the same word. Sun!"
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Early.tsx",
+        "where": "EarsLevel W1 beat 4, sun fast/slow demonstration from src/content/warmups.ts",
+        "condition": "On the first session before the child hears a stretched-word task; play the planned whole sentence clips, stretched sun and animation in sequence without tap interruption."
+      }
+    },
+    {
+      "id": "F02",
+      "priority": "P0",
+      "problem": "Implement the already specified words-made-of-sounds explanation, then space brief reminders.",
+      "lines": [
+        {
+          "id": "fm_hear_sounds",
+          "text": "When I say a word slowly, I can hear the sounds that make up the word. Words are made of sounds!"
+        },
+        {
+          "id": "audit_sounds_again",
+          "text": "Listen to the sounds in this word. What word can you hear?"
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Early.tsx",
+        "where": "EarsLevel W1 beat 4 after fast/slow; ListenLevel W5 first sounds-only choice",
+        "condition": "Use fm_hear_sounds in the first session before any sounds-only task; use the shorter reminder in W5, then at w1-4 first Build and w1-9 first Run blend item only if not already heard in that session."
+      }
+    },
+    {
+      "id": "F03",
+      "priority": "P0",
+      "problem": "Make the planned first petal clearly mean one sound, even when the film and Flower are skipped.",
+      "lines": [
+        {
+          "id": "fm_rw2_petal",
+          "text": "You found your very first sound! Look, its petal is shining through the mist."
+        },
+        {
+          "id": "audit_petal_means",
+          "text": "This petal is for the sound you found."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Stickers.tsx",
+        "where": "Reward 2 after warm-up W2, at first World Flower /s/ petal reveal",
+        "condition": "Play fm_rw2_petal at the planned reveal and the short clarifier while the /s/ petal is highlighted; mark delivered only after speech completes. At the first petal in each later world, replay the clarifier if the link is not recalled."
+      }
+    },
+    {
+      "id": "F04",
+      "priority": "P0",
+      "problem": "Explain gem energy before it appears in rewards, and retire the every-level stock line.",
+      "lines": [
+        {
+          "id": "audit_gem_first",
+          "text": "This gem holds a way to spell a sound. When you get words right, it fills up."
+        },
+        {
+          "id": "audit_gem_more",
+          "text": "Look, this gem has filled a little more."
+        }
+      ],
+      "trigger": {
+        "file": "src/App.tsx",
+        "where": "Reward before first visible gem ring and gem_energy",
+        "condition": "First line once per save; second line only on a visible energy milestone or when the first gem in a new world gains energy, not every level."
+      }
+    },
+    {
+      "id": "F05",
+      "priority": "P0",
+      "problem": "Implement the planned Sticker Book introduction at the first picture-sticker reward.",
+      "lines": [
+        {
+          "id": "fm_rw_look",
+          "text": "Look! Your pictures are turning into stickers!"
+        },
+        {
+          "id": "fm_rw_book",
+          "text": "This is your Sticker Book!"
+        },
+        {
+          "id": "fm_rw_every",
+          "text": "Every picture you play with becomes a sticker!"
+        },
+        {
+          "id": "fm_rw_more",
+          "text": "More stickers for your Sticker Book!"
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Stickers.tsx",
+        "where": "Reward 1 immediately after warm-up W1; later sticker rewards",
+        "condition": "Use the first three lines with the planned five picture stickers before any word has been spelt; use fm_rw_more only when new stickers visibly arrive, at most once per reward. Name the child-facing destination Sticker Book, as FIRST_MINUTES.md requires."
+      }
+    },
+    {
+      "id": "F06",
+      "priority": "P0",
+      "problem": "Prevent the child’s tap from cutting off the two-letter and three-letter explanations.",
+      "lines": [
+        {
+          "id": "audit_two_letters",
+          "text": "These two letters spell one sound. Say it with me."
+        },
+        {
+          "id": "audit_three_letters",
+          "text": "These three letters spell one sound. Say it with me."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Dojo.tsx",
+        "where": "Learn after spelling appears, before tile accepts its first tap",
+        "condition": "Say at the first three encounters with any two-letter spelling, then the first encounter with each new two-letter spelling and after any split-reading error; say three-letter line at first tch in w5-6 and first igh in w6-6. Queue taps until line and sound finish."
+      }
+    },
+    {
+      "id": "F07",
+      "priority": "P0",
+      "problem": "Teach one spelling with two sounds when th changes, rather than showing it as another unmarked Learn item.",
+      "lines": [
+        {
+          "id": "audit_th_other",
+          "text": "This spelling can be one sound in thump, and another in this. Listen to each word."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Dojo.tsx",
+        "where": "Learn w5-1 th=dh after th has been introduced",
+        "condition": "Once before showing the second th sound; use the two pure-sound clips and words thump/this while highlighting th. Repeat at first read error involving th."
+      }
+    },
+    {
+      "id": "F08",
+      "priority": "P0",
+      "problem": "Introduce the dojo before the first early dojo level.",
+      "lines": [
+        {
+          "id": "audit_dojo_first",
+          "text": "This is our dojo. Here we listen to sounds, make words, and read them."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Early.tsx",
+        "where": "w1-4 first Build frame, before ido",
+        "condition": "Once per save; do not wait for Dojo.tsx at w2-4."
+      }
+    },
+    {
+      "id": "F09",
+      "priority": "P0",
+      "problem": "Define first, middle and last before each first sound-position question.",
+      "lines": [
+        {
+          "id": "fm_first_listen",
+          "text": "Listen to the very first sound."
+        },
+        {
+          "id": "fm_notice_sun_sock",
+          "text": "Did you notice? Sun and sock start with the same sound..."
+        },
+        {
+          "id": "audit_middle_place",
+          "text": "The middle sound is between the first and last sounds. Listen here."
+        },
+        {
+          "id": "audit_last_place",
+          "text": "The last sound is at the end of the word. Listen to the end."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Early.tsx",
+        "where": "EarsLevel W1 beat 7; W3 first middle-sound item; first Build that asks for the last sound",
+        "condition": "Use the existing W1 lines with sun/sock and pure /s/ before the first-sound task. Say the middle line before W3 /a/ in it (or Reception W2); say the last line before its first question in w1-4. Keep the first/middle/last intros through their first answer; briefly reprise middle at w1-11 and last at w1-5."
+      }
+    },
+    {
+      "id": "F10",
+      "priority": "P0",
+      "problem": "Carry the planned left-to-right picture rail into the first spelling build.",
+      "lines": [
+        {
+          "id": "fm_l2_way",
+          "text": "Ninjas read this way!"
+        },
+        {
+          "id": "fm_l2_start",
+          "text": "Start here, on this side!"
+        },
+        {
+          "id": "audit_left_right",
+          "text": "Start on the left. Read this way, one sound at a time."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Early.tsx",
+        "where": "PicReadLevel W2 beat 1 / wrong-order beat 3, then w1-4 first Build modelling",
+        "condition": "Use fm_l2_way with the planned left-to-right running rail, fm_l2_start only after a wrong-order tap, then audit_left_right at the first printed word build; briefly reprise at w1-9 first Run reading cue."
+      }
+    },
+    {
+      "id": "F27",
+      "priority": "P0",
+      "problem": "Stop segmenting a spelling word for the child on Dojo Help level 2.",
+      "lines": [
+        {
+          "id": "audit_spelling_help",
+          "text": "Listen to the word slowly. What sound do you hear here?"
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Dojo.tsx",
+        "where": "Build.useHelp when n === 2",
+        "condition": "Replace say_sounds plus the answer sounds with this line, a stretched whole-word clip and a pointer to the active slot. Do not supply the segmented word while the child is spelling."
+      }
+    },
+    {
+      "id": "F29",
+      "priority": "P0",
+      "problem": "Stop segmenting a spelling word for the child on Battle Help level 2.",
+      "lines": [
+        {
+          "id": "audit_spelling_help",
+          "text": "Listen to the word slowly. What sound do you hear here?"
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Battle.tsx",
+        "where": "Battle.useHelp when n === 2",
+        "condition": "Use the same line as F27, with a stretched whole-word clip and a pointer to the active slot; remove the supplied sequence of answer sounds."
+      }
+    },
+    {
+      "id": "F11",
+      "priority": "P1",
+      "problem": "Explain the difference between a sound heard and a spelling seen.",
+      "lines": [
+        {
+          "id": "audit_hear_see",
+          "text": "We hear a sound. We see its spelling. This is how we spell that sound."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Early.tsx",
+        "where": "w1-2 first m spelling reveal",
+        "condition": "Once before the first m tile; reprise at w3-6 first ff and w6-1 first ai."
+      }
+    },
+    {
+      "id": "F12",
+      "priority": "P1",
+      "problem": "Explain adjacent consonants before the first Unit 8 word.",
+      "lines": [
+        {
+          "id": "audit_neighbours",
+          "text": "These sounds sit next to each other. Listen for each one as we say the word slowly."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Dojo.tsx",
+        "where": "Build first word in w4-1, before the prompt",
+        "condition": "Once at w4-1, then first Unit 9 word at w4-3 and first Unit 10 word at w4-6; point to separate slots."
+      }
+    },
+    {
+      "id": "F13",
+      "priority": "P1",
+      "problem": "Show an actual pair of spellings whenever sort introduces one sound in different spellings.",
+      "lines": [
+        {
+          "id": "audit_sort_pair",
+          "text": "This sound can be spelt in two ways. Look at each spelling, then choose the matching chest."
+        },
+        {
+          "id": "audit_sort_three",
+          "text": "This sound can be spelt in three ways. Look at each spelling, then choose the matching chest."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Sort.tsx",
+        "where": "After sort_start and before first word appears",
+        "condition": "First sort for each new sound; use the two- or three-spelling line to match the level, show the actual spellings and say the pure sound for each."
+      }
+    },
+    {
+      "id": "F14",
+      "priority": "P1",
+      "problem": "Give a short story choice instruction before the first two-option choice.",
+      "lines": [
+        {
+          "id": "audit_story_choice",
+          "text": "Read the two words. Tap the one you choose."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Story.tsx",
+        "where": "ChoicePage first appearance in w1-14",
+        "condition": "Once before first choice in each story if the child has not made a story choice before; leave question text/story narration intact."
+      }
+    },
+    {
+      "id": "F15",
+      "priority": "P1",
+      "problem": "Teach common words with untaught spellings at the point they appear.",
+      "lines": [
+        {
+          "id": "audit_special_here",
+          "text": "This is the word the. Say the here. Now read the whole line."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Story.tsx",
+        "where": "ReadPage w2-7 page 2, before child reads “Peg the hen is in the fog.”",
+        "condition": "If “the” has not been explicitly taught; highlight only its spelling, then let child read. Use an analogous word-specific recorded clip for each other untaught common word."
+      }
+    },
+    {
+      "id": "F16",
+      "priority": "P1",
+      "problem": "Explain how a ready gem battle works before its first timed item.",
+      "lines": [
+        {
+          "id": "audit_trial_first",
+          "text": "Your gem is ready. Spell the words to win it."
+        },
+        {
+          "id": "audit_timer_short",
+          "text": "Watch the purple bar. Spell the word before it fills."
+        },
+        {
+          "id": "audit_timer_hearts",
+          "text": "If it fills, you lose a heart. I will help you try again."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Battle.tsx",
+        "where": "Gem trial start, before firstTimed bar demonstration and first ask",
+        "condition": "trial_first only on first trial per save; timer_short and timer_hearts replace timer_intro_1/2/3 on first timed battle, with a visible bar demonstration. Replay a short reminder on return after a failed trial."
+      }
+    },
+    {
+      "id": "F17",
+      "priority": "P1",
+      "problem": "Make the streak reward understandable without interrupting every answer.",
+      "lines": [
+        {
+          "id": "audit_streak_first",
+          "text": "Three right answers in a row! Your ninja is getting stronger."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Training.tsx",
+        "where": "First streak_3 event, after answer feedback",
+        "condition": "Once per save at first tier-up; subsequent streak lines remain brief and are capped to one spoken celebration per item."
+      }
+    },
+    {
+      "id": "F18",
+      "priority": "P1",
+      "problem": "Prevent a skipped film from leaving Baron unexplained at the first battle.",
+      "lines": [
+        {
+          "id": "audit_baron_first",
+          "text": "Baron Muddle hid the sounds. Let’s win them back from his monsters."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Battle.tsx",
+        "where": "w1-6 opening before battle_start",
+        "condition": "Only if a separate delivered-line marker shows the opening film’s Baron explanation was not heard; once per save. seenIntro is insufficient because the film can be skipped."
+      }
+    },
+    {
+      "id": "F19",
+      "priority": "P1",
+      "problem": "Introduce x as one spelling for two sounds.",
+      "lines": [
+        {
+          "id": "audit_x_two",
+          "text": "This spelling is a little different. In box, it stands for two sounds. Listen."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Dojo.tsx",
+        "where": "w3-6 Learn x, before first box build",
+        "condition": "Once while x is visible; follow this line with separate pure /k/ and /s/ clips and box, and recap on first x reading error."
+      }
+    },
+    {
+      "id": "F20",
+      "priority": "P1",
+      "problem": "Replace the current long first level with the two short warm-ups and early sticker reward already specified.",
+      "lines": [
+        {
+          "id": "fm_l1_done",
+          "text": "You can hear the sounds in words. Brilliant listening!"
+        },
+        {
+          "id": "fm_rw_next",
+          "text": "Ready for the next game? Tap the big arrow!"
+        },
+        {
+          "id": "fm_l2_done",
+          "text": "You read the pictures, just like a real reader!"
+        }
+      ],
+      "trigger": {
+        "file": "src/content/worlds.ts",
+        "where": "Replace w1-1 with W1 ears and W2 picread; src/scenes/Early.tsx completion and src/scenes/Stickers.tsx first reward",
+        "condition": "Follow FIRST_MINUTES.md: W1 seven decisions, 85 s target/100 s cap, Reward 1 about 21 s, direct arrow to W2, W2 60 s target/75 s cap, then Reward 2 and map. Keep existing level IDs stable as the spec directs."
+      }
+    },
+    {
+      "id": "F25",
+      "priority": "P1",
+      "problem": "Move formal same-sound sorting to the Bridging Unit after IC11.",
+      "lines": [
+        {
+          "id": "audit_bridging_first",
+          "text": "You know this sound. Now we will look at two ways to spell it."
+        }
+      ],
+      "trigger": {
+        "file": "src/content/worlds.ts",
+        "where": "Replace w3-2, w3-7 and w3-10 formal sorts with IC review; add first Bridging sort after w5-11",
+        "condition": "At the first Bridging sort, before sort_start. Repeat with a concrete spelling pair when a new sound has alternatives. This is a sequence change, not just narration."
+      }
+    },
+    {
+      "id": "F26",
+      "priority": "P1",
+      "problem": "Put Extended Code alternatives in the official order instead of one mixed Unit 12 world.",
+      "lines": [
+        {
+          "id": "audit_ec_spelling",
+          "text": "Listen for the sound in this word. Now look at how we spell it."
+        }
+      ],
+      "trigger": {
+        "file": "src/content/worlds.ts",
+        "where": "Replace current w6-1..w6-8 mixed unit12 sequence with EC1, EC2, EC3, EC4 order",
+        "condition": "At each newly introduced spelling, with the example word and spelling highlighted; delay igh/ie until EC11 and teach ea with two sounds at EC3. This requires content and level work as well as the line."
+      }
+    },
+    {
+      "id": "F28",
+      "priority": "P1",
+      "problem": "Model pure speech sounds in the planned W1 first-sound moment.",
+      "lines": [
+        {
+          "id": "fm_first_listen",
+          "text": "Listen to the very first sound."
+        },
+        {
+          "id": "t_everyone_say",
+          "text": "Say that sound with me!"
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Early.tsx",
+        "where": "EarsLevel W1 beat 7 sun/sock first-sound comparison",
+        "condition": "Play the existing pure /s/ clip after the planned sun/sock onset comparison; check the audio is free of an added vowel. Reprise the model at the first new consonant in w2-1 and the first two-letter spelling in w5-1; do not claim to assess spoken pronunciation."
+      }
+    },
+    {
+      "id": "F21",
+      "priority": "P2",
+      "problem": "Carry the four-letter principle into future Extended Code teaching.",
+      "lines": [
+        {
+          "id": "audit_four_letters",
+          "text": "These four letters spell one sound. Say it with me."
+        }
+      ],
+      "trigger": {
+        "file": "src/content/teach.ts",
+        "where": "introGem for first future four-letter spelling, and future word-building scene",
+        "condition": "At the first four-letter spelling, next lesson, three lessons later, and first review in the next world; speak with the spelling highlighted."
+      }
+    },
+    {
+      "id": "F22",
+      "priority": "P2",
+      "problem": "Teach consonant+e spellings using the September 2024 decision.",
+      "lines": [
+        {
+          "id": "audit_gate_a",
+          "text": "In gate, this is how we spell the middle sound."
+        },
+        {
+          "id": "audit_gate_te",
+          "text": "At the end of gate, these two letters spell the last sound."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Dojo.tsx",
+        "where": "Future EC1 first gate or equivalent consonant+e word build",
+        "condition": "Before child builds the word; highlight < a > then < te >, then say the sounds and read gate. Never call it a split spelling."
+      }
+    },
+    {
+      "id": "F23",
+      "priority": "P2",
+      "problem": "Teach syllables before future polysyllabic work.",
+      "lines": [
+        {
+          "id": "audit_syllables",
+          "text": "A longer word can have parts we can say. Listen: sun... set. Now say the whole word: sunset."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Dojo.tsx",
+        "where": "Future PW1 first two-syllable word lesson",
+        "condition": "Before first polysyllabic build using sunset or an equally clear two-syllable word; repeat at first sound-level read and first syllable-level lesson, with word-specific audio and visible syllable lines."
+      }
+    },
+    {
+      "id": "F24",
+      "priority": "P2",
+      "problem": "Teach one spelling with different sounds at the official EC3 lesson too.",
+      "lines": [
+        {
+          "id": "audit_ea_two",
+          "text": "This spelling can be one sound in team, and another in great. Listen to each word."
+        }
+      ],
+      "trigger": {
+        "file": "src/scenes/Dojo.tsx",
+        "where": "Future EC3 first < ea > alternative-sound lesson",
+        "condition": "Before child chooses the sound for < ea >; recap at the first reading error and in next lesson’s review."
+      }
+    }
+  ]
+}

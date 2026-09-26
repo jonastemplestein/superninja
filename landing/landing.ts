@@ -1,4 +1,4 @@
-// Landing page behaviour: scroll reveals, lazy gameplay videos, the story film, hero blossom petals,
+// Landing page behaviour: scroll reveals, lazy gameplay videos, the story film, hero World Flower petals,
 // the top bar, version stamp and site-wide sound.
 declare const __APP_VERSION__: string;
 const ver = document.getElementById("ver");
@@ -53,18 +53,29 @@ new IntersectionObserver(
   { rootMargin: "-70px 0px 0px 0px" },
 ).observe(hero);
 
-// a few blossom petals drifting across the hero art only (behind the words), and only while it's on screen
+// a few World Flower petals (glowing teardrops in the school chart's colours) drifting across the hero art only
+// (behind the words), and only while it's on screen
 const canvas = document.getElementById("petals") as HTMLCanvasElement;
 const g = canvas.getContext("2d")!;
-const petal = new Image();
-petal.src = "/a/i/item_petal.webp";
-type P = { x: number; y: number; s: number; vx: number; vy: number; r: number; vr: number; ph: number };
+const COLOURS = ["#e8312f", "#f5821f", "#f3c74a", "#2fa65a", "#2ec4b6", "#4a7dff", "#8a3be0", "#f0226b", "#6ec9f2", "#ff8fb8", "#9ae29a", "#c42fd1"];
+type P = { x: number; y: number; s: number; vx: number; vy: number; r: number; vr: number; ph: number; c: string };
 let ps: P[] = [];
 let W = 0, H = 0;
 const spawn = (anywhere = false): P => ({
   x: Math.random() * W * 1.1, y: anywhere ? Math.random() * H : -30, s: 10 + Math.random() * 14,
   vx: -0.25 - Math.random() * 0.4, vy: 0.35 + Math.random() * 0.5, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.02, ph: Math.random() * 6,
+  c: COLOURS[Math.floor(Math.random() * COLOURS.length)],
 });
+/** A teardrop petal (round end up, point down) centred on 0,0, s tall. */
+function teardrop(s: number) {
+  const w = s * 0.62, r = w / 2, h = s, cy = -h / 2 + r;
+  g.beginPath();
+  g.moveTo(0, h / 2);
+  g.bezierCurveTo(-w * 0.12, h * 0.28, -r, h * 0.06, -r, cy);
+  g.arc(0, cy, r, Math.PI, 0);
+  g.bezierCurveTo(r, h * 0.06, w * 0.12, h * 0.28, 0, h / 2);
+  g.closePath();
+}
 const resize = () => {
   W = canvas.clientWidth;
   H = canvas.clientHeight;
@@ -89,12 +100,22 @@ function tick() {
       p.y += p.vy;
       p.r += p.vr;
       if (p.y > H + 30 || p.x < -30) Object.assign(p, spawn());
-      if (!petal.complete) continue;
       g.save();
-      g.globalAlpha = 0.6;
+      g.globalAlpha = 0.7;
       g.translate(p.x, p.y);
       g.rotate(p.r);
-      g.drawImage(petal, -p.s / 2, -p.s / 2, p.s, p.s);
+      teardrop(p.s * 1.3);
+      const grd = g.createLinearGradient(0, -p.s * 0.65, 0, p.s * 0.65);
+      grd.addColorStop(0, "#fff");
+      grd.addColorStop(0.45, p.c);
+      g.fillStyle = grd;
+      g.shadowColor = p.c;
+      g.shadowBlur = 8;
+      g.fill();
+      g.shadowBlur = 0;
+      g.lineWidth = 1.4;
+      g.strokeStyle = "rgba(43,29,20,.55)";
+      g.stroke();
       g.restore();
     }
     requestAnimationFrame(frame);

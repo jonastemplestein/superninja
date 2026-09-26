@@ -22,5 +22,5 @@ export interface CaseMeta {
   title: string;
   /** one-line description of what the child is supposed to do in this activity */
   intent: string;
-  frames: { file: string; t: number; snState: unknown; caption: string }[];
+  frames: { file: string; t: number; snState: unknown; caption: string; settling?: boolean }[];
 }

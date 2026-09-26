@@ -1,0 +1,168 @@
+/* Early-learning games (src/scenes/Early.tsx): listening, first sound, middle sound, early word building and
+   "Who read it right?".
+   Layout contract (docs/HERO.md, stage 1280×720): the player's ninja stands bottom-left (x 0-330, y 380-720) and
+   Sensei's Help button sits bottom-right (x 1116-1280, y 556-720). Everything to tap sits in the play area
+   (x 340-1120, centred on x 730). */
+
+/* ---------------------------------------------------------------- the ninja's light in the room
+   A warm glow from the bottom-left that grows with the streak: golden at 3 in a row, pink and blue at 6, rainbow-white
+   and pulsing at 10. */
+.early-light {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1s ease;
+  background: radial-gradient(ellipse 560px 440px at 170px 600px, rgba(255, 226, 140, 0.55), rgba(255, 200, 90, 0.22) 42%, rgba(255, 200, 90, 0) 72%);
+}
+.early.streak-1 .early-light { opacity: 0.8; }
+.early.streak-2 .early-light {
+  opacity: 1;
+  background: radial-gradient(ellipse 640px 480px at 170px 600px, rgba(255, 196, 228, 0.52), rgba(170, 215, 255, 0.24) 45%, rgba(170, 215, 255, 0) 74%);
+}
+.early.streak-3 .early-light {
+  opacity: 1;
+  background: radial-gradient(ellipse 720px 520px at 170px 600px, rgba(255, 246, 196, 0.62), rgba(255, 150, 200, 0.26) 34%, rgba(140, 200, 255, 0.2) 55%, rgba(140, 200, 255, 0) 76%);
+  animation: early-light 2.4s ease-in-out infinite;
+}
+@keyframes early-light { 50% { opacity: 0.72; } }
+
+/* ---------------------------------------------------------------- what the ninja hit gets a star
+   Added when the ninja's move lands on the picture, letter or reader the child got right. */
+.early .struck::after {
+  content: ""; position: absolute; z-index: 4; right: -26px; top: -26px; width: 80px; height: 80px; pointer-events: none;
+  background: url(/a/i/item_star.webp) center / contain no-repeat;
+  filter: drop-shadow(0 4px 0 rgba(43, 29, 20, 0.55));
+  animation: early-stamp 0.5s cubic-bezier(0.3, 1.8, 0.5, 1) both;
+}
+@keyframes early-stamp {
+  from { scale: 2.6; rotate: -50deg; opacity: 0; }
+  55% { opacity: 1; }
+  to { scale: 1; rotate: 12deg; opacity: 1; }
+}
+
+/* ---------------------------------------------------------------- pictures stay inside their cards
+   (in a grid card, a tall picture such as "sit" would grow the row to its own height and spill over the slots) */
+.early .card img { position: absolute; inset: 7%; width: 86%; height: 86%; object-fit: contain; }
+.early .pic-card img { position: absolute; inset: 8%; width: 84%; height: 84%; object-fit: contain; }
+
+/* ---------------------------------------------------------------- picture and letter choices */
+.pick-row .pic-card, .pick-row .tile { transition: opacity 0.35s, scale 0.35s cubic-bezier(0.3, 1.4, 0.6, 1), filter 0.35s; }
+/* the right one bounces; the other steps back, so all eyes go to the answer */
+.pick-row .pic-card.right, .pick-row .tile.right { animation: early-right 0.55s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.pick-row:has(.right) .pic-card:not(.right), .pick-row:has(.right) .tile:not(.right) { opacity: 0.42; scale: 0.9; filter: saturate(0.5); }
+@keyframes early-right { 0% { scale: 1; } 30% { scale: 1.12 0.9; } 60% { scale: 0.96 1.06; } 100% { scale: 1; } }
+.pick-row .pic-card.right { box-shadow: 0 8px 0 var(--ink), 0 0 0 9px rgba(63, 191, 106, 0.75), 0 0 34px 10px rgba(140, 235, 165, 0.6); }
+
+/* "how we write it": the spelling appears where the ninja's spell lands, in a flash of light */
+.early .sound-line .tile.reveal { animation: early-magic 0.6s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+/* a solid ink letter like every other tile (the global .sound-line span rule would draw it hollow) */
+.early .sound-line .tile .g { color: var(--ink); -webkit-text-stroke: 0; font: inherit; }
+@keyframes early-magic {
+  from { scale: 0.2; opacity: 0; filter: brightness(2.6) drop-shadow(0 0 22px #ffe38a); }
+  55% { scale: 1.16; opacity: 1; filter: brightness(1.5) drop-shadow(0 0 16px #ffe38a); }
+  to { scale: 1; opacity: 1; filter: none; }
+}
+
+/* ---------------------------------------------------------------- word building */
+/* bigger slots than the older dojo: the word the child builds is the star of the screen */
+.early .slots { gap: 14px; }
+.early .slot { --size: 124px; }
+.early .slot .tile { --size: 124px; }
+/* a letter lands in its slot with a squash and a flash */
+.early .slot .tile.landed { animation: early-land 0.42s cubic-bezier(0.3, 1.7, 0.5, 1) both; }
+@keyframes early-land {
+  0% { scale: 1.26 0.72; filter: brightness(1.7); }
+  55% { scale: 0.94 1.08; filter: brightness(1.15); }
+  100% { scale: 1; filter: none; }
+}
+/* the finished word hops, letter by letter (delays set inline), and glows gold */
+.early .slots.built .slot { animation: early-hop 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+.early .slots.built .slot .tile { box-shadow: var(--shadow-press), 0 0 0 5px #ffc53d, 0 0 28px 10px rgba(255, 197, 61, 0.75); }
+@keyframes early-hop { 0%, 100% { translate: 0 0; } 38% { translate: 0 -38px; } 70% { translate: 0 5px; } }
+/* the letters to choose from sit low (bottom 18, top edge at y 570), under Sensei's caption bubble rather than behind
+   it; five or more letters get a little smaller, so the row stays in the play area */
+.early .build-bank .tile.lg { --size: 132px; border-radius: 28px; }
+.early .build-bank.many .tile.lg { --size: 124px; border-radius: 26px; }
+
+/* ---------------------------------------------------------------- find the letter
+   Three letters: a little smaller, and the row sits right of centre (x 430-1090), clear of the ninja's streak flames. */
+.early .pick-tile.n3 .tile.xl { --size: 196px; border-radius: 36px; }
+
+/* ---------------------------------------------------------------- friendly gifts
+   The star that floats from the ninja to a person, an animal or a reader, and the crown of stars and hearts it
+   settles into (Early.tsx gift(), crown()). They live in the stage's effects layer. */
+.early-gift { filter: drop-shadow(0 4px 0 rgba(43, 29, 20, 0.5)) drop-shadow(0 0 12px rgba(255, 244, 220, 0.85)); object-fit: contain; }
+
+/* ---------------------------------------------------------------- "Who read it right?": two readers
+   Kai and Suki in round portrait windows, each holding an open book (so they read as readers, not as the player's
+   ninja). The window is the tap target's picture; the book overlaps its bottom edge. */
+.early .reader {
+  position: relative; display: block; width: 250px; height: 292px; padding: 0;
+  overflow: visible; border: 0; border-radius: 0; background: none; box-shadow: none;
+}
+.early .reader.right, .early .reader.talking { background: none; box-shadow: none; }
+.early .reader-window {
+  position: absolute; left: 0; top: 0; width: 250px; height: 250px; border-radius: 50%; overflow: hidden;
+  border: 6px solid var(--ink);
+  background: radial-gradient(circle at 50% 36%, #fffaf0 0%, #f6e3bb 64%, #e9cf9c 100%);
+  box-shadow: 0 7px 0 var(--ink);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.early .reader-window img { position: absolute; left: 50%; top: 7%; width: 122%; max-width: none; translate: -50% 0; }
+/* arms up (cheer) and hand on chin (think) are drawn a little lower and wider on their canvases */
+.early .reader-window img.pose-cheer { top: 11%; width: 124%; }
+.early .reader-window img.pose-think { top: 5%; }
+.early .reader[data-who="kai"] .reader-window img.pose-think { translate: -46% 0; }
+.early .reader-book { position: absolute; z-index: 2; left: 50%; bottom: 0; width: 176px; translate: -50% 0; overflow: visible; filter: drop-shadow(0 5px 0 var(--ink)); }
+.reader-book .cover { fill: #d94a3a; stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; }
+.early .reader[data-who="suki"] .reader-book .cover { fill: #2ea89c; }
+.reader-book .page { fill: #fffaf0; stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; }
+.reader-book .text { fill: none; stroke: rgba(43, 29, 20, 0.34); stroke-width: 3.5; stroke-linecap: round; }
+
+/* whoever is reading lights up; their book bobs and sound waves come off the window */
+.early .reader.talking { transform: scale(1.08); z-index: 2; }
+.early .reader.talking .reader-window { box-shadow: 0 7px 0 var(--ink), 0 0 0 10px rgba(255, 197, 61, 0.95), 0 0 36px 12px rgba(255, 220, 120, 0.8); }
+.early .reader.talking .reader-book { animation: early-book 0.42s ease-in-out infinite alternate; }
+@keyframes early-book { from { rotate: -3deg; } to { rotate: 3deg; translate: -50% -4px; } }
+/* the waves come off the outer side of each window (left reader: to the left), never into the gap between them */
+.early .reader-waves {
+  position: absolute; z-index: 3; left: calc(100% + 6px); top: 40px; width: 64px; height: 88px; overflow: visible;
+  fill: none; stroke: #ffc53d; stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 2px 0 #2b1d14);
+}
+.early .readers .reader:first-child .reader-waves { left: auto; right: calc(100% + 6px); scale: -1 1; }
+.early .reader-waves path { animation: wave 0.9s ease-out infinite; opacity: 0; }
+.early .reader-waves path:nth-child(2) { animation-delay: 0.15s; }
+.early .reader-waves path:nth-child(3) { animation-delay: 0.3s; }
+
+/* the right reader: green glow and a happy bounce; the wrong one: a shake */
+.early .reader.right { animation: early-right 0.6s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.early .reader.right .reader-window { background: radial-gradient(circle at 50% 36%, #f4fff6 0%, #c9f3d3 70%, #9fe0b1 100%); box-shadow: 0 7px 0 var(--ink), 0 0 0 10px rgba(63, 191, 106, 0.8), 0 0 36px 12px rgba(120, 230, 150, 0.7); }
+.early .reader.wrong { animation: shake 0.4s; }
+.early .reader.wrong .reader-window { background: radial-gradient(circle at 50% 36%, #fff4ec 0%, #ffe0cc 70%, #f6c6a8 100%); }
+.early .reader.struck::after { right: 0; top: -6px; }
+
+/* a sound tapped before Sensei has finished asking: a little wiggle (wait for it) */
+.early .tile.wait { animation: waitwiggle 0.45s ease-in-out; }
+
+/* the player's own hero reading: the same waves come off the head of the ninja bottom-left, so the portrait reads as
+   "my ninja reading" */
+.early .me-waves { position: absolute; z-index: 13; left: 272px; top: 420px; right: auto; width: 70px; height: 96px; scale: 1; pointer-events: none; }
+
+/* with captions on, Sensei's bubble stays in the column right of the readers (they end at x 972) */
+.early:has(.readers) .bubble { max-width: 270px; }
+
+/* ---------------------------------------------------------------- the ninja's launches (Early.tsx launch())
+   Whole-body moves (leaps, flips, pirouettes) run on the ninja's float layer: squash at the feet, turns round the
+   tummy (the transform itself does that, like src/ui/Ninja.tsx). Afterimages sit behind it, where it was. */
+.early .nj-float { transform-origin: 50% 100%; }
+/* the streak flames turn back round the ninja's tummy as it turns (Early.tsx moveNinja), so in a backflip they stay
+   upright over where its head was, as in src/ui/Ninja.tsx, rather than swinging under it */
+.early .nj-flames { transform-origin: calc(var(--nj) * -0.03) calc(var(--nj) * 0.81); }
+.early .early-ghost { position: absolute; inset: 0; transform-origin: 50% 100%; pointer-events: none; }
+/* the flying letter glows in the streak's colours (it lives in the stage's effects layer, outside .early) */
+.fx-carry.early-fly.t1 { filter: drop-shadow(0 0 18px rgba(255, 205, 80, 0.95)) drop-shadow(0 10px 0 rgba(43, 29, 20, 0.25)); }
+.fx-carry.early-fly.t2 { filter: drop-shadow(0 0 16px rgba(255, 150, 205, 0.95)) drop-shadow(0 0 30px rgba(120, 205, 255, 0.8)) drop-shadow(0 10px 0 rgba(43, 29, 20, 0.25)); }
+.fx-carry.early-fly.t3 { filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 26px rgba(255, 233, 74, 0.9)) drop-shadow(0 0 40px rgba(180, 140, 255, 0.75)) drop-shadow(0 10px 0 rgba(43, 29, 20, 0.25)); }
+
+/* a reader tapped too soon (still reading, or Sensei is answering): the same "wait" wiggle as the sound tiles */
+.early .reader.wait { animation: waitwiggle 0.45s ease-in-out; }
+/* four or more sounds: narrower "how we write it" lines (Early.tsx RevealAt), so the row keeps clear of the ninja */
+.early .reveal-narrow .sound-lines { gap: 12px; }
+.early .reveal-narrow .sound-line { width: 124px; }

@@ -6,11 +6,20 @@
 //  • "Which spelling of /ae/ is in 'rain'?"    pick the right alternative spelling for the gap: r _ n
 //  • "Tap every word with this sound"          same sound, different spellings
 // Stages get harder; enough rounds right moves up, the first miss stops. The child starts just past what they showed.
+// The child's ninja stands bottom-left (docs/HERO.md). Every right round gets a move aimed at the answer (kick, jab,
+// shuriken, spell, and more once it glows, never the same move twice running) and counts towards the streak, so a child
+// who knows a lot sees the ninja light up, power up at 3, 6 and 10 in a row, and fly. Moving up a stage gets a cheer.
+// The first miss ends placement: the ninja has a little think, then a big celebration of how far they got (the glow
+// stays on for it, and there is no "Keep going!", because this is where Sensei says they're done).
 import { useEffect, useRef, useState } from "react";
 import { WORDS, UNITS, GRAPHEMES, type Word, type PhonemeId } from "../content/phonics";
 import { say, sfx, playMusic, preload, urls } from "../engine/audio";
 import { shuffle, pick } from "../engine/learner";
-import { img, fx, sleep, tapProps, SenseiDock, heroImg, useHero, useHelp, Tile } from "../ui/ui";
+import { img, fx, sleep, tapProps, SenseiDock, useHelp, Tile } from "../ui/ui";
+import { NinjaSpot, ninja } from "../ui/Ninja";
+import { streak } from "../engine/streak";
+import { powerBeat } from "./Training";
+import "../styles/shell.css";
 import { GEMS } from "../content/flower";
 import { placeAtUnit } from "../engine/gems";
 
@@ -98,8 +107,13 @@ const STAGES: Stage[] = [
   { unit: 12, rounds: 1, make: () => findAllRound(pick(["ae", "ee", "oe"] as PhonemeId[])) },
 ];
 
+/** Letter size for the three words of a blend round, so they fit on one row of the play area (x 340-1100). */
+const blendFont = (opts: Word[]) => {
+  const n = Math.max(...opts.map((w) => w.text.length));
+  return n <= 3 ? 80 : n === 4 ? 68 : n === 5 ? 58 : 50;
+};
+
 export function Placement({ onDone }: { onDone: () => void }) {
-  const hero = useHero();
   const [phase, setPhase] = useState<"ask" | "play" | "done">("ask");
   const [stage, setStage] = useState(0);
   const [round, setRound] = useState<Round>(() => STAGES[0].make());
@@ -110,6 +124,7 @@ export function Placement({ onDone }: { onDone: () => void }) {
   const busy = useRef(false);
 
   useEffect(() => {
+    streak.reset(); // a fresh streak: no flames carried over from training
     playMusic("dojo");
     say({ line: "place_ask" });
   }, []);
@@ -131,15 +146,23 @@ export function Placement({ onDone }: { onDone: () => void }) {
     placeAtUnit(unit);
     sfx.fanfare();
     fx.rain("confetti", 70);
-    await say({ line: unit > 0 ? "place_done" : "place_new" });
+    await Promise.all([say({ line: unit > 0 ? "place_done" : "place_new" }), ninja.celebrate()]);
     onDone();
   };
 
-  const right = async () => {
+  /** A right round: the ninja strikes the answer (the tile, word or picture they got right, or the word they built),
+   *  and it counts towards the streak. The next question waits until the strike has landed and its burst has mostly
+   *  cleared (a spell flies for up to ~0.9 s; never more than 1.4 s in all), so no sparkle is left over a tile of the
+   *  next question to look like a hint. */
+  const right = async (el?: Element | null) => {
     sfx.good();
-    fx.burst(640, 360, "stars", 14);
+    const landed = ninja.strike(el?.isConnected ? el : { x: 720, y: 330 });
+    // count it AFTER the strike has started: a tier-up queues the ninja's power-up behind the strike (docs/HERO.md)
+    const ev = streak.hit();
     done.current++;
-    await sleep(700);
+    await Promise.all([sleep(700), Promise.race([landed.then(() => sleep(380)), sleep(1400)])]);
+    // 3, 6 or 10 in a row: the ninja powers up. Let that and "Ninja power!" land before the next question.
+    if (ev.tierUp) await powerBeat(`streak_${[0, 3, 6, 10][ev.tier]}`);
     let st = stage;
     if (done.current >= STAGES[stage].rounds) {
       passed.current = STAGES[stage].unit;
@@ -147,6 +170,8 @@ export function Placement({ onDone }: { onDone: () => void }) {
       if (stage + 1 >= STAGES.length) return finish(passed.current);
       st = stage + 1;
       setStage(st);
+      // a new, harder stage: a happy cheer as Sensei says so
+      void ninja.act("cheer");
       await say({ line: "yay_1" });
     }
     const r = STAGES[st].make();
@@ -159,11 +184,15 @@ export function Placement({ onDone }: { onDone: () => void }) {
   const miss = async (id: string) => {
     setWrong(id);
     sfx.wrong();
+    // no streak.miss(): the first miss ends placement, so there is no "Keep going!" here, just a friendly "hmm",
+    // then the celebration of how far they got (still glowing, if they earned it)
+    void ninja.act("think");
     await sleep(700);
     finish(passed.current);
   };
 
-  const choose = async (id: string) => {
+  const built = useRef<HTMLDivElement>(null); // the spelling slots / the gapped word: what the ninja strikes when it's done
+  const choose = async (id: string, el?: HTMLElement) => {
     if (busy.current || phase !== "play") return;
     const r = round;
     if (r.kind === "sound" || r.kind === "gap") {
@@ -171,15 +200,22 @@ export function Placement({ onDone }: { onDone: () => void }) {
       const ok = id === (r.kind === "sound" ? r.answer : r.answer.segs[r.slot].g);
       setPicked([id]);
       if (ok) {
-        if (r.kind === "gap") await say({ word: r.answer.text });
-        return right();
+        if (r.kind === "gap") {
+          // the ninja strikes the word as it's completed, while Sensei says it
+          const said = say({ word: r.answer.text });
+          await sleep(120);
+          void right(built.current ?? el);
+          await said;
+          return;
+        }
+        return right(el);
       }
       return miss(id);
     }
     if (r.kind === "blend") {
       busy.current = true;
       setPicked([id]);
-      return id === r.answer.text ? right() : miss(id);
+      return id === r.answer.text ? right(el) : miss(id);
     }
     if (r.kind === "spell") {
       const need = r.answer.segs[picked.length];
@@ -194,7 +230,7 @@ export function Placement({ onDone }: { onDone: () => void }) {
         busy.current = true;
         await sleep(500);
         await say({ word: r.answer.text });
-        return right();
+        return right(built.current);
       }
       return;
     }
@@ -209,7 +245,7 @@ export function Placement({ onDone }: { onDone: () => void }) {
     if (r.targets.every((t) => p.includes(t))) {
       busy.current = true;
       await sleep(600);
-      return right();
+      return right(el);
     }
   };
 
@@ -224,40 +260,41 @@ export function Placement({ onDone }: { onDone: () => void }) {
     <div className="scene">
       <img className="bg-img" src={img("dojo_bg")} alt="" />
       <div className="vignette" />
-      <img className="sprite breathe" src={heroImg(hero, "idle")} alt="" style={{ right: 20, bottom: 10, width: 180 }} />
+      <NinjaSpot />
       {phase === "ask" && (
-        <div className="row" style={{ position: "absolute", left: 0, right: 0, top: 170, gap: 90 }}>
-          <button aria-label="I'm just starting" className="panel pop-in" {...tapProps(() => { sfx.pop(); finish(0); })} style={{ width: 300, height: 300, display: "grid", placeItems: "center", background: "linear-gradient(180deg,#eaffd9,#a8e07a)" }}>
+        <div className="row" style={{ position: "absolute", left: 340, right: 180, top: 96, gap: 80 }}>
+          <button aria-label="I'm just starting" className="panel pop-in" {...tapProps(() => { sfx.pop(); finish(0); })} style={{ width: 290, height: 290, display: "grid", placeItems: "center", background: "linear-gradient(180deg,#eaffd9,#a8e07a)" }}>
             <svg viewBox="0 0 64 64" width="200" height="200">
               <path d="M32 58V30" stroke="#2b1d14" strokeWidth="5" strokeLinecap="round" />
               <path d="M32 34c-14 0-20-10-20-18 10 0 20 6 20 18zM32 30c0-12 8-20 22-20 0 12-8 20-22 20z" fill="#6cc04a" stroke="#2b1d14" strokeWidth="4" strokeLinejoin="round" />
               <ellipse cx="32" cy="58" rx="16" ry="4" fill="#8b5a3c" stroke="#2b1d14" strokeWidth="3" />
             </svg>
           </button>
-          <button aria-label="Show Sensei what I know" className="panel pop-in" {...tapProps(async () => { sfx.great(); setPhase("play"); await say({ line: "place_intro" }); await ask(); })} style={{ width: 300, height: 300, display: "grid", placeItems: "center", background: "linear-gradient(180deg,#fff6c8,#ffc53d)", animationDelay: ".12s" }}>
+          <button aria-label="Show Sensei what I know" className="panel pop-in" {...tapProps(async () => { sfx.great(); setPhase("play"); await say({ line: "place_intro" }); await ask(); })} style={{ width: 290, height: 290, display: "grid", placeItems: "center", background: "linear-gradient(180deg,#fff6c8,#ffc53d)", animationDelay: ".12s" }}>
             <img src={img("item_star")} alt="" style={{ width: 210 }} />
           </button>
         </div>
       )}
       {phase === "play" && (
         <>
-          <div className="row" style={{ position: "absolute", left: 0, right: 0, top: 30, gap: 10 }}>
+          <div className="row" style={{ position: "absolute", left: 340, right: 180, top: 30, gap: 10 }}>
             {STAGES.map((_, i) => (
               <span key={i} style={{ width: 30, height: 30, borderRadius: "50%", border: "4px solid #2b1d14", background: i < stage ? "#ffc53d" : i === stage ? "#fff4dc" : "rgba(43,29,20,.3)" }} />
             ))}
           </div>
-          <div key={stage + "-" + (round.kind === "sound" ? round.answer : "answer" in round ? round.answer.text : round.p)} className="row" style={{ position: "absolute", left: 150, right: 200, top: 110, bottom: 140, gap: 28, alignContent: "center" }}>
-            {round.kind === "sound" && round.options.map((g) => <Tile key={g} g={g} size="lg" state={tileState(g, g === round.answer) as any} onTap={() => choose(g)} />)}
+          <div key={stage + "-" + (round.kind === "sound" ? round.answer : "answer" in round ? round.answer.text : round.p)} className="row" style={{ position: "absolute", left: 340, right: 180, top: 84, bottom: 236, gap: round.kind === "blend" ? 20 : 28, alignContent: "center", flexWrap: round.kind === "blend" ? "nowrap" : undefined }}>
+            {round.kind === "sound" && round.options.map((g) => <Tile key={g} g={g} size="lg" state={tileState(g, g === round.answer) as any} onTap={(el) => choose(g, el)} />)}
             {round.kind === "blend" &&
               round.options.map((w) => (
-                <button key={w.text} aria-label={w.text} className={`tile lg drop-in ${tileState(w.text, w === round.answer)}`} style={{ padding: "0 30px", fontSize: 80 }} {...tapProps(() => choose(w.text))}>
+                // three words always sit on one row: longer words (swim, stamp) get a smaller letter size
+                <button key={w.text} aria-label={w.text} className={`tile lg drop-in ${tileState(w.text, w === round.answer)}`} style={{ padding: "0 26px", fontSize: blendFont(round.options) }} {...tapProps<HTMLButtonElement>((el) => choose(w.text, el))}>
                   {w.text}
                 </button>
               ))}
             {round.kind === "spell" && (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
                 {round.answer.pic && <img src={img(`pic_${round.answer.text}`)} alt="" style={{ width: 140, height: 140, objectFit: "contain" }} />}
-                <div className="slots">
+                <div className="slots" ref={built}>
                   {round.answer.segs.map((_, i) => (
                     <div key={i} className={`slot ${i < picked.length ? "filled" : i === picked.length ? "active" : ""}`}>{i < picked.length && <Tile g={picked[i]} className="pop-in" />}</div>
                   ))}
@@ -271,7 +308,7 @@ export function Placement({ onDone }: { onDone: () => void }) {
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 36 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
                   {round.answer.pic && <img src={img(`pic_${round.answer.text}`)} alt="" style={{ width: 130, height: 130, objectFit: "contain" }} />}
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: 96, color: "var(--paper)", textShadow: "0 5px 0 var(--ink)", WebkitTextStroke: "3px var(--ink)", paintOrder: "stroke fill" } as React.CSSProperties}>
+                  <div ref={built} style={{ display: "flex", alignItems: "center", gap: 6, fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: 96, color: "var(--paper)", textShadow: "0 5px 0 var(--ink)", WebkitTextStroke: "3px var(--ink)", paintOrder: "stroke fill" } as React.CSSProperties}>
                     {round.answer.segs.map((s, i) =>
                       i === round.slot ? (
                         <span key={i} className={`slot ${picked.length ? "" : "active"}`} style={{ minWidth: 120, height: 110, fontSize: 70 }}>{picked[0] === s.g ? s.g : ""}</span>
@@ -282,22 +319,22 @@ export function Placement({ onDone }: { onDone: () => void }) {
                   </div>
                 </div>
                 <div className="row" style={{ gap: 22 }}>
-                  {round.options.map((g) => <Tile key={g} g={g} size="lg" state={tileState(g, g === round.answer.segs[round.slot].g) as any} onTap={() => choose(g)} />)}
+                  {round.options.map((g) => <Tile key={g} g={g} size="lg" state={tileState(g, g === round.answer.segs[round.slot].g) as any} onTap={(el) => choose(g, el)} />)}
                 </div>
               </div>
             )}
             {round.kind === "findall" && (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
                 {round.options.map((w) => (
-                  <button key={w.text} aria-label={w.text} className="card drop-in" {...tapProps(() => choose(w.text))} style={{ position: "relative", width: 200, height: 180, display: "flex", flexDirection: "column", background: picked.includes(w.text) ? "#dfffe6" : wrong === w.text ? "#ffe0cc" : undefined }}>
-                    {w.pic && <img src={img(`pic_${w.text}`)} alt="" style={{ width: 110, height: 110 }} />}
-                    <span style={{ fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: 40 }}>{w.text}</span>
+                  <button key={w.text} aria-label={w.text} className="card drop-in" {...tapProps<HTMLButtonElement>((el) => choose(w.text, el))} style={{ position: "relative", width: 196, height: 164, display: "flex", flexDirection: "column", background: picked.includes(w.text) ? "#dfffe6" : wrong === w.text ? "#ffe0cc" : undefined }}>
+                    {w.pic && <img src={img(`pic_${w.text}`)} alt="" style={{ width: 98, height: 98 }} />}
+                    <span style={{ fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: 36, lineHeight: 1.1 }}>{w.text}</span>
                   </button>
                 ))}
               </div>
             )}
           </div>
-          <div style={{ position: "absolute", left: "50%", bottom: 30, translate: "-50% 0" }}>
+          <div style={{ position: "absolute", left: 720, bottom: 26, translate: "-50% 0" }}>
             <button className="btn-round" aria-label="Hear it again" {...tapProps(() => ask())}>
               <svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" strokeWidth={7} strokeLinejoin="round" d="M10 25h10l13-11v36L20 39H10z" /><path fill="none" stroke="#2b1d14" strokeWidth={7} strokeLinecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34" /></svg>
             </button>

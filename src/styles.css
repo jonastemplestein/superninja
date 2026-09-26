@@ -73,16 +73,50 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
   background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(43, 29, 20, 0.35) 100%);
 }
 
-/* ---------- portrait warning (phones) */
+/* ---------- turn-your-phone prompt (phones held upright; rendered by Stage in ui.tsx) */
 .rotate {
-  position: fixed; inset: 0; z-index: 99; display: none;
-  flex-direction: column; align-items: center; justify-content: center; gap: 24px;
-  background: #1d1230; color: var(--paper); text-align: center; padding: 24px;
-  font-family: var(--font-display); font-size: 28px; letter-spacing: 1px;
+  position: fixed; inset: 0; z-index: 99; display: flex;
+  flex-direction: column; align-items: center; justify-content: center; gap: 2vh;
+  background: radial-gradient(ellipse at 50% 42%, #43307a 0%, #2a1a4a 45%, #1d1230 80%);
+  color: var(--paper); text-align: center; padding: 24px; touch-action: none; cursor: pointer;
 }
-.rotate img { width: 42vw; max-width: 220px; animation: tilt 2.4s ease-in-out infinite; }
-@keyframes tilt { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
-@media (orientation: portrait) and (max-width: 700px) { .rotate { display: flex; } }
+.rotate-art { position: relative; width: min(96vw, 60vh, 520px); aspect-ratio: 1 / 1.42; }
+.rotate-svg { position: absolute; left: 6%; top: 0; width: 94%; height: auto; overflow: visible; filter: drop-shadow(0 8px 0 rgba(0, 0, 0, 0.25)); }
+.rot-phone { transform-box: view-box; transform-origin: 150px 150px; animation: rot-phone 3.4s ease-in-out infinite; }
+@keyframes rot-phone {
+  0% { transform: rotate(0); opacity: 1; }
+  8% { transform: rotate(5deg); } 13% { transform: rotate(-5deg); } 18% { transform: rotate(0); }
+  24% { transform: rotate(0); animation-timing-function: cubic-bezier(.5, 0, .3, 1.35); }
+  50%, 86% { transform: rotate(-90deg); opacity: 1; }
+  91% { transform: rotate(-90deg); opacity: 0; }
+  94% { transform: rotate(0); opacity: 0; }
+  100% { transform: rotate(0); opacity: 1; }
+}
+.rot-arc-ink, .rot-arc { fill: none; stroke-linecap: round; stroke-dasharray: 300; stroke-dashoffset: 300; animation: rot-arc 3.4s ease-in-out infinite; }
+.rot-arc-ink { stroke: #2b1d14; stroke-width: 30; }
+.rot-arc { stroke: #ffc53d; stroke-width: 18; }
+.rot-head { fill: #ffc53d; stroke: #2b1d14; stroke-width: 7; stroke-linejoin: round; transform-box: fill-box; transform-origin: 50% 30%; animation: rot-head 3.4s ease-in-out infinite; }
+@keyframes rot-arc { 0%, 19% { stroke-dashoffset: 300; opacity: 0; } 21% { stroke-dashoffset: 290; opacity: 1; } 46% { stroke-dashoffset: 0; opacity: 1; } 80% { stroke-dashoffset: 0; opacity: 1; } 90%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes rot-head { 0%, 42% { transform: scale(0); opacity: 0; } 48% { transform: scale(1.3); opacity: 1; } 54%, 80% { transform: scale(1); opacity: 1; } 90%, 100% { transform: scale(1); opacity: 0; } }
+.rot-star { transform-box: fill-box; transform-origin: 50% 50%; animation: rot-star 3.4s ease-in-out infinite; }
+@keyframes rot-star { 0%, 44% { opacity: 1; transform: scale(1); } 52%, 92% { opacity: 0; transform: scale(.4); } 100% { opacity: 1; transform: scale(1); } }
+.rot-tick { transform-box: fill-box; transform-origin: 50% 50%; animation: rot-tick 3.4s ease-in-out infinite; }
+@keyframes rot-tick { 0%, 50% { opacity: 0; transform: scale(0) rotate(90deg); } 56% { opacity: 1; transform: scale(1.35) rotate(90deg); } 62%, 86% { opacity: 1; transform: scale(1.15) rotate(90deg); } 91%, 100% { opacity: 0; transform: scale(1.15) rotate(90deg); } }
+.rotate-ninja { position: absolute; left: 0; bottom: 0; width: 50%; aspect-ratio: 640 / 860; }
+.rotate-ninja img { position: absolute; left: 0; bottom: 0; width: 100%; filter: drop-shadow(0 8px 6px rgba(0, 0, 0, 0.35)); transform-origin: 50% 100%; }
+.rn-think { animation: rn-think 3.4s ease-in-out infinite; }
+.rn-cheer { animation: rn-cheer 3.4s ease-in-out infinite; }
+@keyframes rn-think { 0%, 49% { opacity: 1; rotate: -3deg; } 25% { rotate: 3deg; } 51%, 90% { opacity: 0; } 94%, 100% { opacity: 1; rotate: -3deg; } }
+@keyframes rn-cheer {
+  0%, 49% { opacity: 0; translate: 0 0; scale: 1; }
+  51% { opacity: 1; translate: 0 0; scale: 1.08 .92; } 60% { translate: 0 -14%; scale: .95 1.05; } 68% { translate: 0 0; scale: 1.06 .94; }
+  76% { translate: 0 -8%; scale: .98 1.02; } 84% { translate: 0 0; scale: 1; opacity: 1; } 90%, 100% { opacity: 0; }
+}
+.rotate-tap { position: absolute; left: 44%; top: 34%; width: 26%; aspect-ratio: 1; pointer-events: none; animation: taphint 1.2s ease-in-out infinite; }
+.rotate-tap svg { position: relative; filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.3)); }
+.rotate-ring { position: absolute; left: 4%; top: -18%; width: 56%; aspect-ratio: 1; border-radius: 50%; border: 6px solid #ffc53d; animation: rot-ring 1.2s ease-out infinite; }
+@keyframes rot-ring { 0% { scale: .3; opacity: 1; } 100% { scale: 1.6; opacity: 0; } }
+.rotate-note { font: 600 15px/1.25 var(--font-ui); letter-spacing: 0.2px; opacity: 0.62; }
 
 /* ---------- sprites */
 .sprite { position: absolute; pointer-events: none; filter: drop-shadow(0 10px 8px rgba(43, 29, 20, 0.28)); will-change: transform; }
@@ -185,14 +219,11 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
 .topbar .spacer { flex: 1; pointer-events: none; }
 
 /* ---------- sensei speech */
-.sensei-dock { position: absolute; left: 8px; bottom: 0; width: 190px; height: 240px; z-index: 30; pointer-events: none; }
-.sensei-dock img { position: absolute; bottom: -12px; left: 0; width: 190px; transition: transform 0.2s; transform-origin: 50% 100%; }
-.sensei-dock.talking img { animation: talk 0.35s ease-in-out infinite alternate; }
-@keyframes talk { from { transform: rotate(-1.5deg) scale(1, 1); } to { transform: rotate(1.5deg) scale(1.02, 0.98); } }
 .bubble {
-  /* above Sensei's help button (bottom-left), clear of the letter-tile row along the bottom */
-  position: absolute; left: 18px; bottom: 158px; z-index: 31;
-  max-width: 460px; padding: 14px 22px;
+  /* above Sensei's help button (bottom-right), clear of the letter-tile row along the bottom and the ninja (bottom-left).
+     width: fit-content, so a scene that sets `left` inline still gets a snug bubble (right is then ignored) */
+  position: absolute; left: auto; right: 18px; bottom: 158px; z-index: 84; /* above the effects layer (80/81), so no star covers a caption */
+  width: fit-content; max-width: 460px; padding: 14px 22px;
   font-family: var(--font-ui); font-weight: 700; font-size: 25px; line-height: 1.2;
   background: #fffdf6; border: 4px solid var(--ink); border-radius: 26px;
   box-shadow: 0 6px 0 var(--ink);
@@ -200,7 +231,7 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
   pointer-events: none;
 }
 .bubble::before {
-  content: ""; position: absolute; left: 44px; bottom: -19px; width: 30px; height: 30px;
+  content: ""; position: absolute; right: 46px; bottom: -19px; width: 30px; height: 30px;
   background: inherit; border-right: 4px solid var(--ink); border-bottom: 4px solid var(--ink);
   transform: rotate(45deg); border-radius: 0 0 6px 0;
 }
@@ -243,6 +274,9 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
   box-shadow: 0 8px 0 var(--ink), 0 20px 34px rgba(0, 0, 0, 0.25);
 }
 .card img { width: 86%; height: 86%; object-fit: contain; }
+/* a picture on its own: sized to the card itself (as a grid item its % height would fall back to the picture's own
+   height, and a tall picture, like the queen or the hen, would spill out over the sound slots below) */
+.card > img:only-child { position: absolute; inset: 0; margin: auto; }
 
 /* ---------- utility */
 .center { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: max-content; } /* left:50% would otherwise cap its width at half the stage and wrap rows */
@@ -262,13 +296,6 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
 .fullscreen-fade { position: absolute; inset: 0; background: #1d1230; z-index: 90; pointer-events: none; animation: fadeout 0.6s ease forwards; }
 @keyframes fadeout { from { opacity: 1; } to { opacity: 0; } }
 
-.caption-hidden .bubble { display: none; }
-
-.bubble.notail::before { display: none; }
-
-.sensei-dock.auto img { transition: transform .35s cubic-bezier(.3,1.4,.6,1); }
-.sensei-dock.auto.away img { transform: translateY(110%); }
-
 /* the next level on the map: unmistakable */
 .map-next { animation: mapnext 1.1s ease-in-out infinite; }
 @keyframes mapnext { 0%, 100% { translate: 0 0; scale: 1; } 50% { translate: 0 -12px; scale: 1.06; } }
@@ -281,22 +308,22 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
   border-radius: 50%; animation: sparkle 2.2s ease-in-out infinite; }
 @keyframes sparkle { 0%, 100% { scale: .4; opacity: 0; rotate: 0deg; } 40% { scale: 1; opacity: 1; } 70% { opacity: 0; rotate: 90deg; } }
 
-/* Help button: Sensei's face, same corner on every screen */
+/* Help button: Sensei's face, same corner on every screen (bottom-right: the ninja stands bottom-left) */
 .help-btn {
-  position: absolute; left: 14px; bottom: 14px; z-index: 85;
+  position: absolute; right: 14px; bottom: 14px; z-index: 85;
   width: 124px; height: 124px; border-radius: 50%;
   background: radial-gradient(circle at 40% 35%, #fff8e6, #ffd98a 70%, #e0a53a);
   border: 6px solid var(--ink); box-shadow: 0 7px 0 var(--ink), 0 0 0 6px rgba(255, 244, 220, .8);
   overflow: visible;
 }
 .help-face { position: absolute; inset: 5px; width: calc(100% - 10px); height: calc(100% - 10px); border-radius: 50%; object-fit: cover; }
-.help-waves { position: absolute; left: 100%; top: 50%; translate: 6px -50%; width: 44px; height: 70px; fill: none; stroke: #ffc53d; stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 2px 0 #2b1d14); }
+.help-waves { position: absolute; right: 100%; top: 50%; translate: -6px -50%; scale: -1 1; width: 44px; height: 70px; fill: none; stroke: #ffc53d; stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 2px 0 #2b1d14); }
 .help-waves path { animation: wave 0.9s ease-out infinite; opacity: 0; }
 .help-waves path:nth-child(2) { animation-delay: .15s; }
 .help-waves path:nth-child(3) { animation-delay: .3s; }
 @keyframes wave { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
 .help-q {
-  position: absolute; right: -10px; top: -10px; width: 46px; height: 46px; border-radius: 50%;
+  position: absolute; left: -10px; top: -10px; width: 46px; height: 46px; border-radius: 50%;
   background: var(--good); border: 5px solid var(--ink); color: #fff; font-family: var(--font-display); font-size: 30px; line-height: 38px; text-align: center;
   text-shadow: 0 2px 0 var(--ink);
 }
@@ -387,3 +414,206 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
 .reader.talking { transform: scale(1.08); box-shadow: 0 7px 0 var(--ink), 0 0 0 10px rgba(255,197,61,.95); animation: helptalk .5s ease-in-out infinite alternate; }
 .pic-card.wait { animation: waitwiggle .45s ease-in-out; }
 @keyframes waitwiggle { 25% { rotate: -3deg; scale: .97; } 75% { rotate: 3deg; scale: .97; } }
+
+/* ================================================================ the ninja (src/ui/Ninja.tsx, docs/HERO.md)
+   Layers: .ninja-spot > .nj-float (hovers on a streak) > .nj-body (moves: Web Animations) > aura, rim glow, sprite.
+   Nothing here ever takes a tap. */
+.ninja-spot { position: absolute; pointer-events: none; --glow: 255, 205, 80; }
+.ninja-spot * { pointer-events: none; }
+.nj-float { position: absolute; inset: 0; }
+.nj-body { position: absolute; inset: 0; transform-origin: 50% 100%; z-index: 2; will-change: transform; animation: nj-breathe 2.6s ease-in-out infinite; }
+@keyframes nj-breathe { 0%, 100% { scale: 1 1; } 50% { scale: 1.018 0.982; } }
+.nj-img { position: absolute; bottom: 0; left: 0; width: 100%; filter: drop-shadow(0 10px 8px rgba(43, 29, 20, 0.28)); user-select: none; }
+.nj-shadow {
+  position: absolute; left: 6%; right: 6%; bottom: -12px; height: 30px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(43, 29, 20, 0.42), rgba(43, 29, 20, 0.12) 55%, transparent 72%);
+}
+/* the power circle on the ground (streak) */
+.nj-ground {
+  position: absolute; left: -12%; right: -12%; bottom: -26px; height: 58px; border-radius: 50%;
+  border: 5px solid rgba(var(--glow), 0.9); box-shadow: 0 0 22px 6px rgba(var(--glow), 0.55), inset 0 0 18px 4px rgba(var(--glow), 0.5);
+  opacity: 0; scale: 0.4; transition: opacity 0.5s, scale 0.5s cubic-bezier(.3, 1.6, .5, 1);
+}
+/* the aura behind the ninja */
+.nj-aura {
+  position: absolute; left: -34%; right: -34%; bottom: -10%; height: 128%; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 58%, rgba(255, 250, 215, 0.95) 0%, rgba(var(--glow), 0.75) 26%, rgba(var(--glow), 0.32) 46%, transparent 68%);
+  opacity: 0; transition: opacity 0.6s;
+}
+/* light rays behind the ninja on a streak */
+.nj-rays {
+  position: absolute; left: -60%; right: -60%; bottom: -30%; height: 150%; opacity: 0; transition: opacity 0.6s;
+  background: repeating-conic-gradient(from 0deg at 50% 58%, rgba(255, 246, 200, 0.75) 0deg 7deg, transparent 7deg 20deg);
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 58%, #000 20%, transparent 70%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 58%, #000 20%, transparent 70%);
+  animation: nj-swirl 14s linear infinite; transform-origin: 50% 58%;
+}
+.ninja-spot.tier-1 .nj-rays { opacity: 0.8; }
+.ninja-spot.tier-2 .nj-rays { opacity: 0.7; background: repeating-conic-gradient(from 0deg at 50% 58%, rgba(255, 190, 225, 0.75) 0deg 7deg, transparent 7deg 20deg, rgba(160, 225, 255, 0.75) 20deg 27deg, transparent 27deg 40deg); animation-duration: 9s; }
+.ninja-spot.tier-3 .nj-rays { opacity: 0.85; background: repeating-conic-gradient(from 0deg at 50% 58%, rgba(255, 110, 110, 0.7) 0deg 6deg, transparent 6deg 15deg, rgba(255, 233, 74, 0.75) 15deg 21deg, transparent 21deg 30deg, rgba(95, 211, 95, 0.7) 30deg 36deg, transparent 36deg 45deg, rgba(74, 184, 255, 0.75) 45deg 51deg, transparent 51deg 60deg); animation-duration: 6s; }
+/* a glowing rim that follows the sprite's silhouette (mask = the current pose, set by setPose) */
+.nj-rim {
+  position: absolute; bottom: 0; left: 0; opacity: 0; transition: opacity 0.5s;
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  background: rgb(var(--glow)); filter: blur(5px); transform: scale(1.06); transform-origin: 50% 90%;
+}
+/* rising sparkles */
+.nj-sparks { position: absolute; left: -10%; right: -10%; bottom: 0; height: 100%; opacity: 0; transition: opacity 0.5s; z-index: 3; }
+.nj-sparks i {
+  position: absolute; bottom: 4%; width: 18px; height: 18px; background: #fff6c8;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  filter: drop-shadow(0 0 4px rgba(var(--glow), 1)); animation: nj-rise 2.4s linear infinite;
+}
+.nj-sparks i:nth-child(3n) { background: rgb(var(--glow)); }
+@keyframes nj-rise { 0% { translate: 0 0; opacity: 0; rotate: 0deg; } 15% { opacity: 1; } 80% { opacity: 1; } 100% { translate: 0 calc(var(--nj) * -1.1); opacity: 0; rotate: 180deg; } }
+/* a ring of energy orbiting the waist (master) */
+.nj-orbit { position: absolute; left: 50%; bottom: calc(var(--nj) * 0.46); width: 0; height: 0; opacity: 0; transition: opacity 0.5s; }
+.nj-orbit i {
+  position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 30%, var(--c, #ffe94a) 55%, transparent 72%);
+  animation: nj-orbit 2.4s linear infinite;
+}
+.nj-orbit i:nth-child(6n + 1) { --c: #ff5a5a; } .nj-orbit i:nth-child(6n + 2) { --c: #ffb03d; } .nj-orbit i:nth-child(6n + 3) { --c: #ffe94a; }
+.nj-orbit i:nth-child(6n + 4) { --c: #5fd35f; } .nj-orbit i:nth-child(6n + 5) { --c: #4ab8ff; } .nj-orbit i:nth-child(6n) { --c: #b48cff; }
+@keyframes nj-orbit {
+  0.00% { translate: calc(var(--nj) * -0.660) calc(var(--nj) * 0.000); scale: 1.00; opacity: 0.72; z-index: 3; }
+  6.25% { translate: calc(var(--nj) * -0.610) calc(var(--nj) * 0.057); scale: 1.13; opacity: 0.83; z-index: 3; }
+  12.50% { translate: calc(var(--nj) * -0.467) calc(var(--nj) * 0.106); scale: 1.25; opacity: 0.92; z-index: 3; }
+  18.75% { translate: calc(var(--nj) * -0.253) calc(var(--nj) * 0.139); scale: 1.32; opacity: 0.98; z-index: 3; }
+  25.00% { translate: calc(var(--nj) * -0.000) calc(var(--nj) * 0.150); scale: 1.35; opacity: 1.00; z-index: 3; }
+  31.25% { translate: calc(var(--nj) * 0.253) calc(var(--nj) * 0.139); scale: 1.32; opacity: 0.98; z-index: 3; }
+  37.50% { translate: calc(var(--nj) * 0.467) calc(var(--nj) * 0.106); scale: 1.25; opacity: 0.92; z-index: 3; }
+  43.75% { translate: calc(var(--nj) * 0.610) calc(var(--nj) * 0.057); scale: 1.13; opacity: 0.83; z-index: 3; }
+  50.00% { translate: calc(var(--nj) * 0.660) calc(var(--nj) * 0.000); scale: 1.00; opacity: 0.72; z-index: 3; }
+  56.25% { translate: calc(var(--nj) * 0.610) calc(var(--nj) * -0.057); scale: 0.87; opacity: 0.61; z-index: 1; }
+  62.50% { translate: calc(var(--nj) * 0.467) calc(var(--nj) * -0.106); scale: 0.75; opacity: 0.52; z-index: 1; }
+  68.75% { translate: calc(var(--nj) * 0.253) calc(var(--nj) * -0.139); scale: 0.68; opacity: 0.46; z-index: 1; }
+  75.00% { translate: calc(var(--nj) * 0.000) calc(var(--nj) * -0.150); scale: 0.65; opacity: 0.44; z-index: 1; }
+  81.25% { translate: calc(var(--nj) * -0.253) calc(var(--nj) * -0.139); scale: 0.68; opacity: 0.46; z-index: 1; }
+  87.50% { translate: calc(var(--nj) * -0.467) calc(var(--nj) * -0.106); scale: 0.75; opacity: 0.52; z-index: 1; }
+  93.75% { translate: calc(var(--nj) * -0.610) calc(var(--nj) * -0.057); scale: 0.87; opacity: 0.61; z-index: 1; }
+  100.00% { translate: calc(var(--nj) * -0.660) calc(var(--nj) * -0.000); scale: 1.00; opacity: 0.72; z-index: 3; }
+}
+
+
+/* tier 1 "glow": a warm golden aura */
+.ninja-spot.tier-1 .nj-aura { opacity: 1; animation: nj-aura 1.4s ease-in-out infinite; }
+.ninja-spot.tier-1 .nj-rim { opacity: 1; transform: scale(1.075); animation: nj-rim 1.4s ease-in-out infinite; }
+.ninja-spot.tier-1 .nj-ground, .ninja-spot.tier-2 .nj-ground, .ninja-spot.tier-3 .nj-ground { opacity: 1; scale: 1; animation: nj-ground 1.4s ease-in-out infinite; }
+.ninja-spot.tier-1 .nj-sparks, .ninja-spot.tier-2 .nj-sparks, .ninja-spot.tier-3 .nj-sparks { opacity: 1; }
+.ninja-spot.tier-1 .nj-sparks i:nth-child(n + 8) { display: none; }
+@keyframes nj-aura { 0%, 100% { scale: 0.94; opacity: 0.8; } 50% { scale: 1.06; opacity: 1; } }
+@keyframes nj-rim { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+@keyframes nj-ground { 0%, 100% { scale: 0.96; } 50% { scale: 1.05; } }
+/* tier 2 "super": a multicolour aura, hovering, afterimages */
+.ninja-spot.tier-2 { --glow: 255, 122, 190; }
+.ninja-spot.tier-2 .nj-float, .ninja-spot.tier-3 .nj-float { animation: nj-hover 1.8s ease-in-out infinite; }
+@keyframes nj-hover { 0%, 100% { translate: 0 -10px; } 50% { translate: 0 -24px; } }
+.ninja-spot.tier-2 .nj-aura, .ninja-spot.tier-3 .nj-aura {
+  opacity: 1;
+  background: conic-gradient(from 0deg, #ff7aa2, #ffc53d, #5ec8f2, #b48cff, #ff7aa2);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 58%, #000 18%, rgba(0, 0, 0, 0.55) 40%, transparent 68%);
+  mask-image: radial-gradient(ellipse at 50% 58%, #000 18%, rgba(0, 0, 0, 0.55) 40%, transparent 68%);
+  animation: nj-swirl 3s linear infinite;
+}
+.ninja-spot.tier-2 .nj-rim { opacity: 0.9; background: linear-gradient(180deg, #ff9ac6, #ff7aa2 40%, #7fd0ff 75%, #b48cff); filter: blur(8px); transform: scale(1.07); }
+.ninja-spot.tier-2 .nj-ground { border-color: #ff9ac6; }
+.ninja-spot.tier-2 .nj-sparks i:nth-child(n + 12) { display: none; }
+.ninja-spot.tier-2 .nj-sparks i:nth-child(2n) { background: #9fe3ff; }
+@keyframes nj-swirl { from { rotate: 0deg; } to { rotate: 360deg; } }
+/* tier 3 "master": rainbow energy and a particle ring */
+.ninja-spot.tier-3 { --glow: 255, 233, 74; }
+.ninja-spot.tier-3 .nj-aura { background: conic-gradient(from 0deg, #ff5a5a, #ffb03d, #ffe94a, #5fd35f, #4ab8ff, #b48cff, #ff5a5a); animation-duration: 1.6s; }
+.ninja-spot.tier-3 .nj-rim { opacity: 0.95; background: linear-gradient(180deg, #ff5a5a, #ffb03d 20%, #ffe94a 40%, #5fd35f 60%, #4ab8ff 80%, #b48cff); filter: blur(8px); transform: scale(1.08); }
+.ninja-spot.tier-3 .nj-ground { border-color: #fff; box-shadow: 0 0 26px 8px rgba(255, 233, 74, 0.7), 0 0 50px 10px rgba(180, 140, 255, 0.5), inset 0 0 18px 4px rgba(95, 211, 95, 0.6); }
+.ninja-spot.tier-3 .nj-orbit { opacity: 1; }
+.ninja-spot.tier-3 .nj-sparks i:nth-child(6n + 1) { background: #ff8a8a; } .ninja-spot.tier-3 .nj-sparks i:nth-child(6n + 2) { background: #9fe3ff; }
+.ninja-spot.tier-3 .nj-sparks i:nth-child(6n + 4) { background: #a6f0a6; } .ninja-spot.tier-3 .nj-sparks i:nth-child(6n + 5) { background: #d8c2ff; }
+/* a power-up blooms the aura; a ground-pound landing flares the power circle */
+.ninja-spot.powering .nj-aura { animation: nj-bloom 0.9s cubic-bezier(.2, .8, .3, 1); }
+@keyframes nj-bloom { 0% { scale: 0.3; opacity: 1; } 35% { scale: 1.45; opacity: 1; } 100% { scale: 1; opacity: 1; } }
+.ninja-spot.landing .nj-ground { animation: nj-slam 0.6s cubic-bezier(.2, .8, .3, 1); }
+@keyframes nj-slam { 0% { scale: 0.5; opacity: 1; } 40% { scale: 1.7; opacity: 1; } 100% { scale: 1; } }
+/* on guard while Baron Muddle speaks */
+.ninja-spot.on-guard .nj-body { animation-duration: 0.9s; }
+
+/* streak flames: a flat row above the head, one per answer in the streak (no numbers) */
+/* centred over the head (the sprites' heads sit right of the body's middle), a little above the hair */
+.nj-flames { position: absolute; left: 62%; bottom: calc(var(--nj) * 1.39); width: 0; height: 0; z-index: 4; }
+.nj-flame {
+  position: absolute; left: calc(var(--x) - 18px); top: calc(var(--y) - 48px); width: 36px; height: 48px;
+  transition: left 0.35s cubic-bezier(.3, 1.4, .5, 1), top 0.35s cubic-bezier(.3, 1.4, .5, 1);
+  animation: nj-flame-in 0.45s cubic-bezier(.3, 1.8, .5, 1) both; transform-origin: 50% 90%;
+}
+.nj-flame svg { width: 100%; height: 100%; overflow: visible; transform-origin: 50% 92%; animation: nj-flicker 0.46s ease-in-out infinite alternate; animation-delay: var(--d); }
+@keyframes nj-flame-in { 0% { scale: 0; opacity: 0; translate: 0 16px; } 60% { scale: 1.35; opacity: 1; translate: 0 -6px; } 100% { scale: 1; translate: 0 0; } }
+@keyframes nj-flicker { from { scale: 0.94 1.05; rotate: -5deg; } to { scale: 1.06 0.94; rotate: 5deg; } }
+.ninja-spot.tier-0 .nj-flame { width: 28px; height: 38px; left: calc(var(--x) * 0.85 - 14px); top: calc(var(--y) - 38px); }
+.ninja-spot.tier-1 .nj-flame svg { filter: drop-shadow(0 0 5px rgba(255, 170, 40, 0.95)); }
+.ninja-spot.tier-2 .nj-flame svg { filter: drop-shadow(0 0 6px rgba(255, 90, 170, 0.95)); }
+.ninja-spot.tier-3 .nj-flame { width: 40px; height: 54px; left: calc(var(--x) - 20px); top: calc(var(--y) - 54px); }
+.ninja-spot.tier-3 .nj-flame svg { filter: drop-shadow(0 0 7px rgba(255, 255, 255, 0.95)); }
+/* first-try answers earned but not counted yet (NinjaSpot's `pending`): pale flames that breathe, and light later */
+.nj-flame.pale svg { filter: drop-shadow(0 0 4px rgba(255, 244, 220, 0.9)); animation: nj-pend 0.7s ease-in-out infinite alternate; }
+@keyframes nj-pend { from { scale: 0.86; opacity: 0.6; } to { scale: 1; opacity: 0.95; } }
+/* mid-kick the sprite is drawn lower than the flames' head line: the row dims rather than float off above the ninja */
+.nj-flames { transition: opacity 0.12s; }
+.ninja-spot:is([data-pose="kick"], [data-pose="punch"], [data-pose="spin"], [data-pose="flip"]) .nj-flames { opacity: 0.3; }
+.nj-flames.puff .nj-flame { animation: nj-puff 0.6s ease-out both; }
+.nj-flames.puff .nj-flame svg { filter: grayscale(1) brightness(1.5); }
+@keyframes nj-puff { 0% { scale: 1; opacity: 1; } 40% { scale: 1.3; opacity: 0.8; } 100% { scale: 0.2; opacity: 0; translate: 0 -30px; } }
+
+/* thought cloud (the gentle "hmm" after a wrong answer), dizzy stars, kiai */
+.nj-thought { position: absolute; left: 76%; bottom: calc(var(--nj) * 1.18); width: 86px; height: 70px; z-index: 5; transform-origin: 0% 100%; }
+.nj-thought::before {
+  content: ""; position: absolute; inset: 0; border-radius: 45% 50% 45% 50%; background: #fffdf6; border: 5px solid var(--ink);
+  box-shadow: 0 5px 0 rgba(43, 29, 20, 0.35);
+}
+.nj-thought i { position: absolute; border-radius: 50%; background: #fffdf6; border: 4px solid var(--ink); }
+.nj-thought i:nth-child(1) { width: 22px; height: 22px; left: -8px; bottom: -18px; }
+.nj-thought i:nth-child(2) { width: 13px; height: 13px; left: -22px; bottom: -34px; }
+.nj-thought span {
+  position: absolute; inset: 0; display: grid; place-items: center; font: 52px/1 var(--font-display); color: var(--gold);
+  -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; animation: nj-q 0.9s ease-in-out infinite;
+}
+@keyframes nj-q { 0%, 100% { rotate: -8deg; } 50% { rotate: 8deg; translate: 0 -3px; } }
+.nj-dizzy { position: absolute; left: 50%; bottom: calc(var(--nj) * 1.22); width: 0; height: 0; z-index: 5; animation: nj-dizzy 0.8s linear infinite; }
+.nj-dizzy i {
+  position: absolute; width: 26px; height: 26px; margin: -13px; background: #ffe94a;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+.nj-dizzy i:nth-child(1) { translate: 60px 0; } .nj-dizzy i:nth-child(2) { translate: -30px 22px; } .nj-dizzy i:nth-child(3) { translate: -30px -22px; }
+@keyframes nj-dizzy { from { transform: scaleY(0.4) rotate(0deg); } to { transform: scaleY(0.4) rotate(360deg); } }
+.nj-kiai { position: absolute; left: 70%; bottom: calc(var(--nj) * 1.1); width: 96px; height: 96px; z-index: 5; }
+.nj-kiai svg { width: 100%; height: 100%; overflow: visible; }
+.nj-kiai text { font: 56px var(--font-display); fill: var(--red); stroke: var(--ink); stroke-width: 3; paint-order: stroke fill; }
+.nj-ghost { position: absolute; inset: 0; transform-origin: 50% 100%; z-index: 1; }
+.nj-ghost-fill {
+  position: absolute; bottom: 0; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  background: linear-gradient(180deg, #ffe0f0, #ff7aa2 45%, #5ec8f2);
+}
+.nj-ghost.t3 .nj-ghost-fill { background: linear-gradient(180deg, #ff5a5a, #ffe94a 35%, #5fd35f 60%, #4ab8ff 85%, #b48cff); }
+
+/* ---------------------------------------------------------------- DOM effects layer (projectiles, impact stars, flashes) */
+.fx-dom { position: absolute; inset: 0; z-index: 81; pointer-events: none; overflow: hidden; }
+.fx-dom > * { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.fx-dom svg { display: block; overflow: visible; }
+.fx-pow svg { filter: drop-shadow(0 5px 0 rgba(43, 29, 20, 0.35)); }
+.fx-shuriken img, .fx-starshot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 0 rgba(43, 29, 20, 0.45)) drop-shadow(0 0 10px rgba(255, 244, 220, 0.8)); }
+.fx-wave svg, .fx-comet svg { width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(255, 240, 190, 0.9)); }
+.fx-orb { border-radius: 50%; }
+.fx-orb i { position: absolute; inset: -45%; border-radius: 50%; background: radial-gradient(circle, rgba(255, 236, 150, 0.95) 0%, rgba(255, 170, 70, 0.45) 40%, transparent 68%); }
+.fx-orb::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; border: 4px solid var(--ink);
+  background: radial-gradient(circle at 36% 32%, #fff 0 15%, #fff6c2 26%, #ffd34d 50%, #ff9a3d 74%, #d86a00 100%);
+  box-shadow: inset -6px -8px 0 rgba(160, 70, 0, 0.35);
+}
+.fx-orb b { position: absolute; inset: -16%; border-radius: 50%; border: 5px solid transparent; border-top-color: #fff; border-left-color: rgba(255, 255, 255, 0.55); animation: fx-orbspin 0.32s linear infinite; }
+@keyframes fx-orbspin { to { rotate: 360deg; } }
+.fx-orb.t2 i { background: radial-gradient(circle, rgba(255, 170, 215, 0.95) 0%, rgba(160, 130, 255, 0.45) 40%, transparent 68%); }
+.fx-orb.t2::before { background: radial-gradient(circle at 36% 32%, #fff 0 15%, #ffe0f0 26%, #ff7aa2 52%, #c055d8 78%, #7a2fa8 100%); box-shadow: inset -6px -8px 0 rgba(90, 20, 110, 0.35); }
+.fx-orb.t3 i { background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 233, 74, 0.5) 30%, rgba(74, 184, 255, 0.35) 50%, transparent 68%); }
+.fx-orb.t3::before { background: radial-gradient(circle at 36% 32%, #fff 0 13%, rgba(255, 255, 255, 0.6) 20%, transparent 34%), conic-gradient(from 0deg, #ff3b3b, #ff9a1a, #ffe23a, #3fcf3f, #2f9fff, #9b5cf0, #ff3b3b); animation: fx-orbspin 0.7s linear infinite; }
+.fx-flash { mix-blend-mode: screen; }
+.fx-carry { filter: drop-shadow(0 0 16px rgba(255, 225, 130, 0.95)) drop-shadow(0 10px 0 rgba(43, 29, 20, 0.25)); }
+.fx-carry > * { pointer-events: none !important; }

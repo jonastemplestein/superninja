@@ -3,13 +3,9 @@
 import { existsSync } from "node:fs";
 import { WORD_BY_TEXT, PHONEMES } from "../src/content/phonics";
 import { tts, finishAudio, judgeAudio } from "./tts";
+import { STRETCH_WORDS } from "../src/content/stretch";
 import { pool } from "./gemini";
 
-export const STRETCH_WORDS = [
-  "sun", "mat", "fan", "man", "dog", "bus", "cup", "hat", "map", "mop", "mug", "milk", "sock", "sand", "sit", "sat", "am", "at", "it", "an", "in", "on",
-  "ant", "tap", "tin", "top", "tent", "tub", "fin", "pin", "pan", "lid", "pig", "cat", "wig", "bin", "bag", "zip", "jam", "pot", "cot", "hot", "log", "leg", "fox", "van",
-  "nap", "not", "net", "nut", "nest", "pen", "peg", "pup", "tip", "pit", "pat", "tan", "sip", "nip", "pop",
-];
 const HOLD = new Set(["m", "n", "s", "f", "v", "z", "l", "r", "sh", "th", "dh", "ng", "a", "e", "i", "o", "u"]);
 function stretchText(w: string) {
   const word = WORD_BY_TEXT[w];

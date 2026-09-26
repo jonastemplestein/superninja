@@ -1,0 +1,19 @@
+{
+  "overrides": [
+    {
+      "files": ["src/core/**/*.ts"],
+      "rules": {
+        "no-restricted-imports": ["error", {
+          "patterns": ["react", "react/*", "../../engine/*", "../engine/*", "../../scenes/*", "../scenes/*", "../../ui/*", "../ui/*", "../../content/teach", "../../content/worlds", "node:fs", "node:fs/*", "node:crypto", "node:async_hooks"],
+          "paths": ["react", "react-dom"]
+        }],
+        "no-restricted-properties": ["error", {"object":"Date","property":"now"}, {"object":"Math","property":"random"}],
+        "no-restricted-globals": ["error", "window", "document", "localStorage", "sessionStorage", "navigator", "fetch", "Audio", "AudioContext", "performance", "setTimeout", "setInterval"]
+      }
+    },
+    {
+      "files": ["src/core/**/*.test.ts"],
+      "rules": { "no-restricted-imports": "off" }
+    }
+  ]
+}

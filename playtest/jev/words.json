@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-25T21:41:55.388Z",
+ "generated": "2026-09-25T21:59:55.313Z",
  "usage": {
   "model": "jev-1.13.0",
   "calls": 417,
@@ -7,9 +7,9 @@
   "inputTokens": 357633,
   "outputTokens": 35028,
   "usd": 0.015021,
-  "p50ms": 421,
-  "p95ms": 553,
-  "wallMs": 8107
+  "p50ms": 391,
+  "p95ms": 640,
+  "wallMs": 43833
  },
  "visionCovered": 160,
  "findings": [
@@ -30,7 +30,7 @@
    "severity": "minor",
    "case": "word:fight",
    "title": "fight: unsuitable word for a young child",
-   "detail": "\"fight\" (unit 12) — jev unsafe=0.49",
+   "detail": "\"fight\" (unit 12) — jev unsafe=0.47",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -41,7 +41,7 @@
    "severity": "minor",
    "case": "word:hob",
    "title": "hob: most children at this stage won't know this word",
-   "detail": "\"hob\" (unit 3, picture: one built-in black glass kitchen hob seen from slightly above, a completely flat rectangular top with four circular electric cooking rings and four small controls along one edge, no raised cooker body, oven, pan or food) — jev known=0.74",
+   "detail": "\"hob\" (unit 3, picture: one built-in black glass kitchen hob seen from slightly above, a completely flat rectangular top with four circular electric cooking rings and four small controls along one edge, no raised cooker body, oven, pan or food) — jev known=0.73",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -58,23 +58,23 @@
    ]
   },
   {
-   "sig": "jev:word:moth:known",
+   "sig": "jev:word:jab:unsafe",
    "source": "jev",
    "severity": "minor",
-   "case": "word:moth",
-   "title": "moth: most children at this stage won't know this word",
-   "detail": "\"moth\" (unit 11, picture: a moth) — jev known=0.7; used in: first-sound game w1-2: \"which one starts with /m/?\" picture",
+   "case": "word:jab",
+   "title": "jab: unsuitable word for a young child",
+   "detail": "\"jab\" (unit 6) — jev unsafe=0.45",
    "evidence": [
     "src/content/phonics.ts"
    ]
   },
   {
-   "sig": "jev:word:otter:known",
+   "sig": "jev:word:moth:known",
    "source": "jev",
    "severity": "minor",
-   "case": "word:otter",
-   "title": "otter: most children at this stage won't know this word",
-   "detail": "\"otter\" (unit oral, picture: a cute brown otter floating on its back) — jev known=0.6",
+   "case": "word:moth",
+   "title": "moth: most children at this stage won't know this word",
+   "detail": "\"moth\" (unit 11, picture: a moth) — jev known=0.69; used in: first-sound game w1-2: \"which one starts with /m/?\" picture",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -85,7 +85,7 @@
    "severity": "minor",
    "case": "word:tusk",
    "title": "tusk: most children at this stage won't know this word",
-   "detail": "\"tusk\" (unit 8, picture: an elephant tusk in extreme close-up: one enormous long white ivory tusk curves upward from a tiny piece of grey elephant jaw visible at its base; the tusk dominates the image, elephant head and trunk are outside the frame) — jev known=0.74; used in: first-sound game w1-3: \"which one starts with /t/?\" picture",
+   "detail": "\"tusk\" (unit 8, picture: an elephant tusk in extreme close-up: one enormous long white ivory tusk curves upward from a tiny piece of grey elephant jaw visible at its base; the tusk dominates the image, elephant head and trunk are outside the frame) — jev known=0.73; used in: first-sound game w1-3: \"which one starts with /t/?\" picture",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -96,18 +96,7 @@
    "severity": "minor",
    "case": "word:yak",
    "title": "yak: most children at this stage won't know this word",
-   "detail": "\"yak\" (unit 7, picture: a yak) — jev known=0.7",
-   "evidence": [
-    "src/content/phonics.ts"
-   ]
-  },
-  {
-   "sig": "jev:word:beg:known",
-   "source": "jev",
-   "severity": "polish",
-   "case": "word:beg",
-   "title": "beg: most children at this stage won't know this word",
-   "detail": "\"beg\" (unit 4) — jev known=0.61",
+   "detail": "\"yak\" (unit 7, picture: a yak) — jev known=0.67",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -129,18 +118,7 @@
    "severity": "polish",
    "case": "word:brisk",
    "title": "brisk: most children at this stage won't know this word",
-   "detail": "\"brisk\" (unit 10) — jev known=0.69",
-   "evidence": [
-    "src/content/phonics.ts"
-   ]
-  },
-  {
-   "sig": "jev:word:crept:known",
-   "source": "jev",
-   "severity": "polish",
-   "case": "word:crept",
-   "title": "crept: most children at this stage won't know this word",
-   "detail": "\"crept\" (unit 10) — jev known=0.6",
+   "detail": "\"brisk\" (unit 10) — jev known=0.71",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -151,7 +129,7 @@
    "severity": "polish",
    "case": "word:cuff",
    "title": "cuff: most children at this stage won't know this word",
-   "detail": "\"cuff\" (unit 7) — jev known=0.62",
+   "detail": "\"cuff\" (unit 7) — jev known=0.61",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -163,17 +141,6 @@
    "case": "word:glum",
    "title": "glum: most children at this stage won't know this word",
    "detail": "\"glum\" (unit 9) — jev known=0.62",
-   "evidence": [
-    "src/content/phonics.ts"
-   ]
-  },
-  {
-   "sig": "jev:word:imp:known",
-   "source": "jev",
-   "severity": "polish",
-   "case": "word:imp",
-   "title": "imp: most children at this stage won't know this word",
-   "detail": "\"imp\" (unit 8) — jev known=0.6",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -195,7 +162,7 @@
    "severity": "polish",
    "case": "word:jazz",
    "title": "jazz: most children at this stage won't know this word",
-   "detail": "\"jazz\" (unit 7) — jev known=0.61",
+   "detail": "\"jazz\" (unit 7) — jev known=0.63",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -206,7 +173,7 @@
    "severity": "polish",
    "case": "word:jig",
    "title": "jig: most children at this stage won't know this word",
-   "detail": "\"jig\" (unit 6) — jev known=0.64",
+   "detail": "\"jig\" (unit 6) — jev known=0.65",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -217,7 +184,7 @@
    "severity": "polish",
    "case": "word:pit",
    "title": "pit: most children at this stage won't know this word",
-   "detail": "\"pit\" (unit 2) — jev known=0.6; used in: \"who read it right?\" in w1-11; sound-swap chain in w1-12",
+   "detail": "\"pit\" (unit 2) — jev known=0.61; used in: \"who read it right?\" in w1-11; sound-swap chain in w1-12",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -239,7 +206,7 @@
    "severity": "polish",
    "case": "word:rust",
    "title": "rust: most children at this stage won't know this word",
-   "detail": "\"rust\" (unit 8) — jev known=0.61",
+   "detail": "\"rust\" (unit 8) — jev known=0.63",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -250,7 +217,7 @@
    "severity": "polish",
    "case": "word:skid",
    "title": "skid: most children at this stage won't know this word",
-   "detail": "\"skid\" (unit 9) — jev known=0.62",
+   "detail": "\"skid\" (unit 9) — jev known=0.64",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -272,7 +239,7 @@
    "severity": "polish",
    "case": "word:stun",
    "title": "stun: most children at this stage won't know this word",
-   "detail": "\"stun\" (unit 9) — jev known=0.64",
+   "detail": "\"stun\" (unit 9) — jev known=0.61",
    "evidence": [
     "src/content/phonics.ts"
    ]
@@ -317,43 +284,43 @@
    "unit": 1,
    "pic": null,
    "oral": false,
-   "known": 0.3,
+   "known": 0.35,
    "unsafe": 0.04,
-   "american": 0.05,
-   "name_agree": 0.13,
-   "alt_first": 0.08
+   "american": 0.04,
+   "name_agree": 0.15,
+   "alt_first": 0.07
   },
   {
    "word": "am",
    "unit": 1,
    "pic": null,
    "oral": false,
-   "known": 0.28,
+   "known": 0.21,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.2,
-   "alt_first": 0.08
+   "name_agree": 0.15,
+   "alt_first": 0.07
   },
   {
    "word": "it",
    "unit": 1,
    "pic": null,
    "oral": false,
-   "known": 0.32,
+   "known": 0.3,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.15,
-   "alt_first": 0.08
+   "name_agree": 0.14,
+   "alt_first": 0.07
   },
   {
    "word": "sat",
    "unit": 1,
    "pic": null,
    "oral": false,
-   "known": 0.22,
+   "known": 0.21,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.24,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -361,32 +328,32 @@
    "unit": 1,
    "pic": "a small woven floor mat",
    "oral": true,
-   "known": 0.21,
+   "known": 0.23,
    "unsafe": 0.03,
-   "american": 0.07,
-   "name_agree": 0.35,
-   "alt_first": 0.27
+   "american": 0.08,
+   "name_agree": 0.4,
+   "alt_first": 0.29
   },
   {
    "word": "sit",
    "unit": 1,
    "pic": "one child seen clearly from the side, sitting upright on a low stool, bottom on the seat, knees bent and both bare feet on the floor, hands resting on knees, with the whole seated pose visible",
    "oral": true,
-   "known": 0.14,
-   "unsafe": 0.03,
+   "known": 0.13,
+   "unsafe": 0.02,
    "american": 0.04,
-   "name_agree": 0.67,
-   "alt_first": 0.35
+   "name_agree": 0.65,
+   "alt_first": 0.36
   },
   {
    "word": "an",
    "unit": 2,
    "pic": null,
    "oral": false,
-   "known": 0.2,
-   "unsafe": 0.03,
+   "known": 0.23,
+   "unsafe": 0.04,
    "american": 0.03,
-   "name_agree": 0.14,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -395,9 +362,9 @@
    "pic": null,
    "oral": false,
    "known": 0.2,
-   "unsafe": 0.03,
-   "american": 0.03,
-   "name_agree": 0.16,
+   "unsafe": 0.04,
+   "american": 0.04,
+   "name_agree": 0.15,
    "alt_first": 0.07
   },
   {
@@ -409,7 +376,7 @@
    "unsafe": 0.04,
    "american": 0.04,
    "name_agree": 0.15,
-   "alt_first": 0.07
+   "alt_first": 0.08
   },
   {
    "word": "man",
@@ -417,10 +384,10 @@
    "pic": "a friendly grown-up man in a green jumper waving",
    "oral": true,
    "known": 0.08,
-   "unsafe": 0.03,
+   "unsafe": 0.02,
    "american": 0.04,
-   "name_agree": 0.36,
-   "alt_first": 0.42
+   "name_agree": 0.35,
+   "alt_first": 0.43
   },
   {
    "word": "pan",
@@ -429,52 +396,52 @@
    "oral": true,
    "known": 0.18,
    "unsafe": 0.05,
-   "american": 0.09,
-   "name_agree": 0.43,
-   "alt_first": 0.32
+   "american": 0.08,
+   "name_agree": 0.39,
+   "alt_first": 0.31
   },
   {
    "word": "nap",
    "unit": 2,
    "pic": "a sleepy cat taking a nap",
    "oral": true,
-   "known": 0.3,
+   "known": 0.28,
    "unsafe": 0.03,
-   "american": 0.07,
-   "name_agree": 0.72,
-   "alt_first": 0.7
+   "american": 0.06,
+   "name_agree": 0.74,
+   "alt_first": 0.73
   },
   {
    "word": "tap",
    "unit": 2,
    "pic": "a kitchen water tap",
    "oral": true,
-   "known": 0.28,
+   "known": 0.25,
    "unsafe": 0.06,
-   "american": 0.1,
-   "name_agree": 0.48,
-   "alt_first": 0.44
+   "american": 0.12,
+   "name_agree": 0.44,
+   "alt_first": 0.42
   },
   {
    "word": "map",
    "unit": 2,
    "pic": "a treasure map",
    "oral": true,
-   "known": 0.56,
+   "known": 0.55,
    "unsafe": 0.04,
    "american": 0.08,
-   "name_agree": 0.64,
-   "alt_first": 0.47
+   "name_agree": 0.61,
+   "alt_first": 0.48
   },
   {
    "word": "pat",
    "unit": 2,
    "pic": null,
    "oral": false,
-   "known": 0.16,
+   "known": 0.15,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.21,
+   "name_agree": 0.25,
    "alt_first": 0.07
   },
   {
@@ -482,10 +449,10 @@
    "unit": 2,
    "pic": null,
    "oral": false,
-   "known": 0.6,
-   "unsafe": 0.2,
+   "known": 0.61,
+   "unsafe": 0.18,
    "american": 0.1,
-   "name_agree": 0.2,
+   "name_agree": 0.22,
    "alt_first": 0.08
   },
   {
@@ -493,18 +460,18 @@
    "unit": 2,
    "pic": "a big red drawing pin (a push pin) standing on its point, seen from the side",
    "oral": true,
-   "known": 0.5,
+   "known": 0.51,
    "unsafe": 0.11,
-   "american": 0.22,
-   "name_agree": 0.59,
-   "alt_first": 0.44
+   "american": 0.23,
+   "name_agree": 0.58,
+   "alt_first": 0.48
   },
   {
    "word": "tin",
    "unit": 2,
    "pic": "a tin can",
    "oral": true,
-   "known": 0.26,
+   "known": 0.27,
    "unsafe": 0.05,
    "american": 0.11,
    "name_agree": 0.42,
@@ -515,11 +482,11 @@
    "unit": 2,
    "pic": null,
    "oral": false,
-   "known": 0.52,
-   "unsafe": 0.15,
+   "known": 0.56,
+   "unsafe": 0.16,
    "american": 0.09,
-   "name_agree": 0.24,
-   "alt_first": 0.08
+   "name_agree": 0.26,
+   "alt_first": 0.07
   },
   {
    "word": "tip",
@@ -527,43 +494,43 @@
    "pic": null,
    "oral": false,
    "known": 0.49,
-   "unsafe": 0.08,
-   "american": 0.1,
-   "name_agree": 0.22,
-   "alt_first": 0.07
+   "unsafe": 0.07,
+   "american": 0.12,
+   "name_agree": 0.24,
+   "alt_first": 0.08
   },
   {
    "word": "sip",
    "unit": 2,
    "pic": null,
    "oral": false,
-   "known": 0.3,
-   "unsafe": 0.04,
-   "american": 0.08,
-   "name_agree": 0.23,
-   "alt_first": 0.08
+   "known": 0.29,
+   "unsafe": 0.05,
+   "american": 0.09,
+   "name_agree": 0.21,
+   "alt_first": 0.07
   },
   {
    "word": "pot",
    "unit": 2,
    "pic": "a clay cooking pot",
    "oral": true,
-   "known": 0.15,
+   "known": 0.2,
    "unsafe": 0.06,
-   "american": 0.09,
-   "name_agree": 0.33,
-   "alt_first": 0.41
+   "american": 0.1,
+   "name_agree": 0.34,
+   "alt_first": 0.46
   },
   {
    "word": "top",
    "unit": 2,
    "pic": "a spinning top toy",
    "oral": true,
-   "known": 0.21,
+   "known": 0.24,
    "unsafe": 0.05,
    "american": 0.07,
    "name_agree": 0.34,
-   "alt_first": 0.23
+   "alt_first": 0.27
   },
   {
    "word": "not",
@@ -573,28 +540,28 @@
    "known": 0.15,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.23,
-   "alt_first": 0.06
+   "name_agree": 0.2,
+   "alt_first": 0.07
   },
   {
    "word": "mop",
    "unit": 2,
    "pic": "a floor mop",
    "oral": true,
-   "known": 0.17,
+   "known": 0.18,
    "unsafe": 0.05,
    "american": 0.07,
-   "name_agree": 0.27,
-   "alt_first": 0.2
+   "name_agree": 0.29,
+   "alt_first": 0.19
   },
   {
    "word": "pop",
    "unit": 2,
    "pic": null,
    "oral": false,
-   "known": 0.15,
+   "known": 0.16,
    "unsafe": 0.06,
-   "american": 0.09,
+   "american": 0.08,
    "name_agree": 0.2,
    "alt_first": 0.07
   },
@@ -603,11 +570,11 @@
    "unit": 2,
    "pic": null,
    "oral": false,
-   "known": 0.58,
-   "unsafe": 0.12,
+   "known": 0.55,
+   "unsafe": 0.1,
    "american": 0.11,
-   "name_agree": 0.21,
-   "alt_first": 0.07
+   "name_agree": 0.24,
+   "alt_first": 0.06
   },
   {
    "word": "tan",
@@ -617,7 +584,7 @@
    "known": 0.61,
    "unsafe": 0.06,
    "american": 0.1,
-   "name_agree": 0.19,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -628,19 +595,19 @@
    "known": 0.07,
    "unsafe": 0.03,
    "american": 0.03,
-   "name_agree": 0.14,
-   "alt_first": 0.47
+   "name_agree": 0.13,
+   "alt_first": 0.43
   },
   {
    "word": "cap",
    "unit": 3,
    "pic": "a baseball cap",
    "oral": false,
-   "known": 0.19,
+   "known": 0.21,
    "unsafe": 0.03,
-   "american": 0.26,
-   "name_agree": 0.47,
-   "alt_first": 0.5
+   "american": 0.24,
+   "name_agree": 0.48,
+   "alt_first": 0.48
   },
   {
    "word": "can",
@@ -648,9 +615,9 @@
    "pic": null,
    "oral": false,
    "known": 0.15,
-   "unsafe": 0.05,
+   "unsafe": 0.04,
    "american": 0.1,
-   "name_agree": 0.25,
+   "name_agree": 0.27,
    "alt_first": 0.08
   },
   {
@@ -661,8 +628,8 @@
    "known": 0.25,
    "unsafe": 0.04,
    "american": 0.17,
-   "name_agree": 0.44,
-   "alt_first": 0.32
+   "name_agree": 0.41,
+   "alt_first": 0.35
   },
   {
    "word": "bat",
@@ -670,10 +637,10 @@
    "pic": "a cute bat flying",
    "oral": false,
    "known": 0.35,
-   "unsafe": 0.09,
-   "american": 0.1,
-   "name_agree": 0.3,
-   "alt_first": 0.24
+   "unsafe": 0.08,
+   "american": 0.09,
+   "name_agree": 0.31,
+   "alt_first": 0.27
   },
   {
    "word": "bag",
@@ -682,9 +649,9 @@
    "oral": true,
    "known": 0.15,
    "unsafe": 0.04,
-   "american": 0.11,
-   "name_agree": 0.5,
-   "alt_first": 0.54
+   "american": 0.1,
+   "name_agree": 0.51,
+   "alt_first": 0.53
   },
   {
    "word": "big",
@@ -692,43 +659,43 @@
    "pic": null,
    "oral": false,
    "known": 0.06,
-   "unsafe": 0.03,
+   "unsafe": 0.02,
    "american": 0.03,
-   "name_agree": 0.19,
-   "alt_first": 0.08
+   "name_agree": 0.22,
+   "alt_first": 0.07
   },
   {
    "word": "bin",
    "unit": 3,
    "pic": "a rubbish bin",
    "oral": true,
-   "known": 0.22,
-   "unsafe": 0.05,
-   "american": 0.17,
-   "name_agree": 0.49,
-   "alt_first": 0.6
+   "known": 0.21,
+   "unsafe": 0.06,
+   "american": 0.18,
+   "name_agree": 0.5,
+   "alt_first": 0.56
   },
   {
    "word": "bit",
    "unit": 3,
    "pic": null,
    "oral": false,
-   "known": 0.36,
+   "known": 0.41,
    "unsafe": 0.11,
    "american": 0.09,
-   "name_agree": 0.22,
-   "alt_first": 0.08
+   "name_agree": 0.26,
+   "alt_first": 0.07
   },
   {
    "word": "bib",
    "unit": 3,
    "pic": "a baby bib",
    "oral": false,
-   "known": 0.22,
-   "unsafe": 0.04,
+   "known": 0.2,
+   "unsafe": 0.03,
    "american": 0.06,
-   "name_agree": 0.45,
-   "alt_first": 0.27
+   "name_agree": 0.46,
+   "alt_first": 0.28
   },
   {
    "word": "hat",
@@ -738,18 +705,18 @@
    "known": 0.11,
    "unsafe": 0.03,
    "american": 0.07,
-   "name_agree": 0.41,
-   "alt_first": 0.58
+   "name_agree": 0.36,
+   "alt_first": 0.54
   },
   {
    "word": "hit",
    "unit": 3,
    "pic": null,
    "oral": false,
-   "known": 0.21,
-   "unsafe": 0.15,
+   "known": 0.2,
+   "unsafe": 0.16,
    "american": 0.05,
-   "name_agree": 0.27,
+   "name_agree": 0.26,
    "alt_first": 0.07
   },
   {
@@ -757,7 +724,7 @@
    "unit": 3,
    "pic": null,
    "oral": false,
-   "known": 0.21,
+   "known": 0.19,
    "unsafe": 0.03,
    "american": 0.03,
    "name_agree": 0.23,
@@ -768,11 +735,11 @@
    "unit": 3,
    "pic": "one happy child hopping on one bare foot, other knee lifted high, arms out for balance, shown side-on with an energetic upward bounce",
    "oral": false,
-   "known": 0.16,
+   "known": 0.19,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.7,
-   "alt_first": 0.48
+   "name_agree": 0.73,
+   "alt_first": 0.53
   },
   {
    "word": "hot",
@@ -781,30 +748,30 @@
    "oral": true,
    "known": 0.14,
    "unsafe": 0.03,
-   "american": 0.06,
-   "name_agree": 0.84,
-   "alt_first": 0.7
+   "american": 0.07,
+   "name_agree": 0.79,
+   "alt_first": 0.69
   },
   {
    "word": "hip",
    "unit": 3,
    "pic": null,
    "oral": false,
-   "known": 0.53,
-   "unsafe": 0.11,
+   "known": 0.52,
+   "unsafe": 0.12,
    "american": 0.1,
    "name_agree": 0.21,
-   "alt_first": 0.08
+   "alt_first": 0.07
   },
   {
    "word": "gap",
    "unit": 3,
    "pic": null,
    "oral": false,
-   "known": 0.55,
+   "known": 0.54,
    "unsafe": 0.11,
-   "american": 0.08,
-   "name_agree": 0.31,
+   "american": 0.09,
+   "name_agree": 0.33,
    "alt_first": 0.07
   },
   {
@@ -812,21 +779,21 @@
    "unit": 3,
    "pic": null,
    "oral": false,
-   "known": 0.34,
+   "known": 0.33,
    "unsafe": 0.37,
-   "american": 0.1,
-   "name_agree": 0.21,
-   "alt_first": 0.08
+   "american": 0.09,
+   "name_agree": 0.26,
+   "alt_first": 0.07
   },
   {
    "word": "got",
    "unit": 3,
    "pic": null,
    "oral": false,
-   "known": 0.16,
+   "known": 0.14,
    "unsafe": 0.04,
-   "american": 0.05,
-   "name_agree": 0.28,
+   "american": 0.04,
+   "name_agree": 0.26,
    "alt_first": 0.06
   },
   {
@@ -834,55 +801,55 @@
    "unit": 3,
    "pic": "a pink pig",
    "oral": true,
-   "known": 0.09,
+   "known": 0.08,
    "unsafe": 0.04,
    "american": 0.03,
-   "name_agree": 0.16,
-   "alt_first": 0.15
+   "name_agree": 0.15,
+   "alt_first": 0.17
   },
   {
    "word": "cab",
    "unit": 3,
    "pic": "a black taxi cab",
    "oral": false,
-   "known": 0.26,
-   "unsafe": 0.05,
-   "american": 0.26,
-   "name_agree": 0.57,
-   "alt_first": 0.56
+   "known": 0.27,
+   "unsafe": 0.06,
+   "american": 0.23,
+   "name_agree": 0.53,
+   "alt_first": 0.64
   },
   {
    "word": "tag",
    "unit": 3,
    "pic": null,
    "oral": false,
-   "known": 0.45,
-   "unsafe": 0.08,
-   "american": 0.14,
-   "name_agree": 0.26,
-   "alt_first": 0.07
+   "known": 0.39,
+   "unsafe": 0.07,
+   "american": 0.15,
+   "name_agree": 0.22,
+   "alt_first": 0.08
   },
   {
    "word": "cob",
    "unit": 3,
    "pic": "a yellow corn on the cob with green leaves",
    "oral": false,
-   "known": 0.59,
+   "known": 0.58,
    "unsafe": 0.16,
-   "american": 0.21,
-   "name_agree": 0.78,
-   "alt_first": 0.71
+   "american": 0.22,
+   "name_agree": 0.77,
+   "alt_first": 0.7
   },
   {
    "word": "hob",
    "unit": 3,
    "pic": "one built-in black glass kitchen hob seen from slightly above, a completely flat rectangular top with four circular electric cooking rings and four small controls along one edge, no raised cooker body, oven, pan or food",
    "oral": false,
-   "known": 0.74,
-   "unsafe": 0.17,
-   "american": 0.1,
-   "name_agree": 0.89,
-   "alt_first": 0.6
+   "known": 0.73,
+   "unsafe": 0.16,
+   "american": 0.11,
+   "name_agree": 0.86,
+   "alt_first": 0.59
   },
   {
    "word": "dad",
@@ -891,8 +858,8 @@
    "oral": false,
    "known": 0.06,
    "unsafe": 0.03,
-   "american": 0.07,
-   "name_agree": 0.17,
+   "american": 0.08,
+   "name_agree": 0.19,
    "alt_first": 0.06
   },
   {
@@ -900,10 +867,10 @@
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.3,
-   "unsafe": 0.04,
-   "american": 0.03,
-   "name_agree": 0.22,
+   "known": 0.32,
+   "unsafe": 0.03,
+   "american": 0.04,
+   "name_agree": 0.24,
    "alt_first": 0.07
   },
   {
@@ -911,43 +878,43 @@
    "unit": 4,
    "pic": "a dog",
    "oral": true,
-   "known": 0.06,
-   "unsafe": 0.03,
+   "known": 0.05,
+   "unsafe": 0.04,
    "american": 0.03,
-   "name_agree": 0.14,
-   "alt_first": 0.14
+   "name_agree": 0.12,
+   "alt_first": 0.15
   },
   {
    "word": "dot",
    "unit": 4,
    "pic": "a single big shiny red ball-shaped spot, like a round red button",
    "oral": false,
-   "known": 0.25,
+   "known": 0.28,
    "unsafe": 0.04,
    "american": 0.13,
    "name_agree": 0.65,
-   "alt_first": 0.68
+   "alt_first": 0.66
   },
   {
    "word": "den",
    "unit": 4,
    "pic": "a small cosy den made of blankets draped over chairs",
    "oral": false,
-   "known": 0.44,
+   "known": 0.42,
    "unsafe": 0.05,
-   "american": 0.09,
+   "american": 0.1,
    "name_agree": 0.45,
-   "alt_first": 0.46
+   "alt_first": 0.47
   },
   {
    "word": "dip",
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.45,
+   "known": 0.38,
    "unsafe": 0.07,
-   "american": 0.12,
-   "name_agree": 0.24,
+   "american": 0.1,
+   "name_agree": 0.26,
    "alt_first": 0.07
   },
   {
@@ -955,21 +922,21 @@
    "unit": 4,
    "pic": "an electric fan",
    "oral": true,
-   "known": 0.3,
+   "known": 0.28,
    "unsafe": 0.04,
    "american": 0.09,
-   "name_agree": 0.45,
-   "alt_first": 0.3
+   "name_agree": 0.49,
+   "alt_first": 0.28
   },
   {
    "word": "fit",
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.43,
-   "unsafe": 0.06,
+   "known": 0.44,
+   "unsafe": 0.07,
    "american": 0.06,
-   "name_agree": 0.37,
+   "name_agree": 0.27,
    "alt_first": 0.07
   },
   {
@@ -978,20 +945,20 @@
    "pic": "one whole purple fig fruit beside a cut half showing its distinctive pink seed-filled centre, short stem and teardrop shape",
    "oral": false,
    "known": 0.68,
-   "unsafe": 0.08,
+   "unsafe": 0.11,
    "american": 0.05,
-   "name_agree": 0.7,
-   "alt_first": 0.33
+   "name_agree": 0.69,
+   "alt_first": 0.29
   },
   {
    "word": "fog",
    "unit": 4,
    "pic": "a small tree half hidden in thick swirling grey fog",
    "oral": false,
-   "known": 0.45,
-   "unsafe": 0.04,
+   "known": 0.47,
+   "unsafe": 0.05,
    "american": 0.04,
-   "name_agree": 0.66,
+   "name_agree": 0.7,
    "alt_first": 0.72
   },
   {
@@ -999,43 +966,43 @@
    "unit": 4,
    "pic": "a shark fin",
    "oral": true,
-   "known": 0.59,
+   "known": 0.57,
    "unsafe": 0.08,
-   "american": 0.07,
-   "name_agree": 0.68,
-   "alt_first": 0.48
+   "american": 0.08,
+   "name_agree": 0.66,
+   "alt_first": 0.45
   },
   {
    "word": "fed",
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.25,
+   "known": 0.23,
    "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.26,
-   "alt_first": 0.08
+   "name_agree": 0.27,
+   "alt_first": 0.06
   },
   {
    "word": "bed",
    "unit": 4,
    "pic": "a bed",
    "oral": true,
-   "known": 0.08,
-   "unsafe": 0.04,
-   "american": 0.04,
-   "name_agree": 0.18,
-   "alt_first": 0.25
+   "known": 0.07,
+   "unsafe": 0.03,
+   "american": 0.05,
+   "name_agree": 0.2,
+   "alt_first": 0.23
   },
   {
    "word": "pet",
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.12,
+   "known": 0.13,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.25,
+   "name_agree": 0.23,
    "alt_first": 0.09
   },
   {
@@ -1046,7 +1013,7 @@
    "known": 0.42,
    "unsafe": 0.05,
    "american": 0.09,
-   "name_agree": 0.63,
+   "name_agree": 0.59,
    "alt_first": 0.38
   },
   {
@@ -1054,10 +1021,10 @@
    "unit": 4,
    "pic": "a pen",
    "oral": true,
-   "known": 0.21,
-   "unsafe": 0.04,
+   "known": 0.23,
+   "unsafe": 0.05,
    "american": 0.05,
-   "name_agree": 0.38,
+   "name_agree": 0.39,
    "alt_first": 0.19
   },
   {
@@ -1065,21 +1032,21 @@
    "unit": 4,
    "pic": "a hen",
    "oral": true,
-   "known": 0.23,
-   "unsafe": 0.07,
+   "known": 0.21,
+   "unsafe": 0.06,
    "american": 0.05,
-   "name_agree": 0.33,
-   "alt_first": 0.37
+   "name_agree": 0.32,
+   "alt_first": 0.38
   },
   {
    "word": "ten",
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.16,
-   "unsafe": 0.04,
-   "american": 0.03,
-   "name_agree": 0.19,
+   "known": 0.15,
+   "unsafe": 0.03,
+   "american": 0.04,
+   "name_agree": 0.2,
    "alt_first": 0.06
   },
   {
@@ -1087,21 +1054,21 @@
    "unit": 4,
    "pic": "a fishing net",
    "oral": true,
-   "known": 0.5,
+   "known": 0.46,
    "unsafe": 0.04,
-   "american": 0.06,
-   "name_agree": 0.54,
-   "alt_first": 0.35
+   "american": 0.07,
+   "name_agree": 0.58,
+   "alt_first": 0.37
   },
   {
    "word": "get",
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.11,
-   "unsafe": 0.03,
-   "american": 0.04,
-   "name_agree": 0.28,
+   "known": 0.13,
+   "unsafe": 0.04,
+   "american": 0.05,
+   "name_agree": 0.25,
    "alt_first": 0.07
   },
   {
@@ -1109,10 +1076,10 @@
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.53,
-   "unsafe": 0.06,
-   "american": 0.07,
-   "name_agree": 0.25,
+   "known": 0.54,
+   "unsafe": 0.05,
+   "american": 0.08,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -1120,10 +1087,10 @@
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.3,
-   "unsafe": 0.06,
+   "known": 0.29,
+   "unsafe": 0.05,
    "american": 0.05,
-   "name_agree": 0.24,
+   "name_agree": 0.25,
    "alt_first": 0.08
   },
   {
@@ -1131,30 +1098,30 @@
    "unit": 4,
    "pic": "a friendly woman vet in teal scrubs examining a small puppy on a low table, wearing a stethoscope around her neck, full person and puppy both clearly visible",
    "oral": false,
-   "known": 0.5,
+   "known": 0.47,
    "unsafe": 0.06,
-   "american": 0.1,
-   "name_agree": 0.71,
-   "alt_first": 0.8
+   "american": 0.11,
+   "name_agree": 0.68,
+   "alt_first": 0.77
   },
   {
    "word": "van",
    "unit": 4,
    "pic": "a tall boxy delivery van with a large windowless cargo box behind the cab, two front seats only, sliding side door and rear doors, in bright blue",
    "oral": true,
-   "known": 0.24,
-   "unsafe": 0.04,
+   "known": 0.23,
+   "unsafe": 0.06,
    "american": 0.12,
-   "name_agree": 0.37,
-   "alt_first": 0.42
+   "name_agree": 0.36,
+   "alt_first": 0.38
   },
   {
    "word": "beg",
    "unit": 4,
    "pic": null,
    "oral": false,
-   "known": 0.61,
-   "unsafe": 0.09,
+   "known": 0.58,
+   "unsafe": 0.1,
    "american": 0.07,
    "name_agree": 0.24,
    "alt_first": 0.07
@@ -1165,9 +1132,9 @@
    "pic": null,
    "oral": false,
    "known": 0.43,
-   "unsafe": 0.05,
-   "american": 0.11,
-   "name_agree": 0.21,
+   "unsafe": 0.06,
+   "american": 0.14,
+   "name_agree": 0.19,
    "alt_first": 0.08
   },
   {
@@ -1177,8 +1144,8 @@
    "oral": false,
    "known": 0.12,
    "unsafe": 0.06,
-   "american": 0.1,
-   "name_agree": 0.17,
+   "american": 0.11,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -1186,43 +1153,43 @@
    "unit": 5,
    "pic": "one isolated bare human leg from the upper thigh to all five toes, bent slightly at the clearly visible knee, natural skin colour, no sock, shoe, trousers or rest of body",
    "oral": false,
-   "known": 0.06,
+   "known": 0.07,
    "unsafe": 0.04,
-   "american": 0.04,
-   "name_agree": 0.16,
-   "alt_first": 0.35
+   "american": 0.03,
+   "name_agree": 0.21,
+   "alt_first": 0.34
   },
   {
    "word": "lid",
    "unit": 5,
    "pic": "a pot lid",
    "oral": true,
-   "known": 0.3,
-   "unsafe": 0.03,
+   "known": 0.29,
+   "unsafe": 0.04,
    "american": 0.07,
-   "name_agree": 0.52,
-   "alt_first": 0.51
+   "name_agree": 0.53,
+   "alt_first": 0.53
   },
   {
    "word": "lip",
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.13,
-   "unsafe": 0.03,
+   "known": 0.15,
+   "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.21,
-   "alt_first": 0.07
+   "name_agree": 0.26,
+   "alt_first": 0.08
   },
   {
    "word": "lap",
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.15,
+   "known": 0.14,
    "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.23,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -1230,33 +1197,33 @@
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.23,
+   "known": 0.2,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.17,
-   "alt_first": 0.06
+   "name_agree": 0.19,
+   "alt_first": 0.07
   },
   {
    "word": "lot",
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.34,
-   "unsafe": 0.09,
-   "american": 0.06,
-   "name_agree": 0.23,
-   "alt_first": 0.07
+   "known": 0.35,
+   "unsafe": 0.1,
+   "american": 0.07,
+   "name_agree": 0.2,
+   "alt_first": 0.06
   },
   {
    "word": "log",
    "unit": 5,
    "pic": "a log",
    "oral": false,
-   "known": 0.23,
-   "unsafe": 0.1,
+   "known": 0.25,
+   "unsafe": 0.11,
    "american": 0.06,
-   "name_agree": 0.22,
-   "alt_first": 0.18
+   "name_agree": 0.23,
+   "alt_first": 0.17
   },
   {
    "word": "red",
@@ -1265,8 +1232,8 @@
    "oral": false,
    "known": 0.04,
    "unsafe": 0.03,
-   "american": 0.04,
-   "name_agree": 0.15,
+   "american": 0.03,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -1276,8 +1243,8 @@
    "oral": false,
    "known": 0.18,
    "unsafe": 0.1,
-   "american": 0.06,
-   "name_agree": 0.2,
+   "american": 0.07,
+   "name_agree": 0.19,
    "alt_first": 0.28
   },
   {
@@ -1285,10 +1252,10 @@
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.32,
-   "unsafe": 0.11,
+   "known": 0.31,
+   "unsafe": 0.1,
    "american": 0.09,
-   "name_agree": 0.21,
+   "name_agree": 0.22,
    "alt_first": 0.08
   },
   {
@@ -1296,10 +1263,10 @@
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.3,
-   "unsafe": 0.15,
+   "known": 0.28,
+   "unsafe": 0.13,
    "american": 0.06,
-   "name_agree": 0.19,
+   "name_agree": 0.24,
    "alt_first": 0.07
   },
   {
@@ -1308,9 +1275,9 @@
    "pic": "a fishing rod",
    "oral": false,
    "known": 0.46,
-   "unsafe": 0.08,
+   "unsafe": 0.09,
    "american": 0.08,
-   "name_agree": 0.48,
+   "name_agree": 0.51,
    "alt_first": 0.41
   },
   {
@@ -1321,29 +1288,29 @@
    "known": 0.06,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.65,
-   "alt_first": 0.34
+   "name_agree": 0.64,
+   "alt_first": 0.37
   },
   {
    "word": "rub",
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.26,
-   "unsafe": 0.11,
+   "known": 0.27,
+   "unsafe": 0.1,
    "american": 0.09,
    "name_agree": 0.23,
-   "alt_first": 0.08
+   "alt_first": 0.07
   },
   {
    "word": "rug",
    "unit": 5,
    "pic": "a round colourful rug",
    "oral": false,
-   "known": 0.14,
-   "unsafe": 0.03,
-   "american": 0.09,
-   "name_agree": 0.16,
+   "known": 0.13,
+   "unsafe": 0.04,
+   "american": 0.08,
+   "name_agree": 0.17,
    "alt_first": 0.34
   },
   {
@@ -1351,11 +1318,11 @@
    "unit": 5,
    "pic": "a small shallow porcelain teacup with a delicate curved handle, wide open rim, sitting on a matching saucer, empty inside",
    "oral": true,
-   "known": 0.12,
+   "known": 0.14,
    "unsafe": 0.03,
-   "american": 0.06,
-   "name_agree": 0.48,
-   "alt_first": 0.66
+   "american": 0.07,
+   "name_agree": 0.47,
+   "alt_first": 0.63
   },
   {
    "word": "cut",
@@ -1363,31 +1330,31 @@
    "pic": null,
    "oral": false,
    "known": 0.1,
-   "unsafe": 0.08,
-   "american": 0.05,
+   "unsafe": 0.07,
+   "american": 0.06,
    "name_agree": 0.22,
-   "alt_first": 0.07
+   "alt_first": 0.08
   },
   {
    "word": "sun",
    "unit": 5,
    "pic": "the sun",
    "oral": true,
-   "known": 0.08,
-   "unsafe": 0.04,
+   "known": 0.09,
+   "unsafe": 0.03,
    "american": 0.03,
-   "name_agree": 0.16,
-   "alt_first": 0.14
+   "name_agree": 0.15,
+   "alt_first": 0.13
   },
   {
    "word": "bun",
    "unit": 5,
    "pic": "a single soft round iced bun with a little swirl of white icing on top, no plate or bread slices",
    "oral": false,
-   "known": 0.13,
-   "unsafe": 0.04,
-   "american": 0.14,
-   "name_agree": 0.26,
+   "known": 0.15,
+   "unsafe": 0.05,
+   "american": 0.15,
+   "name_agree": 0.3,
    "alt_first": 0.4
   },
   {
@@ -1396,10 +1363,10 @@
    "pic": "a red double-decker bus",
    "oral": true,
    "known": 0.1,
-   "unsafe": 0.04,
+   "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.27,
-   "alt_first": 0.45
+   "name_agree": 0.25,
+   "alt_first": 0.46
   },
   {
    "word": "bug",
@@ -1408,20 +1375,20 @@
    "oral": false,
    "known": 0.09,
    "unsafe": 0.04,
-   "american": 0.07,
-   "name_agree": 0.13,
-   "alt_first": 0.26
+   "american": 0.09,
+   "name_agree": 0.15,
+   "alt_first": 0.29
   },
   {
    "word": "hug",
    "unit": 5,
    "pic": "two cute teddy bears giving each other a big hug",
    "oral": false,
-   "known": 0.06,
+   "known": 0.07,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.64,
-   "alt_first": 0.65
+   "name_agree": 0.63,
+   "alt_first": 0.66
   },
   {
    "word": "mug",
@@ -1429,54 +1396,54 @@
    "pic": "a mug",
    "oral": true,
    "known": 0.18,
-   "unsafe": 0.04,
-   "american": 0.07,
+   "unsafe": 0.05,
+   "american": 0.08,
    "name_agree": 0.28,
-   "alt_first": 0.24
+   "alt_first": 0.21
   },
   {
    "word": "nut",
    "unit": 5,
    "pic": "a shelled walnut cracked open to show the wrinkled nut kernel inside, no acorn cap",
    "oral": true,
-   "known": 0.35,
+   "known": 0.38,
    "unsafe": 0.09,
-   "american": 0.09,
-   "name_agree": 0.55,
-   "alt_first": 0.47
+   "american": 0.08,
+   "name_agree": 0.56,
+   "alt_first": 0.51
   },
   {
    "word": "gum",
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.22,
-   "unsafe": 0.13,
-   "american": 0.17,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "known": 0.24,
+   "unsafe": 0.14,
+   "american": 0.16,
+   "name_agree": 0.15,
+   "alt_first": 0.08
   },
   {
    "word": "hut",
    "unit": 5,
    "pic": "a tiny rustic round thatched hut with a simple wooden door and no windows, made of straw and timber, clearly a one-room shelter",
    "oral": false,
-   "known": 0.36,
-   "unsafe": 0.04,
-   "american": 0.1,
-   "name_agree": 0.3,
-   "alt_first": 0.49
+   "known": 0.37,
+   "unsafe": 0.05,
+   "american": 0.11,
+   "name_agree": 0.29,
+   "alt_first": 0.45
   },
   {
    "word": "tub",
    "unit": 5,
    "pic": "a bath tub",
    "oral": true,
-   "known": 0.18,
-   "unsafe": 0.06,
+   "known": 0.19,
+   "unsafe": 0.07,
    "american": 0.1,
-   "name_agree": 0.54,
-   "alt_first": 0.46
+   "name_agree": 0.55,
+   "alt_first": 0.52
   },
   {
    "word": "up",
@@ -1486,18 +1453,18 @@
    "known": 0.05,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.17,
-   "alt_first": 0.06
+   "name_agree": 0.16,
+   "alt_first": 0.07
   },
   {
    "word": "us",
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.1,
-   "unsafe": 0.06,
+   "known": 0.09,
+   "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.14,
+   "name_agree": 0.15,
    "alt_first": 0.07
   },
   {
@@ -1505,21 +1472,21 @@
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.03,
-   "unsafe": 0.03,
+   "known": 0.04,
+   "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.18,
-   "alt_first": 0.06
+   "name_agree": 0.15,
+   "alt_first": 0.07
   },
   {
    "word": "dug",
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.17,
-   "unsafe": 0.08,
+   "known": 0.19,
+   "unsafe": 0.07,
    "american": 0.06,
-   "name_agree": 0.22,
+   "name_agree": 0.21,
    "alt_first": 0.07
   },
   {
@@ -1527,43 +1494,43 @@
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.11,
-   "unsafe": 0.04,
-   "american": 0.06,
-   "name_agree": 0.17,
-   "alt_first": 0.07
+   "known": 0.12,
+   "unsafe": 0.03,
+   "american": 0.05,
+   "name_agree": 0.2,
+   "alt_first": 0.06
   },
   {
    "word": "pup",
    "unit": 5,
    "pic": "a puppy",
    "oral": true,
-   "known": 0.22,
-   "unsafe": 0.04,
-   "american": 0.08,
-   "name_agree": 0.72,
-   "alt_first": 0.4
+   "known": 0.21,
+   "unsafe": 0.05,
+   "american": 0.07,
+   "name_agree": 0.73,
+   "alt_first": 0.39
   },
   {
    "word": "cub",
    "unit": 5,
    "pic": "a bear cub",
    "oral": false,
-   "known": 0.34,
-   "unsafe": 0.06,
+   "known": 0.36,
+   "unsafe": 0.05,
    "american": 0.09,
    "name_agree": 0.45,
-   "alt_first": 0.57
+   "alt_first": 0.59
   },
   {
    "word": "kin",
    "unit": 5,
    "pic": null,
    "oral": false,
-   "known": 0.54,
+   "known": 0.5,
    "unsafe": 0.1,
-   "american": 0.09,
-   "name_agree": 0.2,
+   "american": 0.1,
+   "name_agree": 0.17,
    "alt_first": 0.07
   },
   {
@@ -1571,11 +1538,11 @@
    "unit": 6,
    "pic": "a jar of jam",
    "oral": true,
-   "known": 0.22,
-   "unsafe": 0.06,
+   "known": 0.21,
+   "unsafe": 0.05,
    "american": 0.07,
-   "name_agree": 0.41,
-   "alt_first": 0.49
+   "name_agree": 0.43,
+   "alt_first": 0.52
   },
   {
    "word": "jet",
@@ -1584,19 +1551,19 @@
    "oral": false,
    "known": 0.22,
    "unsafe": 0.09,
-   "american": 0.09,
+   "american": 0.1,
    "name_agree": 0.24,
-   "alt_first": 0.35
+   "alt_first": 0.32
   },
   {
    "word": "jog",
    "unit": 6,
    "pic": null,
    "oral": false,
-   "known": 0.35,
+   "known": 0.31,
    "unsafe": 0.04,
    "american": 0.1,
-   "name_agree": 0.22,
+   "name_agree": 0.25,
    "alt_first": 0.08
   },
   {
@@ -1604,11 +1571,11 @@
    "unit": 6,
    "pic": "a jug",
    "oral": false,
-   "known": 0.21,
+   "known": 0.23,
    "unsafe": 0.04,
-   "american": 0.08,
-   "name_agree": 0.28,
-   "alt_first": 0.19
+   "american": 0.09,
+   "name_agree": 0.25,
+   "alt_first": 0.21
   },
   {
    "word": "jab",
@@ -1616,7 +1583,7 @@
    "pic": null,
    "oral": false,
    "known": 0.69,
-   "unsafe": 0.39,
+   "unsafe": 0.45,
    "american": 0.14,
    "name_agree": 0.21,
    "alt_first": 0.07
@@ -1626,10 +1593,10 @@
    "unit": 6,
    "pic": null,
    "oral": false,
-   "known": 0.64,
+   "known": 0.65,
    "unsafe": 0.09,
-   "american": 0.08,
-   "name_agree": 0.25,
+   "american": 0.09,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -1637,11 +1604,11 @@
    "unit": 6,
    "pic": "a spider web",
    "oral": true,
-   "known": 0.55,
+   "known": 0.56,
    "unsafe": 0.06,
    "american": 0.06,
-   "name_agree": 0.73,
-   "alt_first": 0.69
+   "name_agree": 0.74,
+   "alt_first": 0.7
   },
   {
    "word": "wet",
@@ -1651,7 +1618,7 @@
    "known": 0.08,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.23,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -1659,21 +1626,21 @@
    "unit": 6,
    "pic": "a bright purple curly wig resting on a simple plain wooden wig stand, with the wig cap edge visible below the curls",
    "oral": true,
-   "known": 0.47,
+   "known": 0.46,
    "unsafe": 0.08,
    "american": 0.07,
-   "name_agree": 0.38,
-   "alt_first": 0.41
+   "name_agree": 0.37,
+   "alt_first": 0.39
   },
   {
    "word": "win",
    "unit": 6,
    "pic": null,
    "oral": false,
-   "known": 0.17,
+   "known": 0.22,
    "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.17,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -1681,10 +1648,10 @@
    "unit": 6,
    "pic": null,
    "oral": false,
-   "known": 0.15,
-   "unsafe": 0.03,
-   "american": 0.05,
-   "name_agree": 0.19,
+   "known": 0.17,
+   "unsafe": 0.04,
+   "american": 0.06,
+   "name_agree": 0.21,
    "alt_first": 0.07
   },
   {
@@ -1692,21 +1659,21 @@
    "unit": 6,
    "pic": "a zip",
    "oral": true,
-   "known": 0.5,
-   "unsafe": 0.07,
+   "known": 0.49,
+   "unsafe": 0.08,
    "american": 0.09,
-   "name_agree": 0.63,
-   "alt_first": 0.38
+   "name_agree": 0.62,
+   "alt_first": 0.37
   },
   {
    "word": "zap",
    "unit": 6,
    "pic": null,
    "oral": false,
-   "known": 0.44,
-   "unsafe": 0.16,
-   "american": 0.15,
-   "name_agree": 0.2,
+   "known": 0.42,
+   "unsafe": 0.18,
+   "american": 0.16,
+   "name_agree": 0.21,
    "alt_first": 0.07
   },
   {
@@ -1716,30 +1683,30 @@
    "oral": false,
    "known": 0.07,
    "unsafe": 0.03,
-   "american": 0.04,
-   "name_agree": 0.1,
-   "alt_first": 0.36
+   "american": 0.05,
+   "name_agree": 0.08,
+   "alt_first": 0.33
   },
   {
    "word": "fox",
    "unit": 7,
    "pic": "a fox",
    "oral": true,
-   "known": 0.26,
-   "unsafe": 0.04,
+   "known": 0.27,
+   "unsafe": 0.05,
    "american": 0.04,
-   "name_agree": 0.29,
-   "alt_first": 0.2
+   "name_agree": 0.3,
+   "alt_first": 0.21
   },
   {
    "word": "six",
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.11,
+   "known": 0.1,
    "unsafe": 0.04,
-   "american": 0.04,
-   "name_agree": 0.17,
+   "american": 0.03,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -1747,10 +1714,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.3,
+   "known": 0.32,
    "unsafe": 0.07,
-   "american": 0.06,
-   "name_agree": 0.25,
+   "american": 0.07,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -1758,21 +1725,21 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.27,
-   "unsafe": 0.06,
+   "known": 0.28,
+   "unsafe": 0.05,
    "american": 0.06,
    "name_agree": 0.2,
-   "alt_first": 0.08
+   "alt_first": 0.07
   },
   {
    "word": "wax",
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.36,
-   "unsafe": 0.06,
+   "known": 0.37,
+   "unsafe": 0.07,
    "american": 0.08,
-   "name_agree": 0.21,
+   "name_agree": 0.19,
    "alt_first": 0.08
   },
   {
@@ -1782,19 +1749,19 @@
    "oral": false,
    "known": 0.04,
    "unsafe": 0.03,
-   "american": 0.04,
-   "name_agree": 0.14,
-   "alt_first": 0.06
+   "american": 0.03,
+   "name_agree": 0.12,
+   "alt_first": 0.07
   },
   {
    "word": "yak",
    "unit": 7,
    "pic": "a yak",
    "oral": false,
-   "known": 0.7,
-   "unsafe": 0.09,
-   "american": 0.06,
-   "name_agree": 0.56,
+   "known": 0.67,
+   "unsafe": 0.11,
+   "american": 0.05,
+   "name_agree": 0.55,
    "alt_first": 0.18
   },
   {
@@ -1802,21 +1769,21 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.09,
+   "known": 0.1,
    "unsafe": 0.04,
    "american": 0.12,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "name_agree": 0.18,
+   "alt_first": 0.08
   },
   {
    "word": "yet",
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.31,
+   "known": 0.34,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.2,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -1827,7 +1794,7 @@
    "known": 0.36,
    "unsafe": 0.09,
    "american": 0.13,
-   "name_agree": 0.18,
+   "name_agree": 0.22,
    "alt_first": 0.08
   },
   {
@@ -1836,9 +1803,9 @@
    "pic": null,
    "oral": false,
    "known": 0.12,
-   "unsafe": 0.04,
-   "american": 0.05,
-   "name_agree": 0.2,
+   "unsafe": 0.05,
+   "american": 0.06,
+   "name_agree": 0.21,
    "alt_first": 0.07
   },
   {
@@ -1846,10 +1813,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.12,
-   "unsafe": 0.06,
+   "known": 0.1,
+   "unsafe": 0.07,
    "american": 0.05,
-   "name_agree": 0.18,
+   "name_agree": 0.24,
    "alt_first": 0.07
   },
   {
@@ -1857,10 +1824,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.24,
-   "unsafe": 0.16,
-   "american": 0.09,
-   "name_agree": 0.21,
+   "known": 0.23,
+   "unsafe": 0.17,
+   "american": 0.08,
+   "name_agree": 0.24,
    "alt_first": 0.08
   },
   {
@@ -1868,10 +1835,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.37,
+   "known": 0.38,
    "unsafe": 0.14,
-   "american": 0.07,
-   "name_agree": 0.21,
+   "american": 0.08,
+   "name_agree": 0.22,
    "alt_first": 0.07
   },
   {
@@ -1879,11 +1846,11 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.62,
+   "known": 0.61,
    "unsafe": 0.12,
    "american": 0.13,
-   "name_agree": 0.28,
-   "alt_first": 0.07
+   "name_agree": 0.25,
+   "alt_first": 0.08
   },
   {
    "word": "doll",
@@ -1894,7 +1861,7 @@
    "unsafe": 0.03,
    "american": 0.05,
    "name_agree": 0.07,
-   "alt_first": 0.2
+   "alt_first": 0.21
   },
   {
    "word": "bell",
@@ -1904,62 +1871,62 @@
    "known": 0.09,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.1,
-   "alt_first": 0.13
+   "name_agree": 0.09,
+   "alt_first": 0.14
   },
   {
    "word": "hill",
    "unit": 7,
    "pic": "a green hill",
    "oral": false,
-   "known": 0.11,
+   "known": 0.12,
    "unsafe": 0.03,
    "american": 0.04,
    "name_agree": 0.15,
-   "alt_first": 0.24
+   "alt_first": 0.22
   },
   {
    "word": "well",
    "unit": 7,
    "pic": "a stone well",
    "oral": false,
-   "known": 0.39,
+   "known": 0.37,
    "unsafe": 0.06,
-   "american": 0.06,
-   "name_agree": 0.31,
-   "alt_first": 0.31
+   "american": 0.07,
+   "name_agree": 0.34,
+   "alt_first": 0.33
   },
   {
    "word": "fell",
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.37,
-   "unsafe": 0.08,
-   "american": 0.06,
+   "known": 0.4,
+   "unsafe": 0.09,
+   "american": 0.07,
    "name_agree": 0.24,
-   "alt_first": 0.08
+   "alt_first": 0.07
   },
   {
    "word": "sell",
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.47,
+   "known": 0.45,
    "unsafe": 0.06,
-   "american": 0.08,
-   "name_agree": 0.31,
-   "alt_first": 0.07
+   "american": 0.09,
+   "name_agree": 0.29,
+   "alt_first": 0.06
   },
   {
    "word": "tell",
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.1,
+   "known": 0.09,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.19,
+   "name_agree": 0.2,
    "alt_first": 0.06
   },
   {
@@ -1967,10 +1934,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.41,
-   "unsafe": 0.12,
+   "known": 0.45,
+   "unsafe": 0.14,
    "american": 0.2,
-   "name_agree": 0.24,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -1979,9 +1946,9 @@
    "pic": null,
    "oral": false,
    "known": 0.07,
-   "unsafe": 0.04,
+   "unsafe": 0.05,
    "american": 0.04,
-   "name_agree": 0.2,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -1989,10 +1956,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.19,
+   "known": 0.17,
    "unsafe": 0.09,
    "american": 0.05,
-   "name_agree": 0.23,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -2000,21 +1967,21 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.42,
-   "unsafe": 0.11,
-   "american": 0.08,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "known": 0.41,
+   "unsafe": 0.12,
+   "american": 0.09,
+   "name_agree": 0.21,
+   "alt_first": 0.06
   },
   {
    "word": "less",
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.33,
+   "known": 0.37,
    "unsafe": 0.05,
-   "american": 0.05,
-   "name_agree": 0.27,
+   "american": 0.06,
+   "name_agree": 0.26,
    "alt_first": 0.07
   },
   {
@@ -2022,10 +1989,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.22,
-   "unsafe": 0.07,
+   "known": 0.24,
+   "unsafe": 0.06,
    "american": 0.05,
-   "name_agree": 0.2,
+   "name_agree": 0.22,
    "alt_first": 0.08
   },
   {
@@ -2033,10 +2000,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.28,
-   "unsafe": 0.07,
+   "known": 0.27,
+   "unsafe": 0.08,
    "american": 0.05,
-   "name_agree": 0.2,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -2044,10 +2011,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.31,
+   "known": 0.32,
    "unsafe": 0.06,
-   "american": 0.07,
-   "name_agree": 0.21,
+   "american": 0.06,
+   "name_agree": 0.25,
    "alt_first": 0.07
   },
   {
@@ -2055,10 +2022,10 @@
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.23,
+   "known": 0.24,
    "unsafe": 0.05,
-   "american": 0.06,
-   "name_agree": 0.22,
+   "american": 0.05,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -2067,20 +2034,20 @@
    "pic": null,
    "oral": false,
    "known": 0.35,
-   "unsafe": 0.07,
-   "american": 0.11,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "unsafe": 0.06,
+   "american": 0.12,
+   "name_agree": 0.18,
+   "alt_first": 0.06
   },
   {
    "word": "jazz",
    "unit": 7,
    "pic": null,
    "oral": false,
-   "known": 0.61,
-   "unsafe": 0.09,
-   "american": 0.11,
-   "name_agree": 0.19,
+   "known": 0.63,
+   "unsafe": 0.1,
+   "american": 0.12,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -2088,30 +2055,30 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.04,
+   "known": 0.05,
    "unsafe": 0.02,
    "american": 0.03,
-   "name_agree": 0.15,
-   "alt_first": 0.06
+   "name_agree": 0.17,
+   "alt_first": 0.07
   },
   {
    "word": "ant",
    "unit": 8,
    "pic": "an ant",
    "oral": false,
-   "known": 0.08,
+   "known": 0.09,
    "unsafe": 0.02,
    "american": 0.03,
-   "name_agree": 0.09,
-   "alt_first": 0.11
+   "name_agree": 0.1,
+   "alt_first": 0.12
   },
   {
    "word": "end",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.12,
-   "unsafe": 0.04,
+   "known": 0.11,
+   "unsafe": 0.03,
    "american": 0.04,
    "name_agree": 0.18,
    "alt_first": 0.07
@@ -2121,21 +2088,21 @@
    "unit": 8,
    "pic": "an elf",
    "oral": false,
-   "known": 0.22,
+   "known": 0.24,
    "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.2,
-   "alt_first": 0.21
+   "name_agree": 0.21,
+   "alt_first": 0.22
   },
   {
    "word": "imp",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.6,
-   "unsafe": 0.16,
+   "known": 0.53,
+   "unsafe": 0.15,
    "american": 0.08,
-   "name_agree": 0.22,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -2144,9 +2111,9 @@
    "pic": null,
    "oral": false,
    "known": 0.07,
-   "unsafe": 0.03,
+   "unsafe": 0.02,
    "american": 0.04,
-   "name_agree": 0.21,
+   "name_agree": 0.24,
    "alt_first": 0.07
   },
   {
@@ -2155,31 +2122,31 @@
    "pic": "a glass of milk",
    "oral": true,
    "known": 0.06,
-   "unsafe": 0.03,
+   "unsafe": 0.02,
    "american": 0.05,
-   "name_agree": 0.26,
-   "alt_first": 0.36
+   "name_agree": 0.25,
+   "alt_first": 0.35
   },
   {
    "word": "belt",
    "unit": 8,
    "pic": "a belt",
    "oral": false,
-   "known": 0.16,
+   "known": 0.17,
    "unsafe": 0.05,
    "american": 0.05,
-   "name_agree": 0.15,
-   "alt_first": 0.15
+   "name_agree": 0.17,
+   "alt_first": 0.19
   },
   {
    "word": "tent",
    "unit": 8,
    "pic": "a tent",
    "oral": true,
-   "known": 0.28,
+   "known": 0.3,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.33,
+   "name_agree": 0.34,
    "alt_first": 0.19
   },
   {
@@ -2188,10 +2155,10 @@
    "pic": "a lamp",
    "oral": false,
    "known": 0.1,
-   "unsafe": 0.02,
+   "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.07,
-   "alt_first": 0.16
+   "name_agree": 0.08,
+   "alt_first": 0.15
   },
   {
    "word": "camp",
@@ -2201,18 +2168,18 @@
    "known": 0.27,
    "unsafe": 0.04,
    "american": 0.1,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "name_agree": 0.22,
+   "alt_first": 0.08
   },
   {
    "word": "pond",
    "unit": 8,
    "pic": "a pond",
    "oral": true,
-   "known": 0.43,
-   "unsafe": 0.04,
+   "known": 0.42,
+   "unsafe": 0.03,
    "american": 0.06,
-   "name_agree": 0.51,
+   "name_agree": 0.53,
    "alt_first": 0.28
   },
   {
@@ -2223,40 +2190,40 @@
    "known": 0.04,
    "unsafe": 0.03,
    "american": 0.03,
-   "name_agree": 0.11,
-   "alt_first": 0.31
+   "name_agree": 0.1,
+   "alt_first": 0.3
   },
   {
    "word": "sand",
    "unit": 8,
    "pic": "a small golden sandcastle with a little flag on top, sitting on a heap of sand",
    "oral": true,
-   "known": 0.21,
+   "known": 0.19,
    "unsafe": 0.03,
    "american": 0.06,
    "name_agree": 0.76,
-   "alt_first": 0.61
+   "alt_first": 0.62
   },
   {
    "word": "bend",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.24,
+   "known": 0.25,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.21,
-   "alt_first": 0.06
+   "name_agree": 0.22,
+   "alt_first": 0.07
   },
   {
    "word": "mend",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.33,
+   "known": 0.36,
    "unsafe": 0.03,
-   "american": 0.06,
-   "name_agree": 0.2,
+   "american": 0.05,
+   "name_agree": 0.21,
    "alt_first": 0.07
   },
   {
@@ -2264,11 +2231,11 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.22,
-   "unsafe": 0.04,
+   "known": 0.26,
+   "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.2,
-   "alt_first": 0.06
+   "name_agree": 0.17,
+   "alt_first": 0.07
   },
   {
    "word": "jump",
@@ -2277,9 +2244,9 @@
    "oral": false,
    "known": 0.05,
    "unsafe": 0.03,
-   "american": 0.03,
-   "name_agree": 0.5,
-   "alt_first": 0.39
+   "american": 0.04,
+   "name_agree": 0.47,
+   "alt_first": 0.37
   },
   {
    "word": "bump",
@@ -2287,10 +2254,10 @@
    "pic": null,
    "oral": false,
    "known": 0.2,
-   "unsafe": 0.07,
+   "unsafe": 0.06,
    "american": 0.06,
-   "name_agree": 0.2,
-   "alt_first": 0.06
+   "name_agree": 0.22,
+   "alt_first": 0.07
   },
   {
    "word": "lump",
@@ -2300,8 +2267,8 @@
    "known": 0.23,
    "unsafe": 0.12,
    "american": 0.07,
-   "name_agree": 0.23,
-   "alt_first": 0.08
+   "name_agree": 0.2,
+   "alt_first": 0.07
   },
   {
    "word": "damp",
@@ -2309,9 +2276,9 @@
    "pic": null,
    "oral": false,
    "known": 0.29,
-   "unsafe": 0.06,
+   "unsafe": 0.05,
    "american": 0.06,
-   "name_agree": 0.22,
+   "name_agree": 0.21,
    "alt_first": 0.07
   },
   {
@@ -2319,21 +2286,21 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.18,
-   "unsafe": 0.05,
+   "known": 0.17,
+   "unsafe": 0.04,
    "american": 0.06,
    "name_agree": 0.25,
-   "alt_first": 0.07
+   "alt_first": 0.08
   },
   {
    "word": "gift",
    "unit": 8,
    "pic": "a wrapped gift",
    "oral": false,
-   "known": 0.1,
-   "unsafe": 0.05,
+   "known": 0.11,
+   "unsafe": 0.04,
    "american": 0.07,
-   "name_agree": 0.27,
+   "name_agree": 0.31,
    "alt_first": 0.42
   },
   {
@@ -2341,21 +2308,21 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.16,
+   "known": 0.2,
    "unsafe": 0.05,
    "american": 0.05,
-   "name_agree": 0.21,
-   "alt_first": 0.08
+   "name_agree": 0.22,
+   "alt_first": 0.07
   },
   {
    "word": "soft",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.16,
-   "unsafe": 0.04,
+   "known": 0.17,
+   "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.26,
+   "name_agree": 0.25,
    "alt_first": 0.07
   },
   {
@@ -2363,21 +2330,21 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.19,
+   "known": 0.2,
    "unsafe": 0.04,
-   "american": 0.1,
-   "name_agree": 0.21,
-   "alt_first": 0.07
+   "american": 0.09,
+   "name_agree": 0.24,
+   "alt_first": 0.08
   },
   {
    "word": "kept",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.46,
+   "known": 0.44,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.31,
+   "name_agree": 0.25,
    "alt_first": 0.07
   },
   {
@@ -2388,7 +2355,7 @@
    "known": 0.1,
    "unsafe": 0.03,
    "american": 0.06,
-   "name_agree": 0.13,
+   "name_agree": 0.11,
    "alt_first": 0.17
   },
   {
@@ -2396,11 +2363,11 @@
    "unit": 8,
    "pic": "an elephant tusk in extreme close-up: one enormous long white ivory tusk curves upward from a tiny piece of grey elephant jaw visible at its base; the tusk dominates the image, elephant head and trunk are outside the frame",
    "oral": true,
-   "known": 0.74,
+   "known": 0.73,
    "unsafe": 0.07,
    "american": 0.06,
-   "name_agree": 0.84,
-   "alt_first": 0.5
+   "name_agree": 0.82,
+   "alt_first": 0.49
   },
   {
    "word": "dusk",
@@ -2418,62 +2385,62 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.09,
-   "unsafe": 0.03,
+   "known": 0.12,
+   "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.2,
-   "alt_first": 0.06
+   "name_agree": 0.21,
+   "alt_first": 0.07
   },
   {
    "word": "nest",
    "unit": 8,
    "pic": "a bird nest",
    "oral": true,
-   "known": 0.36,
-   "unsafe": 0.03,
+   "known": 0.38,
+   "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.58,
-   "alt_first": 0.27
+   "name_agree": 0.59,
+   "alt_first": 0.31
   },
   {
    "word": "rest",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.15,
+   "known": 0.16,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.23,
-   "alt_first": 0.07
+   "name_agree": 0.19,
+   "alt_first": 0.08
   },
   {
    "word": "test",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.47,
-   "unsafe": 0.05,
+   "known": 0.45,
+   "unsafe": 0.06,
    "american": 0.09,
-   "name_agree": 0.29,
-   "alt_first": 0.06
+   "name_agree": 0.24,
+   "alt_first": 0.07
   },
   {
    "word": "vest",
    "unit": 8,
    "pic": "a vest",
    "oral": false,
-   "known": 0.32,
+   "known": 0.3,
    "unsafe": 0.07,
-   "american": 0.18,
-   "name_agree": 0.33,
-   "alt_first": 0.33
+   "american": 0.17,
+   "name_agree": 0.3,
+   "alt_first": 0.35
   },
   {
    "word": "west",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.43,
+   "known": 0.41,
    "unsafe": 0.03,
    "american": 0.05,
    "name_agree": 0.2,
@@ -2484,20 +2451,20 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.25,
+   "known": 0.29,
    "unsafe": 0.07,
    "american": 0.05,
    "name_agree": 0.21,
-   "alt_first": 0.06
+   "alt_first": 0.07
   },
   {
    "word": "must",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.22,
+   "known": 0.23,
    "unsafe": 0.05,
-   "american": 0.04,
+   "american": 0.05,
    "name_agree": 0.21,
    "alt_first": 0.06
   },
@@ -2506,10 +2473,10 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.17,
+   "known": 0.14,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.22,
+   "name_agree": 0.21,
    "alt_first": 0.08
   },
   {
@@ -2517,11 +2484,11 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.61,
-   "unsafe": 0.08,
+   "known": 0.63,
+   "unsafe": 0.07,
    "american": 0.07,
-   "name_agree": 0.25,
-   "alt_first": 0.07
+   "name_agree": 0.24,
+   "alt_first": 0.08
   },
   {
    "word": "lost",
@@ -2531,8 +2498,8 @@
    "known": 0.23,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.25,
-   "alt_first": 0.08
+   "name_agree": 0.24,
+   "alt_first": 0.07
   },
   {
    "word": "cost",
@@ -2540,17 +2507,17 @@
    "pic": null,
    "oral": false,
    "known": 0.54,
-   "unsafe": 0.06,
+   "unsafe": 0.07,
    "american": 0.08,
-   "name_agree": 0.32,
-   "alt_first": 0.08
+   "name_agree": 0.25,
+   "alt_first": 0.07
   },
   {
    "word": "fist",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.18,
+   "known": 0.2,
    "unsafe": 0.12,
    "american": 0.05,
    "name_agree": 0.21,
@@ -2561,32 +2528,32 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.4,
+   "known": 0.45,
    "unsafe": 0.04,
-   "american": 0.05,
-   "name_agree": 0.23,
-   "alt_first": 0.07
+   "american": 0.04,
+   "name_agree": 0.17,
+   "alt_first": 0.08
   },
   {
    "word": "golf",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.45,
+   "known": 0.39,
    "unsafe": 0.08,
    "american": 0.07,
-   "name_agree": 0.24,
-   "alt_first": 0.07
+   "name_agree": 0.23,
+   "alt_first": 0.08
   },
   {
    "word": "silk",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.56,
+   "known": 0.5,
    "unsafe": 0.04,
-   "american": 0.05,
-   "name_agree": 0.17,
+   "american": 0.06,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -2594,10 +2561,10 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.38,
-   "unsafe": 0.07,
-   "american": 0.14,
-   "name_agree": 0.19,
+   "known": 0.36,
+   "unsafe": 0.06,
+   "american": 0.12,
+   "name_agree": 0.27,
    "alt_first": 0.08
   },
   {
@@ -2605,10 +2572,10 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.28,
+   "known": 0.27,
    "unsafe": 0.03,
    "american": 0.06,
-   "name_agree": 0.21,
+   "name_agree": 0.25,
    "alt_first": 0.07
   },
   {
@@ -2616,10 +2583,10 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.44,
+   "known": 0.42,
    "unsafe": 0.04,
    "american": 0.07,
-   "name_agree": 0.18,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -2627,21 +2594,21 @@
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.15,
+   "known": 0.14,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.23,
-   "alt_first": 0.06
+   "name_agree": 0.31,
+   "alt_first": 0.07
   },
   {
    "word": "pump",
    "unit": 8,
    "pic": null,
    "oral": false,
-   "known": 0.3,
-   "unsafe": 0.09,
-   "american": 0.09,
-   "name_agree": 0.23,
+   "known": 0.32,
+   "unsafe": 0.1,
+   "american": 0.1,
+   "name_agree": 0.22,
    "alt_first": 0.07
   },
   {
@@ -2649,10 +2616,10 @@
    "unit": 8,
    "pic": "a light bulb",
    "oral": false,
-   "known": 0.26,
-   "unsafe": 0.11,
+   "known": 0.24,
+   "unsafe": 0.12,
    "american": 0.08,
-   "name_agree": 0.26,
+   "name_agree": 0.24,
    "alt_first": 0.21
   },
   {
@@ -2660,7 +2627,7 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.06,
+   "known": 0.05,
    "unsafe": 0.04,
    "american": 0.05,
    "name_agree": 0.24,
@@ -2671,11 +2638,11 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.11,
-   "unsafe": 0.03,
+   "known": 0.12,
+   "unsafe": 0.04,
    "american": 0.05,
    "name_agree": 0.19,
-   "alt_first": 0.08
+   "alt_first": 0.07
   },
   {
    "word": "step",
@@ -2685,7 +2652,7 @@
    "known": 0.1,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.2,
+   "name_agree": 0.22,
    "alt_first": 0.07
   },
   {
@@ -2696,18 +2663,18 @@
    "known": 0.11,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.53,
-   "alt_first": 0.31
+   "name_agree": 0.5,
+   "alt_first": 0.33
   },
   {
    "word": "frog",
    "unit": 9,
    "pic": "a frog",
    "oral": false,
-   "known": 0.07,
+   "known": 0.06,
    "unsafe": 0.03,
    "american": 0.03,
-   "name_agree": 0.06,
+   "name_agree": 0.05,
    "alt_first": 0.15
   },
   {
@@ -2716,9 +2683,9 @@
    "pic": "a flag",
    "oral": false,
    "known": 0.15,
-   "unsafe": 0.03,
-   "american": 0.04,
-   "name_agree": 0.1,
+   "unsafe": 0.04,
+   "american": 0.05,
+   "name_agree": 0.08,
    "alt_first": 0.18
   },
   {
@@ -2729,7 +2696,7 @@
    "known": 0.21,
    "unsafe": 0.05,
    "american": 0.08,
-   "name_agree": 0.21,
+   "name_agree": 0.22,
    "alt_first": 0.07
   },
   {
@@ -2740,7 +2707,7 @@
    "known": 0.18,
    "unsafe": 0.1,
    "american": 0.08,
-   "name_agree": 0.22,
+   "name_agree": 0.2,
    "alt_first": 0.17
   },
   {
@@ -2748,22 +2715,22 @@
    "unit": 9,
    "pic": "a plum",
    "oral": false,
-   "known": 0.17,
-   "unsafe": 0.07,
+   "known": 0.16,
+   "unsafe": 0.06,
    "american": 0.04,
-   "name_agree": 0.12,
-   "alt_first": 0.13
+   "name_agree": 0.11,
+   "alt_first": 0.15
   },
   {
    "word": "pram",
    "unit": 9,
    "pic": "a pram",
    "oral": false,
-   "known": 0.23,
+   "known": 0.22,
    "unsafe": 0.05,
    "american": 0.06,
-   "name_agree": 0.26,
-   "alt_first": 0.39
+   "name_agree": 0.24,
+   "alt_first": 0.38
   },
   {
    "word": "drum",
@@ -2771,7 +2738,7 @@
    "pic": "a drum",
    "oral": false,
    "known": 0.1,
-   "unsafe": 0.03,
+   "unsafe": 0.04,
    "american": 0.04,
    "name_agree": 0.07,
    "alt_first": 0.14
@@ -2781,11 +2748,11 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.26,
+   "known": 0.28,
    "unsafe": 0.06,
    "american": 0.06,
-   "name_agree": 0.21,
-   "alt_first": 0.07
+   "name_agree": 0.24,
+   "alt_first": 0.08
   },
   {
    "word": "crab",
@@ -2795,8 +2762,8 @@
    "known": 0.16,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.11,
-   "alt_first": 0.17
+   "name_agree": 0.14,
+   "alt_first": 0.18
   },
   {
    "word": "clap",
@@ -2804,20 +2771,20 @@
    "pic": null,
    "oral": false,
    "known": 0.07,
-   "unsafe": 0.03,
+   "unsafe": 0.02,
    "american": 0.04,
    "name_agree": 0.18,
-   "alt_first": 0.07
+   "alt_first": 0.06
   },
   {
    "word": "clip",
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.36,
+   "known": 0.39,
    "unsafe": 0.1,
    "american": 0.1,
-   "name_agree": 0.24,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -2825,10 +2792,10 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.35,
-   "unsafe": 0.05,
+   "known": 0.34,
+   "unsafe": 0.04,
    "american": 0.08,
-   "name_agree": 0.2,
+   "name_agree": 0.22,
    "alt_first": 0.07
   },
   {
@@ -2836,21 +2803,21 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.34,
+   "known": 0.35,
    "unsafe": 0.12,
    "american": 0.08,
-   "name_agree": 0.23,
-   "alt_first": 0.07
+   "name_agree": 0.32,
+   "alt_first": 0.08
   },
   {
    "word": "slip",
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.3,
-   "unsafe": 0.06,
-   "american": 0.06,
-   "name_agree": 0.24,
+   "known": 0.33,
+   "unsafe": 0.05,
+   "american": 0.07,
+   "name_agree": 0.22,
    "alt_first": 0.07
   },
   {
@@ -2858,10 +2825,10 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.2,
-   "unsafe": 0.11,
+   "known": 0.18,
+   "unsafe": 0.1,
    "american": 0.07,
-   "name_agree": 0.17,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -2869,11 +2836,11 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.26,
+   "known": 0.25,
    "unsafe": 0.05,
    "american": 0.06,
-   "name_agree": 0.19,
-   "alt_first": 0.07
+   "name_agree": 0.2,
+   "alt_first": 0.08
   },
   {
    "word": "spin",
@@ -2881,9 +2848,9 @@
    "pic": null,
    "oral": false,
    "known": 0.21,
-   "unsafe": 0.03,
+   "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.24,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -2893,8 +2860,8 @@
    "oral": false,
    "known": 0.19,
    "unsafe": 0.04,
-   "american": 0.06,
-   "name_agree": 0.21,
+   "american": 0.07,
+   "name_agree": 0.26,
    "alt_first": 0.07
   },
   {
@@ -2902,10 +2869,10 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.62,
+   "known": 0.64,
    "unsafe": 0.1,
-   "american": 0.13,
-   "name_agree": 0.22,
+   "american": 0.14,
+   "name_agree": 0.24,
    "alt_first": 0.07
   },
   {
@@ -2913,21 +2880,21 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.17,
+   "known": 0.16,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.23,
-   "alt_first": 0.06
+   "name_agree": 0.19,
+   "alt_first": 0.07
   },
   {
    "word": "grub",
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.46,
+   "known": 0.47,
    "unsafe": 0.14,
-   "american": 0.14,
-   "name_agree": 0.24,
+   "american": 0.16,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -2935,11 +2902,11 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.34,
-   "unsafe": 0.07,
+   "known": 0.37,
+   "unsafe": 0.06,
    "american": 0.08,
-   "name_agree": 0.26,
-   "alt_first": 0.08
+   "name_agree": 0.25,
+   "alt_first": 0.07
   },
   {
    "word": "glum",
@@ -2949,7 +2916,7 @@
    "known": 0.62,
    "unsafe": 0.06,
    "american": 0.06,
-   "name_agree": 0.27,
+   "name_agree": 0.24,
    "alt_first": 0.07
   },
   {
@@ -2960,7 +2927,7 @@
    "known": 0.22,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.18,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -2968,11 +2935,11 @@
    "unit": 9,
    "pic": "a twig",
    "oral": false,
-   "known": 0.36,
+   "known": 0.33,
    "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.42,
-   "alt_first": 0.32
+   "name_agree": 0.44,
+   "alt_first": 0.38
   },
   {
    "word": "swam",
@@ -2981,8 +2948,8 @@
    "oral": false,
    "known": 0.33,
    "unsafe": 0.04,
-   "american": 0.06,
-   "name_agree": 0.27,
+   "american": 0.05,
+   "name_agree": 0.32,
    "alt_first": 0.07
   },
   {
@@ -2990,10 +2957,10 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.53,
-   "unsafe": 0.17,
+   "known": 0.5,
+   "unsafe": 0.16,
    "american": 0.07,
-   "name_agree": 0.21,
+   "name_agree": 0.17,
    "alt_first": 0.07
   },
   {
@@ -3001,11 +2968,11 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.47,
-   "unsafe": 0.09,
+   "known": 0.48,
+   "unsafe": 0.1,
    "american": 0.09,
-   "name_agree": 0.2,
-   "alt_first": 0.08
+   "name_agree": 0.21,
+   "alt_first": 0.07
   },
   {
    "word": "flip",
@@ -3015,7 +2982,7 @@
    "known": 0.29,
    "unsafe": 0.06,
    "american": 0.11,
-   "name_agree": 0.19,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -3023,8 +2990,8 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.26,
-   "unsafe": 0.07,
+   "known": 0.27,
+   "unsafe": 0.06,
    "american": 0.08,
    "name_agree": 0.23,
    "alt_first": 0.07
@@ -3034,10 +3001,10 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.22,
+   "known": 0.2,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.23,
+   "name_agree": 0.25,
    "alt_first": 0.07
   },
   {
@@ -3047,8 +3014,8 @@
    "oral": false,
    "known": 0.6,
    "unsafe": 0.07,
-   "american": 0.11,
-   "name_agree": 0.24,
+   "american": 0.09,
+   "name_agree": 0.25,
    "alt_first": 0.07
   },
   {
@@ -3056,11 +3023,11 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.46,
+   "known": 0.42,
    "unsafe": 0.07,
    "american": 0.06,
-   "name_agree": 0.23,
-   "alt_first": 0.06
+   "name_agree": 0.17,
+   "alt_first": 0.07
   },
   {
    "word": "smug",
@@ -3068,7 +3035,7 @@
    "pic": null,
    "oral": false,
    "known": 0.74,
-   "unsafe": 0.2,
+   "unsafe": 0.18,
    "american": 0.06,
    "name_agree": 0.24,
    "alt_first": 0.07
@@ -3078,21 +3045,21 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.46,
+   "known": 0.44,
    "unsafe": 0.04,
-   "american": 0.08,
-   "name_agree": 0.22,
-   "alt_first": 0.08
+   "american": 0.07,
+   "name_agree": 0.27,
+   "alt_first": 0.07
   },
   {
    "word": "spit",
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.16,
-   "unsafe": 0.28,
+   "known": 0.15,
+   "unsafe": 0.27,
    "american": 0.06,
-   "name_agree": 0.21,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -3102,8 +3069,8 @@
    "oral": false,
    "known": 0.55,
    "unsafe": 0.09,
-   "american": 0.09,
-   "name_agree": 0.2,
+   "american": 0.08,
+   "name_agree": 0.24,
    "alt_first": 0.07
   },
   {
@@ -3111,11 +3078,11 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.64,
-   "unsafe": 0.21,
+   "known": 0.61,
+   "unsafe": 0.22,
    "american": 0.06,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "name_agree": 0.21,
+   "alt_first": 0.06
   },
   {
    "word": "trim",
@@ -3124,9 +3091,9 @@
    "oral": false,
    "known": 0.61,
    "unsafe": 0.08,
-   "american": 0.12,
-   "name_agree": 0.25,
-   "alt_first": 0.08
+   "american": 0.11,
+   "name_agree": 0.23,
+   "alt_first": 0.07
   },
   {
    "word": "trot",
@@ -3134,9 +3101,9 @@
    "pic": null,
    "oral": false,
    "known": 0.33,
-   "unsafe": 0.05,
+   "unsafe": 0.04,
    "american": 0.07,
-   "name_agree": 0.21,
+   "name_agree": 0.27,
    "alt_first": 0.07
   },
   {
@@ -3144,10 +3111,10 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.27,
+   "known": 0.23,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.24,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -3156,9 +3123,9 @@
    "pic": null,
    "oral": false,
    "known": 0.33,
-   "unsafe": 0.26,
+   "unsafe": 0.24,
    "american": 0.07,
-   "name_agree": 0.25,
+   "name_agree": 0.24,
    "alt_first": 0.07
   },
   {
@@ -3166,21 +3133,21 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.11,
+   "known": 0.1,
    "unsafe": 0.06,
    "american": 0.04,
-   "name_agree": 0.21,
-   "alt_first": 0.07
+   "name_agree": 0.2,
+   "alt_first": 0.06
   },
   {
    "word": "stuff",
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.2,
-   "unsafe": 0.16,
+   "known": 0.19,
+   "unsafe": 0.15,
    "american": 0.1,
-   "name_agree": 0.2,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -3188,21 +3155,21 @@
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.47,
-   "unsafe": 0.05,
-   "american": 0.07,
-   "name_agree": 0.21,
-   "alt_first": 0.07
+   "known": 0.5,
+   "unsafe": 0.06,
+   "american": 0.06,
+   "name_agree": 0.19,
+   "alt_first": 0.06
   },
   {
    "word": "smell",
    "unit": 9,
    "pic": null,
    "oral": false,
-   "known": 0.1,
-   "unsafe": 0.08,
+   "known": 0.09,
+   "unsafe": 0.07,
    "american": 0.04,
-   "name_agree": 0.19,
+   "name_agree": 0.2,
    "alt_first": 0.06
   },
   {
@@ -3210,54 +3177,54 @@
    "unit": 9,
    "pic": "one simple bright red child-sized dress on a plain hanger, clear fitted bodice and wide flared skirt, shown full length with no person",
    "oral": false,
-   "known": 0.07,
+   "known": 0.06,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.11,
-   "alt_first": 0.23
+   "name_agree": 0.1,
+   "alt_first": 0.25
   },
   {
    "word": "stamp",
    "unit": 10,
    "pic": "a single postage stamp with a picture of a flower and a wavy edge",
    "oral": false,
-   "known": 0.31,
+   "known": 0.3,
    "unsafe": 0.05,
    "american": 0.06,
-   "name_agree": 0.38,
-   "alt_first": 0.32
+   "name_agree": 0.37,
+   "alt_first": 0.33
   },
   {
    "word": "stump",
    "unit": 10,
    "pic": "a tree stump",
    "oral": false,
-   "known": 0.44,
-   "unsafe": 0.08,
-   "american": 0.09,
-   "name_agree": 0.43,
-   "alt_first": 0.23
+   "known": 0.4,
+   "unsafe": 0.1,
+   "american": 0.08,
+   "name_agree": 0.45,
+   "alt_first": 0.24
   },
   {
    "word": "crust",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.31,
+   "known": 0.3,
    "unsafe": 0.04,
    "american": 0.07,
-   "name_agree": 0.22,
-   "alt_first": 0.08
+   "name_agree": 0.24,
+   "alt_first": 0.09
   },
   {
    "word": "trust",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.52,
+   "known": 0.51,
    "unsafe": 0.05,
-   "american": 0.05,
-   "name_agree": 0.24,
+   "american": 0.04,
+   "name_agree": 0.26,
    "alt_first": 0.07
   },
   {
@@ -3265,11 +3232,11 @@
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.31,
-   "unsafe": 0.06,
+   "known": 0.32,
+   "unsafe": 0.05,
    "american": 0.05,
-   "name_agree": 0.18,
-   "alt_first": 0.07
+   "name_agree": 0.17,
+   "alt_first": 0.08
   },
   {
    "word": "frost",
@@ -3279,7 +3246,7 @@
    "known": 0.33,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.2,
+   "name_agree": 0.21,
    "alt_first": 0.08
   },
   {
@@ -3288,8 +3255,8 @@
    "pic": null,
    "oral": false,
    "known": 0.7,
-   "unsafe": 0.05,
-   "american": 0.07,
+   "unsafe": 0.06,
+   "american": 0.08,
    "name_agree": 0.2,
    "alt_first": 0.07
   },
@@ -3298,32 +3265,32 @@
    "unit": 10,
    "pic": "one very thin golden potato crisp with a wavy curled edge and a few darker toasted patches, shown tilted so its thinness is obvious, no whole potato",
    "oral": false,
-   "known": 0.16,
+   "known": 0.17,
    "unsafe": 0.08,
-   "american": 0.14,
-   "name_agree": 0.31,
-   "alt_first": 0.41
+   "american": 0.13,
+   "name_agree": 0.37,
+   "alt_first": 0.45
   },
   {
    "word": "spend",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.54,
+   "known": 0.56,
    "unsafe": 0.06,
    "american": 0.07,
-   "name_agree": 0.31,
-   "alt_first": 0.06
+   "name_agree": 0.24,
+   "alt_first": 0.07
   },
   {
    "word": "split",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.42,
+   "known": 0.45,
    "unsafe": 0.08,
-   "american": 0.07,
-   "name_agree": 0.24,
+   "american": 0.08,
+   "name_agree": 0.28,
    "alt_first": 0.07
   },
   {
@@ -3331,10 +3298,10 @@
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.24,
+   "known": 0.26,
    "unsafe": 0.06,
-   "american": 0.08,
-   "name_agree": 0.21,
+   "american": 0.07,
+   "name_agree": 0.27,
    "alt_first": 0.08
   },
   {
@@ -3342,43 +3309,43 @@
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.42,
-   "unsafe": 0.11,
-   "american": 0.1,
-   "name_agree": 0.2,
-   "alt_first": 0.08
+   "known": 0.41,
+   "unsafe": 0.1,
+   "american": 0.11,
+   "name_agree": 0.23,
+   "alt_first": 0.06
   },
   {
    "word": "scrub",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.31,
+   "known": 0.35,
    "unsafe": 0.07,
-   "american": 0.08,
-   "name_agree": 0.22,
-   "alt_first": 0.08
+   "american": 0.1,
+   "name_agree": 0.19,
+   "alt_first": 0.07
   },
   {
    "word": "scrap",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.54,
+   "known": 0.55,
    "unsafe": 0.12,
-   "american": 0.11,
+   "american": 0.1,
    "name_agree": 0.24,
-   "alt_first": 0.08
+   "alt_first": 0.07
   },
   {
    "word": "splat",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.33,
-   "unsafe": 0.11,
-   "american": 0.2,
-   "name_agree": 0.17,
+   "known": 0.34,
+   "unsafe": 0.1,
+   "american": 0.21,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -3389,7 +3356,7 @@
    "known": 0.22,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.22,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -3399,30 +3366,30 @@
    "oral": false,
    "known": 0.71,
    "unsafe": 0.07,
-   "american": 0.17,
-   "name_agree": 0.25,
-   "alt_first": 0.07
+   "american": 0.14,
+   "name_agree": 0.28,
+   "alt_first": 0.08
   },
   {
    "word": "stand",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.13,
+   "known": 0.12,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.23,
-   "alt_first": 0.07
+   "name_agree": 0.3,
+   "alt_first": 0.08
   },
   {
    "word": "slept",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.14,
+   "known": 0.15,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.27,
+   "name_agree": 0.26,
    "alt_first": 0.07
   },
   {
@@ -3430,43 +3397,43 @@
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.52,
+   "known": 0.5,
    "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.3,
-   "alt_first": 0.08
+   "name_agree": 0.32,
+   "alt_first": 0.07
   },
   {
    "word": "plump",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.52,
+   "known": 0.54,
    "unsafe": 0.06,
-   "american": 0.08,
-   "name_agree": 0.23,
-   "alt_first": 0.07
+   "american": 0.09,
+   "name_agree": 0.27,
+   "alt_first": 0.08
   },
   {
    "word": "brisk",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.69,
+   "known": 0.71,
    "unsafe": 0.05,
-   "american": 0.07,
-   "name_agree": 0.27,
-   "alt_first": 0.07
+   "american": 0.08,
+   "name_agree": 0.29,
+   "alt_first": 0.08
   },
   {
    "word": "crept",
    "unit": 10,
    "pic": null,
    "oral": false,
-   "known": 0.6,
-   "unsafe": 0.08,
+   "known": 0.59,
+   "unsafe": 0.07,
    "american": 0.05,
-   "name_agree": 0.3,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -3474,11 +3441,11 @@
    "unit": 11,
    "pic": "one big ocean liner ship with a tall funnel, several decks and rows of round portholes along a long hull, floating on a small patch of blue water, no sails",
    "oral": false,
-   "known": 0.11,
+   "known": 0.12,
    "unsafe": 0.05,
    "american": 0.07,
-   "name_agree": 0.13,
-   "alt_first": 0.34
+   "name_agree": 0.12,
+   "alt_first": 0.31
   },
   {
    "word": "shop",
@@ -3488,8 +3455,8 @@
    "known": 0.06,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.09,
-   "alt_first": 0.16
+   "name_agree": 0.11,
+   "alt_first": 0.17
   },
   {
    "word": "shed",
@@ -3497,31 +3464,31 @@
    "pic": "a garden shed",
    "oral": false,
    "known": 0.18,
-   "unsafe": 0.06,
+   "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.22,
-   "alt_first": 0.24
+   "name_agree": 0.17,
+   "alt_first": 0.22
   },
   {
    "word": "shell",
    "unit": 11,
    "pic": "a sea shell",
    "oral": false,
-   "known": 0.17,
-   "unsafe": 0.07,
+   "known": 0.16,
+   "unsafe": 0.08,
    "american": 0.05,
-   "name_agree": 0.2,
-   "alt_first": 0.25
+   "name_agree": 0.21,
+   "alt_first": 0.22
   },
   {
    "word": "fish",
    "unit": 11,
    "pic": "a fish",
    "oral": false,
-   "known": 0.05,
+   "known": 0.04,
    "unsafe": 0.04,
    "american": 0.03,
-   "name_agree": 0.05,
+   "name_agree": 0.04,
    "alt_first": 0.14
   },
   {
@@ -3532,7 +3499,7 @@
    "known": 0.07,
    "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.19,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -3540,10 +3507,10 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.23,
+   "known": 0.22,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.15,
+   "name_agree": 0.2,
    "alt_first": 0.07
   },
   {
@@ -3551,9 +3518,9 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.17,
-   "unsafe": 0.06,
-   "american": 0.21,
+   "known": 0.21,
+   "unsafe": 0.07,
+   "american": 0.17,
    "name_agree": 0.2,
    "alt_first": 0.09
   },
@@ -3562,11 +3529,11 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.29,
-   "unsafe": 0.07,
-   "american": 0.06,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "known": 0.3,
+   "unsafe": 0.06,
+   "american": 0.05,
+   "name_agree": 0.19,
+   "alt_first": 0.08
   },
   {
    "word": "shut",
@@ -3575,8 +3542,8 @@
    "oral": false,
    "known": 0.07,
    "unsafe": 0.04,
-   "american": 0.05,
-   "name_agree": 0.21,
+   "american": 0.04,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -3585,9 +3552,9 @@
    "pic": null,
    "oral": false,
    "known": 0.11,
-   "unsafe": 0.09,
-   "american": 0.19,
-   "name_agree": 0.15,
+   "unsafe": 0.1,
+   "american": 0.27,
+   "name_agree": 0.17,
    "alt_first": 0.1
   },
   {
@@ -3595,10 +3562,10 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.14,
+   "known": 0.12,
    "unsafe": 0.1,
    "american": 0.09,
-   "name_agree": 0.19,
+   "name_agree": 0.22,
    "alt_first": 0.08
   },
   {
@@ -3606,10 +3573,10 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.09,
-   "unsafe": 0.03,
+   "known": 0.11,
+   "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.14,
+   "name_agree": 0.18,
    "alt_first": 0.08
   },
   {
@@ -3617,10 +3584,10 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.19,
-   "unsafe": 0.12,
+   "known": 0.17,
+   "unsafe": 0.1,
    "american": 0.05,
-   "name_agree": 0.2,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -3628,33 +3595,33 @@
    "unit": 11,
    "pic": "a plain wooden storage chest with a curved lid and simple iron bands, closed, no treasure or coins or lock",
    "oral": false,
-   "known": 0.25,
+   "known": 0.24,
    "unsafe": 0.06,
    "american": 0.09,
-   "name_agree": 0.27,
-   "alt_first": 0.42
+   "name_agree": 0.29,
+   "alt_first": 0.39
   },
   {
    "word": "rich",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.42,
+   "known": 0.41,
    "unsafe": 0.11,
-   "american": 0.07,
-   "name_agree": 0.22,
-   "alt_first": 0.07
+   "american": 0.06,
+   "name_agree": 0.2,
+   "alt_first": 0.08
   },
   {
    "word": "much",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.16,
+   "known": 0.18,
    "unsafe": 0.05,
    "american": 0.05,
-   "name_agree": 0.21,
-   "alt_first": 0.07
+   "name_agree": 0.2,
+   "alt_first": 0.06
   },
   {
    "word": "lunch",
@@ -3664,7 +3631,7 @@
    "known": 0.05,
    "unsafe": 0.03,
    "american": 0.07,
-   "name_agree": 0.18,
+   "name_agree": 0.17,
    "alt_first": 0.08
   },
   {
@@ -3672,11 +3639,11 @@
    "unit": 11,
    "pic": "a park bench",
    "oral": false,
-   "known": 0.18,
+   "known": 0.2,
    "unsafe": 0.04,
-   "american": 0.07,
-   "name_agree": 0.19,
-   "alt_first": 0.27
+   "american": 0.06,
+   "name_agree": 0.17,
+   "alt_first": 0.28
   },
   {
    "word": "munch",
@@ -3685,20 +3652,20 @@
    "oral": false,
    "known": 0.23,
    "unsafe": 0.04,
-   "american": 0.11,
-   "name_agree": 0.24,
-   "alt_first": 0.07
+   "american": 0.09,
+   "name_agree": 0.19,
+   "alt_first": 0.08
   },
   {
    "word": "chimp",
    "unit": 11,
    "pic": "a chimpanzee with black fur, pale face, large round ears and long arms walking on its knuckles, no tail, seen full-body from the side",
    "oral": false,
-   "known": 0.28,
-   "unsafe": 0.05,
+   "known": 0.27,
+   "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.27,
-   "alt_first": 0.37
+   "name_agree": 0.29,
+   "alt_first": 0.4
   },
   {
    "word": "thin",
@@ -3709,39 +3676,39 @@
    "unsafe": 0.04,
    "american": 0.05,
    "name_agree": 0.18,
-   "alt_first": 0.08
+   "alt_first": 0.07
   },
   {
    "word": "thick",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.18,
+   "known": 0.16,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.21,
-   "alt_first": 0.08
+   "name_agree": 0.22,
+   "alt_first": 0.06
   },
   {
    "word": "moth",
    "unit": 11,
    "pic": "a moth",
    "oral": true,
-   "known": 0.7,
-   "unsafe": 0.04,
+   "known": 0.69,
+   "unsafe": 0.05,
    "american": 0.04,
-   "name_agree": 0.75,
-   "alt_first": 0.2
+   "name_agree": 0.74,
+   "alt_first": 0.21
   },
   {
    "word": "cloth",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.17,
-   "unsafe": 0.04,
+   "known": 0.18,
+   "unsafe": 0.05,
    "american": 0.08,
-   "name_agree": 0.21,
+   "name_agree": 0.2,
    "alt_first": 0.09
   },
   {
@@ -3751,8 +3718,8 @@
    "oral": false,
    "known": 0.29,
    "unsafe": 0.12,
-   "american": 0.06,
-   "name_agree": 0.19,
+   "american": 0.07,
+   "name_agree": 0.17,
    "alt_first": 0.07
   },
   {
@@ -3760,11 +3727,11 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.23,
+   "known": 0.24,
    "unsafe": 0.08,
-   "american": 0.06,
+   "american": 0.07,
    "name_agree": 0.23,
-   "alt_first": 0.07
+   "alt_first": 0.06
   },
   {
    "word": "this",
@@ -3772,9 +3739,9 @@
    "pic": null,
    "oral": false,
    "known": 0.07,
-   "unsafe": 0.03,
+   "unsafe": 0.02,
    "american": 0.03,
-   "name_agree": 0.17,
+   "name_agree": 0.2,
    "alt_first": 0.06
   },
   {
@@ -3782,11 +3749,11 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.06,
+   "known": 0.07,
    "unsafe": 0.03,
-   "american": 0.03,
-   "name_agree": 0.18,
-   "alt_first": 0.06
+   "american": 0.04,
+   "name_agree": 0.21,
+   "alt_first": 0.07
   },
   {
    "word": "them",
@@ -3797,17 +3764,17 @@
    "unsafe": 0.03,
    "american": 0.03,
    "name_agree": 0.2,
-   "alt_first": 0.06
+   "alt_first": 0.07
   },
   {
    "word": "then",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.19,
-   "unsafe": 0.03,
+   "known": 0.2,
+   "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.2,
+   "name_agree": 0.17,
    "alt_first": 0.06
   },
   {
@@ -3816,32 +3783,32 @@
    "pic": null,
    "oral": false,
    "known": 0.12,
-   "unsafe": 0.05,
+   "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.2,
-   "alt_first": 0.06
+   "name_agree": 0.23,
+   "alt_first": 0.07
   },
   {
    "word": "duck",
    "unit": 11,
    "pic": "a duck",
    "oral": false,
-   "known": 0.04,
+   "known": 0.05,
    "unsafe": 0.04,
    "american": 0.03,
    "name_agree": 0.05,
-   "alt_first": 0.16
+   "alt_first": 0.17
   },
   {
    "word": "sock",
    "unit": 11,
    "pic": "a sock",
    "oral": true,
-   "known": 0.13,
+   "known": 0.12,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.25,
-   "alt_first": 0.15
+   "name_agree": 0.26,
+   "alt_first": 0.14
   },
   {
    "word": "rock",
@@ -3849,20 +3816,20 @@
    "pic": "a rock",
    "oral": false,
    "known": 0.05,
-   "unsafe": 0.07,
-   "american": 0.04,
-   "name_agree": 0.07,
-   "alt_first": 0.14
+   "unsafe": 0.06,
+   "american": 0.03,
+   "name_agree": 0.05,
+   "alt_first": 0.15
   },
   {
    "word": "kick",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.06,
+   "known": 0.07,
    "unsafe": 0.06,
    "american": 0.05,
-   "name_agree": 0.17,
+   "name_agree": 0.21,
    "alt_first": 0.07
   },
   {
@@ -3870,11 +3837,11 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.13,
+   "known": 0.14,
    "unsafe": 0.05,
-   "american": 0.1,
+   "american": 0.09,
    "name_agree": 0.2,
-   "alt_first": 0.07
+   "alt_first": 0.08
   },
   {
    "word": "back",
@@ -3893,42 +3860,42 @@
    "pic": null,
    "oral": false,
    "known": 0.07,
-   "unsafe": 0.03,
-   "american": 0.04,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "unsafe": 0.04,
+   "american": 0.03,
+   "name_agree": 0.16,
+   "alt_first": 0.08
   },
   {
    "word": "lock",
    "unit": 11,
    "pic": "a padlock",
    "oral": false,
-   "known": 0.13,
+   "known": 0.11,
    "unsafe": 0.04,
-   "american": 0.08,
+   "american": 0.07,
    "name_agree": 0.27,
-   "alt_first": 0.37
+   "alt_first": 0.36
   },
   {
    "word": "stuck",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.16,
-   "unsafe": 0.04,
+   "known": 0.15,
+   "unsafe": 0.05,
    "american": 0.05,
-   "name_agree": 0.19,
-   "alt_first": 0.06
+   "name_agree": 0.23,
+   "alt_first": 0.07
   },
   {
    "word": "snack",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.08,
+   "known": 0.09,
    "unsafe": 0.03,
-   "american": 0.08,
-   "name_agree": 0.21,
+   "american": 0.1,
+   "name_agree": 0.19,
    "alt_first": 0.08
   },
   {
@@ -3936,11 +3903,11 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.03,
+   "known": 0.04,
    "unsafe": 0.03,
-   "american": 0.03,
-   "name_agree": 0.2,
-   "alt_first": 0.07
+   "american": 0.04,
+   "name_agree": 0.19,
+   "alt_first": 0.06
   },
   {
    "word": "clock",
@@ -3950,8 +3917,8 @@
    "known": 0.08,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.07,
-   "alt_first": 0.21
+   "name_agree": 0.09,
+   "alt_first": 0.19
   },
   {
    "word": "ring",
@@ -3962,7 +3929,7 @@
    "unsafe": 0.04,
    "american": 0.04,
    "name_agree": 0.07,
-   "alt_first": 0.19
+   "alt_first": 0.18
   },
   {
    "word": "king",
@@ -3970,10 +3937,10 @@
    "pic": "a friendly grown-up king wearing a golden crown and a long red royal robe, with his face, full body and hands visible, waving",
    "oral": false,
    "known": 0.09,
-   "unsafe": 0.03,
+   "unsafe": 0.04,
    "american": 0.04,
    "name_agree": 0.1,
-   "alt_first": 0.36
+   "alt_first": 0.35
   },
   {
    "word": "sing",
@@ -3983,7 +3950,7 @@
    "known": 0.06,
    "unsafe": 0.02,
    "american": 0.03,
-   "name_agree": 0.18,
+   "name_agree": 0.17,
    "alt_first": 0.06
   },
   {
@@ -3993,42 +3960,42 @@
    "oral": false,
    "known": 0.06,
    "unsafe": 0.02,
-   "american": 0.04,
-   "name_agree": 0.14,
-   "alt_first": 0.07
+   "american": 0.03,
+   "name_agree": 0.16,
+   "alt_first": 0.06
   },
   {
    "word": "long",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.08,
+   "known": 0.07,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.21,
-   "alt_first": 0.07
+   "name_agree": 0.18,
+   "alt_first": 0.06
   },
   {
    "word": "wing",
    "unit": 11,
    "pic": "a wing",
    "oral": false,
-   "known": 0.2,
+   "known": 0.19,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.17,
-   "alt_first": 0.2
+   "name_agree": 0.16,
+   "alt_first": 0.19
   },
   {
    "word": "bang",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.08,
+   "known": 0.07,
    "unsafe": 0.14,
    "american": 0.07,
    "name_agree": 0.16,
-   "alt_first": 0.06
+   "alt_first": 0.07
   },
   {
    "word": "hang",
@@ -4037,8 +4004,8 @@
    "oral": false,
    "known": 0.12,
    "unsafe": 0.07,
-   "american": 0.05,
-   "name_agree": 0.26,
+   "american": 0.06,
+   "name_agree": 0.19,
    "alt_first": 0.07
   },
   {
@@ -4046,11 +4013,11 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.12,
+   "known": 0.13,
    "unsafe": 0.05,
    "american": 0.04,
-   "name_agree": 0.19,
-   "alt_first": 0.07
+   "name_agree": 0.21,
+   "alt_first": 0.08
   },
   {
    "word": "swing",
@@ -4058,7 +4025,7 @@
    "pic": "a swing",
    "oral": false,
    "known": 0.12,
-   "unsafe": 0.05,
+   "unsafe": 0.04,
    "american": 0.05,
    "name_agree": 0.13,
    "alt_first": 0.14
@@ -4068,21 +4035,21 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.09,
+   "known": 0.08,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.21,
-   "alt_first": 0.08
+   "name_agree": 0.15,
+   "alt_first": 0.07
   },
   {
    "word": "when",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.2,
+   "known": 0.17,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.21,
+   "name_agree": 0.19,
    "alt_first": 0.06
   },
   {
@@ -4090,10 +4057,10 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.21,
-   "unsafe": 0.03,
+   "known": 0.22,
+   "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.23,
+   "name_agree": 0.21,
    "alt_first": 0.07
   },
   {
@@ -4101,43 +4068,43 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.31,
-   "unsafe": 0.26,
+   "known": 0.3,
+   "unsafe": 0.25,
    "american": 0.1,
-   "name_agree": 0.22,
-   "alt_first": 0.08
+   "name_agree": 0.18,
+   "alt_first": 0.07
   },
   {
    "word": "whisk",
    "unit": 11,
    "pic": "a whisk",
    "oral": false,
-   "known": 0.36,
+   "known": 0.37,
    "unsafe": 0.05,
-   "american": 0.08,
+   "american": 0.09,
    "name_agree": 0.38,
-   "alt_first": 0.24
+   "alt_first": 0.25
   },
   {
    "word": "quick",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.2,
+   "known": 0.19,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.19,
-   "alt_first": 0.06
+   "name_agree": 0.21,
+   "alt_first": 0.07
   },
   {
    "word": "quiz",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.48,
-   "unsafe": 0.08,
-   "american": 0.13,
-   "name_agree": 0.21,
+   "known": 0.5,
+   "unsafe": 0.07,
+   "american": 0.12,
+   "name_agree": 0.22,
    "alt_first": 0.07
   },
   {
@@ -4145,8 +4112,8 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.37,
-   "unsafe": 0.12,
+   "known": 0.32,
+   "unsafe": 0.13,
    "american": 0.09,
    "name_agree": 0.24,
    "alt_first": 0.07
@@ -4156,21 +4123,21 @@
    "unit": 11,
    "pic": "a quilt",
    "oral": false,
-   "known": 0.3,
-   "unsafe": 0.04,
-   "american": 0.2,
-   "name_agree": 0.42,
-   "alt_first": 0.27
+   "known": 0.28,
+   "unsafe": 0.03,
+   "american": 0.17,
+   "name_agree": 0.41,
+   "alt_first": 0.29
   },
   {
    "word": "squid",
    "unit": 11,
    "pic": "a squid",
    "oral": false,
-   "known": 0.49,
+   "known": 0.45,
    "unsafe": 0.07,
    "american": 0.05,
-   "name_agree": 0.43,
+   "name_agree": 0.4,
    "alt_first": 0.14
   },
   {
@@ -4179,9 +4146,9 @@
    "pic": null,
    "oral": false,
    "known": 0.12,
-   "unsafe": 0.04,
+   "unsafe": 0.05,
    "american": 0.08,
-   "name_agree": 0.21,
+   "name_agree": 0.24,
    "alt_first": 0.08
   },
   {
@@ -4189,10 +4156,10 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.06,
+   "known": 0.07,
    "unsafe": 0.04,
    "american": 0.04,
-   "name_agree": 0.24,
+   "name_agree": 0.2,
    "alt_first": 0.07
   },
   {
@@ -4203,7 +4170,7 @@
    "known": 0.05,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.2,
+   "name_agree": 0.17,
    "alt_first": 0.07
   },
   {
@@ -4211,11 +4178,11 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.11,
-   "unsafe": 0.04,
+   "known": 0.1,
+   "unsafe": 0.05,
    "american": 0.06,
-   "name_agree": 0.25,
-   "alt_first": 0.08
+   "name_agree": 0.2,
+   "alt_first": 0.07
   },
   {
    "word": "patch",
@@ -4224,8 +4191,8 @@
    "oral": false,
    "known": 0.28,
    "unsafe": 0.06,
-   "american": 0.09,
-   "name_agree": 0.19,
+   "american": 0.1,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -4236,18 +4203,18 @@
    "known": 0.58,
    "unsafe": 0.18,
    "american": 0.08,
-   "name_agree": 0.65,
-   "alt_first": 0.32
+   "name_agree": 0.64,
+   "alt_first": 0.33
   },
   {
    "word": "fetch",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.19,
+   "known": 0.2,
    "unsafe": 0.06,
-   "american": 0.23,
-   "name_agree": 0.23,
+   "american": 0.22,
+   "name_agree": 0.26,
    "alt_first": 0.07
   },
   {
@@ -4256,42 +4223,42 @@
    "pic": "a friendly full-body witch with a face, purple pointed hat and dark dress, holding a little broom, clearly a person rather than just a hat",
    "oral": false,
    "known": 0.17,
-   "unsafe": 0.06,
+   "unsafe": 0.07,
    "american": 0.07,
    "name_agree": 0.15,
-   "alt_first": 0.55
+   "alt_first": 0.49
   },
   {
    "word": "itch",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.12,
-   "unsafe": 0.06,
+   "known": 0.14,
+   "unsafe": 0.05,
    "american": 0.06,
-   "name_agree": 0.22,
-   "alt_first": 0.07
+   "name_agree": 0.19,
+   "alt_first": 0.08
   },
   {
    "word": "hutch",
    "unit": 11,
    "pic": "a rabbit hutch",
    "oral": false,
-   "known": 0.41,
+   "known": 0.4,
    "unsafe": 0.06,
    "american": 0.07,
-   "name_agree": 0.45,
-   "alt_first": 0.49
+   "name_agree": 0.48,
+   "alt_first": 0.46
   },
   {
    "word": "ditch",
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.4,
-   "unsafe": 0.11,
-   "american": 0.09,
-   "name_agree": 0.22,
+   "known": 0.42,
+   "unsafe": 0.12,
+   "american": 0.1,
+   "name_agree": 0.23,
    "alt_first": 0.07
   },
   {
@@ -4299,10 +4266,10 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.5,
+   "known": 0.52,
    "unsafe": 0.09,
-   "american": 0.07,
-   "name_agree": 0.24,
+   "american": 0.08,
+   "name_agree": 0.31,
    "alt_first": 0.07
   },
   {
@@ -4313,7 +4280,7 @@
    "known": 0.09,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.09,
+   "name_agree": 0.1,
    "alt_first": 0.23
   },
   {
@@ -4321,10 +4288,10 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.27,
-   "unsafe": 0.18,
-   "american": 0.06,
-   "name_agree": 0.24,
+   "known": 0.3,
+   "unsafe": 0.19,
+   "american": 0.07,
+   "name_agree": 0.2,
    "alt_first": 0.07
   },
   {
@@ -4332,11 +4299,11 @@
    "unit": 11,
    "pic": null,
    "oral": false,
-   "known": 0.19,
+   "known": 0.2,
    "unsafe": 0.05,
-   "american": 0.09,
-   "name_agree": 0.25,
-   "alt_first": 0.08
+   "american": 0.08,
+   "name_agree": 0.2,
+   "alt_first": 0.07
   },
   {
    "word": "rain",
@@ -4347,7 +4314,7 @@
    "unsafe": 0.02,
    "american": 0.03,
    "name_agree": 0.17,
-   "alt_first": 0.42
+   "alt_first": 0.43
   },
   {
    "word": "train",
@@ -4357,8 +4324,8 @@
    "known": 0.05,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.13,
-   "alt_first": 0.45
+   "name_agree": 0.16,
+   "alt_first": 0.48
   },
   {
    "word": "snail",
@@ -4366,9 +4333,9 @@
    "pic": "a snail",
    "oral": false,
    "known": 0.13,
-   "unsafe": 0.03,
+   "unsafe": 0.02,
    "american": 0.03,
-   "name_agree": 0.09,
+   "name_agree": 0.1,
    "alt_first": 0.11
   },
   {
@@ -4376,43 +4343,43 @@
    "unit": 12,
    "pic": "a fox tail",
    "oral": true,
-   "known": 0.23,
-   "unsafe": 0.05,
+   "known": 0.21,
+   "unsafe": 0.04,
    "american": 0.04,
    "name_agree": 0.42,
-   "alt_first": 0.49
+   "alt_first": 0.47
   },
   {
    "word": "nail",
    "unit": 12,
    "pic": "a nail",
    "oral": true,
-   "known": 0.59,
+   "known": 0.56,
    "unsafe": 0.08,
-   "american": 0.06,
-   "name_agree": 0.69,
-   "alt_first": 0.21
+   "american": 0.05,
+   "name_agree": 0.64,
+   "alt_first": 0.17
   },
   {
    "word": "paint",
    "unit": 12,
    "pic": "a paint pot",
    "oral": true,
-   "known": 0.29,
+   "known": 0.3,
    "unsafe": 0.04,
    "american": 0.07,
-   "name_agree": 0.73,
-   "alt_first": 0.49
+   "name_agree": 0.74,
+   "alt_first": 0.45
   },
   {
    "word": "day",
    "unit": 12,
    "pic": null,
    "oral": false,
-   "known": 0.06,
-   "unsafe": 0.02,
+   "known": 0.05,
+   "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.14,
+   "name_agree": 0.18,
    "alt_first": 0.07
   },
   {
@@ -4423,7 +4390,7 @@
    "known": 0.04,
    "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.19,
+   "name_agree": 0.2,
    "alt_first": 0.07
   },
   {
@@ -4431,21 +4398,21 @@
    "unit": 12,
    "pic": "a tray",
    "oral": false,
-   "known": 0.16,
+   "known": 0.15,
    "unsafe": 0.04,
    "american": 0.07,
-   "name_agree": 0.19,
-   "alt_first": 0.18
+   "name_agree": 0.16,
+   "alt_first": 0.2
   },
   {
    "word": "stay",
    "unit": 12,
    "pic": null,
    "oral": false,
-   "known": 0.13,
+   "known": 0.14,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.19,
+   "name_agree": 0.18,
    "alt_first": 0.06
   },
   {
@@ -4454,7 +4421,7 @@
    "pic": null,
    "oral": false,
    "known": 0.07,
-   "unsafe": 0.04,
+   "unsafe": 0.03,
    "american": 0.04,
    "name_agree": 0.13,
    "alt_first": 0.06
@@ -4467,19 +4434,19 @@
    "known": 0.21,
    "unsafe": 0.08,
    "american": 0.09,
-   "name_agree": 0.16,
-   "alt_first": 0.07
+   "name_agree": 0.17,
+   "alt_first": 0.08
   },
   {
    "word": "tree",
    "unit": 12,
    "pic": "a tree",
    "oral": false,
-   "known": 0.03,
+   "known": 0.04,
    "unsafe": 0.02,
    "american": 0.03,
-   "name_agree": 0.04,
-   "alt_first": 0.21
+   "name_agree": 0.03,
+   "alt_first": 0.17
   },
   {
    "word": "bee",
@@ -4498,10 +4465,10 @@
    "pic": "a pair of bare cartoon feet side by side with wiggly toes",
    "oral": false,
    "known": 0.05,
-   "unsafe": 0.04,
+   "unsafe": 0.03,
    "american": 0.05,
-   "name_agree": 0.15,
-   "alt_first": 0.29
+   "name_agree": 0.17,
+   "alt_first": 0.33
   },
   {
    "word": "sheep",
@@ -4512,7 +4479,7 @@
    "unsafe": 0.03,
    "american": 0.03,
    "name_agree": 0.06,
-   "alt_first": 0.11
+   "alt_first": 0.12
   },
   {
    "word": "green",
@@ -4522,29 +4489,29 @@
    "known": 0.04,
    "unsafe": 0.03,
    "american": 0.03,
-   "name_agree": 0.15,
-   "alt_first": 0.07
+   "name_agree": 0.14,
+   "alt_first": 0.06
   },
   {
    "word": "queen",
    "unit": 12,
    "pic": "a queen",
    "oral": false,
-   "known": 0.11,
+   "known": 0.12,
    "unsafe": 0.05,
    "american": 0.04,
-   "name_agree": 0.11,
-   "alt_first": 0.22
+   "name_agree": 0.12,
+   "alt_first": 0.19
   },
   {
    "word": "sleep",
    "unit": 12,
    "pic": null,
    "oral": false,
-   "known": 0.05,
+   "known": 0.06,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.15,
+   "name_agree": 0.2,
    "alt_first": 0.07
   },
   {
@@ -4554,7 +4521,7 @@
    "oral": true,
    "known": 0.27,
    "unsafe": 0.04,
-   "american": 0.06,
+   "american": 0.05,
    "name_agree": 0.66,
    "alt_first": 0.57
   },
@@ -4563,9 +4530,9 @@
    "unit": 12,
    "pic": "a cup of tea",
    "oral": true,
-   "known": 0.28,
+   "known": 0.27,
    "unsafe": 0.04,
-   "american": 0.05,
+   "american": 0.06,
    "name_agree": 0.55,
    "alt_first": 0.56
   },
@@ -4588,7 +4555,7 @@
    "known": 0.09,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.07,
+   "name_agree": 0.09,
    "alt_first": 0.16
   },
   {
@@ -4598,9 +4565,9 @@
    "oral": false,
    "known": 0.21,
    "unsafe": 0.06,
-   "american": 0.04,
-   "name_agree": 0.14,
-   "alt_first": 0.06
+   "american": 0.05,
+   "name_agree": 0.16,
+   "alt_first": 0.07
   },
   {
    "word": "beach",
@@ -4609,8 +4576,8 @@
    "oral": false,
    "known": 0.11,
    "unsafe": 0.03,
-   "american": 0.04,
-   "name_agree": 0.16,
+   "american": 0.05,
+   "name_agree": 0.11,
    "alt_first": 0.24
   },
   {
@@ -4621,7 +4588,7 @@
    "known": 0.06,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.22,
+   "name_agree": 0.24,
    "alt_first": 0.08
   },
   {
@@ -4629,11 +4596,11 @@
    "unit": 12,
    "pic": "a sleepy yellow crescent moon wearing a nightcap, with two small stars",
    "oral": true,
-   "known": 0.18,
+   "known": 0.19,
    "unsafe": 0.03,
    "american": 0.06,
-   "name_agree": 0.78,
-   "alt_first": 0.67
+   "name_agree": 0.77,
+   "alt_first": 0.66
   },
   {
    "word": "light",
@@ -4643,8 +4610,8 @@
    "known": 0.1,
    "unsafe": 0.04,
    "american": 0.11,
-   "name_agree": 0.6,
-   "alt_first": 0.64
+   "name_agree": 0.57,
+   "alt_first": 0.6
   },
   {
    "word": "high",
@@ -4662,10 +4629,10 @@
    "unit": 12,
    "pic": null,
    "oral": false,
-   "known": 0.22,
-   "unsafe": 0.49,
-   "american": 0.06,
-   "name_agree": 0.21,
+   "known": 0.21,
+   "unsafe": 0.47,
+   "american": 0.07,
+   "name_agree": 0.2,
    "alt_first": 0.08
   },
   {
@@ -4673,9 +4640,9 @@
    "unit": 12,
    "pic": null,
    "oral": false,
-   "known": 0.14,
+   "known": 0.15,
    "unsafe": 0.03,
-   "american": 0.04,
+   "american": 0.05,
    "name_agree": 0.18,
    "alt_first": 0.07
   },
@@ -4684,10 +4651,10 @@
    "unit": 12,
    "pic": "a pie",
    "oral": true,
-   "known": 0.19,
-   "unsafe": 0.05,
-   "american": 0.07,
-   "name_agree": 0.2,
+   "known": 0.18,
+   "unsafe": 0.07,
+   "american": 0.06,
+   "name_agree": 0.21,
    "alt_first": 0.21
   },
   {
@@ -4695,22 +4662,22 @@
    "unit": 12,
    "pic": "a tie",
    "oral": true,
-   "known": 0.56,
+   "known": 0.57,
    "unsafe": 0.07,
-   "american": 0.06,
-   "name_agree": 0.63,
-   "alt_first": 0.2
+   "american": 0.07,
+   "name_agree": 0.58,
+   "alt_first": 0.22
   },
   {
    "word": "lie",
    "unit": 12,
    "pic": null,
    "oral": false,
-   "known": 0.25,
-   "unsafe": 0.24,
+   "known": 0.26,
+   "unsafe": 0.25,
    "american": 0.05,
    "name_agree": 0.17,
-   "alt_first": 0.07
+   "alt_first": 0.06
   },
   {
    "word": "boat",
@@ -4718,10 +4685,10 @@
    "pic": "a boat",
    "oral": false,
    "known": 0.06,
-   "unsafe": 0.03,
-   "american": 0.03,
+   "unsafe": 0.04,
+   "american": 0.04,
    "name_agree": 0.05,
-   "alt_first": 0.2
+   "alt_first": 0.19
   },
   {
    "word": "goat",
@@ -4731,29 +4698,29 @@
    "known": 0.09,
    "unsafe": 0.05,
    "american": 0.03,
-   "name_agree": 0.06,
-   "alt_first": 0.16
+   "name_agree": 0.07,
+   "alt_first": 0.17
   },
   {
    "word": "coat",
    "unit": 12,
    "pic": "a coat",
    "oral": false,
-   "known": 0.06,
+   "known": 0.05,
    "unsafe": 0.03,
-   "american": 0.05,
+   "american": 0.04,
    "name_agree": 0.07,
-   "alt_first": 0.2
+   "alt_first": 0.18
   },
   {
    "word": "road",
    "unit": 12,
    "pic": "a road",
    "oral": false,
-   "known": 0.05,
-   "unsafe": 0.05,
+   "known": 0.06,
+   "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.07,
+   "name_agree": 0.08,
    "alt_first": 0.21
   },
   {
@@ -4763,9 +4730,9 @@
    "oral": true,
    "known": 0.2,
    "unsafe": 0.04,
-   "american": 0.05,
-   "name_agree": 0.49,
-   "alt_first": 0.45
+   "american": 0.06,
+   "name_agree": 0.44,
+   "alt_first": 0.44
   },
   {
    "word": "toast",
@@ -4774,19 +4741,19 @@
    "oral": true,
    "known": 0.19,
    "unsafe": 0.03,
-   "american": 0.07,
-   "name_agree": 0.35,
-   "alt_first": 0.24
+   "american": 0.06,
+   "name_agree": 0.37,
+   "alt_first": 0.25
   },
   {
    "word": "snow",
    "unit": 12,
    "pic": "snow",
    "oral": false,
-   "known": 0.08,
+   "known": 0.09,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.12,
+   "name_agree": 0.13,
    "alt_first": 0.12
   },
   {
@@ -4794,18 +4761,18 @@
    "unit": 12,
    "pic": null,
    "oral": false,
-   "known": 0.12,
+   "known": 0.11,
    "unsafe": 0.04,
    "american": 0.05,
-   "name_agree": 0.22,
-   "alt_first": 0.08
+   "name_agree": 0.21,
+   "alt_first": 0.07
   },
   {
    "word": "slow",
    "unit": 12,
    "pic": null,
    "oral": false,
-   "known": 0.15,
+   "known": 0.16,
    "unsafe": 0.03,
    "american": 0.04,
    "name_agree": 0.23,
@@ -4819,7 +4786,7 @@
    "known": 0.1,
    "unsafe": 0.1,
    "american": 0.06,
-   "name_agree": 0.16,
+   "name_agree": 0.15,
    "alt_first": 0.07
   },
   {
@@ -4830,41 +4797,41 @@
    "known": 0.21,
    "unsafe": 0.07,
    "american": 0.05,
-   "name_agree": 0.19,
-   "alt_first": 0.24
+   "name_agree": 0.21,
+   "alt_first": 0.21
   },
   {
    "word": "apple",
    "unit": "oral",
    "pic": "a shiny red apple",
    "oral": true,
-   "known": 0.07,
+   "known": 0.06,
    "unsafe": 0.02,
    "american": 0.04,
-   "name_agree": 0.16,
-   "alt_first": 0.15
+   "name_agree": 0.15,
+   "alt_first": 0.14
   },
   {
    "word": "astronaut",
    "unit": "oral",
    "pic": "a friendly child astronaut in a white space suit waving",
    "oral": true,
-   "known": 0.57,
+   "known": 0.56,
    "unsafe": 0.03,
    "american": 0.1,
-   "name_agree": 0.74,
-   "alt_first": 0.6
+   "name_agree": 0.76,
+   "alt_first": 0.64
   },
   {
    "word": "insect",
    "unit": "oral",
    "pic": "a cute green beetle insect",
    "oral": false,
-   "known": 0.52,
+   "known": 0.53,
    "unsafe": 0.03,
-   "american": 0.07,
-   "name_agree": 0.76,
-   "alt_first": 0.66
+   "american": 0.06,
+   "name_agree": 0.78,
+   "alt_first": 0.71
   },
   {
    "word": "igloo",
@@ -4873,9 +4840,9 @@
    "oral": false,
    "known": 0.67,
    "unsafe": 0.03,
-   "american": 0.13,
-   "name_agree": 0.67,
-   "alt_first": 0.34
+   "american": 0.14,
+   "name_agree": 0.69,
+   "alt_first": 0.4
   },
   {
    "word": "octopus",
@@ -4885,19 +4852,19 @@
    "known": 0.46,
    "unsafe": 0.03,
    "american": 0.04,
-   "name_agree": 0.55,
-   "alt_first": 0.24
+   "name_agree": 0.54,
+   "alt_first": 0.23
   },
   {
    "word": "otter",
    "unit": "oral",
    "pic": "a cute brown otter floating on its back",
    "oral": false,
-   "known": 0.6,
+   "known": 0.57,
    "unsafe": 0.04,
    "american": 0.06,
-   "name_agree": 0.5,
-   "alt_first": 0.25
+   "name_agree": 0.44,
+   "alt_first": 0.29
   }
  ]
 }

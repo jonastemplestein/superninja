@@ -55,15 +55,29 @@ export function IntroFilm({ onDone }: { onDone: () => void }) {
       check();
     };
     v?.addEventListener("ended", onEnd);
-    v?.play().catch(() => {
-      videoDone = true; // if video can't play (low power mode), don't block on it
-    });
+    let playing: Promise<boolean> = Promise.resolve(false);
+    if (v)
+      playing = v.play().then(
+        () => true,
+        () => {
+          videoDone = true; // if video can't play (low power mode), don't block on it
+          return false;
+        },
+      );
     // safety: never hang on a shot
     const guard = setTimeout(next, 16000);
     (async () => {
       await Promise.race([timingReady, new Promise((r) => setTimeout(r, 300))]);
-      const delay = timing?.find((t) => t.shot === shot + 1)?.lineDelayMs ?? 400;
-      await new Promise((r) => setTimeout(r, delay));
+      const delay = (timing?.find((t) => t.shot === shot + 1)?.lineDelayMs ?? 400) / 1000;
+      // the line starts on the video's own clock, so lip-synced shots (Baron's lines) stay in sync even when the
+      // video starts late; if the video can't play, fall back to a plain timer
+      if (v && (await Promise.race([playing, new Promise<boolean>((r) => setTimeout(() => r(false), 1500))]))) {
+        await new Promise<void>((r) => {
+          const tick = () => (!live || v.currentTime >= delay || v.ended ? r() : requestAnimationFrame(tick));
+          tick();
+        });
+      } else await new Promise((r) => setTimeout(r, delay * 1000));
+      if (!live) return;
       await say({ line: SHOTS[shot].line });
       lineDone = true;
       if (shot === SHOTS.length - 1) await new Promise((r) => setTimeout(r, 600));
@@ -78,6 +92,9 @@ export function IntroFilm({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="scene" style={{ background: "#1d1230" }}>
+      {/* During the film, Sensei's help button steps back: no talking face, glow or waves over the picture (she is in the
+          film itself, and a second talking Sensei on top of it read as an overlay), just a small, faded, still button. */}
+      <style>{`.help-btn{scale:.7;transform-origin:100% 100%;opacity:.6;transition:opacity .2s}.help-btn:active,.help-btn:hover{opacity:1}.help-btn,.help-btn.talking{animation:none;box-shadow:0 5px 0 var(--ink)}.help-btn .help-waves{display:none}.help-btn .help-face{content:url(/a/i/sensei_face_idle.webp)}`}</style>
       <video key={shot} ref={videoRef} src={SHOTS[shot].video} muted playsInline preload="auto" className="fade-in" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
       <div style={{ position: "absolute", right: 24, top: 24, display: "flex", gap: 14, alignItems: "center" }}>
         {/* grown-ups setting up a second child have seen it: skip the whole film */}

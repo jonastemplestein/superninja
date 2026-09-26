@@ -22,7 +22,7 @@ export const STORIES: Story[] = [
       fork: "a forest clearing with a deep round hole in the ground on one side and a little woven straw mat on the other side, with calm, simple scenery on the left third of the picture",
       pit: "looking down into a round hole in the ground where a chubby panda is curled up fast asleep and snoring with a bubble, funny",
       mat: "a little woven straw mat in a forest clearing with a big round clay cooking pot sitting on it, glowing slightly",
-      feast: "three happy pandas feasting on dumplings from a big clay pot at a table in the bamboo village, a glowing pink blossom petal floating above the pot, celebration",
+      feast: "three happy pandas feasting on dumplings from a big clay pot at a table in the bamboo village, a glowing rainbow teardrop-shaped sound petal floating above the pot, celebration",
     },
     pages: [
       { id: "1", kind: "narr", scene: "village", hero: "idle", text: "In Bamboo Village, the pandas were having a terrible day. Baron Muddle had pinched their lunch pot and hidden it! But Super Ninja had a clue..." },
@@ -45,7 +45,7 @@ export const STORIES: Story[] = [
       trail: "a trail of little brown feathers on a grassy hill path in soft fog, leading to two places: a cosy den made of branches and a pig sty with a pig, with calm, simple scenery on the left third of the picture",
       pigsty: "a muddy pig pen with a big pink pig sitting in the mud grinning, holding a feather in its mouth, funny",
       den: "inside a cosy den made of branches and blossom where a small brown hen sits in a nest, looking relieved",
-      home: "a happy brown hen back at her little hen house on a sunny blossom hill, the fog gone, a golden egg cracked open with a glowing pink blossom petal rising out of it",
+      home: "a happy brown hen back at her little hen house on a sunny blossom hill, the fog gone, a golden egg cracked open with a glowing rainbow teardrop-shaped sound petal rising out of it",
     },
     pages: [
       { id: "1", kind: "narr", scene: "hills", hero: "idle", text: "Up on Blossom Hills lived a little hen called Peg. One morning, Baron Muddle blew a big grey fog over the hills, and poor Peg got lost!" },
@@ -69,7 +69,7 @@ export const STORIES: Story[] = [
       top: "the top of a snowy hill with an open wooden box on one side and a big sparkly spider web between two rocks on the other side, with calm, simple scenery on the left third of the picture",
       web: "a big frosty spider web between rocks with a funny fluffy mountain spider waving hello",
       box: "an open wooden box in the snow with a shiny golden cow bell on a red ribbon inside",
-      reunion: "a fluffy baby yak wearing a golden bell nuzzling its big mum yak in a snowy meadow, the mist clearing, a glowing pink blossom petal tied to the bell ribbon",
+      reunion: "a fluffy baby yak wearing a golden bell nuzzling its big mum yak in a snowy meadow, the mist clearing, a glowing rainbow teardrop-shaped sound petal tied to the bell ribbon",
     },
     pages: [
       { id: "1", kind: "narr", scene: "mountain", hero: "idle", text: "High in the Misty Mountains lived a little yak called Rex. Baron Muddle had pinched Rex's bell, so now his mum couldn't find him in the mist!" },
@@ -91,7 +91,7 @@ export const STORIES: Story[] = [
       plan: "a river bank with a big fallen log, sticks, twigs and a belt lying on the grass, with calm, simple scenery on the left third of the picture",
       jam: "a messy splat of sticky red jam dripping off a log, a frog looking disgusted, funny",
       log: "a small green frog in a straw hat sitting on a floating log drifting down a turquoise river with koi fish, sunny, with calm, simple scenery on the left third of the picture",
-      far: "the far bank of a river where a frog in a straw hat hops happily, and a glowing pink blossom petal rests on a lily pad",
+      far: "the far bank of a river where a frog in a straw hat hops happily, and a glowing rainbow teardrop-shaped sound petal rests on a lily pad",
     },
     pages: [
       { id: "1", kind: "narr", scene: "bank", hero: "idle", text: "On Dragon River, Frog wanted to get to the other side, to visit his gran. But Baron Muddle had smashed all the stepping stones!" },
@@ -111,7 +111,7 @@ export const STORIES: Story[] = [
       hall: "a spooky-but-cute purple castle hall with glowing lanterns, and on a big black rock in the middle sits a wooden treasure chest with a swirly purple lock, with calm, simple scenery on the left third of the picture",
       lock: "a close-up of a wooden treasure chest with a big swirly purple magic padlock, sparkles, with calm, simple scenery on the left third of the picture",
       kick: "a treasure chest still firmly shut with a comic dust cloud and stars around it",
-      open: "a wooden treasure chest bursting open with hundreds of glowing pink blossom petals whooshing out like a pink snowstorm in a purple castle hall",
+      open: "a wooden treasure chest bursting open with hundreds of glowing rainbow-coloured teardrop-shaped sound petals whooshing out like a rainbow snowstorm in a purple castle hall",
     },
     pages: [
       { id: "1", kind: "narr", scene: "hall", hero: "idle", text: "Deep inside Shadow Castle, Baron Muddle kept his treasure chest, stuffed full of stolen sound petals. Super Ninja crept in through a window..." },
@@ -129,7 +129,7 @@ export const STORIES: Story[] = [
   {
     id: "s6", world: 6, maxUnit: 12, title: "The Last Petal",
     scenes: {
-      peak: "the top of a golden sky temple on the clouds, where the villain Baron Muddle: a dark charcoal-green toad sorcerer with glowing red eyes, a jagged black iron crown and a torn black and crimson cloak sits all alone on the steps looking sad, holding one glowing pink petal, with calm, simple scenery on the left third of the picture",
+      peak: "the top of a golden sky temple on the clouds, where the villain Baron Muddle: a dark charcoal-green toad sorcerer with glowing red eyes, a jagged black iron crown and a torn black and crimson cloak sits all alone on the steps looking sad, holding one glowing rainbow teardrop-shaped sound petal, with calm, simple scenery on the left third of the picture",
       talk: "the villain Baron Muddle: a dark charcoal-green toad sorcerer with glowing red eyes, a jagged black iron crown and a torn black and crimson cloak sniffing sadly, a tear in his eye, on golden temple steps in the clouds, with calm, simple scenery on the left third of the picture",
       snail: "a cosy storybook-style picture of a smiling snail slowly crossing a sunny garden path, drawn as if it is the picture inside a story book",
       goat: "a cosy storybook-style picture of a cheeky goat nibbling a coat on a washing line, drawn as if it is the picture inside a story book",

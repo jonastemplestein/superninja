@@ -1,4 +1,4 @@
-// The Sound Flower: 44 petals, one per sound of English (Southern British). Inside each petal is one gem per
+// The World Flower: 44 petals, one per sound of English (Southern British). Inside each petal is one gem per
 // spelling of that sound, following the published Sounds~Write progression (Initial + Extended Code).
 // A gem is "in play" once the game has words that use that spelling; the rest are shown as future gems.
 import { PHONEMES, UNITS, WORDS, type PhonemeId } from "./phonics";

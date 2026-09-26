@@ -1,0 +1,14 @@
+{
+  // Preview channel: the newest working build, for trying things before a release (scripts/preview.sh).
+  // Production (wrangler.jsonc) stays on the last release.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "super-ninja-next",
+  "account_id": "05958bb7b57a2ac7eb5d3906fd3cf8bb",
+  "compatibility_date": "2026-09-01",
+  "routes": [{ "pattern": "next.superninja.templestein.com", "custom_domain": true }],
+  "workers_dev": false,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

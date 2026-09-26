@@ -1,0 +1,156 @@
+/* Sound Swap (src/scenes/Swap.tsx). Stage px (1280×720). Layout contract: docs/HERO.md.
+   Ninja bottom-left (x 0-330, y 380-720), Sensei's Help bottom-right with the caption bubble above him.
+   The picture, the word and the new spellings share one centre line (x 640); Baron Muddle stands top-right. */
+
+/* ---------- Baron Muddle, top-right (clear of the help corner) */
+.swap-baron { position: absolute; right: 30px; top: 64px; width: 196px; height: 174px; z-index: 6; pointer-events: none; transform-origin: 50% 100%; }
+.swap-baron-in { position: relative; width: 100%; height: 100%; animation: floaty 3s ease-in-out infinite; }
+.swap-baron img { display: block; width: 100%; transform-origin: 50% 90%; filter: drop-shadow(0 10px 8px rgba(43, 29, 20, 0.3)); }
+/* a star bonks him: squash, flash, wobble, and dizzy stars circle his crown */
+.swap-baron.bonk img { animation: swap-baron-bonk 0.8s cubic-bezier(0.2, 0.9, 0.3, 1) both; }
+@keyframes swap-baron-bonk {
+  0% { transform: none; filter: drop-shadow(0 10px 8px rgba(43, 29, 20, 0.3)) brightness(1); }
+  10% { transform: translate(26px, 6px) rotate(14deg) scale(1.1, 0.86); filter: drop-shadow(0 10px 8px rgba(43, 29, 20, 0.3)) brightness(2.2) saturate(0.4); }
+  32% { transform: translate(-10px, 0) rotate(-7deg) scale(0.95, 1.06); filter: drop-shadow(0 10px 8px rgba(43, 29, 20, 0.3)) brightness(1); }
+  55% { transform: translate(5px, 0) rotate(4deg) scale(1.02, 0.98); }
+  78% { transform: translate(-2px, 0) rotate(-2deg); }
+  100% { transform: none; }
+}
+.swap-baron.bonk .swap-baron-in::after {
+  content: "★ ★ ★"; position: absolute; left: 24%; top: -8%; width: 56%; text-align: center; white-space: nowrap;
+  font-family: var(--font-display); font-size: 30px; letter-spacing: 2px; color: #ffe38a; -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill;
+  animation: swap-dizzy 0.7s linear infinite, swap-dizzy-out 1.4s ease-in both;
+}
+@keyframes swap-dizzy { 0% { transform: scaleX(1) translateX(0); } 25% { transform: scaleX(0.5) translateX(8px); } 50% { transform: scaleX(-1) translateX(0); } 75% { transform: scaleX(-0.5) translateX(-8px); } 100% { transform: scaleX(1) translateX(0); } }
+@keyframes swap-dizzy-out { 0%, 75% { opacity: 1; } 100% { opacity: 0; } }
+/* the last word is fixed: he winds up, then runs off the top-right in a huff */
+.swap-baron.flee { animation: swap-baron-flee 0.95s cubic-bezier(0.55, -0.35, 0.75, 0.6) forwards; }
+@keyframes swap-baron-flee {
+  0% { transform: none; opacity: 1; }
+  22% { transform: translate(-26px, 12px) rotate(-6deg) scale(1.06, 0.9); opacity: 1; }
+  100% { transform: translate(430px, -300px) rotate(38deg) scale(0.45); opacity: 0; }
+}
+
+/* ---------- the picture (it goes wobbly and muddled while a sound is missing). A new word turns the card over. */
+.swap-card { z-index: 3; transition: filter 0.3s; animation: swap-card-turn 0.55s cubic-bezier(0.3, 1.45, 0.6, 1) both; }
+@keyframes swap-card-turn {
+  from { transform: perspective(900px) rotateY(-95deg) scale(0.86); }
+  to { transform: perspective(900px) rotateY(0deg) scale(1); }
+}
+/* a word with no picture (am, at, it...): the card is a speaker that sends out sound waves, so it reads as "listen" */
+.swap-card.hear-card .hear-wave { position: relative; overflow: visible; }
+.swap-card.hear-card .hear-wave::before,
+.swap-card.hear-card .hear-wave::after {
+  content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 6px solid #ffc53d; pointer-events: none;
+  animation: swap-ripple 1.8s ease-out infinite;
+}
+.swap-card.hear-card .hear-wave::after { animation-delay: 0.9s; }
+@keyframes swap-ripple { from { scale: 1; opacity: 0.9; } to { scale: 1.75; opacity: 0; } }
+.swap-card.hear-card.muddled .hear-wave::before, .swap-card.hear-card.muddled .hear-wave::after { animation-play-state: paused; opacity: 0; }
+/* the card is wider than tall: pin the picture inside it (a percentage height against the grid's auto row overflows) */
+.swap-card img { position: absolute; inset: 7%; width: 86%; height: 86%; object-fit: contain; transition: filter 0.3s, opacity 0.3s; }
+.swap-card.muddled { animation: swap-muddle 1.2s ease-in-out infinite; filter: saturate(0.6); }
+.swap-card.muddled img { filter: blur(2px) hue-rotate(-30deg); opacity: 0.7; }
+@keyframes swap-muddle { 0%, 100% { rotate: -3deg; scale: 0.97; } 50% { rotate: 3deg; scale: 1; } }
+.swap-swirl { position: absolute; z-index: 4; pointer-events: none; display: grid; place-items: center; animation: swap-swirl-in 0.35s cubic-bezier(0.3, 1.6, 0.6, 1) both; }
+.swap-swirl svg { width: 78%; height: 100%; overflow: visible; animation: swap-swirl-spin 2.4s linear infinite; filter: drop-shadow(0 0 10px rgba(180, 140, 255, 0.9)); }
+.swap-swirl svg.b { position: absolute; width: 46%; animation-duration: 1.5s; animation-direction: reverse; opacity: 0.85; }
+@keyframes swap-swirl-in { from { scale: 0.2; opacity: 0; rotate: -120deg; } to { scale: 1; opacity: 1; rotate: 0deg; } }
+@keyframes swap-swirl-spin { to { rotate: 360deg; } }
+
+.swap-hear { position: absolute; left: 786px; top: 124px; z-index: 6; }
+
+/* ---------- the word (tiles end at y 402, their sound buttons by 426): tap the sound that changes */
+.swap-word { position: absolute; left: 640px; top: 270px; translate: -50% 0; width: max-content; height: 132px; z-index: 5; }
+.swap-cell { position: relative; transition: translate 0.22s cubic-bezier(0.3, 1.6, 0.6, 1); }
+/* the chosen sound lifts and trembles: the ninja is coming for it */
+.swap-cell.target { translate: 0 -22px; }
+.swap-cell.target .tile { animation: swap-brace 0.16s ease-in-out infinite alternate; }
+@keyframes swap-brace { from { rotate: -4deg; } to { rotate: 3deg; } }
+/* the gap where the old spelling was */
+.swap-gap { border-color: var(--gold-deep); box-shadow: inset 0 4px 0 rgba(43, 29, 20, 0.15), 0 0 0 6px rgba(255, 197, 61, 0.45), 0 0 34px 10px rgba(255, 220, 120, 0.75); }
+/* the old spelling spins away off the top-right */
+.swap-flyout { position: absolute; inset: 0; pointer-events: none; z-index: 8; animation: swap-flyout 0.8s cubic-bezier(0.2, 0.75, 0.45, 1) forwards; }
+.swap-flyout .tile { position: absolute; left: 0; bottom: 0; width: 100%; min-width: 0; }
+@keyframes swap-flyout {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; filter: brightness(1.8); }
+  12% { transform: translate(40px, -70px) rotate(50deg) scale(1.1); opacity: 1; filter: brightness(1); }
+  80% { opacity: 1; }
+  100% { transform: translate(640px, -560px) rotate(700deg) scale(0.4); opacity: 0; }
+}
+/* the new spelling lands: the spell brings it in under the word (so it never covers the other sounds), and it shoots up
+   into the gap from there, stretched, then squashes in with a glow. --rise: px below the gap; --from: its size there.
+   It leaves at full speed (so the spell's arrival sparkle, down where it starts, never blooms over it), rises a touch
+   past the gap and drops in. The blend waits until it is still (SETTLE_MS in Swap.tsx). */
+.swap-word.rising { z-index: 7; }
+.tile.swap-rise { animation: swap-rise 0.64s linear both; }
+@keyframes swap-rise {
+  0% { translate: 0 var(--rise, 206px); scale: var(--from, 0.91) calc(var(--from, 0.91) * 1.12); box-shadow: var(--shadow-press), 0 0 0 10px #ffe38a, 0 0 44px 22px rgba(255, 220, 120, 0.95); animation-timing-function: cubic-bezier(0.2, 0.55, 0.45, 1); }
+  24% { translate: 0 -14px; scale: 0.86 1.18; animation-timing-function: ease-in; }
+  30% { translate: 0 0; scale: 1.24 0.78; animation-timing-function: ease-in-out; }
+  52% { scale: 0.92 1.1; }
+  74% { scale: 1.04 0.97; }
+  100% { translate: 0 0; scale: 1; box-shadow: var(--shadow-press), 0 0 0 0 rgba(255, 227, 138, 0), 0 0 0 0 rgba(255, 220, 120, 0); }
+}
+
+/* ---------- the new spellings: they spring up in a row along the bottom (x 340-940, clear of both corners) */
+.swap-choices { position: absolute; left: 340px; right: 340px; bottom: 30px; gap: 24px; z-index: 6; flex-wrap: nowrap; }
+.swap-choices .tile { --size: 120px; border-radius: 26px; }
+.swap-choice { display: inline-block; animation: swap-choice-in 0.5s cubic-bezier(0.3, 1.6, 0.6, 1) calc(var(--i) * 80ms + 40ms) both; }
+@keyframes swap-choice-in {
+  from { scale: 0.2; translate: 0 110px; rotate: -24deg; opacity: 0; }
+  50% { opacity: 1; }
+  to { scale: 1; translate: 0 0; rotate: 0deg; opacity: 1; }
+}
+.swap-choices .tile.carried { opacity: 0; transition: none; }
+
+/* ---------- stars and a shockwave burst out from BEHIND the new letter and the new picture (Halo in Swap.tsx): they
+   sit under them in the stacking order, so they only ever show around the edges, never over what the child reads */
+.swap-halo { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.swap-halo > * { z-index: 1; } /* the stars fly over the glow */
+.swap-halo.word { z-index: -1; } /* behind every tile of the word (.swap-word is the stacking context) */
+.swap-card-halo { position: absolute; z-index: 2; pointer-events: none; } /* behind the card (z 3) */
+/* a shockwave in the thing's own shape, and a warm glow blooming behind it */
+.swap-halo::before, .swap-halo::after {
+  content: ""; position: absolute; left: calc(var(--rw) * -1); top: calc(var(--rh) * -1); width: calc(var(--rw) * 2); height: calc(var(--rh) * 2);
+  box-sizing: border-box; border-radius: var(--rr);
+}
+.swap-halo::before {
+  border: 14px solid #ffc53d;
+  box-shadow: 0 0 0 4px #fff4dc, 0 0 30px 10px rgba(255, 200, 80, 0.85), inset 0 0 0 4px #fff4dc, inset 0 0 22px 8px rgba(255, 244, 220, 0.8);
+  animation: swap-halo-ring 0.7s cubic-bezier(0.1, 0.7, 0.3, 1) var(--d) both;
+}
+@keyframes swap-halo-ring {
+  0% { scale: 1.02; opacity: 0; }
+  8% { opacity: 1; }
+  60% { opacity: 0.8; }
+  100% { scale: 1.8; opacity: 0; border-width: 4px; }
+}
+.swap-halo::after {
+  scale: 1.6; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 250, 225, 0.95), rgba(255, 214, 110, 0.75) 45%, rgba(255, 197, 61, 0) 100%);
+  animation: swap-halo-glow 0.9s ease-out var(--d) both;
+}
+@keyframes swap-halo-glow {
+  0% { scale: 0.9; opacity: 0; }
+  12% { scale: 1.7; opacity: 1; }
+  100% { scale: 2.1; opacity: 0; }
+}
+.swap-halo svg {
+  position: absolute; left: calc(var(--s) / -2); top: calc(var(--s) / -2); width: var(--s); height: var(--s); overflow: visible;
+  animation: swap-halo-star 0.85s cubic-bezier(0.15, 0.75, 0.35, 1) var(--d) both;
+}
+@keyframes swap-halo-star {
+  0% { translate: 0 0; scale: 0.5; rotate: var(--r); opacity: 0; }
+  8% { opacity: 1; }
+  55% { translate: var(--x) var(--y); scale: 1; opacity: 1; }
+  100% { translate: calc(var(--x) * 1.12) calc(var(--y) * 1.12 + 16px); scale: 0.2; rotate: calc(var(--r) + 140deg); opacity: 0; }
+}
+
+/* a choice tapped while the ninja powers up: kept, lit and lifted ("got it"), and cast as soon as the power-up is done */
+.swap-choices .tile.queued {
+  background: linear-gradient(180deg, #fffbe6, #ffe39a); translate: 0 -16px;
+  box-shadow: 0 7px 0 var(--ink), 0 0 0 6px #fff4dc, 0 0 0 13px #ffc53d, 0 0 38px 18px rgba(255, 200, 70, 0.95);
+  animation: swap-queued 0.7s ease-in-out infinite alternate;
+}
+@keyframes swap-queued { from { scale: 1; } to { scale: 1.08; } }

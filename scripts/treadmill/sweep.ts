@@ -47,6 +47,7 @@ const INTENT: Record<string, string> = {
 };
 
 interface Case { name: string; url: string; kind: string; title: string; save?: object; play: boolean }
+const IS_LEVEL = new Set(LEVELS.map((l) => l.id));
 const cases: Case[] = [
   ...LEVELS.map((l) => ({ name: l.id, url: `/play/?level=${l.id}`, kind: l.kind, title: `${WORLDS[l.world - 1].name} ${l.id} (${l.kind})`, play: true })),
   { name: "training", url: "/play/?scene=training", kind: "training", title: "Training", save: save({ seenTraining: false }), play: true },
@@ -56,7 +57,8 @@ const cases: Case[] = [
 
 // ---------------------------------------------------------------- in-page checks
 type Issue = { kind: string; sel: string; detail: string };
-function pageChecks(): Issue[] {
+/** `level`: the case is a level, where the ninja always stands in the ninja zone (docs/HERO.md). */
+function pageChecks(opts: { level?: boolean } = {}): Issue[] {
   const out: Issue[] = [];
   const W = innerWidth, H = innerHeight;
   const name = (el: Element) => {
@@ -64,6 +66,12 @@ function pageChecks(): Issue[] {
     const c = (el.className && typeof el.className === "string" ? "." + el.className.trim().split(/\s+/).slice(0, 2).join(".") : "");
     const t = !a && !c ? (el.textContent ?? "").trim().slice(0, 24) : "";
     return `${el.tagName.toLowerCase()}${c}${a ? `[aria-label="${a}"]` : ""}${t ? `("${t}")` : ""}`;
+  };
+  // still popping in (a finite animation on it or a parent is running): its size isn't final yet
+  const settling = (el: Element) => {
+    for (let e: Element | null = el; e && e !== document.body; e = e.parentElement)
+      if (e.getAnimations().some((a) => a.playState === "running" && Number.isFinite(a.effect?.getComputedTiming().endTime as number))) return true;
+    return false;
   };
   const visible = (el: Element) => {
     const s = getComputedStyle(el);
@@ -83,12 +91,29 @@ function pageChecks(): Issue[] {
     if (scrolls && (r.bottom > H || r.top < 0)) continue;
     if (r.right < 4 || r.bottom < 4 || r.left > W - 4 || r.top > H - 4) out.push({ kind: "offscreen", sel: n, detail: `rect ${r.left | 0},${r.top | 0} ${r.width | 0}×${r.height | 0}` });
     else if (r.left < 0 || r.right > W || r.bottom > H) out.push({ kind: "clipped-target", sel: n, detail: `extends past the screen edge (${r.left | 0},${r.top | 0} ${r.width | 0}×${r.height | 0})` });
-    if (!adult && Math.min(r.width, r.height) < 40) out.push({ kind: "tiny-target", sel: n, detail: `${r.width | 0}×${r.height | 0}px on a phone (want ≥ 44)` });
+    if (!adult && Math.min(r.width, r.height) < 40 && !settling(el)) out.push({ kind: "tiny-target", sel: n, detail: `${r.width | 0}×${r.height | 0}px on a phone (want ≥ 44)` });
     if (r.left < 16 || r.right > W - 16) out.push({ kind: "edge-target", sel: n, detail: "within 16px of the side edge (iOS back-swipe zone)" });
     // what's actually under the centre?
     const cx = Math.min(W - 1, Math.max(0, r.left + r.width / 2)), cy = Math.min(H - 1, Math.max(0, r.top + r.height / 2));
     const top = document.elementFromPoint(cx, cy);
     if (top && top !== el && !el.contains(top) && !top.contains(el) && !top.closest("[data-tap-proxy]")) out.push({ kind: "covered-target", sel: n, detail: `centre is covered by ${name(top)}` });
+  }
+  // zone conflicts (docs/HERO.md layout contract, stage coordinates 1280×720): nothing to tap in the ninja zone
+  // (bottom-left, where the player's ninja stands in every level) or the help zone (bottom-right, Sensei's Help button)
+  const stage = document.querySelector(".stage");
+  if (stage) {
+    const sr = stage.getBoundingClientRect();
+    const sc = sr.width / 1280;
+    const ninjaZone = !!opts.level || !!document.querySelector(".ninja-spot");
+    for (const el of targets) {
+      if (el.getAttribute("aria-label") === "Help" || el.closest("[data-tap-proxy]")) continue;
+      const r = el.getBoundingClientRect();
+      const x = (r.left + r.width / 2 - sr.left) / sc, y = (r.top + r.height / 2 - sr.top) / sc;
+      const inNinja = ninjaZone && x >= 0 && x <= 330 && y >= 380 && y <= 720;
+      const inHelp = x >= 1116 && x <= 1280 && y >= 556 && y <= 720;
+      if (inNinja || inHelp)
+        out.push({ kind: "zone-conflict", sel: name(el), detail: `centre at stage ${x | 0},${y | 0} is in the ${inNinja ? "ninja zone (x 0-330, y 380-720)" : "help zone (x 1116-1280, y 556-720)"}` });
+    }
   }
   for (let i = 0; i < targets.length; i++)
     for (let j = i + 1; j < targets.length; j++) {
@@ -111,7 +136,7 @@ function pageChecks(): Issue[] {
 }
 
 const SEV: Record<string, Finding["severity"]> = {
-  "crash-screen": "blocker", pageerror: "blocker", stuck: "blocker", "did-not-finish": "major", "covered-target": "major", offscreen: "major",
+  "crash-screen": "blocker", pageerror: "blocker", stuck: "blocker", "did-not-finish": "major", "covered-target": "major", offscreen: "major", "zone-conflict": "major",
   "broken-image": "major", "junk-text": "major", "overlapping-targets": "major", "clipped-target": "minor", "tiny-target": "minor",
   "edge-target": "minor", "text-overflow": "minor", "console-error": "minor", "monkey-crash": "blocker",
 };
@@ -141,10 +166,18 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
   let lastSig = "", lastChange = Date.now(), lastFrame = -1e9, ok = false, ticks = 0;
   const frame = async (why = "") => {
     const t = Date.now() - t0;
+    if (t < 500 && !why) return ""; // the screen is still fading in
     const file = `f_${String(meta.frames.length).padStart(2, "0")}${why ? "_" + why : ""}.png`;
     await page.screenshot({ path: `${dir}/${file}` }).catch(() => {});
-    const info = await page.evaluate(() => ({ st: (window as any).__snState ?? null, cap: document.querySelector(".bubble")?.textContent ?? "" })).catch(() => ({ st: null, cap: "" }));
-    meta.frames.push({ file, t, snState: info.st, caption: info.cap });
+    const info = await page
+      .evaluate(() => ({
+        st: (window as any).__snState ?? null,
+        cap: document.querySelector(".bubble")?.textContent ?? "",
+        // things still popping or dropping in: layout claims on this frame are unreliable (the critic is told)
+        settling: document.getAnimations().some((a) => a.playState === "running" && Number(a.effect?.getTiming().iterations) !== Infinity),
+      }))
+      .catch(() => ({ st: null, cap: "", settling: false }));
+    meta.frames.push({ file, t, snState: info.st, caption: info.cap, settling: info.settling } as CaseMeta["frames"][number]);
     return file;
   };
   while (Date.now() - t0 < (c.play ? MAX_MS : 12_000)) {
@@ -161,7 +194,7 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
       ticks++;
       if (meta.frames.length < 40 || ticks % 4 === 0) await frame(); // long levels: thin the filmstrip out
       // monkeys wander into other screens: only crash-type signals count there (layout is the deterministic bot's job)
-      const issues = (await page.evaluate(pageChecks).catch(() => [] as Issue[])).filter((i) => !monkey || ["crash-screen", "junk-text", "broken-image"].includes(i.kind));
+      const issues = (await page.evaluate(pageChecks, { level: IS_LEVEL.has(c.name) }).catch(() => [] as Issue[])).filter((i) => !monkey || ["crash-screen", "junk-text", "broken-image"].includes(i.kind));
       for (const i of issues) {
         const sig = `bot:${c.name}:${i.kind}:${i.sel.replace(/\("[^"]*"\)/g, "")}`;
         if (!findings.has(sig)) {

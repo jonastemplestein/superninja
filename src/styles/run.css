@@ -1,0 +1,23 @@
+/* Ninja Run (src/scenes/Run.tsx).
+   Layout contract (docs/HERO.md, stage 1280×720): the runner's own ninja is drawn on the canvas, 200 px wide, at
+   x ≈ 135-335 with its feet on the run's ground line (y ≈ 620 rather than the 700 of <NinjaSpot/>: the earth strip
+   below the grass is part of the painting), inside the ninja zone (x 0-330, y 380-720). Sensei's Help button owns the
+   bottom-right corner and the caption bubble sits above it (bottom 158, so it reaches up to about y 436). The lanterns
+   hang between y ≈ 170 and 440, clear of the bubble, and come to rest at x ≈ 420-990 (three) or 660-990 (two) while
+   Sensei speaks; a tapped lantern further right than x 860 is pulled to the ninja, so every hit lands well clear of the
+   right edge. The word to read sits under the progress bar (y ≈ 88-185). The whole canvas is the tap-to-jump area; only
+   the buttons along the top and Sensei take other taps. On the canvas, lanterns still in play are drawn over the ninja
+   and its streak flames, aura and "?" cloud, so nothing covers a word or picture the child still has to read; only
+   while it flies at the lantern the child chose does the ninja pass in front of the others. */
+
+.run-scene canvas { touch-action: none; }
+
+/* "read the word": the word the child reads, under the progress bar and above the lanterns */
+.run-banner {
+  position: absolute; left: 50%; top: 88px; translate: -50% 0; z-index: 15;
+  padding: 0 40px 4px; font-family: var(--font-letters); font-weight: 700; font-size: 72px; line-height: 1.16;
+  background: linear-gradient(180deg, #fffaf0, #f6e3bb);
+}
+
+/* "hear the sounds again", beside the home button */
+.run-ear { position: absolute; left: 110px; top: 16px; z-index: 20; }

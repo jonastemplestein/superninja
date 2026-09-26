@@ -37,7 +37,7 @@ trailer/trailer.config.ts ──► generate ──► cards ──► segments 
 |---|---|---|---|
 | layout | `scripts/trailer/lib.ts` | Lays the shots end to end on a frame-accurate 30 fps timeline. Every time in the config is relative to a shot. | — |
 | generate | `generate.ts`, `providers.ts` | Makes every model asset the config names: start frames (Nano Banana Pro), shots (Gemini Omni 1.1 Flash), voice lines (Gemini TTS / ElevenLabs v3), the score (ElevenLabs Music v2 composition plan) and synthesised SFX. | `assets-src/trailer/cache/<kind>/<id>-<hash>`. The hash covers the full recipe, including the contents of reference images. Change a prompt and only that asset regenerates. |
-| cards | `cards.ts`, `trailer/cards/card.html` | Motion-graphics title cards. They are an HTML/canvas page whose animation is a pure function of `t`; Playwright calls `seek(t)` and screenshots every frame. Styles: `slam`, `stamp`, `whisper`, `logo`, `url`, `flower` (the Sound Flower filling up with gems), plus the vertical `vframe` chrome. Foreground petals never cross the text. The fonts (Luckiest Guy, Baloo 2) are vendored in `trailer/fonts/`. Lines auto-shrink to fit. | `cache/cards/<shot>-<format>-<hash>/` |
+| cards | `cards.ts`, `trailer/cards/card.html` | Motion-graphics title cards. They are an HTML/canvas page whose animation is a pure function of `t`; Playwright calls `seek(t)` and screenshots every frame. Styles: `slam`, `stamp`, `whisper`, `logo`, `url`, `flower` (the World Flower filling up with gems), plus the vertical `vframe` chrome. Foreground petals never cross the text. The fonts (Luckiest Guy, Baloo 2) are vendored in `trailer/fonts/`. Lines auto-shrink to fit. | `cache/cards/<shot>-<format>-<hash>/` |
 | segments | `assemble.ts` | One H.264 segment per shot per format: in-point, speed, `zoompan` push-in or pull-out with a focus point, shake, grade, letterbox, flash or fade, card overlay. | `cache/segments/`. The key includes the size and mtime of the source file, so re-rendered game footage is picked up. |
 | mix | `mix.ts` | Four buses: score (per-shot gain automation, sidechain-ducked under voices), source audio, SFX, voices. Then a limiter and two-pass `loudnorm` to −14 LUFS / −1 dBTP. | `assets-src/trailer/build/` |
 | review | `review.ts` | One frame per shot in a contact sheet, a 1 fps strip, the shot timeline, and Gemini 3.8 Flash listening to the mix with timestamps. | `assets-src/trailer/review/` |
@@ -58,29 +58,26 @@ Everything below happens in `trailer/trailer.config.ts`.
 - **Make a new generated shot.** Add a start frame to `images` (prompt + reference sprites) and a shot to `videos` (`engine: "omni"`, `frame: "img:<id>"`, motion prompt). Then use `video: { src: "gen:<id>" }`. Check the take with the contact sheet: Omni takes are 10 s long and can drift off-model late, so choose `in` accordingly.
 - **Re-record gameplay.** Trailer footage comes from `scripts/record-clips.ts`: the `tr_*` entries record at 1920×1080 into `assets-src/trailer/clips/`. Start the dev server first with `bunx vite --port 5173`, then run `bun scripts/record-clips.ts tr_boss_baron`. The game's bot plays each scene. The recordings aren't identical run to run, so re-check in-points afterwards.
 
-## Current cut (73 s; teaser 16 s)
+## Current cut (77 s; teaser 17.6 s)
 
 | Time | Act | What happens |
 |---|---|---|
-| 0–19 s | **Cold open**, letterboxed | Sensei: "On the Island of Sounds… every petal is a sound." A thunder boom and white flash, then Baron Muddle: "Words, words, WORDS! How I HATE them!" He rips the petals off the tree: "Every sound on this island… is MINE!" The petals scatter. "Now nobody can read!" The score cuts to silence and Sensei says "We need… a Super Ninja!" |
-| 19–22 s | **Hero reveal** | A boom and flash; Kai and Suki land on the cliff with golden magic swirling (Omni shot). |
-| 22–47 s | **Build** | Slam cards and 1080p gameplay, with cuts shortening from 2.9 s to 0.5 s: MASTER EVERY SOUND (the Dojo), LISTEN. SPELL. CAST! (spell battles, "…spell your strongest spells!"), RUN! JUMP! READ! (Ninja Run in three worlds), READ MAGICAL STORIES (a story page, Sound Swap). Then BEAT THE BARON'S BOSSES: sumo panda, oni, yeti, river serpent and samurai knight at 0.8 s down to 0.5 s. Then a Gem Trial, and the **Sound Flower card**: the game's teardrop petals charge and glow one by one, accelerating to a burst, with "You won the gem!" |
-| 47–63 s | **Showdown** | A hush, then Baron in close-up: "You have come far… little ninja." THE FINAL SHOWDOWN, and the score erupts. The golden and purple magic clash ("You dare to fight ME?"), rapid Baron-battle gameplay, then Baron flops over dizzy, the petals stream home and the tree blooms. |
+| 0–23 s | **Cold open**, letterboxed, cut from the intro film's takes | Sensei: "On the Island of Sounds… grows the World Flower." A petal's light falls into a book: "Every petal is a sound." A thunder boom and white flash, then Baron Muddle, facing Sensei and lip-synced: "Words, words, WORDS! How I HATE them!" In one continuous lip-synced take his fan tears the rainbow petals off the World Flower: "Every sound on this island is MINE! Mwa-ha-ha!" The petals scatter over the island. The flower goes dark over the cowering islanders: "Now nobody can read!" The score cuts to silence as Sensei turns to the viewer: "We need… a Super Ninja!" |
+| 21–24 s | **Hero reveal** | A boom and flash; Kai and Suki land on the hilltop in front of the dark World Flower with golden magic swirling (Omni shot). |
+| 22–47 s | **Build** | Slam cards and 1080p gameplay, with cuts shortening from 2.9 s to 0.5 s: MASTER EVERY SOUND (the Dojo), LISTEN. SPELL. CAST! (spell battles, "…spell your strongest spells!"), RUN! JUMP! READ! (Ninja Run in three worlds), READ MAGICAL STORIES (a story page, Sound Swap). Then BEAT THE BARON'S BOSSES: sumo panda, oni, yeti, river serpent and samurai knight at 0.8 s down to 0.5 s. Then a Gem Trial, and the **World Flower card**: the game's teardrop petals charge and glow one by one, accelerating to a burst, with "You won the gem!" |
+| 47–63 s | **Showdown** | A hush, then Baron in close-up: "You have come far… little ninja." THE FINAL SHOWDOWN, and the score erupts. The golden and purple magic clash ("You dare to fight ME?"), rapid Baron-battle gameplay, then Baron flops over dizzy, the petals stream home and the World Flower blooms again. |
 | 63–73 s | **Title** | The SUPER NINJA logo slams in with "READ. SPELL. SAVE THE ISLAND." and superninja.templestein.com, and the narrator reads the same line. A Baron button follows ("This is not over, ninja… I will be back!", the game's own take). The end card shows PLAY NOW, the URL, and "The phonics adventure for children aged 3 to 8". |
 
 The teaser is `o_baron` + `r_hero` + four bosses + the first clash + the logo card.
 
-## Rebuild when the Sensei assets change
+## Rebuild when the intro film or the World Flower art changes
 
-Sensei Maple is being redesigned as a female red panda master. The trailer references her art by path:
-- `public/media/intro_{1..7}_sound.mp4` (cold open)
-- `public/a/i/sensei_cheer.webp` (the "TRAIN WITH SENSEI MAPLE" card)
+The trailer references this art by path, so a rebuild picks up new versions (the segment cache is keyed on file mtime and size):
+- the intro film's chosen takes, `assets-src/intro-v3/shot{1..7}_raw.mp4` (cold open), and the finale take `assets-src/intro-v3/finale_raw.mp4` (x_bloom);
+- the World Flower model sheet, `assets-src/world-flower/world_flower_{destroyed,partial}.png`. The generated hero, clash and win shots use it as a reference, so changing it regenerates them;
+- `public/a/i/sensei_cheer.webp` (the "MASTER EVERY SOUND" card).
 
-**Once the updated Sensei sprites and intro shots are in, rebuild the trailer** (`bun scripts/trailer/build.ts`). The segment cache is keyed on file mtime and size, so exactly the affected shots re-render. If the new intro shots have different timing, re-check the `in` points of the `o_*` shots in the contact sheet.
-- The regenerated intro shots and the female Sensei sprite (on 25 Sep, 21:28) are already in the current render.
-- If any Sensei asset changes again, rebuild. If the intro takes change length, re-pick the `in` points: a shot that runs past the end of its source freezes on the last frame. That is safe, but it looks static.
-
-No generated trailer shot contains Sensei.
+The in-points are on each raw take's own timeline (before the intro film's slow-motion retiming). Shots 3 and 4 are lip-synced (docs/INTRO_STORYBOARD.md, "Lip-sync"): never change their `speed`, and place Baron's line at the shot's in-point. `film_3` goes at 0.419 s minus `in`; `film_4_mine` is the game's `film_4` from file time `in` minus 0.2 s. If a take is replaced, re-check them in the contact sheet. The Baron close-up (x_baron) is a frozen earlier Omni take, `assets-src/trailer/shots/baron.mp4`, so it never regenerates by accident.
 
 ## Output sizes
 

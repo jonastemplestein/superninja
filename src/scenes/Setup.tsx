@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { img, tapProps, heroImg, useHelp } from "../ui/ui";
 import { sfx, unlockAudio } from "../engine/audio";
+import { store } from "../engine/store";
 
 export const isIOS = () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 export const isAndroid = () => /Android/i.test(navigator.userAgent);
@@ -52,8 +53,10 @@ export function Setup({ onDone }: { onDone: () => void }) {
   return (
     <div className="scene" style={{ background: "radial-gradient(ellipse at 30% 20%, #3b2463, #1d1230 70%)" }}>
       <img className="bg-img" src={img("title_bg")} alt="" style={{ filter: "blur(6px) brightness(.45)" }} />
-      <img className="sprite bob" src={heroImg("suki", "cheer")} alt="" style={{ right: 40, bottom: 20, width: 250 }} />
-      <div className="panel pop-in" style={{ position: "absolute", left: 150, right: 290, top: 40, bottom: 40, padding: "30px 40px", display: "flex", flexDirection: "column", gap: 22 }}>
+      {/* the player's own ninja (Suki before anyone has chosen) cheers in the ninja zone (bottom-left); the panel stays
+          clear of Sensei's Help button (bottom-right) */}
+      <img className="sprite bob" src={heroImg(store.get().hero ?? "suki", "cheer")} alt="" style={{ left: 36, bottom: 20, width: 250 }} />
+      <div className="panel pop-in" style={{ position: "absolute", left: 312, right: 176, top: 40, bottom: 40, padding: "30px 40px", display: "flex", flexDirection: "column", gap: 22 }}>
         <div className="display" style={{ fontSize: 52, color: "#ff7aa2" }}>Grown-ups: get ready!</div>
         <div style={{ fontSize: 26, color: "var(--ink-soft)", marginTop: -12 }}>Super Ninja plays best full screen, held sideways, with the sound on.</div>
         {ios ? (

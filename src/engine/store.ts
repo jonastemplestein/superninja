@@ -12,7 +12,7 @@ export interface Save {
   energy: Record<string, number>;
   /** gems won in Gem Trials (spelling→sound keys) */
   gems: string[];
-  /** petals placed in the Sound Flower (phoneme ids) */
+  /** petals placed in the World Flower (phoneme ids) */
   placed: string[];
   /** starting point chosen by Sensei's placement game (level id); earlier levels are open */
   placedAt?: string;
@@ -27,7 +27,7 @@ export interface Save {
   spell: Record<string, Skill>;
   /** word attempts (for review selection) */
   words: Record<string, { n: number; ok: number; last: number }>;
-  petals: string[]; // spellings rescued (shown on Blossom Tree)
+  petals: string[]; // spellings rescued (shown on the World Flower)
   settings: { relaxed: boolean; music: number; captions: boolean; unlockAll: boolean };
   minutes: number;
   sessions: number;

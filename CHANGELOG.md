@@ -8,6 +8,9 @@
 - The opening film is re-cut so the pictures match the words, and the pandas match the rest of the game.
 - Grown-ups can jump ahead to "end of Reception", "end of Year 1" or "end of Year 2".
 - The Sound Flower and Word Book are introduced step by step, in words little children know.
+- The story now centres on the **World Flower**: a magical flower of 44 rainbow sound petals at the heart of the island. Baron Muddle blows it apart, and every petal a child wins helps it bloom again.
+- A new 8-shot opening film: the island thriving, Baron's storm, petals scattered across the lands, frightened islanders, and Sensei calling on the Super Ninjas.
+- The World Flower screen is now a swipeable ninja scroll with big petals. Sounds not yet met are hidden in mist, gems glow as they're won, and a vine shows how far you've come.
 - A new trailer, which is also the video shown when the site is shared.
 - Fixes: letters no longer wrap and overlap in "find the sound", the "how we write it" letter is big and clear, clearer pictures for pin, sand and soap, and a stronger glow when Sensei points at the answer.
 

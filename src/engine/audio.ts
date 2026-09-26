@@ -4,6 +4,7 @@ import { LINES } from "../content/lines";
 import { attachLipsync, setSpeaker } from "./lipsync";
 import { FAST } from "./fast";
 import { PHONEMES, type PhonemeId, type Seg } from "../content/phonics";
+import { STRETCHED } from "../content/stretch";
 
 let ctx: AudioContext | null = null;
 let master: GainNode, speechBus: GainNode, musicBus: GainNode, sfxBus: GainNode;
@@ -18,7 +19,7 @@ export function audioCtx(): AudioContext {
     sfxBus = ctx.createGain();
     speechBus.gain.value = 1.0;
     musicBus.gain.value = settings.music;
-    sfxBus.gain.value = 0.55;
+    sfxBus.gain.value = SFX_GAIN;
     speechBus.connect(master);
     attachLipsync(ctx, speechBus);
     musicBus.connect(master);
@@ -120,25 +121,47 @@ export type Say =
   | { gap: number }
   | { sounds: Seg[]; gap?: number; onSeg?: (i: number) => void };
 
-type CaptionListener = (c: { text: string; who: "sensei" | "baron" } | null) => void;
+type Caption = { text: string; who: "sensei" | "baron" } | null;
+type CaptionListener = (c: Caption) => void;
 const captionListeners = new Set<CaptionListener>();
 export function onCaption(fn: CaptionListener) {
   captionListeners.add(fn);
   return () => void captionListeners.delete(fn);
 }
-const emitCaption = (c: Parameters<CaptionListener>[0]) => captionListeners.forEach((f) => f(c));
+let caption: Caption = null;
+/** The caption showing right now (for a bubble that mounts mid-line, e.g. after a scene's first say()). */
+export const currentCaption = () => caption;
+const emitCaption = (c: Caption) => {
+  caption = c;
+  captionListeners.forEach((f) => f(c));
+};
 
 const lineById = new Map(LINES.map((l) => [l.id, l]));
 let speakToken = 0;
 let current: AudioBufferSourceNode | null = null;
 let speaking = 0;
+/** A target sound, a blend or a modelled word is playing: what the child must hear. */
+let teaching = 0;
+const SFX_GAIN = 0.55;
 
-function duck(on: boolean) {
+/** Mix: music ducks under speech; sound effects duck a little under any speech and right down under a target sound or
+ *  word, so no scene's impact or whoosh can land on the sound the child is learning. While the phone is upright the
+ *  game's sound effects are silent (the turn-your-phone prompt plays its own through sfxOver). */
+function mix() {
   if (!musicBus) return;
-  speaking += on ? 1 : -1;
   const t = audioCtx().currentTime;
   musicBus.gain.cancelScheduledValues(t);
   musicBus.gain.setTargetAtTime(speaking > 0 ? settings.music * 0.35 : settings.music, t, 0.15);
+  sfxBus.gain.cancelScheduledValues(t);
+  sfxBus.gain.setTargetAtTime(gate ? 0 : teaching > 0 ? SFX_GAIN * 0.15 : speaking > 0 ? SFX_GAIN * 0.5 : SFX_GAIN, t, 0.03);
+}
+function duck(on: boolean) {
+  speaking = Math.max(0, speaking + (on ? 1 : -1));
+  mix();
+}
+function teach(on: boolean) {
+  teaching = Math.max(0, teaching + (on ? 1 : -1));
+  mix();
 }
 
 function playBuffer(buf: AudioBuffer, bus: GainNode, rate = 1): Promise<void> {
@@ -173,16 +196,47 @@ export function hush() {
   emitCaption(null);
 }
 
+// ---------- turn-your-phone pause (RotatePrompt in ui/ui.tsx): while a phone is held upright, game speech waits at the
+// next clip, so scripted scenes pause instead of carrying on unheard. A clip that was cut off is said again afterwards.
+let gate: Promise<void> | null = null;
+let openGate: (() => void) | null = null;
+export function pauseSpeech(on: boolean) {
+  if (on && !gate) {
+    gate = new Promise<void>((r) => (openGate = r));
+    try {
+      current?.stop();
+    } catch {}
+  } else if (!on && gate) {
+    const f = openGate;
+    gate = null;
+    openGate = null;
+    f?.();
+  }
+  mix();
+}
+async function gated() {
+  while (gate) await gate;
+}
+async function playGated(buf: AudioBuffer, token: number) {
+  const before = gate;
+  await playBuffer(buf, speechBus);
+  if (gate && !before) {
+    await gated();
+    if (token === speakToken) await playBuffer(buf, speechBus);
+  }
+}
+
 /** Say a sequence of clips. A new call interrupts the previous one. Resolves when done (or interrupted). */
 export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: boolean } = {}): Promise<boolean> {
   const list = Array.isArray(items) ? items : [items];
+  if (gate) await gated();
   if (!opts.keep) hush();
   const token = ++speakToken;
   // resolve urls & start loading everything up front
   const loaders = list.map((it) => {
     if ("line" in it) return load(urls.line(it.line));
     if ("word" in it) return load(urls.word(it.word));
-    if ("stretch" in it) return load(`/a/x/${it.stretch}.mp3`).then((b) => b ?? load(urls.word(it.stretch)));
+    if ("stretch" in it) return STRETCHED.has(it.stretch) ? load(`/a/x/${it.stretch}.mp3`).then((b) => b ?? load(urls.word(it.stretch))) : load(urls.word(it.stretch));
     if ("sound" in it) return load(urls.sound(it.sound));
     if ("story" in it) return load(urls.story(it.story, it.page));
     if ("sounds" in it) return Promise.all(it.sounds.map((s) => load(urls.sound(s.p))));
@@ -196,7 +250,7 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
     if ("line" in it) {
       const l = lineById.get(it.line);
       if (l) {
-        parts.push(l.text.replace(/\.\.\.$/, ""));
+        parts.push(l.text);
         who = l.who ?? "sensei";
         hasLine = true;
       }
@@ -208,11 +262,14 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
     else if ("stretch" in it) parts.push(opts.reveal ? `“${it.stretch}”` : "🔊");
     else if ("sounds" in it && opts.reveal) parts.push(it.sounds.map((s) => `/${PHONEMES[s.p].label}/`).join(" "));
   }
-  const caption = hasLine ? parts.join(" ").replace(/ +([!?.,])/g, "$1").replace(/([/”]) ([A-Z])/g, "$1. $2") : null;
+  // a line's trailing "..." leads into what follows ("Let's think about the story... What made the Baron happy?"); at the
+  // very end it is dropped
+  const caption = hasLine ? parts.join(" ").replace(/\.\.\.$/, "").replace(/ +([!?.,])/g, "$1").replace(/([/”]) ([A-Z])/g, "$1. $2") : null;
   duck(true);
   if (caption) emitCaption({ text: caption, who });
   try {
     for (let i = 0; i < list.length; i++) {
+      if (gate) await gated();
       if (token !== speakToken) return false;
       const it = list[i];
       if ("gap" in it && !("sounds" in it)) {
@@ -223,10 +280,18 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
         setSpeaker("sensei");
         const bufs = (await loaders[i]) as (AudioBuffer | null)[];
         for (let k = 0; k < bufs.length; k++) {
+          if (gate) await gated();
           if (token !== speakToken) return false;
           it.onSeg?.(k);
           const b = bufs[k];
-          if (b) await playBuffer(b, speechBus);
+          if (b) {
+            teach(true);
+            try {
+              await playGated(b, token);
+            } finally {
+              teach(false);
+            }
+          }
           await sleep(it.gap ?? 320);
         }
         it.onSeg?.(-1);
@@ -239,7 +304,15 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
         const l = lineById.get(it.line);
         if (l && l.who !== who) emitCaption({ text: l.text, who: l.who ?? "sensei" });
       }
-      if (buf) await playBuffer(buf, speechBus);
+      const target = "sound" in it || "word" in it || "stretch" in it;
+      if (buf) {
+        if (target) teach(true);
+        try {
+          await playGated(buf, token);
+        } finally {
+          if (target) teach(false);
+        }
+      }
     }
     return token === speakToken;
   } finally {
@@ -301,6 +374,9 @@ export async function playMusic(id: string | null) {
 
 // ---------- synthesised sfx
 type Wave = OscillatorType;
+/** Where the synthesised sounds go: the sfx bus (ducked with the game), or straight out (sfxOver). */
+let out: GainNode | null = null;
+const sfxOut = () => out ?? sfxBus;
 function tone(freq: number, dur: number, opts: { type?: Wave; vol?: number; slide?: number; delay?: number; attack?: number } = {}) {
   const c = audioCtx();
   const t = c.currentTime + (opts.delay ?? 0);
@@ -312,7 +388,7 @@ function tone(freq: number, dur: number, opts: { type?: Wave; vol?: number; slid
   g.gain.setValueAtTime(0.0001, t);
   g.gain.exponentialRampToValueAtTime(opts.vol ?? 0.3, t + (opts.attack ?? 0.01));
   g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g).connect(sfxBus);
+  o.connect(g).connect(sfxOut());
   o.start(t);
   o.stop(t + dur + 0.05);
 }
@@ -333,7 +409,7 @@ function noise(dur: number, opts: { vol?: number; freq?: number; q?: number; del
   const g = c.createGain();
   g.gain.setValueAtTime(opts.vol ?? 0.3, t);
   g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  src.connect(f).connect(g).connect(sfxBus);
+  src.connect(f).connect(g).connect(sfxOut());
   src.start(t);
 }
 
@@ -392,7 +468,100 @@ export const sfx: Record<string, () => void> = {
     tone(55, 1.6, { type: "sawtooth", vol: 0.12, slide: 0.7 });
     tone(62, 1.2, { type: "square", vol: 0.05, slide: 0.6, delay: 0.1 });
   },
+  // ---- "uh-oh": two descending boops (the turn-your-phone prompt)
+  oops: () => {
+    tone(660, 0.17, { type: "triangle", vol: 0.34, slide: 0.9 });
+    tone(1320, 0.12, { type: "sine", vol: 0.06, slide: 0.9 });
+    tone(470, 0.36, { type: "triangle", vol: 0.34, slide: 0.8, delay: 0.21 });
+    tone(940, 0.28, { type: "sine", vol: 0.06, slide: 0.8, delay: 0.21 });
+  },
+  // ---- the ninja's moves (src/ui/Ninja.tsx): a sound as the move goes, and a different one as it lands
+  kick: () => {
+    noise(0.16, { vol: 0.42, freq: 500, sweep: 3800, q: 1.2 });
+    tone(170, 0.12, { type: "sine", vol: 0.12, slide: 2 });
+  },
+  thwack: () => {
+    noise(0.09, { vol: 0.55, freq: 1800, sweep: 400, q: 0.9 });
+    tone(210, 0.16, { type: "sine", vol: 0.45, slide: 0.35 });
+    tone(95, 0.22, { type: "triangle", vol: 0.25, slide: 0.6 });
+  },
+  magic: () => {
+    tone(480, 0.36, { type: "sine", vol: 0.13, slide: 3.4 });
+    tone(720, 0.36, { type: "triangle", vol: 0.06, slide: 3.4, delay: 0.03 });
+    noise(0.36, { vol: 0.12, freq: 3000, sweep: 9000, q: 3 });
+  },
+  sparkle: () => {
+    [1568, 2093, 2637, 3136].forEach((f, i) => tone(f, 0.3, { type: "sine", vol: 0.1, delay: i * 0.035 }));
+    noise(0.25, { vol: 0.14, freq: 7000, sweep: 3000, q: 1.5 });
+    tone(170, 0.22, { type: "sine", vol: 0.3, slide: 0.5 });
+  },
+  shuriken: () => {
+    noise(0.22, { vol: 0.3, freq: 5000, sweep: 9000, q: 4 });
+    tone(1400, 0.18, { type: "triangle", vol: 0.05, slide: 1.6 });
+  },
+  tink: () => {
+    tone(2400, 0.12, { type: "square", vol: 0.05, slide: 0.9 });
+    tone(3300, 0.22, { type: "sine", vol: 0.09 });
+    noise(0.06, { vol: 0.3, freq: 4000 });
+    tone(190, 0.14, { type: "sine", vol: 0.3, slide: 0.45 });
+  },
+  spin: () => {
+    noise(0.14, { vol: 0.32, freq: 600, sweep: 4000, q: 1.5 });
+    noise(0.16, { vol: 0.32, freq: 700, sweep: 4600, q: 1.5, delay: 0.13 });
+  },
+  land: () => {
+    tone(110, 0.12, { type: "sine", vol: 0.35, slide: 0.5 });
+    noise(0.12, { vol: 0.2, freq: 300, sweep: 120, q: 0.7 });
+  },
+  boom: () => {
+    noise(0.5, { vol: 0.5, freq: 320, sweep: 60, q: 0.6 });
+    tone(72, 0.5, { type: "sine", vol: 0.42, slide: 0.5 });
+    [1319, 1760, 2349].forEach((f, i) => tone(f, 0.35, { type: "sine", vol: 0.07, delay: 0.04 + i * 0.04 }));
+  },
+  powerup: () => {
+    [392, 523, 659, 784, 1047, 1319].forEach((f, i) => {
+      tone(f, 0.2, { type: "square", vol: 0.05, delay: i * 0.055 });
+      tone(f, 0.24, { type: "triangle", vol: 0.14, delay: i * 0.055 });
+    });
+    noise(0.6, { vol: 0.16, freq: 500, sweep: 8000, q: 0.8 });
+    tone(1568, 0.7, { type: "sine", vol: 0.1, delay: 0.33 });
+    tone(2093, 0.7, { type: "sine", vol: 0.08, delay: 0.36 });
+  },
+  twinkle: () => [1319, 1568, 2093].forEach((f, i) => tone(f, 0.3, { type: "sine", vol: 0.11, delay: i * 0.06 })),
+  hmm: () => {
+    tone(330, 0.14, { type: "triangle", vol: 0.12, slide: 1.05 });
+    tone(392, 0.24, { type: "triangle", vol: 0.12, slide: 1.25, delay: 0.16 });
+  },
+  fizzle: () => {
+    noise(0.4, { vol: 0.12, freq: 2000, sweep: 300, q: 0.6 });
+    tone(520, 0.3, { type: "sine", vol: 0.07, slide: 0.5 });
+  },
+  flame: () => {
+    tone(260, 0.14, { type: "sine", vol: 0.1, slide: 2.2 });
+    noise(0.12, { vol: 0.08, freq: 1200, sweep: 3000, q: 1 });
+  },
+  kiai: () => {
+    noise(0.13, { vol: 0.3, freq: 900, sweep: 1400, q: 3 });
+    tone(300, 0.13, { type: "square", vol: 0.06, slide: 1.5 });
+  },
 };
+
+/** Play a sound effect at full volume whatever the game's mix (the turn-your-phone prompt, while the game is hushed). */
+export function sfxOver(name: string) {
+  audioCtx();
+  const g = ctx!.createGain();
+  g.gain.value = SFX_GAIN;
+  g.connect(master);
+  out = g;
+  try {
+    sfx[name]?.();
+  } finally {
+    out = null;
+  }
+}
+
+/** Is a say() sequence in progress (including its gaps)? Read-only; lets the ninja wait for a quiet moment. */
+export const isSpeaking = () => speaking > 0;
 
 // log sound effects too (for landing-page clip soundtracks)
 for (const k of Object.keys(sfx)) {
