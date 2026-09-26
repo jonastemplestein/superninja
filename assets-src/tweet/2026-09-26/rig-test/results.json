@@ -1,0 +1,401 @@
+{
+ "note": "Rig tests for scripts/tweet-clips.ts, 26 Sep 2026, on the preview build, the machine busy with other workflows (load average 5\u201311 on 16 cores). Test scripts in tests/.",
+ "chosen": {
+  "capture": "CDP Page.startScreencast, JPEG q92, rebuilt to constant 30 fps (sample-and-hold, 8 ms look-ahead)",
+  "resolution": "1920x1080 = 1280x720 CSS at device scale 1.5 (--force-device-scale-factor)",
+  "renderer": "SwiftShader by default; gpu: true (ANGLE Metal) for heavy scenes"
+ },
+ "quality": {
+  "crops": [
+   "compare/crop-caption.png",
+   "compare/crop-ninja.png",
+   "compare/crop-motion-2x.png"
+  ],
+  "verdict": "cdp-1080 sharpest; pw-1080 (VP8 1 Mbps) smears under motion; both 720p soft when shown at 1080p"
+ },
+ "pacing_motion_probe": {
+  "probe-cdp-720": {
+   "repeatPct": 0.2,
+   "droppedPct": 0,
+   "onTimePct": 99,
+   "jitterPx": 1.27,
+   "load": "{ 6.03 8.46 9.04 }"
+  },
+  "probe-cdp-1080": {
+   "repeatPct": 0.2,
+   "droppedPct": 0.2,
+   "onTimePct": 93.7,
+   "jitterPx": 2.74,
+   "load": "{ 8.20 8.24 9.43 }"
+  },
+  "probe-pw-1080": {
+   "repeatPct": 16.5,
+   "droppedPct": 0.8,
+   "onTimePct": 50.4,
+   "jitterPx": 56.97,
+   "load": "{ 7.55 7.85 8.89 }"
+  }
+ },
+ "compare": {
+  "cdp-1080": {
+   "frames": {
+    "frames": 913,
+    "fps": 59.9,
+    "p50": 16.7,
+    "p95": 17.9,
+    "p99": 18.3,
+    "max": 19.7,
+    "hitches": 0,
+    "repeatedSlots": 0,
+    "slots": 457,
+    "deliveryMs": 12.5
+   },
+   "sync": {
+    "pictureLatencyMs": [
+     41.4,
+     36.4,
+     47.5,
+     38.2,
+     38.8,
+     50,
+     112.9,
+     53.4,
+     53.4,
+     41.8
+    ],
+    "audioShiftMs": 53.3,
+    "residualMs": [
+     -12.4,
+     7.6,
+     -9,
+     11.3,
+     -5.7,
+     -9.5,
+     -60,
+     4,
+     -22.8,
+     11
+    ],
+    "residualMedianMs": -7.3,
+    "residualMaxAbsMs": 60
+   }
+  },
+  "cdp-720": {
+   "frames": {
+    "frames": 920,
+    "fps": 60.1,
+    "p50": 16.6,
+    "p95": 18.5,
+    "p99": 18.7,
+    "max": 19.2,
+    "hitches": 0,
+    "repeatedSlots": 0,
+    "slots": 460,
+    "deliveryMs": 6.2
+   },
+   "sync": {
+    "pictureLatencyMs": [
+     43.5,
+     39.3,
+     45.9,
+     49.7,
+     55.1,
+     53.6,
+     64.2,
+     45.5,
+     43.6,
+     53.9
+    ],
+    "audioShiftMs": 56.5,
+    "residualMs": [
+     18.1,
+     6.1,
+     -13.1,
+     -3.9,
+     -7.7,
+     -6.6,
+     -7.7,
+     16.9,
+     2.6,
+     9.8
+    ],
+    "residualMedianMs": -0.6,
+    "residualMaxAbsMs": 18.1
+   }
+  },
+  "pw-1080": {
+   "frames": null,
+   "sync": {
+    "pictureLatencyMs": [
+     21.7,
+     87.3,
+     76,
+     39.7,
+     45.3,
+     39.7,
+     62,
+     34.7,
+     60.7,
+     43.3
+    ],
+    "audioShiftMs": 44.3,
+    "residualMs": [
+     22.6,
+     -43,
+     -32.1,
+     4.4,
+     -2,
+     4.5,
+     -18,
+     9.6,
+     -16.4,
+     0
+    ],
+    "residualMedianMs": -1,
+    "residualMaxAbsMs": 43
+   }
+  },
+  "pw-720": {
+   "frames": null,
+   "sync": {
+    "pictureLatencyMs": [
+     67.7,
+     42.3,
+     75.3,
+     67.3,
+     86.3,
+     38.7,
+     31.7,
+     60.7,
+     65.7,
+     38.3
+    ],
+    "audioShiftMs": 63.2,
+    "residualMs": [
+     -4.5,
+     20.9,
+     -14.1,
+     -4.8,
+     -23.8,
+     23.3,
+     30.6,
+     1.7,
+     -3,
+     24.5
+    ],
+    "residualMedianMs": -0.6,
+    "residualMaxAbsMs": 30.6
+   }
+  }
+ },
+ "heavy_scene": {
+  "battle-1080-gpu": {
+   "gpu": null,
+   "frames": {
+    "frames": 1028,
+    "fps": 59.4,
+    "p50": 16.6,
+    "p95": 18.4,
+    "p99": 19.9,
+    "max": 104.1,
+    "hitches": 3,
+    "repeatedSlots": 6,
+    "slots": 519,
+    "deliveryMs": 12.8
+   },
+   "shiftMs": 53.5,
+   "residualMaxAbsMs": 18.2
+  },
+  "victory-1080-gpu": {
+   "gpu": null,
+   "frames": {
+    "frames": 1018,
+    "fps": 59.1,
+    "p50": 16.6,
+    "p95": 18.1,
+    "p99": 19.7,
+    "max": 265,
+    "hitches": 1,
+    "repeatedSlots": 7,
+    "slots": 517,
+    "deliveryMs": 10
+   },
+   "shiftMs": 47.4,
+   "residualMaxAbsMs": 30.4
+  },
+  "victory-1080-q80": {
+   "gpu": null,
+   "frames": {
+    "frames": 245,
+    "fps": 14.2,
+    "p50": 69.1,
+    "p95": 83.6,
+    "p99": 93.4,
+    "max": 106.7,
+    "hitches": 244,
+    "repeatedSlots": 276,
+    "slots": 520,
+    "deliveryMs": 8.1
+   },
+   "shiftMs": 208.7,
+   "residualMaxAbsMs": 87
+  },
+  "victory-1080-q92": {
+   "gpu": null,
+   "frames": {
+    "frames": 245,
+    "fps": 14.2,
+    "p50": 69,
+    "p95": 82.1,
+    "p99": 85.3,
+    "max": 95.6,
+    "hitches": 244,
+    "repeatedSlots": 273,
+    "slots": 517,
+    "deliveryMs": 10
+   },
+   "shiftMs": 208.7,
+   "residualMaxAbsMs": 72.3
+  },
+  "victory-720-q92": {
+   "gpu": null,
+   "frames": {
+    "frames": 579,
+    "fps": 33.4,
+    "p50": 29.2,
+    "p95": 31.8,
+    "p99": 75,
+    "max": 109,
+    "hitches": 8,
+    "repeatedSlots": 13,
+    "slots": 520,
+    "deliveryMs": 4.8
+   },
+   "shiftMs": 77.1,
+   "residualMaxAbsMs": 16.9
+  }
+ },
+ "sync_taps_in_game": {
+  "master": "sync/sync-taps.master.mp4",
+  "offsetMs": {
+   "min": -29,
+   "median": -1,
+   "max": 25,
+   "mean": 1,
+   "within80": 7
+  },
+  "rows": [
+   {
+    "t": 12.644,
+    "tile": "m",
+    "sfx": "tap",
+    "visual": 12.633,
+    "audio": 12.653,
+    "offsetMs": 20
+   },
+   {
+    "t": 16.45,
+    "tile": "m",
+    "sfx": "tap",
+    "visual": 16.467,
+    "audio": 16.459,
+    "offsetMs": -7
+   },
+   {
+    "t": 20.79,
+    "tile": "i",
+    "sfx": "tap",
+    "visual": 20.8,
+    "audio": 20.799,
+    "offsetMs": -1
+   },
+   {
+    "t": 22.156,
+    "tile": "m",
+    "sfx": "tap",
+    "visual": 22.167,
+    "audio": 22.166,
+    "offsetMs": 0
+   },
+   {
+    "t": 24.428,
+    "tile": "n",
+    "sfx": "tap",
+    "visual": 24.467,
+    "audio": 24.437,
+    "offsetMs": -29
+   },
+   {
+    "t": 37.953,
+    "tile": "h",
+    "sfx": "tap",
+    "visual": 37.967,
+    "audio": 37.962,
+    "offsetMs": -4
+   },
+   {
+    "t": 39.455,
+    "tile": "i",
+    "sfx": "tap",
+    "visual": 39.467,
+    "audio": 39.491,
+    "offsetMs": 25
+   }
+  ],
+  "note": "offset = tap sfx onset minus the first frame showing the ripple (positive: sound after picture). Frames are 33 ms apart, so \u00b117 ms is quantisation."
+ },
+ "final_clip": {
+  "master": "battle.master.mp4",
+  "master_sync": {
+   "pictureLatencyMs": [
+    50.4,
+    72.3,
+    119.5,
+    76.9,
+    92.4,
+    79.4,
+    65.7,
+    65.3,
+    74.3,
+    61.7
+   ],
+   "audioShiftMs": 82,
+   "residualMs": [
+    35.9,
+    16.6,
+    -48.4,
+    -14.2,
+    -14.5,
+    -12,
+    14.2,
+    -6.7,
+    15.4,
+    17.8
+   ],
+   "residualMedianMs": 3.7,
+   "residualMaxAbsMs": 48.4
+  },
+  "master_frames": {
+   "frames": 1480,
+   "fps": 50.6,
+   "p50": 19.3,
+   "p95": 23.9,
+   "p99": 28.3,
+   "max": 118.1,
+   "hitches": 2,
+   "repeatedSlots": 4,
+   "slots": 877,
+   "deliveryMs": 15.3
+  },
+  "cut": "battle-cut.mp4 (trim(master, 10.71, 21.42))",
+  "poster": "battle-cut.jpg",
+  "video": "h264 High L41 yuv420p 1920x1080 30/1 bt709/bt709/bt709/tv",
+  "audio": "aac LC 48000 Hz 2ch 129 kb/s",
+  "loudness": {
+   "I": -16.1,
+   "TP": -2.2,
+   "LRA": 6.3
+  },
+  "alignment_vs_master": "audio 0.00 ms, video 0 frames (tests/cutalign.ts)"
+ }
+}

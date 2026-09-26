@@ -288,11 +288,21 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
   return p;
 }
 
+/** Hear every say() as it starts, with its clips (the nav layer's "last instruction" register, src/ui/nav.tsx). The
+ *  list is the caller's own array when it passed one. Returns an unsubscribe function. */
+type SayListener = (items: Say[]) => void;
+const sayListeners = new Set<SayListener>();
+export function onSay(fn: SayListener) {
+  sayListeners.add(fn);
+  return () => void sayListeners.delete(fn);
+}
+
 async function sayNow(items: Say[] | Say, opts: { keep?: boolean; reveal?: boolean }): Promise<boolean> {
   const list = Array.isArray(items) ? items : [items];
   if (gate) await gated();
   if (!opts.keep) hush();
   const token = ++speakToken;
+  sayListeners.forEach((f) => f(list));
   // resolve urls & start loading everything up front
   const loaders = list.map((it) => {
     if ("line" in it) return load(urls.line(it.line));

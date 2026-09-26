@@ -3,7 +3,9 @@
 //
 // Every warm-up game type opens with "Let me show you!": Sensei and the ninja do one item (the paw taps, the ninja
 // moves) and the child only watches. Then "Now you try!" and the child does it (the Amendment). Keep demos to ~5 s.
-// Two phases only: the full I do / we do / you do comes back from IC Unit 1.
+// Two phases only: the full I do / we do / you do comes back from IC Unit 1. Nothing moves on by itself
+// (docs/NAVIGATION.md): a demo leads straight into the child's turn, which waits (Show me again plays the demo again), and
+// where a beat ending on Sensei's show meets a beat opening with another show, the lesson holds on Next.
 //
 // Lines are Sensei's whole recorded sentences (src/content/lines.ts, "First minutes"); only pure sounds, stretched
 // words and held first sounds are spliced in, after a lead-in that ends on "..." (§12).
@@ -77,7 +79,9 @@ export const WARMUPS: Record<string, Warmup> = {
   W1: {
     key: "W1", title: "Ninja Ears", kind: "ears", targetS: 85, capS: 100,
     stickers: ["sun", "sock", "cat", "sausage", "moon"], list: "fm_rw1_list",
-    // (beat secs: what a quick child takes, measured on the first-minutes bot; the governor plans with them)
+    // (beat secs: what a quick child takes, measured on the first-minutes bot; the governor plans with them. A beat
+    // that ends on a show before a beat that opens with one (the notice here, W2's swap) holds on Next: its secs count
+    // the hold's first 1.5 s, the most a lesson clock counts of it: docs/NAVIGATION.md §3.7)
     beats: [
       { kind: "hello", secs: 3, line: "fm_l1_hello", cards: ROW3 },
       { kind: "name", secs: 4.5, cards: ROW3 },
@@ -89,7 +93,7 @@ export const WARMUPS: Record<string, Warmup> = {
       { kind: "fastslow", secs: 4.5, word: "sun", by: "child", speed: "fast", optional: true },
       // (no slow-word pick here: with the Amendment's demos it never fitted, and the governor dropped it for every
       // child; the first one is W3's, with its own demo: docs/DECISIONS.md)
-      { kind: "notice", secs: 13.5, p: "s", words: ["sun", "sock"], line: "fm_notice_sun_sock" },
+      { kind: "notice", secs: 15, p: "s", words: ["sun", "sock"], line: "fm_notice_sun_sock" },
       // tap all that start with /s/: the paw finds the sun first, then the child finds the other two
       { kind: "tapall", secs: 22.5, how: "start", p: "s", cards: ["sun", "sausage", "moon", "sock", "cat"], targets: ["sun", "sock", "sausage"], demo: "sun" },
       { kind: "done", secs: 3.5, line: "fm_l1_done" },
@@ -103,7 +107,7 @@ export const WARMUPS: Record<string, Warmup> = {
         { kind: "fastslow", secs: 15.5, word: "sun", by: "sensei", show: "full" },
         { kind: "fastslow", secs: 8.5, word: "sun", by: "child", speed: "slow", optional: true },
         { kind: "slowpick", secs: 10.5, target: "cat", options: ROW3, glowAfterMs: 2000 },
-        { kind: "notice", secs: 13.5, p: "s", words: ["sun", "sock"], line: "fm_notice_sun_sock" },
+        { kind: "notice", secs: 15, p: "s", words: ["sun", "sock"], line: "fm_notice_sun_sock" },
         { kind: "tapall", secs: 25, how: "start", p: "s", cards: ["sun", "sausage", "moon", "sock", "cat"], targets: ["sun", "sock", "sausage"], demo: "sun", spell: true },
         { kind: "done", secs: 4, line: "fm_l1_done" },
       ],
@@ -125,7 +129,7 @@ export const WARMUPS: Record<string, Warmup> = {
       { kind: "rail", secs: 12, cards: ["fish", "dog"], by: "sensei", line: "fm_read_fish_dog", after: "fm_pair_fish_dog", merge: "fishdog", demo: true, intro: "fm_l2_way" },
       { kind: "rail", secs: 10.5, cards: ["fish", "dog"], by: "child", line: "fm_l2_turn", after: "fm_pair_fish_dog", merge: "fishdog" },
       // (◇: a slower child keeps the time for their own turns; the which-did-I-read demo still shows both orders)
-      { kind: "swap", secs: 9.5, cards: ["dog", "fish"], line: "fm_l2_swap", merge: "dogfish", after: "r2_dog_fish", optional: true },
+      { kind: "swap", secs: 11, cards: ["dog", "fish"], line: "fm_l2_swap", merge: "dogfish", after: "r2_dog_fish", optional: true },
       // "Which did I read?": Sensei shows it on fish/dog (dropped when the lesson is behind: skipDemo), then the
       // child's turn on cat/dog
       {
@@ -144,7 +148,7 @@ export const WARMUPS: Record<string, Warmup> = {
         { kind: "rail", secs: 12, cards: ["fish", "dog"], by: "sensei", line: "fm_read_fish_dog", after: "fm_pair_fish_dog", merge: "fishdog", demo: true, intro: "fm_l2_way" },
         { kind: "rail", secs: 10.5, cards: ["fish", "dog"], by: "child", line: "fm_l2_turn", after: "fm_pair_fish_dog", merge: "fishdog" },
         // (optional here: "/a/ in it" needs the time, and the which demo already shows both orders)
-        { kind: "swap", secs: 9.5, cards: ["dog", "fish"], line: "fm_l2_swap", merge: "dogfish", after: "r2_dog_fish", optional: true },
+        { kind: "swap", secs: 11, cards: ["dog", "fish"], line: "fm_l2_swap", merge: "dogfish", after: "r2_dog_fish", optional: true },
         {
           kind: "which", secs: 13.5,
           demo: { rails: [["fish", "dog"], ["dog", "fish"]], answer: 0, line: "fm_read_fish_dog" },

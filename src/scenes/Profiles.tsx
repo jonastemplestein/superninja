@@ -1,16 +1,20 @@
 // "Who's playing?" — pick a player, or make a new one (typed on the real phone keyboard).
 // Every player's progress is stored separately on this device.
+// Navigation (docs/NAVIGATION.md): Home (top-left, the nav layer's) goes to the title; the name screen's way back to the
+// list is the nav row's ◀ Back, and once Sensei has asked for a grown-up's help, Hear it again says it again.
 import { useEffect, useRef, useState } from "react";
 import { profilesApi, useSave } from "../engine/store";
 import { sfx, playMusic } from "../engine/audio";
 import { img, heroImg, tapProps, RoundButton, Icon, useHelp, fx, stageXY } from "../ui/ui";
+import { useNav } from "../ui/nav";
 import "../styles/shell.css";
 import { say } from "../engine/audio";
 
 const NAME_COLOURS = ["#ffc53d", "#8fd16a", "#6cc6f0", "#ff9ec0", "#b99cff", "#ffa46b"];
 
-export function Profiles({ onPlay, onNew }: { onPlay: () => void; onNew: () => void }) {
+export function Profiles({ onPlay, onNew, onHome }: { onPlay: () => void; onNew: () => void; onHome?: () => void }) {
   useSave((s) => s); // re-render on changes
+  useNav({ home: onHome }); // (none given: App's Home rule, the title)
   const list = profilesApi.list();
   const [naming, setNaming] = useState(list.length === 0);
   const [picked, setPicked] = useState<string | null>(null); // the picked player's ninja hops for joy, then we go
@@ -80,6 +84,8 @@ function NewPlayer({ onDone, onBack }: { onDone: () => void; onBack?: () => void
     return () => clearTimeout(t);
   }, []);
   const emptyTaps = useRef(0);
+  const [asked, setAsked] = useState(false); // Sensei has asked for a grown-up's help (Hear it again says it again)
+  useNav({ back: onBack ?? null, again: asked ? () => say({ line: "help_name" }) : null });
   const go = (n = name) => {
     input.current?.blur();
     sfx.great();
@@ -87,11 +93,18 @@ function NewPlayer({ onDone, onBack }: { onDone: () => void; onBack?: () => void
     onDone();
   };
   // a child who can't type yet isn't stuck: the first empty tap asks for a grown-up, the second plays as "Ninja 2"
+  // (one tap on Go runs this twice: on finger-down, then again as the form's submit, since the button is in the form;
+  // the second run is ignored, or an empty tap would skip straight to "Ninja 2")
+  const lastTry = useRef(0);
   const tryGo = () => {
+    const now = performance.now();
+    if (now - lastTry.current < 500) return;
+    lastTry.current = now;
     if (name.trim()) return go();
     emptyTaps.current++;
     if (emptyTaps.current === 1) {
       sfx.pop();
+      setAsked(true);
       say({ line: "help_name" });
       input.current?.focus();
     } else go(`Ninja ${profilesApi.list().length + 1}`);
@@ -127,11 +140,6 @@ function NewPlayer({ onDone, onBack }: { onDone: () => void; onBack?: () => void
         </form>
         <div style={{ fontSize: 22, color: "var(--ink-soft)", fontWeight: 700 }}>A grown-up can help type it.</div>
       </div>
-      {onBack && (
-        <div className="topbar">
-          <RoundButton sm label="back" onClick={onBack}><Icon.back /></RoundButton>
-        </div>
-      )}
     </div>
   );
 }

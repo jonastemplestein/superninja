@@ -1,0 +1,227 @@
+{
+ "name": "fish-dog",
+ "url": "https://next.superninja.templestein.com/play/?level=w1-wu2",
+ "capture": "cdp",
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 33.8,
+ "game": {
+  "start": 1.372,
+  "end": 30.203
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   36,
+   50.9
+  ],
+  "audioShiftMs": 43.4,
+  "residualMs": [
+   17.8,
+   -31.2
+  ]
+ },
+ "frames": {
+  "frames": 1700,
+  "fps": 60,
+  "p50": 16.7,
+  "p95": 18.2,
+  "p99": 18.7,
+  "max": 19.5,
+  "hitches": 0,
+  "repeatedSlots": 0,
+  "slots": 849,
+  "deliveryMs": 13.4
+ },
+ "master": "fish-dog.master.mp4",
+ "audio": "fish-dog.master.wav",
+ "recordedAt": "2026-09-26T21:04:41.764Z",
+ "events": [
+  {
+   "t": 0.505,
+   "kind": "scene",
+   "id": "warmup"
+  },
+  {
+   "t": 0.658,
+   "kind": "music",
+   "id": "dojo",
+   "dur": 33.069
+  },
+  {
+   "t": 0.712,
+   "kind": "slate",
+   "id": "flash+beep"
+  },
+  {
+   "t": 1.326,
+   "kind": "speech",
+   "id": "fm_l2_way",
+   "dur": 1.404,
+   "text": "Ninjas read this way!"
+  },
+  {
+   "t": 3.567,
+   "kind": "speech",
+   "id": "fm_name_fish",
+   "dur": 1.275,
+   "text": "This is a fish."
+  },
+  {
+   "t": 5.123,
+   "kind": "speech",
+   "id": "fm_name_dog",
+   "dur": 0.87,
+   "text": "This is a dog."
+  },
+  {
+   "t": 6.149,
+   "kind": "speech",
+   "id": "fm_show_me",
+   "dur": 1.102,
+   "text": "Let me show you!"
+  },
+  {
+   "t": 7.251,
+   "kind": "speech",
+   "id": "fm_read_fish_dog",
+   "dur": 2.164,
+   "text": "Fish... dog. Fish dog!"
+  },
+  {
+   "t": 9.797,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 10.092,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 10.544,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 10.996,
+   "kind": "speech",
+   "id": "fm_pair_fish_dog",
+   "dur": 1.342,
+   "text": "Fish dog!"
+  },
+  {
+   "t": 14.404,
+   "kind": "speech",
+   "id": "fm_l2_turn",
+   "dur": 1.995,
+   "text": "Your turn! Tap them the ninja way."
+  },
+  {
+   "t": 17.163,
+   "kind": "tap",
+   "id": "fish",
+   "text": "rect 440,258,270,270"
+  },
+  {
+   "t": 17.164,
+   "kind": "speech",
+   "id": "word:fish",
+   "dur": 0.69
+  },
+  {
+   "t": 18.288,
+   "kind": "tap",
+   "id": "dog",
+   "text": "rect 750,258,270,270"
+  },
+  {
+   "t": 18.289,
+   "kind": "speech",
+   "id": "word:dog",
+   "dur": 0.464
+  },
+  {
+   "t": 19.287,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 19.501,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 20.178,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 20.6,
+   "kind": "speech",
+   "id": "fm_pair_fish_dog",
+   "dur": 1.342,
+   "text": "Fish dog!"
+  },
+  {
+   "t": 24.248,
+   "kind": "speech",
+   "id": "fm_show_me_2",
+   "dur": 1.323,
+   "text": "Watch me first!"
+  },
+  {
+   "t": 25.571,
+   "kind": "speech",
+   "id": "fm_read_fish_dog",
+   "dur": 2.164,
+   "text": "Fish... dog. Fish dog!"
+  },
+  {
+   "t": 27.604,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 27.736,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 27.737,
+   "kind": "speech",
+   "id": "fm_you_try",
+   "dur": 0.899,
+   "text": "Now you try!"
+  },
+  {
+   "t": 27.908,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 28.376,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 29.216,
+   "kind": "speech",
+   "id": "fm_name_cat",
+   "dur": 1.184,
+   "text": "This is a cat."
+  },
+  {
+   "t": 30.247,
+   "kind": "slate",
+   "id": "flash+beep"
+  },
+  {
+   "t": 30.579,
+   "kind": "speech",
+   "id": "fm_which_cat_dog",
+   "dur": 3.148,
+   "text": "Listen. Cat... dog. Which one did I read?"
+  }
+ ]
+}

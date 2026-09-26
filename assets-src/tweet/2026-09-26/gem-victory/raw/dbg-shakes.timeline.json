@@ -1,0 +1,208 @@
+{
+ "name": "dbg-shakes",
+ "url": "https://next.superninja.templestein.com/play/?scene=tree&gem=ai%3Eae&celebrate=1",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 13.967,
+ "game": {
+  "start": 2.358,
+  "end": 12.204
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   83.3,
+   66.5,
+   48.1,
+   63.7,
+   56.1,
+   78.6,
+   83.2,
+   88.2,
+   65.8,
+   63.7
+  ],
+  "audioShiftMs": 74.8,
+  "residualMs": [
+   -30.8,
+   -16.8,
+   13.8,
+   10.8,
+   14.2,
+   -21.2,
+   -33.5,
+   -7.2,
+   16.2,
+   -11.8
+  ],
+  "residualMedianMs": -9.5,
+  "residualMaxAbsMs": 33.5
+ },
+ "frames": {
+  "frames": 305,
+  "fps": 32.8,
+  "p50": 29.7,
+  "p95": 40.5,
+  "p99": 42.5,
+  "max": 52.1,
+  "hitches": 1,
+  "repeatedSlots": 10,
+  "slots": 280,
+  "deliveryMs": 5.3
+ },
+ "master": "dbg-shakes.master.mp4",
+ "audio": "dbg-shakes.master.wav",
+ "recordedAt": "2026-09-26T22:15:34.233Z",
+ "events": [
+  {
+   "t": 0.736,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.05,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.314,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.611,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.881,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.413,
+   "kind": "hitch",
+   "id": "145 ms",
+   "dur": 0.145
+  },
+  {
+   "t": 2.434,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.533,
+   "kind": "music-stop",
+   "id": ""
+  },
+  {
+   "t": 2.684,
+   "kind": "scene",
+   "id": "tree"
+  },
+  {
+   "t": 2.685,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 2.709,
+   "kind": "sting",
+   "id": "gem_victory",
+   "dur": 10.031
+  },
+  {
+   "t": 2.709,
+   "kind": "speech",
+   "id": "trial_win",
+   "dur": 2.841,
+   "text": "You won the gem! It's going into its petal!"
+  },
+  {
+   "t": 2.71,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 2.901,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 6.705,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 6.88,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 6.88,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 7.521,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 7.601,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 7.821,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 8.122,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 9.91,
+   "kind": "speech",
+   "id": "wf_new_gem_here",
+   "dur": 3.178,
+   "text": "Look! Your new gem goes here, in its petal."
+  },
+  {
+   "t": 12.279,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 12.6,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 12.893,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 13.183,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 13.34,
+   "kind": "speech",
+   "id": "t_another_way",
+   "dur": 0.679,
+   "text": "This is another way to spell the sound..."
+  },
+  {
+   "t": 13.455,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

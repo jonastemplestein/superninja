@@ -52,6 +52,13 @@ bun scripts/smoke.ts                                                # just the b
 bun scripts/check-assets.ts                                         # missing files?
 ```
 
-## Preview channel
+## Shipping often (preview, then production)
 
-`scripts/preview.sh` deploys the current working copy to **https://next.superninja.templestein.com**, a separate worker (`super-ninja-next`, wrangler.next.jsonc) on the same account. Before deploying, it type-checks, runs the quick bot treadmill and refuses if there are blockers. Production (superninja.templestein.com) only changes through `scripts/release.sh`. The preview is a different web address, so its saved progress and players are separate from the live site's.
+Jonas (26 Sep): "You should update production as often as possible as you go along." So `scripts/preview.sh` ships every working copy that passes the gates to both channels:
+
+1. type-check, the quick bot treadmill (it refuses if there are blockers), build, and the 25 MiB check;
+2. freeze the build in `playtest/.promote/dist`, so a concurrent `vite build` can't change it between the two deploys;
+3. deploy to the preview **https://next.superninja.templestein.com** (worker `super-ninja-next`), then run `scripts/ops/check-live.ts`: it must serve that exact build, start the game, and throw no page errors or failed requests;
+4. deploy the same frozen build to production **https://superninja.templestein.com** (worker `super-ninja`), and check it the same way.
+
+`scripts/preview.sh --preview-only` stops after step 3 (for risky experiments). `scripts/release.sh` is still the full release: a version bump, fresh landing-page clips and screenshots, and the smoke test over every level type. Run it every few days, or when the landing page needs new media. The preview is a different web address, so its saved progress is separate from the live site's.

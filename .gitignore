@@ -28,6 +28,14 @@ dist-ssr
 playtest/runs/
 playtest/.build/
 playtest/hero/
+playtest/.promote/
+# bot screenshots, frame dumps and clips stay local (a handful of hand-picked stills are tracked explicitly)
+playtest/**/*.png
+playtest/**/*.jpg
+playtest/**/*.jpeg
+playtest/**/*.webp
+playtest/**/*.mp4
+playtest/**/*.webm
 # raw art, video renders, caches (regenerable; shipped results live in public/)
 assets-src/**
 !assets-src/**/

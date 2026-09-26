@@ -1,0 +1,18 @@
+/* Navigation in the picture games, the early dojo, the reading check and the warm-ups (Early.tsx TurnNav, Warmup.tsx;
+   docs/NAVIGATION.md). Stage px (1280×720). */
+
+/* The turn's own speaker (and the paw beside a word card): gold when it is the child's turn; dim (grey, like the dim
+   Next arrow) while Sensei is still talking, when a replay would only be cut off by her next line. A tap on it then
+   wiggles it. */
+.navc-ctl .btn-round, .btn-round.navc-ctl { transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.08s; }
+.navc-dim .btn-round, .btn-round.navc-dim {
+  background: radial-gradient(circle at 35% 30%, #f7f2ea 0%, #cfc7b8 58%, #a1978a 100%);
+  border-color: #6d6158; box-shadow: 0 6px 0 #6d6158;
+}
+.navc-dim .btn-round svg path, .btn-round.navc-dim svg path { stroke: #6d6158; }
+.navc-dim .btn-round svg path[fill], .btn-round.navc-dim svg path[fill] { fill: #efe9df; }
+.navc-wiggle .btn-round, .btn-round.navc-wiggle, .navc-card.navc-wiggle .hear-card { animation: nav-wiggle 0.42s ease-in-out; }
+
+/* the picture games' "this is how we spell it" lines sit a little higher than elsewhere (ending at y 542), so they stay
+   clear of the nav row's speaker and sound picture (y 564 on) */
+.early .navc-reveal .sound-line { height: 128px; }

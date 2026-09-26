@@ -28,7 +28,8 @@ The child's ninja (Kai or Suki) stands bottom-left in **every level type**, brea
 - **Ninja zone**, bottom-left: x 0–330, y 380–720. The ninja stands here with its feet near y 700. Never put anything tappable in it.
 - **Help zone**, bottom-right: x 1116–1280, y 556–720. Sensei's round Help button (124 px) sits at right 14, bottom 14 on every screen. The caption bubble sits above it on the right, with its tail pointing down at him.
 - The home/back button goes top-left and the progress bar top-centre. Rows of tiles along the bottom fit between x 340 and 1100.
-- `bun scripts/treadmill/sweep.ts` reports a major **zone-conflict** finding for any tap target whose centre is in either zone. The ninja zone is checked on levels, and on any screen that shows a `.ninja-spot`. It skips the Help button itself and anything marked `data-tap-proxy`.
+- **Home zone**, top-left: x 0–130, y 0–130. Only Home (`data-nav="home"`, drawn by the nav layer, docs/NAVIGATION.md) may have its centre in it; a screen's top bar starts right of it (`<TopBar>` in src/ui/nav.tsx).
+- `bun scripts/treadmill/sweep.ts` reports a major **zone-conflict** finding for any tap target whose centre is in any of these zones. The ninja zone is checked on levels, and on any screen that shows a `.ninja-spot`. It skips the Help button itself and anything marked `data-tap-proxy`.
 
 ## API
 

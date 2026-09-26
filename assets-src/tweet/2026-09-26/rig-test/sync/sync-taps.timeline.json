@@ -1,0 +1,451 @@
+{
+ "name": "sync-taps",
+ "url": "https://next.superninja.templestein.com/play/?level=w2-2",
+ "capture": "cdp",
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 42,
+ "game": {
+  "start": 2.403,
+  "end": 40.205
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   70.4,
+   53.5,
+   91.1,
+   62.7,
+   53.7,
+   71.1,
+   70.6,
+   72.8,
+   70.2,
+   76
+  ],
+  "audioShiftMs": 79.2,
+  "residualMs": [
+   -9.1,
+   7.2,
+   -15.8,
+   18.9,
+   9.9,
+   -11.8,
+   3.2,
+   -15.1,
+   3.9,
+   -17.5
+  ],
+  "residualMedianMs": -2.9,
+  "residualMaxAbsMs": 18.9
+ },
+ "frames": {
+  "frames": 2217,
+  "fps": 59.5,
+  "p50": 16.7,
+  "p95": 18.1,
+  "p99": 18.9,
+  "max": 121.7,
+  "hitches": 2,
+  "repeatedSlots": 4,
+  "slots": 1118,
+  "deliveryMs": 12.9
+ },
+ "master": "sync-taps.master.mp4",
+ "audio": "sync-taps.master.wav",
+ "recordedAt": "2026-09-26T21:37:29.419Z",
+ "events": [
+  {
+   "t": 0.548,
+   "kind": "scene",
+   "id": "battle:bin"
+  },
+  {
+   "t": 0.821,
+   "kind": "music",
+   "id": "battle",
+   "dur": 41.245
+  },
+  {
+   "t": 0.824,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.107,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.138,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 1.139,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 1.195,
+   "kind": "speech",
+   "id": "audit_baron_first",
+   "dur": 4.119,
+   "text": "Baron Muddle hid the sounds. Let's win them back from his monsters."
+  },
+  {
+   "t": 1.384,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.652,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.943,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 5.559,
+   "kind": "speech",
+   "id": "battle_start",
+   "dur": 5.08,
+   "text": "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!"
+  },
+  {
+   "t": 10.676,
+   "kind": "speech",
+   "id": "battle_spell",
+   "dur": 0.811,
+   "text": "Spell..."
+  },
+  {
+   "t": 11.989,
+   "kind": "speech",
+   "id": "word:bin",
+   "dur": 0.481
+  },
+  {
+   "t": 12.644,
+   "kind": "tap",
+   "id": "m",
+   "text": "rect 373,592,104,104"
+  },
+  {
+   "t": 12.644,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 12.707,
+   "kind": "sfx",
+   "id": "hmm"
+  },
+  {
+   "t": 13.096,
+   "kind": "speech",
+   "id": "listen_here",
+   "dur": 2.266,
+   "text": "Listen again... What do you hear here?"
+  },
+  {
+   "t": 15.511,
+   "kind": "speech",
+   "id": "stretch:bin",
+   "dur": 0.802
+  },
+  {
+   "t": 16.45,
+   "kind": "tap",
+   "id": "m",
+   "text": "rect 373,592,104,104"
+  },
+  {
+   "t": 16.45,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 16.511,
+   "kind": "sfx",
+   "id": "hmm"
+  },
+  {
+   "t": 16.904,
+   "kind": "speech",
+   "id": "thats",
+   "dur": 0.478,
+   "text": "That's..."
+  },
+  {
+   "t": 17.381,
+   "kind": "speech",
+   "id": "sound:m",
+   "dur": 0.659
+  },
+  {
+   "t": 18.243,
+   "kind": "speech",
+   "id": "we_need",
+   "dur": 0.737,
+   "text": "We need..."
+  },
+  {
+   "t": 18.981,
+   "kind": "speech",
+   "id": "sound:b",
+   "dur": 0.254
+  },
+  {
+   "t": 19.362,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 727,591,104,104"
+  },
+  {
+   "t": 19.363,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 19.364,
+   "kind": "speech",
+   "id": "sound:b",
+   "dur": 0.254
+  },
+  {
+   "t": 19.757,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 20.012,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 20.79,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 963,592,104,104"
+  },
+  {
+   "t": 20.79,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 20.826,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 21.169,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 21.528,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 22.156,
+   "kind": "tap",
+   "id": "m",
+   "text": "rect 373,592,104,104"
+  },
+  {
+   "t": 22.157,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 22.218,
+   "kind": "sfx",
+   "id": "hmm"
+  },
+  {
+   "t": 22.609,
+   "kind": "speech",
+   "id": "listen",
+   "dur": 0.756,
+   "text": "Listen..."
+  },
+  {
+   "t": 23.485,
+   "kind": "speech",
+   "id": "stretch:bin",
+   "dur": 0.802
+  },
+  {
+   "t": 24.428,
+   "kind": "tap",
+   "id": "n",
+   "text": "rect 845,592,104,104"
+  },
+  {
+   "t": 24.428,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 24.465,
+   "kind": "speech",
+   "id": "sound:n",
+   "dur": 0.591
+  },
+  {
+   "t": 25.056,
+   "kind": "speech",
+   "id": "sound:b",
+   "dur": 0.254
+  },
+  {
+   "t": 25.574,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 26.086,
+   "kind": "speech",
+   "id": "sound:n",
+   "dur": 0.591
+  },
+  {
+   "t": 27.091,
+   "kind": "speech",
+   "id": "word:bin",
+   "dur": 0.481
+  },
+  {
+   "t": 27.671,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 28.028,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 28.028,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 28.332,
+   "kind": "speech",
+   "id": "yay_4",
+   "dur": 1.171,
+   "text": "Well done!"
+  },
+  {
+   "t": 29.504,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 29.553,
+   "kind": "speech",
+   "id": "audit_gem_first",
+   "dur": 7.366,
+   "text": "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up."
+  },
+  {
+   "t": 37.263,
+   "kind": "scene",
+   "id": "battle:him"
+  },
+  {
+   "t": 37.324,
+   "kind": "speech",
+   "id": "word:him",
+   "dur": 0.496
+  },
+  {
+   "t": 37.953,
+   "kind": "tap",
+   "id": "h",
+   "text": "rect 609,592,104,104"
+  },
+  {
+   "t": 37.953,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 37.996,
+   "kind": "speech",
+   "id": "sound:h",
+   "dur": 0.35
+  },
+  {
+   "t": 38.498,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 38.861,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 39.455,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 963,592,104,104"
+  },
+  {
+   "t": 39.455,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 39.456,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 39.847,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 40.111,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 40.288,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 40.603,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 40.918,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 41.237,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 41.549,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

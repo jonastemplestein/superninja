@@ -1,0 +1,41 @@
+  10.7s pos route=level:w1-14 pres=story-title#0/1 scene=story next=null step=null nav.next=wait again=true back=false home=45px@64,62
+  12.7s pos route=level:w1-14 pres=story-title#0/1 scene=story next=null step=null nav.next=ready again=true back=false home=45px@64,62
+  13.0s HELD level:w1-14|story-title#0/1||||title (Next 68px on the phone, again=57px, back=false)
+  34.0s   idle 20s: still held; glow=true; said: line:nav_ready
+  37.1s   Hear it again → line:story_start
+  39.8s   > Next
+  40.5s pos route=level:w1-14 pres=story#0/10 scene=story next=null step=null nav.next=wait again=true back=false home=45px@64,62
+  49.7s pos route=level:w1-14 pres=story#0/10 scene=story next=null step=null nav.next=ready again=true back=false home=45px@64,62
+  50.1s HELD level:w1-14|story#0/10||||1 (Next 36px on the phone, again=57px, back=false)
+  50.1s !! next-small @ level:w1-14|story#0/10||||1: Next 36px
+  71.2s   idle 20s: still held; glow=true; said: line:nav_ready
+  74.2s   Hear it again → story:s1_1
+  74.9s   > Next
+  75.6s pos route=level:w1-14 pres=null scene=story next=null step=null nav.next=null again=true back=true home=45px@64,62
+  79.4s pos route=level:w1-14 pres=story#2/10 scene=story next=null step=null nav.next=wait again=true back=true home=45px@64,62
+  86.8s pos route=level:w1-14 pres=story#2/10 scene=story next=null step=null nav.next=ready again=true back=true home=45px@64,62
+  87.1s HELD level:w1-14|story#2/10||||3 (Next 66px on the phone, again=57px, back=true)
+ 108.1s   idle 20s: still held; glow=true; said: line:nav_ready
+ 111.1s   Hear it again → story:s1_3
+ 111.9s   Back → (no show)
+ 111.9s !! back-broken @ level:w1-14|story#2/10||||3: Back went to null
+ 274.9s pos route=level:w1-14 pres=null scene=story next=null step=null nav.next=null again=true back=true home=45px@64,62
+ 277.7s pos route=level:w1-14 pres=story#2/10 scene=story next=null step=null nav.next=wait again=true back=true home=45px@64,62
+ 285.0s pos route=level:w1-14 pres=story#2/10 scene=story next=null step=null nav.next=ready again=true back=true home=45px@64,62
+ 285.7s   > Next
+ 286.4s pos route=level:w1-14 pres=null scene=story next=null step=null nav.next=null again=true back=true home=45px@64,62
+ 302.3s pos route=level:w1-14 pres=story#8/10 scene=story next=null step=null nav.next=wait again=true back=true home=45px@64,62
+ 310.7s pos route=level:w1-14 pres=story#8/10 scene=story next=null step=null nav.next=ready again=true back=true home=45px@64,62
+ 311.1s HELD level:w1-14|story#8/10||||7 (Next 47px on the phone, again=57px, back=true)
+ 332.1s   idle 20s: still held; glow=true; said: line:nav_ready
+ 335.1s   Hear it again → story:s1_7
+ 335.7s   > Next
+ 336.4s pos route=level:w1-14 pres=null scene=story next=null step=null nav.next=null again=true back=true home=45px@64,62
+ 340.2s pos route=reward:w1-14 pres=null scene=reward next=null step=null nav.next=wait again=true back=false home=45px@64,62
+ 342.1s pos route=reward:w1-14 pres=null scene=reward next=null step=null nav.next=ready again=true back=false home=45px@64,62
+ 342.5s HELD reward:w1-14|reward|||| (Next 68px on the phone, again=57px, back=false)
+ 363.5s   idle 20s: still held; glow=true; said: line:nav_ready
+ 366.5s   Hear it again → line:story_end, line:yay_7
+ 367.5s reward: tap Next
+ 368.2s   > Next
+ 368.9s stop: route map scene map

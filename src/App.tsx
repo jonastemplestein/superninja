@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { Stage, FxLayer, HelpButton, VillainCutIn, useHelp, SenseiDock, img, heroImg, useHero, Icon, RoundButton, fx, sleep, W, tapProps, TapHint, stageXY, stageRect } from "./ui/ui";
-import { say, sfx, playMusic, unlockAudio, hush, preload, urls, isSpeaking } from "./engine/audio";
+import { Stage, FxLayer, HelpButton, VillainCutIn, useHelp, SenseiDock, img, heroImg, useHero, Icon, RoundButton, fx, sleep, W, tapProps, TapHint, stageXY, stageRect, isUpright } from "./ui/ui";
+import { say, sfx, playMusic, unlockAudio, hush, preload, urls, isSpeaking, type Say } from "./engine/audio";
 import { store, useSave, logAdjust, recordMet } from "./engine/store";
 import { WORLDS, LEVELS, levelById, worldOf, makeReview, startFor, bandBelow, isWarmup, withBudget, WARMUP_IDS, AFTER_WARMUPS, type Level, type StartBand } from "./content/worlds";
 import { WARMUPS, needsRepeat, superListener, warmupPictures } from "./content/warmups";
-import { WarmupLevel, warmupLead } from "./scenes/Warmup";
+import { WarmupLevel } from "./scenes/Warmup";
 import { OptIn, type OptInResult } from "./scenes/OptIn";
 import { StickerReward, Sticker, stickerKind } from "./scenes/Stickers";
 import { PicCard } from "./scenes/Early";
@@ -32,10 +32,15 @@ import { GemIcon } from "./ui/Gem";
 import { chartOf } from "./content/flower";
 import { LINES } from "./content/lines";
 import { NinjaDemo } from "./scenes/NinjaDemo";
+import { NavDemo } from "./scenes/NavDemo";
+import { NavLayer, useNav, useHome, usePresentation, told, NAV_SLOTS, slotStyle } from "./ui/nav";
+import { setTripDue, tripDue } from "./scenes/Tree";
 import { NinjaSpot, ninja } from "./ui/Ninja";
 import { streak } from "./engine/streak";
 import { heard, heardBefore } from "./scenes/narrate";
+import { FAST } from "./engine/fast";
 import "./styles/shell.css";
+import "./styles/nav-B.css";
 
 type Route =
   | { name: "title" }
@@ -50,15 +55,19 @@ type Route =
   | { name: "profiles" }
   | { name: "map"; world?: number; intro?: "stickerbook" | "welcome" | "super" | "again" }
   | { name: "level"; id: string }
-  | { name: "reward"; id: string; stars: number }
-  /** the World Flower; `then`: where Carry on (and Home) go after a trip (default: the map) */
+  /** `closing`: the level's closing line, which the reward's Hear it again says first (docs/NAVIGATION.md rule 7) */
+  | { name: "reward"; id: string; stars: number; closing?: string }
+  /** the World Flower; `then`: where its Next (and Home) go after a trip (default: the map) */
   | { name: "tree"; celebrate?: { gem: string; won: boolean }; then?: Route }
-  | { name: "grownups" }
+  /** `from`: the screen the gear was held on; Home (and the page's own way out) go back there */
+  | { name: "grownups"; from?: Route }
   | { name: "finale" };
 
 export interface LevelProps {
   level: Level;
-  onDone: (stars: number) => void;
+  /** `closing`: the line the level ended on, for the reward's Hear it again (docs/NAVIGATION.md rule 7) */
+  onDone: (stars: number, o?: { closing?: string }) => void;
+  /** what Home does in a level (App's Home rule does the same; scenes needn't call it) */
   onQuit: () => void;
 }
 
@@ -89,6 +98,8 @@ export default function App() {
     if (trialKey && gemByKey(trialKey)) return makeTrial(trialKey), { name: "level", id: "trial" };
     if (lv && levelById(lv)) return { name: "level", id: lv };
     const sc = q.get("scene") as Route["name"] | null;
+    // a reward screen straight away, for testing: ?scene=reward&id=<level>[&stars=N][&closing=<line>]
+    if (sc === "reward") return { name: "reward", id: levelById(q.get("id") ?? "") ? q.get("id")! : "w2-1", stars: Number(q.get("stars") ?? 3), closing: q.get("closing") ?? undefined };
     if (sc) return { name: sc } as Route;
     return needsSetup() ? { name: "setup" } : { name: "title" };
   });
@@ -108,39 +119,90 @@ export default function App() {
   useEffect(() => {
     (window as any).__sn = { go, store, LEVELS };
   });
+  // the route, for the sweep's navigation checks (docs/NAVIGATION.md §6: where Home lands, what moved on by itself)
+  (window as any).__snRoute = route.name + ("id" in route ? `:${route.id}` : "");
+
+  /** Home in a level: the map of its land (a Gem Trial or a practice: the World Flower; the first session's lessons: the
+   *  title, where Start resumes the lesson). The streak is dropped, as before. */
+  const quitLevel = (id: string) => {
+    streak.drop();
+    // a Gem Trial or a practice started on the World Flower: Home goes back there
+    if (id === "trial") return go({ name: "tree" });
+    if (store.get().firstSession?.lessons.includes(id)) return go({ name: "title" });
+    go({ name: "map", world: levelById(id).world });
+  };
+  /** Where Home goes on each screen (docs/NAVIGATION.md §3.3). A screen can say otherwise with useHome(). Nothing a
+   *  child leaves is lost: the first session resumes from the title, a World Flower trip that was due stays due. */
+  const homeFor = (r: Route): (() => void) | null => {
+    switch (r.name) {
+      case "title":
+        return null; // the title is home
+      case "setup":
+      case "profiles":
+      case "intro":
+      case "choose":
+      case "optin":
+      case "training":
+        return () => go({ name: "title" });
+      case "level":
+        return () => quitLevel(r.id);
+      case "reward":
+        return () => {
+          // the stars are saved already; a trip to the World Flower that was due stays due (the map's flower pulses)
+          const lv = levelById(r.id);
+          const trip = flowerVisitAfter(lv);
+          if (trip) setTripDue(trip);
+          go({ name: "map", world: lv.world });
+        };
+      case "tree":
+        return () => go(r.then ?? { name: "map" });
+      case "grownups":
+        return () => go(r.from ?? { name: "map" });
+      case "finale":
+        return () => go({ name: "map", world: WORLDS.length });
+      case "map":
+        return () => go({ name: "title" });
+      default:
+        return (r.name as string) === "ninja-demo" ? null : () => go({ name: "map" }); // the Sticker Book, placement, the picture parade
+    }
+  };
 
   return (
     <Stage worldColour={worldColour}>
       {route.name === "setup" && <Setup onDone={() => go({ name: "title" })} />}
       {route.name === "title" && <Title onStart={() => go({ name: "profiles" })} />}
       {route.name === "profiles" && (
-        <Profiles onPlay={() => go(store.get().seenIntro && store.get().hero ? afterLaunch() : { name: "intro" })} onNew={() => go({ name: "intro" })} />
+        <Profiles onPlay={() => go(store.get().seenIntro && store.get().hero ? afterLaunch() : { name: "intro" })} onNew={() => go({ name: "intro" })} onHome={() => go({ name: "title" })} />
       )}
       {route.name === "intro" && <IntroFilm onDone={() => go({ name: "choose" })} />}
       {route.name === "choose" && <Choose onDone={() => go(afterChoose())} />}
       {route.name === "optin" && (
-        <OptIn key={route.mode ?? "new"} mode={route.mode} lastYear={store.get().schoolYear} onGrownups={() => go({ name: "grownups" })} onDone={(r) => go(applyOptIn(r, route.mode ?? "new"))} />
+        <OptIn key={route.mode ?? "new"} mode={route.mode} lastYear={store.get().schoolYear} onGrownups={() => go({ name: "grownups", from: route })} onDone={(r) => go(applyOptIn(r, route.mode ?? "new"))} />
       )}
       {route.name === "training" && <Training onDone={() => go(nextInSession() ?? { name: "map" })} />}
       {route.name === "placement" && <Placement onDone={() => go({ name: "map" })} />}
-      {route.name === "picparade" && <PicParade onBack={() => go({ name: "map" })} />}
+      {route.name === "picparade" && <PicParade />}
       {route.name === "map" && (
         <WorldMap
           key={`${route.world}-${route.intro}-${fade}`}
           intro={route.intro}
           world={route.world}
           onLevel={(id) => go({ name: "level", id })}
-          onTree={() => go({ name: "tree" })}
+          onTree={() => {
+            // a trip that was due (the child left its reward, or the trip, with Home) plays now
+            const due = tripDue();
+            if (due) visitFlower(due);
+            go({ name: "tree", then: due ? { name: "map", world: route.world } : undefined });
+          }}
           onBook={() => go({ name: "book" })}
-          onGrownups={() => go({ name: "grownups" })}
-          onTitle={() => go({ name: "title" })}
+          onGrownups={() => go({ name: "grownups", from: { name: "map", world: route.world } })}
         />
       )}
       {route.name === "level" && (
         <LevelHost
           key={route.id + fade}
           level={levelById(route.id)}
-          onDone={(stars) => {
+          onDone={(stars, o) => {
             const lv = levelById(route.id);
             // a finished level's streak carries over into the next level (docs/HERO.md)
             if (stars > 0) streak.bank();
@@ -154,20 +216,14 @@ export default function App() {
             }
             // a Gem Trial won: the World Flower's victory (the gem dives into its petal, with the victory music)
             if (lv.trialGem) go({ name: "tree", celebrate: { gem: lv.trialGem, won: stars > 0 } });
-            else go({ name: "reward", id: route.id, stars });
+            else go({ name: "reward", id: route.id, stars, closing: o?.closing });
           }}
-          onQuit={() => {
-            streak.drop();
-            // a Gem Trial or a practice started on the World Flower: Home goes back there
-            if (route.id === "trial") return go({ name: "tree" });
-            go({ name: "map", world: levelById(route.id).world });
-          }}
+          onQuit={() => quitLevel(route.id)}
           onDrop={(band) => {
-            // the first check (§10): 0 or 1 right of the first three → one band down, on the spot
+            // the first check (§10): 0 or 1 right of the first three → one band down. LevelHost has already held the
+            // child on "Let's do some warm-up training first!" until they tapped Next (nothing moves on by itself)
             dropBand(band);
             streak.drop();
-            // the new lesson opens with "Let's do some warm-up training first!" (drops always land on a warm-up)
-            warmupLead.line = "fm_warm_up";
             go({ name: "level", id: store.get().firstSession?.lessons[0] ?? "w1-wu1" });
           }}
         />
@@ -177,6 +233,7 @@ export default function App() {
           key={route.id + fade}
           level={levelById(route.id)}
           stars={route.stars}
+          closing={route.closing}
           onNext={(r) => go(r)}
           onReplay={() => go({ name: "level", id: route.id })}
         />
@@ -185,14 +242,17 @@ export default function App() {
         <Reward
           level={levelById(route.id)}
           stars={route.stars}
+          closing={route.closing}
           onNext={(finale) => {
             const lv = levelById(route.id);
             const last = worldOf(lv).levels[worldOf(lv).levels.length - 1].id === lv.id;
             const next: Route = finale ? { name: "finale" } : { name: "map", world: last ? Math.min(WORLDS.length, lv.world + 1) : lv.world };
             // a trip to the World Flower first, when one is due (engine/gems.ts): the gems of spellings this level
-            // taught for the first time crack open in their petals, or a new land's flower visit; each plays once
+            // taught for the first time crack open in their petals, or a new land's flower visit; each plays once. It
+            // stays due until it has played to its end (Home mid-trip keeps it for the map's World Flower button)
             const trip = finale ? null : flowerVisitAfter(lv);
             if (trip) {
+              setTripDue(trip);
               visitFlower(trip);
               return go({ name: "tree", then: next });
             }
@@ -218,12 +278,16 @@ export default function App() {
           }}
         />
       )}
-      {route.name === "grownups" && <Grownups onBack={() => go({ name: "map" })} />}
-      {route.name === "book" && <Book onBack={() => go({ name: "map" })} />}
-      {route.name === "finale" && <Intro finale onDone={() => go({ name: "map", world: 6 })} />}
+      {route.name === "grownups" && <Grownups onBack={() => go(route.from ?? { name: "map" })} />}
+      {route.name === "book" && <Book />}
+      {route.name === "finale" && <Intro finale onDone={() => go({ name: "map", world: WORLDS.length })} />}
       {(route.name as string) === "ninja-demo" && <NinjaDemo />}
+      {(route.name as string) === "nav-demo" && <NavDemo onHome={() => go({ name: "title" })} />}
       <VillainCutIn />
       <HelpButton />
+      {/* Home, Back, Hear it again, Show me again, the sound picture and Next (src/ui/nav.tsx). Home goes where App's
+          rule says (homeFor, docs/NAVIGATION.md §3.3) unless the screen registers its own with useHome() */}
+      <NavLayer home={homeFor(route)} scene={`${route.name}-${fade}`} />
       <FxLayer />
       <div className="fullscreen-fade" key={`fade-${fade}`} />
     </Stage>
@@ -235,7 +299,11 @@ function LevelHost({ onDrop, level: base, ...rest }: LevelProps & { onDrop: (ban
   const [level] = useState(() => withBudget(base, store.get().firstSession));
   const props = { ...rest, level };
   useState(() => resetLevelGains());
-  useFirstCheck(level, onDrop);
+  // the first check's band drop (§10) waits for the item boundary, then holds on "Let's do some warm-up training
+  // first!" until the child taps Next (docs/NAVIGATION.md §5.0): the level is never swapped mid-item
+  const [drop, setDrop] = useState<StartBand | null>(null);
+  useFirstCheck(level, setDrop);
+  if (drop) return <DropHold onNext={() => onDrop(drop)} />;
   switch (level.kind) {
     case "ears":
     case "picread":
@@ -262,6 +330,20 @@ function LevelHost({ onDrop, level: base, ...rest }: LevelProps & { onDrop: (ban
   }
 }
 
+/** The first check moved the child one band down: one held step ("Let's do some warm-up training first!"), and Next
+ *  starts the warm-up. */
+function DropHold({ onNext }: { onNext: () => void }) {
+  usePresentation([{ key: "warm-up", run: () => say({ line: "fm_warm_up" }) }], { id: "first-check-drop", onDone: onNext });
+  return (
+    <div className="scene" style={{ background: "#2a5a3a" }}>
+      <img className="bg-img" src={img("bg_bamboo")} alt="" style={{ filter: "blur(2px) brightness(.9)" }} />
+      <div className="vignette" />
+      <NinjaSpot />
+      <SenseiDock />
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------- Title
 function Title({ onStart }: { onStart: () => void }) {
   const [ready, setReady] = useState(false);
@@ -270,6 +352,7 @@ function Title({ onStart }: { onStart: () => void }) {
     unlockAudio();
     say({ line: "help_start" });
   });
+  (window as any).__snState = { scene: "title" };
   useEffect(() => {
     preload([urls.line("tap_start"), urls.music("title")]);
     const t = setTimeout(() => setReady(true), 300);
@@ -334,33 +417,59 @@ export function PetalDrift({ n = 14 }: { n?: number }) {
 }
 
 // ---------------------------------------------------------------- Choose your ninja
+/** A tap picks a ninja (it powers up, "Great choice!…"; another tap changes it); the green Next confirms
+ *  (docs/NAVIGATION.md: nothing moves on by itself). Hear it again says Sensei's lines again. */
 function Choose({ onDone }: { onDone: () => void }) {
-  const [picked, setPicked] = useState<string | null>(null);
-  useHelp(() => say({ line: "help_choose" }));
+  const [picked, setPicked] = useState<"kai" | "suki" | null>(null);
+  const [talked, setTalked] = useState(false); // "Great choice!…" has been said for the pick
+  useHelp((n) => (n === 1 || !picked ? say({ line: "help_choose" }) : say({ line: "help_next" })), [picked]);
   useEffect(() => {
-    say({ line: "intro_8" });
+    void told({ line: "intro_8" }, { fresh: true });
   }, []);
-  // a child can change their mind: the last ninja tapped wins, and we only move on after a quiet moment
+  useNav({ again: () => say(picked ? [{ line: "intro_8" }, { gap: 300 }, { line: "chose" }] : { line: "intro_8" }), next: { ready: !!picked && talked, go: onDone } });
+  // idle help before the pick (a turn: docs/NAVIGATION.md §3.2): 8 s both cards bob and Sensei asks again; 16 s the
+  // pointing hand shows on both cards; 30 s she asks once more; then quiet. It never picks. Game time, waiting while
+  // anyone speaks or the phone is upright; any tap starts it again.
+  const [idle, setIdle] = useState(0);
+  useEffect(() => {
+    setIdle(0);
+    if (picked) return;
+    let ms = 0, level = 0;
+    const tick = window.setInterval(() => {
+      if (isUpright() || isSpeaking()) return;
+      ms += 250;
+      if (ms >= 8000 && level < 1) (level = 1), setIdle(1), void say({ line: "help_choose" });
+      else if (ms >= 16000 && level < 2) (level = 2), setIdle(2);
+      else if (ms >= 30000 && level < 3) (level = 3), void say({ line: "help_choose" });
+    }, 250);
+    const reset = () => ((ms = 0), (level = 0), setIdle(0));
+    window.addEventListener("pointerdown", reset, true);
+    return () => {
+      clearInterval(tick);
+      window.removeEventListener("pointerdown", reset, true);
+    };
+  }, [picked]);
   const latest = useRef(0);
   const choose = async (h: "kai" | "suki") => {
     if (picked === h) return;
     const my = ++latest.current;
     setPicked(h);
+    setTalked(false);
     sfx.great();
-    fx.burst(h === "kai" ? 400 : 880, 380, "stars", 30);
+    fx.burst(h === "kai" ? 325 : 715, 330, "stars", 30);
     store.set((s) => {
       s.hero = h;
       s.seenIntro = true;
     });
     await say({ line: "chose" });
-    await sleep(1200);
-    if (latest.current === my) onDone();
+    if (latest.current === my) setTalked(true);
   };
+  (window as any).__snState = { scene: "choose", picked, next: picked ? null : "kai" };
   return (
     <div className="scene choose">
       <img className="bg-img" src={img("dojo_bg")} alt="" />
       <div className="vignette" />
-      <div className="display" style={{ position: "absolute", top: 34, width: "100%", textAlign: "center", fontSize: 64 }}>
+      <div className="display" style={{ position: "absolute", top: 30, left: 130, right: 130, textAlign: "center", fontSize: 60 }}>
         Choose your ninja!
       </div>
       {(["kai", "suki"] as const).map((h, i) => (
@@ -368,10 +477,10 @@ function Choose({ onDone }: { onDone: () => void }) {
           key={h}
           {...tapProps(() => choose(h))}
           aria-label={h}
-          className={`panel pop-in choose-card ${picked && picked !== h ? "other" : ""}`}
+          className={`panel pop-in choose-card ${picked && picked !== h ? "other" : ""} ${!picked && idle ? "nudge" : ""}`}
           style={{
-            // the two cards sit left of centre; Sensei's caption bubble has the right-hand side, above his Help button
-            position: "absolute", left: 150 + i * 390, top: 140, width: 350, height: 440, animationDelay: `${i * 0.12}s`,
+            // the two cards sit left of centre, above the nav row; Sensei's caption bubble has the right-hand side
+            position: "absolute", left: 150 + i * 390, top: 128, width: 350, height: 400, animationDelay: `${i * 0.12}s`,
             background: i ? "linear-gradient(180deg,#d7fbf3,#8fe0cf)" : "linear-gradient(180deg,#dfe0ff,#9ea3f0)",
             transform: picked === h ? "scale(1.06)" : picked ? "scale(0.9)" : undefined, opacity: picked && picked !== h ? 0.5 : 1, transition: "transform .3s, opacity .3s",
           }}
@@ -379,8 +488,9 @@ function Choose({ onDone }: { onDone: () => void }) {
           {picked === h ? (
             <PickedNinja key={h} />
           ) : (
-            <img src={heroImg(h, "idle")} alt="" style={{ width: 280, position: "absolute", left: 35, bottom: 22 }} className="breathe" />
+            <img src={heroImg(h, "idle")} alt="" style={{ width: 260, position: "absolute", left: 45, bottom: 20 }} className="breathe" />
           )}
+          <TapHint show={!picked && idle >= 2} style={{ left: 190, top: 250 }} />
         </button>
       ))}
       <SenseiDock />
@@ -400,7 +510,7 @@ function PickedNinja() {
     })();
     return () => void (live = false);
   }, []);
-  return <NinjaSpot size={280} x={35} bottom={22} z={3} noFlames />;
+  return <NinjaSpot size={260} x={45} bottom={20} z={3} noFlames />;
 }
 
 // ---------------------------------------------------------------- World map
@@ -436,13 +546,16 @@ function nodePos(i: number, n: number) {
   return { x, y };
 }
 
-function WorldMap({ world, intro, onLevel, onTree, onBook, onGrownups, onTitle }: { world?: number; intro?: "stickerbook" | "welcome" | "super" | "again"; onLevel: (id: string) => void; onTree: () => void; onBook: () => void; onGrownups: () => void; onTitle: () => void }) {
+function WorldMap({ world, intro, onLevel, onTree, onBook, onGrownups }: { world?: number; intro?: "stickerbook" | "welcome" | "super" | "again"; onLevel: (id: string) => void; onTree: () => void; onBook: () => void; onGrownups: () => void }) {
   const stars = useSave((s) => s.stars);
   const hero = useHero();
   const cur = currentLevel();
   const [wi, setWi] = useState((world ?? cur.world) - 1);
   const w = WORLDS[wi];
   const firstVisit = useRef(true);
+  // what Sensei said on arriving here (or on turning to this land): Hear it again says it again (docs/NAVIGATION.md §3.5)
+  const arrival = useRef<Say[]>([]);
+  useNav({ again: () => arrival.current.length && say(arrival.current), againAt: "side" });
   useEffect(() => {
     playMusic(w.music);
     const first = firstVisit.current;
@@ -450,16 +563,19 @@ function WorldMap({ world, intro, onLevel, onTree, onBook, onGrownups, onTitle }
     // the first session ends here: "Your Sticker Book lives here, on the map!" (the book button bounces), then the hint
     if (first && intro === "stickerbook") {
       setBookHint(true);
-      void say([{ line: "fm_rw2_map" }, { gap: 300 }, { line: "map_hint" }]).then(() => setTimeout(() => setBookHint(false), 2500));
+      arrival.current = [{ line: "fm_rw2_map" }, { gap: 300 }, { line: "map_hint" }];
+      void say(arrival.current).then(() => setTimeout(() => setBookHint(false), 2500));
       return;
     }
     const lead = first && intro === "welcome" ? "welcome_back" : first && intro === "super" ? "fm_super_listener" : first && intro === "again" ? "fm_practise_again" : null;
-    say(first && cur.world === w.id ? [...(lead ? [{ line: lead }, { gap: 250 }] : [{ line: `world_${w.id}` }, { gap: 200 }]), { line: "map_hint" }] : [{ line: `world_${w.id}` }]);
+    arrival.current = first && cur.world === w.id ? [...(lead ? [{ line: lead }, { gap: 250 }] : [{ line: `world_${w.id}` }, { gap: 200 }]), { line: "map_hint" }] : [{ line: `world_${w.id}` }];
+    void say(arrival.current);
   }, [wi]);
   const [bookHint, setBookHint] = useState(false);
   const worldOpen = (i: number) => i >= 0 && i < WORLDS.length && isUnlocked(WORLDS[i].levels[0]);
   const heroAt = w.levels.findIndex((l) => l.id === cur.id);
   const readyCount = readyGems().length;
+  const due = !!tripDue(); // a World Flower trip left unplayed (Home on its reward, or mid-trip): the flower pulses
   useHelp((n) => say(n === 1 ? { line: "help_map" } : [{ line: "help_map" }, { gap: 200 }, { line: "map_hint" }]));
   (window as any).__snState = { scene: "map", world: w.id, next: cur.id };
   const fromIdx = useRef(w.levels.findIndex((l) => l.id === mapAnim.from)).current;
@@ -575,9 +691,6 @@ function WorldMap({ world, intro, onLevel, onTree, onBook, onGrownups, onTitle }
         </div>
         <RoundButton sm label="next world" onClick={() => worldOpen(wi + 1) ? setWi((i) => i + 1) : (sfx.wrong(), say({ line: "map_locked" }))} style={{ visibility: wi < WORLDS.length - 1 ? "visible" : "hidden", filter: worldOpen(wi + 1) ? undefined : "grayscale(1)" }}><Icon.next /></RoundButton>
       </div>
-      <div style={{ position: "absolute", top: 18, left: 18, display: "flex", gap: 12 }}>
-        <RoundButton sm label="title" onClick={onTitle}><Icon.home /></RoundButton>
-      </div>
       <div style={{ position: "absolute", top: 18, right: 18 }}>
         <HoldButton onHold={onGrownups} />
       </div>
@@ -590,7 +703,7 @@ function WorldMap({ world, intro, onLevel, onTree, onBook, onGrownups, onTitle }
           {bookHint && <TapHint show style={{ left: -70, bottom: -40 }} />}
         </div>
         <div style={{ position: "relative" }}>
-          <RoundButton label="World Flower" className={`pink ${readyCount ? "pulse" : ""}`} onClick={onTree}><Icon.tree /></RoundButton>
+          <RoundButton label="World Flower" className={`pink ${readyCount || due ? "pulse" : ""}`} onClick={onTree}><Icon.tree /></RoundButton>
           {readyCount > 0 && <span className="map-badge">{readyCount}</span>}
         </div>
         {LEVELS.indexOf(cur) >= LEVELS.findIndex((l) => l.id === AFTER_WARMUPS) + 2 && (
@@ -682,7 +795,7 @@ export function rewardGemFocus<T extends { before: number; after: number }>(gain
  *  the child met for the first time pop up as stickers, peel off and fly into the Sticker Book in the corner, "+N"
  *  ("More stickers for your Sticker Book!"), in 4–6 s. Gem energy fills below them. Stars stay in the background: they
  *  unlock the map and show as a small row for grown-ups only. */
-function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level: Level; stars: number; onNext: (finale: boolean) => void; onReplay: () => void; onFlower: () => void; onJumped: () => void }) {
+function Reward({ level, stars, closing, onNext, onReplay, onFlower, onJumped }: { level: Level; stars: number; closing?: string; onNext: (finale: boolean) => void; onReplay: () => void; onFlower: () => void; onJumped: () => void }) {
   // snapshot this level's energy gains (largest first)
   const [gains] = useState(() =>
     Object.entries(levelGains)
@@ -699,7 +812,6 @@ function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level:
   // the words met for the first time in this level: new stickers (the store added them to the Sticker Book already)
   const [newWords] = useState(() => levelNewWords.slice(0, 5));
   const [bookTotal] = useState(() => (store.get().stickers ?? []).length);
-  useHelp(() => say({ line: "help_next" }));
   const [filled, setFilled] = useState(false);
   // the gem Sensei is talking about (it lifts and pulses; the others dim), while she talks about it
   const [gemFocus, setGemFocus] = useState<string | null>(null);
@@ -710,13 +822,77 @@ function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level:
   const bookEl = useRef<HTMLDivElement>(null);
   const [offerJump] = useState(() => level.id !== "review" && !level.trialGem && shouldOfferJump({ ...store.get(), stars: { ...store.get().stars, [level.id]: Math.max(store.get().stars[level.id] ?? 0, stars) } }));
   const [jumping, setJumping] = useState(false);
-  const [talked, setTalked] = useState(false); // Sensei has finished the reward speech: from now on, nudge towards Next
-  const [nudge, setNudge] = useState(false);
-  const nextEl = useRef<HTMLDivElement>(null);
+  const [talked, setTalked] = useState(false); // Sensei has finished the reward speech: Next turns green
+  const talkTok = useRef(0);
+  const alive = useRef(true);
   const w = worldOf(level);
   const newPetals = [...new Set((level.teach ?? []).map((t) => t.split("=")[0]))];
   const isLastInWorld = w.levels[w.levels.length - 1].id === level.id;
   const isFinale = level.id === LEVELS[LEVELS.length - 1].id;
+  // what the speech says about gem energy, decided once (a replay says the same, even after "gem-energy" was heard)
+  const [gemPlan] = useState(() => rewardGemFocus(gains, readyNow, w.id));
+  // a rest nudge, once per session (a replay says it again if it was said)
+  const [rest] = useState(() => {
+    const mins = performance.now() / 60_000;
+    if (restNudged || !(mins > 18 || (mins > 12 && w.key === WORLDS[0].key))) return null;
+    restNudged = true;
+    return mins > 18 ? "break_time" : "dojo_nap";
+  });
+  /** Say the gem line with its gem(s) lifted and pulsing (several: in turn). */
+  const gemTalk = async (line: string, keys: string[], live: () => boolean) => {
+    setGemFocus(keys[0] ?? null);
+    const turns = keys.slice(1).map((k, i) => setTimeout(() => live() && setGemFocus(k), 900 * (i + 1)));
+    const ok = await say({ line });
+    turns.forEach(clearTimeout);
+    await sleep(400);
+    if (live()) setGemFocus(null);
+    return ok;
+  };
+  /**
+   * Sensei's reward speech. `first`: as the reward opens (it waits for the stickers to land, and the gem to fill);
+   * otherwise Hear it again, which starts with the level's closing line (docs/NAVIGATION.md rule 7) and takes over from
+   * a speech still playing. Next turns green once a speech has been said to its end.
+   */
+  const talk = async (first: boolean, flown?: Promise<unknown>) => {
+    const my = ++talkTok.current;
+    const live = () => alive.current && my === talkTok.current;
+    const seq: Say[] = [...(!first && closing ? [{ line: closing }, { gap: 300 }] : []), { line: level.kind === "boss" ? "battle_boss_win" : "yay_7" }];
+    if (newPetals.length) seq.push({ gap: 200 }, { line: newPetals.length > 1 ? "petals_got" : "petal_got" });
+    if (isLastInWorld && !isFinale) seq.push({ gap: 200 }, { line: "world_done" });
+    await say(seq);
+    if (!live()) return false;
+    // the Sticker Book, as the new stickers arrive in it (once per reward)
+    if (newWords.length) {
+      if (flown) await Promise.race([flown, sleep(2600)]);
+      if (!live()) return false;
+      await say({ line: "fm_rw_more" });
+      if (!live()) return false;
+    }
+    // gem energy (NARRATIVE_AUDIT F04): explained once per child (in the level where it first fills, or here), then
+    // only mentioned when a gem visibly gets somewhere: half full, or the first gem to fill in a new land
+    setFilled(true);
+    if (gemPlan.line) {
+      if (first) {
+        if (gemPlan.line === "gem_ready") sfx.petal();
+        // the gem it is about lifts and pulses while it is said (several: in turn), once its energy has risen
+        await sleep(900);
+        if (!live()) return false;
+      }
+      const ok = await gemTalk(gemPlan.line, gemPlan.gems.map((g) => g.gem.key), live);
+      if (ok && gemPlan.line === "audit_gem_first") heard("gem-energy");
+      if (ok && (gemPlan.line === "audit_gem_more" || gemPlan.line === "r2_gems_more")) heard(`gem-more:w${w.id}`);
+      if (!live()) return false;
+    }
+    if (offerJump) await say({ line: "jump_offer" });
+    // gentle rest nudge: little ones (Bamboo Village) after ~12 minutes, everyone after ~18; once per session
+    if (rest && live()) await say({ line: rest }, { keep: true });
+    if (!live()) return false;
+    setTalked(true);
+    return true;
+  };
+  const replay = () => talk(false);
+  useHelp((n) => (n === 1 && !talked ? void replay() : say({ line: "help_next" })), [talked]);
+  useNav({ again: replay, next: { ready: talked, go: () => onNext(isFinale) } });
   useEffect(() => {
     if (level.id !== "review" && !(store.get().stars[level.id] > 0)) mapAnim.from = level.id;
     store.set((s) => {
@@ -765,68 +941,24 @@ function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level:
       setStuck("home");
       void ninja.act("jump");
     })();
-    (async () => {
-      await sleep(600);
-      const seq: any[] = [{ line: level.kind === "boss" ? "battle_boss_win" : "yay_7" }];
-      if (newPetals.length) seq.push({ gap: 200 }, { line: newPetals.length > 1 ? "petals_got" : "petal_got" });
-      if (isLastInWorld && !isFinale) seq.push({ gap: 200 }, { line: "world_done" });
-      await say(seq);
-      // the Sticker Book, as the new stickers arrive in it (once per reward)
-      if (newWords.length) {
-        await Promise.race([flown, sleep(2600)]);
-        if (live) await say({ line: "fm_rw_more" });
-      }
-      // gem energy (NARRATIVE_AUDIT F04): explained once per child (in the level where it first fills, or here), then
-      // only mentioned when a gem visibly gets somewhere: half full, or the first gem to fill in a new land
-      if (!live) return;
-      setFilled(true);
-      const { line: gemLine, gems: focus } = rewardGemFocus(gains, readyNow, w.id);
-      if (gemLine === "gem_ready") sfx.petal();
-      if (gemLine) {
-        // the gem it is about lifts and pulses while it is said (several: in turn), once its energy has risen
-        await sleep(900);
-        if (!live) return;
-        const keys = focus.map((g) => g.gem.key);
-        setGemFocus(keys[0] ?? null);
-        const turns = keys.slice(1).map((k, i) => setTimeout(() => live && setGemFocus(k), 900 * (i + 1)));
-        const ok = await say({ line: gemLine });
-        turns.forEach(clearTimeout);
-        await sleep(400);
-        if (live) setGemFocus(null);
-        if (ok && gemLine === "audit_gem_first") heard("gem-energy");
-        if (ok && (gemLine === "audit_gem_more" || gemLine === "r2_gems_more")) heard(`gem-more:w${w.id}`);
-      }
-      if (offerJump) await say({ line: "jump_offer" });
-      // gentle rest nudge: little ones (Bamboo Village) after ~12 minutes, everyone after ~18; once per session
-      const mins = performance.now() / 60_000;
-      if (!restNudged && (mins > 18 || (mins > 12 && w.key === WORLDS[0].key))) {
-        restNudged = true;
-        await say({ line: mins > 18 ? "break_time" : "dojo_nap" }, { keep: true });
-      }
-      if (live) setTalked(true);
-    })();
-    return () => void (live = false);
-  }, []);
-  // A child who doesn't know what to do next isn't left staring at a still screen: after ~3 s a hand points at the
-  // green Next arrow, and after ~6 s the ninja leaps and points at it with a star while Sensei says "Tap the green
-  // arrow to carry on!". Once more after ~14 s, then it stays quiet. (Leaving the screen clears the timers.)
-  useEffect(() => {
-    if (!talked || jumping) return;
-    const nudgeNext = () => {
-      if (isSpeaking()) return;
-      void ninja.act("jump", nextEl.current?.querySelector("button") ?? undefined);
-      say({ line: "help_next" });
+    alive.current = true;
+    void sleep(600).then(() => live && talk(true, flown));
+    return () => {
+      live = false;
+      alive.current = false;
     };
-    const ts = [setTimeout(() => setNudge(true), 3000), setTimeout(nudgeNext, 6000), setTimeout(nudgeNext, 14000)];
-    return () => ts.forEach(clearTimeout);
-  }, [talked, jumping]);
+  }, []);
+  (window as any).__snState = { scene: "reward", talked };
   const gemSize = gains.length > 4 ? 96 : 110;
   const stickerSize = newWords.length > 4 ? 100 : 118;
   // the panel fits what there is to show (new stickers, gem energy), centred in the space above the buttons; once the
   // stickers are in the book it closes up round the gems
   const showStickers = newWords.length > 0 && stuck !== "home";
   const gemsTop = showStickers ? 186 : 56;
-  const panelH = Math.max(214, gains.length ? gemsTop + gemSize + 36 : showStickers ? 206 : 0);
+  // nothing (more) to show in the panel: no gems filled, no stickers (still) to fly: the level's own trophy instead, so
+  // the reward never looks empty (a story: its happy ending's picture; any other level: its map picture in a medal)
+  const trophy = !showStickers && !gains.length;
+  const panelH = trophy ? 340 : Math.max(214, gains.length ? gemsTop + gemSize + 36 : showStickers ? 206 : 0);
   const panelTop = 18 + Math.max(0, (402 - panelH) / 2);
   const count = bookTotal - (stuck === "home" ? 0 : newWords.length - landed);
   return (
@@ -863,29 +995,49 @@ function Reward({ level, stars, onNext, onReplay, onFlower, onJumped }: { level:
             );
           })}
         </div>
+        {trophy && <RewardTrophy level={level} />}
         {/* stars, in the background: a small row for grown-ups (independent answers only) */}
         <div className="rw-grownup-stars" data-grownups aria-label={`${stars} of 3 stars`}>
           {[1, 2, 3].map((k) => <span key={k}><Icon.star on={k <= stars} /></span>)}
         </div>
       </div>
-      {/* below the panel, clear of the ninja (bottom-left), Sensei's Help button (bottom-right) and his caption bubble */}
-      <div className="reward-buttons">
-        {offerJump && filled && (
-          <RoundButton label="Jump ahead" className="pulse" onClick={() => setJumping(true)} style={{ width: 110, height: 110, background: "radial-gradient(circle at 35% 30%, #e6f0ff 0%, #6aa8ff 55%, #2d5fb8 100%)" }}>
-            <svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" strokeWidth={5} strokeLinejoin="round" d="M10 40l14-14 10 10 20-22v14h6V6H38v6h14L34 32 24 22 6 40z" /></svg>
-          </RoundButton>
-        )}
-        {readyNow && filled && (
-          <RoundButton label="Go to the World Flower" className="pink pulse" onClick={onFlower} style={{ width: 110, height: 110 }}><Icon.tree /></RoundButton>
-        )}
-        <RoundButton label="Play again" onClick={onReplay}><svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" strokeWidth={7} strokeLinecap="round" d="M48 34a16 16 0 1 1-6-13M44 10v12H32" /></svg></RoundButton>
-        <div ref={nextEl} style={{ position: "relative" }}>
-          <RoundButton label="Next" className="go pulse" onClick={() => onNext(isFinale)} style={{ width: 128, height: 128 }}><Icon.next /></RoundButton>
-          <TapHint show={nudge && !jumping} style={{ right: -84, bottom: -12 }} />
-        </div>
-      </div>
+      {/* the nav row (src/ui/nav.tsx) has Hear it again and Next; a reward has no Back, so its own buttons take the row's
+          free slots: Play again (↻, once Sensei has finished, with the green Next) where Back goes, Jump ahead where Show me again goes, and the World Flower (a gem
+          is ready) where the sound picture goes (docs/NAVIGATION.md §5.B) */}
+      {talked && <RoundButton label="Play again" onClick={onReplay} className="rw-again pop-in" style={slotStyle(NAV_SLOTS.row.back)}><Icon.again /></RoundButton>}
+      {offerJump && filled && (
+        <RoundButton label="Jump ahead" className="pulse rw-jump" onClick={() => setJumping(true)} style={{ ...slotStyle(NAV_SLOTS.row.show), background: "radial-gradient(circle at 35% 30%, #e6f0ff 0%, #6aa8ff 55%, #2d5fb8 100%)" }}>
+          <svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" strokeWidth={5} strokeLinejoin="round" d="M10 40l14-14 10 10 20-22v14h6V6H38v6h14L34 32 24 22 6 40z" /></svg>
+        </RoundButton>
+      )}
+      {readyNow && filled && (
+        <RoundButton label="Go to the World Flower" className="pink pulse rw-flower" onClick={onFlower} style={slotStyle(NAV_SLOTS.row.sound)}><Icon.tree /></RoundButton>
+      )}
       {jumping && <JumpAhead gated onClose={() => setJumping(false)} onJumped={onJumped} />}
       <SenseiDock />
+    </div>
+  );
+}
+
+/** A reward with nothing new to show (no gems filled, no new stickers): the level's own trophy. A story's reward is its
+ *  happy ending's picture, framed; any other level's is its map picture (the monster it beat, the gong, the chest...)
+ *  in a gold medal. Not a button. */
+function RewardTrophy({ level }: { level: Level }) {
+  const story = level.story ? STORIES.find((st) => st.id === level.story) : undefined;
+  const ending = story?.pages[story.pages.length - 1]?.scene;
+  if (story && ending)
+    return (
+      <div className="rw-trophy story pop-in" aria-hidden="true">
+        <img src={img(`story_${story.id}_${ending}`)} alt="" />
+      </div>
+    );
+  const icon = level.kind === "battle" || level.kind === "boss" ? `mon_${level.monster}` : KIND_ICON[level.kind] ?? "item_star";
+  return (
+    <div className="rw-trophy medal pop-in" aria-hidden="true">
+      <span className="rw-medal-ribbon" />
+      <span className="rw-medal">
+        <img src={img(icon)} alt="" />
+      </span>
     </div>
   );
 }
@@ -906,7 +1058,12 @@ function nextInSession(): Route | null {
   const f = store.get().firstSession;
   return f ? { name: "level", id: f.lessons[Math.min(1, f.step)] } : null;
 }
+/** Start, for a child who has seen the film: resume where they were (Home before the map goes to the title, so a child
+ *  who left the opt-in or the dojo welcome comes back to it; docs/NAVIGATION.md §3.3). */
 function afterLaunch(): Route {
+  const s = store.get();
+  if (brandNew(s)) return { name: "optin" };
+  if (s.firstSession && !s.seenTraining) return { name: "training" };
   if (movingUpDue()) return { name: "optin", mode: "newyear" };
   return nextInSession() ?? { name: "map", intro: "welcome" };
 }
@@ -978,21 +1135,38 @@ function useFirstCheck(level: Level, onDrop: (band: StartBand) => void) {
     const seen = new Set<string>();
     const got: boolean[] = [];
     let done = false;
+    let poll = 0;
     const onTap = (e: PointerEvent) => {
       const st = (window as any).__snState;
       const next = st?.next;
       // ("learn": tapping a new spelling to hear it is not a question)
       if (done || typeof next !== "string" || st.busy || ["learn", "stickers", "optin"].includes(st.scene) || String(st.scene).startsWith("tut-")) return;
+      // (the nav controls, src/ui/nav.tsx: Home, Back, Hear it again, Show me again, the sound picture, Next, are never answers)
+      if ((e.target as Element).closest?.("[data-nav]")) return;
       const label = (e.target as Element).closest?.("[aria-label]")?.getAttribute("aria-label");
       if (!label || /^(Help|Hear it again|Hear the word|map|Grown-ups)/.test(label) || seen.has(next)) return;
       seen.add(next); // only the first try at each item counts
       got.push(label === next);
       if (got.length < 3) return;
       done = true;
-      if (got.filter(Boolean).length <= 1) onDrop(bandBelow(band));
+      if (got.filter(Boolean).length > 1) return;
+      // one band down, at the item boundary: once the scene asks its next question (or has nothing left to ask), at most
+      // 12 s later (game time)
+      const t0 = performance.now();
+      poll = window.setInterval(() => {
+        const now = (window as any).__snState;
+        const moved = !now || now.scene !== st.scene || (typeof now.next === "string" && now.next !== next) || (now.next == null && !now.busy);
+        if (moved || (performance.now() - t0) * FAST > 12_000) {
+          clearInterval(poll);
+          onDrop(bandBelow(band));
+        }
+      }, 150);
     };
     document.addEventListener("pointerdown", onTap, true);
-    return () => document.removeEventListener("pointerdown", onTap, true);
+    return () => {
+      document.removeEventListener("pointerdown", onTap, true);
+      clearInterval(poll);
+    };
   }, [level.id]);
 }
 /** Warm-up stones, and the first session on any path, get the Sticker Book reward. */
@@ -1001,7 +1175,7 @@ function stickerReward(level: Level) {
   return isWarmup(level) || (!!f && f.lessons.includes(level.id));
 }
 const S_WORDS = ["sun", "sock", "sausage", "sunflower"];
-function StickerRoute({ level, stars, onNext, onReplay }: { level: Level; stars: number; onNext: (r: Route) => void; onReplay: () => void }) {
+function StickerRoute({ level, stars, closing, onNext, onReplay }: { level: Level; stars: number; closing?: string; onNext: (r: Route) => void; onReplay: () => void }) {
   const [plan] = useState(() => {
     const s = store.get();
     const f = s.firstSession;
@@ -1010,15 +1184,7 @@ function StickerRoute({ level, stars, onNext, onReplay }: { level: Level; stars:
     const words = w ? w.stickers : levelNewWords.slice(0, 6);
     const firstW2 = level.warmup === "W2" && !s.shiny?.includes("fishdog");
     const mode: "intro" | "open" | "short" = !words.length ? "short" : !s.seenBook ? "intro" : step === 1 || firstW2 ? "open" : "short";
-    // stars stay in the background (so the map unlocks); petals as usual
     if (!(s.stars[level.id] > 0)) mapAnim.from = level.id;
-    store.set((x) => {
-      x.stars[level.id] = Math.max(x.stars[level.id] ?? 0, isWarmup(level) ? 1 : Math.max(1, stars));
-      for (const t of level.teach ?? []) {
-        const g = t.split("=")[0];
-        if (!x.petals.includes(g)) x.petals.push(g);
-      }
-    });
     const open = mode === "open" && !!w;
     return {
       step, words, mode,
@@ -1028,6 +1194,17 @@ function StickerRoute({ level, stars, onNext, onReplay }: { level: Level; stars:
       petal: open && level.warmup === "W2" && !s.petals.includes("s") ? ("s" as const) : undefined,
     };
   });
+  useEffect(() => {
+    // stars stay in the background (so the map unlocks); petals as usual (after the first render: a store write while
+    // rendering would update other screens' subscribers mid-render)
+    store.set((x) => {
+      x.stars[level.id] = Math.max(x.stars[level.id] ?? 0, isWarmup(level) ? 1 : Math.max(1, stars));
+      for (const t of level.teach ?? []) {
+        const g = t.split("=")[0];
+        if (!x.petals.includes(g)) x.petals.push(g);
+      }
+    });
+  }, []);
   const next = () => {
     const s = store.get();
     if (plan.step === 0) {
@@ -1045,8 +1222,17 @@ function StickerRoute({ level, stars, onNext, onReplay }: { level: Level; stars:
     }
     return onNext({ name: "map", world: level.world, intro: level.warmup ? warmupPace(level) : undefined });
   };
+  // Home (docs/NAVIGATION.md §3.3): Reward 1 counts Lesson 1 as done and goes to the title (Start resumes at Lesson 2);
+  // Reward 2 and later rewards do what their Next does (Reward 2: the first session is over, the map with its Sticker
+  // Book introduction), so nothing is lost
+  useHome(() => {
+    if (plan.step !== 0) return next();
+    store.set((x) => void (x.firstSession = x.firstSession && { ...x.firstSession, step: 1 }));
+    onNext({ name: "title" });
+  });
   return (
     <StickerReward
+      closing={closing}
       words={plan.words}
       mode={plan.mode}
       list={plan.list}
@@ -1089,7 +1275,7 @@ function warmupPace(level: Level): "super" | "again" | undefined {
 
 // ---------------------------------------------------------------- the picture parade (?scene=picparade, §11 rule 7)
 /** The family test: every warm-up picture full screen, with ✓/✗ for a grown-up to mark whether the child named it. */
-function PicParade({ onBack }: { onBack: () => void }) {
+function PicParade() {
   const KEY = "superninja.picparade.v1";
   const [words] = useState(() => warmupPictures());
   const [i, setI] = useState(0);
@@ -1113,7 +1299,6 @@ function PicParade({ onBack }: { onBack: () => void }) {
   (window as any).__snState = { scene: "picparade", i, n: words.length };
   return (
     <div className="scene" data-grownups style={{ background: "linear-gradient(180deg,#fff4dc,#f6e3bb)" }}>
-      <div className="topbar"><RoundButton sm label="back" onClick={onBack}><Icon.back /></RoundButton></div>
       {w ? (
         <>
           <div style={{ position: "absolute", left: 340, top: 70 }}>

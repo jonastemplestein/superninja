@@ -295,13 +295,24 @@ export const Icon = {
   star: ({ on = true }: { on?: boolean }) => (
     <svg viewBox="0 0 64 64"><path {...P} strokeWidth={5} fill={on ? "#ffc53d" : "rgba(255,244,220,.5)"} d="M32 6l7.6 16 17.4 2.2-12.8 12 3.3 17.3L32 45l-15.5 8.5 3.3-17.3L7 24.2 24.4 22z" /></svg>
   ),
+  /** The pointing hand the demos use (the paw): "Show me again". */
+  paw: () => (
+    <svg viewBox="0 0 64 64"><path d="M26 30V12a5 5 0 0 1 10 0v16l3-1a5 5 0 0 1 6 3l1 1a5 5 0 0 1 6 4v8c0 9-6 16-15 16h-3c-6 0-10-3-13-8l-7-11a4 4 0 0 1 6-5l6 6z" fill="#fff4dc" stroke="#2b1d14" strokeWidth={4.5} strokeLinejoin="round" /></svg>
+  ),
+  /** ↻ "Play again" (a whole level or reward, never "say it again": that is the speaker). */
+  again: () => (
+    <svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" strokeWidth={7} strokeLinecap="round" d="M48 34a16 16 0 1 1-6-13M44 10v12H32" /></svg>
+  ),
 };
 
-export function RoundButton({ onClick, children, className = "", label, style, sm }: { onClick: () => void; children: ReactNode; className?: string; label: string; style?: CSSProperties; sm?: boolean }) {
+/** `nav`: sets `data-nav` (docs/NAVIGATION.md §3.1: home, back, again, show, sound, next), which bots and the sweep find
+ *  the navigation controls by. */
+export function RoundButton({ onClick, children, className = "", label, style, sm, nav }: { onClick: () => void; children: ReactNode; className?: string; label: string; style?: CSSProperties; sm?: boolean; nav?: string }) {
   return (
     <button
       className={`btn-round ${sm ? "sm" : ""} ${className}`}
       aria-label={label}
+      data-nav={nav}
       style={style}
       {...tapProps(() => {
         sfx.tap();
@@ -756,6 +767,16 @@ export function useHelp(fn: HelpFn, deps: unknown[] = []) {
       if (i >= 0) helpStack.splice(i, 1);
     };
   }, deps);
+}
+/** useHelp outside a component (e.g. a scripted hold, src/ui/nav.tsx holdNext): on top of the stack until the returned
+ *  function removes it. */
+export function pushHelp(fn: HelpFn): () => void {
+  const entry = { fn: { current: fn }, count: 0 };
+  helpStack.push(entry);
+  return () => {
+    const i = helpStack.indexOf(entry);
+    if (i >= 0) helpStack.splice(i, 1);
+  };
 }
 /** Make the help button wiggle for attention (e.g. when a child seems stuck). */
 export function nudgeHelp(on = true) {

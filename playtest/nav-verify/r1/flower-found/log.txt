@@ -1,0 +1,41 @@
+   4.5s pos route=tree pres=gem-found#0/5 scene=tree next=null step=visit nav.next=wait again=true back=false home=45px@64,62
+   7.3s pos route=tree pres=gem-found#0/5 scene=tree next=null step=visit nav.next=ready again=true back=false home=45px@64,62
+   7.8s HELD tree|gem-found#0/5||visit|| (Next 36px on the phone, again=57px, back=false)
+   7.8s !! next-small @ tree|gem-found#0/5||visit||: Next 36px
+  29.1s   idle 20s: still held; glow=true; said: line:nav_ready
+  32.2s   Hear it again → line:wf_found_sound
+  35.9s   > Next
+  36.7s pos route=tree pres=gem-found#1/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+  45.9s pos route=tree pres=gem-found#1/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+  46.3s HELD tree|gem-found#1/5||visit|| (Next 47px on the phone, again=57px, back=true)
+  67.6s   idle 20s: still held; glow=true; said: line:nav_ready
+  70.6s   Hear it again → line:t_way_we_spell, sound:ae, line:tg_ai_ae_in
+  78.6s   Back → gem-found#0
+  84.8s pos route=tree pres=gem-found#1/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+  94.0s pos route=tree pres=gem-found#1/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+  94.7s   > Next
+  95.4s pos route=tree pres=gem-found#2/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+ 101.9s pos route=tree pres=gem-found#2/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+ 102.4s HELD tree|gem-found#2/5||visit|| (Next 67px on the phone, again=57px, back=true)
+ 123.4s   idle 20s: still held; glow=true; said: line:nav_ready
+ 126.5s   Hear it again → line:same_sound_new
+ 131.2s   > Next
+ 131.9s pos route=tree pres=gem-found#3/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+ 141.2s pos route=tree pres=gem-found#3/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+ 141.5s HELD tree|gem-found#3/5||visit|| (Next 42px on the phone, again=57px, back=true)
+ 141.5s !! next-small @ tree|gem-found#3/5||visit||: Next 42px
+ 162.7s   idle 20s: still held; glow=true; said: line:nav_ready
+ 165.8s   Hear it again → line:t_way_we_spell, sound:ae, line:tg_ay_ae_in
+ 173.6s   > Next
+ 174.3s pos route=tree pres=gem-found#4/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+ 177.1s pos route=tree pres=gem-found#4/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+ 177.5s HELD tree|gem-found#4/5||visit|| (Next 67px on the phone, again=57px, back=true)
+ 198.4s   idle 20s: still held; glow=true; said: line:nav_ready
+ 201.4s   Hear it again → line:t_ways_2, sound:ae
+ 202.2s   > Next
+ 202.9s pos route=tree pres=null scene=tree next=null step=done nav.next=ready again=true back=false home=45px@64,62
+ 204.2s HELD tree|tree||done|| (Next 70px on the phone, again=45px, back=false)
+ 225.3s   idle 20s: still held; glow=true; said: line:nav_ready
+ 228.4s   Hear it again → line:flower_tap
+ 229.0s   > Next
+ 229.7s stop: route map scene map

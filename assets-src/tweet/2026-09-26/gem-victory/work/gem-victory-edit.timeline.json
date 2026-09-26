@@ -1,0 +1,219 @@
+{
+ "name": "gem-victory",
+ "take": "take4-noshake",
+ "pieces": {
+  "A": [
+   2.7666666666666666,
+   13.3
+  ],
+  "B": [
+   26.866666666666667,
+   31.6
+  ]
+ },
+ "audio": {
+  "A": [
+   2.737,
+   13.203
+  ],
+  "B": [
+   26.77,
+   31.57
+  ],
+  "delay": 0.03
+ },
+ "shakes": [
+  4.039,
+  4.859,
+  13.378
+ ],
+ "captions": [
+  {
+   "id": "trial_win",
+   "text": "You won the gem! It's going into its petal!",
+   "from": 0.045,
+   "to": 2.886
+  },
+  {
+   "id": "wf_new_gem_here",
+   "text": "Look! Your new gem goes here, in its petal.",
+   "from": 7.246,
+   "to": 10.424
+  },
+  {
+   "id": "petal_complete",
+   "text": "All the gems are in! The petal flies back onto the World Flower!",
+   "from": 10.533,
+   "to": 14.864
+  }
+ ],
+ "events": [
+  {
+   "t": -0.013,
+   "kind": "scene",
+   "id": "tree"
+  },
+  {
+   "t": -0.012,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 0.045,
+   "kind": "sting",
+   "id": "gem_victory",
+   "dur": 10.031
+  },
+  {
+   "t": 0.045,
+   "kind": "speech",
+   "id": "trial_win",
+   "dur": 2.841,
+   "text": "You won the gem! It's going into its petal!"
+  },
+  {
+   "t": 0.046,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 0.238,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 4.039,
+   "kind": "mark",
+   "id": "shake (put back)"
+  },
+  {
+   "t": 4.045,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 4.219,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 4.219,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 4.859,
+   "kind": "mark",
+   "id": "shake (put back)"
+  },
+  {
+   "t": 4.86,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 4.939,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 5.159,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 5.459,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 7.246,
+   "kind": "speech",
+   "id": "wf_new_gem_here",
+   "dur": 3.178,
+   "text": "Look! Your new gem goes here, in its petal."
+  },
+  {
+   "t": 10.502,
+   "kind": "sfx",
+   "id": "gong"
+  },
+  {
+   "t": 10.503,
+   "kind": "speech",
+   "id": "petal_complete",
+   "dur": 4.361,
+   "text": "All the gems are in! The petal flies back onto the World Flower!"
+  },
+  {
+   "t": 10.533,
+   "kind": "mark",
+   "id": "cut"
+  },
+  {
+   "t": 11.405,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 11.726,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 12.081,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 12.557,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 12.557,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 12.558,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 12.739,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 12.739,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 13.378,
+   "kind": "mark",
+   "id": "shake (put back)"
+  },
+  {
+   "t": 13.379,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 13.459,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 13.679,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 13.979,
+   "kind": "sfx",
+   "id": "twinkle"
+  }
+ ]
+}

@@ -1,10 +1,12 @@
 // "Get ready!" — shown before the game when it's running inside a browser tab (browser bars visible).
 // Android/desktop: one-tap install or full screen. iPhone/iPad: Safari can't go full screen for web pages,
-// so we show the Share → Add to Home Screen steps. Always offers "play here anyway".
+// so we show the Share → Add to Home Screen steps. Always offers "play here anyway". Home (top-left, the nav layer's)
+// does what "play here" does: on to the title (docs/NAVIGATION.md §3.3).
 import { useState } from "react";
 import { img, tapProps, heroImg, useHelp } from "../ui/ui";
 import { sfx, unlockAudio } from "../engine/audio";
 import { store } from "../engine/store";
+import { useHome } from "../ui/nav";
 
 export const isIOS = () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 export const isAndroid = () => /Android/i.test(navigator.userAgent);
@@ -32,7 +34,7 @@ const PlusIcon = () => (
   <svg viewBox="0 0 24 24" width="40" height="40" style={{ verticalAlign: "-10px" }}><rect x="1" y="1" width="22" height="22" rx="6" fill="#fff" stroke="#2b1d14" strokeWidth="1.5" /><rect x="6" y="6" width="12" height="12" rx="3" fill="none" stroke="#2b1d14" strokeWidth="1.8" /><path d="M12 9v6M9 12h6" stroke="#2b1d14" strokeWidth="1.8" strokeLinecap="round" /></svg>
 );
 
-export function Setup({ onDone }: { onDone: () => void }) {
+export function Setup({ onDone, onHome }: { onDone: () => void; onHome?: () => void }) {
   const [prompt] = useState(() => (window as any).__installPrompt as any);
   const ios = isIOS();
   useHelp(() => {});
@@ -44,6 +46,8 @@ export function Setup({ onDone }: { onDone: () => void }) {
     unlockAudio();
     onDone();
   };
+  // Home = "play here": on to the title, with the page marked done (App's own Home rule would skip that)
+  useHome(onHome ?? finish);
   const Step = ({ n, children }: { n: number; children: React.ReactNode }) => (
     <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 30, fontWeight: 700, lineHeight: 1.25 }}>
       <span style={{ flex: "none", width: 54, height: 54, borderRadius: "50%", display: "grid", placeItems: "center", background: "#ffc53d", border: "5px solid #2b1d14", fontFamily: "var(--font-display)", fontSize: 30 }}>{n}</span>

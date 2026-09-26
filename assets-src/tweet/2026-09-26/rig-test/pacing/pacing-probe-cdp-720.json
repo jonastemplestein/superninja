@@ -1,0 +1,30 @@
+[
+ {
+  "name": "probe-cdp-720",
+  "capture": "cdp",
+  "size": "720p",
+  "load": "{ 6.03 8.46 9.04 }",
+  "frames": 494,
+  "repeatPct": 0.2,
+  "droppedPct": 0,
+  "onTimePct": 99,
+  "jitterPx": 1.27,
+  "delivered": {
+   "frames": 1034,
+   "fps": 60,
+   "p50": 16.7,
+   "p95": 18.1,
+   "p99": 18.6,
+   "max": 32.7,
+   "hitches": 0,
+   "repeatedSlots": 0,
+   "slots": 517,
+   "deliveryMs": 7
+  },
+  "sync": {
+   "shift": 38.5,
+   "median": 2.6,
+   "maxAbs": 16.9
+  }
+ }
+]

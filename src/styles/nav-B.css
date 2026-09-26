@@ -1,0 +1,27 @@
+/* Navigation, group B (docs/NAVIGATION.md §5.B): the shell (App.tsx), the film, the World Flower's trips, the rewards and
+   the finale. Stage px (1280×720). The nav layer itself is src/ui/nav.tsx + src/styles/nav.css. */
+
+/* Home is the nav layer's now (top-left, the Home zone x 0–130, y 0–130): every screen's top bar starts right of it */
+.topbar { padding-left: 124px; }
+
+/* the film: a dot per shot along the top (the nav row owns the bottom strip) */
+.film-dots { position: absolute; left: 0; right: 0; top: 30px; display: flex; justify-content: center; gap: 10px; pointer-events: none; }
+.film-dots span { width: 14px; height: 14px; border-radius: 50%; background: rgba(255, 244, 220, 0.35); border: 2px solid #2b1d14; transition: background 0.3s, transform 0.3s; }
+.film-dots span.seen { background: #ffc53d; }
+.film-dots span.now { background: #ffc53d; transform: scale(1.35); box-shadow: 0 0 10px #ffe38a; }
+
+/* the World Flower's first visit (Intros.tsx FlowerIntro): the /a/ sound picture; once gems are introduced, the picture
+   slides into the petal's top-right corner, like the school chart, and the gem sits in the round part */
+.intro-badge { position: absolute; left: 0; top: 0; }
+.intro-badge .sound-badge-in img { transition: left 0.6s cubic-bezier(0.3, 1.3, 0.5, 1), top 0.6s cubic-bezier(0.3, 1.3, 0.5, 1), width 0.6s ease, height 0.6s ease; }
+.intro-badge.corner .sound-badge-in img { left: 176px !important; top: -18px !important; width: 98px !important; height: 98px !important; filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3)); }
+.intro-gem { position: absolute; left: 65px; top: 62px; pointer-events: none; }
+
+/* a new land's recap head (WorldVisit): the sound picture glows in its colour beside the spellings */
+.trip-recap-head .sound-badge { flex: none; filter: drop-shadow(0 0 14px var(--petal)) drop-shadow(0 4px 0 rgba(43, 29, 20, 0.28)); }
+
+/* the World Flower under a trip: dimmed and out of reach (the trip is a show over it) */
+.tree-base[inert] { pointer-events: none; }
+
+/* the petal panel's header: the sound picture (SoundBadge, 200 px) */
+.pd-left .sound-badge { flex: none; }

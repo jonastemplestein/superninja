@@ -1,0 +1,111 @@
+{
+ "master": "assets-src/tweet/2026-09-26/rig-test/sync/sync-taps.master.mp4",
+ "taps": 7,
+ "sync": {
+  "pictureLatencyMs": [
+   70.4,
+   53.5,
+   91.1,
+   62.7,
+   53.7,
+   71.1,
+   70.6,
+   72.8,
+   70.2,
+   76
+  ],
+  "audioShiftMs": 79.2,
+  "residualMs": [
+   -9.1,
+   7.2,
+   -15.8,
+   18.9,
+   9.9,
+   -11.8,
+   3.2,
+   -15.1,
+   3.9,
+   -17.5
+  ],
+  "residualMedianMs": -2.9,
+  "residualMaxAbsMs": 18.9
+ },
+ "frames": {
+  "frames": 2217,
+  "fps": 59.5,
+  "p50": 16.7,
+  "p95": 18.1,
+  "p99": 18.9,
+  "max": 121.7,
+  "hitches": 2,
+  "repeatedSlots": 4,
+  "slots": 1118,
+  "deliveryMs": 12.9
+ },
+ "offsetMs": {
+  "min": -29,
+  "median": -1,
+  "max": 25,
+  "mean": 1,
+  "within80": 7
+ },
+ "note": "offset = tap sfx onset minus the first frame showing the ripple (positive: sound after picture). Frames are 33 ms apart, so ±17 ms is quantisation.",
+ "rows": [
+  {
+   "t": 12.644,
+   "tile": "m",
+   "sfx": "tap",
+   "visual": 12.633,
+   "audio": 12.653,
+   "offsetMs": 20
+  },
+  {
+   "t": 16.45,
+   "tile": "m",
+   "sfx": "tap",
+   "visual": 16.467,
+   "audio": 16.459,
+   "offsetMs": -7
+  },
+  {
+   "t": 20.79,
+   "tile": "i",
+   "sfx": "tap",
+   "visual": 20.8,
+   "audio": 20.799,
+   "offsetMs": -1
+  },
+  {
+   "t": 22.156,
+   "tile": "m",
+   "sfx": "tap",
+   "visual": 22.167,
+   "audio": 22.166,
+   "offsetMs": 0
+  },
+  {
+   "t": 24.428,
+   "tile": "n",
+   "sfx": "tap",
+   "visual": 24.467,
+   "audio": 24.437,
+   "offsetMs": -29
+  },
+  {
+   "t": 37.953,
+   "tile": "h",
+   "sfx": "tap",
+   "visual": 37.967,
+   "audio": 37.962,
+   "offsetMs": -4
+  },
+  {
+   "t": 39.455,
+   "tile": "i",
+   "sfx": "tap",
+   "visual": 39.467,
+   "audio": 39.491,
+   "offsetMs": 25
+  }
+ ]
+}

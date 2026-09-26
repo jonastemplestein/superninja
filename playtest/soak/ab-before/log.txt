@@ -1,0 +1,358 @@
+building a production snapshot → /var/folders/p8/rkz0wfgd3tsfwzm9zk7s_v5r0000gn/T/superninja-soak-5189
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+soak: 12 levels from w1-2 at fast=2, phone emulation, CPU 4× slower, served prod from http://127.0.0.1:5189 → playtest/soak/ab-before
+    9s baseline  map              fps 60.2 main   7.5% cpu   83%/  9% heap 3.7MB nodes 165 (fx 0) listeners 251 anims 29/9inf particles 0/0 raf/s 120 iv 1 decoded 0.9MB
+   21s periodic  level:w1-2       fps 60.4 main  24.2% cpu   90%/  8% heap 6.4MB nodes 205 (fx 0) listeners 255 anims 37/29inf particles 0/32 raf/s 115.8 iv 1 decoded 5.5MB
+   32s periodic  level:w1-2       fps 60.3 main  22.9% cpu   91%/  9% heap 6.4MB nodes 248 (fx 0) listeners 249 anims 36/31inf particles 0/92 raf/s 123.3 iv 1 decoded 8MB
+   43s periodic  level:w1-2       fps 60.9 main  24.3% cpu   92%/  9% heap 6.3MB nodes 235 (fx 0) listeners 227 anims 38/28inf particles 0/99 raf/s 124.6 iv 1 decoded 9.7MB
+   55s periodic  level:w1-2       fps 60.7 main  25.1% cpu   94%/ 12% heap 6.3MB nodes 321 (fx 0) listeners 219 anims 48/35inf particles 0/99 raf/s 123.5 iv 1 decoded 11.1MB
+   66s periodic  tree             fps   61 main  48.8% cpu  111%/ 19% heap 7.5MB nodes 1939 (fx 0) listeners 270 anims 57/43inf particles 0/178 raf/s 123.7 iv 1 decoded 14.1MB
+— w1-2 (firstsound) done in 60s, streak max 8
+   77s boundary  map              fps 60.6 main   7.1% cpu   83%/ 10% heap 6.7MB nodes 194 (fx 0) listeners 277 anims 29/9inf particles 0/0 raf/s 119.3 iv 1 decoded 14.9MB
+   88s periodic  level:w1-3       fps   61 main  22.7% cpu   91%/ 11% heap 7.1MB nodes 212 (fx 0) listeners 226 anims 48/37inf particles 0/84 raf/s 123.5 iv 1 decoded 16.2MB
+  100s periodic  level:w1-3       fps 60.3 main  26.9% cpu   93%/ 14% heap 7MB nodes 271 (fx 0) listeners 228 anims 54/40inf particles 0/106 raf/s 126.2 iv 1 decoded 17MB
+  111s periodic  level:w1-3       fps 60.4 main  28.1% cpu   95%/ 16% heap 7.4MB nodes 403 (fx 0) listeners 253 anims 58/43inf particles 0/100 raf/s 127.4 iv 1 decoded 18.4MB
+  122s periodic  tree             fps 60.9 main  44.4% cpu  107%/ 19% heap 8MB nodes 1911 (fx 0) listeners 271 anims 59/45inf particles 0/180 raf/s 126.3 iv 2 decoded 18.7MB
+— w1-3 (firstsound) done in 53s, streak max 16
+  137s boundary  map              fps 61.1 main   8.3% cpu   84%/ 10% heap 7MB nodes 218 (fx 0) listeners 277 anims 29/9inf particles 0/0 raf/s 120.2 iv 1 decoded 20.4MB
+  149s periodic  level:w1-4       fps 60.8 main  24.8% cpu   92%/ 16% heap 7MB nodes 213 (fx 0) listeners 200 anims 56/44inf particles 0/13 raf/s 124.9 iv 1 decoded 23.9MB
+  160s periodic  level:w1-4       fps 60.5 main  29.6% cpu   95%/ 18% heap 7.3MB nodes 223 (fx 0) listeners 201 anims 59/46inf particles 0/82 raf/s 124.8 iv 1 decoded 25.6MB
+  171s periodic  level:w1-4       fps 60.8 main  30.5% cpu   96%/ 18% heap 7.4MB nodes 217 (fx 0) listeners 201 anims 58/46inf particles 0/137 raf/s 123.1 iv 1 decoded 27.2MB
+  182s periodic  level:w1-4       fps 60.8 main  30.6% cpu   96%/ 19% heap 7.3MB nodes 227 (fx 0) listeners 200 anims 58/44inf particles 6/71 raf/s 127.7 iv 1 decoded 27.4MB
+  193s periodic  level:w1-4       fps   61 main  28.3% cpu   94%/ 17% heap 7.7MB nodes 239 (fx 0) listeners 244 anims 55/43inf particles 0/129 raf/s 122.4 iv 1 decoded 29MB
+— w1-4 (dojo) done in 63s, streak max 23
+  208s boundary  map              fps 60.5 main   8.1% cpu   83%/ 10% heap 7.4MB nodes 232 (fx 0) listeners 277 anims 29/9inf particles 0/0 raf/s 120.2 iv 1 decoded 30.5MB
+  219s periodic  level:w1-5       fps 60.9 main  26.1% cpu   94%/ 16% heap 7.7MB nodes 254 (fx 0) listeners 208 anims 56/41inf particles 0/43 raf/s 122.8 iv 1 decoded 31.3MB
+  230s periodic  level:w1-5       fps 60.4 main  29.6% cpu   95%/ 18% heap 7.5MB nodes 239 (fx 0) listeners 205 anims 60/45inf particles 0/82 raf/s 124.7 iv 1 decoded 31.5MB
+  241s periodic  level:w1-5       fps 60.9 main  30.3% cpu   96%/ 18% heap 7.7MB nodes 261 (fx 0) listeners 204 anims 60/45inf particles 8/132 raf/s 125.9 iv 1 decoded 31.5MB
+  253s periodic  level:w1-5       fps 60.3 main  30.9% cpu   96%/ 18% heap 7.7MB nodes 235 (fx 0) listeners 202 anims 60/46inf particles 0/71 raf/s 125.3 iv 1 decoded 31.9MB
+  264s periodic  level:w1-5       fps 61.1 main    28% cpu   94%/ 17% heap 7.8MB nodes 255 (fx 0) listeners 217 anims 68/48inf particles 0/131 raf/s 123.3 iv 1 decoded 31.9MB
+  275s periodic  map              fps   61 main  34.4% cpu  100%/ 15% heap 7.9MB nodes 496 (fx 0) listeners 323 anims 34/12inf particles 0/184 raf/s 120.7 iv 1 decoded 32.5MB
+— w1-5 (dojo) done in 67s, streak max 33
+  282s boundary  map              fps 60.3 main   7.4% cpu   83%/ 10% heap 7.5MB nodes 246 (fx 0) listeners 277 anims 29/9inf particles 0/0 raf/s 120.3 iv 1 decoded 32.5MB
+  293s periodic  level:w1-6       fps 60.4 main  30.9% cpu   96%/ 14% heap 8.4MB nodes 488 (fx 0) listeners 210 anims 38/34inf particles 0/144 raf/s 128.8 iv 1 decoded 34.7MB
+  305s periodic  level:w1-6       fps 60.9 main  30.4% cpu   96%/ 12% heap 9MB nodes 570 (fx 27) listeners 214 anims 70/36inf particles 145/165 raf/s 137.1 iv 1 decoded 34.7MB
+— w1-6 (battle) done in 30s, streak max 36
+  319s boundary  map              fps 60.8 main   8.6% cpu   83%/ 10% heap 7.8MB nodes 262 (fx 0) listeners 277 anims 30/10inf particles 0/0 raf/s 120.5 iv 1 decoded 35.8MB
+  331s periodic  level:w1-7       fps 60.7 main  21.9% cpu   91%/ 11% heap 8.1MB nodes 229 (fx 0) listeners 236 anims 49/31inf particles 0/0 raf/s 119.9 iv 1 decoded 38.6MB
+  342s periodic  level:w1-7       fps 61.1 main  27.8% cpu   94%/ 13% heap 8.5MB nodes 335 (fx 0) listeners 223 anims 51/37inf particles 0/85 raf/s 127.6 iv 1 decoded 40.8MB
+  353s periodic  level:w1-7       fps 60.7 main  25.8% cpu   92%/ 12% heap 8.1MB nodes 313 (fx 0) listeners 201 anims 51/38inf particles 82/82 raf/s 122.7 iv 1 decoded 41MB
+  364s periodic  level:w1-7       fps 59.8 main  29.3% cpu   95%/ 14% heap 8.1MB nodes 360 (fx 0) listeners 207 anims 70/46inf particles 47/116 raf/s 124.8 iv 1 decoded 41MB
+  375s periodic  level:w1-7       fps 60.7 main  27.9% cpu   94%/ 17% heap 8.1MB nodes 349 (fx 0) listeners 208 anims 63/52inf particles 0/70 raf/s 122.4 iv 1 decoded 41.1MB
+  387s periodic  reward:w1-7      fps 60.7 main    33% cpu   99%/ 15% heap 8.2MB nodes 334 (fx 0) listeners 212 anims 63/46inf particles 0/178 raf/s 122 iv 2 decoded 41.6MB
+— w1-7 (soundhunt) done in 75s, streak max 13
+  401s boundary  map              fps 60.8 main   8.4% cpu   83%/ 10% heap 8MB nodes 278 (fx 0) listeners 277 anims 30/10inf particles 0/0 raf/s 120.3 iv 1 decoded 42.3MB
+  441s periodic  level:w1-8       fps 60.4 main  24.5% cpu   92%/ 14% heap 8MB nodes 324 (fx 0) listeners 206 anims 62/43inf particles 0/93 raf/s 120.3 iv 1 decoded 44.9MB
+  452s periodic  level:w1-8       fps 60.9 main  33.9% cpu   97%/ 13% heap 8.2MB nodes 394 (fx 0) listeners 208 anims 56/43inf particles 0/121 raf/s 131.5 iv 1 decoded 45.8MB
+  464s periodic  level:w1-8       fps 60.9 main  33.6% cpu   98%/ 13% heap 8.4MB nodes 580 (fx 0) listeners 212 anims 85/39inf particles 0/111 raf/s 125.4 iv 1 decoded 46.1MB
+  475s periodic  level:w1-8       fps 60.5 main  33.6% cpu   98%/ 14% heap 8.5MB nodes 708 (fx 0) listeners 206 anims 91/46inf particles 31/112 raf/s 130.2 iv 1 decoded 47.1MB
+— w1-8 (swap) done in 81s, streak max 25
+  490s boundary  map              fps 60.8 main   9.3% cpu   86%/ 11% heap 8.2MB nodes 290 (fx 0) listeners 277 anims 30/10inf particles 0/0 raf/s 120.4 iv 1 decoded 47.3MB
+  501s periodic  level:w1-9       fps 39.4 main  91.4% cpu  103%/  6% heap 9.1MB nodes 191 (fx 0) listeners 204 anims 5/4inf particles 0/110 raf/s 107.2 iv 1 decoded 49MB
+  512s periodic  level:w1-9       fps 37.8 main  99.7% cpu  105%/  6% heap 9.5MB nodes 192 (fx 0) listeners 204 anims 1/0inf particles 0/146 raf/s 103.8 iv 1 decoded 49.5MB
+  524s periodic  level:w1-9       fps 35.8 main  99.8% cpu  105%/  6% heap 9.1MB nodes 185 (fx 0) listeners 201 anims 1/0inf particles 28/110 raf/s 104.2 iv 1 decoded 49.5MB
+  535s periodic  level:w1-9       fps 35.9 main  99.8% cpu  104%/  5% heap 9.6MB nodes 185 (fx 0) listeners 196 anims 5/4inf particles 119/174 raf/s 103.4 iv 1 decoded 49.9MB
+— w1-9 (run) done in 50s, streak max 31
+  547s boundary  map              fps 60.7 main  10.2% cpu   85%/ 11% heap 8.7MB nodes 368 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 119.7 iv 1 decoded 49.9MB
+  558s periodic  level:w1-10      fps 60.7 main  29.2% cpu   96%/ 17% heap 9.1MB nodes 366 (fx 0) listeners 245 anims 56/43inf particles 0/98 raf/s 123.5 iv 1 decoded 50.9MB
+  569s periodic  level:w1-10      fps 60.6 main  26.3% cpu   93%/ 16% heap 8.9MB nodes 388 (fx 0) listeners 224 anims 57/43inf particles 0/99 raf/s 126.1 iv 1 decoded 52MB
+  580s periodic  level:w1-10      fps 60.7 main  27.2% cpu   94%/ 16% heap 9.4MB nodes 467 (fx 0) listeners 238 anims 56/39inf particles 0/115 raf/s 127.3 iv 1 decoded 53MB
+  591s periodic  level:w1-10      fps 60.7 main  27.4% cpu   95%/ 16% heap 8.9MB nodes 536 (fx 0) listeners 203 anims 56/44inf particles 0/103 raf/s 127.8 iv 1 decoded 54MB
+  602s periodic  level:w1-10      fps 60.4 main  24.8% cpu   92%/ 16% heap 8.9MB nodes 538 (fx 0) listeners 203 anims 55/43inf particles 0/82 raf/s 123.3 iv 1 decoded 54MB
+  613s periodic  level:w1-10      fps 60.2 main  27.3% cpu   94%/ 18% heap 9MB nodes 549 (fx 0) listeners 206 anims 59/45inf particles 0/129 raf/s 126.4 iv 1 decoded 54.3MB
+  625s periodic  reward:w1-10     fps 60.6 main  29.2% cpu   95%/ 17% heap 9.3MB nodes 379 (fx 0) listeners 205 anims 63/47inf particles 0/182 raf/s 125 iv 1 decoded 54.3MB
+  636s periodic  tree             fps 61.4 main  74.8% cpu  131%/ 28% heap 10.2MB nodes 2092 (fx 0) listeners 303 anims 71/51inf particles 0/137 raf/s 119.4 iv 1 decoded 55.8MB
+— w1-10 (firstsound) done in 90s, streak max 44
+  644s boundary  map              fps 60.8 main   8.6% cpu   82%/ 11% heap 8.8MB nodes 384 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 119.3 iv 1 decoded 55.8MB
+  655s periodic  level:w1-11      fps 60.9 main  27.7% cpu   95%/ 17% heap 9MB nodes 373 (fx 21) listeners 213 anims 63/43inf particles 89/96 raf/s 121.6 iv 1 decoded 56.7MB
+  666s periodic  level:w1-11      fps   61 main    31% cpu   96%/ 17% heap 9.1MB nodes 403 (fx 0) listeners 217 anims 59/43inf particles 0/99 raf/s 130.4 iv 1 decoded 58.2MB
+  677s periodic  level:w1-11      fps 60.5 main  28.4% cpu   94%/ 17% heap 9.4MB nodes 388 (fx 0) listeners 210 anims 54/40inf particles 0/45 raf/s 123.1 iv 1 decoded 58.5MB
+  688s periodic  level:w1-11      fps   61 main  26.5% cpu   93%/ 10% heap 9.2MB nodes 346 (fx 0) listeners 208 anims 32/27inf particles 0/82 raf/s 122.9 iv 1 decoded 59.1MB
+  700s periodic  level:w1-11      fps 60.3 main  28.2% cpu   94%/  9% heap 9MB nodes 358 (fx 0) listeners 205 anims 38/31inf particles 0/116 raf/s 124.4 iv 1 decoded 59.5MB
+  711s periodic  level:w1-11      fps 60.6 main  26.6% cpu   95%/ 11% heap 9.3MB nodes 387 (fx 0) listeners 213 anims 44/36inf particles 0/117 raf/s 124.2 iv 1 decoded 59.5MB
+  722s periodic  reward:w1-11     fps 60.3 main  33.6% cpu   99%/ 14% heap 9.2MB nodes 387 (fx 0) listeners 205 anims 54/42inf particles 0/173 raf/s 121.9 iv 1 decoded 59.6MB
+— w1-11 (soundhunt) done in 87s, streak max 46
+  738s boundary  map              fps 60.6 main   8.8% cpu   84%/ 11% heap 8.9MB nodes 400 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 119.2 iv 1 decoded 60.5MB
+  777s periodic  level:w1-12      fps 61.1 main  26.3% cpu   92%/ 14% heap 8.9MB nodes 402 (fx 0) listeners 206 anims 56/42inf particles 0/82 raf/s 120.4 iv 1 decoded 61.5MB
+  788s periodic  level:w1-12      fps 60.7 main  33.8% cpu   98%/ 14% heap 9.4MB nodes 477 (fx 0) listeners 212 anims 58/46inf particles 0/109 raf/s 128.2 iv 1 decoded 61.7MB
+  800s periodic  level:w1-12      fps   61 main  33.5% cpu   98%/ 14% heap 9.3MB nodes 626 (fx 0) listeners 219 anims 85/39inf particles 0/120 raf/s 128.2 iv 1 decoded 61.7MB
+  811s periodic  level:w1-12      fps 60.8 main  33.8% cpu   97%/ 13% heap 9.3MB nodes 633 (fx 0) listeners 207 anims 58/46inf particles 0/113 raf/s 128.6 iv 1 decoded 61.9MB
+  842s periodic  level:w1-12      fps 60.3 main    27% cpu   92%/ 14% heap 9.1MB nodes 707 (fx 0) listeners 206 anims 61/46inf particles 0/94 raf/s 120.5 iv 1 decoded 61.9MB
+  854s periodic  level:w1-12      fps 60.7 main  35.9% cpu   99%/ 14% heap 9.5MB nodes 781 (fx 0) listeners 209 anims 58/46inf particles 0/115 raf/s 130.3 iv 1 decoded 62.1MB
+  865s periodic  level:w1-12      fps 60.5 main  33.4% cpu   98%/ 13% heap 9.2MB nodes 968 (fx 0) listeners 213 anims 85/39inf particles 0/118 raf/s 129.1 iv 1 decoded 62.3MB
+  876s periodic  level:w1-12      fps 61.1 main  32.7% cpu   97%/ 13% heap 9.6MB nodes 985 (fx 0) listeners 214 anims 52/39inf particles 0/123 raf/s 128.5 iv 1 decoded 62.3MB
+  887s periodic  level:w1-12      fps 60.6 main  34.7% cpu   99%/ 14% heap 9.9MB nodes 465 (fx 0) listeners 215 anims 56/43inf particles 0/124 raf/s 129.3 iv 1 decoded 62.3MB
+  898s periodic  reward:w1-12     fps 60.7 main  38.2% cpu  101%/ 14% heap 9.2MB nodes 455 (fx 0) listeners 205 anims 69/52inf particles 0/235 raf/s 126.5 iv 1 decoded 62.3MB
+— w1-12 (swap) done in 165s, streak max 34
+  910s boundary  map              fps 60.9 main   7.6% cpu   83%/ 10% heap 9MB nodes 412 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 120.2 iv 1 decoded 63.2MB
+  921s periodic  level:w1-13      fps 60.4 main    34% cpu   99%/ 16% heap 9.2MB nodes 563 (fx 0) listeners 209 anims 64/48inf particles 22/159 raf/s 138.1 iv 1 decoded 63.7MB
+  932s periodic  reward:w1-13     fps   61 main  41.7% cpu  103%/ 15% heap 9.3MB nodes 407 (fx 0) listeners 206 anims 58/43inf particles 0/172 raf/s 138.7 iv 1 decoded 63.7MB
+— w1-13 (battle) done in 27s, streak max 45
+  944s boundary  map              fps 60.3 main  11.2% cpu   86%/ 12% heap 9.1MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 119.9 iv 1 decoded 63.7MB
+heap snapshots diffed → playtest/soak/ab-before/heap-diff.md
+  957s idle-map  map              fps 60.6 main  20.7% cpu   88%/ 12% heap 9MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 107.2 iv 1 decoded 63.7MB
+  968s idle-map  map              fps 60.3 main  11.2% cpu   86%/ 13% heap 9.1MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 120.1 iv 1 decoded 63.7MB
+  979s idle-map  map              fps 60.2 main  11.5% cpu   86%/ 13% heap 9.3MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 120 iv 1 decoded 63.7MB
+  990s idle-map  map              fps   61 main  10.2% cpu   85%/ 12% heap 9MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 120 iv 1 decoded 63.7MB
+ 1001s idle-map  map              fps 60.7 main  10.1% cpu   84%/ 11% heap 9.2MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 120 iv 1 decoded 63.7MB
+ 1012s idle-map  map              fps 61.1 main    10% cpu   84%/ 11% heap 9MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 119.9 iv 1 decoded 63.7MB
+ 1015s settled   map              fps 60.2 main  11.9% cpu   86%/ 13% heap 9MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 120.7 iv 1 decoded 63.7MB
+ 1029s aura-t0   ninja-demo       fps 60.6 main    17% cpu   87%/ 10% heap 8.9MB nodes 302 (fx 0) listeners 226 anims 28/27inf particles 0/0 raf/s 119.9 iv 1 decoded 63.7MB
+ 1040s aura-t0   ninja-demo       fps 61.1 main  15.1% cpu   85%/  7% heap 8.9MB nodes 302 (fx 0) listeners 226 anims 28/27inf particles 0/0 raf/s 120.1 iv 1 decoded 63.7MB
+ 1051s aura-t3   ninja-demo       fps 60.7 main  23.5% cpu   91%/ 12% heap 9MB nodes 354 (fx 0) listeners 227 anims 51/40inf particles 0/99 raf/s 119.9 iv 1 decoded 63.7MB
+ 1062s aura-t3   ninja-demo       fps   61 main  23.1% cpu   90%/ 12% heap 9MB nodes 354 (fx 0) listeners 227 anims 51/40inf particles 0/0 raf/s 120.1 iv 1 decoded 63.7MB
+ 1066s settled   ninja-demo       fps 60.7 main  21.7% cpu   89%/ 12% heap 9MB nodes 354 (fx 0) listeners 227 anims 51/40inf particles 0/0 raf/s 120.3 iv 1 decoded 63.7MB
+ 1067s stress    ninja-demo       fps 60.4 main  22.2% cpu   89%/ 12% heap 9MB nodes 400 (fx 0) listeners 250 anims 54/40inf particles 0/0 raf/s 120.7 iv 1 decoded 63.7MB
+ 1078s stress    ninja-demo       fps 61.5 main    76% cpu  128%/ 26% heap 10.4MB nodes 1225 (fx 28) listeners 250 anims 62/40inf particles 240/269 raf/s 260.8 iv 1 decoded 63.7MB
+ 1089s stress    ninja-demo       fps   61 main  75.9% cpu  126%/ 26% heap 9.3MB nodes 1084 (fx 25) listeners 296 anims 62/46inf particles 156/261 raf/s 257.6 iv 1 decoded 63.7MB
+stress: 150 strikes in 26s, peak particles 210, fx nodes 85, animations 76
+ 1093s stress    ninja-demo       fps 61.1 main  67.1% cpu  122%/ 24% heap 10MB nodes 772 (fx 40) listeners 227 anims 74/40inf particles 226/238 raf/s 236.8 iv 1 decoded 63.7MB
+ 1107s settled   ninja-demo       fps 60.3 main  22.8% cpu   90%/ 13% heap 9.1MB nodes 785 (fx 0) listeners 227 anims 51/40inf particles 0/0 raf/s 121.1 iv 1 decoded 63.7MB
+ 1116s settled   map              fps 60.3 main   7.5% cpu   82%/  9% heap 9MB nodes 426 (fx 0) listeners 279 anims 30/10inf particles 0/0 raf/s 120.3 iv 1 decoded 63.7MB
+
+# Soak ab-before
+
+12 levels in one page (no reloads: none), fast=2, phone emulation (844×390, DPR 3), CPU throttled 4×, served prod (snapshot built 2026-09-26T20:44:11.397Z). Longest streak: 46. Page errors: 0.
+
+**Soak invariant: FAIL**
+
+- rafPerSec: FAIL (> 5 after start, w1-2, w1-3, w1-4…)
+- mediaAlive: FAIL (> 3 after w1-2, w1-3, w1-4, w1-5…)
+- audioHandlers: FAIL (> 17 after w1-3, w1-4, w1-5, w1-6…)
+- footprintMB: FAIL (> 291.4 after w1-5, w1-6, w1-7, w1-8…)
+- animMainThreadInfinite while playing: > 2 in 61/63 samples (max 29, e.g. {"@nj-orbit":9,"@wave":3})
+- animHiddenInfinite while playing: > 2 in 18/63 samples (max 27, e.g. {"@nj-swirl":1,"@nj-rise":14,"@nj-orbit":9})
+
+## After each level (on the map, after a forced GC)
+
+| metric | baseline | per level → | last | slope / level | budget |
+|---|---|---|---|---|---|
+| heapMB | 3.7 | 3.7 6.7 7 7.4 7.5 7.8 8 8.2 8.7 8.8 8.9 9 9.1 | 9.1 | 0.32 | ok (≤ 11.7) |
+| nodes | 165 | 165 194 218 232 246 262 278 290 368 384 400 412 426 | 426 | 22.59 | ok (≤ 765) |
+| detachedNodes | 7 | 7 26 40 44 48 52 58 60 128 134 140 142 146 | 146 | 12.37 |  |
+| attachedNodes | 158 | 158 168 178 188 198 210 220 230 240 250 260 270 280 | 280 | 10.22 |  |
+| listeners | 251 | 251 277 277 277 277 277 277 277 279 279 279 279 279 | 279 | 1.08 | ok (≤ 291) |
+| globalListeners | 17 | 17 30 30 30 30 30 30 30 30 30 30 30 30 | 30 | 0.43 |  |
+| animations | 29 | 29 29 29 29 29 30 30 30 30 30 30 30 30 | 30 | 0.11 | ok (≤ 34) |
+| animInfinite | 9 | 9 9 9 9 9 10 10 10 10 10 10 10 10 | 10 | 0.11 |  |
+| animHiddenInfinite | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 |  |
+| animMainThreadInfinite | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 |  |
+| fxDomNodes | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 | ok (≤ 0) |
+| particles | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 | ok (≤ 5) |
+| rafPerSec | 120 | 120 119.3 120.2 120.2 120.3 120.5 120.3 120.4 119.7 119.3 119.2 120.2 119.9 | 119.9 | -0.02 | FAIL (> 5 after start, w1-2, w1-3, w1-4…) |
+| intervals | 1 | 1 1 1 1 1 1 1 1 1 1 1 1 1 | 1 | 0 | ok (≤ 2) |
+| pendingTimeouts | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 |  |
+| mediaAlive | 1 | 1 4 7 9 11 13 16 17 19 22 25 26 28 | 28 | 2.21 | FAIL (> 3 after w1-2, w1-3, w1-4, w1-5…) |
+| decodedMB | 0.9 | 0.9 14.9 20.4 30.5 32.5 35.8 42.3 47.3 49.9 55.8 60.5 63.2 63.7 | 63.7 | 4.95 | ok (≤ 64) |
+| decodedClips | 2 | 2 46 68 93 100 106 129 140 145 168 187 201 204 | 204 | 15.45 |  |
+| audioHandlers | 9 | 9 15 21 25 29 33 39 41 45 51 57 59 63 | 63 | 4.43 | FAIL (> 17 after w1-3, w1-4, w1-5, w1-6…) |
+| arrayBuffers | 4 | 4 48 70 95 102 108 131 142 147 170 189 203 206 | 206 | 15.45 |  |
+| layoutObjects | 116 | 116 132 142 152 162 175 185 195 205 215 225 235 245 | 245 | 10.53 |  |
+| navLog | 0 | 0 9 18 19 20 21 28 29 30 39 46 47 48 | 48 | 3.73 |  |
+| imagesFetched | 54 | 54 73 85 85 85 85 89 91 94 102 105 105 105 | 105 | 3.41 |  |
+| audioFetched | 3 | 3 49 71 96 103 110 133 144 150 173 192 206 209 | 209 | 15.74 |  |
+| imgInDomMB | 22.5 | 22.5 22.5 22.5 22.5 22.5 22.5 22.5 22.5 22.5 22.5 22.5 22.5 22.5 | 22.5 | 0 |  |
+| rendererRssMB | 423 | 423 1075 1155 1197 1244 1282 1356 1372 1413 1464 1483 1507 1524 | 1524 | 62.13 |  |
+| gpuRssMB | 77 | 77 95 97 107 108 108 108 108 119 119 119 119 119 | 119 | 2.85 |  |
+| footprintMB | 91.4 | 91.4 202.6 246.5 290.6 337.5 367.1 429.9 455.3 480.9 496.5 519.8 539.6 539.7 | 539.7 | 35.5 | FAIL (> 291.4 after w1-5, w1-6, w1-7, w1-8…) |
+| gpuFootprintMB | 13.6 | 13.6 14.4 14.5 14.5 14.1 15 14.7 14.9 15.2 14.7 14.8 15.1 15.2 | 15.2 | 0.09 |  |
+| mem_blink_gc | 4.9 | 4.9 22.4 29.2 34.6 39.9 42 45.8 51.8 53.1 59 64.3 75.6 76.8 | 76.8 | 5.2 |  |
+| mem_blink_objects | 1.6 | 1.6 2.4 2.8 3 3.1 3.3 3.5 3.8 3.9 4.3 4.5 5 5 | 5 | 0.25 |  |
+| mem_canvas | 3.5 | 3.5 3.6 3.8 3.8 3.8 3.8 3.8 3.8 15.7 15.7 15.7 15.7 15.7 | 15.7 | 1.32 |  |
+| mem_cc | 185 | 185 516.1 529.2 493.5 488.4 496.5 428 473.8 460.1 475.6 476.2 453.1 457.4 | 457.4 | 5.35 |  |
+| mem_discardable | 185.8 | 185.8 497.7 515.1 506.7 503 504.1 510.8 500.8 504.1 512.2 501.6 486.7 494.4 | 494.4 | 9.66 |  |
+| mem_malloc | 52.6 | 52.6 72 75.1 73.3 73.6 76.4 82 82 105.4 102.4 112.5 110.1 110.8 | 110.8 | 4.65 |  |
+| mem_media | 2.4 | 2.4 2.4 2.4 2.4 2.4 2.4 2.4 2.4 2.4 2.4 2.4 2.4 2.4 | 2.4 | 0 |  |
+| mem_mojo | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 |  |
+| mem_parkable_images | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 |  |
+| mem_parkable_strings | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 |  |
+| mem_partition_alloc | 31.3 | 31.3 91.5 140.3 182 225.9 258.3 308.3 333.6 337.1 363.1 372.3 386.8 391.2 | 391.2 | 29.7 |  |
+| mem_shared_memory | 217 | 217 545.6 561.2 546.9 536.2 543.8 554 541.3 554.1 569.2 556.9 537.9 545 | 545 | 11.06 |  |
+| mem_site_storage | 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 | 0 |  |
+| mem_skia | 0.3 | 0.3 4.9 5.9 7.5 6.7 6.9 7.8 12 11 14 14.2 15.8 14.3 | 14.3 | 1.13 |  |
+| mem_v8 | 6 | 6 9.1 9.8 10.1 10.4 10.9 10.8 11.3 11.8 12.1 12 12.4 12.2 | 12.2 | 0.39 |  |
+| mem_web_cache | 1.2 | 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 2.3 1.8 1.6 1.6 1.6 | 1.6 | 0.05 |  |
+
+## While playing (periodic samples): first half vs second half
+
+| metric | first half | second half |
+|---|---|---|
+| fps | 60.7 | 57.8 |
+| slowFramePct | 0.1 | 8.2 |
+| mainThreadPct | 29.3 | 40.5 |
+| scriptPct | 2.2 | 2.7 |
+| stylePct | 5.8 | 5.6 |
+| layoutPct | 0.4 | 0.5 |
+| recalcPerSec | 121.8 | 121 |
+| rendererPct | 95.4 | 98.3 |
+| gpuPct | 14.7 | 13.9 |
+| longTaskMs | 5.5 | 30.9 |
+| rafPerSec | 124.6 | 123.8 |
+| rafPerFrame | 2.1 | 2.1 |
+| animHiddenInfinite | 5.3 | 2 |
+| animMainThreadInfinite | 19.6 | 18.6 |
+| animations | 55.4 | 52.5 |
+| animInfinite | 39.9 | 37.5 |
+| particles | 9.3 | 9 |
+| particlesPeak | 103.5 | 121.5 |
+
+## Phases (idle, the ninja's aura, the strike stress)
+
+| phase | what | fps | main % | style % | recalcs/s | renderer CPU % | GPU CPU % | particles (now / peak) | fx nodes | animations | Nodes | heap MB |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| idle-map | map | 60.6 | 20.7 | 1.3 | 53.7 | 88 | 12 | 0 / 0 | 0 | 30 (10 inf, 0 main) | 426 | 9 |
+| idle-map | map | 60.3 | 11.2 | 1.7 | 60 | 86 | 13 | 0 / 0 | 0 | 30 (10 inf, 0 main) | 426 | 9.1 |
+| idle-map | map | 60.2 | 11.5 | 1.7 | 60 | 86 | 13 | 0 / 0 | 0 | 30 (10 inf, 0 main) | 426 | 9.3 |
+| idle-map | map | 61 | 10.2 | 1.4 | 60 | 85 | 12 | 0 / 0 | 0 | 30 (10 inf, 0 main) | 426 | 9 |
+| idle-map | map | 60.7 | 10.1 | 1.6 | 60 | 84 | 11 | 0 / 0 | 0 | 30 (10 inf, 0 main) | 426 | 9.2 |
+| idle-map | map | 61.1 | 10 | 1.4 | 60 | 84 | 11 | 0 / 0 | 0 | 30 (10 inf, 0 main) | 426 | 9 |
+| settled | after soak | 60.2 | 11.9 | 1.7 | 59.9 | 86 | 13 | 0 / 0 | 0 | 30 (10 inf, 0 main) | 426 | 9 |
+| aura-t0 | ninja demo, streak 0, idle | 60.6 | 17 | 3.7 | 59.9 | 87 | 10 | 0 / 0 | 0 | 28 (27 inf, 9 main) | 302 | 8.9 |
+| aura-t0 | ninja demo, streak 0, idle | 61.1 | 15.1 | 3.7 | 60.2 | 85 | 7 | 0 / 0 | 0 | 28 (27 inf, 9 main) | 302 | 8.9 |
+| aura-t3 | ninja demo, streak 10, idle | 60.7 | 23.5 | 5.1 | 60.7 | 91 | 12 | 0 / 99 | 0 | 51 (40 inf, 19 main) | 354 | 9 |
+| aura-t3 | ninja demo, streak 10, idle | 61 | 23.1 | 5.1 | 60 | 90 | 12 | 0 / 0 | 0 | 51 (40 inf, 19 main) | 354 | 9 |
+| settled | before stress | 60.7 | 21.7 | 5 | 59.6 | 89 | 12 | 0 / 0 | 0 | 51 (40 inf, 19 main) | 354 | 9 |
+| stress | strike 1/150 | 60.4 | 22.2 | 4.5 | 61.3 | 89 | 12 | 0 / 0 | 0 | 54 (40 inf, 19 main) | 400 | 9 |
+| stress | strike 68/150 | 61.5 | 76 | 8.4 | 117.7 | 128 | 26 | 240 / 269 | 28 | 62 (40 inf, 19 main) | 1225 | 10.4 |
+| stress | strike 135/150 | 61 | 75.9 | 8.3 | 118.3 | 126 | 26 | 156 / 261 | 25 | 62 (46 inf, 19 main) | 1084 | 9.3 |
+| stress | last strike | 61.1 | 67.1 | 7.6 | 109.5 | 122 | 24 | 226 / 238 | 40 | 74 (40 inf, 19 main) | 772 | 10 |
+| settled | 10 s after the stress | 60.3 | 22.8 | 5.1 | 60 | 90 | 13 | 0 / 0 | 0 | 51 (40 inf, 19 main) | 785 | 9.1 |
+| settled | map after the stress | 60.3 | 7.5 | 0.9 | 59.7 | 82 | 9 | 0 / 0 | 0 | 30 (10 inf, 0 main) | 426 | 9 |
+
+## Levels
+
+| level | kind | secs | finished | max streak | streak at end | stuck |
+|---|---|---|---|---|---|---|
+| w1-2 | firstsound | 60 | yes | 8 | 8 |  |
+| w1-3 | firstsound | 53 | yes | 16 | 16 |  |
+| w1-4 | dojo | 63 | yes | 23 | 23 |  |
+| w1-5 | dojo | 67 | yes | 33 | 33 |  |
+| w1-6 | battle | 30 | yes | 36 | 6 |  |
+| w1-7 | soundhunt | 75 | yes | 13 | 13 |  |
+| w1-8 | swap | 81 | yes | 25 | 25 |  |
+| w1-9 | run | 50 | yes | 31 | 31 |  |
+| w1-10 | firstsound | 90 | yes | 44 | 44 |  |
+| w1-11 | soundhunt | 87 | yes | 46 | 8 |  |
+| w1-12 | swap | 165 | yes | 34 | 34 |  |
+| w1-13 | battle | 27 | yes | 45 | 45 |  |
+
+## Last boundary: what is still running
+
+```
+{
+ "animations": {
+  "total": 30,
+  "running": 10,
+  "infinite": 10,
+  "hiddenInfinite": 0,
+  "mainThreadInfinite": 0,
+  "finishedKept": 20,
+  "top": [
+   [
+    "@popin",
+    19
+   ],
+   [
+    "@drift",
+    6
+   ],
+   [
+    "@mapnext",
+    1
+   ],
+   [
+    "@taphint",
+    1
+   ],
+   [
+    "@bob",
+    1
+   ],
+   [
+    "@pulse",
+    1
+   ],
+   [
+    "@fadeout",
+    1
+   ]
+  ],
+  "mainThread": {},
+  "hidden": {}
+ },
+ "globalListeners": {
+  "window:pointerdown:capture": 2,
+  "window:keydown:capture": 1,
+  "document:visibilitychange": 2,
+  "window:pagehide": 2,
+  "document:gesturestart": 1,
+  "document:gesturechange": 1,
+  "document:contextmenu": 1,
+  "document:dragstart": 1,
+  "document:selectstart": 1,
+  "document:touchmove": 1,
+  "document:selectionchange": 1,
+  "window:load": 1,
+  "window:beforeinstallprompt": 1,
+  "window:resize": 1,
+  "window:orientationchange": 1,
+  "window:__playwright_global_listeners_check__": 1,
+  "window:mousemove:capture": 1,
+  "window:pointerup:capture": 1,
+  "window:touchstart:capture": 1,
+  "window:touchend:capture": 1,
+  "window:touchcancel:capture": 1,
+  "window:mousedown:capture": 1,
+  "window:mouseup:capture": 1,
+  "window:click:capture": 1,
+  "window:auxclick:capture": 1,
+  "window:dblclick:capture": 1,
+  "window:contextmenu:capture": 1
+ },
+ "intervals": {
+  "100ms at http://127.0.0.1:5189/assets/play-C55C6SIe.js:1:971": 1
+ },
+ "mods": {
+  "visemeListeners": 1,
+  "bufferCache": 204,
+  "captionListeners": 3,
+  "clipListeners": 0,
+  "sayListeners": 1,
+  "music": 1,
+  "speaking": 0,
+  "storeListeners": 4,
+  "attemptSubs": 0,
+  "saveBytes": 3125,
+  "poseSubs": 1,
+  "particles": 0,
+  "particleKinds": {},
+  "glowCache": 15,
+  "helpStack": 1,
+  "nudgeListeners": 1,
+  "uprightSubs": 1,
+  "imgCache": 2,
+  "fxDomChildren": 0,
+  "streakListeners": 1,
+  "streakSubs": 0,
+  "streakN": 45,
+  "owned": 0,
+  "ownedConnected": 0,
+  "busy": 0,
+  "spotMounted": 0,
+  "moveRunning": 0,
+  "spotGen": 28,
+  "narrateSubs": 0,
+  "navStack": 1,
+  "navSubs": 1,
+  "nudgeSubs": 0,
+  "holds": 0
+ }
+}
+```
+
+
+→ playtest/soak/ab-before

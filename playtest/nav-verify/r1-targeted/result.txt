@@ -1,0 +1,28 @@
+HOME film: from intro (film) -> title (title), scenes=1, talking=false expect title
+HOME choose: from choose (choose) -> title (title), scenes=1, talking=false expect title
+HOME optin: from optin (optin) -> title (title), scenes=1, talking=false expect title
+IDLE optin-A: held ; said: fm_opt_q1_again.mp3, fm_opt_q1_again.mp3
+HOME training: from training (tut-help) -> title (title), scenes=1, talking=false expect title
+HOME reward: from reward:w2-1 (reward) -> map (map), scenes=1, talking=false expect map
+  tripDue after Home: {"kind":"spelling","gems":["b>b","c>k","g>g","h>h"]}
+HOME reward1: from reward:w1-wu1 (stickers) -> map (map), scenes=1, talking=true expect ?
+IDLE choose: held ; said: 
+HOME trip: from tree (tree) -> map (map), scenes=1, talking=true expect map
+  tripDue after Home: null
+HOME trial: from level:trial (battle) -> tree (tree), scenes=1, talking=false expect tree
+HOME book: from book (book) -> map (map), scenes=1, talking=true expect map
+IDLE training-speaker: held ; said: fm_speaker.mp3, fm_speaker.mp3
+HOME placement: from placement (find) -> map (map), scenes=1, talking=true expect map
+HOME finale: from finale (finale) -> map (map), scenes=1, talking=true expect map
+HOME story: from level:w1-14 (story) -> map (map), scenes=1, talking=true expect map
+IDLE w1-first-turn: held ; said: fm_tap_sock.mp3, fm_tap_sock.mp3
+HOME w2-1: from level:w2-1 (learn) -> map (map), scenes=1, talking=false expect map
+HOME tree: from tree (tree) -> map (map), scenes=1, talking=true expect map
+HOME profiles: from profiles (undefined) -> title (title), scenes=1, talking=false expect title
+HOME grownups: from grownups (undefined) -> map (map), scenes=1, talking=true expect map
+IDLE reward1-sticker-turn: held ; said: fm_rw_tap.mp3, fm_rw_tap.mp3, sfx:jump, sfx:twinkle, sfx:thwack, sfx:land
+REWARD1 last step: nav={"home":true,"back":false,"again":true,"againAt":"row","show":false,"sound":null,"next":"ready","pres":{"id":"stickers-intro","step":0,"of":1}} st={"scene":"stickers","mode":"intro","next":null,"busy":false,"done":true}
+IDLE reward1-last-step: held ; said: nav_ready.mp3, sfx:jump, sfx:land, sfx:twinkle, sfx:thwack
+REWARD2 at 8s: route=reward:w1-wu2 nav={"home":true,"back":false,"again":false,"againAt":null,"show":false,"sound":null,"next":null,"pres":null}
+
+BAD:

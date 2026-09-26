@@ -1,0 +1,40 @@
+   4.4s pos route=tree pres=gem-victory#0/5 scene=tree next=null step=visit nav.next=wait again=true back=false home=45px@64,62
+   9.1s pos route=tree pres=gem-victory#0/5 scene=tree next=null step=visit nav.next=ready again=true back=false home=45px@64,62
+   9.5s HELD tree|gem-victory#0/5||visit|| (Next 65px on the phone, again=57px, back=false)
+  30.7s   idle 20s: still held; glow=true; said: line:nav_ready
+  33.8s   Hear it again → line:trial_win
+  34.5s   > Next
+  35.2s pos route=tree pres=gem-victory#1/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+  38.0s pos route=tree pres=gem-victory#1/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+  38.4s HELD tree|gem-victory#1/5||visit|| (Next 66px on the phone, again=57px, back=true)
+  59.5s   idle 20s: still held; glow=true; said: line:nav_ready
+  62.5s   Hear it again → line:wf_new_gem_here
+  64.4s   Back → gem-victory#0
+  68.4s pos route=tree pres=gem-victory#1/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+  71.2s pos route=tree pres=gem-victory#1/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+  71.9s   > Next
+  72.6s pos route=tree pres=gem-victory#2/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+  82.0s pos route=tree pres=gem-victory#2/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+  82.3s HELD tree|gem-victory#2/5||visit|| (Next 47px on the phone, again=57px, back=true)
+ 103.4s   idle 20s: still held; glow=true; said: line:nav_ready
+ 106.4s   Hear it again → line:t_another_way, sound:ae
+ 114.1s   > Next
+ 114.9s pos route=tree pres=gem-victory#3/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+ 117.7s pos route=tree pres=gem-victory#3/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+ 118.1s HELD tree|gem-victory#3/5||visit|| (Next 65px on the phone, again=57px, back=true)
+ 139.3s   idle 20s: still held; glow=true; said: line:nav_ready
+ 142.4s   Hear it again → line:t_ways_2, sound:ae
+ 143.1s   > Next
+ 143.8s pos route=tree pres=gem-victory#4/5 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+ 147.6s pos route=tree pres=gem-victory#4/5 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+ 147.9s HELD tree|gem-victory#4/5||visit|| (Next 36px on the phone, again=57px, back=true)
+ 147.9s !! next-small @ tree|gem-victory#4/5||visit||: Next 36px
+ 169.0s   idle 20s: still held; glow=true; said: line:nav_ready
+ 172.1s   Hear it again → line:petal_complete
+ 174.7s   > Next
+ 175.4s pos route=tree pres=null scene=tree next=null step=done nav.next=ready again=true back=false home=45px@64,62
+ 176.9s HELD tree|tree||done|| (Next 65px on the phone, again=45px, back=false)
+ 197.9s   idle 20s: still held; glow=true; said: line:nav_ready
+ 200.9s   Hear it again → line:flower_tap
+ 201.6s   > Next
+ 202.3s stop: route map scene map

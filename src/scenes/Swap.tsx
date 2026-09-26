@@ -10,23 +10,29 @@
 // Explanations (docs/NARRATIVE_AUDIT.md, ./narrate.tsx): the right sound picked, Sensei names its place ("Yes, the
 // first sound changes!"), spaced per save; a fixed word can bring a spaced "two letters, one sound" reminder about its
 // new spelling, with that spelling lit; the first fixed word of a save shows its gem filling up.
+// Navigation (docs/NAVIGATION.md §5.D): Home is the nav layer's (top-left). "Hear the target word" beside the card is
+// the screen's Hear it again: once the question has been asked it says it again (on the first word with what the game
+// is, "Baron Muddle has mixed up these words!..." and "This is... mat"); once the old sound is out, "Now pick the new
+// sound." (or the place line, "Yes, the first sound changes!") and the word to make.
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import type { LevelProps } from "../App";
 import type { Word } from "../content/phonics";
 import { knownSpellings, worldOf, type Level } from "../content/worlds";
 import { LINES } from "../content/lines";
-import { say, sayBlend, sfx, playMusic, preload, urls, hush, onCaption, isSpeaking } from "../engine/audio";
+import { say, sayBlend, sfx, playMusic, preload, urls, hush, onCaption, isSpeaking, type Say } from "../engine/audio";
 import { FAST } from "../engine/fast";
 import { swapChain, shuffle } from "../engine/learner";
 import { WORD_BY_TEXT, GRAPHEMES } from "../content/phonics";
 import { recordRead, recordSpell } from "../engine/store";
 import { streak, tierLineId, type StreakEvent } from "../engine/streak";
-import { SenseiDock, Tile, img, RoundButton, Icon, Progress, fx, stageRect, sleep, useHelp, useBaronOnScreen, WordCard } from "../ui/ui";
+import { SenseiDock, Tile, img, Progress, fx, stageRect, sleep, useHelp, useBaronOnScreen } from "../ui/ui";
+import { WordCardAgain } from "./Dojo";
 import { NinjaSpot, ninja, type Move } from "../ui/Ninja";
 import { pickPraise, correction } from "../engine/feedback";
 import { positionName, SWAP_POSITION_LINE } from "../content/narrative";
 import { NarrOverlay, beginLevel, explainGemEnergy, heard, isDue, lettersReminder, twoSoundsReminder } from "./narrate";
 import { useLessonClock } from "../engine/lessonClock";
+import { useNav, ReplayButton, TopBar } from "../ui/nav";
 import "../styles/swap.css";
 
 function fixedChain(ws: string[]) {
@@ -180,7 +186,7 @@ function ninjaSettled(max = 2400): Promise<void> {
   });
 }
 
-export function Swap({ level, onDone, onQuit }: LevelProps) {
+export function Swap({ level, onDone }: LevelProps) {
   useState(() => beginLevel(level)); // (during the first render)
   const world = worldOf(level);
   const [chain] = useState(() => (level.chain ? fixedChain(level.chain) : pictureChain(level)));
@@ -244,6 +250,14 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
     options.current[step] = shuffle([need, ...others]);
   }
 
+  // what Hear it again says: this step's question (on the first step with the game's introduction), and once the old
+  // sound is out, the line that asked for the new one
+  const told = useRef<{ ask: Say[]; pick: Say[] }>({ ask: [], pick: [] });
+  /** Say something the child needs for this step, and keep it for Hear it again (`fresh`: a new step). */
+  const tell = (items: Say[], fresh = false) => {
+    told.current.ask = fresh || !told.current.ask.length ? [...items] : [...told.current.ask, { gap: 300 }, ...items];
+    return say(items);
+  };
   useEffect(() => {
     alive.current = true;
     streak.reset();
@@ -251,7 +265,7 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
     preload(chain.flatMap((c) => [urls.word(c.from.text), urls.word(c.to.text)]));
     new Image().src = img("baron_defeated");
     (async () => {
-      await say([{ line: "swap_start" }, { gap: 200 }, { line: "this_is" }, { word: chain[0].from.text }]);
+      await tell([{ line: "swap_start" }, { gap: 200 }, { line: "this_is" }, { word: chain[0].from.text }], true);
       await ask(0);
     })();
     return () => {
@@ -265,24 +279,28 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
     setBusy(true);
     setLanded(-1);
     const c = chain[i];
+    told.current.pick = [];
     if (i > 0) {
       setShown(c.from);
-      if (c.from !== chain[i - 1].to) await say([{ line: "this_is" }, { gap: 100 }, { word: c.from.text }]);
+      told.current.ask = [];
+      if (c.from !== chain[i - 1].to) await tell([{ line: "this_is" }, { gap: 100 }, { word: c.from.text }], true);
     }
-    await say(
+    await tell(
       early
         ? [{ line: "swap_make" }, { gap: 100 }, { word: c.to.text }, { gap: 300 }, { stretch: c.from.text }, { gap: 350 }, { stretch: c.to.text }, { gap: 250 }, { line: "what_changed" }]
         : [{ line: "swap_make" }, { gap: 100 }, { word: c.to.text }, { gap: 200 }, { line: "swap_which" }],
     );
     if (alive.current) setBusy(false);
   };
-  /** The speaker / hear-card: the whole question, or (once the old sound is out) just the word to make. */
+  /** Hear it again (the speaker and the hear-card): this step's question as it was asked (the first step's with the
+   *  introduction); once the old sound is out, the line that asked for the new one and the word to make. Once the
+   *  question has been asked, and not while the ninja is kicking the old sound out or fixing the word. */
   const hear = () => {
-    // not while the ninja is kicking the old sound out (the child has already chosen)
     if (busy || !s || (picked !== null && !knocked)) return;
-    if (knocked) say([{ line: "swap_make" }, { gap: 100 }, { word: s.to.text }]);
-    else ask(step);
+    if (knocked) return say([...told.current.pick, ...(told.current.pick.length ? [{ gap: 250 }] : []), { line: "swap_make" }, { gap: 100 }, { word: s.to.text }]);
+    return say(told.current.ask);
   };
+  useNav({ again: hear, againAt: "own" });
 
   /** A star (or a spell) bonks Baron Muddle: he sulks. The last one sends him packing. It arcs high over the picture and
    *  the word (the curve's control point is up above the stage, left of the card), so it never looks as if the ninja
@@ -315,8 +333,12 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
   const sayPick = async () => {
     const name = s ? positionName(s.pos, s.from.segs.length) : null;
     const key = name ? `position:${name}` : null;
-    if (!name || !key || !isDue(key, "concept")) return void say({ line: "swap_pick" });
+    if (!name || !key || !isDue(key, "concept")) {
+      told.current.pick = [{ line: "swap_pick" }];
+      return void say({ line: "swap_pick" });
+    }
     heard(key); // (counted as soon as it starts: a quick child taps the new sound over it, and has used the idea)
+    told.current.pick = [{ line: SWAP_POSITION_LINE[name] }];
     void say({ line: SWAP_POSITION_LINE[name] });
   };
 
@@ -493,7 +515,7 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
         fx.rain("confetti", 60);
         await Promise.all([say({ line: "swap_done" }), ninja.celebrate()]);
         if (!alive.current) return;
-        onDone(misses.current <= 1 ? 3 : misses.current <= 4 ? 2 : 1);
+        onDone(misses.current <= 1 ? 3 : misses.current <= 4 ? 2 : 1, { closing: "swap_done" });
         return;
       }
       await (cheered ? Promise.race([bonk, sleep(900)]) : say({ line: pickPraise() }));
@@ -551,13 +573,12 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
     <div className="scene swap-scene">
       <img className="bg-img" src={img(`bg_${world.key}`)} alt="" />
       <div className="vignette" />
-      <div className="topbar">
-        <RoundButton sm label="map" onClick={onQuit}><Icon.home /></RoundButton>
+      <TopBar>
         <div className="spacer" />
         <Progress value={step / chain.length} />
         <div className="spacer" />
         <div style={{ width: 68 }} />
-      </div>
+      </TopBar>
       {/* Baron Muddle, top-right (clear of the help corner): sulks when a word is fixed, runs away at the end */}
       <div ref={baronRef} className={`swap-baron ${baron}`} aria-hidden="true">
         <div className="swap-baron-in">
@@ -571,18 +592,16 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
           <Halo n={14} rx={200} up={124} down={150} ring={[CARD.width / 2, CARD.height / 2, 30]} delay={80} />
         </div>
       )}
-      <WordCard key={shown.text} word={shown} onHear={hear} className={`swap-card ${knocked ? "muddled" : ""}`} style={CARD} />
+      {/* Hear it again: the speaker card itself for a word with no picture (docs/NAVIGATION.md §3.1 "own") */}
+      <WordCardAgain key={shown.text} word={shown} className={`swap-card ${knocked ? "muddled" : ""}`} style={CARD} />
       {knocked && (
         <div className="swap-swirl" style={CARD} aria-hidden="true">
           <Swirl />
           <Swirl className="b" />
         </div>
       )}
-      {shown.pic && (
-        <div className="swap-hear">
-          <RoundButton sm label="Hear the target word" onClick={hear}><Icon.speaker /></RoundButton>
-        </div>
-      )}
+      {/* Hear it again beside a picture card (docs/NAVIGATION.md §3.1 "own": the word and its choices fill the bottom) */}
+      {shown.pic && <ReplayButton onReplay={hear} size={100} label="Hear the target word" className="swap-hear" style={{ position: "absolute" }} />}
       {/* the word: tap the sound that changes */}
       <div className={`slots swap-word ${landed >= 0 ? "rising" : ""}`} style={{ gap: size < 132 ? 14 : 18 }}>
         {shown.segs.map((seg, i) => {

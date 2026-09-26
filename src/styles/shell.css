@@ -40,6 +40,10 @@
 /* ---------- Choose your ninja: the picked card's ninja powers up; the other one waits */
 .choose-card { transition: transform 0.3s cubic-bezier(.3, 1.5, .5, 1), opacity 0.3s, filter 0.3s; }
 .choose-card.other { filter: grayscale(0.6) brightness(0.9); }
+/* idle before the pick (App.tsx Choose): both cards bob with a gold ring, so a child sees what to tap */
+.choose-card.nudge { animation: choose-bob 0.9s ease-in-out infinite; box-shadow: 0 6px 0 var(--ink), 0 0 0 8px #ffc53d, 0 0 30px 10px rgba(255, 220, 120, 0.8); }
+.choose-card.nudge:nth-of-type(2n) { animation-delay: 0.45s; }
+@keyframes choose-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -16px; } }
 /* Sensei's bubble, narrower here so it stays right of the cards (they end at x 890) */
 .choose .bubble { max-width: 350px; }
 
@@ -116,3 +120,19 @@
 .bubble.finale-baron { right: auto; left: 800px; bottom: 196px; max-width: 420px; }
 .bubble.finale-baron::before { right: auto; bottom: auto; left: -19px; top: 30px; transform: rotate(135deg); }
 .rw-grownup-stars svg { width: 100%; height: 100%; display: block; }
+
+/* a reward with nothing new to show: the level's own trophy (App.tsx RewardTrophy), left of the Sticker Book */
+.rw-trophy { position: absolute; left: 40px; top: 24px; width: 520px; height: 276px; display: grid; place-items: center; pointer-events: none; animation-delay: 0.3s; }
+.rw-trophy.story img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 22px; border: 6px solid var(--ink);
+  box-shadow: 0 8px 0 var(--ink), 0 0 0 10px #ffc53d, 0 0 0 14px var(--ink);
+}
+.rw-trophy.medal .rw-medal {
+  position: relative; width: 236px; height: 236px; margin-top: 22px; border-radius: 50%; display: grid; place-items: center;
+  border: 7px solid var(--ink); box-shadow: 0 8px 0 var(--ink), 0 0 0 12px #ffc53d, 0 0 0 17px var(--ink), 0 0 40px 18px rgba(255, 214, 102, 0.7);
+  background: radial-gradient(circle at 38% 30%, #fff8d8 0%, #ffe38a 48%, #f0b92d 100%);
+  animation: rw-medal-glint 2.6s ease-in-out infinite;
+}
+.rw-trophy.medal .rw-medal img { width: 76%; height: 76%; object-fit: contain; filter: drop-shadow(0 5px 0 rgba(43, 29, 20, 0.3)); }
+.rw-medal-ribbon { position: absolute; top: 0; left: 50%; translate: -50% 0; width: 120px; height: 90px; background: linear-gradient(90deg, #e2453c 0 45%, #2d5fb8 55% 100%); border: 5px solid var(--ink); border-bottom: 0; clip-path: polygon(0 0, 100% 0, 78% 100%, 22% 100%); }
+@keyframes rw-medal-glint { 0%, 100% { rotate: -3deg; } 50% { rotate: 3deg; } }

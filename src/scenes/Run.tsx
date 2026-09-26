@@ -20,6 +20,10 @@
 // sentences after the first; the first reading cue in each land says "Ninjas read this way!" with an arrow under the
 // word (F10); units 8-10 get a spaced "some sounds sit close together" reminder (F12); a caught word can bring a
 // spaced "two letters, one sound" reminder with that spelling lit; the first catch of a save shows its gem filling.
+// Navigation (docs/NAVIGATION.md §5.D): Home is the nav layer's (top-left). Hear it again is a speaker in the top bar,
+// between the progress bar and the petal counter, for every word in both modes: it says the word's prompt again as it
+// was said ("Ninja Run! Tap to jump..." on the first word, the cue, and the sounds; in reading mode the cue, with the
+// arrow under the word again if "Ninjas read this way!" was said), and the ninja holds still while it plays.
 import { useEffect, useRef, useState } from "react";
 import type { LevelProps } from "../App";
 import type { Seg, Word } from "../content/phonics";
@@ -29,12 +33,14 @@ import { say, sayBlend, sfx, playMusic, preload, urls, hush, type Say } from "..
 import { chooseWords, shuffle } from "../engine/learner";
 import { recordRead } from "../engine/store";
 import { streak, tierLineId, tierLineSaid, type Tier } from "../engine/streak";
-import { img, RoundButton, Icon, Progress, fx, useHero, W, H, sleep, useHelp, SenseiDock, isUpright, shakeStage } from "../ui/ui";
+import { img, Progress, fx, useHero, W, H, sleep, useHelp, SenseiDock, isUpright, shakeStage } from "../ui/ui";
 import { poseSrc, poseFit, probePoses, type Pose } from "../ui/poses";
 import { pickPraise } from "../engine/feedback";
 import { adjacentSlots, adjacentUnit, gemSeg, rotate, RUN_BLEND_CUES } from "../content/narrative";
 import { NarrOverlay, beginLevel, explainGemEnergy, heard as told, isDue, lettersReminder, sweepUnder, twoSoundsReminder } from "./narrate";
+import { useNav, ReplayButton, TopBar } from "../ui/nav";
 import "../styles/run.css";
+import "../styles/nav-D.css";
 
 const GROUND = 612;
 const GRAV = 3000;
@@ -432,7 +438,7 @@ function similar(target: Word, pool: Word[], n: number): Word[] {
   return pool.filter((w) => w.text !== target.text).sort((a, b) => score(b) - score(a)).slice(0, n);
 }
 
-export function Run({ level, onDone, onQuit }: LevelProps) {
+export function Run({ level, onDone }: LevelProps) {
   useState(() => beginLevel(level)); // (during the first render)
   const world = worldOf(level);
   const EVENTS = eventsFor(level.world);
@@ -441,7 +447,7 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
   const [progress, setProgress] = useState(0);
   const [banner, setBanner] = useState<{ text: string; mode: "read" | "blend" } | null>(null);
   const [petals, setPetals] = useState(0);
-  const api = useRef<{ jump: () => void; tapAt: (x: number, y: number) => void; repeat: () => void }>({ jump: () => {}, tapAt: () => {}, repeat: () => {} });
+  const api = useRef<{ jump: () => void; tapAt: (x: number, y: number) => void; repeat: () => unknown }>({ jump: () => {}, tapAt: () => {}, repeat: () => {} });
 
   useEffect(() => {
     playMusic("run");
@@ -503,6 +509,7 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
     let catching = false; // streak.hit() from a caught lantern: its tier-up waits for the streak line (see catchLantern)
     let helped = false; // the biggest help clue flew the ninja to the right lantern: no streak point for that one
     let busy = false; // an event is running
+    let holding = false; // a held explanation (the first gem to fill) waits on Next: the world stops (docs/NAVIGATION.md)
     let nextEventAt = 900; // distance
     let gongX: number | null = null;
     let finished = false;
@@ -560,6 +567,8 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
     };
     // the cue before a word's sounds, rotating after the first (run_blend was said 39 times in one journey)
     let lastCue: string | null = null;
+    // this word's prompt as it was said, for Hear it again (and whether it swept the arrow under the word)
+    let prompted: { parts: (Say | Say[])[]; sweep: boolean } | null = null;
     const adjUnit = adjacentUnit(level.units);
     const offStreak = streak.on((e) => {
       publish();
@@ -641,7 +650,8 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
         // units 8-10: "some sounds sit close together", spaced (NARRATIVE_AUDIT F12)
         const adj = !!adjUnit && adjacentSlots(w.segs).length > 1 && isDue("adjacent:remind", "concept");
         const lead: Say[] = [...(eventIdx === 0 ? [{ line: "run_start" }, { gap: 300 }] : []), ...(adj ? [{ line: "audit_neighbours_short" }, { gap: 300 }] : []), { line: line }];
-        const said = await cue([lead, { sounds: w.segs, gap: 330 }]);
+        prompted = { parts: [lead, { sounds: w.segs, gap: 330 }], sweep: false };
+        const said = await cue(prompted.parts);
         if (said && adj) told("adjacent:remind");
       } else {
         setBanner({ text: w.text, mode });
@@ -649,7 +659,8 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
         const ltrKey = `left-right:w${level.world}`;
         const ltr = isDue(ltrKey, "once");
         if (ltr) window.setTimeout(() => void sweepUnder(document.querySelector(".run-banner")), 350);
-        const said = await cue([[...(ltr ? [{ line: "fm_l2_way" }, { gap: 350 }] : []), { line: "run_read" }]]);
+        prompted = { parts: [[...(ltr ? [{ line: "fm_l2_way" }, { gap: 350 }] : []), { line: "run_read" }]], sweep: ltr };
+        const said = await cue(prompted.parts);
         if (said && ltr) told(ltrKey);
       }
     };
@@ -821,7 +832,11 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
         const praised = await say({ line: line && hasLine(line) ? line : pickPraise() });
         tierLineSaid(line, praised);
         // the first time right answers fill a gem (once per save): it pops up, and fills, while the word is still up
-        if (eventIdx === 0) await explainGemEnergy(gemSeg(w, level.teach), { x: 760, y: 170 });
+        if (eventIdx === 0) {
+          holding = true;
+          await explainGemEnergy(gemSeg(w, level.teach), { x: 1010, y: 196 }, () => alive); // (right of the word, which rests at 640, 166)
+          holding = false;
+        }
         if (trophy && trophy.w === w) trophy.leave = t;
         eventIdx++;
         setProgress(eventIdx / EVENTS);
@@ -946,8 +961,10 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
     (window as any).__snRun = (wrong?: boolean, far?: boolean) => {
       const c = lanterns.filter((l) => l.correct === !wrong && !l.popped && l.x - dist < W - 150);
       const l = far ? c[c.length - 1] : c[0];
-      if (l && !finished && l !== hs.homing) flyAt(l);
-      return { busy, eventIdx, finished, x: l ? Math.round(l.x - dist) : null };
+      const fly = !!l && !finished && l !== hs.homing;
+      if (fly) flyAt(l);
+      // `flew`: the lantern's word when this call sent the ninja (a child's tap on it), for the transcript's tap log
+      return { busy, eventIdx, finished, x: l ? Math.round(l.x - dist) : null, flew: fly ? l.word.text : null };
     };
     // dev (filming): where the lanterns are, and whether Sensei's prompt is still playing
     (window as any).__runLanterns = () => ({ cueDone, lanterns: lanterns.map((l) => ({ x: Math.round(l.x - dist), y: l.y, word: l.word.text, correct: l.correct, popped: l.popped })) });
@@ -965,7 +982,9 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
       }
     };
     api.current.repeat = () => {
-      if (current) void cue([mode === "blend" ? { sounds: current.segs, gap: 330 } : { word: current.text }]);
+      if (!current || !prompted) return;
+      if (prompted.sweep) window.setTimeout(() => void sweepUnder(document.querySelector(".run-banner")), 350);
+      return cue(prompted.parts);
     };
     api.current.jump = () => {
       if (finished) return;
@@ -1263,7 +1282,7 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
       const hold = !cueDone || t - allInAt < (mode === "read" ? 1.6 : 0.6);
       // after the prompt the lanterns drift over the ninja one by one (to jump for), slowly enough for a 4-year-old to
       // decode each word as it comes; tapping a lantern is the fast way, and the tap hint shows it
-      targetSpeed = finished || thinking ? 0
+      targetSpeed = finished || thinking || holding ? 0
         : choosing ? (allInAt < 0 ? Math.min(340, 24 + (lastSx - LAST_IN) * 2.4) : hold ? 0 : 80) // time to decode each one
         : hs.bumpT > 0 ? 220 : 360;
       if (choosing && cueDone && allInAt >= 0 && hintFrom < 0) hintFrom = t + (eventIdx === 0 ? 0.5 : 2.5);
@@ -1354,7 +1373,7 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
       if (ending?.phase === "done" && endSpoken && !doneCalled) {
         doneCalled = true;
         const stars = firstTry >= EVENTS - 1 ? 3 : firstTry >= EVENTS - 3 ? 2 : 1;
-        sleep(300).then(() => alive && onDone(stars));
+        sleep(300).then(() => alive && onDone(stars, { closing: "run_end" }));
       }
 
       // collisions
@@ -2127,6 +2146,8 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
   }, []);
 
   useHelp((n) => (window as any).__snRunHelp?.(n));
+  // Hear it again: the speaker in the top bar (docs/NAVIGATION.md §3.1), while a word is being asked
+  useNav({ again: banner ? () => api.current.repeat() : null, againAt: "own" });
   const onPointer = (e: React.PointerEvent) => {
     const r = canvasRef.current!.getBoundingClientRect();
     const x = ((e.clientX - r.left) / r.width) * W;
@@ -2137,22 +2158,18 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
   return (
     <div className="scene run-scene">
       <canvas ref={canvasRef} width={W} height={H} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} onPointerDown={onPointer} />
-      <div className="topbar">
-        <RoundButton sm label="map" onClick={onQuit}><Icon.home /></RoundButton>
+      <TopBar>
         <div className="spacer" />
         <Progress value={progress} />
         <div className="spacer" />
+        {/* Hear it again, between the progress bar and the petal counter (clear of the Home zone), for every word */}
+        <div className="nav-d-topctl">{banner ? <ReplayButton onReplay={() => api.current.repeat()} size={100} /> : <div style={{ width: 100 }} />}</div>
         <div className="panel" style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 16px 4px 8px", borderRadius: 40 }}>
           <img src={img("item_petal")} alt="" style={{ width: 44 }} />
           <span className="display" style={{ fontSize: 34 }}>{petals}</span>
         </div>
-      </div>
+      </TopBar>
       {banner?.mode === "read" && <div className="panel drop-in run-banner">{banner.text}</div>}
-      {banner?.mode === "blend" && (
-        <div className="run-ear">
-          <RoundButton sm label="Hear the sounds again" onClick={() => api.current.repeat()} className="pulse"><Icon.ear /></RoundButton>
-        </div>
-      )}
       <NarrOverlay />
       <SenseiDock />
     </div>

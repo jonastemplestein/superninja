@@ -1,0 +1,29 @@
+/* Navigation, group A (docs/NAVIGATION.md §5.A): the opt-in's selection and the placement quiz's end. Stage px.
+   The nav controls themselves (Home, Back, Hear it again, the sound picture, Next) are src/styles/nav.css. */
+
+/* The opt-in: a tap selects a card; its gold ring draws on quickly and stays (was a 1.5 s settling ring that confirmed
+   by itself). The selected card sits up a little, glowing. */
+/* (solid, not the old dash "fill": with the ring's non-scaling stroke Chrome measures the dash in the wrong space and
+   draws it with gaps) */
+.oi .oi-ring.sel rect, .oi .oi-ring.sel ellipse { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
+.oi .oi-ring.sel { animation: oi-sel-pop 0.32s cubic-bezier(0.3, 1.6, 0.6, 1) both; }
+@keyframes oi-sel-pop { from { opacity: 0; scale: 1.12; } to { opacity: 1; scale: 1; } }
+.oi .oi-card.sel, .oi .oi-door.sel, .oi .oi-cloud.sel { translate: 0 -10px; }
+.oi .oi-card.sel .oi-plate { box-shadow: 0 8px 0 var(--ink), 0 0 30px 10px rgba(255, 214, 102, 0.85); }
+.oi .oi-door.sel .oi-door-img { filter: drop-shadow(0 0 16px rgba(255, 214, 102, 0.95)) drop-shadow(0 6px 0 rgba(43, 29, 20, 0.4)); }
+.oi .oi-door.d1.sel .oi-door-img { filter: hue-rotate(58deg) saturate(1.1) drop-shadow(0 0 16px rgba(255, 214, 102, 0.95)); }
+.oi .oi-door.d2.sel .oi-door-img { filter: hue-rotate(160deg) saturate(1.1) drop-shadow(0 0 16px rgba(255, 214, 102, 0.95)); }
+.oi .oi-door.sel .oi-badge { z-index: 4; } /* the class badge stays on top of the ring */
+/* The idle bob runs beside each card's entry animation instead of replacing it, so the bob can stop and start again
+   (the 8 s and 20 s nudges, a tap) without the cards popping in a second time. */
+.oi .oi-card.bob { animation: wu-in 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both, oi-bob 1s ease-in-out 3; }
+.oi .oi-door.bob { animation: oi-swing 0.55s cubic-bezier(0.3, 1.4, 0.5, 1) both, oi-bob 1s ease-in-out 3; }
+.oi .oi-cloud.bob { animation: wu-in 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.3s both, oi-bob 1s ease-in-out 0.3s 3; }
+
+/* The placement quiz's end ("how far you got"), held on Next: one big bead per stage, the ones passed lit gold. */
+.pl-beads { position: absolute; left: 340px; width: 770px; top: 236px; display: flex; justify-content: center; gap: 18px; pointer-events: none; }
+.pl-bead {
+  width: 62px; height: 62px; border-radius: 50%; border: 6px solid var(--ink); box-shadow: 0 5px 0 var(--ink);
+  background: rgba(255, 244, 220, 0.35); animation: pop 0.35s cubic-bezier(0.3, 1.6, 0.6, 1) both;
+}
+.pl-bead.on { background: radial-gradient(circle at 35% 30%, #fff6c8 0%, #ffc53d 60%, #e09a1a 100%); box-shadow: 0 5px 0 var(--ink), 0 0 22px 6px rgba(255, 214, 102, 0.8); }

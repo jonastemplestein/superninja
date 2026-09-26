@@ -16,11 +16,15 @@
 // (F18); the first Gem Trial says what it is for, and shows the purple bar filling while Sensei explains it and the
 // hearts (F16); Help and running out of hearts never say the word's sounds one by one to a child spelling it (F29);
 // a finished word can bring a spaced "two letters, one sound" reminder, with that spelling lit.
+// Navigation (docs/NAVIGATION.md §5.D): Home is the nav layer's (top-left). "Hear the word" beside the card is the
+// screen's Hear it again: once the intro is over it says the word, and on the first word the intro again first (Baron's
+// threat or motive, what the battle or trial is, the bar filling while the timer is explained, the hearts); a Gem
+// Trial's monster doesn't charge while it plays.
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import type { LevelProps } from "../App";
 import type { Word } from "../content/phonics";
 import { MONSTER_INFO, worldOf } from "../content/worlds";
-import { say, sayBlend, sfx, playMusic, preload, urls, hush, load } from "../engine/audio";
+import { say, sayBlend, sfx, playMusic, preload, urls, hush, load, isSpeaking, type Say } from "../engine/audio";
 import { chooseWords, tileBank, pick, shuffle } from "../engine/learner";
 import { WORD_BY_TEXT, PHONEMES } from "../content/phonics";
 import { recordSpell, recordWordSpelt, useSave, store, ENERGY_FULL } from "../engine/store";
@@ -31,13 +35,18 @@ import { STRETCHED } from "../content/stretch";
 import { pickPraise } from "../engine/feedback";
 import { GemIcon } from "../ui/Gem";
 import { BARON_TAUNTS } from "../content/lines";
-import { SenseiDock, Tile, img, RoundButton, Icon, Hearts, fx, fxDom, stageRect, sleep, shakeStage, useIdlePrompt, useHelp, useBaronOnScreen, useUpright, WordCard } from "../ui/ui";
+import { SenseiDock, Tile, img, Hearts, fx, fxDom, stageRect, sleep, shakeStage, useIdlePrompt, useHelp, useBaronOnScreen, useUpright } from "../ui/ui";
+import { WordCardAgain } from "./Dojo";
 import { NinjaSpot, ninja, type Move } from "../ui/Ninja";
 import { useKeyTiles } from "../ui/keys";
 import { adjacentSlots, adjacentUnit, gemSeg } from "../content/narrative";
-import { NarrOverlay, SlotPointer, beginLevel, correctionFor, explain, explainGemEnergy, heard, lettersReminder, spellingHelp, timesHeard, twoSoundsReminder } from "./narrate";
+import { NarrOverlay, SlotPointer, beginLevel, correctionFor, explain, explainGemEnergy, heard, isDue, lettersReminder, spellingHelp, timesHeard, twoSoundsReminder } from "./narrate";
 import { useLessonClock } from "../engine/lessonClock";
+import { useNav, useHeld, ReplayButton, TopBar } from "../ui/nav";
 import "../styles/battle.css";
+
+/** One part of a battle's intro, kept for the first word's Hear it again: what was said, and what showed with it. */
+type IntroPart = { say: Say[]; bar?: boolean; hearts?: boolean };
 
 const MAX_HEARTS = 3;
 /** The letter row sits between the ninja zone and the help zone. */
@@ -240,6 +249,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
   const relaxed = !timed;
   const firstTimed = useRef(timed && !store.get().seenTimer).current;
   const upright = useUpright();
+  const held = useHeld(); // a held explanation (the first gem) owns the nav row
   const { tier } = useStreak();
   const [explainBar, setExplainBar] = useState(false);
   const [heartsPulse, setHeartsPulse] = useState(false);
@@ -316,6 +326,9 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
   };
 
   // ---- intro: the monster drops in (flyers swoop in), the ninja shouts, Sensei explains
+  /** What the intro said (and showed), for the first word's Hear it again. */
+  const intro = useRef<IntroPart[]>([]);
+  const part = (p: IntroPart) => void intro.current.push(p);
   useLayoutEffect(() => void streak.reset(), []);
   useEffect(() => {
     alive.current = true;
@@ -331,6 +344,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
         // Baron Muddle's threat (the ninja stands on guard while he speaks); the ninja answers it by powering up as his
         // last words fade
         const threat = `baron_w${world.id}`;
+        part({ say: [{ line: threat }] });
         const said = say({ line: threat });
         const buf = await load(urls.line(threat));
         await Promise.race([said, sleep(Math.max(0, (buf ? (buf.duration * 1000) / FAST : 4000) - 400))]);
@@ -340,21 +354,31 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
         if (!live) return;
         await sleep(450); // Sensei speaks as the power-up's fanfare fades
         if (!live) return;
+        part({ say: [{ line: "battle_boss" }] });
         await say({ line: "battle_boss" });
       } else if (trialKey) {
         // a Gem Trial: the first one says what it is for (NARRATIVE_AUDIT F16)
-        if (!(await explain("trial:first", "once", [{ line: "audit_trial_first" }])) && live) await say({ line: "trial_start" });
+        if (isDue("trial:first", "once")) part({ say: [{ line: "audit_trial_first" }] });
+        if (!(await explain("trial:first", "once", [{ line: "audit_trial_first" }])) && live) {
+          part({ say: [{ line: "trial_start" }] });
+          await say({ line: "trial_start" });
+        }
       } else {
         // Baron Muddle's motive, once, before his first monster (F18: a skipped film leaves him unexplained; the film
         // can mark this heard with narrate.tsx heard("baron-motive") once his lines have played in full)
+        if (level.id !== "review" && isDue("baron-motive", "once")) part({ say: [{ line: "audit_baron_first" }] });
         if (level.id !== "review") await explain("baron-motive", "once", [{ line: "audit_baron_first" }, { gap: 200 }]);
         if (!live) return;
-        await say({ line: level.id === "review" ? "challenge_start" : "battle_start" });
+        const start = level.id === "review" ? "challenge_start" : "battle_start";
+        part({ say: [{ line: start }] });
+        await say({ line: start });
       }
       if (!live) return;
       if (firstTimed) {
         // the bar and the hearts, shown as they are explained: the bar fills a little while Sensei talks about it
         setExplainBar(true);
+        part({ say: [{ line: "audit_timer_short" }], bar: true });
+        part({ say: [{ gap: 150 }, { line: "audit_timer_hearts" }], hearts: true });
         const said = say({ line: "audit_timer_short" });
         for (let k = 0; k <= 45 && live; k++) {
           setCharge(k / 100);
@@ -371,12 +395,16 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       } else if (trialKey && timed && timesHeard(`trial-fail:${trialKey}`) > timesHeard(`trial-retry:${trialKey}`)) {
         // back after running out of hearts on this gem: a short reminder about the bar
         setExplainBar(true);
+        part({ say: [{ line: "audit_timer_short" }], bar: true });
         if (await say({ line: "audit_timer_short" })) heard(`trial-retry:${trialKey}`);
         setExplainBar(false);
       }
       if (!live) return;
       // adjacent consonants (units 8-10): a short spaced reminder before the first word (NARRATIVE_AUDIT F12)
-      if (!trialKey && adjacentUnit(level.units) && adjacentSlots(words[0]?.segs ?? []).length > 1) await explain("adjacent:remind", "concept", [{ line: "audit_neighbours_short" }, { gap: 250 }]);
+      if (!trialKey && adjacentUnit(level.units) && adjacentSlots(words[0]?.segs ?? []).length > 1) {
+        if (isDue("adjacent:remind", "concept")) part({ say: [{ line: "audit_neighbours_short" }] });
+        await explain("adjacent:remind", "concept", [{ line: "audit_neighbours_short" }, { gap: 250 }]);
+      }
       if (live) await ask();
     })();
     return () => {
@@ -418,17 +446,63 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
     }, 150 + T * 0.7);
   };
 
+  /** The question: the word (the first word of a plain battle: "Spell..." first; a boss's "...spell your best!" already
+   *  said it). */
+  const question = (w: Word): Say[] => (w === words[0] && !trialKey && !boss ? [{ line: "battle_spell" }, { gap: 500 }, { word: w.text }] : [{ gap: 150 }, { word: w.text }]);
   const ask = async (w = word) => {
     setLocked(true);
-    // (a boss's "...spell your best!" already said it: straight to the word)
-    await say(w === words[0] && !trialKey && !boss ? [{ line: "battle_spell" }, { gap: 500 }, { word: w.text }] : [{ gap: 150 }, { word: w.text }]);
+    await say(question(w));
     setLocked(false);
   };
+  // ---- Hear it again ("Hear the word" beside the card, and the card itself): once the intro is over, the word; on the
+  // first word, the intro again first, with the bar filling and the hearts pulsing as they are explained. The child may
+  // answer meanwhile (that stops it); a Gem Trial's monster waits while it plays.
+  const [replaying, setReplaying] = useState(false);
+  const replayTok = useRef(0);
+  const hearWord = async () => {
+    if (!word || locked || dead) return;
+    const my = ++replayTok.current;
+    const at = idx;
+    const live = () => alive.current && my === replayTok.current && idxRef.current === at;
+    setReplaying(true);
+    try {
+      for (const p of at === 0 ? intro.current : []) {
+        const bar = { on: !!p.bar };
+        if (p.bar) {
+          setExplainBar(true);
+          void (async () => {
+            for (let k = 0; k <= 45 && bar.on && live(); k++) {
+              setCharge(k / 100);
+              await sleep(40);
+            }
+          })();
+        }
+        if (p.hearts) setHeartsPulse(true);
+        const ok = await say(p.say);
+        bar.on = false;
+        setExplainBar(false);
+        setHeartsPulse(false);
+        if (live()) setCharge(chargeRef.current);
+        if (!ok || !live()) return;
+        await sleep(200);
+        if (!live()) return;
+      }
+      await say(question(word));
+    } finally {
+      if (my === replayTok.current) {
+        setReplaying(false);
+        setExplainBar(false);
+        setHeartsPulse(false);
+        if (alive.current) setCharge(chargeRef.current);
+      }
+    }
+  };
+  useNav({ again: () => hearWord(), againAt: "own" });
 
   // ---- charge timer (Gem Trials: the monster attacks when full). Waits while the phone is held upright.
   const chargeRef = useRef(0);
   useEffect(() => {
-    if (relaxed || locked || dead || upright) return;
+    if (relaxed || locked || dead || upright || replaying) return;
     const per = (boss ? 7000 : 9000) + word.segs.length * 2200;
     const speed = (enraged ? 1.35 : 1) * (firstTimed ? 0.6 : 1);
     let last = performance.now();
@@ -446,7 +520,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [relaxed, locked, idx, dead, enraged, upright]);
+  }, [relaxed, locked, idx, dead, enraged, upright, replaying]);
 
   const monsterAttack = async () => {
     setLocked(true);
@@ -1011,11 +1085,13 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
     // (a boss's "You beat the boss!" is the reward screen's first line, so it is not said twice)
     await Promise.all([boss ? sleep(300) : say({ line: "battle_win" }), party]);
     const m = misses.current + knockouts.current * 3;
-    if (alive.current) onDone(m <= 1 ? 3 : m <= 5 ? 2 : 1);
+    // (a boss's closing is the reward's own "You beat the boss!")
+    if (alive.current) onDone(m <= 1 ? 3 : m <= 5 ? 2 : 1, { closing: boss ? undefined : "battle_win" });
   };
 
-  useKeyTiles(tiles, (g) => tap(g), () => word && !locked && ask());
-  useIdlePrompt(!locked && !!word, 9000, () => say([{ line: "listen" }, { word: word.text }]), [idx]);
+  useKeyTiles(tiles, (g) => tap(g), () => void hearWord());
+  // (never over something being said: Hear it again replaying the intro, Help)
+  useIdlePrompt(!locked && !!word, 9000, () => void (isSpeaking() || say([{ line: "listen" }, { word: word.text }])), [idx]);
   const [helpLvl, setHelpLvl] = useState(0);
   useEffect(() => setHelpLvl(0), [idx, filled.length]);
   useHelp(
@@ -1029,7 +1105,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
     },
     [idx, filled.length, locked],
   );
-  (window as any).__snState = { scene: "battle", locked, next: word?.segs[filled.length]?.g, word: word?.text, streak: streak.n, pending: pendN, hp };
+  (window as any).__snState = { scene: "battle", locked, busy: locked, next: word?.segs[filled.length]?.g, word: word?.text, streak: streak.n, pending: pendN, hp };
 
   const slotPx = !word || word.segs.length <= 4 ? 104 : word.segs.length === 5 ? 92 : 80;
   const curPip = hp - 1;
@@ -1126,29 +1202,22 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       )}
 
       {/* topbar */}
-      <div className="topbar">
-        <RoundButton sm label="map" onClick={onQuit}>
-          <Icon.home />
-        </RoundButton>
+      <TopBar>
         {timed && (
           <div style={heartsPulse ? { animation: "pulse 0.9s ease-in-out infinite" } : undefined}>
             <Hearts n={hearts} max={MAX_HEARTS} />
           </div>
         )}
         <div className="spacer" />
-      </div>
+      </TopBar>
 
       {/* the word: picture card, sound slots, and the letter row between the ninja and Sensei */}
       {word && !dead && (
         <>
-          <WordCard key={`c${idx}`} word={word} className="pop-in" onHear={() => !locked && ask()} style={{ left: TOP_CX - 115, top: 24, width: 230, height: 180 }} />
-          {word.pic && (
-            <div style={{ position: "absolute", left: TOP_CX + 132, top: 68 }}>
-              <RoundButton sm label="Hear the word" onClick={() => !locked && ask()}>
-                <Icon.speaker />
-              </RoundButton>
-            </div>
-          )}
+          {/* Hear it again: beside a picture card, or the speaker card itself (docs/NAVIGATION.md §3.1 "own": the letter
+              row fills the bottom) */}
+          <WordCardAgain key={`c${idx}`} word={word} className="pop-in" style={{ left: TOP_CX - 115, top: 24, width: 230, height: 180 }} />
+          {word.pic && <ReplayButton onReplay={hearWord} size={100} label="Hear the word" style={{ position: "absolute", left: TOP_CX + 132, top: 68 }} />}
           <div className="slots bt-slots" style={{ left: TOP_CX - 330, width: 660, "--slot": `${slotPx}px` } as CSSProperties}>
             {word.segs.map((_, i) => (
               <div key={`${idx}-${i}`} ref={(el) => void (slotRefs.current[i] = el)} className={`slot ${i < filled.length ? "filled" : i === filled.length && !locked ? "active" : ""} ${lit === i ? "bt-say" : ""}`}>
@@ -1157,7 +1226,8 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
               </div>
             ))}
           </div>
-          <div ref={rowRef} className="row bt-row" style={{ left: ROW_L, width: ROW_R - ROW_L, gap: fit.gap }}>
+          {/* (while a held explanation waits on Next, the nav row is its: the letter row steps out of the way) */}
+          <div ref={rowRef} className="row bt-row" style={{ left: ROW_L, width: ROW_R - ROW_L, gap: fit.gap, ...(held ? { visibility: "hidden" } : {}) }}>
             {tiles.map((g) => (
               <Tile
                 key={`${idx}-${g}`}

@@ -3,6 +3,7 @@
 // word sticker (a gold edge and its spelling) says the sounds and reads the word; a shiny one sparkles. After the last
 // sticker, three dashed "mystery" outlines show the next pictures on the child's path. No walls of silhouettes, and
 // the counter is a big number with a sticker icon. (In code it stays `Book`; the child hears "Sticker Book".)
+// Home is the nav layer's (top-left, to the map); Hear it again (top-right) says what Sensei said on arriving.
 import { useEffect, useMemo, useState } from "react";
 import { WORD_BY_TEXT } from "../content/phonics";
 import { LEVELS, levelWords } from "../content/worlds";
@@ -11,6 +12,7 @@ import { say, sfx, playMusic } from "../engine/audio";
 import { useSave, store, type Save } from "../engine/store";
 import { frontier } from "../engine/gems";
 import { img, RoundButton, Icon, useHelp, fx, stageXY, tapProps } from "../ui/ui";
+import { useNav } from "../ui/nav";
 import { Sticker, stickerKind, sayStickerWord } from "./Stickers";
 import "../styles/stickers.css";
 
@@ -29,7 +31,8 @@ export function nextStickers(s: Save, n = 3): string[] {
   return out.slice(0, n);
 }
 
-export function Book({ onBack }: { onBack: () => void }) {
+/** The Sticker Book. Home (the nav layer's) goes back to the map: App's Home rule, or `onBack` if given. */
+export function Book({ onBack }: { onBack?: () => void }) {
   const stickers = useSave((s) => s.stickers ?? []);
   const save = useSave((s) => s);
   const mystery = useMemo(() => nextStickers(save), [stickers.length]);
@@ -44,14 +47,17 @@ export function Book({ onBack }: { onBack: () => void }) {
   const [spread, setSpread] = useState(() => Math.max(0, Math.floor(Math.max(0, stickers.length - 1) / (PER_PAGE * 2))));
   const [flip, setFlip] = useState<0 | 1 | -1>(0);
 
+  // what Sensei said on arriving ("This is your Sticker Book!" the first time), else how the book works
+  const [firstLook] = useState(() => !store.get().seenBook);
   useEffect(() => {
     playMusic("story");
-    if (!store.get().seenBook) {
+    if (firstLook) {
       store.set((s) => void (s.seenBook = true));
       void say({ line: "fm_rw_book" });
     }
   }, []);
   useHelp(() => say({ line: "help_book" }));
+  useNav({ again: () => say(firstLook ? [{ line: "fm_rw_book" }, { gap: 300 }, { line: "help_book" }] : { line: "help_book" }), againAt: "top-right", ...(onBack ? { home: onBack } : {}) });
 
   const turn = (d: 1 | -1) => {
     const n = spread + d;
@@ -112,9 +118,6 @@ export function Book({ onBack }: { onBack: () => void }) {
       </div>
       <div style={{ position: "absolute", right: 14, top: "40%", translate: "0 -50%" }}>
         <RoundButton label="next page" onClick={() => turn(1)} style={{ visibility: spread < spreads.length - 1 ? "visible" : "hidden" }}><Icon.next /></RoundButton>
-      </div>
-      <div className="topbar">
-        <RoundButton sm label="back" onClick={onBack}><Icon.home /></RoundButton>
       </div>
     </div>
   );

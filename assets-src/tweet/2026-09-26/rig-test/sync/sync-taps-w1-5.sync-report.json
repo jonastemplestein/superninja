@@ -1,0 +1,51 @@
+{
+ "master": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/assets-src/tweet/2026-09-26/rig-test/sync/sync-taps-w1-5.master.mp4",
+ "taps": 0,
+ "sync": {
+  "pictureLatencyMs": [
+   46.8,
+   61.8,
+   58.9,
+   59.8,
+   54.6,
+   54.7,
+   54.8,
+   53.3,
+   52,
+   53
+  ],
+  "audioShiftMs": 63.3,
+  "residualMs": [
+   10,
+   -21,
+   -18.9,
+   -3.7,
+   -14.7,
+   -0.3,
+   -16.3,
+   17,
+   18,
+   17.3
+  ],
+  "residualMedianMs": -2,
+  "residualMaxAbsMs": 21
+ },
+ "frames": {
+  "frames": 2540,
+  "fps": 60,
+  "p50": 16.7,
+  "p95": 17.9,
+  "p99": 18.5,
+  "max": 19.9,
+  "hitches": 0,
+  "repeatedSlots": 0,
+  "slots": 1270,
+  "deliveryMs": 13
+ },
+ "offsetMs": {
+  "mean": 0,
+  "within80": 0
+ },
+ "note": "offset = tap sfx onset minus the first frame showing the ripple (positive: sound after picture). Frames are 33 ms apart, so ±17 ms is quantisation.",
+ "rows": []
+}

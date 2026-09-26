@@ -1,15 +1,19 @@
 // Grown-ups area: settings, progress per spelling (reading vs spelling), and how the game teaches.
+// Navigation (docs/NAVIGATION.md §5.A): Home (top-left, the nav layer's) goes back to the screen the gear was held on
+// (`onBack`, App's Home rule); the "Grown-ups" heading sits in the top bar right of it.
 import { useRef, useState } from "react";
-import { GRAPHEMES, PHONEMES, SPELLING_ORDER, UNITS } from "../content/phonics";
+import { GRAPHEMES, PHONEMES, SPELLING_ORDER, UNITS, type PhonemeId } from "../content/phonics";
 import { LEVELS, WORLDS, startFor, worldOf, termOf } from "../content/worlds";
 import { setMusicVolume, sfx, say } from "../engine/audio";
 import { mastery, store, useSave, profilesApi, logAdjust, type SchoolYear } from "../engine/store";
 import { frontier, placeAtUnit } from "../engine/gems";
-import { RoundButton, Icon } from "../ui/ui";
+import { useHome, TopBar } from "../ui/nav";
+import { SoundBadge } from "../ui/SoundBadge";
 import { JumpAhead } from "./JumpAhead";
 
 export function Grownups({ onBack }: { onBack: () => void }) {
   const s = useSave((s) => s);
+  useHome(onBack);
   const [confirm, setConfirm] = useState(false);
   const [jump, setJump] = useState(false);
   const set = (fn: (x: typeof s.settings) => void) => store.set((st) => fn(st.settings));
@@ -17,10 +21,11 @@ export function Grownups({ onBack }: { onBack: () => void }) {
 
   return (
     <div className="scene scrollable" data-grownups style={{ background: "linear-gradient(180deg,#fff4dc,#f6e3bb)", overflowY: "auto", fontFamily: "var(--font-ui)" }}>
-      <div className="topbar" style={{ position: "sticky", top: 16 }}>
-        <RoundButton sm label="back" onClick={onBack}><Icon.back /></RoundButton>
+      {/* (sticky, it sits in the flow at x 0, so .topbar's left: 18 doesn't apply: the margin puts the heading where every
+          top bar's is, x 142, clear of Home's 18–118) */}
+      <TopBar style={{ position: "sticky", top: 16, minHeight: 92, marginLeft: 18, marginRight: 18 }}>
         <div className="display" style={{ fontSize: 48 }}>Grown-ups</div>
-      </div>
+      </TopBar>
       {/* the stage is scaled to ~half size on a phone: grown-up text needs to be much bigger than game text.
           Right padding keeps the copy clear of Sensei's Help button (bottom-right: ×1.5 zoom puts the edge at x 1106). */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24, padding: "20px 116px 160px 40px", zoom: 1.5 }}>
@@ -38,7 +43,7 @@ export function Grownups({ onBack }: { onBack: () => void }) {
             Levels finished: <b>{played}</b> of {LEVELS.length}. Spellings rescued: <b>{s.petals.length}</b> of {SPELLING_ORDER.length}.
           </p>
           <button
-            onClick={() => { store.set((x) => { x.seenPlacement = false; }); location.search = "?scene=placement"; }}
+            onClick={() => { location.search = "?scene=placement"; }}
             style={{ marginTop: 6, marginRight: 10, padding: "10px 18px", borderRadius: 14, border: "3px solid var(--ink)", background: "#fff", fontWeight: 700, fontSize: 18 }}
           >
             Check the starting point
@@ -101,11 +106,14 @@ export function Grownups({ onBack }: { onBack: () => void }) {
             </div>
           ))}
           <h2 style={{ margin: "18px 0 4px" }}>Sound check</h2>
-          <p style={{ margin: "0 0 10px", color: "var(--ink-soft)", fontSize: 17 }}>Every sound in the game, said pure. Tap to listen.</p>
+          <p style={{ margin: "0 0 10px", color: "var(--ink-soft)", fontSize: 17 }}>
+            Every sound in the game, said pure. Tap to listen. Your child sees each sound as its petal from the school chart (its colour and picture), never as letters.
+          </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {Object.values(PHONEMES).map((ph) => (
-              <button key={ph.id} onClick={() => say({ sound: ph.id })} style={{ padding: "6px 12px", borderRadius: 12, border: "3px solid var(--ink)", background: "#fff", fontSize: 18 }}>
-                <b style={{ fontFamily: "var(--font-letters)", fontSize: 24 }}>{ph.label}</b> <span style={{ color: "var(--ink-soft)" }}>as in {ph.example}</span>
+              <button key={ph.id} onClick={() => say({ sound: ph.id })} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "4px 12px 4px 6px", borderRadius: 12, border: "3px solid var(--ink)", background: "#fff", fontSize: 18 }}>
+                <SoundBadge p={ph.id as PhonemeId} size={30} still />
+                <span><b style={{ fontFamily: "var(--font-letters)", fontSize: 24 }}>{ph.label}</b> <span style={{ color: "var(--ink-soft)" }}>as in {ph.example}</span></span>
               </button>
             ))}
           </div>

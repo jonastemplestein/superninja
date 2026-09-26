@@ -3,6 +3,9 @@
 // Lesson 2 → Reward 2 → map). We record everything the game said and every tap, and time each piece against the spec's
 // budgets. Personas: "perfect" (answers right, ~1.2 s after each question) and "learner" (about 1 in 3 first tries
 // wrong, and slower). `--optin` picks the opt-in answer (none, unsure, R, Y1, Y2).
+// Every show holds on the green Next arrow (docs/NAVIGATION.md: nothing moves on by itself): the child watches each step,
+// takes a moment (the persona's think time), then taps Next. The table's "Holds" column is the time spent waiting on a
+// ready Next; it is part of each piece's time (game time), shown apart.
 // Output: playtest/transcripts/first-minutes/<persona>[-<optin>].{md,json}
 // Usage: bun scripts/treadmill/first-minutes.ts [--base http://localhost:5173] [--persona perfect,learner] [--optin none] [--fast 4]
 import { chromium, type Page } from "playwright";
@@ -101,6 +104,9 @@ async function play(page: Page, persona: "perfect" | "learner", shots?: string) 
   let wait = 0;
   let shotAt = 0;
   let optinFrom = 0, optinSettled = 0;
+  // time spent on a ready Next (game time), per piece
+  const holds: Record<string, number> = {};
+  let holdFrom = 0, holdPiece = "";
   if (shots) mkdirSync(shots, { recursive: true });
   const think = (persona === "perfect" ? 1200 : 2600) / FAST;
   while (Date.now() - t0 < (8 * 60_000) / FAST) {
@@ -122,13 +128,33 @@ async function play(page: Page, persona: "perfect" | "learner", shots?: string) 
       await page.waitForTimeout(6000 / FAST); // "Your Sticker Book lives here, on the map!"
       break;
     }
-    // the screens before the game: tap Start, pick the player, let the film play (it can't be skipped the first
-    // time), choose Kai
+    // a held step (the film's shots, Choose after the pick, the opt-in's confirm, the rewards): the child has watched
+    // it, takes a moment, then taps Next (bot.ts's first rule)
+    const nav: any = await page.evaluate(() => (window as any).__snNav ?? null).catch(() => null);
+    const held = nav?.next === "ready";
+    if (held && !holdFrom) (holdFrom = Date.now()), (holdPiece = piece);
+    else if (!held && holdFrom) (holds[holdPiece] = (holds[holdPiece] ?? 0) + (Date.now() - holdFrom) * FAST / 1000), (holdFrom = 0);
+    if (held && now !== "title" && now !== "profiles" && !(await page.locator('button[aria-label="Play again"]').count())) {
+      if (Date.now() - holdFrom < think) {
+        await page.waitForTimeout(80);
+        continue;
+      }
+      await step(page).catch(() => {});
+      await page.waitForTimeout(150);
+      continue;
+    }
+    // the screens before the game: tap Start, pick the player, watch the film (each shot holds on Next, above; "Skip
+    // film" is press-and-hold, for grown-ups), choose Kai (then Next, above)
     if (now === "title") await page.locator('button[aria-label="Start"]').first().dispatchEvent("pointerdown", undefined, { timeout: 800 }).catch(() => {});
     else if (now === "profiles") await page.locator('[aria-label="player Ninja"]').first().dispatchEvent("pointerdown", undefined, { timeout: 800 }).catch(() => {});
-    else if (now === "choose") await page.locator('[aria-label="kai"]').first().dispatchEvent("pointerdown", undefined, { timeout: 800 }).catch(() => {});
-    else if (now === "intro film") {
-      // the film moves on by itself (a new child can't skip it): just watch
+    else if (now === "choose") {
+      const st: any = await page.evaluate(() => (window as any).__snState ?? {}).catch(() => ({}));
+      if (st.next) {
+        await page.waitForTimeout(think);
+        await page.locator('[aria-label="kai"]').first().dispatchEvent("pointerdown", undefined, { timeout: 800 }).catch(() => {});
+      }
+    } else if (now === "intro film") {
+      // a shot is playing: watch (Next is dim until it has finished)
     } else {
       const st: any = await page.evaluate(() => (window as any).__snState ?? {}).catch(() => ({}));
       // a child answers after the question has been said, taking a moment to think
@@ -179,19 +205,21 @@ async function play(page: Page, persona: "perfect" | "learner", shots?: string) 
   ].sort((a, b) => a.t - b.t);
   const spans = pieces.map((p, i) => ({ piece: p.piece, start: game(p.t), secs: Math.round((((pieces[i + 1]?.t ?? Date.now()) - p.t) * FAST) / 100) / 10 }));
   const optinSettledS = optinSettled ? Math.round(((optinSettled - optinFrom) * FAST) / 100) / 10 : null;
-  return { evs, spans, beats, optinSettledS, save: save && { schoolYear: save.schoolYear, band: save.band, seenPlacement: save.seenPlacement, stickers: save.stickers, shiny: save.shiny, firstSession: save.firstSession, adjustLog: save.adjustLog, warmups: save.warmups } };
+  if (holdFrom) holds[holdPiece] = (holds[holdPiece] ?? 0) + ((Date.now() - holdFrom) * FAST) / 1000;
+  return { evs, spans, holds, beats, optinSettledS, save: save && { schoolYear: save.schoolYear, band: save.band, seenPlacement: save.seenPlacement, stickers: save.stickers, shiny: save.shiny, firstSession: save.firstSession, adjustLog: save.adjustLog, warmups: save.warmups } };
 }
 
 function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
   const out = [`# The first five minutes (${persona} child${OPTIN !== "none" ? `, opt-in: ${OPTIN}` : ""})`, "", `Game seconds from the title tap (played at ${FAST}× and converted). Budgets from docs/FIRST_MINUTES.md §2 and §14.`, ""];
-  out.push("| Piece | Starts | Took | Target | Hard cap | Verdict |", "|---|---|---|---|---|---|");
+  out.push("| Piece | Starts | Took | Holds on Next | Target | Hard cap | Verdict |", "|---|---|---|---|---|---|---|");
   let total = 0;
   for (const s of r.spans) {
     const base = s.piece.replace(/ \d$/, (m) => m);
     const b = BUDGET[base] ?? BUDGET[s.piece];
     if (s.piece !== "map" && s.piece !== "profiles") total += s.secs;
     const verdict = !b ? "" : s.piece === "opt-in" && r.optinSettledS != null ? (r.optinSettledS > 30 ? "settled after the cap" : `settled in ${r.optinSettledS} s`) : b.cap && s.secs > b.cap ? "over the cap" : s.secs > b.target ? "over target" : "within target";
-    out.push(`| ${s.piece} | ${fmt(s.start)} | ${s.secs.toFixed(1)} s | ${b ? `${b.target} s` : ""} | ${b?.cap ? `${b.cap} s` : ""} | ${verdict} |`);
+    const held = r.holds[s.piece];
+    out.push(`| ${s.piece} | ${fmt(s.start)} | ${s.secs.toFixed(1)} s | ${held ? `${held.toFixed(1)} s` : ""} | ${b ? `${b.target} s` : ""} | ${b?.cap ? `${b.cap} s` : ""} | ${verdict} |`);
   }
   const mapAt = r.spans.find((s) => s.piece === "map")?.start;
   if (r.optinSettledS != null) out.push("", `The opt-in's cap is 30 s from first sight to a settled choice: **settled after ${r.optinSettledS} s** (the rest of the piece is Sensei confirming it and saying that grown-ups can change it).`);

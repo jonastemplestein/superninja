@@ -6,16 +6,22 @@
 //   · every picture is named aloud when it first appears, with its card spotlit (a warm-white ring, never gold);
 //   · a tap while Sensei is naming spotlights that card (and says its word when she has finished); a tap during a
 //     question is an answer, and cuts her off;
-//   · idle: 8 s → the answer glows and Sensei asks again; 16 s → the paw taps it and play moves on (not a miss);
+//   · idle: 8 s → the answer glows and Sensei asks again; 16 s → the paw points at it and waits (it never answers);
+//     then the question every 12 s, three times, then quiet (docs/NAVIGATION.md rule 5: no timer ever moves on);
 //   · mistakes are errorless: the card wobbles and says its own word ("mmmoon… Moon starts with a different sound."),
 //     then "Listen again." + the question; a second miss: the answer glows, "It's this one!". Nothing is re-queued;
-//   · Help: once → the question again; twice → the answer glows; three times → the paw shows it. The speaker
-//     (bottom-centre) says the question again;
+//   · Help: once → the question again; twice → the answer glows; three times → the paw points at it (and waits);
+//   · navigation (docs/NAVIGATION.md): Home top-left (the nav layer's); Hear it again (the speaker, nav row) replays
+//     this turn's bundle: what Sensei said in this beat that the child needs (the naming, an explanation) and the
+//     question, never an older question; it is dim while Sensei is still talking. Show me again (the paw) replays the
+//     demo that led into this turn and never answers. The sound picture (the petal) shows while a beat is about a
+//     sound. Where a show ends and the next beat starts with another show, the lesson holds on Next (holdNext);
 //   · the ninja's move is the praise: Sensei adds a praise line at most every third right answer;
 //   · lesson beads (top-centre) instead of a progress bar, with a sticker as the last bead;
 //   · the time governor: an optional beat (and the which-did-I-read demo) is skipped when the lesson is behind its
-//     target clock; at the hard cap the child still gets their turn (until their first tap, or 7 s), then the paw
-//     finishes the beat ("Here's the last one!" only when exactly one answer is left) and the lesson closes;
+//     target clock (time at a held Next and on replays doesn't count); at the hard cap the answers glow and the child's
+//     turn waits for their first tap; then the paw finishes the beat ("Here's the last one!" only when exactly one
+//     answer is left) and the lesson closes;
 //   · the streak: only real choices between pictures count, and in the warm-ups a tier-up powers the ninja up without
 //     a spoken line (the first streak is explained in the first lesson where the child reads or spells).
 // Layout (docs/HERO.md): the ninja bottom-left, Help bottom-right, everything to tap in the play area x 340–1110.
@@ -30,14 +36,18 @@ import {
   warmupScript, skipOptional, skipDemo, overCap, beadsOf, showLine, tryLine, nameLine, diffLine, onset, stretch, plain, canStretch,
   segsOf, WORD_TIMES, hasLine, type Beat, type Which,
 } from "../content/warmups";
-import { img, fx, sleep, tapProps, useHelp, RoundButton, Icon, TapHint, Tile, stageRect, stageXY } from "../ui/ui";
+import { img, fx, sleep, tapProps, useHelp, TapHint, Tile, stageRect, stageXY } from "../ui/ui";
 import { ninja } from "../ui/Ninja";
 import {
   Frame, PicCard, LIVING, rightAnswer, afterLanding, useLevelAudio, gift, cornerOf,
-  launch, crossesTier, moveNinja, PLAY_CX, type CardState, type Spec,
+  launch, crossesTier, moveNinja, PLAY_CX, TurnNav, type CardState, type Spec,
 } from "./Early";
 import { heard, isDue } from "./narrate";
+import { useHome, holdNext } from "../ui/nav";
+import { lessonPausedMs } from "../engine/lessonClock";
+import type { PhonemeId } from "../content/phonics";
 import "../styles/warmup.css";
+import "../styles/nav-C.css";
 
 // ---------------------------------------------------------------- what is on screen
 interface CardView {
@@ -74,12 +84,19 @@ interface View {
   rail: null | { arrow: "" | "glow" | "pulse"; light: number | null };
   rails: null | { rows: string[][]; state: Btn[]; light: [number, number] | null };
   dots: null | { word: string; n: number; tapped: number; lit: number; sweep: boolean; wrong: number };
+  /** the paw on its way to tap something (a demo) */
   paw: { x: number; y: number } | null;
+  /** the paw pointing at the answer and waiting (idle help, Help's third press): it never taps */
+  point: { x: number; y: number } | null;
+  /** Hear it again is on screen (from the first question on) */
   speaker: boolean;
+  /** the sound this beat is about: its sound picture sits beside Hear it again (docs/NAVIGATION.md §4) */
+  sound: PhonemeId | null;
   lit: number; // beads lit
   burst: boolean; // the sticker bead bursts
 }
-const EMPTY: View = { cards: [], spot: null, speed: null, ribbon: null, pockets: null, rail: null, rails: null, dots: null, paw: null, speaker: false, lit: 0, burst: false };
+const EMPTY: View = { cards: [], spot: null, speed: null, ribbon: null, pockets: null, rail: null, rails: null, dots: null, paw: null, point: null, speaker: false, sound: null, lit: 0, burst: false };
+type Live = () => boolean;
 
 // ---------------------------------------------------------------- layouts (stage px; the play area is x 340–1110)
 const G = 20;
@@ -127,7 +144,28 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
   const setCard = (w: string, p: Partial<CardView>) => setCards((cs) => cs.map((c) => (c.w === w ? { ...c, ...p } : c)));
   const [beatKind, setBeatKind] = useState<string>("");
   const alive = useRef(true);
+  const isAlive: Live = () => alive.current;
   useLevelAudio();
+  useHome(onQuit);
+
+  // ---- Hear it again (docs/NAVIGATION.md §3.5): this beat's bundle, what Sensei has said in it that the child needs
+  // (the naming of new pictures, the game's introduction, an explanation), said with told(); Hear it again says it and
+  // then the question being asked. It starts again at each beat (and at each item of a many-item game), so it never
+  // replays an older question. Feedback (praise, "Listen again", corrections) is said with plain say().
+  const bundle = useRef<Say[]>([]);
+  const told = (x: Say | Say[]) => {
+    const l = Array.isArray(x) ? x : [x];
+    bundle.current = bundle.current.length ? [...bundle.current, { gap: 300 }, ...l] : [...l];
+    return say(l);
+  };
+  const clearTold = () => void (bundle.current = []);
+  const again = () => {
+    const p = pending.current;
+    const q = p && !p.done ? p.prompt : prompt.current;
+    return say([...bundle.current, ...(bundle.current.length && q.length ? [{ gap: 350 }] : []), ...q]);
+  };
+  /** A hold covers the lesson (holdNext): its controls are the nav layer's, so the lesson's own are hidden. */
+  const [holding, setHolding] = useState(false);
 
   // ---- asking (the child's turn)
   interface Pending {
@@ -142,8 +180,6 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     done: boolean;
     /** the question has been said in full (bots that model a child answer ~1.2 s after this) */
     asked?: boolean;
-    /** when it was (performance.now()): at the cap, the child's turn lasts at least MIN_TURN_MS from here */
-    askedAt?: number;
     timers: number[];
   }
   const pending = useRef<Pending | null>(null);
@@ -151,7 +187,10 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
   const prompt = useRef<Say[]>([]);
   const capped = useRef(false);
   const t0 = useRef(0);
-  const elapsedS = () => (performance.now() * FAST - t0.current) / 1000;
+  const p0 = useRef(0);
+  // lesson seconds (game time), less the time lesson clocks were paused: a held Next beyond 1.5 s, and replays
+  // (Hear it again, Show me again), so a child who replays or sits at a hold never loses a beat for it (§3.7)
+  const elapsedS = () => (performance.now() * FAST - t0.current - (lessonPausedMs() - p0.current) * FAST) / 1000;
   const score = useRef({ first: 0, total: 0, right: 0 });
   const shown = useRef(0); // demos so far (to alternate "Let me show you!" / "Watch me first!")
   const tried = useRef(0);
@@ -172,19 +211,33 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     p.timers.forEach(clearTimeout);
     p.timers = [];
   };
-  /** Idle ladder: 8 s → glow and ask again; 16 s → the paw taps it (a "we do", not a miss). Past the cap, capTurn(). */
+  /** The paw points at the (first) answer and stays there: idle help, never an answer. */
+  const pointAt = (p: Pending) => {
+    const t = el(p.answers()[0] ?? "");
+    if (!t) return;
+    const r = stageRect(t);
+    patch({ point: { x: r.x + r.w * 0.55, y: r.y + r.h * 0.5 } });
+  };
+  /** Idle ladder (docs/NAVIGATION.md §3.2): 8 s → the answer glows and Sensei asks again; 16 s → the paw points at it
+   *  and waits; then the question every 12 s, three times, then quiet. Nothing answers for the child. Past the cap the
+   *  answers glow at once; once the child has tapped since the cap, the paw finishes the question (pawClose). */
   const startIdle = (p: Pending) => {
     clearTimers(p);
     if (p.done) return;
-    if (capped.current && p.asked) return capTurn(p);
+    if (capped.current && p.asked) {
+      if (capTried.current) return void pawClose(p);
+      glow(p.answers());
+    }
     const later = (ms: number, f: () => void) => p.timers.push(window.setTimeout(() => !p.done && !p.busy && f(), ms));
     if (p.glowAfterMs != null) later(p.glowAfterMs, () => glow(p.answers().slice(0, 1)));
     later(8000, () => {
       glow(p.answers());
       void say(p.prompt);
     });
-    later(16000, () => void pawAnswer(p));
+    later(16000, () => pointAt(p));
+    for (const ms of [28000, 40000, 52000]) later(ms, () => void say(p.prompt));
   };
+  /** The paw answers: only past the cap, once the child has had their try (pawClose). */
   const pawAnswer = async (p: Pending) => {
     const id = p.answers()[0];
     if (!id || p.done) return;
@@ -203,6 +256,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
           p.done = true;
           clearTimers(p);
           if (pending.current === p) pending.current = null;
+          if (viewRef.current.point) patch({ point: null });
           setAskN((n) => n + 1);
           resolve(r);
         },
@@ -215,26 +269,14 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         if (sayPrompt) await say(o.prompt);
         if (p.done || !alive.current) return;
         p.asked = true;
-        p.askedAt = performance.now();
         setAskN((n) => n + 1);
         startIdle(p);
       })();
     });
   const saidLast = useRef(false);
   const closedByPaw = useRef(false);
-  /** The child has tapped since the cap came: their try is had, and the paw may finish what is left. */
+  /** The child has tapped since the cap came (in this beat): their try is had, and the paw may finish what is left. */
   const capTried = useRef(false);
-  /** At the hard cap the child is still promised their turn ("Now you try!"): it lasts until their first tap since the
-   *  cap, or MIN_TURN_MS after the question was asked (the answer glows halfway); then the paw finishes it. */
-  const capTurn = (p: Pending) => {
-    clearTimers(p);
-    if (p.done) return;
-    if (capTried.current) return void pawClose(p);
-    const left = Math.max(0, MIN_TURN_MS - (performance.now() - (p.askedAt ?? performance.now())) * FAST);
-    const later = (ms: number, f: () => void) => p.timers.push(window.setTimeout(() => !p.done && !p.busy && f(), ms));
-    later(left / 2, () => glow(p.answers()));
-    later(left, () => void pawClose(p));
-  };
   /** The paw finishes the question. "Here's the last one!" only when exactly one answer is left (and only once). */
   const pawClose = async (p: Pending) => {
     if (p.done || p.busy) return;
@@ -248,7 +290,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     await pawAnswer(p);
   };
   // the hard cap, checked while the child is being asked: once what is left (the paw answering, the beat's own ending
-  // and the closing line) would otherwise run past the cap, the paw finishes the question ("Here's the last one!")
+  // and the closing line) would otherwise run past the cap, the answers glow and the turn waits for the child's tap
   useEffect(() => {
     const t = window.setInterval(() => {
       if (!t0.current || capped.current) return;
@@ -258,16 +300,87 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       const endS = b?.kind === "tapall" ? (b.spell && b.how === "in" ? TAPALL_SPELL_END_S : TAPALL_END_S) : END_S;
       if (overCap(script, elapsedS() + doneS + endS)) {
         capped.current = true;
+        setAskN((n) => n + 1); // (__snState.capped)
         // (a question still being asked is said in full first: ask() then starts the child's turn)
         const p = pending.current;
-        if (p && !p.busy && !p.done && p.asked) capTurn(p);
+        if (p && !p.busy && !p.done && p.asked) startIdle(p);
       }
     }, 500);
     return () => clearInterval(t);
   }, []);
 
+  // ---- Show me again (docs/NAVIGATION.md §3.6): the demo that led into this turn. A beat with a demo (or Sensei's
+  // half of a game whose child's half follows) stores it; it plays over the turn (the demo's own pictures put back when
+  // the turn shows others), then the turn's view comes back and its question is asked again. It never answers: a tap
+  // meanwhile stops it (and counts, when the turn's own pictures were on screen). It goes when another game starts.
+  type Show = { game: string; same: boolean; run: (live: Live) => Promise<unknown> };
+  const lastShow = useRef<Show | null>(null);
+  const showTok = useRef(0);
+  const showing = useRef<{ same: boolean; restore: () => void } | null>(null);
+  const snapshot = () => {
+    const v = viewRef.current;
+    return { cards: v.cards.filter((c) => !c.out), speed: v.speed, ribbon: v.ribbon, rail: v.rail, rails: v.rails, dots: v.dots, spot: null };
+  };
+  const restoreTo = (s: ReturnType<typeof snapshot>) =>
+    patch((v) => ({
+      ...s,
+      paw: null,
+      // the demo's own pictures leave; the turn's come back as they were
+      cards: [...v.cards.filter((c) => !c.out && !s.cards.some((x) => (x.key ?? x.w) === (c.key ?? c.w))).map((c) => ({ ...c, out: true })), ...s.cards],
+    }));
+  const showAgain = async () => {
+    const p = pending.current, s = lastShow.current;
+    if (!p || p.done || p.busy || !p.asked || !s || showing.current) return;
+    const my = ++showTok.current;
+    const live = () => my === showTok.current && alive.current && !p.done;
+    clearTimers(p);
+    hush();
+    const snap = snapshot();
+    showing.current = { same: s.same, restore: () => restoreTo(snap) };
+    p.busy = true;
+    patch({ point: null });
+    setAskN((n) => n + 1);
+    try {
+      await s.run(live);
+    } catch (e) {
+      console.error("show me again", e);
+    }
+    if (!live()) return;
+    await sleep(300);
+    if (!live()) return;
+    endShow();
+    // the turn again: its question (a tap on an answer cuts it off, as ever)
+    await sleep(250);
+    if (!live() || p.busy) return;
+    await say(p.prompt);
+    if (!p.done && !p.busy && my === showTok.current) startIdle(p);
+  };
+  /** Back to the turn: its view as it was, its taps open. */
+  const endShow = () => {
+    const sh = showing.current;
+    showing.current = null;
+    slowmo(false);
+    sh?.restore();
+    const p = pending.current;
+    if (p && !p.done) p.busy = false;
+    setAskN((n) => n + 1);
+  };
+  const stopShow = () => {
+    showTok.current++;
+    hush();
+    endShow();
+    const p = pending.current;
+    if (p && !p.done) startIdle(p);
+  };
+
   /** A tap on anything in the lesson (a card, a button, a rail, a dot). */
   const tap = async (id: string, target: Element | null) => {
+    // during Show me again: the tap stops it; on the turn's own pictures it is also the child's answer
+    if (showing.current) {
+      const same = showing.current.same;
+      stopShow();
+      if (!same) return;
+    }
     const p = pending.current;
     if (!p || p.done) return earlyTap(id);
     if (p.busy || p.ignore?.(id)) return;
@@ -300,19 +413,20 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     if (!isSpeaking()) void say(plain(id));
   };
 
-  /** The paw (a friendly pointing hand) goes to something and taps it. */
-  const pawAt = async (target: Element | { x: number; y: number } | null) => {
+  /** The paw (a friendly pointing hand) goes to something and taps it (a demo). */
+  const pawAt = async (target: Element | { x: number; y: number } | null, live: Live = isAlive) => {
     if (!target) return;
     const r = target instanceof Element ? stageRect(target) : { x: target.x - 40, y: target.y - 40, w: 80, h: 80 };
     patch({ paw: { x: r.x + r.w * 0.55, y: r.y + r.h * 0.5 } });
     await sleep(750);
-    sfx.tap();
+    if (live()) sfx.tap();
     patch({ paw: null });
   };
 
   // ---- teaching helpers
   const named = namedThisSession;
-  /** Name each card that hasn't been named yet, spotlit from 100 ms before its clip until 150 ms after. */
+  /** Name each card that hasn't been named yet, spotlit from 100 ms before its clip until 150 ms after (the naming joins
+   *  this beat's Hear it again). */
   const nameCards = async (ws: string[]) => {
     for (const w of ws) {
       if (named.has(w) || !alive.current) continue;
@@ -320,7 +434,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       patch({ spot: w });
       await sleep(100);
       const id = nameLine(w);
-      await say(id ? { line: id } : plain(w));
+      await told(id ? { line: id } : plain(w));
       await sleep(150);
       patch({ spot: null });
     }
@@ -387,19 +501,26 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       patch({ cards: layoutRow(viewRef.current.cards, b.options) });
       await nameCards(b.options);
       if (b.demo) {
+        const demo = b.demo;
+        // the paw sets off as Sensei starts "Tap the sun!", and taps it as she finishes (Show me again plays it again)
+        const show = async (live: Live) => {
+          const d = el(demo.target);
+          const said = say({ line: demo.prompt ?? "fm_tap_sun" });
+          await sleep(250);
+          if (!live()) return;
+          await pawAt(d, live);
+          await said;
+          if (!live()) return;
+          setCard(demo.target, { state: "right" });
+          sfx.good();
+          const { landed } = rightAnswer(d, "pic", { first: false, living: LIVING.has(demo.target), soft: true });
+          await afterLanding(landed);
+          await sleep(200);
+          setCard(demo.target, { state: "" });
+        };
         await showMe();
-        // the paw sets off as Sensei starts "Tap the sun!", and taps it as she finishes
-        const d = el(b.demo.target);
-        const said = say({ line: b.demo.prompt ?? "fm_tap_sun" });
-        await sleep(250);
-        await pawAt(d);
-        await said;
-        setCard(b.demo.target, { state: "right" });
-        sfx.good();
-        const { landed } = rightAnswer(d, "pic", { first: false, living: LIVING.has(b.demo.target), soft: true });
-        await afterLanding(landed);
-        await sleep(200);
-        setCard(b.demo.target, { state: "" });
+        await show(isAlive);
+        lastShow.current = { game: "tap", same: true, run: show };
         await youTry();
       }
       let misses = 0;
@@ -460,55 +581,9 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         await nameCards([b.word]);
         // "Watch me first!" as the stage settles
         await showMe();
-        // fast: the paw taps the rabbit as Sensei starts: "I can say a word fast. Sun!", and on "Sun!" the card hops,
-        // the ribbon zips across and the ninja dashes out and back
-        if (b.show === "full") {
-          const fast = say({ line: hasLine(`fm_fast_${b.word}`) ? `fm_fast_${b.word}` : "fm_fast_sun" });
-          await pawAt(el("rabbit"));
-          patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "flash" } }));
-          await sleep(700);
-          fastHop(b.word);
-          await fast;
-        } else {
-          await pawAt(el("rabbit"));
-          patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "flash" } }));
-          fastHop(b.word);
-          await say(plain(b.word));
-        }
-        patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "" } }));
-        // slow: the paw taps the tortoise: "Or I can say it slowly..." [sssuuunnn], the card stretching like elastic,
-        // the ribbon drawing along in time and a dot popping on for each sound; the ninja does a slow kata
-        const slow = say({ line: "fm_slow" });
-        await pawAt(el("tortoise"));
-        patch((v) => ({ speed: v.speed && { ...v.speed, tortoise: "flash" } }));
-        await slow;
-        await sleep(120);
-        await slowWord(b.word);
-        patch((v) => ({ speed: v.speed && { ...v.speed, tortoise: "" } }));
-        if (b.show === "full") {
-          // "Fast or slow, it's the same word. Sun!" (a hop on "Sun!")
-          const same = say({ line: "fm_same_word" });
-          await sleep(2700);
-          fastHop(b.word);
-          await same;
-          // "Slowly, I can hear all its sounds. Words are made of sounds!" (the dots pulse in turn on "its sounds"; on
-          // "made of sounds" a ki pulse at the dots). The 7.2 s "When I say a word slowly, I can hear the sounds that
-          // make up the word..." is the fallback while the short take isn't recorded.
-          const short = hasLine("fm_hear_sounds_short");
-          const hear = say({ line: short ? "fm_hear_sounds_short" : "fm_hear_sounds" });
-          const [dotsAt, kiAt] = short ? HEAR_SHORT_AT : [2.3, 5.4];
-          const t = performance.now();
-          const at = (s: number) => sleep(Math.max(0, s * 1000 - (performance.now() - t) * FAST));
-          await at(dotsAt);
-          for (let i = 0; i < segs && alive.current; i++) {
-            patch((v) => ({ ribbon: v.ribbon && { ...v.ribbon, pulse: i } }));
-            await sleep(340);
-          }
-          patch((v) => ({ ribbon: v.ribbon && { ...v.ribbon, pulse: -1 } }));
-          await at(kiAt);
-          kiAtDots();
-          await hear;
-        }
+        await fastSlowShow(b, isAlive);
+        // the child's fast and slow turns that follow can watch it again (Show me again)
+        lastShow.current = { game: "fastslow", same: true, run: (live) => fastSlowShow(b, live) };
         return;
       }
       // the child's turn: "Your turn! Tap the tortoise, and say it slowly with me." / "Now tap the rabbit, and say it fast!"
@@ -553,20 +628,28 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       await sleep(400);
       await nameCards(b.options);
       if (b.demo) {
+        const demo = b.demo;
         // "Let me show you!": Sensei says her slow word and the paw finds its picture; "mmmuuug… mug!"
+        const show = async (live: Live) => {
+          await say([{ line: "fm_slow_listen" }, { gap: 400 }, stretch(demo.target), { gap: 300 }, { line: "fm_which_pic" }]);
+          if (!live()) return;
+          const d = el(demo.target);
+          await pawAt(d, live);
+          if (!live()) return;
+          setCard(demo.target, { state: "right" });
+          sfx.good();
+          slowmo(true);
+          const { landed } = rightAnswer(d, "pic", { first: false, living: LIVING.has(demo.target), soft: true });
+          await say([stretch(demo.target), { gap: 300 }]);
+          slowmo(false);
+          if (!live()) return;
+          await say(plain(demo.target));
+          await afterLanding(landed);
+          setCard(demo.target, { state: "" });
+        };
         await showMe();
-        await say([{ line: "fm_slow_listen" }, { gap: 400 }, stretch(b.demo.target), { gap: 300 }, { line: "fm_which_pic" }]);
-        const d = el(b.demo.target);
-        await pawAt(d);
-        setCard(b.demo.target, { state: "right" });
-        sfx.good();
-        slowmo(true);
-        const { landed } = rightAnswer(d, "pic", { first: false, living: LIVING.has(b.demo.target), soft: true });
-        await say([stretch(b.demo.target), { gap: 300 }]);
-        slowmo(false);
-        await say(plain(b.demo.target));
-        await afterLanding(landed);
-        setCard(b.demo.target, { state: "" });
+        await show(isAlive);
+        lastShow.current = { game: "slowpick", same: true, run: show };
         await youTry();
       }
       const lead = b.again || b.demo ? "fm_slow_another" : "fm_slow_listen";
@@ -619,21 +702,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       // (the cards are already known: Sensei starts as they glide into place)
       await sleep(named.has(a) && named.has(c) ? 150 : 500);
       await nameCards(b.words);
-      ninja.pose("listen"); // a hand cupped behind its ear
-      await say({ line: "fm_first_listen" });
-      for (const w of b.words) {
-        await sleep(60);
-        setCard(w, { dots: { n: ns(w), gold: [0] } });
-        await say(onset(w));
-      }
-      await sleep(60);
-      const notice = say([{ line: b.line }, { gap: 300 }, { sound: b.p }]);
-      await sleep(3000); // on "the same sound"
-      kiAtFirstDots(b.words);
-      await notice;
-      ninja.pose(null);
-      await say([{ line: "t_everyone_say" }, { gap: 200 }, { sound: b.p }]);
-      await sleep(1000); // time for the child to say it
+      await noticeShow(b, isAlive);
     },
 
     // ---- tap all the pictures that start with /s/ (or have /a/ in them)
@@ -670,9 +739,12 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         patch((v) => ({ pockets: v.pockets && { ...v.pockets, filled: [...v.pockets.filled, w] } }));
       };
       if (b.demo) {
+        const demoW = b.demo;
         // "Let me show you!": the paw sets off on the sound and finds one as the question ends; it flies into its pocket
         await showMe();
-        const d = el(b.demo);
+        // the sound picture, from the question on (docs/NAVIGATION.md §4)
+        patch({ sound: b.p });
+        const d = el(demoW);
         const started = nextClip(lead, 1500);
         const asked = say(q);
         const c = await started;
@@ -680,15 +752,39 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         if (c) await sleep(Math.max(0, (c.end - performance.now()) * FAST - 250));
         await pawAt(d);
         await asked;
-        found.push(b.demo);
-        setCard(b.demo, { state: "found" });
+        found.push(demoW);
+        setCard(demoW, { state: "found" });
         sfx.good();
         void ninja.act("throw", d ? cornerOf(d) : undefined, { react: false, soft: true });
-        void pocket(b.demo);
-        await say(findSay(b.demo));
-        await spellOn(b.demo);
+        void pocket(demoW);
+        await say(findSay(demoW));
+        await spellOn(demoW);
+        // Show me again: the question again, and the paw finds the demo's picture (already in its pocket) once more
+        lastShow.current = {
+          game: "tapall",
+          same: true,
+          run: async (live) => {
+            const d2 = el(demoW);
+            const started2 = nextClip(lead, 1500);
+            const asked2 = say(q);
+            const c2 = await started2;
+            if (c2) await sleep(Math.max(0, (c2.end - performance.now()) * FAST - 250));
+            if (!live()) return;
+            await pawAt(d2, live);
+            await asked2;
+            if (!live()) return;
+            sfx.good();
+            if (d2) {
+              const at = stageXY(d2);
+              fx.twinkle(at.x, at.y, ["#fff4dc", "#ffe38a", "#ffc53d"], 10, 6);
+            }
+            void ninja.act("throw", d2 ? cornerOf(d2) : undefined, { react: false, soft: true });
+            await say(findSay(demoW));
+          },
+        };
         await youTry();
       }
+      patch({ sound: b.p });
       let misses = 0;
       let first = true;
       let askPrompt = !b.demo;
@@ -750,7 +846,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         fx.twinkle(p.x, p.y, ["#fff4dc", "#ffe38a", "#ffc53d"], 12, 7);
         fx.ring(p.x, p.y, { color: "#ffe38a", r0: 20, r1: 150, width: 9 });
       }, 250 + i * 140));
-      // "You found them both/all!" only for what the child found; the paw's finds (idle or at the cap) aren't theirs
+      // "You found them both/all!" only for what the child found; the paw's finds (at the cap) aren't theirs
       const helped = childFound < found.length - (b.demo ? 1 : 0);
       if (b.how === "in") await say([...(helped ? [] : [{ line: "fm_found_all" }, { gap: 250 }]), { line: "t_they_all_have" }, { gap: 350 }, { sound: b.p }]);
       else if (!helped && childFound === 2) await say([{ line: "fm_found_both" }, { gap: 300 }, { sound: b.p }]);
@@ -806,6 +902,22 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         await readAlong(b.cards, b.line);
         // the fish-dog appears, and once it is clean Sensei says it again: "Fish dog!"
         if (b.merge) await merge(b.cards, b.merge, { line: b.after });
+        // the child's turn that follows can watch Sensei read them again (Show me again): the light under each picture
+        lastShow.current = {
+          game: "rail",
+          same: true,
+          run: async (live) => {
+            if (b.intro) {
+              const said = say({ line: b.intro });
+              runAlong(760, 1500);
+              await said;
+              await sleep(250);
+              if (!live()) return;
+            }
+            await readAlong(b.cards, b.line, undefined, live);
+            if (live() && b.after) await say({ line: b.after });
+          },
+        };
         return;
       }
       // the child taps them in order, left to right; the first one pulses
@@ -859,27 +971,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     },
 
     // ---- "Whoops! Now they're the other way round. Dog... fish. Dog fish!"
-    swap: async (b) => {
-      // a merged picture on the rail (the fish-dog) splits back into its two pictures first
-      const merged = viewRef.current.cards.filter((c) => !c.out && !b.cards.includes(c.w));
-      if (merged.length) {
-        const before = onRail([...b.cards].reverse());
-        patch((v) => ({ cards: [...v.cards.filter((c) => !merged.includes(c)), ...before.map((c) => ({ ...c, x: PLAY_CX, moving: true, key: `${c.w}-sw` }))] }));
-        await sleep(60);
-        patch((v) => ({ cards: v.cards.map((c) => { const t = before.find((x) => x.w === c.w); return t && !c.out ? { ...c, x: t.x } : c; }) }));
-        await sleep(450);
-        setCards((cs) => cs.map((c) => ({ ...c, moving: false })));
-      }
-      // "Whoops!": the ninja leapfrogs the cards and they swap places as Sensei starts, then she reads them
-      const to = onRail(b.cards);
-      await readAlong(b.cards, b.line, async () => {
-        void ninja.act("flip");
-        await sleep(300);
-        patch((v) => ({ cards: v.cards.map((c) => { const t = to.find((x) => x.w === c.w); return t && !c.out ? { ...c, x: t.x } : c; }) }));
-        sfx.whoosh();
-      });
-      if (b.merge) await merge(b.cards, b.merge, { quick: true, line: b.after });
-    },
+    swap: (b) => swapShow(b, isAlive),
 
     // ---- "Which did I read?"
     which: async (b) => {
@@ -891,29 +983,46 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         await sleep(450);
         await nameCards([...new Set(w.rails.flat())]);
       };
-      const sweep = async (row: number) => {
+      const sweep = async (row: number, live: Live = isAlive) => {
         const n = viewRef.current.rails?.rows[row].length ?? 2;
         for (let i = 0; i < n; i++) {
+          if (!live()) return;
           patch((v) => ({ rails: v.rails && { ...v.rails, light: [row, i] } }));
           await sleep(260);
         }
-        patch((v) => ({ rails: v.rails && { ...v.rails, light: null, state: v.rails.state.map((s, i) => (i === row ? "glow" : s)) } }));
+        if (live()) patch((v) => ({ rails: v.rails && { ...v.rails, light: null, state: v.rails.state.map((s, i) => (i === row ? "glow" : s)) } }));
       };
       // (the demo re-reads a pair the child has just heard read both ways: a lesson that is behind drops it)
       if (b.demo && !skipDemoNow.current) {
-        await show(b.demo);
-        await showMe();
+        const demo = b.demo;
         // the paw sets off as Sensei finishes the pair, and taps its rail as she ends
-        const r = el(`rail ${b.demo.answer}`);
-        const said = say({ line: b.demo.line });
-        const times = WORD_TIMES[b.demo.line];
-        await sleep(Math.max(0, ((times?.[times.length - 1] ?? 1.7) - 0.4) * 1000));
-        await pawAt(r);
-        await said;
-        sfx.good();
-        patch((v) => ({ rails: v.rails && { ...v.rails, state: v.rails.state.map((s, i) => (i === b.demo!.answer ? "flash" : s)) } }));
-        void gift(r, { shape: "around" });
-        await Promise.all([sweep(b.demo.answer), youTry()]);
+        const play = async (live: Live, during?: () => Promise<unknown>) => {
+          const r = el(`rail ${demo.answer}`);
+          const said = say({ line: demo.line });
+          const times = WORD_TIMES[demo.line];
+          await sleep(Math.max(0, ((times?.[times.length - 1] ?? 1.7) - 0.4) * 1000));
+          if (!live()) return;
+          await pawAt(r, live);
+          await said;
+          if (!live()) return;
+          sfx.good();
+          patch((v) => ({ rails: v.rails && { ...v.rails, state: v.rails.state.map((s, i) => (i === demo.answer ? "flash" : s)) } }));
+          void gift(r, { shape: "around" });
+          await Promise.all([sweep(demo.answer, live), during?.()]);
+        };
+        await show(demo);
+        await showMe();
+        await play(isAlive, youTry);
+        // Show me again: the demo's two rails come back, Sensei reads, the paw taps the one she read
+        lastShow.current = {
+          game: "which",
+          same: false,
+          run: async (live) => {
+            patch({ rails: { rows: demo.rails, state: ["", ""], light: null } });
+            await sleep(450);
+            if (live()) await play(live);
+          },
+        };
       }
       await show(b.pick);
       let misses = 0;
@@ -965,33 +1074,27 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         speed: { tortoise: "", rabbit: "", at: "rail" },
       }));
       if (b.by === "sensei") {
-        const [intro, main] = b.lines;
+        const [intro] = b.lines;
         // "Two little words can make one big word!" as the cards arrive on the rail
-        if (intro) await say({ line: intro });
+        if (intro) await told({ line: intro });
         else await sleep(450);
         await nameCards(b.parts);
-        // "Say them slowly: sun... flower. Say them fast: sunflower!": the paw taps the tortoise, the cards light in turn;
-        // then the rabbit: the cards zip together and bloom into one
-        const times = WORD_TIMES[main] ?? [1.5, 2.6, 4.9];
-        const t = performance.now();
-        const at = (s: number) => sleep(Math.max(0, s * 1000 - (performance.now() - t) * FAST));
-        void pawAt(el("tortoise"));
-        const said = say({ line: main });
-        patch((v) => ({ speed: v.speed && { ...v.speed, tortoise: "flash" } }));
-        await at(times[0]);
-        setCard(b.parts[0], { lit: true });
-        await at(times[1]);
-        setCard(b.parts[1], { lit: true });
-        patch((v) => ({ speed: v.speed && { ...v.speed, tortoise: "" } }));
-        await at(times[2] - 1.2);
-        void pawAt(el("rabbit"));
-        patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "flash" } }));
-        // the cards zip together early enough that the sunflower is clean as Sensei says "sunflower!" (merge: the
-        // glide, the pop and the fading sparkle take about 0.8 s), then it holds
-        await at(times[2] - 0.85);
-        void ninja.act("cast", { x: PLAY_CX, y: 380 }, { react: false });
-        await merge(b.parts, b.word, { quick: true, saying: said });
-        patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "" } }));
+        await compoundShow(b, isAlive);
+        // the child's big word that follows can watch this one made again (Show me again): its two pictures come back
+        lastShow.current = {
+          game: "compound",
+          same: false,
+          run: async (live) => {
+            patch((v) => ({
+              cards: [...v.cards.filter((c) => !c.out).map((c) => ({ ...c, out: true })), ...onRail(b.parts).map((c) => ({ ...c, key: `${c.w}-cmpr` }))],
+              speed: { tortoise: "", rabbit: "", at: "rail" },
+            }));
+            await sleep(450);
+            if (!live()) return;
+            if (intro) await say({ line: intro });
+            if (live()) await compoundShow(b, live);
+          },
+        };
         return;
       }
       // the child: "Star... fish. Tap the rabbit to say them fast!" (a pause to say it), then the rabbit pulses
@@ -1045,28 +1148,54 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
         const segs = segsOf(w);
         return segs.length ? [{ sounds: segs, gap: 420 }] : [plain(w)];
       };
-      patch((v) => ({ cards: [...v.cards.map((c) => ({ ...c, out: true })), ...row(b.demo.options, 240, 300, 40, 24).map((c) => ({ ...c, key: `${c.w}-d` }))] }));
+      const demoCards = (key: string) => row(b.demo.options, 240, 300, 40, 24).map((c) => ({ ...c, key: `${c.w}-${key}` }));
+      patch((v) => ({ cards: [...v.cards.map((c) => ({ ...c, out: true })), ...demoCards("d")] }));
       await sleep(450);
       await nameCards(b.demo.options);
+      // the game's introduction joins its first item's Hear it again
+      const intro: Say[] = [];
       // "Words are made of sounds" (Lesson 1), recalled before the first sounds-only game (NARRATIVE_AUDIT F02)
-      if (isDue("made-of-sounds", "once") && (await say({ line: "audit_made_of_sounds" }))) heard("made-of-sounds");
+      if (isDue("made-of-sounds", "once")) {
+        intro.push({ line: "audit_made_of_sounds" }, { gap: 300 });
+        if (await say({ line: "audit_made_of_sounds" })) heard("made-of-sounds");
+      }
+      intro.push({ line: "fm_sounds_intro" });
+      // "Let me show you!": Sensei says the sounds, the paw finds the word's picture (Show me again plays it again)
+      const play = async (live: Live) => {
+        await say({ line: "fm_sounds_intro" });
+        if (!live()) return;
+        await say(sayWord(b.demo.target));
+        if (!live()) return;
+        await pawAt(el(b.demo.target), live);
+        if (!live()) return;
+        setCard(b.demo.target, { state: "right" });
+        sfx.good();
+        const { landed } = rightAnswer(el(b.demo.target), "pic", { first: false, living: LIVING.has(b.demo.target), soft: true });
+        await afterLanding(landed);
+        if (!live()) return;
+        await say(plain(b.demo.target));
+        await sleep(300);
+      };
       await showMe();
-      await say({ line: "fm_sounds_intro" });
-      await say(sayWord(b.demo.target));
-      await pawAt(el(b.demo.target));
-      setCard(b.demo.target, { state: "right" });
-      sfx.good();
-      const { landed } = rightAnswer(el(b.demo.target), "pic", { first: false, living: LIVING.has(b.demo.target), soft: true });
-      await afterLanding(landed);
-      await say(plain(b.demo.target));
-      await sleep(300);
+      await play(isAlive);
+      lastShow.current = {
+        game: "sounds",
+        same: false,
+        run: async (live) => {
+          patch((v) => ({ cards: [...v.cards.filter((c) => !c.out).map((c) => ({ ...c, out: true })), ...demoCards("dr")] }));
+          await sleep(450);
+          if (live()) await play(live);
+        },
+      };
       await youTry();
       let n = 2, run2 = 0;
-      for (const it of b.items) {
+      for (const [k, it] of b.items.entries()) {
         if (!alive.current) return;
         if (capped.current) break;
         const opts = shuffleStable(it.options.slice(0, n), it.target);
         patch((v) => ({ cards: [...v.cards.map((c) => ({ ...c, out: true })), ...row(opts, n >= 3 ? 210 : 240, 300, n >= 3 ? 0 : 40, n >= 3 ? G : 24).map((c) => ({ ...c, key: `${c.w}-${it.target}` }))] }));
+        // each word is a new question: its own Hear it again (the game's introduction on the first)
+        bundle.current = k === 0 ? [...intro] : [];
         await sleep(450);
         await nameCards(opts);
         const q: Say[] = [...sayWord(it.target), { gap: 300 }, { line: "fm_which_pic" }];
@@ -1108,32 +1237,48 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       tidyStage();
       const showWord = async (w: string) => {
         const n = segsOf(w).length;
-        patch((v) => ({ cards: [...v.cards.map((c) => ({ ...c, out: true })), { w, x: PLAY_CX, y: 240, size: 250, gutter: G, key: `${w}-dots` }], dots: { word: w, n, tapped: 0, lit: -1, sweep: false, wrong: -1 } }));
+        patch((v) => ({ cards: [...v.cards.filter((c) => !c.out).map((c) => ({ ...c, out: true })), { w, x: PLAY_CX, y: 240, size: 250, gutter: G, key: `${w}-dots` }], dots: { word: w, n, tapped: 0, lit: -1, sweep: false, wrong: -1 } }));
         await sleep(450);
         await nameCards([w]);
       };
-      const sweepSay = async (w: string) => {
+      const sweepSay = async (w: string, live: Live = isAlive) => {
         patch((v) => ({ dots: v.dots && { ...v.dots, sweep: true, lit: -1 } }));
         runAlong(420, 700);
         await sleep(350);
-        await say(plain(w));
+        if (live()) await say(plain(w));
         patch((v) => ({ dots: v.dots && { ...v.dots, sweep: false } }));
       };
       // "Let me show you!": the paw taps each dot left to right, each says its sound, then the word
+      const play = async (live: Live) => {
+        await say({ line: "fm_dots_intro" });
+        const segs = segsOf(b.demo);
+        for (let i = 0; i < segs.length; i++) {
+          if (!live()) return;
+          await pawAt(el(`dot ${i}`), live);
+          if (!live()) return;
+          patch((v) => ({ dots: v.dots && { ...v.dots, tapped: i + 1, lit: i } }));
+          await say({ sound: segs[i].p });
+        }
+        await sleep(300);
+        if (live()) await sweepSay(b.demo, live);
+      };
       await showWord(b.demo);
       await showMe();
-      await say({ line: "fm_dots_intro" });
-      const segs = segsOf(b.demo);
-      for (let i = 0; i < segs.length; i++) {
-        await pawAt(el(`dot ${i}`));
-        patch((v) => ({ dots: v.dots && { ...v.dots, tapped: i + 1, lit: i } }));
-        await say({ sound: segs[i].p });
-      }
-      await sleep(300);
-      await sweepSay(b.demo);
+      await play(isAlive);
+      lastShow.current = {
+        game: "dots",
+        same: false,
+        run: async (live) => {
+          const n = segsOf(b.demo).length;
+          patch((v) => ({ cards: [...v.cards.filter((c) => !c.out).map((c) => ({ ...c, out: true })), { w: b.demo, x: PLAY_CX, y: 240, size: 250, gutter: G, key: `${b.demo}-dotsr` }], dots: { word: b.demo, n, tapped: 0, lit: -1, sweep: false, wrong: -1 } }));
+          await sleep(450);
+          if (live()) await play(live);
+        },
+      };
       await sleep(400);
       for (const [k, w] of b.words.entries()) {
         if (!alive.current || capped.current) break;
+        clearTold();
         await showWord(w);
         const ws = segsOf(w);
         if (k === 0) await say({ line: "fm_dots_turn" });
@@ -1177,10 +1322,10 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       patch({ dots: null });
     },
 
-    // ---- every bead lit; the closing line; the ninja celebrates
+    // ---- every bead lit; the closing line; the ninja celebrates (the reward's Hear it again starts with the line)
     done: async (b) => {
       pending.current = null;
-      patch({ speaker: false, burst: true, lit: beads.length });
+      patch({ speaker: false, sound: null, point: null, burst: true, lit: beads.length });
       sfx.great();
       const r = stageXY(document.querySelector(".wu-bead.sticker"));
       fx.burst(r.x, r.y, "stars", 22);
@@ -1188,6 +1333,162 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       await Promise.race([ninja.linesDone(), sleep(2500)]);
       await Promise.all([say({ line: b.line }), sleep(500).then(() => (alive.current ? ninja.celebrate() : undefined))]);
     },
+  };
+
+  // ---- the shows (their first time, and their replays: Show me again, a hold's Hear it again). Each stops at its next
+  // step once `live()` turns false (the child tapped, went on, or left).
+  /** Sensei's fast and slow: the paw taps the rabbit ("I can say a word fast. Sun!": the card hops, the ribbon zips,
+   *  the ninja dashes), then the tortoise ("Or I can say it slowly..." sssuuunnn: the card stretches, the ribbon draws
+   *  with a dot per sound); in full, "Fast or slow, it's the same word. Sun!" and "Words are made of sounds!". */
+  const fastSlowShow = async (b: Extract<Beat, { kind: "fastslow"; by: "sensei" }>, live: Live) => {
+    const segs = segsOf(b.word).length || 3;
+    if (b.show === "full") {
+      const fast = say({ line: hasLine(`fm_fast_${b.word}`) ? `fm_fast_${b.word}` : "fm_fast_sun" });
+      await pawAt(el("rabbit"), live);
+      if (!live()) return;
+      patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "flash" } }));
+      await sleep(700);
+      if (!live()) return;
+      fastHop(b.word);
+      await fast;
+    } else {
+      await pawAt(el("rabbit"), live);
+      if (!live()) return;
+      patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "flash" } }));
+      fastHop(b.word);
+      await say(plain(b.word));
+    }
+    if (!live()) return;
+    patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "" } }));
+    // slow: the paw taps the tortoise: "Or I can say it slowly..." [sssuuunnn], the card stretching like elastic,
+    // the ribbon drawing along in time and a dot popping on for each sound; the ninja does a slow kata
+    const slow = say({ line: "fm_slow" });
+    await pawAt(el("tortoise"), live);
+    if (!live()) return;
+    patch((v) => ({ speed: v.speed && { ...v.speed, tortoise: "flash" } }));
+    await slow;
+    await sleep(120);
+    if (!live()) return;
+    await slowWord(b.word, live);
+    patch((v) => ({ speed: v.speed && { ...v.speed, tortoise: "" } }));
+    if (b.show !== "full" || !live()) return;
+    // "Fast or slow, it's the same word. Sun!" (a hop on "Sun!")
+    const same = say({ line: "fm_same_word" });
+    await sleep(2700);
+    if (!live()) return;
+    fastHop(b.word);
+    await same;
+    if (!live()) return;
+    // "Slowly, I can hear all its sounds. Words are made of sounds!" (the dots pulse in turn on "its sounds"; on
+    // "made of sounds" a ki pulse at the dots). The 7.2 s "When I say a word slowly, I can hear the sounds that
+    // make up the word..." is the fallback while the short take isn't recorded.
+    const short = hasLine("fm_hear_sounds_short");
+    const hear = say({ line: short ? "fm_hear_sounds_short" : "fm_hear_sounds" });
+    const [dotsAt, kiAt] = short ? HEAR_SHORT_AT : [2.3, 5.4];
+    const t = performance.now();
+    const at = (s: number) => sleep(Math.max(0, s * 1000 - (performance.now() - t) * FAST));
+    await at(dotsAt);
+    for (let i = 0; i < segs && live(); i++) {
+      patch((v) => ({ ribbon: v.ribbon && { ...v.ribbon, pulse: i } }));
+      await sleep(340);
+    }
+    patch((v) => ({ ribbon: v.ribbon && { ...v.ribbon, pulse: -1 } }));
+    if (!live()) return;
+    await at(kiAt);
+    if (live()) kiAtDots();
+    await hear;
+  };
+  /** "Listen to the very first sound." sssun, sssock (the first dot under each goes gold), "Did you notice? Sun and sock
+   *  start with the same sound..." /s/ (the sound picture comes in), "Say that sound with me!" /s/. `again`: the
+   *  hold's Hear it again (the dots start grey again; nothing joins the bundle). */
+  const noticeShow = async (b: Extract<Beat, { kind: "notice" }>, live: Live, again = false) => {
+    const tell = again ? say : told;
+    const ns = (w: string) => segsOf(w).length || 3;
+    if (again) for (const w of b.words) setCard(w, { dots: { n: ns(w), gold: [] } });
+    ninja.pose("listen"); // a hand cupped behind its ear
+    try {
+      await tell({ line: "fm_first_listen" });
+      for (const w of b.words) {
+        if (!live()) return;
+        await sleep(60);
+        setCard(w, { dots: { n: ns(w), gold: [0] } });
+        await tell(onset(w));
+      }
+      if (!live()) return;
+      await sleep(60);
+      const notice = tell([{ line: b.line }, { gap: 300 }, { sound: b.p }]);
+      await sleep(3000); // on "the same sound"
+      if (!live()) return;
+      kiAtFirstDots(b.words);
+      patch({ sound: b.p });
+      await notice;
+      if (!live()) return;
+      ninja.pose(null);
+      await tell([{ line: "t_everyone_say" }, { gap: 200 }, { sound: b.p }]);
+      await sleep(1000); // time for the child to say it
+    } finally {
+      ninja.pose(null);
+    }
+  };
+  /** "Whoops!": a merged picture on the rail (the fish-dog) splits back into its two pictures, the ninja leapfrogs them
+   *  and they swap places as Sensei starts, she reads them, and they merge again (the dog-fish). */
+  const swapShow = async (b: Extract<Beat, { kind: "swap" }>, live: Live) => {
+    const merged = viewRef.current.cards.filter((c) => !c.out && !b.cards.includes(c.w));
+    if (merged.length) {
+      const before = onRail([...b.cards].reverse());
+      patch((v) => ({ cards: [...v.cards.filter((c) => !merged.includes(c)), ...before.map((c) => ({ ...c, x: PLAY_CX, moving: true, key: `${c.w}-sw` }))] }));
+      await sleep(60);
+      patch((v) => ({ cards: v.cards.map((c) => { const t = before.find((x) => x.w === c.w); return t && !c.out ? { ...c, x: t.x } : c; }) }));
+      await sleep(450);
+      setCards((cs) => cs.map((c) => ({ ...c, moving: false })));
+      if (!live()) return;
+    }
+    const to = onRail(b.cards);
+    await readAlong(b.cards, b.line, async () => {
+      void ninja.act("flip");
+      await sleep(300);
+      if (!live()) return;
+      patch((v) => ({ cards: v.cards.map((c) => { const t = to.find((x) => x.w === c.w); return t && !c.out ? { ...c, x: t.x } : c; }) }));
+      sfx.whoosh();
+    }, live);
+    if (b.merge && live()) await merge(b.cards, b.merge, { quick: true, line: b.after }, live);
+  };
+  /** Sensei's big word: "Say them slowly: sun... flower." (the paw taps the tortoise; the cards light in turn) "Say
+   *  them fast: sunflower!" (the paw taps the rabbit; the cards zip together and bloom into one, clean on the word). */
+  const compoundShow = async (b: Extract<Beat, { kind: "compound" }>, live: Live) => {
+    const main = b.lines[1] ?? b.lines[0];
+    const times = WORD_TIMES[main] ?? [1.5, 2.6, 4.9];
+    const t = performance.now();
+    const at = (s: number) => sleep(Math.max(0, s * 1000 - (performance.now() - t) * FAST));
+    void pawAt(el("tortoise"), live);
+    const said = say({ line: main });
+    patch((v) => ({ speed: v.speed && { ...v.speed, tortoise: "flash" } }));
+    await at(times[0]);
+    if (!live()) return;
+    setCard(b.parts[0], { lit: true });
+    await at(times[1]);
+    if (!live()) return;
+    setCard(b.parts[1], { lit: true });
+    patch((v) => ({ speed: v.speed && { ...v.speed, tortoise: "" } }));
+    await at(times[2] - 1.2);
+    if (!live()) return;
+    void pawAt(el("rabbit"), live);
+    patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "flash" } }));
+    // the cards zip together early enough that the sunflower is clean as Sensei says "sunflower!" (merge: the
+    // glide, the pop and the fading sparkle take about 0.8 s), then it holds
+    await at(times[2] - 0.85);
+    if (!live()) return;
+    void ninja.act("cast", { x: PLAY_CX, y: 380 }, { react: false });
+    await merge(b.parts, b.word, { quick: true, saying: said }, live);
+    patch((v) => ({ speed: v.speed && { ...v.speed, rabbit: "" } }));
+  };
+  /** What a hold's Hear it again plays: the show that has just ended, again. */
+  const replayShow = async (b: Beat, live: Live) => {
+    if (b.kind === "notice") return noticeShow(b, live, true);
+    if (b.kind === "swap") return swapShow(b, live);
+    if (b.kind === "fastslow" && b.by === "sensei") return fastSlowShow(b, live);
+    if (b.kind === "compound" && b.by === "sensei") return say(b.lines.map((l) => ({ line: l })));
+    if (b.kind === "rail" && b.by === "sensei") return say([{ line: b.line }, ...(b.after ? [{ gap: 300 }, { line: b.after }] : [])]);
   };
 
   // ---- small animations used by the beats
@@ -1203,7 +1504,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
   };
   /** The stretched word: the card stretches like elastic in time with the clip, the ribbon draws along it and a dot
    *  pops on as each sound begins; the ninja's slow kata plays in slow motion; then it all snaps back. */
-  const slowWord = async (w: string) => {
+  const slowWord = async (w: string, live: Live = isAlive) => {
     const ms = STRETCH_MS[w] ?? 1400;
     const n = segsOf(w).length || 3;
     setCard(w, { fx: "stretch", fxMs: ms });
@@ -1211,7 +1512,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     slowmo(true);
     void ninja.act("cast", { x: STAGE.x, y: STAGE.y + 210 }, { react: false, soft: true });
     const said = say(stretch(w));
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < n && live(); i++) {
       patch((v) => ({ ribbon: v.ribbon && { ...v.ribbon, shown: i + 1 } }));
       await sleep(ms / n);
     }
@@ -1246,7 +1547,7 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
   const skipDemoNow = useRef(false);
   /** Sensei reads the pictures left to right: a light passes under each card on its word, and the ninja runs along
    *  with it, pausing under each. */
-  const readAlong = async (ws: string[], line: string, during?: () => Promise<void>) => {
+  const readAlong = async (ws: string[], line: string, during?: () => Promise<void>, live: Live = isAlive) => {
     const times = WORD_TIMES[line] ?? ws.map((_, i) => 0.1 + i * 0.7);
     // the lights follow the clip's own clock (audio.ts onClip): exact even when the clip starts late
     const started = nextClip(line, 1500);
@@ -1255,8 +1556,9 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     if (during) await during();
     const c = await started;
     if (c) t = c.start;
-    for (let i = 0; i < ws.length && alive.current; i++) {
+    for (let i = 0; i < ws.length && live(); i++) {
       await sleep(Math.max(0, times[i] * 1000 - (performance.now() - t) * FAST));
+      if (!live()) break;
       const at = el(ws[i]);
       setCards((cs) => cs.map((c) => ({ ...c, lit: c.w === ws[i] })));
       if (at) {
@@ -1266,12 +1568,15 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       }
     }
     // the whole pair, fast
-    if (times[ws.length] != null) {
+    if (times[ws.length] != null && live()) {
       await sleep(Math.max(0, times[ws.length] * 1000 - (performance.now() - t) * FAST));
-      setCards((cs) => cs.map((c) => ({ ...c, lit: ws.includes(c.w) })));
-      patch((v) => ({ rail: v.rail && { ...v.rail, light: null } }));
+      if (live()) {
+        setCards((cs) => cs.map((c) => ({ ...c, lit: ws.includes(c.w) })));
+        patch((v) => ({ rail: v.rail && { ...v.rail, light: null } }));
+      }
     }
     await said;
+    if (!live()) return;
     setCards((cs) => cs.map((c) => ({ ...c, lit: false })));
     patch((v) => ({ rail: v.rail && { ...v.rail, light: null } }));
   };
@@ -1281,9 +1586,10 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
    * gone within 0.4 s; then, on the clean picture, Sensei says the new word (`line`, "Fish dog!") while it bounces with
    * joy, and it holds, clean, for 1.5 s before the next beat (the beats' `secs` in warmups.ts count this).
    */
-  const merge = async (ws: string[], into: string, o: { quick?: boolean; line?: string; saying?: Promise<unknown> } = {}) => {
+  const merge = async (ws: string[], into: string, o: { quick?: boolean; line?: string; saying?: Promise<unknown> } = {}, live: Live = isAlive) => {
     patch((v) => ({ cards: v.cards.map((c) => (ws.includes(c.w) ? { ...c, x: PLAY_CX, lit: false, moving: true } : c)) }));
     await sleep(o.quick ? 280 : 380);
+    if (!live()) return;
     sfx.pop();
     const cy = RAIL_Y - 12 - 130, box = 260 + 2 * G;
     fx.halo(PLAY_CX, cy, box, box, ["#fff4dc", "#ffe38a", "#ffc53d"], 18, 22);
@@ -1294,10 +1600,12 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     const gifted = living ? gift(el(into), { shape: "halo", brief: true }) : Promise.resolve();
     // the picture is clean again once the gift has landed and faded (≤ 0.4 s after it lands)
     await Promise.race([gifted.then(() => sleep(420)), sleep(1400)]);
+    if (!live()) return;
     setCard(into, { fx: "joy" });
     if (o.line) await say({ line: o.line });
     // (a line already under way says the new word as the picture comes clean: it finishes first)
     if (o.saying) await o.saying;
+    if (!live()) return;
     await sleep(1500);
     setCard(into, { fx: "" });
   };
@@ -1313,12 +1621,36 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
   };
   const spelt = useRef(new Set<string>());
 
+  /** A hold on Next between two shows (docs/NAVIGATION.md rule 2: a step never moves on by itself): the show that has
+   *  just ended stays on screen, Hear it again plays it again (and its sound picture stays), and the lesson goes on
+   *  when the child taps Next. False: the lesson was left meanwhile. */
+  const hold = async (key: string, prev: Beat) => {
+    clearTold();
+    setHolding(true);
+    patch({ point: null });
+    let tok = 0;
+    const again = () => {
+      const my = ++tok;
+      hush();
+      return replayShow(prev, () => my === tok && alive.current);
+    };
+    const ok = await holdNext(key, again, { sound: viewRef.current.sound ?? undefined });
+    // (a replay still under way stops at its next step)
+    if (tok) {
+      tok++;
+      hush();
+    }
+    slowmo(false);
+    setHolding(false);
+    return ok && alive.current;
+  };
+
   // ---------------------------------------------------------------- the director
   useEffect(() => {
     alive.current = true;
     preload([
       ...script.beats.flatMap((b) => ("line" in b && b.line ? [urls.line(b.line)] : [])),
-      ...["fm_show_me", "fm_you_try", "fm_show_me_2", "fm_you_try_2", "fm_its_this", "fm_last_one", "listen_again"].map(urls.line),
+      ...["fm_show_me", "fm_you_try", "fm_show_me_2", "fm_you_try_2", "fm_its_this", "fm_last_one", "listen_again", "nav_ready"].map(urls.line),
       ...script.stickers.map(urls.word),
     ]);
     (async () => {
@@ -1327,8 +1659,10 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       warmupLead.line = null;
       if (lead) await say({ line: lead });
       t0.current = performance.now() * FAST;
-      // for the treadmill: when each beat started (lesson seconds), and which the governor skipped
-      const log: { i: number; kind: string; at: number; skipped?: string }[] = ((window as any).__snBeats = []);
+      p0.current = lessonPausedMs();
+      // for the treadmill: when each beat started (lesson seconds), which the governor skipped, and where it held
+      const log: { i: number; kind: string; at: number; skipped?: string; held?: number }[] = ((window as any).__snBeats = []);
+      let prev: Beat | null = null;
       for (let i = 0; i < script.beats.length && alive.current; i++) {
         const b = script.beats[i];
         const last = b.kind === "done";
@@ -1342,20 +1676,39 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
           continue;
         }
         skipDemoNow.current = skipDemo(script.beats, i, elapsedS(), script.targetS);
-        log.push({ i, kind: b.kind, at: Math.round(elapsedS() * 10) / 10, ...(skipDemoNow.current ? { skipped: "demo" } : {}) });
+        // a show that ends on Sensei (not on the child's answer), then a beat that opens with another show: hold on
+        // Next in between, so the second never runs straight on from the first (W1: the notice → tap all; W2: the
+        // swap → which did I read)
+        let heldS: number | undefined;
+        if (prev && endsWithShow(prev) && startsWithShow(b, skipDemoNow.current)) {
+          const h0 = performance.now();
+          if (!(await hold(`${script.key}:${i}`, prev))) return;
+          heldS = Math.round(((performance.now() - h0) * FAST) / 100) / 10;
+        }
+        log.push({ i, kind: b.kind, at: Math.round(elapsedS() * 10) / 10, ...(skipDemoNow.current ? { skipped: "demo" } : {}), ...(heldS != null ? { held: heldS } : {}) });
+        // a new game: its own Hear it again; Show me again goes, unless this is the child's half of Sensei's game
+        clearTold();
+        const ls = lastShow.current;
+        if (!(ls && ls.game === b.kind && "by" in b && b.by === "child")) lastShow.current = null;
+        capTried.current = false;
+        patch({ sound: null, point: null });
         beatRef.current = b.kind;
         beatNow.current = b;
         setBeatKind(b.kind);
         await (run[b.kind] as (b: Beat) => Promise<void>)(b);
+        prev = b;
       }
       if (!alive.current) return;
       patch({ speaker: false });
       store.set((s) => void ((s.warmups ??= {})[level.id] = { first: score.current.first, total: score.current.total }));
       (window as any).__snWarmup = { key: script.key, version: script.version, secs: Math.round(elapsedS()), score: score.current, closedByPaw: closedByPaw.current, skipped: log.filter((x) => x.skipped).map((x) => `${x.kind} (${x.skipped})`) };
-      if (alive.current) onDone(1);
+      // the closing line goes to the reward, which says it first (docs/NAVIGATION.md rule 7): no hold here
+      const closing = script.beats.find((x) => x.kind === "done");
+      if (alive.current) onDone(1, closing?.kind === "done" ? { closing: closing.line } : undefined);
     })();
     return () => {
       alive.current = false;
+      showTok.current++;
       ninja.setSlowmo(1);
       hush();
     };
@@ -1365,35 +1718,36 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
     if (beads.some((x) => x.b === b)) bead();
   };
 
-  // ---- Help: once → the question again; twice → the answer glows; three times → the paw shows it
+  // ---- Help: once → the question again; twice → the answer glows; three times → the paw points at it (it never
+  // answers for the child: docs/NAVIGATION.md rule 5). While Sensei shows something, what she has said in this beat.
   useHelp(
     (n) => {
       const p = pending.current;
       if (!p || p.done) {
-        if (prompt.current.length) void say(prompt.current);
+        if (bundle.current.length) void say(bundle.current);
         return;
       }
       if (n === 1) void say(p.prompt);
-      else if (n === 2) {
+      else {
         glow(p.answers());
+        if (n >= 3 && !p.busy) pointAt(p);
         void say(p.prompt);
-      } else if (!p.busy) {
-        clearTimers(p);
-        void pawAnswer(p);
       }
     },
     [askN],
   );
 
-  // ---- for bots (scripts/treadmill/bot.ts)
+  // ---- for bots (scripts/treadmill/bot.ts). During Show me again the turn is still the child's (busy): `next` stays.
   const p = pending.current;
-  (window as any).__snState = { scene: "warmup", key: script.key, beat: beatKind, next: p && !p.done && !p.busy ? p.answers()[0] ?? null : null, asked: !!p?.asked, busy: !p || p.busy };
+  const sh = !!showing.current;
+  (window as any).__snState = { scene: "warmup", key: script.key, beat: beatKind, next: p && !p.done && (!p.busy || sh) ? p.answers()[0] ?? null : null, asked: !!p?.asked, busy: !p || p.busy, capped: capped.current };
+  // the child's turn is waiting: Hear it again and Show me again are live (dim while Sensei is still talking)
+  const turn = !!p && !p.done && !p.busy && !!p.asked && !sh;
 
   // ---------------------------------------------------------------- render
   const v = view;
   return (
     <Frame level={level} className="wu" top={<LessonBeads n={beads.length} lit={v.lit} burst={v.burst} />}>
-      <div className="topbar"><RoundButton sm label="map" onClick={onQuit}><Icon.home /></RoundButton></div>
       {v.rail && <Rail arrow={v.rail.arrow} light={v.rail.light} />}
       <div className={`wu-cards pick-row ${v.spot ? "has-spot" : ""}`}>
         {v.cards.map((c) => (
@@ -1406,11 +1760,8 @@ export function WarmupLevel({ level, onDone, onQuit }: LevelProps) {
       {v.rails && <StackedRails rails={v.rails} spot={v.spot} onTap={(id, t) => void tap(id, t)} />}
       {v.dots && <Dots d={v.dots} onTap={(id, t) => void tap(id, t)} />}
       {v.paw && <TapHint show style={{ left: v.paw.x, top: v.paw.y, zIndex: 60 }} />}
-      {v.speaker && (
-        <div className="wu-speaker" style={{ left: PLAY_CX }}>
-          <RoundButton label="Hear it again" onClick={() => void say(prompt.current)}><Icon.speaker /></RoundButton>
-        </div>
-      )}
+      {v.point && !v.paw && <TapHint show style={{ left: v.point.x, top: v.point.y, zIndex: 60 }} />}
+      <TurnNav ready={turn} again={v.speaker ? again : null} show={lastShow.current ? showAgain : null} sound={v.sound} hidden={holding || !v.speaker} />
     </Frame>
   );
 }
@@ -1424,8 +1775,13 @@ export const PicReadLevel = WarmupLevel;
 const END_S = 7;
 const TAPALL_END_S = 10;
 const TAPALL_SPELL_END_S = 15;
-/** At the hard cap, a child's turn still lasts this long (game ms) after the question, unless they tap first. */
-const MIN_TURN_MS = 7000;
+/** A beat that ends on Sensei's show, not on the child's answer (docs/NAVIGATION.md §5.C: the holds). */
+const endsWithShow = (b: Beat) => b.kind === "notice" || b.kind === "swap" || ((b.kind === "fastslow" || b.kind === "rail" || b.kind === "compound") && b.by === "sensei");
+/** A beat that opens with a show before the child's turn: a demo, Sensei's half of a game, or new pictures named. */
+const startsWithShow = (b: Beat, noDemo: boolean) =>
+  b.kind === "tapall" || b.kind === "notice" || b.kind === "swap" || b.kind === "sounds" || b.kind === "dots" ||
+  ((b.kind === "tap" || b.kind === "slowpick") && !!b.demo) || (b.kind === "which" && !!b.demo && !noDemo) ||
+  ((b.kind === "fastslow" || b.kind === "rail" || b.kind === "compound") && b.by === "sensei");
 /** fm_hear_sounds_short "Slowly, I can hear all its sounds. Words are made of sounds!": when "its sounds" starts (the
  *  dots pulse) and when "made of sounds" starts (the ki pulse), in seconds into the clip. */
 const HEAR_SHORT_AT: [number, number] = [1.5, 3.0];

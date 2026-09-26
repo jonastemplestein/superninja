@@ -1,0 +1,282 @@
+{
+ "name": "take4",
+ "url": "https://next.superninja.templestein.com/play/?scene=tree",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 29.9,
+ "game": {
+  "start": 2.412,
+  "end": 28.204
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   33.7,
+   31.8,
+   37.5,
+   43,
+   33.7,
+   39.2,
+   40.3,
+   30.4,
+   28.1,
+   29.1
+  ],
+  "audioShiftMs": 42.3,
+  "residualMs": [
+   -8,
+   -3,
+   8,
+   2.1,
+   10.3,
+   -19.3,
+   -20.3,
+   7,
+   8.3,
+   -8.6
+  ],
+  "residualMedianMs": -0.4,
+  "residualMaxAbsMs": 20.3
+ },
+ "frames": {
+  "frames": 1518,
+  "fps": 60.1,
+  "p50": 16.7,
+  "p95": 17.9,
+  "p99": 18.6,
+  "max": 23.2,
+  "hitches": 0,
+  "repeatedSlots": 0,
+  "slots": 758,
+  "deliveryMs": 5
+ },
+ "master": "take4.master.mp4",
+ "audio": "take4.master.wav",
+ "recordedAt": "2026-09-26T22:12:17.097Z",
+ "events": [
+  {
+   "t": 0.521,
+   "kind": "scene",
+   "id": "tree"
+  },
+  {
+   "t": 0.589,
+   "kind": "speech",
+   "id": "flower_tap",
+   "dur": 2.069,
+   "text": "Tap a petal to see its gems."
+  },
+  {
+   "t": 0.699,
+   "kind": "music",
+   "id": "world_blossom",
+   "dur": 29.224
+  },
+  {
+   "t": 0.725,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.03,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.341,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.635,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.91,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 4.357,
+   "kind": "mark",
+   "id": "chart"
+  },
+  {
+   "t": 4.368,
+   "kind": "tap",
+   "id": "Petal chart",
+   "text": "rect 1172,424,92,92"
+  },
+  {
+   "t": 4.368,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 4.369,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 6.28,
+   "kind": "mark",
+   "id": "flick 1"
+  },
+  {
+   "t": 6.338,
+   "kind": "tap",
+   "id": "petal ie",
+   "text": "rect 782,103,200,262"
+  },
+  {
+   "t": 7.565,
+   "kind": "mark",
+   "id": "secret petal er"
+  },
+  {
+   "t": 7.59,
+   "kind": "tap",
+   "id": "petal er",
+   "text": "rect 524,103,232,262"
+  },
+  {
+   "t": 7.657,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 7.687,
+   "kind": "speech",
+   "id": "petal_secret",
+   "dur": 3.414,
+   "text": "This sound is still a secret. You'll find it on your adventure!"
+  },
+  {
+   "t": 8.816,
+   "kind": "mark",
+   "id": "flick 2"
+  },
+  {
+   "t": 8.83,
+   "kind": "tap",
+   "id": "petal ou",
+   "text": "rect 984,103,180,262"
+  },
+  {
+   "t": 10.179,
+   "kind": "mark",
+   "id": "swipe 3 (504 px)"
+  },
+  {
+   "t": 10.187,
+   "kind": "tap",
+   "id": "petal s",
+   "text": "rect 754,103,232,262"
+  },
+  {
+   "t": 10.647,
+   "kind": "mark",
+   "id": "met petals"
+  },
+  {
+   "t": 12.149,
+   "kind": "mark",
+   "id": "flick home"
+  },
+  {
+   "t": 12.165,
+   "kind": "tap",
+   "id": "petal air",
+   "text": "rect 64,103,200,262"
+  },
+  {
+   "t": 14.027,
+   "kind": "mark",
+   "id": "petal ae"
+  },
+  {
+   "t": 14.041,
+   "kind": "tap",
+   "id": "petal ae",
+   "text": "rect 96,103,232,262"
+  },
+  {
+   "t": 14.107,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 14.134,
+   "kind": "speech",
+   "id": "sound:ae",
+   "dur": 0.531
+  },
+  {
+   "t": 14.89,
+   "kind": "speech",
+   "id": "t_diff_spellings_of",
+   "dur": 1.38,
+   "text": "Different spellings of..."
+  },
+  {
+   "t": 16.35,
+   "kind": "speech",
+   "id": "sound:ae",
+   "dur": 0.531
+  },
+  {
+   "t": 16.964,
+   "kind": "speech",
+   "id": "t_same_sound",
+   "dur": 1.661,
+   "text": "...but it's the same sound!"
+  },
+  {
+   "t": 19.077,
+   "kind": "speech",
+   "id": "word:tail",
+   "dur": 0.576
+  },
+  {
+   "t": 19.912,
+   "kind": "speech",
+   "id": "t_and",
+   "dur": 0.457,
+   "text": "...and..."
+  },
+  {
+   "t": 20.37,
+   "kind": "speech",
+   "id": "word:day",
+   "dur": 0.555
+  },
+  {
+   "t": 28.247,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 28.546,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 28.84,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 29.108,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 29.391,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

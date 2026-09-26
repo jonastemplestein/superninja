@@ -1,0 +1,90 @@
+[
+ {
+  "name": "pw-1080",
+  "capture": "playwright",
+  "size": "1080p",
+  "load": "{ 6.14 8.13 9.63 }",
+  "sync": {
+   "pictureLatencyMs": [
+    21.7,
+    87.3,
+    76,
+    39.7,
+    45.3,
+    39.7,
+    62,
+    34.7,
+    60.7,
+    43.3
+   ],
+   "audioShiftMs": 44.3,
+   "residualMs": [
+    22.6,
+    -43,
+    -32.1,
+    4.4,
+    -2,
+    4.5,
+    -18,
+    9.6,
+    -16.4,
+    0
+   ],
+   "residualMedianMs": -1,
+   "residualMaxAbsMs": 43
+  },
+  "masterFrames": 454,
+  "changedFrames": 453,
+  "changedPct": 100,
+  "longestRepeat": 0,
+  "game": {
+   "start": 2.404,
+   "end": 18.227
+  },
+  "master": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/assets-src/tweet/2026-09-26/rig-test/compare/pw-1080.master.mp4"
+ },
+ {
+  "name": "pw-720",
+  "capture": "playwright",
+  "size": "720p",
+  "load": "{ 5.83 7.86 9.48 }",
+  "sync": {
+   "pictureLatencyMs": [
+    67.7,
+    42.3,
+    75.3,
+    67.3,
+    86.3,
+    38.7,
+    31.7,
+    60.7,
+    65.7,
+    38.3
+   ],
+   "audioShiftMs": 63.2,
+   "residualMs": [
+    -4.5,
+    20.9,
+    -14.1,
+    -4.8,
+    -23.8,
+    23.3,
+    30.6,
+    1.7,
+    -3,
+    24.5
+   ],
+   "residualMedianMs": -0.6,
+   "residualMaxAbsMs": 30.6
+  },
+  "masterFrames": 455,
+  "changedFrames": 454,
+  "changedPct": 100,
+  "longestRepeat": 0,
+  "game": {
+   "start": 2.38,
+   "end": 18.228
+  },
+  "master": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/assets-src/tweet/2026-09-26/rig-test/compare/pw-720.master.mp4"
+ }
+]

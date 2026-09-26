@@ -17,6 +17,12 @@
 // page with a common word whose spelling hasn't been taught ("the", "is", "I") lights that word and says the official
 // "This is 'the'. Just say 'the' here." first, spaced (F15). A word tapped for help can bring a spaced "two letters,
 // one sound" reminder.
+//
+// Navigation (docs/NAVIGATION.md §5.D): Home is the nav layer's (top-left); Back, Hear it again and Next stand in the
+// right-hand column above Help (the text panel owns the bottom strip). Nothing turns a page by itself: the title and
+// every page Sensei reads hold on a green Next that stays dim until the reading is over. Back goes to the previous page
+// (read again; it never undoes a miss). A page the child reads, a choice and the question are the child's turns: Hear
+// it again reads the page to them (with the special-word teaching, if it was said) or asks the question again.
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import type { LevelProps } from "../App";
 import { STORIES, type Page, type Story } from "../content/stories";
@@ -30,6 +36,7 @@ import { streak, streakLine, type StreakEvent } from "../engine/streak";
 import { pickPraise } from "../engine/feedback";
 import { SPECIAL_LINE, specialKey, specialWords } from "../content/narrative";
 import { beginLevel, heard, heardBefore, isDue, lettersReminder, twoSoundsReminder } from "./narrate";
+import { useNav, usePresentation, nudgeNext, navLog } from "../ui/nav";
 import "../styles/story.css";
 
 type Pt = { x: number; y: number };
@@ -206,7 +213,7 @@ function karaoke(words: string[], dur: number, set: (i: number) => void): () => 
 }
 
 // ---------------------------------------------------------------- the story
-export function StoryScene({ level, onDone, onQuit }: LevelProps) {
+export function StoryScene({ level, onDone }: LevelProps) {
   useState(() => beginLevel(level)); // (during the first render)
   const story = STORIES.find((s) => s.id === level.story)!;
   const [pageId, setPageId] = useState<string | null>(null);
@@ -214,6 +221,31 @@ export function StoryScene({ level, onDone, onQuit }: LevelProps) {
   const misses = useRef(0);
   const [turn, setTurn] = useState(0);
   const visited = useRef(new Set<string>());
+  /** The pages before this one, for Back (the newest last). */
+  const history = useRef<string[]>([]);
+  /** Pages the child has already read (and been counted for): read again after Back, they don't count twice. */
+  const readDone = useRef(new Set<string>());
+  /** A page's number, for the nav log (null: the title). */
+  const idx = (id: string | null) => (id ? story.pages.findIndex((p) => p.id === id) : null);
+  /** Go to a page (forward: the page we are on goes onto the Back history). `via`: what moved it, for the nav log
+   *  (window.__snNavLog: "next" on a page Sensei reads, "read" after I read it!, "pick" at a choice). */
+  const show = (id: string, via: string) => {
+    navLog({ kind: "step", id: "story", from: idx(pageId), to: idx(id), via });
+    if (pageId) history.current.push(pageId);
+    setPageId(id);
+    setTurn((t) => t + 1);
+  };
+  /** Back: the previous page, read again from its start. */
+  const back = history.current.length
+    ? () => {
+        const prev = history.current.pop();
+        if (!prev) return;
+        navLog({ kind: "step", id: "story", from: idx(pageId), to: idx(prev), via: "back" });
+        sfx.page();
+        setPageId(prev);
+        setTurn((t) => t + 1);
+      }
+    : null;
   const alive = useRef(true);
   const finishing = useRef(false);
   const heroPose = page && "hero" in page ? page.hero : undefined;
@@ -233,11 +265,7 @@ export function StoryScene({ level, onDone, onQuit }: LevelProps) {
     // dev only: /play/?level=w2-7&page=6 opens straight at a page (layout checks, review frames)
     const dev = import.meta.env.DEV ? new URLSearchParams(location.search).get("page") : null;
     if (dev && story.pages.some((p) => p.id === dev)) setPageId(dev);
-    else
-      (async () => {
-        await say([{ line: "story_start" }, { gap: 250 }, { story: story.id, page: "title", caption: story.title }]);
-        if (alive.current) setPageId(story.pages[0].id);
-      })();
+    // (otherwise the title holds on Next: TitleStep)
     return () => {
       alive.current = false;
       hush();
@@ -309,29 +337,29 @@ export function StoryScene({ level, onDone, onQuit }: LevelProps) {
     return () => clearTimeout(t);
   }, [pageId, turn]);
 
-  const goNext = (p: Page) => {
+  const goNext = (p: Page, via: string) => {
     sfx.page();
     const i = story.pages.indexOf(p);
     const nextId = "next" in p && p.next ? p.next : story.pages[i + 1]?.id;
     // skip branch-only pages when advancing linearly
     let n = nextId ? story.pages.find((x) => x.id === nextId) : undefined;
     if (!("next" in p && p.next)) while (n && /[a-z]$/.test(n.id) && n.id !== "q") n = story.pages[story.pages.indexOf(n) + 1];
-    if (n) {
-      setPageId(n.id);
-      setTurn((t) => t + 1);
-    } else finish();
+    if (n) show(n.id, via);
+    else finish(via);
   };
-  const finish = async () => {
+  const finish = async (via: string) => {
     // the child may have gone back to the map meanwhile: then nothing plays over it
     if (finishing.current || !alive.current) return;
     finishing.current = true;
+    navLog({ kind: "step", id: "story", from: idx(pageId), to: null, via });
     fx.rain("petals", 60);
     const end = say({ line: "story_end" });
     // let a power-up that's still going land first, then the big finale
     const party = whenFree(() => {}, () => alive.current, 1000).then(() => (alive.current ? ninja.celebrate() : undefined));
     await Promise.all([end, party]);
-    if (alive.current) onDone(misses.current === 0 ? 3 : misses.current <= 2 ? 2 : 1);
+    if (alive.current) onDone(misses.current === 0 ? 3 : misses.current <= 2 ? 2 : 1, { closing: "story_end" });
   };
+  const pos = (p: Page) => ({ i: story.pages.indexOf(p), of: story.pages.length });
 
   return (
     <div ref={sceneRef} className={`scene st-scene k-${page?.kind ?? "title"}`}>
@@ -344,26 +372,37 @@ export function StoryScene({ level, onDone, onQuit }: LevelProps) {
           </div>
         </div>
       )}
-      <div className="topbar">
-        <RoundButton sm label="map" onClick={onQuit}><Icon.home /></RoundButton>
-      </div>
-      {page?.kind === "narr" && <NarrPage key={page.id + turn} story={story.id} page={page} onNext={() => goNext(page)} />}
-      {page?.kind === "read" && <ReadPage key={page.id + turn} story={story.id} page={page} maxUnit={story.maxUnit} onNext={() => goNext(page)} />}
+      {!page && !pageId && <TitleStep story={story} onNext={() => (sfx.page(), show(story.pages[0].id, "next"))} />}
+      {page?.kind === "narr" && <NarrPage key={page.id + turn} story={story.id} page={page} pos={pos(page)} onBack={back} onNext={() => goNext(page, "next")} />}
+      {page?.kind === "read" && (
+        <ReadPage
+          key={page.id + turn}
+          story={story.id}
+          page={page}
+          maxUnit={story.maxUnit}
+          counted={readDone.current.has(page.id)}
+          onBack={back}
+          onNext={() => {
+            readDone.current.add(page.id);
+            goNext(page, "read");
+          }}
+        />
+      )}
       {page?.kind === "choice" && (
         <ChoicePage
           key={page.id + turn}
           story={story}
           page={page}
           visited={visited.current}
+          onBack={back}
           onPick={(next) => {
             sfx.page();
             visited.current.add(next);
-            setPageId(next);
-            setTurn((t) => t + 1);
+            show(next, "pick");
           }}
         />
       )}
-      {page?.kind === "question" && <QuestionPage key={page.id + turn} story={story.id} page={page} onDone={finish} onMiss={() => misses.current++} />}
+      {page?.kind === "question" && <QuestionPage key={page.id + turn} story={story.id} page={page} onBack={back} onDone={() => finish("answer")} onMiss={() => misses.current++} />}
       <NinjaSpot className={`st-ninja ${heroPose === "run" ? "st-run" : ""}`} />
       {/* captions (a grown-ups' setting, off by default) for Sensei's own lines; the story text is in the panel.
           story.css moves it left of the button column above Help and above the text panel, its tail pointing at Sensei */}
@@ -372,8 +411,24 @@ export function StoryScene({ level, onDone, onQuit }: LevelProps) {
   );
 }
 
+// ---------------------------------------------------------------- the title: a held step
+/** "Story time! I'll read, and you read too." and the title read out; then it holds on Next (the title card is drawn
+ *  by StoryScene). Hear it again says it again. */
+function TitleStep({ story, onNext }: { story: Story; onNext: () => void }) {
+  usePresentation([{ key: "title", run: () => say([{ line: "story_start" }, { gap: 250 }, { story: story.id, page: "title", caption: story.title }]) }], {
+    id: "story-title",
+    onDone: onNext,
+    againAt: "column",
+    state: false,
+  });
+  return null;
+}
+
 // ---------------------------------------------------------------- Sensei reads
-function NarrPage({ story, page, onNext }: { story: string; page: PageOf<"narr">; onNext: () => void }) {
+/** A page Sensei reads, word by word (the karaoke highlight). It holds on Next, dim until the reading is over; Hear it
+ *  again reads it again; Back goes to the previous page. The idle nudge is the nav layer's (the arrow glows at 8 s, and at
+ *  16 s the ninja points a star at it while Sensei says "Tap the arrow when you're ready!"). */
+function NarrPage({ story, page, pos, onNext, onBack }: { story: string; page: PageOf<"narr">; pos: { i: number; of: number }; onNext: () => void; onBack: (() => void) | null }) {
   const words = page.text.split(" ");
   const [hi, setHi] = useState(-1);
   const [done, setDone] = useState(false);
@@ -392,15 +447,8 @@ function NarrPage({ story, page, onNext }: { story: string; page: PageOf<"narr">
     setHi(-1);
     setDone(true);
   };
-  useHelp((n) => (n === 1 ? say({ line: "help_story" }) : read()));
-  const sideRef = useRef<HTMLDivElement>(null);
-  // stuck on a finished page: the ninja leaps and points a star at the Next arrow, which bounces; then Sensei says so
-  usePageIdle(done, 6000, (n) => {
-    const nextBtn = sideRef.current?.querySelector('[aria-label="Next page"]');
-    void ninja.act("jump", nextBtn ?? undefined, { react: false }).then(() => bounce(nextBtn));
-    sfx.tink();
-    if (n >= 2) void say({ line: "help_story" });
-  });
+  // Help: the page again; once it has been read, the second press points at Next
+  useHelp((n) => (!done || n === 1 ? void read() : nudgeNext()), [done]);
   useEffect(() => {
     void read();
     return () => {
@@ -415,20 +463,15 @@ function NarrPage({ story, page, onNext }: { story: string; page: PageOf<"narr">
     stopK.current();
     onNext();
   };
+  useNav({ back: onBack, again: () => read(), againAt: "column", next: { ready: done, go: next }, pres: { id: "story", step: pos.i, of: pos.of } });
   return (
-    <>
-      <div className={`panel st-panel ${page.who === "baron" ? "baron" : ""}`}>
-        <div className={`st-narr ${page.text.length > 150 ? "long" : ""}`}>
-          {words.map((w, i) => (
-            <span key={i} className={i === hi ? "on" : undefined}>{w} </span>
-          ))}
-        </div>
+    <div className={`panel st-panel ${page.who === "baron" ? "baron" : ""}`}>
+      <div className={`st-narr ${page.text.length > 150 ? "long" : ""}`}>
+        {words.map((w, i) => (
+          <span key={i} className={i === hi ? "on" : undefined}>{w} </span>
+        ))}
       </div>
-      <div ref={sideRef} className="st-side">
-        <RoundButton sm label="Read it again" onClick={() => void read()}><Icon.speaker /></RoundButton>
-        <RoundButton label="Next page" className={`go st-go ${done ? "ready" : ""}`} onClick={next}><Icon.next /></RoundButton>
-      </div>
-    </>
+    </div>
   );
 }
 
@@ -561,7 +604,7 @@ export function ReadWord({ text, maxUnit, big, onHelp, on, i = 0, size }: { text
   );
 }
 
-function ReadPage({ story, page, maxUnit, onNext }: { story: string; page: PageOf<"read">; maxUnit: number; onNext: () => void }) {
+function ReadPage({ story, page, maxUnit, counted, onNext, onBack }: { story: string; page: PageOf<"read">; maxUnit: number; counted: boolean; onNext: () => void; onBack: (() => void) | null }) {
   const [phase, setPhase] = useState<"read" | "done">("read");
   const [hi, setHi] = useState(-1);
   const [lit, setLit] = useState(false);
@@ -595,10 +638,7 @@ function ReadPage({ story, page, maxUnit, onNext }: { story: string; page: PageO
   }, [lines]);
   useHelp((n) => {
     if (n === 1) say({ line: "help_read" });
-    else {
-      readToMe.current = true;
-      say({ story, page: page.id });
-    }
+    else void readToThem();
   });
   const [turnSaid, setTurnSaid] = useState(false);
   // a common word with a spelling the child hasn't been taught (the first one due on this page): it lights up, and
@@ -606,11 +646,13 @@ function ReadPage({ story, page, maxUnit, onNext }: { story: string; page: PageO
   const [special] = useState(() => specialWords(page.text).find(({ word }) => isDue(specialKey(word), "special")) ?? null);
   const [teachIdx, setTeachIdx] = useState(-1);
   const teaching = useRef(!!special);
+  const taught = useRef(false); // the special-word teaching was said on this page (Hear it again says it too)
   useEffect(() => {
     alive.current = true;
     (async () => {
       if (special) {
         setTeachIdx(special.index);
+        taught.current = true;
         const ok = await say({ line: SPECIAL_LINE[special.word] });
         if (!alive.current) return;
         setTeachIdx(-1);
@@ -646,14 +688,45 @@ function ReadPage({ story, page, maxUnit, onNext }: { story: string; page: PageO
     const t = turnDoneAt.current;
     return t !== null && (performance.now() - t) * FAST >= 450 * words.length; // ~0.45 s a word after "Your turn!"
   };
+  // Hear it again ("Read it to me", in the column): the special-word teaching if it was said here, the page read to
+  // them word by word, and "Your turn to read!" (a page read to them doesn't feed the streak)
+  const readTok = useRef(0);
+  const readToThem = async () => {
+    if (phase === "done" || teaching.current) return;
+    readToMe.current = true;
+    const my = ++readTok.current;
+    const live = () => alive.current && my === readTok.current;
+    if (special && taught.current) {
+      setTeachIdx(special.index);
+      const ok = await say({ line: SPECIAL_LINE[special.word] });
+      if (!live()) return;
+      setTeachIdx(-1);
+      if (!ok) return;
+      await sleep(200);
+      if (!live()) return;
+    }
+    const buf = await load(urls.story(story, page.id));
+    if (!live()) return;
+    const stop = karaoke(words, buf?.duration ?? words.length * 0.4, setHi);
+    const ok = await say({ story, page: page.id });
+    stop();
+    if (!live()) return;
+    setHi(-1);
+    if (ok) await say([{ gap: 300 }, { line: "story_your_turn" }]);
+  };
+  useNav({ back: onBack, again: readToThem, againAt: "column", next: null });
   const readIt = async () => {
     if (phase === "done") return;
     if (teaching.current) return void bounce(wordsRef.current?.querySelectorAll(".st-word")[special?.index ?? 0]); // hear the special word first
     // the child says they've read it: the ninja's magic lands on the words, then Sensei reads it back fluently
+    readTok.current++;
+    setHi(-1);
+    setTeachIdx(-1);
     sfx.good();
     setPhase("done");
     const strike = answer(wordsCentre(wordsRef.current)); // the strike first, then the streak (see the top)
-    const hit = readTheWords() ? streak.hit() : null;
+    // (a page read again after Back doesn't count twice)
+    const hit = readTheWords() && !counted ? streak.hit() : null;
     void strike.then(() => alive.current && setLit(true));
     await say({ line: "well_read" });
     await breathForStreak(hit, () => alive.current);
@@ -682,8 +755,8 @@ function ReadPage({ story, page, maxUnit, onNext }: { story: string; page: PageO
           ))}
         </div>
       </div>
+      {/* the green tick where Next stands on the pages Sensei reads (Back and Hear it again are the nav layer's, above it) */}
       <div ref={sideRef} className="st-side">
-        <RoundButton sm label="Read it to me" onClick={() => { readToMe.current = true; say({ story, page: page.id }); }}><Icon.speaker /></RoundButton>
         <RoundButton label="I read it!" className={`go st-go ${phase === "read" ? "ready" : "done"}`} onClick={readIt}><Icon.check /></RoundButton>
       </div>
     </>
@@ -710,7 +783,7 @@ function SegWord({ word, segs, lit }: { word: string; segs: Seg[] | null; lit: n
   );
 }
 
-function ChoicePage({ story, page, onPick, visited }: { story: Story; page: PageOf<"choice">; onPick: (next: string) => void; visited: Set<string> }) {
+function ChoicePage({ story, page, onPick, onBack, visited }: { story: Story; page: PageOf<"choice">; onPick: (next: string) => void; onBack: (() => void) | null; visited: Set<string> }) {
   const picked = useRef(false);
   const alive = useRef(true);
   const live = () => alive.current;
@@ -726,6 +799,8 @@ function ChoicePage({ story, page, onPick, visited }: { story: Story; page: Page
   const waiting = useRef(firstEver);
   const ask = () => say([{ story: story.id, page: page.id, caption: page.text }, { gap: 200 }, { line: firstEver ? "audit_story_choice" : "audit_story_choose_again" }]);
   useHelp(() => void ask());
+  // Hear it again (the column): the question and how to answer it
+  useNav({ back: onBack, again: () => (picked.current ? undefined : ask()), againAt: "column", next: null });
   const [asked, setAsked] = useState(false);
   const choicesRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -783,9 +858,6 @@ function ChoicePage({ story, page, onPick, visited }: { story: Story; page: Page
       <div className="panel st-panel">
         <span className="st-ask">{page.text}</span>
       </div>
-      <div className="st-side">
-        <RoundButton sm label="Hear the question" onClick={() => void ask()}><Icon.speaker /></RoundButton>
-      </div>
       <div ref={choicesRef} className="st-choices">
         {page.options.map((o, i) => (
           <button
@@ -803,7 +875,7 @@ function ChoicePage({ story, page, onPick, visited }: { story: Story; page: Page
 }
 
 // ---------------------------------------------------------------- the question at the end
-function QuestionPage({ story, page, onDone, onMiss }: { story: string; page: PageOf<"question">; onDone: () => void; onMiss: () => void }) {
+function QuestionPage({ story, page, onDone, onMiss, onBack }: { story: string; page: PageOf<"question">; onDone: () => void; onMiss: () => void; onBack: (() => void) | null }) {
   const [wrong, setWrong] = useState<string | null>(null);
   const [missed, setMissed] = useState<string[]>([]); // wrong pictures already tried: they stay faded
   const [right, setRight] = useState(false);
@@ -824,6 +896,8 @@ function QuestionPage({ story, page, onDone, onMiss }: { story: string; page: Pa
   }, []);
   const hear = () => say({ story, page: page.id, caption: page.text });
   useHelp((n) => (n === 1 ? hear() : say({ line: "help_question" })));
+  // Hear it again (pre-readers can't read the question: they can always hear it again) and Back, in the column
+  useNav({ back: onBack, again: () => (done.current ? undefined : hear()), againAt: "column", next: null });
   const [asked, setAsked] = useState(false);
   useEffect(() => {
     alive.current = true;
@@ -905,11 +979,7 @@ function QuestionPage({ story, page, onDone, onMiss }: { story: string; page: Pa
   return (
     <>
       <div className="st-dim" />
-      <div className="panel st-question pop-in">
-        {page.text}
-        {/* pre-readers can't read the question: always let them hear it again */}
-        <RoundButton sm label="Hear the question" onClick={() => void hear()}><Icon.speaker /></RoundButton>
-      </div>
+      <div className="panel st-question pop-in">{page.text}</div>
       <div ref={cardsRef} className={`st-cards ${right ? "solved" : ""}`}>
         {page.options.map((o, i) => (
           <button

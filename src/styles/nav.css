@@ -1,0 +1,54 @@
+/* Navigation controls (src/ui/nav.tsx, docs/NAVIGATION.md §3.1). Stage px (1280×720).
+   The layer itself takes no taps and has no z-index, so each control stacks against the stage: the nav row at 84 (over
+   the effects 80/81 and Baron's cut-in 83, under Help 85), Home at 88 (over any scene layer, e.g. the dojo's 85/86,
+   under the route fade 90 and the turn-your-phone prompt 99). */
+.nav-layer { position: absolute; inset: 0; pointer-events: none; }
+.nav-layer > * { pointer-events: auto; }
+.nav-ctl { position: absolute; z-index: 84; }
+
+/* Home: top-left, in the Home zone (x 0–130, y 0–130), always on top */
+.btn-round.nav-home { position: absolute; left: 18px; top: 16px; width: 100px; height: 100px; z-index: 88; } /* NAV_MIN */
+/* a screen's own top bar keeps clear of the Home zone */
+.topbar.nav-topbar { padding-left: 124px; }
+
+.btn-round.nav-back svg { width: 56%; height: 56%; }
+.nav-again-wrap { position: relative; }
+.btn-round.nav-again svg { width: 58%; height: 58%; }
+.btn-round.nav-show svg { width: 66%; height: 66%; }
+
+/* Next: dim until the step has finished (a tap wiggles it), then green, popping in and pulsing; after 8 s idle it glows */
+.nav-next-wrap { position: relative; }
+.btn-round.nav-next svg { width: 58%; height: 58%; }
+.btn-round.nav-next.dim {
+  background: radial-gradient(circle at 35% 30%, #f7f2ea 0%, #cfc7b8 58%, #a1978a 100%);
+  border-color: #6d6158; box-shadow: 0 6px 0 #6d6158; opacity: 0.8;
+}
+.btn-round.nav-next.dim svg path { stroke: #6d6158; }
+.btn-round.nav-next.dim.wiggle { animation: nav-wiggle 0.42s ease-in-out; }
+.btn-round.nav-next.ready {
+  background: radial-gradient(circle at 35% 30%, #d9ffe4 0%, var(--good) 50%, var(--good-deep) 100%);
+  animation: nav-pop 0.42s cubic-bezier(0.3, 1.6, 0.6, 1) both, pulse 1.3s ease-in-out 0.42s infinite;
+}
+.btn-round.nav-next.ready.glow {
+  box-shadow: 0 6px 0 var(--ink), 0 0 0 9px #ffc53d, 0 0 0 13px var(--ink), 0 0 38px 16px rgba(255, 220, 120, 0.9);
+  animation: nav-bounce 0.9s ease-in-out infinite;
+}
+@keyframes nav-pop { from { transform: scale(0.55); } to { transform: scale(1); } }
+@keyframes nav-bounce { 0%, 100% { transform: translateY(0) scale(1); } 40% { transform: translateY(-14px) scale(1.14); } 60% { transform: translateY(0) scale(0.96, 1.04); } }
+@keyframes nav-wiggle { 0%, 100% { rotate: 0deg; } 20% { rotate: -12deg; } 45% { rotate: 10deg; } 70% { rotate: -6deg; } }
+
+/* the sound picture: the petal teardrop in its chart colour with the chart picture (src/ui/SoundBadge.tsx) */
+.sound-badge { position: relative; display: block; padding: 0; border: 0; background: none; cursor: pointer; filter: drop-shadow(0 5px 0 rgba(43, 29, 20, 0.28)); }
+.sound-badge.still { display: inline-block; cursor: default; filter: none; }
+.sound-badge:active .sound-badge-in { transform: translateY(4px) scale(0.97); }
+.sound-badge.pulse { animation: pulse 1.3s ease-in-out infinite; }
+.sound-badge-in { position: absolute; inset: 0; display: block; transform-origin: 50% 40%; }
+.sound-badge-in.swell { animation: sb-swell 0.3s ease-out; }
+.sound-badge-in svg { position: absolute; inset: 0; overflow: visible; }
+.sound-badge-in img { position: absolute; object-fit: contain; pointer-events: none; }
+.sound-badge-hear {
+  position: absolute; display: grid; place-items: center; pointer-events: none;
+  border-radius: 50%; border: 4px solid var(--ink); background: radial-gradient(circle at 35% 30%, #fff6c8, #ffc53d 75%); box-shadow: 0 3px 0 var(--ink);
+}
+.sound-badge-hear svg { width: 72%; height: 72%; }
+@keyframes sb-swell { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }

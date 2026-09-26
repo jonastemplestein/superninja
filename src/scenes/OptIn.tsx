@@ -1,14 +1,17 @@
 // The opt-in (docs/FIRST_MINUTES.md §4): a brand-new child tells Sensei whether they go to big school, and which
-// class, within about 30 seconds, and hears that their grown-ups can change it later. It happens in the dojo, right
-// after "Now, choose your ninja!", with the ninja bottom-left, Sensei's Help bottom-right and the grown-ups' gear
-// top-right (press and hold to open).
+// class, and hears that their grown-ups can change it later. It happens in the dojo, right after "Now, choose your
+// ninja!", with the ninja bottom-left, Sensei's Help bottom-right and the grown-ups' gear top-right (press and hold to
+// open).
 //   A: "Do you go to big school yet?"  TEDDY (not yet) · SCHOOL (yes, with the child's own ninja at the gate)
 //   B: "Which class are you in?"       three class doors (Reception ★, Year One 1, Year Two 2) · "Not sure?" cloud
-// Taps count from the moment the cards land, even during the question (they cut Sensei off), and say the card's own
-// label. A gold ring fills round the tapped card over 1.5 s: the last tap wins once it is full. Silence: after 8 s
-// Sensei asks again (the cards bob); after 20 s the game picks (A: listening games; B: Reception) and says so.
+// Navigation (docs/NAVIGATION.md §5.A; nothing moves on by itself): taps count from the moment the cards land, even
+// during the question (they cut Sensei off), and say the card's own label. A tap SELECTS the card: a gold ring draws
+// round it and stays; tapping another moves it. The big green Next arrow (dim until something is selected) confirms.
+// Hear it again says the question and each card's label with its spotlight; screen B has ◀ Back to A. Silence: after
+// 8 s Sensei asks again (the cards bob), once more at 20 s, then waits; the game never chooses for the child.
 // Confirming: the chosen card shrinks into a badge that flies to the grown-ups' gear, which glows and wiggles while
-// Sensei says what she has set up, then "Your grown-ups can change this later, in the grown-ups' settings."
+// Sensei says what she has set up, then "Your grown-ups can change this later, in the grown-ups' settings." That
+// holds on Next (Hear it again says it again) before the first lesson. Home goes to the title (nothing is saved yet).
 // Mode "newyear" (the first launch on or after 1 September): "It's a new school year! Which class are you in now?"
 // then screen B; "Not sure?" keeps last year's class.
 import { useEffect, useRef, useState, type CSSProperties } from "react";
@@ -16,7 +19,9 @@ import { say, sfx, playMusic, hush, preload, urls, type Say } from "../engine/au
 import type { SchoolYear } from "../engine/store";
 import { img, heroImg, fx, sleep, tapProps, useHelp, useHero, SenseiDock, Icon, stageRect } from "../ui/ui";
 import { NinjaSpot, ninja } from "../ui/Ninja";
+import { useNav, holdNext, nudgeNext } from "../ui/nav";
 import "../styles/optin.css";
+import "../styles/nav-A.css";
 
 type Choice = "notyet" | "school" | "R" | "Y1" | "Y2" | "unsure";
 interface Card { id: Choice; label: string; echo: string; sayLabel: string }
@@ -32,32 +37,36 @@ const B: Card[] = [
 ];
 const CONFIRM: Record<Exclude<Choice, "school">, string> = { notyet: "fm_opt_ok_notyet", unsure: "fm_opt_ok_unsure", R: "fm_opt_ok_rec", Y1: "fm_opt_ok_y1", Y2: "fm_opt_ok_y2" };
 const YEAR: Record<Exclude<Choice, "school">, SchoolYear> = { notyet: "none", unsure: "unsure", R: "R", Y1: "Y1", Y2: "Y2" };
-const SETTLE_MS = 1500;
 const GEAR = { x: 1206, y: 58 };
 
 export interface OptInResult {
   year: SchoolYear;
-  /** the game chose after 20 s of silence */
-  silent: boolean;
+  /** Always false now: the game never chooses for a silent child (docs/NAVIGATION.md rule 5). App's applyOptIn can
+   *  stop reading it (and the fm_opt_default_* lines leave the opt-in). */
+  silent?: boolean;
   /** "newyear": the class changed (a moving-up sticker) or stayed */
   movedUp?: boolean;
 }
 
-export function OptIn({ onDone, onGrownups, mode = "new", lastYear }: { onDone: (r: OptInResult) => void; onGrownups: () => void; mode?: "new" | "newyear"; lastYear?: SchoolYear }) {
+export function OptIn({ onDone, onGrownups, onHome, mode = "new", lastYear }: { onDone: (r: OptInResult) => void; onGrownups: () => void; onHome?: () => void; mode?: "new" | "newyear"; lastYear?: SchoolYear }) {
   const hero = useHero();
   const [screen, setScreen] = useState<"A" | "B">(mode === "newyear" ? "B" : "A");
   const [landed, setLanded] = useState(false);
   const [spot, setSpot] = useState<Choice | null>(null);
-  const [settling, setSettling] = useState<{ id: Choice; n: number } | null>(null);
-  const [bob, setBob] = useState(false);
+  const [selected, setSelected] = useState<{ id: Choice; n: number } | null>(null);
+  const [bob, setBob] = useState(0);
   const [chosen, setChosen] = useState<Choice | null>(null);
-  const [gear, setGear] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [gear, setGear] = useState(0); // > 0: the gear glows; bumps restart its wiggle
+  const [kept, setKept] = useState<Exclude<Choice, "school"> | null>(null); // the chosen card, small, while the confirm holds
   const [asked, setAsked] = useState(false); // the question and its labels have been said (for bots)
   const live = useRef(true);
   const locked = useRef(false);
-  const settleTimer = useRef<number | undefined>(undefined);
-  const settleRef = useRef<Choice | null>(null);
+  const selRef = useRef<Choice | null>(null);
   const idle = useRef<number[]>([]);
+  const talk = useRef(0); // the question's spoken run: a newer one (Hear it again, Help, Back) stops an older one
+  const confirmSaid = useRef<Promise<boolean> | null>(null);
+  const confirmLines = useRef<Say[]>([]);
   const screenRef = useRef(screen);
   screenRef.current = screen;
   const cards = screen === "A" ? A : B;
@@ -65,45 +74,55 @@ export function OptIn({ onDone, onGrownups, mode = "new", lastYear }: { onDone: 
   const question = (s: "A" | "B", again = false): Say[] =>
     s === "A"
       ? again ? [{ line: "fm_opt_q1_again" }] : [{ line: "fm_opt_q1" }]
-      : again ? [{ line: "fm_opt_q2_again" }] : [{ line: mode === "newyear" && !again ? "fm_newyear_q" : "fm_opt_q2" }];
+      : again ? [{ line: "fm_opt_q2_again" }] : [{ line: mode === "newyear" ? "fm_newyear_q" : "fm_opt_q2" }];
 
-  /** The question, then each card's label while that card is spotlit. A tap stops it (hush). */
-  const ask = async (s: "A" | "B") => {
-    clearIdle();
-    await sleep(400);
-    setLanded(true);
+  /** The question, then each card's label while that card is spotlit. A tap, or a newer run, stops it. */
+  const sayQuestion = async (s: "A" | "B") => {
+    const my = ++talk.current;
     const ok = await say(question(s));
-    if (!ok || locked.current || !live.current) return;
+    if (!ok || my !== talk.current || locked.current || !live.current) return false;
     for (const c of s === "A" ? A : B) {
-      if (settleRef.current || locked.current || !live.current || screenRef.current !== s) return;
+      if (my !== talk.current || locked.current || !live.current || screenRef.current !== s) return false;
       setSpot(c.id);
       await sleep(150);
       const done = await say({ line: c.sayLabel });
       await sleep(250);
-      setSpot(null);
-      if (!done) return;
+      if (my === talk.current) setSpot(null);
+      if (!done) return false;
     }
-    startIdle(s);
+    return my === talk.current;
+  };
+  /** A screen's cards land, then Sensei asks. */
+  const ask = async (s: "A" | "B") => {
+    clearIdle();
+    await sleep(400);
+    if (!live.current || screenRef.current !== s) return;
+    setLanded(true);
+    if ((await sayQuestion(s)) && !selRef.current) startIdle(s);
+    if (screenRef.current === s) setAsked(true);
+  };
+  /** Hear it again (and Help's first press): the question and the labels again. */
+  const askAgain = async () => {
+    if (locked.current) return;
+    clearIdle();
+    const s = screenRef.current;
+    if ((await sayQuestion(s)) && !selRef.current) startIdle(s);
   };
   const clearIdle = () => {
     idle.current.forEach(clearTimeout);
     idle.current = [];
   };
-  /** Silence: 8 s → ask again, the cards bob; 20 s → the game picks, and says so. */
+  /** Silence, with nothing selected: 8 s → ask again, the cards bob; 20 s → once more; then Sensei waits. */
   const startIdle = (s: "A" | "B") => {
     clearIdle();
-    setAsked(true);
-    idle.current.push(
-      window.setTimeout(() => {
-        if (locked.current || settleRef.current) return;
-        setBob(true);
-        void say(question(s, true));
-      }, 8000),
-      window.setTimeout(() => {
-        if (locked.current || settleTimer.current) return;
-        void confirm(s === "A" ? "notyet" : mode === "newyear" ? "unsure" : "R", true);
-      }, 20000),
-    );
+    const nudge = () => {
+      if (locked.current || selRef.current || screenRef.current !== s) return;
+      // (off for two frames, then on: the bob starts again)
+      setBob(0);
+      requestAnimationFrame(() => requestAnimationFrame(() => setBob((k) => k + 1)));
+      void say(question(s, true));
+    };
+    idle.current.push(window.setTimeout(nudge, 8000), window.setTimeout(nudge, 20000));
   };
 
   useEffect(() => {
@@ -114,99 +133,132 @@ export function OptIn({ onDone, onGrownups, mode = "new", lastYear }: { onDone: 
     return () => {
       live.current = false;
       clearIdle();
-      clearTimeout(settleTimer.current);
       hush();
     };
   }, []);
-  useHelp(() => {
-    if (locked.current) return;
-    void (async () => {
-      await say(question(screenRef.current));
-      for (const c of screenRef.current === "A" ? A : B) {
-        setSpot(c.id);
-        await sleep(150);
-        const ok = await say({ line: c.sayLabel });
-        setSpot(null);
-        if (!ok) return;
-      }
-    })();
-  }, [screen]);
 
-  /** A tap: say the card's label, and fill the gold ring round it; the last tap wins once the ring is full. */
+  useNav({
+    home: onHome, // (none given: App's Home rule, the title; nothing is saved until the confirm)
+    back: mode === "new" && screen === "B" && !confirming ? () => void toA() : null,
+    again: confirming ? () => sayConfirm() : () => askAgain(),
+    next: { ready: !!selected && landed && !confirming, go: () => goOn() },
+  });
+  useHelp(
+    (n) => {
+      if (locked.current) return;
+      if (n > 1 && selRef.current) return nudgeNext();
+      void askAgain();
+    },
+    [screen],
+  );
+
+  /** A tap: say the card's label, and select it (a gold ring round it; another tap moves it). */
   const tap = (c: Card) => {
     if (locked.current || !landed) return;
     clearIdle();
-    setBob(false);
+    talk.current++;
+    setBob(0);
     setSpot(null);
     sfx.pop();
     hush();
     void say({ line: c.echo });
     void ninja.pose("ready");
-    settleRef.current = c.id;
-    setSettling((s) => ({ id: c.id, n: (s?.n ?? 0) + 1 }));
-    clearTimeout(settleTimer.current);
-    settleTimer.current = window.setTimeout(() => {
-      settleTimer.current = undefined;
-      if (c.id === "school") return toClasses();
-      void confirm(c.id);
-    }, SETTLE_MS);
+    selRef.current = c.id;
+    setSelected((s) => ({ id: c.id, n: (s?.n ?? 0) + 1 }));
   };
 
-  const toClasses = async () => {
+  /** Next: school → the classes; any other card → confirm it. */
+  const goOn = () => {
+    const id = selRef.current;
+    if (!id || locked.current) return;
+    if (id === "school") return void toClasses();
+    void confirm(id);
+  };
+
+  const toScreen = async (s: "A" | "B") => {
+    clearIdle();
+    talk.current++;
+    hush();
     setAsked(false);
-    settleRef.current = null;
-    setSettling(null);
+    selRef.current = null;
+    setSelected(null);
+    setSpot(null);
+    setBob(0);
     setLanded(false);
-    void ninja.act("jump");
-    await sleep(300);
-    setScreen("B");
-    // doors swing in
-    await ask("B");
+    void ninja.pose(null);
+    if (s === "B") {
+      void ninja.act("jump");
+      await sleep(300);
+    }
+    if (!live.current) return;
+    setScreen(s);
+    screenRef.current = s;
+    // doors swing in (or the two cards land again)
+    await ask(s);
+  };
+  const toClasses = () => toScreen("B");
+  const toA = () => toScreen("A");
+
+  /** What Sensei has set up, and that the grown-ups can change it (Hear it again says it again; the gear wiggles). */
+  const sayConfirm = () => {
+    setGear((k) => k + 1);
+    const p = say(confirmLines.current);
+    confirmSaid.current = p;
+    return p;
   };
 
-  const confirm = async (id: Exclude<Choice, "school">, silent = false) => {
+  const confirm = async (id: Exclude<Choice, "school">) => {
     if (locked.current) return;
     locked.current = true;
+    setConfirming(true);
     clearIdle();
-    setSettling(null);
+    talk.current++;
+    setSelected(null);
     hush();
     const year = mode === "newyear" && id === "unsure" ? lastYear ?? "unsure" : YEAR[id];
     const movedUp = mode === "newyear" && id !== "unsure" && year !== lastYear;
+    confirmLines.current =
+      mode === "newyear"
+        ? movedUp ? [{ line: "fm_newyear_up" }, { gap: 300 }, { line: "fm_opt_grownups" }] : [{ line: "fm_opt_grownups" }]
+        : [{ line: CONFIRM[id] }, { gap: 300 }, { line: "fm_opt_grownups" }];
     setChosen(id);
     // the chosen card shrinks into a badge that flies to the grown-ups' gear
     const el = document.querySelector(`.oi [data-choice="${id}"]`);
     void ninja.act(screenRef.current === "B" && id !== "unsure" ? "flip" : "cheer");
     // the badge flies to the gear as Sensei starts to say what she has set up
     const flown = (el ? flyBadge(el) : Promise.resolve()).then(() => {
-      setGear(true);
+      if (live.current) setKept(id);
+      setGear((k) => k + 1);
       sfx.great();
       fx.twinkle(GEAR.x, GEAR.y, ["#fff4dc", "#ffe38a", "#ffc53d"], 14, 6);
     });
     await sleep(350);
-    const lines: Say[] =
-      mode === "newyear"
-        ? movedUp ? [{ line: "fm_newyear_up" }, { gap: 300 }, { line: "fm_opt_grownups" }] : [{ line: "fm_opt_grownups" }]
-        : silent
-          ? [{ line: id === "notyet" ? "fm_opt_default_home" : "fm_opt_default_rec" }, { gap: 300 }, { line: "fm_opt_grownups" }]
-          : [{ line: CONFIRM[id] }, { gap: 300 }, { line: "fm_opt_grownups" }];
-    await say(lines);
+    if (!live.current) return;
+    confirmSaid.current ??= say(confirmLines.current);
+    // (a Hear it again meanwhile starts the lines over: wait for the latest run)
+    for (let p = confirmSaid.current; ; p = confirmSaid.current!) {
+      await p;
+      if (p === confirmSaid.current || !live.current) break;
+    }
     await flown;
-    await sleep(200);
-    setGear(false);
-    if (live.current) onDone({ year, silent, movedUp });
+    if (!live.current) return;
+    // the step holds: Next goes on to the first lesson
+    if ((await holdNext("optin-confirm", sayConfirm)) && live.current) onDone({ year, silent: false, movedUp });
   };
 
   (window as any).__snState = {
-    scene: "optin", screen, choices: cards.map((c) => c.label), next: !landed || locked.current ? null : cards[0].label, asked, settling: settling?.id ?? null, chosen,
+    scene: "optin", screen, choices: cards.map((c) => c.label), next: !landed || locked.current ? null : cards[0].label, asked, selected: selected?.id ?? null, chosen,
   };
 
+  const cls = (id: Choice) =>
+    `${spot === id ? "spot" : ""} ${spot && spot !== id ? "aside" : ""} ${bob ? "bob" : ""} ${selected?.id === id ? "sel" : ""} ${chosen === id ? "chosen" : ""} ${chosen && chosen !== id ? "gone" : ""}`;
   return (
     <div className={`scene oi ${screen === "B" ? "oi-b" : "oi-a"}`}>
       <img className="bg-img" src={img("dojo_bg")} alt="" />
       <div className="vignette" />
       <NinjaSpot />
       {/* the grown-ups' gear (press and hold); the chosen badge flies here */}
-      <GearHold on={gear} onHold={onGrownups} />
+      <GearHold key={gear} on={gear > 0} onHold={onGrownups} />
       {screen === "A" && (
         <div className="oi-row">
           {A.map((c, i) => (
@@ -214,7 +266,7 @@ export function OptIn({ onDone, onGrownups, mode = "new", lastYear }: { onDone: 
               key={c.id}
               aria-label={c.label}
               data-choice={c.id}
-              className={`oi-card ${c.id} ${spot === c.id ? "spot" : ""} ${spot && spot !== c.id ? "aside" : ""} ${bob ? "bob" : ""} ${chosen === c.id ? "chosen" : ""} ${chosen && chosen !== c.id ? "gone" : ""}`}
+              className={`oi-card ${c.id} ${cls(c.id)}`}
               style={{ animationDelay: `${i * 0.12}s` } as CSSProperties}
               {...tapProps(() => tap(c))}
             >
@@ -222,7 +274,7 @@ export function OptIn({ onDone, onGrownups, mode = "new", lastYear }: { onDone: 
                 <img src={img(c.id === "notyet" ? "opt_teddy" : "opt_school")} alt="" draggable={false} />
                 {c.id === "school" && <img className="oi-gate-ninja" src={heroImg(hero, "idle")} alt="" draggable={false} />}
               </span>
-              {settling?.id === c.id && <SettleRing key={settling.n} />}
+              {selected?.id === c.id && <SelectRing key={selected.n} />}
             </button>
           ))}
         </div>
@@ -235,7 +287,7 @@ export function OptIn({ onDone, onGrownups, mode = "new", lastYear }: { onDone: 
                 key={c.id}
                 aria-label={c.label}
                 data-choice={c.id}
-                className={`oi-door d${i} ${spot === c.id ? "spot" : ""} ${spot && spot !== c.id ? "aside" : ""} ${bob ? "bob" : ""} ${chosen === c.id ? "chosen" : ""} ${chosen && chosen !== c.id ? "gone" : ""}`}
+                className={`oi-door d${i} ${cls(c.id)}`}
                 style={{ animationDelay: `${i * 0.12}s` } as CSSProperties}
                 {...tapProps(() => tap(c))}
               >
@@ -243,31 +295,57 @@ export function OptIn({ onDone, onGrownups, mode = "new", lastYear }: { onDone: 
                 <img className="oi-door-img" src={img("class_door")} alt="" draggable={false} />
                 {/* the bigger you are, the higher the class: the child's ninja in a school jumper at 80%, 90%, 100% */}
                 <img className="oi-door-ninja" src={img(`hero_${hero}_school`)} alt="" draggable={false} style={{ height: `${[80, 90, 100][i] * 2.1}px` }} />
-                {settling?.id === c.id && <SettleRing key={settling.n} />}
+                {selected?.id === c.id && <SelectRing key={selected.n} />}
               </button>
             ))}
           </div>
-          <button
-            aria-label="Not sure"
-            data-choice="unsure"
-            className={`oi-cloud ${spot === "unsure" ? "spot" : ""} ${bob ? "bob" : ""} ${chosen === "unsure" ? "chosen" : ""} ${chosen && chosen !== "unsure" ? "gone" : ""}`}
-            {...tapProps(() => tap(B[3]))}
-          >
+          <button aria-label="Not sure" data-choice="unsure" className={`oi-cloud ${cls("unsure")}`} {...tapProps(() => tap(B[3]))}>
             <img src={img("item_think_cloud")} alt="" draggable={false} />
             <span className="oi-q">?</span>
-            {settling?.id === "unsure" && <SettleRing key={settling.n} round />}
+            {selected?.id === "unsure" && <SelectRing key={selected.n} round />}
           </button>
         </>
       )}
+      {kept && <KeptCard id={kept} hero={hero} />}
       <SenseiDock />
     </div>
   );
 }
 
-/** A gold ring that fills round the tapped card over 1.5 s. */
-function SettleRing({ round }: { round?: boolean }) {
+/** The chosen card, small, beside Sensei's caption while she says what she has set up (so the held confirm isn't an
+ *  empty dojo): its picture on a plate with a gold ring, and the gear it went to in its corner. Not a button. */
+function KeptCard({ id, hero }: { id: Exclude<Choice, "school">; hero: string }) {
+  const door = id === "R" || id === "Y1" || id === "Y2";
+  const k = door ? ["R", "Y1", "Y2"].indexOf(id) : 0;
   return (
-    <svg className="oi-ring" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <div className={`oi-kept pop-in ${door ? "door" : id}`} aria-hidden="true">
+      <span className="oi-kept-in">
+      <span className="oi-kept-plate">
+        {id === "notyet" && <img src={img("opt_teddy")} alt="" draggable={false} />}
+        {door && (
+          <>
+            <img className={`oi-kept-door d${k}`} src={img("class_door")} alt="" draggable={false} />
+            <img className="oi-kept-ninja" src={img(`hero_${hero}_school`)} alt="" draggable={false} style={{ height: `${[80, 90, 100][k] * 1.5}px` }} />
+          </>
+        )}
+        {id === "unsure" && (
+          <>
+            <img src={img("item_think_cloud")} alt="" draggable={false} />
+            <span className="oi-q">?</span>
+          </>
+        )}
+      </span>
+      {door && <span className={`oi-badge ${k === 0 ? "star" : ""}`}>{k === 0 ? "★" : k}</span>}
+      <span className="oi-kept-gear"><Icon.gear /></span>
+      </span>
+    </div>
+  );
+}
+
+/** The gold ring round the selected card: it draws on quickly and stays (nav-A.css). */
+function SelectRing({ round }: { round?: boolean }) {
+  return (
+    <svg className="oi-ring sel" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
       {round ? <ellipse cx="50" cy="50" rx="47" ry="47" pathLength={100} /> : <rect x="3" y="3" width="94" height="94" rx="10" ry="10" pathLength={100} />}
     </svg>
   );
@@ -309,7 +387,7 @@ function flyBadge(el: Element): Promise<void> {
   if (!layer) return Promise.resolve();
   const r = stageRect(el);
   const c = el.cloneNode(true) as HTMLElement;
-  c.classList.remove("spot", "bob", "chosen", "aside");
+  c.classList.remove("spot", "bob", "chosen", "aside", "sel");
   c.classList.add("oi-badge-fly");
   c.querySelector(".oi-ring")?.remove();
   Object.assign(c.style, { position: "absolute", left: "0", top: "0", width: `${r.w}px`, height: `${r.h}px`, margin: "0", animation: "none" });

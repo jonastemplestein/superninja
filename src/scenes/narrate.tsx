@@ -18,7 +18,8 @@ import { correction, isListenLead } from "../engine/feedback";
 import { gemByKey, energyOf } from "../engine/gems";
 import { GemIcon } from "../ui/Gem";
 import { FAST } from "../engine/fast";
-import { fx, fxDom, stageRect, sleep } from "../ui/ui";
+import { fx, fxDom, stageRect } from "../ui/ui";
+import { holdNext, type Anchor } from "../ui/nav";
 
 // ---------------------------------------------------------------- the ledger
 type Ledger = Record<string, Exposure>;
@@ -124,22 +125,34 @@ const setGem = (g: GemShow | null) => {
 let gemN = 0;
 /**
  * The first time the child's right answers fill a gem (once per save, NARRATIVE_AUDIT F04): the gem for one of the
- * word's spellings pops up from where they answered, its ring fills, and Sensei says what it is. `at` is where it
- * appears (stage px). Resolves when done (at once if it isn't due or there's no gem to show).
+ * word's spellings pops up from where they answered, its ring fills, and Sensei says what it is. It is a held step
+ * (docs/NAVIGATION.md §5.0): the gem stays up and the level waits on the green Next arrow; Hear it again pops the gem
+ * again, fills it and says the line again; the gem's sound picture sits beside it. `at` is where it appears (stage px).
+ * Resolves after Next, or once the screen is left (at once if it isn't due or there's no gem to show).
+ * A timed scene must stop its clock while this runs (the Ninja Run's world stops; Gem Trials never explain gems).
+ * `navAt: "column"`: Hear it again and Next in the right-hand column, for a screen whose targets fill the nav row.
  */
-export async function explainGemEnergy(seg: Seg | undefined, at: { x: number; y: number }, alive: () => boolean = () => true): Promise<void> {
+export async function explainGemEnergy(seg: Seg | undefined, at: { x: number; y: number }, alive: () => boolean = () => true, o: { navAt?: Anchor } = {}): Promise<void> {
   if (!seg || !isDue("gem-energy", "once")) return;
   const key = gpcKey(seg);
   const gem = gemByKey(key);
   if (!gem || store.get().gems.includes(key)) return;
   const to = energyOf(key);
   const from = Math.max(0, to - (levelGains[key] ?? 0) / ENERGY_FULL);
-  setGem({ id: ++gemN, g: gem.g, colour: PHONEMES[gem.p]?.colour ?? "#ffc53d", from, to: Math.max(to, from + 0.1), x: at.x, y: at.y });
-  sfx.sparkle();
-  fx.twinkle(at.x, at.y, ["#fff4dc", "#ffe38a", "#ffc53d"], 10, 7, 24);
-  const ok = await say({ line: "audit_gem_first" });
-  if (ok) heard("gem-energy");
-  if (alive()) await sleep(250);
+  const show = () => {
+    setGem({ id: ++gemN, g: gem.g, colour: PHONEMES[gem.p]?.colour ?? "#ffc53d", from, to: Math.max(to, from + 0.1), x: at.x, y: at.y });
+    sfx.sparkle();
+    fx.twinkle(at.x, at.y, ["#fff4dc", "#ffe38a", "#ffc53d"], 10, 7, 24);
+  };
+  let inFull = false;
+  const tell = async () => {
+    const ok = await say({ line: "audit_gem_first" });
+    if (ok && !inFull) (inFull = true), heard("gem-energy");
+  };
+  show();
+  await tell();
+  // hold on the gem until the child taps Next (nothing moves on by itself); Hear it again shows and says it again
+  if (alive()) await holdNext("gem-energy", () => (show(), tell()), { sound: gem.p, at: o.navAt });
   setGem(null);
 }
 
@@ -159,7 +172,7 @@ export function NarrOverlay() {
   if (!g) return null;
   const S = 150;
   return (
-    <div className="pop-in" aria-hidden="true" style={{ position: "absolute", left: g.x - S / 2, top: g.y - S / 2, width: S, height: S, pointerEvents: "none", zIndex: 60, filter: "drop-shadow(0 6px 10px rgba(43,29,20,.35))" }}>
+    <div key={g.id} className="pop-in" aria-hidden="true" style={{ position: "absolute", left: g.x - S / 2, top: g.y - S / 2, width: S, height: S, pointerEvents: "none", zIndex: 60, filter: "drop-shadow(0 6px 10px rgba(43,29,20,.35))" }}>
       <GemIcon g={g.g} colour={g.colour} state="charging" energy={full ? g.to : g.from} size={S} />
     </div>
   );

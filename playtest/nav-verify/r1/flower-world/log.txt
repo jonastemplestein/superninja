@@ -1,0 +1,32 @@
+   4.4s pos route=tree pres=world-visit#0/4 scene=tree next=null step=visit nav.next=ready again=true back=false home=45px@64,62
+   5.8s HELD tree|world-visit#0/4||visit|| (Next 67px on the phone, again=57px, back=false)
+  26.9s   idle 20s: still held; glow=true; said: line:nav_ready
+  30.1s   Hear it again → line:t_visit
+  30.7s   > Next
+  31.5s pos route=tree pres=world-visit#1/4 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+  34.3s pos route=tree pres=world-visit#1/4 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+  34.7s HELD tree|world-visit#1/4||visit|| (Next 68px on the phone, again=57px, back=true)
+  55.9s   idle 20s: still held; glow=true; said: line:nav_ready
+  58.9s   Hear it again → line:wf_petals_you_know
+  60.8s   Back → world-visit#0
+  63.9s pos route=tree pres=world-visit#1/4 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+  66.6s pos route=tree pres=world-visit#1/4 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+  67.3s   > Next
+  68.0s pos route=tree pres=world-visit#2/4 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+  73.6s pos route=tree pres=world-visit#2/4 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+  73.9s HELD tree|world-visit#2/4||visit|| (Next 47px on the phone, again=57px, back=true)
+  94.9s   idle 20s: still held; glow=true; said: line:nav_ready
+  97.9s   Hear it again → line:t_diff_spellings_of, sound:ae, line:t_same_sound
+ 102.6s   > Next
+ 103.3s pos route=tree pres=world-visit#3/4 scene=tree next=null step=visit nav.next=wait again=true back=true home=45px@64,62
+ 108.0s pos route=tree pres=world-visit#3/4 scene=tree next=null step=visit nav.next=ready again=true back=true home=45px@64,62
+ 108.3s HELD tree|world-visit#3/4||visit|| (Next 66px on the phone, again=57px, back=true)
+ 129.3s   idle 20s: still held; glow=true; said: line:nav_ready
+ 132.3s   Hear it again → line:wf_world_new
+ 135.0s   > Next
+ 135.7s pos route=tree pres=null scene=tree next=null step=done nav.next=ready again=true back=false home=45px@64,62
+ 137.0s HELD tree|tree||done|| (Next 65px on the phone, again=45px, back=false)
+ 158.0s   idle 20s: still held; glow=true; said: line:nav_ready
+ 161.1s   Hear it again → line:flower_tap
+ 161.8s   > Next
+ 162.5s stop: route map scene map

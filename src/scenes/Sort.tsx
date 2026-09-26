@@ -9,6 +9,9 @@
 // sound is said, so "same sound, different spellings" comes with the actual spellings (and "It's two letters, but
 // it's one sound." for a long one, when due). The first sort of each sound adds how many ways there are, and what to
 // do; later ones are short. The first sorted word of a save shows its gem filling up (./narrate.tsx).
+// Navigation (docs/NAVIGATION.md §5.D): Home is the nav layer's (top-left). Top-right, the sound being sorted as its
+// petal (SoundBadge: every chest is a spelling of this one sound) and "Hear the word", the screen's Hear it again: on the
+// first word it plays the introduction again, each chest hopping as its sound is said, then the word; later, the word.
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { LevelProps } from "../App";
 import { WORDS, type Word } from "../content/phonics";
@@ -19,12 +22,19 @@ import { FAST } from "../engine/fast";
 import { shuffle } from "../engine/learner";
 import { recordRead, useSave } from "../engine/store";
 import { streak, useStreak, tierLineId, type Tier } from "../engine/streak";
-import { img, RoundButton, Icon, Progress, fx, stageRect, Tile, tapProps, useHelp, useIdlePrompt, SenseiDock, isUpright, shakeStage, sleep, useHero } from "../ui/ui";
+import { img, Progress, fx, stageRect, Tile, tapProps, useHelp, useIdlePrompt, SenseiDock, isUpright, shakeStage, sleep, useHero } from "../ui/ui";
 import { NinjaSpot, ninja, type Move } from "../ui/Ninja";
 import { lettersKey, lettersLine, sortWaysLine } from "../content/narrative";
 import { LETTERS, NarrOverlay, beginLevel, explainGemEnergy, heard as told, isDue, lettersSay } from "./narrate";
 import { useLessonClock } from "../engine/lessonClock";
+import { useNav, ReplayButton, TopBar } from "../ui/nav";
+import { SoundBadge } from "../ui/SoundBadge";
 import "../styles/sort.css";
+import "../styles/nav-D.css";
+
+/** The introduction as it was said, for the first word's Hear it again: the lead lines, each chest's part (it hops
+ *  and glows while its sound is said), and "help_sort" when it was said. */
+type Intro = { lead: Say[]; chests: { g: string; say: Say[] }[]; tail: Say[] };
 
 const ROUNDS = 8;
 const TOP0 = 112; // the word's top edge as it appears (just under the top bar)
@@ -315,7 +325,7 @@ function ChestEyes({ mood }: { mood?: Mood }) {
   );
 }
 
-export function Sort({ level, onDone, onQuit }: LevelProps) {
+export function Sort({ level, onDone }: LevelProps) {
   useState(() => beginLevel(level)); // (during the first render)
   const world = worldOf(level);
   const hero = useHero();
@@ -367,6 +377,31 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
   const spellingOf = (w: Word) => w.segs.find((s) => s.p === sound && spellings.includes(s.g))!.g;
   /** A one-off timeout that's cleared (and never runs) once the child has left. */
   const later = (fn: () => void, ms: number) => void timers.current.push(window.setTimeout(() => alive.current && fn(), ms));
+  const intro = useRef<Intro | null>(null);
+  /** Say the introduction, each chest hopping and glowing while its sound is said. `first`: the real thing (it records
+   *  what was heard in the narrative ledger); otherwise a replay. Resolves false if it was cut off. */
+  const playIntro = async (script: Intro, on: () => boolean, first: boolean) => {
+    const ok = await say(script.lead);
+    if (!on()) return false;
+    if (ok && first && script.lead.some((x) => "line" in x && x.line === "audit_sort_first")) told("sort:first");
+    if (!ok && !first) return false;
+    for (const { g, say: part } of script.chests) {
+      setIntroLit(g);
+      hop(g, 20);
+      sfx.pop();
+      const said = await say(part);
+      if (!on()) return false;
+      if (!said && !first) return setIntroLit(null), false;
+      if (said && first && part.some((x) => "line" in x)) told(lettersKey(g), LETTERS);
+    }
+    setIntroLit(null);
+    if (script.tail.length) {
+      const said = await say(script.tail);
+      if (said && first) told(`sort:${sound}`);
+      if (!said && !first) return false;
+    }
+    return true;
+  };
 
   useEffect(() => {
     alive.current = true;
@@ -383,28 +418,24 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
       // the first sort of each sound: how many ways there are, and what to do
       const full = isDue(`sort:${sound}`, "once");
       const ways = full ? sortWaysLine(spellings.length) : null;
-      await sleep(250 + spellings.length * 160); // (the chests pop in)
-      if (!on()) return;
       // (the first sort is the Bridging Unit's first lesson, after IC11: "You know this sound! Now let's look at the
       // different ways we spell it." NARRATIVE_AUDIT F25)
       const bridge: Say[] = first ? [{ line: "audit_bridging_first" }, { gap: 300 }] : [];
-      const ok = await say([...bridge, { line: first ? "audit_sort_first" : "audit_sort_again" }, { gap: 300 }, ...(ways ? [{ line: ways }, { gap: 250 }] : [])]);
+      const script: Intro = {
+        lead: [...bridge, { line: first ? "audit_sort_first" : "audit_sort_again" }, { gap: 300 }, ...(ways ? [{ line: ways }, { gap: 250 }] : [])],
+        // each chest in turn: it hops and glows while its sound is said ("It's two letters, but it's one sound." for a
+        // long spelling, when due)
+        chests: spellings.map((g) => {
+          const seg = { g, p: sound };
+          const letters = full && lettersLine(seg) && isDue(lettersKey(g), "concept", LETTERS) ? lettersSay(seg) : [];
+          return { g, say: [{ gap: 150 }, { sound }, ...(letters.length ? [{ gap: 300 }, ...letters] : []), { gap: 400 }] };
+        }),
+        tail: full ? [{ line: "help_sort" }] : [],
+      };
+      intro.current = script;
+      await sleep(250 + spellings.length * 160); // (the chests pop in)
       if (!on()) return;
-      if (ok && first) told("sort:first");
-      // each chest in turn: it hops and glows while its sound is said ("It's two letters, but it's one sound." for a
-      // long spelling, when due)
-      for (const g of spellings) {
-        setIntroLit(g);
-        hop(g, 20);
-        sfx.pop();
-        const seg = { g, p: sound };
-        const letters = full && lettersLine(seg) && isDue(lettersKey(g), "concept", LETTERS) ? lettersSay(seg) : [];
-        const said = await say([{ gap: 150 }, { sound }, ...(letters.length ? [{ gap: 300 }, ...letters] : []), { gap: 400 }]);
-        if (!on()) return;
-        if (said && letters.length) told(lettersKey(g), LETTERS);
-      }
-      setIntroLit(null);
-      if (full && (await say({ line: "help_sort" }))) told(`sort:${sound}`);
+      await playIntro(script, on, true);
       if (on()) setI(0);
     })();
     return () => {
@@ -642,7 +673,8 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
       if (lineGate.current) await lineGate.current;
       if (!alive.current) return;
       const m = mouthOf(g);
-      await explainGemEnergy(w.segs.find((s) => target(s)), { x: m.x, y: Math.max(130, m.y - 190) }, () => alive.current);
+      // (the chests fill the nav row: the hold's Hear it again and Next go in the right-hand column)
+      await explainGemEnergy(w.segs.find((s) => target(s)), { x: m.x, y: Math.max(130, m.y - 190) }, () => alive.current, { navAt: "column" });
       lineGate.current = null;
       if (!alive.current) return;
     }
@@ -670,7 +702,7 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
     );
     await Promise.all([say({ line: "sort_done" }), ninja.celebrate()]);
     if (!alive.current) return;
-    onDone(misses.current <= 1 ? 3 : misses.current <= 3 ? 2 : 1);
+    onDone(misses.current <= 1 ? 3 : misses.current <= 3 ? 2 : 1, { closing: "sort_done" });
   };
 
   /** Sensei heard you (Help or the speaker pressed while he's busy): his button nods and the word bounces. */
@@ -698,8 +730,34 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
     say(n === 1 ? [{ word: w.text }, { gap: 200 }, { line: "help_sort" }] : [{ line: "help_look" }, { word: w.text }]);
   };
 
+  /** Hear it again ("Hear the word", top-right): on the first word, the introduction again (each chest hopping as its
+   *  sound is said), then the word; later, the word. The word stops falling while the introduction is replayed. While
+   *  Sensei is sounding a word out, his button nods instead (he heard). */
+  const replayTok = useRef(0);
+  const replay = async () => {
+    if (!w) return;
+    if (busy.current) return heard();
+    const my = ++replayTok.current;
+    const on = () => alive.current && my === replayTok.current && !busy.current;
+    const script = i === 0 ? intro.current : null;
+    if (script) {
+      frozen.current = true;
+      const ok = await playIntro(script, on, false);
+      if (my === replayTok.current && !busy.current) {
+        frozen.current = false;
+        setIntroLit(null);
+      }
+      if (!ok || !on()) return;
+      await sleep(150);
+      if (!on()) return;
+    }
+    await say({ word: w.text });
+  };
+  // (always "own": the scene draws both in its top bar, so the nav row never shows them over the chests)
+  useNav({ again: replay, againAt: "own", sound });
   // a child who hasn't tapped for a while hears the word again
-  useIdlePrompt(!!w && !result, 10000, () => w && say([{ line: "listen" }, { word: w.text }]), [i]);
+  // (never over something being said: Hear it again replaying the introduction, Help)
+  useIdlePrompt(!!w && !result, 10000, () => void (w && !isSpeaking() && say([{ line: "listen" }, { word: w.text }])), [i]);
   useEffect(() => setHelpLvl(0), [i]);
   useHelp(
     (n) => {
@@ -733,13 +791,16 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
           </linearGradient>
         </defs>
       </svg>
-      <div className="topbar">
-        <RoundButton sm label="map" onClick={onQuit}><Icon.home /></RoundButton>
+      <TopBar>
         <div className="spacer" />
         <Progress value={Math.max(0, i) / words.length} />
         <div className="spacer" />
-        <RoundButton sm label="Hear the word" onClick={() => w && (busy.current ? heard() : say({ word: w.text }))}><Icon.speaker /></RoundButton>
-      </div>
+        {/* the sound being sorted, as its petal, and Hear it again (docs/NAVIGATION.md §3.1: top-right on sorting) */}
+        <div className="nav-d-topctl">
+          <SoundBadge p={sound} size={84} />
+          {w ? <ReplayButton onReplay={replay} size={100} label="Hear the word" /> : <div style={{ width: 100 }} />}
+        </div>
+      </TopBar>
       {w && (
         <div key={w.text} ref={wordRef} className={`so-word ${gone ? "gone" : ""}`} style={{ top: TOP0 }}>
           <div className="drop-in">

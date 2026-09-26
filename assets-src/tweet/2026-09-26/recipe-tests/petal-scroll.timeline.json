@@ -1,0 +1,175 @@
+{
+ "name": "petal-scroll",
+ "url": "https://next.superninja.templestein.com/play/?scene=tree",
+ "capture": "cdp",
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 29.433,
+ "game": {
+  "start": 1.381,
+  "end": 27.205
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   52.6,
+   64.9
+  ],
+  "audioShiftMs": 58.8,
+  "residualMs": [
+   9.8,
+   3.5
+  ]
+ },
+ "frames": {
+  "frames": 1520,
+  "fps": 60.1,
+  "p50": 16.6,
+  "p95": 18.3,
+  "p99": 18.6,
+  "max": 20.3,
+  "hitches": 0,
+  "repeatedSlots": 0,
+  "slots": 759,
+  "deliveryMs": 4.9
+ },
+ "master": "petal-scroll.master.mp4",
+ "audio": "petal-scroll.master.wav",
+ "recordedAt": "2026-09-26T21:08:20.833Z",
+ "events": [
+  {
+   "t": 0.53,
+   "kind": "scene",
+   "id": "tree"
+  },
+  {
+   "t": 0.738,
+   "kind": "slate",
+   "id": "flash+beep"
+  },
+  {
+   "t": 0.781,
+   "kind": "speech",
+   "id": "flower_tap",
+   "dur": 2.069,
+   "text": "Tap a petal to see its gems."
+  },
+  {
+   "t": 0.978,
+   "kind": "music",
+   "id": "world_blossom",
+   "dur": 28.388
+  },
+  {
+   "t": 3.642,
+   "kind": "mark",
+   "id": "chart"
+  },
+  {
+   "t": 3.653,
+   "kind": "tap",
+   "id": "Petal chart",
+   "text": "rect 1172,424,92,92"
+  },
+  {
+   "t": 3.653,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 3.654,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 5.71,
+   "kind": "tap",
+   "id": "petal oe",
+   "text": "rect 996,103,232,262"
+  },
+  {
+   "t": 7.763,
+   "kind": "tap",
+   "id": "petal ar",
+   "text": "rect 990,103,200,262"
+  },
+  {
+   "t": 9.812,
+   "kind": "tap",
+   "id": "petal air",
+   "text": "rect 1036,103,200,262"
+  },
+  {
+   "t": 11.862,
+   "kind": "tap",
+   "id": "HTML",
+   "text": "rect 0,0,1280,720"
+  },
+  {
+   "t": 14.332,
+   "kind": "mark",
+   "id": "petal ae"
+  },
+  {
+   "t": 14.365,
+   "kind": "tap",
+   "id": "petal ae",
+   "text": "rect 96,103,232,262"
+  },
+  {
+   "t": 14.366,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 14.397,
+   "kind": "speech",
+   "id": "sound:ae",
+   "dur": 0.531
+  },
+  {
+   "t": 15.151,
+   "kind": "speech",
+   "id": "t_diff_spellings_of",
+   "dur": 1.38,
+   "text": "Different spellings of..."
+  },
+  {
+   "t": 16.613,
+   "kind": "speech",
+   "id": "sound:ae",
+   "dur": 0.531
+  },
+  {
+   "t": 17.229,
+   "kind": "speech",
+   "id": "t_same_sound",
+   "dur": 1.661,
+   "text": "...but it's the same sound!"
+  },
+  {
+   "t": 19.342,
+   "kind": "speech",
+   "id": "word:tail",
+   "dur": 0.576
+  },
+  {
+   "t": 20.176,
+   "kind": "speech",
+   "id": "t_and",
+   "dur": 0.457,
+   "text": "...and..."
+  },
+  {
+   "t": 20.633,
+   "kind": "speech",
+   "id": "word:day",
+   "dur": 0.555
+  },
+  {
+   "t": 27.265,
+   "kind": "slate",
+   "id": "flash+beep"
+  }
+ ]
+}

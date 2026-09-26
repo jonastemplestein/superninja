@@ -13,12 +13,18 @@
 // who knows a lot sees the ninja light up, power up at 3, 6 and 10 in a row, and fly. Moving up a stage gets a cheer.
 // The first miss ends placement: the ninja has a little think, then a big celebration of how far they got (the glow
 // stays on for it, and there is no "Keep going!", because this is where Sensei says they're done).
+// Navigation (docs/NAVIGATION.md §5.A): Hear it again is the nav row's speaker (the question; on the first round the
+// introduction too), with the round's sound picture beside it (docs/NAVIGATION.md §4) in the sound, gap and find-all
+// rounds. The end ("how far you got": one bead per stage, the passed ones gold) holds on Next before the map. Home goes to
+// the map; the child's place only changes when the quiz ends.
 import { useEffect, useRef, useState } from "react";
 import { WORDS, UNITS, GRAPHEMES, type Word, type PhonemeId } from "../content/phonics";
-import { say, sfx, playMusic, preload, urls } from "../engine/audio";
+import { say, sfx, playMusic, preload, urls, type Say } from "../engine/audio";
 import { shuffle, pick } from "../engine/learner";
 import { img, fx, sleep, tapProps, SenseiDock, useHelp, Tile } from "../ui/ui";
 import { NinjaSpot, ninja } from "../ui/Ninja";
+import { useNav, holdNext } from "../ui/nav";
+import "../styles/nav-A.css";
 import { streak, tierLineId } from "../engine/streak";
 import { powerBeat } from "./Training";
 import "../styles/shell.css";
@@ -117,8 +123,14 @@ const blendFont = (opts: Word[]) => {
   return n <= 3 ? 80 : n === 4 ? 68 : n === 5 ? 58 : 50;
 };
 
-export function Placement({ onDone }: { onDone: () => void }) {
+/** The sound a round asks about (the sound picture beside Hear it again); none for reading and spelling words. */
+const soundOf = (r: Round): PhonemeId | null => (r.kind === "sound" || r.kind === "findall" ? r.p : r.kind === "gap" ? r.answer.segs[r.slot].p : null);
+
+export function Placement({ onDone, onHome }: { onDone: () => void; onHome?: () => void }) {
   const [phase, setPhase] = useState<"play" | "done">("play");
+  const [lit, setLit] = useState(0); // stages passed, shown at the end
+  const [doneLine, setDoneLine] = useState("place_done");
+  const alive = useRef(true);
   const [stage, setStage] = useState(0);
   const [round, setRound] = useState<Round>(() => STAGES[0].make());
   const [picked, setPicked] = useState<string[]>([]);
@@ -128,28 +140,38 @@ export function Placement({ onDone }: { onDone: () => void }) {
   const busy = useRef(false);
 
   useEffect(() => {
+    alive.current = true;
     streak.reset(); // a fresh streak: no flames carried over from training
     playMusic("dojo");
     void (async () => {
       await say({ line: "place_intro" });
       await ask();
     })();
+    return () => void (alive.current = false);
   }, []);
 
-  const ask = (r = round) => {
-    if (r.kind === "sound") return say([{ line: "place_sound" }, { gap: 450 }, { sound: r.p }]);
+  const question = (r: Round): Say[] => {
+    if (r.kind === "sound") return [{ line: "place_sound" }, { gap: 450 }, { sound: r.p }];
     if (r.kind === "blend") {
       preload([urls.word(r.answer.text)]);
-      return say([{ line: "place_tap" }, { gap: 450 }, { word: r.answer.text }]);
+      return [{ line: "place_tap" }, { gap: 450 }, { word: r.answer.text }];
     }
-    if (r.kind === "spell") return say([{ line: "place_spell" }, { gap: 450 }, { word: r.answer.text }]);
-    if (r.kind === "gap") return say([{ line: "place_gap" }, { gap: 300 }, { sound: r.answer.segs[r.slot].p }, { gap: 300 }, { line: "place_gap_in" }, { gap: 250 }, { word: r.answer.text }]);
-    return say([{ line: "place_findall" }, { gap: 400 }, { sound: r.p }]);
+    if (r.kind === "spell") return [{ line: "place_spell" }, { gap: 450 }, { word: r.answer.text }];
+    if (r.kind === "gap") return [{ line: "place_gap" }, { gap: 300 }, { sound: r.answer.segs[r.slot].p }, { gap: 300 }, { line: "place_gap_in" }, { gap: 250 }, { word: r.answer.text }];
+    return [{ line: "place_findall" }, { gap: 400 }, { sound: r.p }];
   };
-  useHelp(() => ask(), [phase, round]);
+  const ask = (r = round) => say(question(r));
+  /** Hear it again: the question (on the very first round, "Let's see what you know! Just have a go." first). */
+  const again = () => say(stage === 0 && done.current === 0 ? [{ line: "place_intro" }, { gap: 300 }, ...question(round)] : question(round));
+  useHelp(() => (phase === "play" ? ask() : say({ line: doneLine })), [phase, round]);
+  // Home (none given: App's Home rule, the map); Hear it again with the round's sound picture beside it
+  useNav({ home: onHome, again: phase === "play" ? again : () => say({ line: doneLine }), sound: phase === "play" ? soundOf(round) : null });
 
-  const finish = async (unit: number) => {
+  const finish = async (unit: number, stagesPassed: number) => {
     setPhase("done");
+    setLit(stagesPassed);
+    const line = unit > 0 ? "place_done" : "place_new";
+    setDoneLine(line);
     const was = frontier();
     placeAtUnit(unit);
     const now = frontier();
@@ -157,8 +179,10 @@ export function Placement({ onDone }: { onDone: () => void }) {
     else logAdjust("Checked the starting point: stayed where they were");
     sfx.fanfare();
     fx.rain("confetti", 70);
-    await Promise.all([say({ line: unit > 0 ? "place_done" : "place_new" }), ninja.celebrate()]);
-    onDone();
+    await Promise.all([say({ line }), ninja.celebrate()]);
+    if (!alive.current) return;
+    // the celebration holds on Next (Hear it again says it again), then the map
+    if (await holdNext("place-done", () => say({ line }))) onDone();
   };
 
   /** A right round: the ninja strikes the answer (the tile, word or picture they got right, or the word they built),
@@ -178,7 +202,7 @@ export function Placement({ onDone }: { onDone: () => void }) {
     if (done.current >= STAGES[stage].rounds) {
       passed.current = STAGES[stage].unit;
       done.current = 0;
-      if (stage + 1 >= STAGES.length) return finish(passed.current);
+      if (stage + 1 >= STAGES.length) return finish(passed.current, STAGES.length);
       st = stage + 1;
       setStage(st);
       // a new, harder stage: a happy cheer as Sensei says so
@@ -199,7 +223,7 @@ export function Placement({ onDone }: { onDone: () => void }) {
     // then the celebration of how far they got (still glowing, if they earned it)
     void ninja.act("think");
     await sleep(700);
-    finish(passed.current);
+    finish(passed.current, stage);
   };
 
   const built = useRef<HTMLDivElement>(null); // the spelling slots / the gapped word: what the ninja strikes when it's done
@@ -331,12 +355,15 @@ export function Placement({ onDone }: { onDone: () => void }) {
               </div>
             )}
           </div>
-          <div style={{ position: "absolute", left: 720, bottom: 26, translate: "-50% 0" }}>
-            <button className="btn-round" aria-label="Hear it again" {...tapProps(() => ask())}>
-              <svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" strokeWidth={7} strokeLinejoin="round" d="M10 25h10l13-11v36L20 39H10z" /><path fill="none" stroke="#2b1d14" strokeWidth={7} strokeLinecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34" /></svg>
-            </button>
-          </div>
         </>
+      )}
+      {phase === "done" && lit > 0 && (
+        // how far they got: one bead per stage, the ones passed lit gold (none at all: just the celebration)
+        <div className="pl-beads" aria-hidden="true">
+          {STAGES.map((_, i) => (
+            <span key={i} className={`pl-bead ${i < lit ? "on" : ""}`} style={{ animationDelay: `${0.1 + i * 0.08}s` }} />
+          ))}
+        </div>
       )}
       <SenseiDock />
     </div>

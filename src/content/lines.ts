@@ -553,6 +553,10 @@ export const LINES: Line[] = [
   s("r2_dog_fish", "Dog fish!"),
   s("r2_gems_more", "Look, these gems have filled a little more."),
 
+  // --- Navigation (docs/NAVIGATION.md §3.2): the idle nudge at a held Next arrow, 16 s after a step has finished (and
+  // Help's second press on a held step). One whole recording, never spliced. Owned by src/ui/nav.tsx; edit only this block.
+  s("nav_ready", "Tap the arrow when you're ready!"),
+
   // --- Baron Muddle
   b("baron_taunt_1", "Mwa-ha-ha... I hid THAT sound very well, little ninja."),
   b("baron_taunt_2", "Muddle... muddle... muddle. Your sounds belong to ME now!"),

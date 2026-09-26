@@ -1,0 +1,746 @@
+{
+ "choose": [
+  {
+   "t": 1790463727783,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "training": [
+  {
+   "t": 1790463727787,
+   "kind": "tap",
+   "nav": "again"
+  },
+  {
+   "t": 1790463728093,
+   "kind": "tap",
+   "nav": "again"
+  },
+  {
+   "t": 1790463728399,
+   "kind": "tap",
+   "nav": "again"
+  }
+ ],
+ "optin": [
+  {
+   "t": 1790463727179,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463728868,
+   "kind": "step",
+   "id": "optin-confirm",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463729009,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463729009,
+   "kind": "step",
+   "id": "optin-confirm",
+   "from": 0,
+   "to": null
+  }
+ ],
+ "reward": [
+  {
+   "t": 1790463731816,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "reward-stickers": [
+  {
+   "t": 1790463734870,
+   "kind": "step",
+   "id": "stickers-intro",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463735176,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463735176,
+   "kind": "step",
+   "id": "stickers-intro",
+   "from": 0,
+   "to": null
+  }
+ ],
+ "intro": [
+  {
+   "t": 1790463726484,
+   "kind": "step",
+   "id": "film",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463728094,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463728094,
+   "kind": "step",
+   "id": "film",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 1790463729614,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463729614,
+   "kind": "step",
+   "id": "film",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "t": 1790463731435,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463731435,
+   "kind": "step",
+   "id": "film",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "t": 1790463733566,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463733566,
+   "kind": "step",
+   "id": "film",
+   "from": 3,
+   "to": 4
+  },
+  {
+   "t": 1790463734781,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463734781,
+   "kind": "step",
+   "id": "film",
+   "from": 4,
+   "to": 5
+  },
+  {
+   "t": 1790463735999,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463735999,
+   "kind": "step",
+   "id": "film",
+   "from": 5,
+   "to": 6
+  },
+  {
+   "t": 1790463737521,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463737522,
+   "kind": "step",
+   "id": "film",
+   "from": 6,
+   "to": 7
+  },
+  {
+   "t": 1790463738739,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463738739,
+   "kind": "step",
+   "id": "film",
+   "from": 7,
+   "to": null
+  }
+ ],
+ "w1-14": [
+  {
+   "t": 1790463726456,
+   "kind": "step",
+   "id": "story-title",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463727782,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463727782,
+   "kind": "step",
+   "id": "story-title",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 1790463727782,
+   "kind": "step",
+   "id": "story",
+   "from": null,
+   "to": 0,
+   "via": "next"
+  },
+  {
+   "t": 1790463730523,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463730523,
+   "kind": "step",
+   "id": "story",
+   "from": 0,
+   "to": 1,
+   "via": "next"
+  },
+  {
+   "t": 1790463731495,
+   "kind": "step",
+   "id": "story",
+   "from": 1,
+   "to": 2,
+   "via": "read"
+  },
+  {
+   "t": 1790463733571,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463733571,
+   "kind": "step",
+   "id": "story",
+   "from": 2,
+   "to": 3,
+   "via": "next"
+  },
+  {
+   "t": 1790463734870,
+   "kind": "step",
+   "id": "story",
+   "from": 3,
+   "to": 4,
+   "via": "read"
+  },
+  {
+   "t": 1790463737321,
+   "kind": "step",
+   "id": "story",
+   "from": 4,
+   "to": 7,
+   "via": "pick"
+  },
+  {
+   "t": 1790463738263,
+   "kind": "step",
+   "id": "story",
+   "from": 7,
+   "to": 8,
+   "via": "read"
+  },
+  {
+   "t": 1790463740606,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463740606,
+   "kind": "step",
+   "id": "story",
+   "from": 8,
+   "to": 9,
+   "via": "next"
+  },
+  {
+   "t": 1790463741118,
+   "kind": "step",
+   "id": "story",
+   "from": 9,
+   "to": null,
+   "via": "answer"
+  }
+ ],
+ "flower-intro": [
+  {
+   "t": 1790463734015,
+   "kind": "step",
+   "id": "flower-intro",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463735268,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463735268,
+   "kind": "step",
+   "id": "flower-intro",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 1790463736796,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463736796,
+   "kind": "step",
+   "id": "flower-intro",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "t": 1790463738323,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463738323,
+   "kind": "step",
+   "id": "flower-intro",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "t": 1790463739547,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463739547,
+   "kind": "step",
+   "id": "flower-intro",
+   "from": 3,
+   "to": 4
+  },
+  {
+   "t": 1790463740770,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463740770,
+   "kind": "step",
+   "id": "flower-intro",
+   "from": 4,
+   "to": 5
+  },
+  {
+   "t": 1790463742297,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463742297,
+   "kind": "step",
+   "id": "flower-intro",
+   "from": 5,
+   "to": null
+  }
+ ],
+ "w2-7": [
+  {
+   "t": 1790463729941,
+   "kind": "step",
+   "id": "story-title",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463731192,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463731192,
+   "kind": "step",
+   "id": "story-title",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 1790463731192,
+   "kind": "step",
+   "id": "story",
+   "from": null,
+   "to": 0,
+   "via": "next"
+  },
+  {
+   "t": 1790463733938,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463733938,
+   "kind": "step",
+   "id": "story",
+   "from": 0,
+   "to": 1,
+   "via": "next"
+  },
+  {
+   "t": 1790463735623,
+   "kind": "step",
+   "id": "story",
+   "from": 1,
+   "to": 2,
+   "via": "read"
+  },
+  {
+   "t": 1790463737310,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463737310,
+   "kind": "step",
+   "id": "story",
+   "from": 2,
+   "to": 3,
+   "via": "next"
+  },
+  {
+   "t": 1790463739295,
+   "kind": "step",
+   "id": "story",
+   "from": 3,
+   "to": 6,
+   "via": "pick"
+  },
+  {
+   "t": 1790463740829,
+   "kind": "step",
+   "id": "story",
+   "from": 6,
+   "to": 7,
+   "via": "read"
+  },
+  {
+   "t": 1790463741639,
+   "kind": "step",
+   "id": "story",
+   "from": 7,
+   "to": 8,
+   "via": "read"
+  },
+  {
+   "t": 1790463744338,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463744339,
+   "kind": "step",
+   "id": "story",
+   "from": 8,
+   "to": 9,
+   "via": "next"
+  },
+  {
+   "t": 1790463744852,
+   "kind": "step",
+   "id": "story",
+   "from": 9,
+   "to": null,
+   "via": "answer"
+  }
+ ],
+ "trip-world": [
+  {
+   "t": 1790463740909,
+   "kind": "step",
+   "id": "world-visit",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463741563,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463741563,
+   "kind": "step",
+   "id": "world-visit",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 1790463742495,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463742495,
+   "kind": "step",
+   "id": "world-visit",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "t": 1790463744036,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463744036,
+   "kind": "step",
+   "id": "world-visit",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "t": 1790463745275,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463745275,
+   "kind": "step",
+   "id": "world-visit",
+   "from": 3,
+   "to": null
+  },
+  {
+   "t": 1790463745586,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "trip-found": [
+  {
+   "t": 1790463737376,
+   "kind": "step",
+   "id": "gem-found",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463738996,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463738996,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 1790463741468,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463741468,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "t": 1790463743316,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463743316,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "t": 1790463746087,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463746087,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 3,
+   "to": 4
+  },
+  {
+   "t": 1790463747023,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463747023,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 4,
+   "to": null
+  },
+  {
+   "t": 1790463747347,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "finale": [
+  {
+   "t": 1790463744476,
+   "kind": "step",
+   "id": "finale",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463746656,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463746656,
+   "kind": "step",
+   "id": "finale",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 1790463749094,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463749094,
+   "kind": "step",
+   "id": "finale",
+   "from": 1,
+   "to": null
+  }
+ ],
+ "trip-victory": [
+  {
+   "t": 1790463744025,
+   "kind": "step",
+   "id": "gem-victory",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463746193,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463746193,
+   "kind": "step",
+   "id": "gem-victory",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 1790463747116,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463747116,
+   "kind": "step",
+   "id": "gem-victory",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "t": 1790463749860,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463749860,
+   "kind": "step",
+   "id": "gem-victory",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "t": 1790463750781,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463750781,
+   "kind": "step",
+   "id": "gem-victory",
+   "from": 3,
+   "to": 4
+  },
+  {
+   "t": 1790463752015,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463752015,
+   "kind": "step",
+   "id": "gem-victory",
+   "from": 4,
+   "to": null
+  },
+  {
+   "t": 1790463752325,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "w1-9": [
+  {
+   "t": 1790463734410,
+   "kind": "step",
+   "id": "gem-energy",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1790463734486,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1790463734486,
+   "kind": "step",
+   "id": "gem-energy",
+   "from": 0,
+   "to": null
+  }
+ ]
+}

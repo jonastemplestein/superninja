@@ -13,7 +13,11 @@
 // streak tier gets its own short beat in place of the praise, so its line is heard in full and never over teaching.
 // Sound order: a word Sensei models ("nest starts with /n/") always comes after the move has landed, so no impact
 // sound falls on it; praise and a letter's sound run alongside the (quiet) moves, which never make the child wait.
-import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+// Navigation (docs/NAVIGATION.md): Home is the nav layer's (useHome); every turn has Hear it again (the speaker in the
+// nav row, dim while Sensei is still talking), the sound picture for a sound game, and, after an I do, Show me again
+// (the paw), which plays the demo again and never answers. Nothing here moves on by itself: the demos lead straight
+// into the child's turn, which waits for an answer; idle help glows, asks again and points, but never answers.
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import type { LevelProps } from "../App";
 import { WORD_BY_TEXT, WORDS, ORAL_WORDS, GRAPHEMES, PHONEMES, type Word, type PhonemeId } from "../content/phonics";
 import { knownSpellings, worldOf, type Level } from "../content/worlds";
@@ -24,7 +28,7 @@ import { FAST } from "../engine/fast";
 import { shuffle } from "../engine/learner";
 import { recordSpell, recordRead, recordWordSpelt } from "../engine/store";
 import { streak, useStreak, tierOf, streakLine, tierLineSaid, type Tier } from "../engine/streak";
-import { img, heroImg, Tile, RoundButton, Icon, fx, fxDom, stageXY, stageRect, sleep, tapProps, useHelp, useHero, TapHint, WordCard, SenseiDock } from "../ui/ui";
+import { img, heroImg, Tile, fx, fxDom, stageXY, stageRect, sleep, tapProps, useHelp, useHero, TapHint, WordCard, SenseiDock } from "../ui/ui";
 import { NinjaSpot, ninja, type Move, type Pose } from "../ui/Ninja";
 import { pickPraise, listenLead } from "../engine/feedback";
 import { practiceGemOf } from "../engine/gems";
@@ -35,7 +39,10 @@ import { NarrOverlay, beginLevel, explainGemEnergy, heard, isDue, sweepUnder } f
 import { STRETCHED } from "../content/stretch";
 import { PIC_PLATES, PLATE_COLOURS } from "../content/pic-plates.gen";
 import { nextItem, ownWords, paceOf, type Pace, type PaceItem, type PaceTally, type PhaseKind, type PhaseTally } from "../content/pace";
+import { useHome, useNav, useHeld, navAgain, ReplayButton, ShowAgainButton, NAV_SLOTS, slotStyle } from "../ui/nav";
+import { SoundBadge, badgeHeight } from "../ui/SoundBadge";
 import "../styles/early.css";
+import "../styles/nav-C.css";
 
 export type Mode = "ido" | "wedo" | "youdo";
 const x = (w: string): Say => ({ stretch: w });
@@ -689,8 +696,11 @@ export function useLevelAudio() {
     preload(["streak_3", "streak_6", "streak_10", "streak_lost"].filter(hasLine).map(urls.line));
   }, []);
 }
-/** End of the level: the ninja's big finish, then the reward screen (unless the child has gone home meanwhile). */
-export function useFinish(onDone: (stars: number) => void) {
+/** End of the level: the ninja's big finish, then the reward screen (unless the child has gone home meanwhile).
+ *  `closing`: the level's closing line, handed to the reward, whose Hear it again says it first (docs/NAVIGATION.md
+ *  rule 7: the closing line and the reward are one celebration). Today's early levels end on the ninja's celebration
+ *  alone, so they pass none. */
+export function useFinish(onDone: LevelProps["onDone"], closing?: string) {
   const alive = useRef(true);
   useEffect(() => {
     alive.current = true;
@@ -702,8 +712,60 @@ export function useFinish(onDone: (stars: number) => void) {
     for (let t = 0; t < 8 && ninja.busy; t++) await sleep(100);
     if (!alive.current) return;
     await ninja.celebrate();
-    if (alive.current) onDone(n);
+    if (alive.current) onDone(n, closing ? { closing } : undefined);
   };
+}
+
+// ---------------------------------------------------------------- navigation in a turn (docs/NAVIGATION.md §3)
+/**
+ * Hear it again, Show me again and the sound picture for a scene whose script talks between the child's turns (the
+ * picture games, the word builder, the reading check, the warm-ups). The speaker (and the sound picture) are drawn here,
+ * in the nav row's slots (or at `at`), not by the nav layer (`againAt: "own"`), so the speaker can stay put and go dim
+ * while Sensei is still talking: a replay then would only be cut off by her next line. A tap on the dim speaker wiggles
+ * it, as on the dim Next arrow; it turns gold when the child's turn starts (`ready`). The paw is the nav layer's while
+ * the turn waits (`show`), or drawn here at `showAt` (beside a word card, where the letter bank fills the row), dim
+ * while not ready. `hidden`: a hold covers the scene (its own controls are the nav layer's).
+ */
+export function TurnNav({ ready, again, show, showAt, sound, hidden, at, size, noSpeaker }: {
+  ready: boolean;
+  again: (() => Promise<unknown>) | null;
+  show?: (() => Promise<unknown>) | null;
+  showAt?: CSSProperties;
+  sound?: PhonemeId | null;
+  hidden?: boolean;
+  at?: CSSProperties;
+  size?: number;
+  /** the scene's own control is the speaker (a word card with no picture): register Hear it again, draw no speaker */
+  noSpeaker?: boolean;
+}) {
+  const [wig, setWig] = useState<"" | "again" | "show">("");
+  useEffect(() => {
+    if (!wig) return;
+    const t = setTimeout(() => setWig(""), 420);
+    return () => clearTimeout(t);
+  }, [wig]);
+  // (a promise either way, so a tap on a dim control never holds lesson clocks while Sensei talks on)
+  const wiggle = (k: "again" | "show") => (setWig(k), Promise.resolve());
+  const onAgain = () => (ready && again ? again() : wiggle("again"));
+  const onShow = () => (ready && show ? show() : wiggle("show"));
+  useNav({ again: again ? onAgain : null, againAt: "own", sound: sound ?? null, show: ready && show && !showAt ? show : null });
+  const held = useHeld(); // (a hold's own sound picture takes the row's slot meanwhile)
+  if (hidden) return null;
+  const S = NAV_SLOTS.row;
+  return (
+    <>
+      {again && !noSpeaker && (
+        <ReplayButton
+          size={size ?? S.again.d}
+          className={`nav-ctl navc-ctl ${ready ? "" : "navc-dim"} ${wig === "again" ? "navc-wiggle" : ""}`}
+          style={at ?? slotStyle(S.again)}
+          onReplay={onAgain}
+        />
+      )}
+      {show && showAt && <ShowAgainButton size={S.show.d} className={`nav-ctl navc-ctl navc-show ${ready ? "" : "navc-dim"} ${wig === "show" ? "navc-wiggle" : ""}`} style={showAt} onShow={onShow} />}
+      {sound && !held && <SoundBadge key={sound} p={sound} size={S.sound.d} className="nav-ctl pop-in" style={slotStyle(S.sound, S.sound.d, badgeHeight(S.sound.d))} onTap={ready ? undefined : () => sfx.tap()} />}
+    </>
+  );
 }
 
 // ---------------------------------------------------------------- shared bits
@@ -849,8 +911,12 @@ export interface PickItem {
   /** said when a picture first appears (naming) */
   name?: boolean;
   /** the teaching said once it is right ("I can hear map", "apple starts with /a/"), after the ninja's move has landed.
-   *  `held`: a streak tier beat follows it (so it need not linger at the end) */
-  onRight?: (o: { held: boolean }) => Promise<void>;
+   *  `held`: a streak tier beat follows it (so it need not linger at the end). `replay`: Show me again is playing this
+   *  I do item's demo again (say what was said, record nothing); stop when `live()` turns false */
+  onRight?: (o: { held: boolean; replay?: boolean; live?: () => boolean }) => Promise<void>;
+  /** the sound this item is about (the target first sound, the middle sound): its sound picture sits beside Hear it
+   *  again from the question on (docs/NAVIGATION.md §4). Show me again replays the I do of the same sound */
+  sound?: PhonemeId;
   /** praise after onRight too (a first-try answer that starts a new streak tier gets its tier beat instead) */
   praise?: boolean;
   /** tidy up just before the next item (what onRight showed stays up through the praise or tier beat) */
@@ -860,7 +926,8 @@ export interface PickItem {
 
 const pickEl = (id: string) => document.querySelector(`.pick-row [aria-label="${CSS.escape(id)}"]`);
 
-function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, youdo: number) => void; kind: "pic" | "tile"; avoid?: Move[] }) {
+/** `intro`: what the level said before this game began (its introduction): the first item's Hear it again says it too. */
+function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, youdo: number) => void; kind: "pic" | "tile"; avoid?: Move[]; intro?: Say[] }) {
   const pace = usePhasePace("pick");
   const [queue, setQueue] = useState<PickItem[]>(items);
   const [i, setI] = useState(0);
@@ -877,12 +944,30 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
   const [finished, setFinished] = useState(false); // the last answer is in: the board stays up for the finish, but off
   const item = queue[i];
   useReportProgress(i / queue.length);
+  // Hear it again: this item's bundle (the game's introduction on its first turn, the phase line, the naming, the
+  // question), never an older question. The sound picture shows from the question on.
+  const bundle = useRef<Say[]>([]);
+  const introduced = useRef(false);
+  const [soundOn, setSoundOn] = useState(false);
+  // Show me again: the last I do item, while the items are about the same sound; it plays on the board in place of the
+  // turn's pictures (`replay`), then the turn comes back and its question is asked again
+  const demo = useRef<PickItem | null>(null);
+  const [replay, setReplay] = useState<PickItem | null>(null);
+  const replayTok = useRef(0);
+  const replaying = useRef(false);
+  const restore = useRef<(() => void) | null>(null);
+  const alive = useRef(true);
+  useEffect(() => {
+    alive.current = true;
+    return () => void ((alive.current = false), replayTok.current++);
+  }, []);
 
   const prevMode = useRef<Mode | null>(null);
   const present = async (it: PickItem) => {
     setBusy(true);
     setState({});
     setPaw(null);
+    setSoundOn(false);
     misses.current = 0;
     const seq: Say[] = [];
     const before = prevMode.current;
@@ -901,10 +986,15 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
           const article = /^[aeiou]/.test(o) ? (HAS_AN ? "this_is_an" : "this_is") : "this_is_a";
           seq.push(...(whole ? [{ line: whole }] : [{ line: article }, { gap: 80 }, { word: o }]), { gap: 350 });
         }
+    // (the game's introduction joins its first turn: the first item that isn't Sensei's own demo)
+    const head: Say[] = !introduced.current && it.mode !== "ido" && opts.intro?.length ? [...opts.intro, { gap: 400 }] : [];
+    if (it.mode !== "ido") introduced.current = true;
+    bundle.current = [...head, ...seq, ...it.prompt];
     if (seq.length) await say(seq);
     // while the question itself is playing, an eager answer counts: it interrupts Sensei (see choose)
     promptLive.current = it.mode !== "ido";
     answeredEarly.current = false;
+    setSoundOn(true);
     await say(it.prompt);
     promptLive.current = false;
     if (answeredEarly.current) return;
@@ -924,6 +1014,8 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
 
   const choose = async (id: string, auto = false, el?: Element | null) => {
     if (!item || finished) return; // the level is over: the board stays up for the finish, but a tap does nothing
+    // a tap during Show me again stops it and brings the turn back (the board was showing the demo's pictures)
+    if (replaying.current && !auto) return stopReplay();
     if (busy && !auto) {
       if (!promptLive.current) {
         // too early (pictures still being named): show we noticed, and to wait
@@ -957,6 +1049,8 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
       else if (!auto && (!item.onRight || item.praise)) await say({ line: pickPraise() });
       await sleep(300);
       item.after?.();
+      // Sensei's demonstration can be watched again in the turns about the same sound (Show me again)
+      if (auto && item.mode === "ido") demo.current = item;
       // (a child on track skips the extra practice: content/pace.ts)
       const n = pace.next(queue, i + 1);
       if (n < queue.length) setI(n);
@@ -987,11 +1081,19 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
     setBusy(false);
   };
 
-  // idle help in youdo: glow after 8 s
+  // idle help while the child's turn waits (docs/NAVIGATION.md §3.2): 8 s the answer glows and Sensei asks again; 16 s
+  // the paw points at it (it never answers); once more at 30 s; then quiet
   useEffect(() => {
-    if (busy || !item || item.mode !== "youdo") return;
-    const t = setTimeout(() => setState((s) => ({ ...s, [item.answer]: "glow" })), 8000);
-    return () => clearTimeout(t);
+    if (busy || finished || !item || item.mode === "ido") return;
+    const t = [
+      setTimeout(() => {
+        setState((s) => ({ ...s, [item.answer]: "glow" }));
+        void say(item.prompt);
+      }, 8000),
+      setTimeout(() => setPaw(item.answer), 16000),
+      setTimeout(() => void say(item.prompt), 30000),
+    ];
+    return () => t.forEach(clearTimeout);
   }, [busy, i]);
 
   useHelp(
@@ -1003,17 +1105,83 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
     [i],
   );
 
-  return { item, i, total: queue.length, state, paw, choose, waitTap, busy, finished };
+  /** Show me again: the I do item's pictures come back, Sensei asks its question, the paw taps the answer, the ninja
+   *  moves and Sensei teaches it as she did (no stars, no streak); then the turn's pictures come back and its question
+   *  is asked again. A tap on the board meanwhile stops it. */
+  const showItem = !finished && item && item.mode !== "ido" && demo.current && demo.current.sound === item.sound ? demo.current : null;
+  const showAgain = async () => {
+    const d = showItem, cur = item;
+    if (!d || !cur || busy || replaying.current) return;
+    const my = ++replayTok.current;
+    const live = () => my === replayTok.current && alive.current;
+    const saved = state;
+    replaying.current = true;
+    hush();
+    setBusy(true);
+    setPaw(null);
+    setState({});
+    setReplay(d);
+    const back = () => {
+      d.after?.();
+      setReplay(null);
+      setPaw(null);
+      setState(saved);
+      replaying.current = false;
+    };
+    restore.current = back;
+    await sleep(380); // the demo's pictures drop in
+    if (live()) await say(d.prompt);
+    if (live()) {
+      setPaw(d.answer);
+      await sleep(1100);
+    }
+    if (live()) {
+      setPaw(null);
+      setState({ [d.answer]: "right" });
+      sfx.good();
+      const { landed } = rightAnswer(pickEl(d.answer), opts.kind, { first: false, living: opts.kind === "pic" && LIVING.has(d.answer), avoid: opts.avoid, soft: !!d.onRight });
+      if (d.onRight) {
+        await afterLanding(landed);
+        if (live()) await d.onRight({ held: false, replay: true, live });
+      }
+      if (live()) await sleep(500);
+    }
+    if (!live()) return;
+    restore.current = null;
+    back();
+    // the turn again: its question (an eager answer counts, as when it was first asked)
+    await sleep(300);
+    if (!live()) return;
+    promptLive.current = true;
+    answeredEarly.current = false;
+    await say(cur.prompt);
+    promptLive.current = false;
+    if (live() && !answeredEarly.current) setBusy(false);
+  };
+  function stopReplay() {
+    replayTok.current++;
+    hush();
+    restore.current?.();
+    restore.current = null;
+    replaying.current = false;
+    setBusy(false);
+  }
+  const again = () => say(bundle.current);
+
+  return { item, i, total: queue.length, state, paw, choose, waitTap, busy, finished, replay, again, showAgain: showItem ? showAgain : null, sound: soundOn ? item?.sound ?? null : null };
 }
 
 function PickBoard({ game, kind, reveal }: { game: ReturnType<typeof usePickGame>; kind: "pic" | "tile"; reveal?: ReactNode }) {
-  const { item, state, paw, choose } = game;
-  if (!item) return null;
+  const { item: cur, state, paw, choose } = game;
+  if (!cur) return null;
+  // (Show me again plays the I do item on the board, in place of the turn's pictures)
+  const item = game.replay ?? cur;
   const n = item.options.length;
   return (
     <>
-      {/* letters sit a little right of centre (x 430-1090 for three), clear of a long row of streak flames riding a lunge */}
-      <div key={game.i} className={`row pick-row pick-${kind} n${n}`} style={{ position: "absolute", ...(kind === "pic" ? PLAY : { left: 400, right: 160 }), top: kind === "pic" ? 146 : 170, gap: n >= 3 ? 36 : 60, flexWrap: "nowrap" }}>
+      {/* letters sit a little right of centre (x 430-1090 for three), clear of a long row of streak flames riding a lunge;
+          pictures sit high enough for their spelling's lines to stay clear of the nav row (y 564 on) */}
+      <div key={game.replay ? `r${game.i}` : game.i} className={`row pick-row pick-${kind} n${n}`} style={{ position: "absolute", ...(kind === "pic" ? PLAY : { left: 400, right: 160 }), top: kind === "pic" ? 128 : 170, gap: n >= 3 ? 36 : 60, flexWrap: "nowrap" }}>
         {item.options.map((o, k) => (
           <div key={o} style={{ position: "relative", animationDelay: `${k * 0.08}s` }} className="drop-in">
             {kind === "pic" ? (
@@ -1026,11 +1194,7 @@ function PickBoard({ game, kind, reveal }: { game: ReturnType<typeof usePickGame
         ))}
       </div>
       {reveal}
-      {!game.finished && (
-        <div style={{ position: "absolute", left: PLAY_CX, bottom: 26, translate: "-50% 0" }}>
-          <RoundButton label="Hear it again" onClick={() => say(item.prompt)}><Icon.speaker /></RoundButton>
-        </div>
-      )}
+      <TurnNav ready={!game.busy && !game.finished} again={game.again} show={game.showAgain} sound={game.sound} hidden={game.finished} />
     </>
   );
 }
@@ -1045,8 +1209,9 @@ const RevealAt = ({ word, show, x }: { word: Word | null; show: number[]; x: num
   const lw = n >= 4 ? 124 : 140, gap = n >= 4 ? 12 : 18;
   const w = n * lw + (n - 1) * gap;
   const left = Math.max(380, Math.min(1090 - w, x - w / 2)); // clear of the ninja and the Help corner
+  // (its lines end at y 542, above the nav row's speaker and sound picture: navc-reveal in nav-C.css)
   return (
-    <div className={n >= 4 ? "reveal-narrow" : ""} style={{ position: "absolute", left, width: w, top: 448, pointerEvents: "none" }}>
+    <div className={`navc-reveal ${n >= 4 ? "reveal-narrow" : ""}`} style={{ position: "absolute", left, width: w, top: 404, pointerEvents: "none" }}>
       <SoundLines word={word} show={show} />
     </div>
   );
@@ -1081,6 +1246,7 @@ export function ListenLevel({ level, onDone, onQuit }: LevelProps) {
   const [started, setStarted] = useState(false);
   const finish = useFinish(onDone);
   useLevelAudio();
+  useHome(onQuit);
   useEffect(() => {
     preload(items.flatMap((it) => [urls.word(it.answer), `/a/x/${it.answer}.mp3`]));
     (async () => {
@@ -1092,8 +1258,7 @@ export function ListenLevel({ level, onDone, onQuit }: LevelProps) {
   // one Frame for the whole level, so the ninja (and its streak) stays put from the intro to the finish
   return (
     <Frame level={level} range={[0, 1]}>
-      <div className="topbar"><RoundButton sm label="map" onClick={onQuit}><Icon.home /></RoundButton></div>
-      {started && <PickInner items={items} kind="pic" onFinish={(f, y) => finish(stars(f, y))} />}
+      {started && <PickInner items={items} kind="pic" intro={[{ line: "listen_intro" }]} onFinish={(f, y) => finish(stars(f, y))} />}
     </Frame>
   );
 }
@@ -1111,6 +1276,8 @@ export function FirstSoundLevel(props: LevelProps) {
   const [revealShow, setRevealShow] = useState<number[]>([]);
   const [revealX, setRevealX] = useState(PLAY_CX);
   const introduced = useRef(new Set<string>());
+  /** the picture for which "We hear the sound. Now look: this is how we spell it." was said (Show me again says it again) */
+  const hearSeeFor = useRef<string | null>(null);
   const foils = ["dog", "bus", "cup", "hat", "hen", "jam", "bed", "fox", "web", "zip", "van", "cat", "pig", "fan"];
   const items = useRef<PickItem[]>(
     (() => {
@@ -1137,10 +1304,10 @@ export function FirstSoundLevel(props: LevelProps) {
         return (d.last = d.left.shift()!);
       };
       const mk = (mode: Mode, p: PhonemeId, answer: string, other: string, optional?: boolean): PickItem => ({
-        mode, optional, answer, options: shuffle([answer, other]),
+        mode, optional, answer, options: shuffle([answer, other]), sound: p,
         prompt: [{ line: "first_q" }, { gap: 300 }, { sound: p }],
         listenAgain: [{ line: "listen_again" }, { gap: 150 }, STRETCHED.has(answer) ? x(answer) : { word: answer }, { gap: 250 }, { line: "first_q" }, { gap: 200 }, { sound: p }],
-        onRight: async ({ held }) => {
+        onRight: async ({ held, replay, live = () => true }) => {
           const g = teach[sounds.indexOf(p)];
           // picture-only words (apple, astronaut…) have no spelling data: show just the first sound's spelling
           const w = WORD_BY_TEXT[answer] ?? ({ text: answer, segs: [{ g, p }] } as unknown as Word);
@@ -1149,14 +1316,16 @@ export function FirstSoundLevel(props: LevelProps) {
           setRevealShow([]);
           // "Mop starts with..." [/m/]: the word and its lead-in are one recording (only the pure sound is joined)
           await say(HAS_LINE(`fs_${answer}`) ? [{ line: `fs_${answer}` }, { gap: 120 }, { sound: p }] : [{ word: answer }, { gap: 100 }, { line: "starts_with" }, { gap: 100 }, { sound: p }]);
+          if (!live()) return;
           if (!introduced.current.has(g) || mode !== "youdo") {
             introduced.current.add(g);
             // the ninja's spell writes the spelling on its line while Sensei says how we spell it. The very first
             // spelling a child sees says what a spelling is (NARRATIVE_AUDIT F11): we hear a sound, we see its spelling
-            const written = castSpelling(0, () => setRevealShow([0]));
-            const hearSee = isDue("hear-see:w1", "once");
+            const written = castSpelling(0, () => live() && setRevealShow([0]));
+            const hearSee = replay ? hearSeeFor.current === answer : isDue("hear-see:w1", "once");
+            if (hearSee && !replay) hearSeeFor.current = answer;
             const ok = await say([{ line: hearSee ? "audit_hear_see" : "how_we_spell" }, { gap: 150 }, { sound: p }]);
-            if (ok && hearSee) heard("hear-see:w1");
+            if (ok && hearSee && !replay) heard("hear-see:w1");
             await written;
           } else {
             // a spelling the child has met: it simply appears, and stays a moment to be seen (a tier beat is that moment)
@@ -1194,7 +1363,7 @@ export function FirstSoundLevel(props: LevelProps) {
         const g = teach[k % teach.length];
         const n = teach.length > 1 ? 2 : 2;
         const opts = shuffle([g, ...shuffle(pool.filter((o) => o !== g)).slice(0, n - 1 + (k > 1 && pool.length > 2 ? 1 : 0))]);
-        out.push({ mode: "youdo", optional: k >= 2, answer: g, options: opts, prompt: [{ line: "find_q" }, { gap: 300 }, { sound: soundOf(g) }], listenAgain: [{ line: "listen_again" }, { gap: 150 }, { sound: soundOf(g) }] });
+        out.push({ mode: "youdo", optional: k >= 2, answer: g, options: opts, sound: soundOf(g), prompt: [{ line: "find_q" }, { gap: 300 }, { sound: soundOf(g) }], listenAgain: [{ line: "listen_again" }, { gap: 150 }, { sound: soundOf(g) }] });
       }
       return out;
     })(),
@@ -1203,6 +1372,7 @@ export function FirstSoundLevel(props: LevelProps) {
   // the intro is the only explanation of the game a non-reader gets: it is said in full before the first pictures come
   const [started, setStarted] = useState(false);
   useLevelAudio();
+  useHome(props.onQuit);
   useEffect(() => {
     say({ line: "first_intro" }).then(() => setStarted(true));
     return () => hush();
@@ -1216,9 +1386,8 @@ export function FirstSoundLevel(props: LevelProps) {
 
   return (
     <Frame level={level} range={phase === "first" ? [0, 0.5] : phase === "find" ? [0.5, 0.75] : [0.75, 1]}>
-      <div className="topbar"><RoundButton sm label="map" onClick={props.onQuit}><Icon.home /></RoundButton></div>
       {phase === "first" && started && (
-        <PickInner items={items} kind="pic" avoid={NO_SPELL} onFinish={(f, y) => { tally(f, y); setPhase("find"); }} reveal={<RevealAt word={revealWord} show={revealShow} x={revealX} />} />
+        <PickInner items={items} kind="pic" avoid={NO_SPELL} intro={[{ line: "first_intro" }]} onFinish={(f, y) => { tally(f, y); setPhase("find"); }} reveal={<RevealAt word={revealWord} show={revealShow} x={revealX} />} />
       )}
       {phase === "find" && <PickInner items={findItems} kind="tile" onFinish={(f, y) => { tally(f, y); level.words?.length ? setPhase("build") : finishAll(); }} />}
       {phase === "build" && <BuildSequence level={level} words={level.words!} onFinish={(f, y) => { tally(f, y); finishAll(); }} />}
@@ -1226,9 +1395,10 @@ export function FirstSoundLevel(props: LevelProps) {
   );
 }
 
-/** `avoid`: moves the ninja leaves out here (a spell, when the spelling then appears by a spell). */
-function PickInner({ items, kind, onFinish, reveal, avoid }: { items: PickItem[]; kind: "pic" | "tile"; onFinish: (f: number, y: number) => void; reveal?: ReactNode; avoid?: Move[] }) {
-  const game = usePickGame(items, { kind, onFinish, avoid });
+/** `avoid`: moves the ninja leaves out here (a spell, when the spelling then appears by a spell). `intro`: the level's
+ *  introduction, said just before (the first item's Hear it again says it again). */
+function PickInner({ items, kind, onFinish, reveal, avoid, intro }: { items: PickItem[]; kind: "pic" | "tile"; onFinish: (f: number, y: number) => void; reveal?: ReactNode; avoid?: Move[]; intro?: Say[] }) {
+  const game = usePickGame(items, { kind, onFinish, avoid, intro });
   (window as any).__snState = { scene: "pick", next: game.item?.answer, busy: game.busy };
   return <PickBoard game={game} kind={kind} reveal={reveal} />;
 }
@@ -1258,19 +1428,20 @@ export function SoundHuntLevel(props: LevelProps) {
       // extra practice a child on track skips (content/pace.ts): the second "together" and all but the first alone
       // (I do, we do, you do: as each sound in the first-sound game)
       optional: k === 2 || k >= 4,
-      answer: ans, options: shuffle([ans, other]),
+      answer: ans, options: shuffle([ans, other]), sound: p,
       prompt: [{ line: "hunt_q" }, { gap: 250 }, { sound: p }, { gap: 350 }, x(ans), { gap: 350 }, x(other)],
       listenAgain: [{ line: "listen_again" }, { gap: 150 }, x(ans), { gap: 300 }, x(other)],
-      onRight: async ({ held }) => {
+      onRight: async ({ held, live = () => true }) => {
         const w = WORD_BY_TEXT[ans];
         setRevealWord(w);
         setRevealX(picX(ans));
         setRevealShow([]);
         // "Pin has this sound in the middle..." [/i/], in one recording up to the pure sound
         await say(HAS_LINE(`mid_${ans}`) ? [{ line: `mid_${ans}` }, { gap: 120 }, { sound: p }] : [{ word: ans }, { gap: 100 }, { line: "has_in_middle" }, { gap: 100 }, { sound: p }]);
+        if (!live()) return;
         const at = w.segs.findIndex((s, i) => i > 0 && s.p === p);
         if (k < 3) {
-          const written = castSpelling(at, () => setRevealShow([at]));
+          const written = castSpelling(at, () => live() && setRevealShow([at]));
           await say([{ line: "how_we_spell" }, { gap: 150 }, { sound: p }]);
           await written;
         } else {
@@ -1282,11 +1453,14 @@ export function SoundHuntLevel(props: LevelProps) {
     })),
   ).current;
   const [started, setStarted] = useState(false);
+  const intro = useRef<Say[]>([{ line: "hunt_intro" }]);
   useLevelAudio();
+  useHome(props.onQuit);
   useEffect(() => {
     // what "the middle" means, before the first hunt and once more a level later (NARRATIVE_AUDIT F09)
     const middle = isDue("place:middle", "twice");
-    say([{ line: "hunt_intro" }, ...(middle ? [{ gap: 300 }, { line: "audit_middle_place" }] : [])]).then((ok) => {
+    intro.current = [{ line: "hunt_intro" }, ...(middle ? [{ gap: 300 }, { line: "audit_middle_place" }] : [])];
+    say(intro.current).then((ok) => {
       if (ok && middle) heard("place:middle");
       setStarted(true);
     });
@@ -1297,9 +1471,8 @@ export function SoundHuntLevel(props: LevelProps) {
   const finishAll = () => finish(stars(first.current, youdo.current));
   return (
     <Frame level={level} range={phase === "hunt" ? [0, 0.4] : phase === "build" ? [0.4, 0.8] : [0.8, 1]}>
-      <div className="topbar"><RoundButton sm label="map" onClick={props.onQuit}><Icon.home /></RoundButton></div>
       {phase === "hunt" && started && (
-        <PickInner items={items} kind="pic" avoid={NO_SPELL} onFinish={(f, y) => { tally(f, y); setPhase(level.words?.length ? "build" : "read"); }} reveal={<RevealAt word={revealWord} show={revealShow} x={revealX} />} />
+        <PickInner items={items} kind="pic" avoid={NO_SPELL} intro={intro.current} onFinish={(f, y) => { tally(f, y); setPhase(level.words?.length ? "build" : "read"); }} reveal={<RevealAt word={revealWord} show={revealShow} x={revealX} />} />
       )}
       {phase === "build" && <BuildSequence level={level} words={level.words!} onFinish={(f, y) => { tally(f, y); level.read?.length ? setPhase("read") : finishAll(); }} />}
       {phase === "read" && level.read && <ReadCheck pairs={level.read} onFinish={(f, y) => { tally(f, y); finishAll(); }} />}
@@ -1315,11 +1488,11 @@ export function EarlyDojo(props: LevelProps) {
   const youdo = useRef(0);
   const finish = useFinish(props.onDone);
   useLevelAudio();
+  useHome(props.onQuit);
   useEffect(() => () => hush(), []);
   const tally = (f: number, y: number) => ((first.current += f), (youdo.current += y));
   return (
     <Frame level={level} range={phase === "build" ? [0, 0.7] : [0.7, 1]}>
-      <div className="topbar"><RoundButton sm label="map" onClick={props.onQuit}><Icon.home /></RoundButton></div>
       {phase === "build" && <BuildSequence level={level} words={level.words!} intro onFinish={(f, y) => { tally(f, y); level.read?.length ? setPhase("read") : finish(stars(first.current, youdo.current)); }} />}
       {phase === "read" && level.read && <ReadCheck pairs={level.read} onFinish={(f, y) => { tally(f, y); finish(stars(first.current, youdo.current)); }} />}
     </Frame>
@@ -1327,7 +1500,11 @@ export function EarlyDojo(props: LevelProps) {
 }
 
 interface BuildItem { word: Word; mode: Mode; extra: number; optional?: boolean }
-/** Word building with gradual release: I do the first word, we do the next two, then you do. */
+/** What Show me again plays in a turn on the I do's word: the I do itself, with what led into it (the dojo's
+ *  introduction and "This word has two sounds!" when they were said, "Ninjas read this way!" when it was). */
+interface BuildDemo { pre: Say[]; leftRight: boolean }
+/** Word building with gradual release: I do the first word, we do the next two, then you do. The I do is a show that
+ *  leads straight into the we do turn on the same word, where Show me again plays it again. */
 export function BuildSequence({ level, words, onFinish, intro }: { level: Level; words: string[]; onFinish: (f: number, y: number) => void; intro?: boolean }) {
   const seq = useRef<BuildItem[]>(
     (() => {
@@ -1349,28 +1526,37 @@ export function BuildSequence({ level, words, onFinish, intro }: { level: Level;
   const youdo = useRef(0);
   const pace = usePhasePace("build", !!level.read?.length);
   const prev = useRef<Mode | null>(null);
+  const demo = useRef<BuildDemo>({ pre: [], leftRight: false });
   useReportProgress(Math.max(0, k) / seq.length);
   useEffect(() => {
     (async () => {
       // the dojo, the first time a child comes to one (NARRATIVE_AUDIT F08; it counts as the Dojo's first welcome)
       if (intro && isDue("dojo:first", "once")) {
+        demo.current.pre.push({ line: "audit_dojo_first" }, { gap: 300 });
         if (await say([{ line: "audit_dojo_first" }, { gap: 300 }])) {
           heard("dojo:first");
           heard("dojo:welcome");
         }
       }
-      if (intro) await say({ line: seq[0].word.segs.length === 2 ? "two_sounds" : "three_sounds" });
+      if (intro) {
+        const l = seq[0].word.segs.length === 2 ? "two_sounds" : "three_sounds";
+        demo.current.pre.push({ line: l }, { gap: 300 });
+        await say({ line: l });
+      }
       setK(0);
     })();
   }, []);
   if (k < 0) return null;
   const it = seq[k];
+  const idoWord = seq[0].mode === "ido" ? seq[0].word : null;
   return (
     <BuildOne
       key={k}
       level={level}
       item={it}
       announce={prev.current !== it.mode ? it.mode : null}
+      demo={it.mode !== "ido" && it.word === idoWord ? demo.current : null}
+      onLeftRight={() => void (demo.current.leftRight = true)}
       onDone={(firstTry) => {
         prev.current = it.mode;
         if (it.mode === "youdo") {
@@ -1387,7 +1573,10 @@ export function BuildSequence({ level, words, onFinish, intro }: { level: Level;
   );
 }
 
-function BuildOne({ level, item, announce, onDone }: { level: Level; item: BuildItem; announce: Mode | null; onDone: (firstTry: boolean) => void }) {
+/** `demo`: this turn is on the I do's word, so Show me again (the paw, left of the word card) plays the I do again:
+ *  the child's letters leave their slots, Sensei builds the word and reads it, then the child's letters come back and
+ *  the slot is asked again. `onLeftRight`: the I do said "Ninjas read this way!" (its replays say it too). */
+function BuildOne({ level, item, announce, onDone, demo, onLeftRight }: { level: Level; item: BuildItem; announce: Mode | null; onDone: (firstTry: boolean) => void; demo?: BuildDemo | null; onLeftRight?: () => void }) {
   const { word, mode, extra } = item;
   const known = [...knownSpellings(level)];
   const need = word.segs.map((s) => s.g);
@@ -1396,6 +1585,8 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
   const [taken, setTaken] = useState<number[]>([]);
   const takenRef = useRef<number[]>([]);
   const [filled, setFilled] = useState<string[]>([]);
+  const filledRef = useRef<string[]>([]);
+  filledRef.current = filled;
   const [lit, setLit] = useState(-1);
   const [glow, setGlow] = useState<string | null>(null);
   const [wrong, setWrong] = useState<string | null>(null);
@@ -1410,41 +1601,69 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
   const bankRefs = useRef<(HTMLDivElement | null)[]>([]);
   const slotsRef = useRef<HTMLDivElement>(null);
   const slotQ = (i: number) => (i === 0 ? "first_sound_q" : i === word.segs.length - 1 ? "last_sound_q" : "next_sound_q");
+  const alive = useRef(true);
+  /** Show me again's run (a tap on a letter, or leaving, stops it) */
+  const tok = useRef(0);
+  const [replaying, setReplaying] = useState<{ taken: number[]; filled: string[] } | null>(null);
+  /** while Show me again plays: the child's letters, to put back afterwards */
+  const replayingRef = useRef<{ taken: number[]; filled: string[] } | null>(null);
+  useEffect(() => {
+    alive.current = true;
+    return () => void ((alive.current = false), tok.current++);
+  }, []);
+  const isAlive = () => alive.current;
+  /** "The last sound is at the end of the word" was said for this word (Hear it again says it too) */
+  const lastPlace = useRef(false);
 
-  const ask = async (i: number) => {
+  const ask = async (i: number, live: () => boolean = isAlive) => {
     setLit(i);
     const last = i > 0 && i === word.segs.length - 1 && isDue("place:last", "twice");
+    if (last) lastPlace.current = true;
     const ok = await say([...(last ? [{ line: "audit_last_place" }, { gap: 300 }] : []), { line: slotQ(i) }, { gap: 200 }, x(word.text)]);
     if (ok && last) heard("place:last");
-    if (mode === "wedo") setGlow(word.segs[i].g);
+    if (live() && mode === "wedo") setGlow(word.segs[i].g);
   };
+  /** Hear it again: the word, the slot's question and the word said slowly (with where the last sound is, when that
+   *  was said for this word). */
+  const again = () =>
+    say([{ word: word.text }, { gap: 350 }, ...(lastPlace.current ? [{ line: "audit_last_place" }, { gap: 300 }] : []), { line: slotQ(Math.min(filledRef.current.length, word.segs.length - 1)) }, { gap: 200 }, x(word.text)]);
 
   /** The ninja launches bank tile j into slot i, a different way each time (the real tile turns into its faded ghost as
    *  the glowing copy flies). */
-  const carry = async (j: number, i: number) => {
+  const carry = async (j: number, i: number, live: () => boolean = isAlive) => {
     const from = bankRefs.current[j]?.querySelector(".tile");
     const to = slotRefs.current[i];
     const flight = from && to ? launch(chooseFrom(LAUNCHES[streak.tier], recentLaunch), from, to) : Promise.resolve();
     takenRef.current = [...takenRef.current, j];
     setTaken(takenRef.current);
     await flight;
+    if (!live()) return;
     if (!from || !to) sfx.place();
     setFilled((f) => [...f, bank[j]]);
   };
 
-  const finishWord = async () => {
-    setBusy(true);
+  /** Sensei reads the built word back: each sound lit as it is said, then the whole word. False if stopped. */
+  const readBack = async (live: () => boolean) => {
     setLit(-1);
     await sleep(300);
+    if (!live()) return false;
     await say({ line: "say_sounds_read" });
     for (let i = 0; i < word.segs.length; i++) {
+      if (!live()) return false;
       setLit(i);
       await say({ sound: word.segs[i].p });
       await sleep(250);
     }
     setLit(-1);
     await sleep(900); // time for the child to read it aloud
+    if (!live()) return false;
     await say({ word: word.text });
+    return live();
+  };
+
+  const finishWord = async () => {
+    setBusy(true);
+    if (!(await readBack(isAlive))) return;
     sfx.great();
     const c = stageXY(slotsRef.current);
     fx.burst(c.x, c.y, "petals", 18);
@@ -1461,41 +1680,107 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
     }
     // the first word the child builds fills a gem (NARRATIVE_AUDIT F04, once per save): it pops up beside the word
     if (mode !== "ido") await explainGemEnergy(gemSeg(word, level.teach), { x: PLAY_CX + 250, y: 190 }, () => !!slotsRef.current?.isConnected);
-    onDone(misses.current === 0);
+    if (alive.current) onDone(misses.current === 0);
+  };
+
+  /** Sensei's I do: she says the word and says it slowly ("Ninjas read this way!" the first time), then finds each
+   *  sound in turn: the slot lights, she says the word slowly, the paw points at the letter and the ninja launches it
+   *  home as she says its sound. False if stopped (`live`). */
+  const runDemo = async (live: () => boolean, pre: Say[], leftRight: "due" | boolean) => {
+    await say([...pre, { line: "build_ido_1" }, { gap: 200 }, { word: word.text }, { gap: 350 }, { line: "build_ido_2" }, { gap: 200 }, x(word.text), { gap: 300 }]);
+    if (!live()) return false;
+    // the picture rail's "Ninjas read this way!" (warm-up W2) carried over to printed words (NARRATIVE_AUDIT F10)
+    const lr = leftRight === "due" ? isDue("left-right:build", "once") : leftRight;
+    if (lr) {
+      const [ok] = await Promise.all([say([{ line: "fm_l2_way" }, { gap: 200 }, { line: "audit_left_right" }]), sweepUnder(slotsRef.current, 1800)]);
+      if (leftRight === "due") {
+        if (ok) heard("left-right:build");
+        onLeftRight?.();
+      }
+      if (!live()) return false;
+    }
+    await say({ line: "build_ido_3" });
+    for (let i = 0; i < word.segs.length; i++) {
+      if (!live()) return false;
+      setLit(i);
+      await say(x(word.text));
+      if (!live()) return false;
+      const j = bank.findIndex((g, b) => g === word.segs[i].g && !takenRef.current.includes(b));
+      setPaw(j);
+      await sleep(700);
+      setPaw(null);
+      if (!live()) return false;
+      await Promise.all([carry(j, i, live), say({ sound: word.segs[i].p })]);
+      await sleep(300);
+    }
+    return live();
   };
 
   useEffect(() => {
     (async () => {
-      const pre: Say[] = [];
-      if (announce) pre.push({ line: announce }, { gap: 250 });
+      const pre: Say[] = announce ? [{ line: announce }, { gap: 250 }] : [];
       if (mode === "ido") {
-        await say([...pre, { line: "build_ido_1" }, { gap: 200 }, { word: word.text }, { gap: 350 }, { line: "build_ido_2" }, { gap: 200 }, x(word.text), { gap: 300 }]);
-        // the picture rail's "Ninjas read this way!" (warm-up W2) carried over to printed words (NARRATIVE_AUDIT F10)
-        if (isDue("left-right:build", "once")) {
-          const [ok] = await Promise.all([say([{ line: "fm_l2_way" }, { gap: 200 }, { line: "audit_left_right" }]), sweepUnder(slotsRef.current, 1800)]);
-          if (ok) heard("left-right:build");
-        }
-        await say({ line: "build_ido_3" });
-        for (let i = 0; i < word.segs.length; i++) {
-          setLit(i);
-          await say(x(word.text));
-          const j = bank.findIndex((g, b) => g === word.segs[i].g && !takenRef.current.includes(b));
-          setPaw(j);
-          await sleep(700);
-          setPaw(null);
-          await Promise.all([carry(j, i), say({ sound: word.segs[i].p })]);
-          await sleep(300);
-        }
-        await finishWord();
+        if (await runDemo(isAlive, pre, "due")) await finishWord();
         return;
       }
       await say([...pre, { word: word.text }]);
+      if (!alive.current) return;
       await ask(0);
       setBusy(false);
     })();
   }, []);
 
+  /** Show me again: the child's letters step out of the slots, Sensei builds and reads the word as in the I do, then
+   *  the child's letters come back and the slot the child was on is asked again. It never answers for the child. */
+  const showAgain = async () => {
+    if (!demo || busy || replayingRef.current) return;
+    const my = ++tok.current;
+    const live = () => my === tok.current && alive.current;
+    const saved = { taken: takenRef.current, filled: filledRef.current };
+    replayingRef.current = saved;
+    setReplaying(saved);
+    hush();
+    setBusy(true);
+    setGlow(null);
+    setPaw(null);
+    takenRef.current = [];
+    setTaken([]);
+    setFilled([]);
+    setLit(-1);
+    await sleep(350);
+    if (live() && (await runDemo(live, demo.pre, demo.leftRight)) && (await readBack(live))) {
+      setBuilt(true);
+      await sleep(900);
+    }
+    if (live()) await endReplay(live);
+  };
+  /** Back to the child's turn: their letters, and the slot they are on asked again. */
+  const endReplay = async (live: () => boolean) => {
+    const saved = replayingRef.current;
+    replayingRef.current = null;
+    setReplaying(null);
+    setBuilt(false);
+    setPaw(null);
+    setLit(-1);
+    if (saved) {
+      takenRef.current = saved.taken;
+      setTaken(saved.taken);
+      setFilled(saved.filled);
+    }
+    await sleep(300);
+    if (!live()) return;
+    await ask(saved?.filled.length ?? filledRef.current.length, live);
+    if (live()) setBusy(false);
+  };
+  /** A tap on a letter during Show me again stops it (the child's turn comes back). */
+  const stopReplay = () => {
+    const my = ++tok.current;
+    hush();
+    void endReplay(() => my === tok.current && alive.current);
+  };
+
   const tap = async (g: string, j: number) => {
+    if (replayingRef.current) return stopReplay();
     if (busy) return;
     const i = filled.length;
     const s = word.segs[i];
@@ -1516,6 +1801,7 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
       }
       slotMisses.current = 0;
       await Promise.all([flight, say({ sound: s.p })]);
+      if (!alive.current) return;
       if (i + 1 === word.segs.length) return finishWord();
       await ask(i + 1);
       setBusy(false);
@@ -1540,8 +1826,9 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
       setBusy(false);
     }
   };
-  // `next` stays set while busy (taps are ignored then), so a bot never falls back to tapping some other tile
-  (window as any).__snState = { scene: "build", next: word.segs[filled.length]?.g ?? null, busy };
+  // `next` stays set while busy (taps are ignored then), so a bot never falls back to tapping some other tile; during
+  // Show me again it stays the turn's own letter (the demo doesn't answer it)
+  (window as any).__snState = { scene: "build", next: word.segs[(replaying?.filled ?? filled).length]?.g ?? null, busy: busy || !!replaying, word: word.text };
   useHelp(
     (n) => {
       if (n >= 2) setGlow(word.segs[filled.length]?.g ?? null);
@@ -1552,9 +1839,29 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
 
   const cx = PLAY_CX;
   const card = word.pic ? { w: 240, h: 190, top: 64 } : { w: 200, h: 170, top: 74 };
+  // Hear it again and Show me again sit either side of the word card (the letter bank fills the nav row): `own`
+  const S = NAV_SLOTS.row;
+  const speakerAt: CSSProperties = { position: "absolute", left: cx + card.w / 2 + 28, top: 108, width: 100, height: 100 };
+  const showAt: CSSProperties = { position: "absolute", left: cx - card.w / 2 - 28 - S.show.d, top: 110, width: S.show.d, height: S.show.d };
+  // a word with no picture: its card is a big speaker already, so it is Hear it again itself (no second speaker)
+  const [cardWig, setCardWig] = useState(0);
+  useEffect(() => {
+    if (!cardWig) return;
+    const t = setTimeout(() => setCardWig(0), 420);
+    return () => clearTimeout(t);
+  }, [cardWig]);
+  const ready = !busy && !replaying;
+  const navHeld = useHeld();
   return (
     <>
-      <WordCard word={word} className="pop-in" onHear={() => say(x(word.text))} style={{ left: cx - card.w / 2, top: card.top, width: card.w, height: card.h }} />
+      {word.pic ? (
+        <WordCard word={word} className="pop-in" onHear={() => say(x(word.text))} style={{ left: cx - card.w / 2, top: card.top, width: card.w, height: card.h }} />
+      ) : (
+        <div data-nav={navHeld ? undefined : "again"} className={`navc-card ${cardWig ? "navc-wiggle" : ""}`} style={{ position: "absolute", left: cx - card.w / 2, top: card.top, width: card.w, height: card.h }}>
+          {/* (while a held explanation waits on Next, its own speaker is Hear it again: the card just says its word) */}
+          <WordCard word={word} className="pop-in" onHear={() => (navHeld ? void say(x(word.text)) : ready ? navAgain() : setCardWig((k) => k + 1))} style={{ left: 0, top: 0, width: card.w, height: card.h }} />
+        </div>
+      )}
       <div style={{ position: "absolute", ...PLAY, top: 296, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
         <div ref={slotsRef} className={`slots ${built ? "built" : ""}`}>
           {word.segs.map((_, i) => (
@@ -1575,11 +1882,7 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
           </div>
         ))}
       </div>
-      {word.pic && (
-        <div style={{ position: "absolute", left: cx + card.w / 2 + 28, top: 112 }}>
-          <RoundButton sm label="Hear the word" onClick={() => say(x(word.text))}><Icon.speaker /></RoundButton>
-        </div>
-      )}
+      <TurnNav ready={ready} again={again} show={demo ? showAgain : null} showAt={showAt} at={speakerAt} size={100} noSpeaker={!word.pic} />
     </>
   );
 }
@@ -1605,6 +1908,7 @@ export function ReadCheck({ pairs, onFinish }: { pairs: [string, string][]; onFi
       key={k}
       right={WORD_BY_TEXT[right]}
       wrong={WORD_BY_TEXT[wrongW]}
+      intro={k === 0 ? [{ line: "read_intro" }, { gap: 350 }] : []}
       onDone={(ok) => {
         if (ok) first.current++;
         done.current++;
@@ -1620,7 +1924,8 @@ export function ReadCheck({ pairs, onFinish }: { pairs: [string, string][]; onFi
 /** The reading check's own area: a little left of the play area's centre (x 388-972 for the readers), so Sensei's
  *  caption bubble (bottom-right, narrowed here in early.css) never covers a reader. */
 const READ = { left: 380, right: 320 } as const;
-function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (firstTry: boolean) => void }) {
+/** `intro`: "Who read it right? Listen to Kai and Suki!", said before the first check (Hear it again says it too). */
+function ReadOne({ right, wrong, intro, onDone }: { right: Word; wrong: Word; intro: Say[]; onDone: (firstTry: boolean) => void }) {
   const hero = useHero();
   const [tapped, setTapped] = useState<number[]>([]);
   const [lit, setLit] = useState(-1);
@@ -1633,15 +1938,33 @@ function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (
   const [state, setState] = useState<Record<string, string>>({});
   const misses = useRef(0);
   const busy = useRef(false);
+  const [busyNow, setBusyNow] = useState(false);
   const tappedRef = useRef(new Set<number>());
   /** tap: the child taps the sounds; who: the readers are reading; pick: tap the one who read it right */
   const phase = useRef<"tap" | "who" | "pick">("tap");
   // "Tap the sounds..." is said in full first (a tap before it ends wiggles: wait for Sensei)
   const [ready, setReady] = useState(false);
   const [wiggle, setWiggle] = useState(-1);
+  const alive = useRef(true);
   useEffect(() => {
+    alive.current = true;
     say({ line: "read_tap_sounds" }).then(() => setReady(true));
+    return () => void ((alive.current = false), whoTok.current++);
   }, []);
+  /** the readers read, each lighting up as it reads (the first time, and again for Hear it again). False if stopped. */
+  const whoTok = useRef(0);
+  const [again2, setAgain2] = useState(false); // the readers are reading again (Hear it again)
+  const readersRead = async (live: () => boolean) => {
+    await say({ line: "read_who" });
+    for (const r of readers) {
+      if (!live()) return false;
+      setTalking(r.who);
+      await say([{ line: r.who === "kai" ? "kai_says" : "suki_says" }, { gap: 100 }, { word: r.word.text }]);
+      await sleep(250);
+    }
+    if (live()) setTalking(null);
+    return live();
+  };
   const tapSound = async (i: number) => {
     if (!ready) {
       setWiggle(i);
@@ -1650,7 +1973,7 @@ function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (
     }
     // while the readers read, or Sensei is answering a choice, a sound tap would cut them off: they come first (a
     // little wiggle says "wait", so a tap is never ignored)
-    if (phase.current === "who" || busy.current) {
+    if (phase.current === "who" || busy.current || again2) {
       setWiggle(i);
       setTimeout(() => setWiggle((w) => (w === i ? -1 : w)), 450);
       return;
@@ -1665,16 +1988,26 @@ function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (
       phase.current = "who";
       setLit(-1);
       await sleep(600);
-      await say({ line: "read_who" });
-      for (const r of readers) {
-        setTalking(r.who);
-        await say([{ line: r.who === "kai" ? "kai_says" : "suki_says" }, { gap: 100 }, { word: r.word.text }]);
-        await sleep(250);
-      }
-      setTalking(null);
+      if (!alive.current) return;
+      await readersRead(() => alive.current);
       setHeard(true);
       phase.current = "pick";
     }
+  };
+  /** Hear it again: before the readers have read, what to do ("Tap each sound, and say it."); after, "Who read it
+   *  right?" and both readers again, each lighting up as it reads. A tap on a reader meanwhile stops it and counts. */
+  const again = async () => {
+    if (!heard) return say([...intro, { line: "read_tap_sounds" }]);
+    const my = ++whoTok.current;
+    setAgain2(true);
+    await readersRead(() => my === whoTok.current && alive.current);
+    if (my === whoTok.current && alive.current) setAgain2(false);
+  };
+  const stopAgain = () => {
+    whoTok.current++;
+    hush();
+    setTalking(null);
+    setAgain2(false);
   };
   const [talking, setTalking] = useState<string | null>(null);
   // the player's own hero is reading: the ninja bottom-left talks along with its portrait (a bob, and waves by its mouth)
@@ -1686,7 +2019,8 @@ function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (
   }, [talking]);
   const [readerWait, setReaderWait] = useState<string | null>(null);
   const pickReader = async (who: string, el: Element) => {
-    if (!heard || busy.current) {
+    if (again2 && heard && !busy.current) stopAgain();
+    else if (!heard || busy.current) {
       // not yet (they are still reading, or Sensei is answering): a little wiggle says "wait", so a tap is never ignored
       setReaderWait(who);
       setTimeout(() => setReaderWait((w) => (w === who ? null : w)), 450);
@@ -1694,6 +2028,7 @@ function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (
     }
     const r = readers.find((x) => x.who === who)!;
     busy.current = true;
+    setBusyNow(true);
     if (r.word === right) {
       setState({ [who]: "right" });
       sfx.good();
@@ -1710,7 +2045,7 @@ function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (
       setLit(-1);
       if (held) await tierBeat();
       else await say({ line: pickPraise() });
-      onDone(misses.current === 0);
+      if (alive.current) onDone(misses.current === 0);
       return;
     }
     misses.current++;
@@ -1725,8 +2060,11 @@ function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (
     setLit(-1);
     setState({});
     busy.current = false;
+    setBusyNow(false);
   };
-  (window as any).__snState = { scene: "read", next: heard ? readers.find((r) => r.word === right)!.who : null, tapIdx: ready && tapped.length < right.segs.length ? right.segs.findIndex((_, i) => !tapped.includes(i)) : null };
+  (window as any).__snState = { scene: "read", next: heard ? readers.find((r) => r.word === right)!.who : null, tapIdx: ready && tapped.length < right.segs.length ? right.segs.findIndex((_, i) => !tapped.includes(i)) : null, busy: busyNow };
+  // the child's turn: tapping the sounds (once Sensei has asked), or choosing a reader (once they have read)
+  const turn = heard ? !busyNow && !again2 : ready && tapped.length < right.segs.length;
   return (
     <>
       <div className="row" style={{ position: "absolute", ...READ, top: 92, gap: 12, flexWrap: "nowrap" }}>
@@ -1774,6 +2112,7 @@ function ReadOne({ right, wrong, onDone }: { right: Word; wrong: Word; onDone: (
           <path d="M36 2c20 20 20 56 0 76" />
         </svg>
       )}
+      <TurnNav ready={turn} again={again} />
     </>
   );
 }
