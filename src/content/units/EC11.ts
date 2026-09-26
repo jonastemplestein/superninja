@@ -36,12 +36,10 @@ export const words = [
     "text": "sky",
     "segs": "s.k.y=ie",
     "unit": "EC11",
-    "pic": "blue sky with one small white cloud",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:y"
+      "sort:y",
+      "dictation-safe"
     ]
   },
   {
@@ -201,24 +199,20 @@ export const words = [
     "text": "child",
     "segs": "ch.i=ie.l.d",
     "unit": "EC11",
-    "pic": "one smiling child standing alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:i"
+      "sort:i",
+      "dictation-safe"
     ]
   },
   {
     "text": "five",
     "segs": "f.i=ie.ve",
     "unit": "EC11",
-    "pic": "five identical red apples in one row",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:i"
+      "sort:i",
+      "dictation-safe"
     ]
   },
   {
@@ -237,12 +231,10 @@ export const words = [
     "text": "line",
     "segs": "l.i=ie.ne=n",
     "unit": "EC11",
-    "pic": "one straight blue line on a plain white card",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:i"
+      "sort:i",
+      "dictation-safe"
     ]
   },
   {

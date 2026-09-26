@@ -1,35 +1,55 @@
-// The Word Book: a scrapbook of every word the child has read or spelt correctly, as picture stickers.
-// Stickers still to find show as silhouettes. Tap a sticker to hear the word sounded out.
+// The Sticker Book (docs/FIRST_MINUTES.md §6): every picture the child has played with, and every word read or spelt,
+// as stickers in the order they were collected, six to a page. A picture sticker says its word fast, then slow; a
+// word sticker (a gold edge and its spelling) says the sounds and reads the word; a shiny one sparkles. After the last
+// sticker, three dashed "mystery" outlines show the next pictures on the child's path. No walls of silhouettes, and
+// the counter is a big number with a sticker icon. (In code it stays `Book`; the child hears "Sticker Book".)
 import { useEffect, useMemo, useState } from "react";
-import { WORDS, type Word } from "../content/phonics";
-import { LEVELS, WORLDS } from "../content/worlds";
-import { say, sayBlend, sfx, playMusic } from "../engine/audio";
-import { useSave, store } from "../engine/store";
-import { BookIntro } from "./Intros";
-import { img, RoundButton, Icon, useHelp, tapProps, fx, stageXY } from "../ui/ui";
+import { WORD_BY_TEXT } from "../content/phonics";
+import { LEVELS, levelWords } from "../content/worlds";
+import { WARMUPS } from "../content/warmups";
+import { say, sfx, playMusic } from "../engine/audio";
+import { useSave, store, type Save } from "../engine/store";
+import { frontier } from "../engine/gems";
+import { img, RoundButton, Icon, useHelp, fx, stageXY, tapProps } from "../ui/ui";
+import { Sticker, stickerKind, sayStickerWord } from "./Stickers";
+import "../styles/stickers.css";
 
 const PER_PAGE = 6;
 
-const worldOfUnit = (u: number) => WORLDS[(LEVELS.find((l) => l.units.includes(u))?.world ?? 1) - 1];
+/** The next pictures on the child's path that aren't stickers yet (for the mystery outlines). */
+export function nextStickers(s: Save, n = 3): string[] {
+  const have = new Set(s.stickers ?? []);
+  const out: string[] = [];
+  const from = Math.max(0, LEVELS.indexOf(frontier(s)));
+  for (const l of LEVELS.slice(from)) {
+    const ws = l.warmup ? WARMUPS[l.warmup]?.stickers ?? [] : (l.words ?? levelWords(l).map((w) => w.text)).filter((w) => WORD_BY_TEXT[w]?.pic);
+    for (const w of ws) if (!have.has(w) && !out.includes(w)) out.push(w);
+    if (out.length >= n) break;
+  }
+  return out.slice(0, n);
+}
 
 export function Book({ onBack }: { onBack: () => void }) {
-  const words = useSave((s) => s.words);
-  const got = (w: Word) => (words[w.text]?.ok ?? 0) > 0;
-  const ordered = useMemo(() => [...WORDS].sort((a, b) => a.unit - b.unit || Number(!!b.pic) - Number(!!a.pic)), []);
+  const stickers = useSave((s) => s.stickers ?? []);
+  const save = useSave((s) => s);
+  const mystery = useMemo(() => nextStickers(save), [stickers.length]);
+  // pages: the stickers in collection order, then the mystery outlines on the page after the last sticker
+  const items = useMemo(() => [...stickers.map((w) => ({ w, mystery: false })), ...mystery.map((w) => ({ w, mystery: true }))], [stickers, mystery]);
   const spreads = useMemo(() => {
-    const out: Word[][] = [];
-    for (let i = 0; i < ordered.length; i += PER_PAGE * 2) out.push(ordered.slice(i, i + PER_PAGE * 2));
+    const out: (typeof items)[] = [];
+    for (let i = 0; i < Math.max(1, items.length); i += PER_PAGE * 2) out.push(items.slice(i, i + PER_PAGE * 2));
     return out;
-  }, [ordered]);
-  const total = ordered.filter(got).length;
-  // open at the last spread that has a sticker
-  const [spread, setSpread] = useState(() => Math.max(0, spreads.findLastIndex((sp) => sp.some(got))));
+  }, [items]);
+  // open at the spread with the newest sticker
+  const [spread, setSpread] = useState(() => Math.max(0, Math.floor(Math.max(0, stickers.length - 1) / (PER_PAGE * 2))));
   const [flip, setFlip] = useState<0 | 1 | -1>(0);
-  const [intro, setIntro] = useState(() => !store.get().seenBook);
 
   useEffect(() => {
     playMusic("story");
-
+    if (!store.get().seenBook) {
+      store.set((s) => void (s.seenBook = true));
+      void say({ line: "fm_rw_book" });
+    }
   }, []);
   useHelp(() => say({ line: "help_book" }));
 
@@ -45,88 +65,57 @@ export function Book({ onBack }: { onBack: () => void }) {
   };
 
   const page = spreads[spread] ?? [];
-  const left = page.slice(0, PER_PAGE);
-  const right = page.slice(PER_PAGE);
-  const land = worldOfUnit(page[0]?.unit ?? 1);
-
-  const Sticker = ({ w, i }: { w: Word; i: number }) => {
-    const have = got(w);
-    const rot = ((w.text.charCodeAt(0) * 7 + i * 13) % 11) - 5;
-    return (
-      <div
-        role="button"
-        aria-label={`sticker ${w.text}`}
-        {...tapProps((el) => {
-          if (have) {
-            sfx.pop();
-            const xy = stageXY(el);
-            fx.burst(xy.x, xy.y, "stars", 8);
-            sayBlend(w.segs, w.text);
-          } else say({ line: "book_missing" });
-        })}
-        style={{ position: "relative", width: 150, height: 170, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", transform: `rotate(${rot}deg)`, cursor: "pointer" }}
-      >
-        {have && <span className="tape" />}
-        <div
-          style={{
-            width: 132, height: 132, borderRadius: 18, display: "grid", placeItems: "center",
-            background: have ? "#fff" : "transparent", border: have ? "4px solid #2b1d14" : "4px dashed rgba(43,29,20,.3)",
-            boxShadow: have ? "0 6px 0 rgba(43,29,20,.25)" : undefined,
-          }}
-        >
-          {w.pic ? (
-            <img src={img(`pic_${w.text}`)} alt="" style={{ width: 112, height: 112, objectFit: "contain", filter: have ? "none" : "brightness(0) opacity(.12)" }} />
-          ) : (
-            <span style={{ fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: w.text.length > 5 ? 34 : 44, color: have ? "var(--ink)" : "rgba(43,29,20,.15)" }}>{have ? w.text : "?"}</span>
-          )}
-        </div>
-        {w.pic && (
-          <span style={{ marginTop: 4, fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: 26, color: have ? "var(--ink)" : "transparent", lineHeight: 1 }}>{w.text}</span>
-        )}
-      </div>
-    );
+  const sides = [page.slice(0, PER_PAGE), page.slice(PER_PAGE)];
+  const tapSticker = (w: string, el: HTMLElement) => {
+    sfx.pop();
+    const xy = stageXY(el);
+    fx.burst(xy.x, xy.y, "stars", 8);
+    void sayStickerWord(w, stickerKind(w));
   };
 
+  (window as any).__snState = { scene: "book", stickers: stickers.length };
   return (
-    <div className="scene" style={{ background: "radial-gradient(ellipse at 50% 40%, #6b3f2a, #2b1a12)" }}>
+    <div className="scene book-scene" style={{ background: "radial-gradient(ellipse at 50% 40%, #6b3f2a, #2b1a12)" }}>
       {/* the book */}
-      <div style={{ position: "absolute", left: 150, right: 110, top: 74, bottom: 30, borderRadius: 26, background: "#7a2e2a", border: "6px solid #2b1d14", boxShadow: "0 14px 0 #2b1d14, 0 30px 60px rgba(0,0,0,.5)" }}>
+      <div className="sb-book" style={{ position: "absolute", left: 150, right: 130, top: 84, bottom: 34, borderRadius: 26, background: "#7a2e2a", border: "6px solid #2b1d14", boxShadow: "0 14px 0 #2b1d14, 0 30px 60px rgba(0,0,0,.5)" }}>
         <div
           style={{
-            position: "absolute", inset: 14, borderRadius: 16, display: "grid", gridTemplateColumns: "1fr 1fr", overflow: "hidden",
+            position: "absolute", inset: 14, borderRadius: 16, display: "grid", gridTemplateColumns: "1fr 1fr",
             background: "linear-gradient(90deg, #f7ead0 0%, #fff6e2 46%, #d9c49c 50%, #fff6e2 54%, #f7ead0 100%)",
             transition: "transform .26s ease-in, opacity .26s", transform: flip ? `perspective(1400px) rotateY(${flip * -8}deg) scale(.97)` : undefined, opacity: flip ? 0.4 : 1,
           }}
         >
-          {[left, right].map((ws, side) => (
-            <div key={side} style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", alignContent: "center", justifyItems: "center", gap: 2, padding: "12px 10px" }}>
-              {ws.map((w, i) => (
-                <Sticker key={w.text} w={w} i={i + side * PER_PAGE} />
-              ))}
+          {sides.map((ws, side) => (
+            <div key={side} style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", alignContent: "center", justifyItems: "center", rowGap: 44, padding: "22px 12px" }}>
+              {ws.map(({ w, mystery: m }, i) =>
+                m ? (
+                  <button key={`m-${w}`} aria-label="mystery sticker" className="sb-mystery" {...tapProps(() => void say({ line: "book_missing" }))}>
+                    <span>?</span>
+                  </button>
+                ) : (
+                  <Sticker key={w} w={w} kind={stickerKind(w, save)} size={126} onTap={(el) => tapSticker(w, el)} style={{ rotate: `${((w.charCodeAt(0) * 7 + i * 13) % 9) - 4}deg` }} />
+                ),
+              )}
             </div>
           ))}
         </div>
       </div>
-      {/* land ribbon + counter */}
-      <div style={{ position: "absolute", top: 22, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16, alignItems: "center" }}>
-        <div className="panel" style={{ padding: "4px 30px", background: land.colour }}>
-          <span className="display" style={{ fontSize: 40 }}>{land.name}</span>
-        </div>
-        <div className="panel" style={{ padding: "4px 20px", display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontFamily: "var(--font-display)", fontSize: 34 }}>{total}</span>
-          <span style={{ fontWeight: 800, fontSize: 18 }}>/ {WORDS.length} words</span>
+      {/* the counter: a big number and a sticker */}
+      <div style={{ position: "absolute", top: 14, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16, alignItems: "center", pointerEvents: "none" }}>
+        <div className="panel" style={{ padding: "2px 22px", display: "flex", alignItems: "center", gap: 10, background: "radial-gradient(circle at 40% 30%, #fff6c8, #ffc53d 75%)" }}>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: 52, lineHeight: 1 }}>{stickers.length}</span>
+          <img src={img("item_sticker_book")} alt="" style={{ width: 54, height: 54, objectFit: "contain" }} />
         </div>
       </div>
-      <div style={{ position: "absolute", left: 40, top: "42%", translate: "0 -50%" }}>
+      <div style={{ position: "absolute", left: 40, top: "46%", translate: "0 -50%" }}>
         <RoundButton label="previous page" onClick={() => turn(-1)} style={{ visibility: spread > 0 ? "visible" : "hidden" }}><Icon.back /></RoundButton>
       </div>
-      <div style={{ position: "absolute", right: 12, top: "50%", translate: "0 -50%" }}>
+      <div style={{ position: "absolute", right: 14, top: "40%", translate: "0 -50%" }}>
         <RoundButton label="next page" onClick={() => turn(1)} style={{ visibility: spread < spreads.length - 1 ? "visible" : "hidden" }}><Icon.next /></RoundButton>
       </div>
       <div className="topbar">
         <RoundButton sm label="back" onClick={onBack}><Icon.home /></RoundButton>
       </div>
-      {intro && <BookIntro onDone={() => { store.set((s) => void (s.seenBook = true)); setIntro(false); }} />}
     </div>
   );
 }

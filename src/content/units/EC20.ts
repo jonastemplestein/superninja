@@ -144,12 +144,10 @@ export const words = [
     "text": "hare",
     "segs": "h.are=air",
     "unit": "EC20",
-    "pic": "one brown hare with long ears standing alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:are"
+      "sort:are",
+      "reading-only"
     ]
   },
   {

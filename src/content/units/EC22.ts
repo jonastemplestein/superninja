@@ -6,7 +6,7 @@ export const words = [
     "unit": "EC22",
     "tags": [
       "review",
-      "dictation-safe",
+      "reading-only",
       "sort:ew"
     ]
   },
@@ -58,7 +58,7 @@ export const words = [
     "unit": "EC22",
     "tags": [
       "review",
-      "dictation-safe",
+      "reading-only",
       "sort:ew"
     ]
   },

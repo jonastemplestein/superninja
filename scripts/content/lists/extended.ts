@@ -15,14 +15,14 @@ const result: Record<string, string[]> = {};
 const manual = research.split("### 4.8 Official word lists")[1]?.split("### 4.9")[0] ?? "";
 for (const row of manual.matchAll(/^\| (\d+) \|[^\n]*?\| ([^|]+) \|$/gm)) {
   const n = +row[1];
-  if (n > 26) continue;
+  if (n > 49) continue;
   const cell = row[2].split("; after Unit")[0].replace(/\([^)]*\)/g, "").replace(/\*/g, "");
   result[`EC${n}`] = words(cell);
 }
 const checks = research.split("**Words by unit (2026 edition)**")[1]?.split("**What the word sets show**")[0] ?? "";
 for (const row of checks.matchAll(/^\| (\d+) [^|]*\| ([^|]+) \| ([^|]+) \|/gm)) {
   const n = +row[1];
-  if (n > 26) continue;
+  if (n > 49) continue;
   result[`EC${n}`] = [...new Set([...(result[`EC${n}`] ?? []), ...words(row[2]), ...words(row[3])])];
 }
 

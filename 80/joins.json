@@ -1,0 +1,30 @@
+{
+ "findings": [
+  {
+   "sig": "joins:place_spell.mp3+h.mp3+u.mp3+t.mp3",
+   "source": "critic",
+   "severity": "major",
+   "case": "placement",
+   "title": "audible join: place_spell.mp3 + h.mp3 + u.mp3 + t.mp3",
+   "detail": "The target sound /t/ is completely missing and the audio cuts off after /ʌ/. The phonemes sound isolated and stitched together. (judge 3/10; heard: kən juː spɛl h ʌ)",
+   "evidence": [
+    "/a/l/place_spell.mp3",
+    "/a/p/h.mp3",
+    "/a/p/u.mp3",
+    "/a/p/t.mp3"
+   ]
+  },
+  {
+   "sig": "joins:fs_mug.mp3+m.mp3",
+   "source": "critic",
+   "severity": "minor",
+   "case": "w1-2",
+   "title": "audible join: fs_mug.mp3 + m.mp3",
+   "detail": "The prompt is bright and clear, but the target sound /m/ drops considerably in volume and clarity, sounding noticeably spliced in. (judge 6/10; heard: mʌɡ stɑːts wɪð mː)",
+   "evidence": [
+    "/a/l/fs_mug.mp3",
+    "/a/p/m.mp3"
+   ]
+  }
+ ]
+}

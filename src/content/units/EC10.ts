@@ -100,7 +100,7 @@ export const words = [
     "unit": "EC10",
     "tags": [
       "new",
-      "dictation-safe",
+      "reading-only",
       "sort:ew"
     ]
   },
@@ -140,7 +140,7 @@ export const words = [
     "unit": "EC10",
     "tags": [
       "new",
-      "dictation-safe",
+      "reading-only",
       "sort:ew"
     ]
   },
@@ -182,24 +182,20 @@ export const words = [
     "text": "boot",
     "segs": "b.oo.t",
     "unit": "EC10",
-    "pic": "one green rubber boot",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oo"
+      "sort:oo",
+      "dictation-safe"
     ]
   },
   {
     "text": "zoo",
     "segs": "z.oo",
     "unit": "EC10",
-    "pic": "one zoo entrance with an animal statue and no writing",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oo"
+      "sort:oo",
+      "dictation-safe"
     ]
   },
   {
@@ -254,12 +250,10 @@ export const words = [
     "text": "tool",
     "segs": "t.oo.l",
     "unit": "EC10",
-    "pic": "one hammer as a simple hand tool",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oo"
+      "sort:oo",
+      "dictation-safe"
     ]
   },
   {

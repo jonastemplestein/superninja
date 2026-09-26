@@ -33,12 +33,12 @@ export const EXTRA_WORDS: Record<string, string[]> = {
 };
 
 export const US_DENY = new Set(["color", "gray", "mom", "candy", "diaper", "pajamas", "favorite", "center", "meter", "theater", "cookie", "sidewalk", "truck", "gasoline", "soccer", "sneakers"]);
-export const ACCENT_SENSITIVE = new Set(["bath", "grass", "path", "fast", "last", "castle", "after", "plant", "mask", "ask", "chance", "dance", "class", "glass", "book", "look", "put", "pull", "pudding"]);
+export const ACCENT_SENSITIVE = new Set(["bath", "grass", "path", "fast", "last", "castle", "after", "plant", "mask", "ask", "chance", "dance", "class", "glass", "book", "look", "put", "pull", "pudding", "year"]);
 export const SLANG_DENY = new Set(["knob", "shag", "bum", "willy", "snog", "slag", "tit", "fag", "prat", "git", "bonk", "hump", "nob", "cock", "dick", "piss", "crap", "twat", "fob", "zit"]);
-export const UNSUITABLE_DENY = new Set(["kill", "gun", "shot", "stab", "blood", "dead", "die", "died", "ghost", "demon", "drug", "beer", "wine", "poo", "pee", "fart", "spit", "scab", "witch", "horror", "monster", "whomp", "wham", "jab", "zap", "hit", "blast"]);
+export const UNSUITABLE_DENY = new Set(["kill", "gun", "shot", "stab", "blood", "dead", "die", "died", "ghost", "demon", "drug", "beer", "wine", "poo", "pee", "fart", "spit", "scab", "witch", "horror", "monster", "whomp", "wham", "jab", "zap", "hit", "blast", "dumb", "hate", "jail", "steal", "burp", "spear"]);
 export const EARLY_WORD_DENY = new Set(["bam", "gab", "gag", "nag", "cop", "cob", "wiz", "wit", "hob", "fig", "yak", "job", "fund", "trust", "grump", "hints", "tests"]);
 export const BRAND_DENY = new Set(["lego", "google", "disney", "barbie", "nike", "ipad", "coke"]);
-export const PROPER_NAME_DENY = new Set(["spain", "jean", "joe", "june", "paul", "arthur", "roy", "ben", "bob", "tom", "ann", "dan", "david", "hazel", "bill", "alice", "welsh"]);
+export const PROPER_NAME_DENY = new Set(["spain", "jean", "joe", "june", "paul", "arthur", "roy", "ben", "bob", "tom", "ann", "dan", "david", "hazel", "bill", "alice", "welsh", "amy", "kate", "annie", "betty", "bruce", "chris", "harry", "henry", "lewis", "steve", "jem", "jill", "dave", "louise"]);
 export const CHILD_ALLOW = new Set([
   ...WORDS.map(w => w.text),
   ...Object.values(EXTRA_WORDS).flat(),

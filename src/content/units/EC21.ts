@@ -56,12 +56,10 @@ export const words = [
     "text": "tube",
     "segs": "t.u=ue.be=b",
     "unit": "EC21",
-    "pic": "one plain metal tube, hollow at both ends",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:u"
+      "sort:u",
+      "dictation-safe"
     ]
   },
   {
@@ -80,12 +78,10 @@ export const words = [
     "text": "duke",
     "segs": "d.u=ue.ke=k",
     "unit": "EC21",
-    "pic": "one friendly duke in a royal coat, standing alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:u"
+      "sort:u",
+      "dictation-safe"
     ]
   },
   {

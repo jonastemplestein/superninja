@@ -1,0 +1,41 @@
+{
+ "findings": [
+  {
+   "sig": "joins:fm_slow_listen.mp3+van.mp3+van.mp3",
+   "source": "critic",
+   "severity": "major",
+   "case": "w1-wu3",
+   "title": "audible join: fm_slow_listen.mp3 + van.mp3 + van.mp3",
+   "detail": "The prompt voice sounds American (rhotic 'word') while the target words sound British. The components are audibly separate recordings with differing acoustic profiles and pitch/tone. (judge 4/10; heard: ˈlɪsən tə maɪ sloʊ wɜːrd ... v-æ-n ... væn)",
+   "evidence": [
+    "/a/l/fm_slow_listen.mp3",
+    "/a/x/van.mp3",
+    "/a/w/van.mp3"
+   ]
+  },
+  {
+   "sig": "joins:t_and_sometimes.mp3+dh.mp3",
+   "source": "critic",
+   "severity": "minor",
+   "case": "w5-1",
+   "title": "audible join: t_and_sometimes.mp3 + dh.mp3",
+   "detail": "The transition and acoustic match between the prompt and sound are seamless, but the sound pronounced is clearly /v/ rather than the expected voiced /ð/. (judge 6/10; heard: ənd ˈsʌmtaɪmz v)",
+   "evidence": [
+    "/a/l/t_and_sometimes.mp3",
+    "/a/p/dh.mp3"
+   ]
+  },
+  {
+   "sig": "joins:listen.mp3+cloth.mp3",
+   "source": "critic",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "audible join: listen.mp3 + cloth.mp3",
+   "detail": "'cloth' is noticeably punchier and louder than 'Listen', making it sound pasted in. Additionally, the final consonant uses th-fronting ([f] instead of [θ]), which is non-standard for synthetic phonics instruction. (judge 6/10; heard: lɪsən klɒf)",
+   "evidence": [
+    "/a/l/listen.mp3",
+    "/a/w/cloth.mp3"
+   ]
+  }
+ ]
+}

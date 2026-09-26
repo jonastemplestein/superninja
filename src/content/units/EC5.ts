@@ -16,7 +16,7 @@ export const words = [
     "unit": "EC5",
     "tags": [
       "review",
-      "dictation-safe",
+      "reading-only",
       "sort:o"
     ]
   },

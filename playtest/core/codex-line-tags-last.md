@@ -1,0 +1,5 @@
+Reviewed the current **718 spoken lines** and added [runtime line tags](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/src/core/content/line-tags.ts), wired them into the line book, and corrected stale notion providers. Tags changed on **359** live draft entries; 165 lines added since Jev’s draft now have entries.
+
+The [review report](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/core/line-tags-review.md) records four notions with no full explaining line and no lines left unclassified. Three gaps are already used as activity needs. The test pins those gaps explicitly rather than calling a prompt an explanation; two mechanics have I-do providers.
+
+Verification: `bun test src/core` passed **70/70**; `bunx tsc --noEmit` passed. No commit was made.

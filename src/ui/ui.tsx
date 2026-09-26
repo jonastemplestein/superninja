@@ -266,8 +266,25 @@ export const Icon = {
   check: () => (
     <svg viewBox="0 0 64 64"><path {...P} strokeWidth={9} d="M12 34l13 13 27-30" /></svg>
   ),
+  // the World Flower: eight glassy teardrop petals in the chart's colours round a golden heart (as in Tree.tsx)
   tree: () => (
-    <svg viewBox="0 0 64 64"><path {...P} d="M32 58V34m0 6-10-8m10 2 9-9" /><circle {...P} fill="#ff7aa2" cx="20" cy="22" r="9" /><circle {...P} fill="#ff7aa2" cx="40" cy="18" r="10" /><circle {...P} fill="#ffc53d" cx="32" cy="30" r="7" /></svg>
+    <svg viewBox="-60 -60 120 120">
+      {["#e8312f", "#f7a23b", "#f3c74a", "#2fa65a", "#2ec4b6", "#4a7dff", "#8a3be0", "#f0226b"].map((c, i) => (
+        <path key={c} d="M0,20 C-2.88,11.2 -12,2.4 -12,-8 A12,12 0 0 1 12,-8 C12,2.4 2.88,11.2 0,20 Z" transform={`rotate(${i * 45}) translate(0 -34)`} fill={c} stroke="#2b1d14" strokeWidth={4} />
+      ))}
+      <circle r={17} fill="#ffc53d" stroke="#2b1d14" strokeWidth={5} />
+      <ellipse cx={-5} cy={-6} rx={5} ry={3.5} fill="#fff" opacity={0.6} transform="rotate(-25 -5 -6)" />
+    </svg>
+  ),
+  /** A die-cut sticker peeling at one corner: the Sticker Book's counters (never a star: stars are for grown-ups). */
+  sticker: () => (
+    <svg viewBox="0 0 64 64">
+      <path d="M14 5h36a9 9 0 0 1 9 9v25L39 59H14a9 9 0 0 1-9-9V14a9 9 0 0 1 9-9z" fill="#fff8e6" stroke="#2b1d14" strokeWidth={4} strokeLinejoin="round" />
+      <path d="M15 11h34a4 4 0 0 1 4 4v22L37 53H15a4 4 0 0 1-4-4V15a4 4 0 0 1 4-4z" fill="#8fd3ff" />
+      <circle cx="29" cy="29" r="10" fill="#ffc53d" stroke="#2b1d14" strokeWidth={3} />
+      <path d="M22 44c4-3 10-3 14 0" fill="none" stroke="#3fbf6a" strokeWidth={4} strokeLinecap="round" />
+      <path d="M59 39 39 59c-1-11 7-20 20-20z" fill="#e9dcbd" stroke="#2b1d14" strokeWidth={4} strokeLinejoin="round" />
+    </svg>
   ),
   gear: () => (
     <svg viewBox="0 0 64 64"><circle {...P} cx="32" cy="32" r="9" /><path {...P} d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l6 6M43 43l6 6M15 49l6-6M43 21l6-6" /></svg>
@@ -488,6 +505,18 @@ export const fx = {
       particles.push({
         x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: Math.random() * 2, vr: (Math.random() - 0.5) * 0.25, life: 0, max: 30 + Math.random() * 22,
         size: size * (0.5 + Math.random() * 0.8), kind: "twinkle", color: colors[i % colors.length],
+      });
+    }
+  },
+  /** Twinkles bursting outwards from all round a target (a w×h box centred on x, y), gone within `life` frames (22:
+   *  about 0.37 s): celebrates a picture without ever covering it. */
+  halo(x: number, y: number, w: number, h: number, colors: string[] = ["#fff4dc", "#ffe38a", "#ffc53d"], n = 16, life = 22) {
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + Math.random() * 0.25;
+      const ux = Math.cos(a), uy = Math.sin(a);
+      particles.push({
+        x: x + ux * (w / 2 + 14), y: y + uy * (h / 2 + 14), vx: ux * (5 + Math.random() * 3), vy: uy * (5 + Math.random() * 3), r: Math.random() * 2, vr: (Math.random() - 0.5) * 0.25,
+        life: 0, max: life * (0.85 + Math.random() * 0.15), size: 22 + Math.random() * 12, kind: "twinkle", color: colors[i % colors.length],
       });
     }
   },

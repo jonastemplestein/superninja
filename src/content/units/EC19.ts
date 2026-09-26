@@ -44,12 +44,10 @@ export const words = [
     "text": "wart",
     "segs": "w.ar=or.t",
     "unit": "EC19",
-    "pic": "one small wart on a finger, shown gently",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ar"
+      "sort:ar",
+      "dictation-safe"
     ]
   },
   {
@@ -196,12 +194,10 @@ export const words = [
     "text": "lawn",
     "segs": "l.aw=or.n",
     "unit": "EC19",
-    "pic": "one small square of green lawn grass",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:aw"
+      "sort:aw",
+      "dictation-safe"
     ]
   },
   {
@@ -244,12 +240,10 @@ export const words = [
     "text": "hawk",
     "segs": "h.aw=or.k",
     "unit": "EC19",
-    "pic": "one hawk perched alone, full body",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:aw"
+      "sort:aw",
+      "dictation-safe"
     ]
   },
   {
@@ -302,12 +296,10 @@ export const words = [
     "text": "corn",
     "segs": "c.or=or.n",
     "unit": "EC19",
-    "pic": "one corn cob with yellow kernels and green husk",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:or"
+      "sort:or",
+      "dictation-safe"
     ]
   },
   {

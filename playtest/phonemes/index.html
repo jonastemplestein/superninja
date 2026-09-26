@@ -1,0 +1,437 @@
+<!doctype html><html lang="en-GB"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Super Ninja phoneme A/B</title>
+<style>
+:root{font:16px system-ui,sans-serif;color:#17243b;background:#f5f8fc}*{box-sizing:border-box}
+body{margin:0}header{padding:2rem max(1rem,calc((100vw - 1100px)/2));background:#132c50;color:white}
+h1{font-size:1.8rem;margin:.2rem 0}.lead{max-width:65ch;line-height:1.5;color:#d9e5f5}
+main{max-width:1160px;margin:auto;padding:1.25rem}.controls{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+input{font:inherit;padding:.7rem;border:1px solid #9aacc5;border-radius:.55rem;min-width:18rem}
+table{border-collapse:collapse;width:100%;background:white;border-radius:.8rem;overflow:hidden;box-shadow:0 3px 20px #142b4a12}
+th,td{text-align:left;vertical-align:top;padding:.8rem;border-bottom:1px solid #e4eaf3}thead{background:#e7effb}
+tbody th{font-size:1.25rem;white-space:nowrap}td{min-width:200px}td:last-child{min-width:160px}
+audio{display:block;width:min(100%,260px);height:42px;margin-top:.45rem}small{display:block;line-height:1.35;margin-top:.35rem}
+.badge{display:inline-block;border-radius:1rem;padding:.15rem .55rem;font-size:.72rem;font-weight:750;letter-spacing:.06em}
+.pass{background:#d9f2df;color:#145b2b}.fail{background:#ffe2df;color:#8a281e}
+footer{padding:1.5rem;color:#52627b;line-height:1.5}@media(max-width:700px){table{display:block;overflow-x:auto}th,td{min-width:170px}}
+</style>
+<header><h1>Pure sounds · before and after</h1><p class="lead">All 46 clips. The original is on the left and the current clip is on the right. Acoustic verdicts come from Praat; Whisper letter-name flags are included in the reasons. Short sounds are hard for speech recognition, so please use your ears.</p></header>
+<main><div class="controls"><label>Find a sound or reason <input id="filter" type="search" placeholder="e.g. k, voiced, vowel"></label><span id="count"></span></div>
+<table><thead><tr><th>Sound</th><th>Before</th><th>After</th><th>Source and cut</th></tr></thead><tbody>
+<tr data-search="a within acoustic limits kept original">
+      <th scope="row">/a/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/a.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>230 ms active; 120 ms voiced</small>
+        <audio controls preload="none" src="after/a.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="i f1 moves +1743 hz: not a steady vowel steady vowel of a tts &#x27;ih.&#x27; take, unstretched (re-audit r3: stretched /ɪ/ is heard as &#x27;ee&#x27;, the &#x27;pig&#x27; vowel as &#x27;pen&#x27;) from ih. (0.030–0.200 s)">
+      <th scope="row">/i/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>F1 moves +1743 Hz: not a steady vowel</small><audio controls preload="none" src="before/i.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>150 ms active; 90 ms voiced</small>
+        <audio controls preload="none" src="after/i.mp3"></audio></td>
+      <td>steady vowel of a TTS &#x27;ih.&#x27; take, unstretched (re-audit r3: stretched /ɪ/ is heard as &#x27;ee&#x27;, the &#x27;pig&#x27; vowel as &#x27;pen&#x27;) from ih. (0.030–0.200 s)</td>
+    </tr>
+<tr data-search="m within acoustic limits kept original">
+      <th scope="row">/m/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/m.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>590 ms active; 570 ms voiced</small>
+        <audio controls preload="none" src="after/m.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="s within acoustic limits kept original">
+      <th scope="row">/s/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/s.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>710 ms active; 20 ms voiced</small>
+        <audio controls preload="none" src="after/s.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="t stop/affricate is 420 ms (limit 120 ms) stop from tip (0.020–0.105 s)">
+      <th scope="row">/t/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>stop/affricate is 420 ms (limit 120 ms)</small><audio controls preload="none" src="before/t.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>80 ms active; 0 ms voiced</small>
+        <audio controls preload="none" src="after/t.mp3"></audio></td>
+      <td>stop from tip (0.020–0.105 s)</td>
+    </tr>
+<tr data-search="n within acoustic limits kept original">
+      <th scope="row">/n/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/n.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>490 ms active; 490 ms voiced</small>
+        <audio controls preload="none" src="after/n.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="o f2 moves +2221 hz: diphthong rather than steady /o/; whisper hears letter name &#x27;oh.&#x27; vowel from dog (0.100–0.210 s)">
+      <th scope="row">/o/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>F2 moves +2221 Hz: diphthong rather than steady /o/; Whisper hears letter name &#x27;Oh.&#x27;</small><audio controls preload="none" src="before/o.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>410 ms active; 410 ms voiced</small>
+        <audio controls preload="none" src="after/o.mp3"></audio></td>
+      <td>vowel from dog (0.100–0.210 s)</td>
+    </tr>
+<tr data-search="p stop/affricate is 170 ms (limit 120 ms) stop from pig (0.020–0.105 s)">
+      <th scope="row">/p/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>stop/affricate is 170 ms (limit 120 ms)</small><audio controls preload="none" src="before/p.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>100 ms active; 0 ms voiced</small>
+        <audio controls preload="none" src="after/p.mp3"></audio></td>
+      <td>stop from pig (0.020–0.105 s)</td>
+    </tr>
+<tr data-search="b stop/affricate is 330 ms (limit 120 ms); 310 ms voiced (limit 100 ms); 310 ms continuous voicing indicates a following vowel; whisper hears letter name &#x27;b.&#x27; final release (re-audit r3: heard as a pure /b/; the initial &#x27;bed&#x27; cut was heard as &#x27;buh&#x27;) from grab (0.085–0.260 s)">
+      <th scope="row">/b/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>stop/affricate is 330 ms (limit 120 ms); 310 ms voiced (limit 100 ms); 310 ms continuous voicing indicates a following vowel; Whisper hears letter name &#x27;B.&#x27;</small><audio controls preload="none" src="before/b.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>100 ms active; 50 ms voiced</small>
+        <audio controls preload="none" src="after/b.mp3"></audio></td>
+      <td>final release (re-audit r3: heard as a pure /b/; the initial &#x27;bed&#x27; cut was heard as &#x27;buh&#x27;) from grab (0.085–0.260 s)</td>
+    </tr>
+<tr data-search="k stop/affricate is 420 ms (limit 120 ms); 280 ms voiced (limit 60 ms); 280 ms continuous voicing indicates a following vowel tts &#x27;k&#x27; take (re-audit r3: 12 of 12 judges heard a pure /k/; the &#x27;kit&#x27; cut sometimes &#x27;kuh&#x27;) from k (0.000–0.186 s)">
+      <th scope="row">/k/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>stop/affricate is 420 ms (limit 120 ms); 280 ms voiced (limit 60 ms); 280 ms continuous voicing indicates a following vowel</small><audio controls preload="none" src="before/k.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>100 ms active; 50 ms voiced</small>
+        <audio controls preload="none" src="after/k.mp3"></audio></td>
+      <td>TTS &#x27;k&#x27; take (re-audit r3: 12 of 12 judges heard a pure /k/; the &#x27;kit&#x27; cut sometimes &#x27;kuh&#x27;) from k (0.000–0.186 s)</td>
+    </tr>
+<tr data-search="g stop/affricate is 210 ms (limit 120 ms); 150 ms voiced (limit 100 ms) stop from gap (0.020–0.095 s)">
+      <th scope="row">/g/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>stop/affricate is 210 ms (limit 120 ms); 150 ms voiced (limit 100 ms)</small><audio controls preload="none" src="before/g.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>90 ms active; 60 ms voiced</small>
+        <audio controls preload="none" src="after/g.mp3"></audio></td>
+      <td>stop from gap (0.020–0.095 s)</td>
+    </tr>
+<tr data-search="h 36.6 db internal rise suggests a following vowel unvoiced from hat (0.020–0.145 s)">
+      <th scope="row">/h/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>36.6 dB internal rise suggests a following vowel</small><audio controls preload="none" src="before/h.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>260 ms active; 0 ms voiced</small>
+        <audio controls preload="none" src="after/h.mp3"></audio></td>
+      <td>unvoiced from hat (0.020–0.145 s)</td>
+    </tr>
+<tr data-search="d stop/affricate is 280 ms (limit 120 ms); 170 ms voiced (limit 100 ms) stop from dog (0.020–0.095 s)">
+      <th scope="row">/d/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>stop/affricate is 280 ms (limit 120 ms); 170 ms voiced (limit 100 ms)</small><audio controls preload="none" src="before/d.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>80 ms active; 50 ms voiced</small>
+        <audio controls preload="none" src="after/d.mp3"></audio></td>
+      <td>stop from dog (0.020–0.095 s)</td>
+    </tr>
+<tr data-search="e within acoustic limits kept original">
+      <th scope="row">/e/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/e.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>180 ms active; 100 ms voiced</small>
+        <audio controls preload="none" src="after/e.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="f within acoustic limits kept original">
+      <th scope="row">/f/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/f.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>650 ms active; 0 ms voiced</small>
+        <audio controls preload="none" src="after/f.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="v within acoustic limits kept original">
+      <th scope="row">/v/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/v.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>620 ms active; 610 ms voiced</small>
+        <audio controls preload="none" src="after/v.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="l within acoustic limits kept original">
+      <th scope="row">/l/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/l.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>700 ms active; 680 ms voiced</small>
+        <audio controls preload="none" src="after/l.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="r f1/f2 rise +868/+1051 hz indicates /r/ moving into a vowel continuant from red (0.025–0.084 s)">
+      <th scope="row">/r/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>F1/F2 rise +868/+1051 Hz indicates /r/ moving into a vowel</small><audio controls preload="none" src="before/r.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>510 ms active; 500 ms voiced</small>
+        <audio controls preload="none" src="after/r.mp3"></audio></td>
+      <td>continuant from red (0.025–0.084 s)</td>
+    </tr>
+<tr data-search="u f1/f2 1127/1566 hz outside /u/ target 420–980/850–2050; f1 moves +548 hz: not a steady vowel vowel from cut (0.100–0.205 s)">
+      <th scope="row">/u/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>F1/F2 1127/1566 Hz outside /u/ target 420–980/850–2050; F1 moves +548 Hz: not a steady vowel</small><audio controls preload="none" src="before/u.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>410 ms active; 360 ms voiced</small>
+        <audio controls preload="none" src="after/u.mp3"></audio></td>
+      <td>vowel from cut (0.100–0.205 s)</td>
+    </tr>
+<tr data-search="j stop/affricate is 450 ms (limit 175 ms); 250 ms voiced (limit 100 ms); 160 ms continuous voicing indicates a following vowel stop from jam (0.020–0.105 s)">
+      <th scope="row">/j/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>stop/affricate is 450 ms (limit 175 ms); 250 ms voiced (limit 100 ms); 160 ms continuous voicing indicates a following vowel</small><audio controls preload="none" src="before/j.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>90 ms active; 30 ms voiced</small>
+        <audio controls preload="none" src="after/j.mp3"></audio></td>
+      <td>stop from jam (0.020–0.105 s)</td>
+    </tr>
+<tr data-search="w late f1 1215 hz indicates an open vowel after /w/ (target wwoo) tts &#x27;wwwoo&#x27; take, trimmed (re-audit r3: the school&#x27;s &#x27;wwwoo, not wuh&#x27;; heard as a clear /w/ after &#x27;can you find...&#x27; and &#x27;listen...&#x27;, where the held-w cut sounded like a glottal &#x27;oo&#x27;) from wwwoo (0.000–0.620 s)">
+      <th scope="row">/w/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>late F1 1215 Hz indicates an open vowel after /w/ (target wwoo)</small><audio controls preload="none" src="before/w.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>590 ms active; 590 ms voiced</small>
+        <audio controls preload="none" src="after/w.mp3"></audio></td>
+      <td>TTS &#x27;wwwoo&#x27; take, trimmed (re-audit r3: the school&#x27;s &#x27;wwwoo, not wuh&#x27;; heard as a clear /w/ after &#x27;Can you find...&#x27; and &#x27;Listen...&#x27;, where the held-w cut sounded like a glottal &#x27;oo&#x27;) from wwwoo (0.000–0.620 s)</td>
+    </tr>
+<tr data-search="z within acoustic limits kept original">
+      <th scope="row">/z/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/z.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>590 ms active; 490 ms voiced</small>
+        <audio controls preload="none" src="after/z.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="ks whisper hears letter name &#x27;x.&#x27; tts &#x27;cks&#x27; take (re-audit r3: the &#x27;box&#x27; cut was once heard as a faint click) from cks (0.000–0.367 s)">
+      <th scope="row">/ks/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>Whisper hears letter name &#x27;X.&#x27;</small><audio controls preload="none" src="before/ks.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>300 ms active; 0 ms voiced</small>
+        <audio controls preload="none" src="after/ks.mp3"></audio></td>
+      <td>TTS &#x27;cks&#x27; take (re-audit r3: the &#x27;box&#x27; cut was once heard as a faint click) from cks (0.000–0.367 s)</td>
+    </tr>
+<tr data-search="y within acoustic limits tts &#x27;yy&#x27; take (re-audit r3: the school&#x27;s &#x27;yyee, not yuh&#x27;, short, 6 of 6) from yy (0.000–0.470 s)">
+      <th scope="row">/y/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/y.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>370 ms active; 270 ms voiced</small>
+        <audio controls preload="none" src="after/y.mp3"></audio></td>
+      <td>TTS &#x27;yy&#x27; take (re-audit r3: the school&#x27;s &#x27;yyee, not yuh&#x27;, short, 6 of 6) from yy (0.000–0.470 s)</td>
+    </tr>
+<tr data-search="sh within acoustic limits kept original">
+      <th scope="row">/sh/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/sh.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>610 ms active; 0 ms voiced</small>
+        <audio controls preload="none" src="after/sh.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="ch stop/affricate is 360 ms (limit 175 ms) stop from chip (0.020–0.135 s)">
+      <th scope="row">/ch/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>stop/affricate is 360 ms (limit 175 ms)</small><audio controls preload="none" src="before/ch.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>120 ms active; 0 ms voiced</small>
+        <audio controls preload="none" src="after/ch.mp3"></audio></td>
+      <td>stop from chip (0.020–0.135 s)</td>
+    </tr>
+<tr data-search="th within acoustic limits initial unvoiced fricative (re-audit r3: the old take began like a /t/) from thhhhhing (0.000–0.460 s)">
+      <th scope="row">/th/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/th.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>450 ms active; 0 ms voiced</small>
+        <audio controls preload="none" src="after/th.mp3"></audio></td>
+      <td>initial unvoiced fricative (re-audit r3: the old take began like a /t/) from thhhhhing (0.000–0.460 s)</td>
+    </tr>
+<tr data-search="dh within acoustic limits kept original">
+      <th scope="row">/dh/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/dh.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>390 ms active; 340 ms voiced</small>
+        <audio controls preload="none" src="after/dh.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="ng within acoustic limits kept original">
+      <th scope="row">/ng/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/ng.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>360 ms active; 340 ms voiced</small>
+        <audio controls preload="none" src="after/ng.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="kw 110 ms voicing in /kw/ pair pair from quick (0.020–0.105 s)">
+      <th scope="row">/kw/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>110 ms voicing in /kw/ pair</small><audio controls preload="none" src="before/kw.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>90 ms active; 60 ms voiced</small>
+        <audio controls preload="none" src="after/kw.mp3"></audio></td>
+      <td>pair from quick (0.020–0.105 s)</td>
+    </tr>
+<tr data-search="ae within acoustic limits kept original">
+      <th scope="row">/ae/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/ae.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>450 ms active; 390 ms voiced</small>
+        <audio controls preload="none" src="after/ae.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="ee within acoustic limits kept original">
+      <th scope="row">/ee/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/ee.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>590 ms active; 570 ms voiced</small>
+        <audio controls preload="none" src="after/ee.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="ie within acoustic limits kept original">
+      <th scope="row">/ie/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/ie.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>510 ms active; 500 ms voiced</small>
+        <audio controls preload="none" src="after/ie.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="oe within acoustic limits kept original">
+      <th scope="row">/oe/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/oe.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>500 ms active; 380 ms voiced</small>
+        <audio controls preload="none" src="after/oe.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="oo f2 moves +927 hz: diphthong rather than steady /oo/; f1 moves +405 hz: not a steady vowel vowel from food (0.260–0.480 s)">
+      <th scope="row">/oo/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>F2 moves +927 Hz: diphthong rather than steady /oo/; F1 moves +405 Hz: not a steady vowel</small><audio controls preload="none" src="before/oo.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>430 ms active; 430 ms voiced</small>
+        <audio controls preload="none" src="after/oo.mp3"></audio></td>
+      <td>vowel from food (0.260–0.480 s)</td>
+    </tr>
+<tr data-search="ar within acoustic limits kept original">
+      <th scope="row">/ar/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/ar.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>590 ms active; 340 ms voiced</small>
+        <audio controls preload="none" src="after/ar.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="or within acoustic limits kept original">
+      <th scope="row">/or/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/or.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>540 ms active; 410 ms voiced</small>
+        <audio controls preload="none" src="after/or.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="er within acoustic limits kept original">
+      <th scope="row">/er/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/er.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>670 ms active; 590 ms voiced</small>
+        <audio controls preload="none" src="after/er.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="ou f2 fall +1313 hz is too small for /ou/ diphthong from cow (0.120–0.510 s)">
+      <th scope="row">/ou/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>F2 fall +1313 Hz is too small for /ou/</small><audio controls preload="none" src="before/ou.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>460 ms active; 370 ms voiced</small>
+        <audio controls preload="none" src="after/ou.mp3"></audio></td>
+      <td>diphthong from cow (0.120–0.510 s)</td>
+    </tr>
+<tr data-search="oy within acoustic limits kept original">
+      <th scope="row">/oy/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/oy.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>600 ms active; 330 ms voiced</small>
+        <audio controls preload="none" src="after/oy.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="ue within acoustic limits kept original">
+      <th scope="row">/ue/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/ue.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>520 ms active; 440 ms voiced</small>
+        <audio controls preload="none" src="after/ue.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="uu within acoustic limits kept original">
+      <th scope="row">/uu/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/uu.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>210 ms active; 170 ms voiced</small>
+        <audio controls preload="none" src="after/uu.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="air within acoustic limits diphthong from chair (0.190–0.450 s)">
+      <th scope="row">/air/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/air.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>440 ms active; 430 ms voiced</small>
+        <audio controls preload="none" src="after/air.mp3"></audio></td>
+      <td>diphthong from chair (0.190–0.450 s)</td>
+    </tr>
+<tr data-search="eer within acoustic limits kept original">
+      <th scope="row">/eer/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/eer.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>430 ms active; 250 ms voiced</small>
+        <audio controls preload="none" src="after/eer.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="zh within acoustic limits kept original">
+      <th scope="row">/zh/</th>
+      <td><span class="badge pass">PASS</span>
+        <small>Within acoustic limits</small><audio controls preload="none" src="before/zh.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>710 ms active; 710 ms voiced</small>
+        <audio controls preload="none" src="after/zh.mp3"></audio></td>
+      <td>Kept original</td>
+    </tr>
+<tr data-search="schwa f2 moves +726 hz: diphthong rather than steady /schwa/; f1 moves +431 hz: not a steady vowel vowel from sofa (0.440–0.555 s)">
+      <th scope="row">/schwa/</th>
+      <td><span class="badge fail">FAIL</span>
+        <small>F2 moves +726 Hz: diphthong rather than steady /schwa/; F1 moves +431 Hz: not a steady vowel</small><audio controls preload="none" src="before/schwa.mp3"></audio></td>
+      <td><span class="badge pass">PASS</span>
+        <small>400 ms active; 390 ms voiced</small>
+        <audio controls preload="none" src="after/schwa.mp3"></audio></td>
+      <td>vowel from sofa (0.440–0.555 s)</td>
+    </tr></tbody></table><footer>Files here are local copies for easy playback. Replaced originals remain in <code>.trash/phonemes-2026-09-26/</code>. See <a href="qa.json">qa.json</a> for frame and formant measurements.</footer></main>
+<script>const q=document.querySelector('#filter'),rows=[...document.querySelectorAll('tbody tr')],count=document.querySelector('#count');
+function show(){let n=0;for(const row of rows){const ok=row.dataset.search.includes(q.value.toLowerCase().trim());row.hidden=!ok;if(ok)n++}count.textContent=`${n} of ${rows.length} sounds`}
+q.addEventListener('input',show);show();document.addEventListener('play',e=>{for(const a of document.querySelectorAll('audio'))if(a!==e.target)a.pause()},true);
+</script></html>

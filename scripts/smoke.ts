@@ -4,7 +4,7 @@ import { chromium, type Page } from "playwright";
 import { save, step } from "./treadmill/bot";
 const BASE = process.argv[2] ?? "http://localhost:5173";
 const CASES: { name: string; url: string; done: (p: Page) => Promise<boolean>; save?: object; max?: number }[] = [
-  ...["w1-1", "w1-2", "w1-4", "w1-6", "w1-7", "w1-8", "w1-10", "w1-11", "w1-15", "w3-2", "w3-5", "w6-2"].map((id) => ({ name: id, url: `/play/?level=${id}`, done: (p: Page) => p.locator('button[aria-label="Play again"]').count().then((n) => n > 0) })),
+  ...["w1-wu1", "w1-wu2", "w1-2", "w1-4", "w1-6", "w1-7", "w1-8", "w1-10", "w1-11", "w1-15", "w3-2", "w3-5", "w6-br1", "w6-2"].map((id) => ({ name: id, url: `/play/?level=${id}`, done: (p: Page) => p.locator('button[aria-label="Play again"]').count().then((n) => n > 0) })),
   { name: "training", url: "/play/?scene=training", save: save({ seenTraining: false }), done: (p) => p.evaluate(() => (() => { const pr = JSON.parse(localStorage.getItem("superninja.profiles.v1")!); return JSON.parse(localStorage.getItem("superninja.save." + pr.current)!).seenTraining === true; })()) },
   { name: "placement", url: "/play/?scene=placement", save: save({ seenPlacement: false }), done: (p) => p.evaluate(() => (() => { const pr = JSON.parse(localStorage.getItem("superninja.profiles.v1")!); return JSON.parse(localStorage.getItem("superninja.save." + pr.current)!).seenPlacement === true; })()) },
 ];

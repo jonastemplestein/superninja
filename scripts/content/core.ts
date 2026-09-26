@@ -32,6 +32,9 @@ const SOUND_OVERRIDES: Record<string, Partial<Record<string, PhonemeId>>> = {
   lids: { s: "z" }, eggs: { s: "z" }, hills: { s: "z" }, tins: { s: "z" },
   trees: { s: "z" }, shoes: { s: "z" }, prams: { s: "z" }, crabs: { s: "z" }, lines: { s: "z" },
   news: { ew: "ue", s: "z" }, stairs: { s: "z" },
+  rough: { ou: "u", gh: "f" }, tough: { ou: "u", gh: "f" },
+  enough: { ou: "u", gh: "f" }, laugh: { au: "ar", gh: "f" },
+  huge: { u: "ue", ge: "j" },
   dogs: { s: "z" }, pigs: { s: "z" }, beds: { s: "z" }, bags: { s: "z" }, hens: { s: "z" }, pens: { s: "z" },
   this: { th: "dh" }, that: { th: "dh" }, then: { th: "dh" }, them: { th: "dh" },
   there: { th: "dh" }, their: { th: "dh" },
@@ -75,6 +78,9 @@ export function align(text: string, unit: SwUnitId): SwSeg[] | null {
     let best: { segs: SwSeg[]; score: number } | null = null;
     for (const s of spellings) {
       if (!text.startsWith(s.g, i)) continue;
+      // The Lexicon analyses these words with final <gh> = /f/. The longer
+      // <ough> spelling would otherwise hide that consonant at EC41.
+      if (["rough", "tough", "enough"].includes(text) && s.g === "ough") continue;
       if (s.g === "st" && s.p === "s") continue; // silent t occurs in later polysyllabic words, not an onset cluster
       if (ecKeys.size && s.g.length >= 2 && s.g.endsWith("e") && !/[aeiou]/.test(s.g[0]) && i + s.g.length !== text.length) continue;
       if (s.g === "n" && text[i + 1] === "k" && s.p !== "ng") continue;

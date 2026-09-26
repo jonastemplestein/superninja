@@ -23,11 +23,18 @@ import { say, sfx, playMusic, preload, urls, hush, type Say } from "../engine/au
 import { FAST } from "../engine/fast";
 import { shuffle } from "../engine/learner";
 import { recordSpell, recordRead, recordWordSpelt } from "../engine/store";
-import { streak, useStreak, tierOf, streakLine, type Tier } from "../engine/streak";
+import { streak, useStreak, tierOf, streakLine, tierLineSaid, type Tier } from "../engine/streak";
 import { img, heroImg, Tile, RoundButton, Icon, fx, fxDom, stageXY, stageRect, sleep, tapProps, useHelp, useHero, TapHint, WordCard, SenseiDock } from "../ui/ui";
 import { NinjaSpot, ninja, type Move, type Pose } from "../ui/Ninja";
-import { pickPraise } from "../engine/feedback";
+import { pickPraise, listenLead } from "../engine/feedback";
+import { practiceGemOf } from "../engine/gems";
+import { gemSeg } from "../content/narrative";
+import { nameLine } from "../content/warmups";
+import { LIVING_WORDS } from "../content/living";
+import { NarrOverlay, beginLevel, explainGemEnergy, heard, isDue, sweepUnder } from "./narrate";
 import { STRETCHED } from "../content/stretch";
+import { PIC_PLATES, PLATE_COLOURS } from "../content/pic-plates.gen";
+import { nextItem, ownWords, paceOf, type Pace, type PaceItem, type PaceTally, type PhaseKind, type PhaseTally } from "../content/pace";
 import "../styles/early.css";
 
 export type Mode = "ido" | "wedo" | "youdo";
@@ -38,9 +45,7 @@ type Pt = { x: number; y: number };
 
 // ---------------------------------------------------------------- the ninja's part
 // Living things (animals, people, people doing things) are never kicked or hit: they get a friendly gift (see gift()).
-const LIVING = new Set(
-  "ant astronaut bat bee bug cat chick chimp crab crow cub dog duck elf fish fox frog goat hen hog insect king man moth octopus otter pig pup queen rat sheep snail squid vet witch yak hug run sit swim jump nap hop".split(" "),
-);
+export const LIVING = LIVING_WORDS;
 // the strike pools of src/ui/Ninja.tsx, so a scene can leave a move out (e.g. a spell when a spell comes next anyway)
 const STRIKES: Record<Tier, Move[]> = {
   0: ["kick", "punch", "throw", "cast"],
@@ -74,8 +79,8 @@ function remember<T>(m: T, memory: T[] = recent as T[]) {
 const chooseMove = (pool: Move[], avoid: Move[] = []) => chooseFrom(pool, recent, avoid);
 
 /** Would one more first-try answer take the streak into a new tier? */
-const crossesTier = () => tierOf(streak.n + 1) > streak.tier;
-type Aim = "pic" | "tile" | "reader";
+export const crossesTier = () => tierOf(streak.n + 1) > streak.tier;
+export type Aim = "pic" | "tile" | "reader";
 /** Quick strikes for when Sensei models a word straight after: they land within about 0.45 s (no flying kick, spin,
  *  leap or backflip), and are played soft (no whooshes, booms or landing thuds, one gentle tink), so the word is heard
  *  clearly while the move is still in the air. */
@@ -88,7 +93,7 @@ const SOFT_STRIKES: Record<Tier, Move[]> = { 0: ["kick", "punch", "throw"], 1: [
  *  `soft`: teaching follows at once (see SOFT_STRIKES; afterLanding waits at most about 0.3 s). `avoid`: moves to leave
  *  out (picture games whose spelling then appears by a spell leave out the spell); `self`: the reader is the player's
  *  own hero (it cheers, nothing flies). */
-function rightAnswer(el: Element | null, aim: Aim, o: { first: boolean; living?: boolean; avoid?: Move[]; self?: boolean; soft?: boolean }): { held: boolean; landed: Promise<void> } {
+export function rightAnswer(el: Element | null, aim: Aim, o: { first: boolean; living?: boolean; avoid?: Move[]; self?: boolean; soft?: boolean }): { held: boolean; landed: Promise<void> } {
   const held = o.first && crossesTier();
   let landed = Promise.resolve();
   if (aim === "reader" || o.living) landed = gift(el, { self: o.self, shape: aim === "reader" ? "around" : "top" });
@@ -106,12 +111,12 @@ function rightAnswer(el: Element | null, aim: Aim, o: { first: boolean; living?:
 }
 /** Before Sensei models a word: a soft strike is still in the air (its one tink is ducked under the word by audio.ts),
  *  so the word follows the tap at once: at most about 0.3 s. */
-const afterLanding = (landed: Promise<void>) => Promise.race([landed.then(() => sleep(60)), sleep(300)]);
+export const afterLanding = (landed: Promise<void>) => Promise.race([landed.then(() => sleep(60)), sleep(300)]);
 /** Where a strike lands: a top corner of the picture or letter, where its star stamp then appears, so the impact never
  *  hides the answer while Sensei names it. A letter in a row is hit on its outer corner (top-right for the rightmost,
  *  top-left for the leftmost), so the burst scatters away from the other letters. If it was tapped while its row was
  *  still dropping in (quick answers in "find the letter"), aim at where it will land, so the move can set off at once. */
-function cornerOf(el: Element, aim: Aim = "pic"): Pt {
+export function cornerOf(el: Element, aim: Aim = "pic"): Pt {
   const r = stageRect(el);
   const box = el.closest(".drop-in");
   const moving = box?.getAnimations().some((a) => a.playState === "running");
@@ -124,7 +129,7 @@ function cornerOf(el: Element, aim: Aim = "pic"): Pt {
   return { x: left ? r.x + 6 : r.x + r.w - 6, y: r.y + 6 - dy };
 }
 /** What the ninja hit squashes and flashes (the ninja only does that for element targets; strikes here aim at a point). */
-function bump(el: Element) {
+export function bump(el: Element) {
   try {
     el.animate(
       [
@@ -140,7 +145,7 @@ function bump(el: Element) {
 /** "This is how we write it": the ninja casts, a glowing spell drifts onto sound line `i` and the spelling appears
  *  there in a flash of light (a spell that writes, so no impact star over the letter). Runs alongside Sensei's line
  *  (it lands in about 0.6 s); resolves once the spelling shows. */
-function castSpelling(i: number, show: () => void): Promise<void> {
+export function castSpelling(i: number, show: () => void): Promise<void> {
   const line = document.querySelectorAll(".sound-lines .sound-line")[i];
   if (!line) {
     show();
@@ -155,14 +160,14 @@ const NO_SPELL: Move[] = ["cast"];
 
 // ---------------------------------------------------------------- friendly gifts: no kick, no POW
 // Colours per streak tier (as the ninja's own): warm, gold, pink and blue, rainbow.
-const COLS: Record<Tier, string[]> = {
+export const COLS: Record<Tier, string[]> = {
   0: ["#fff4dc", "#ffe38a", "#ffc53d"],
   1: ["#ffe38a", "#ffc53d", "#ff9a3d", "#fff4dc"],
   2: ["#ff7aa2", "#5ec8f2", "#b48cff", "#ffe38a"],
   3: ["#ff5a5a", "#ffb03d", "#ffe94a", "#5fd35f", "#4ab8ff", "#b48cff"],
 };
 /** A point on the ninja (fractions of its width from its left edge and above its feet), in stage coordinates. */
-function ninjaAt(fw: number, fh: number): Pt {
+export function ninjaAt(fw: number, fh: number): Pt {
   const r = stageRect(document.querySelector(".ninja-spot"));
   const left = r.w ? r.x : 40, feet = r.w ? r.y + r.h : 702, w = r.w || 250;
   return { x: left + w * fw, y: feet - w * fh };
@@ -206,7 +211,7 @@ function floatTo(src: string, size: number, a: Pt, b: Pt, ms: number, tier: Tier
  *  crown arches over it. A reader has the sound tiles just above: it lands on the hair, and the stars settle round the
  *  upper half of the portrait, clear of the tiles and never over the face. A built word has its picture above: the
  *  stars go to both ends of the word. */
-type Crown = "top" | "around" | "sides";
+export type Crown = "top" | "around" | "sides" | "halo";
 function crownSpots(r: { x: number; y: number; w: number; h: number }, shape: Crown, n: number) {
   const cx = r.x + r.w / 2;
   if (shape === "top") {
@@ -214,6 +219,8 @@ function crownSpots(r: { x: number; y: number; w: number; h: number }, shape: Cr
     return { land: { x: cx, y: r.y + 4 }, rise: 34, spots: Array.from({ length: n }, (_, i) => Math.PI * (1.1 + (0.8 * i) / (n - 1))).map((a) => ({ x: cx + Math.cos(a) * rx, y: r.y + 4 + Math.sin(a) * 50 - 16 })) };
   }
   const round = (deg: number[], cy: number, rx: number, ry: number) => deg.slice(0, n).map((d) => ({ x: cx + Math.cos((d * Math.PI) / 180) * rx, y: cy + Math.sin((d * Math.PI) / 180) * ry }));
+  // a picture that is the joke (the fish-dog): the star lands above it and the stars settle all round, off the picture
+  if (shape === "halo") return { land: { x: cx, y: r.y - 34 }, rise: 16, spots: round([200, 340, 160, 20, 250, 290, 180], r.y + r.h / 2, r.w / 2 + 44, r.h / 2 + 30) };
   if (shape === "around") {
     const cy = r.y + r.w / 2; // the round portrait window (as wide as the reader) sits at the top
     return { land: { x: cx, y: r.y + 44 }, rise: 10, spots: round([232, 308, 196, 344, 160, 20, 140], cy, r.w / 2 + 14, r.w / 2 + 16) };
@@ -222,15 +229,15 @@ function crownSpots(r: { x: number; y: number; w: number; h: number }, shape: Cr
 }
 /** Stars (and hearts on a streak) pop out of the landing point and settle round the target (see crownSpots), then
  *  float and fade, with a chime. More of them, and brighter, the higher the streak. */
-function crown(r: { x: number; y: number; w: number; h: number }, tier: Tier, shape: Crown) {
+export function crown(r: { x: number; y: number; w: number; h: number }, tier: Tier, shape: Crown, brief = false) {
   const layer = fxDom();
   if (!layer) return;
   const n = [3, 5, 5, 7][tier];
   const { land, spots, rise } = crownSpots(r, shape, n);
   sfx.petal();
-  fx.twinkle(land.x, land.y, COLS[tier], 10 + tier * 4, 4.5, 24);
-  fx.glow(land.x, land.y, COLS[tier], 6 + tier * 3, 46, 1.6, 26);
-  if (tier >= 2) fx.ring(land.x, land.y, { color: COLS[tier][0], r0: 10, r1: 130 + tier * 20, width: 8, life: 24 });
+  fx.twinkle(land.x, land.y, COLS[tier], brief ? 6 : 10 + tier * 4, 4.5, brief ? 18 : 24);
+  if (!brief) fx.glow(land.x, land.y, COLS[tier], 6 + tier * 3, 46, 1.6, 26);
+  if (tier >= 2 && !brief) fx.ring(land.x, land.y, { color: COLS[tier][0], r0: 10, r1: 130 + tier * 20, width: 8, life: 24 });
   spots.forEach((p, i) => {
     const mid = shape === "top" && i === (n - 1) / 2;
     const heart = tier >= 2 ? i % 2 === 1 || mid : tier === 1 && (mid || (shape !== "top" && i === 2));
@@ -243,15 +250,22 @@ function crown(r: { x: number; y: number; w: number; h: number }, tier: Tier, sh
     layer.appendChild(el);
     const at = (x0: number, y0: number, k: number, rot = 0) => `translate(${x0 - s / 2}px, ${y0 - s / 2}px) rotate(${rot}deg) scale(${k})`;
     const tilt = (p.x < land.x ? -1 : 1) * (8 + (i % 3) * 5);
+    // `brief`: out, a pop, and gone within about 0.4 s of landing (the picture it celebrates must be seen)
     const anim = el.animate(
-      [
-        { transform: at(land.x, land.y, 0.2), opacity: 0 },
-        { transform: at(p.x, p.y, 1.22, tilt), opacity: 1, offset: 0.2, easing: "ease-in-out" },
-        { transform: at(p.x, p.y, 1, tilt), opacity: 1, offset: 0.32, easing: "ease-in-out" },
-        { transform: at(p.x, p.y - rise * 0.25, 1.04, -tilt / 2), opacity: 1, offset: 0.7, easing: "ease-in" },
-        { transform: at(p.x, p.y - rise, 0.7, tilt), opacity: 0 },
-      ],
-      { duration: 1500, delay: i * 45, easing: "cubic-bezier(.3,1.4,.5,1)", fill: "both" },
+      brief
+        ? [
+            { transform: at(land.x, land.y, 0.2), opacity: 0 },
+            { transform: at(p.x, p.y, 1.15, tilt), opacity: 1, offset: 0.3, easing: "ease-out" },
+            { transform: at(p.x, p.y - rise, 0.6, tilt), opacity: 0 },
+          ]
+        : [
+            { transform: at(land.x, land.y, 0.2), opacity: 0 },
+            { transform: at(p.x, p.y, 1.22, tilt), opacity: 1, offset: 0.2, easing: "ease-in-out" },
+            { transform: at(p.x, p.y, 1, tilt), opacity: 1, offset: 0.32, easing: "ease-in-out" },
+            { transform: at(p.x, p.y - rise * 0.25, 1.04, -tilt / 2), opacity: 1, offset: 0.7, easing: "ease-in" },
+            { transform: at(p.x, p.y - rise, 0.7, tilt), opacity: 0 },
+          ],
+      { duration: brief ? 560 : 1500, delay: i * (brief ? 25 : 45), easing: "cubic-bezier(.3,1.4,.5,1)", fill: "both" },
     );
     anim.playbackRate = FAST;
     anim.finished.then(() => el.remove(), () => el.remove());
@@ -261,23 +275,24 @@ function crown(r: { x: number; y: number; w: number; h: number }, tier: Tier, sh
  *  ninja cheers and a star floats over, or it casts and a glowing spell drifts over; either way it lands gently and
  *  settles as a crown of stars (and hearts on a streak) with a chime. No POW, no thwack, no shake. The player's own
  *  hero (a reader) just cheers with it: nothing flies at itself. Resolves when it lands. */
-function gift(el: Element | null, o: { self?: boolean; shape?: Crown } = {}): Promise<void> {
+export function gift(el: Element | null, o: { self?: boolean; shape?: Crown; brief?: boolean } = {}): Promise<void> {
   const r = stageRect(el);
   if (!el || !r.w) return Promise.resolve();
   const tier = streak.tier;
   const shape = o.shape ?? "top";
+  const brief = !!o.brief;
   const { land } = crownSpots(r, shape, 1);
   if (o.self) {
     remember("cheer");
     void ninja.act("cheer");
-    return sleep(260).then(() => crown(r, tier, shape));
+    return sleep(260).then(() => crown(r, tier, shape, brief));
   }
-  if (chooseMove(["cheer", "cast"]) === "cast") return launch("cast", null, land, { land: "none" }).then(() => crown(r, tier, shape));
+  if (chooseMove(["cheer", "cast"]) === "cast") return launch("cast", null, land, { land: "none" }).then(() => crown(r, tier, shape, brief));
   void ninja.act("cheer");
   // up at the top of the cheer's first bounce, the star leaves the ninja's raised hands
   return sleep(240)
     .then(() => floatTo(img(tier >= 2 ? "item_heart" : "item_star"), 76 + tier * 8, ninjaAt(0.6, 1.3), land, 520, tier))
-    .then(() => crown(r, tier, shape));
+    .then(() => crown(r, tier, shape, brief));
 }
 
 // ---------------------------------------------------------------- the ninja's launches: letters into slots, spells
@@ -291,7 +306,7 @@ function gift(el: Element | null, o: { self?: boolean; shape?: Crown } = {}): Pr
 // (never red: red means wrong). A letter launch makes no
 // sound of its own but a soft tock as it lands: the letter's sound is being said as it flies. With no letter, the same
 // machinery casts a spell orb from the ninja's hands (writing a spelling on its line, a gift), with a quiet shimmer.
-type Launch = "cast" | "throw" | "punch" | "kick" | "leap" | "spin" | "flip";
+export type Launch = "cast" | "throw" | "punch" | "kick" | "leap" | "spin" | "flip";
 const LAUNCHES: Record<Tier, Launch[]> = {
   0: ["cast", "throw", "punch"],
   1: ["cast", "throw", "punch", "kick", "leap"],
@@ -301,11 +316,11 @@ const LAUNCHES: Record<Tier, Launch[]> = {
 const recentLaunch: Launch[] = [];
 /** One keyframe of the whole ninja: [ms, x, y, rotate°, scaleX, scaleY, easing of the segment that starts here].
  *  Squash and stretch happen at the feet; rotation turns round the tummy. */
-type Key = [number, number, number, number, number, number, string?];
+export type Key = [number, number, number, number, number, number, string?];
 const SNAP = "cubic-bezier(.15,.85,.25,1.15)";
 const FALL = "cubic-bezier(.55,0,.85,.4)";
 const CROUCH = "cubic-bezier(.2,.8,.4,1)";
-interface Spec {
+export interface Spec {
   total: number;
   keys: Key[];
   poses: [number, Pose][];
@@ -413,7 +428,7 @@ function showPose(p: Pose | null) {
 let moving: { anims: Animation[]; timers: number[] } | null = null;
 /** Whole-body motion for a launch: poses on cue, the float layer's keyframes, the shadow staying on the ground, the
  *  streak flames kept upright, and afterimages on a big streak. A new launch cuts the last one short. */
-function moveNinja(s: Spec, tier: Tier) {
+export function moveNinja(s: Spec, tier: Tier) {
   if (moving) {
     moving.anims.forEach((a) => a.cancel());
     moving.timers.forEach(clearTimeout);
@@ -505,7 +520,7 @@ function trail(p: Pt, prev: Pt, tier: Tier, t: number) {
  *  learning b, d, p and q must never see one upside down on its way to its slot (a spinning p passes through d).
  *  glide: a smooth arc (spells); whirl: swings to and fro (a throw, a leap); dart: leans into a fast, stretched line (a
  *  punch, a kick); corkscrew: loops round its path (a pirouette); hop: squashes and stretches, bouncing along (a flip). */
-type Fly = "glide" | "whirl" | "dart" | "corkscrew" | "hop";
+export type Fly = "glide" | "whirl" | "dart" | "corkscrew" | "hop";
 function flyStyle(style: Fly, t: number, k: number): { dx: number; dy: number; css: string } {
   const bell = Math.sin(t * Math.PI);
   switch (style) {
@@ -590,7 +605,7 @@ const centreOf = (el: Element): Pt => {
 /** The ninja launches letter tile `from` into `to` (its glowing copy flies; the caller hides the real one), or with no
  *  `from` casts a spell orb from its hands to `to`. Resolves when it lands (about 0.45-0.65 s). `land`: the landing's
  *  rings and sound (a soft place, a chime, or nothing when the caller celebrates the landing itself). */
-function launch(l: Launch, from: Element | null, to: Element | Pt, o: { land?: "place" | "chime" | "none" } = {}): Promise<void> {
+export function launch(l: Launch, from: Element | null, to: Element | Pt, o: { land?: "place" | "chime" | "none" } = {}): Promise<void> {
   const tier = streak.tier;
   const s = specOf(from ? l : "cast", tier);
   const layer = fxDom();
@@ -648,18 +663,18 @@ const hasLine = (id: string) => LINES.some((l) => l.id === id);
 /** Count an answer held back by rightAnswer, once its teaching has been said: the ninja powers up (the flash, the
  *  rings, one more flame) and its line ("Ninja power!", "Super ninja streak!", "You're a ninja master!") is said at
  *  once, here, as the praise for that answer. */
-async function tierBeat(): Promise<void> {
+export async function tierBeat(): Promise<void> {
   const e = streak.hit({ line: false });
   if (!e.tierUp) return;
   const id = streakLine(e);
-  if (id) await say({ line: id });
+  if (id) tierLineSaid(id, await say({ line: id }));
   else await sleep(800); // no line: let the power-up be seen
 }
 /** A wrong answer. From a streak the ninja reacts by itself; from zero it still tilts its head ("hmm?"), so every slip
  *  gets the same gentle look and never a hurt one. It keeps its puzzled look through the correction (the caller puts it
  *  back with ninja.pose(null)). A lost streak of 3 or more: its flames puff out and "Keep going, ninja!" comes before
  *  the correction, so the correction's target is the last thing heard. */
-async function wrongAnswer(): Promise<void> {
+export async function wrongAnswer(): Promise<void> {
   const e = streak.miss({ line: false });
   if (e.prevN === 0) void ninja.act("think");
   ninja.pose("think");
@@ -668,14 +683,14 @@ async function wrongAnswer(): Promise<void> {
 }
 /** Level start: the audio engine exists before any child scene speaks (its speech counter only works once it does),
  *  and the streak lines are ready to play. */
-function useLevelAudio() {
+export function useLevelAudio() {
   useLayoutEffect(() => {
     playMusic("dojo");
     preload(["streak_3", "streak_6", "streak_10", "streak_lost"].filter(hasLine).map(urls.line));
   }, []);
 }
 /** End of the level: the ninja's big finish, then the reward screen (unless the child has gone home meanwhile). */
-function useFinish(onDone: (stars: number) => void) {
+export function useFinish(onDone: (stars: number) => void) {
   const alive = useRef(true);
   useEffect(() => {
     alive.current = true;
@@ -692,22 +707,40 @@ function useFinish(onDone: (stars: number) => void) {
 }
 
 // ---------------------------------------------------------------- shared bits
-/** A named picture card. */
-function PicCard({ w, onTap, state, size = 270, wait }: { w: string; onTap?: (el: HTMLElement) => void; state?: "glow" | "right" | "wrong" | "dim" | ""; size?: number; wait?: boolean }) {
+/** How a picture card looks right now (docs/FIRST_MINUTES.md §11 "States"): being named (spot, a warm-white ring,
+ *  never gold), the answer's hint (glow, gold), right, found (a tap-all find), wrong (a wobble, never red) and dim. */
+export type CardState = "glow" | "right" | "wrong" | "dim" | "spot" | "found" | "";
+const plateOf = (w: string) => PIC_PLATES[w] ?? { plate: "sky" as const, grounded: true };
+/** A picture card (§11): a painted plate in the picture's own swatch (the same colour on its sticker), a warm halo
+ *  behind the picture, a contact shadow under grounded things, and the picture fitted by `contain` into a safe box
+ *  (78% × 74% of the plate, a little above centre), so nothing ever touches the plate's edge. The plate sits inside
+ *  a `gutter` that belongs to the element itself: the lift, rings, bounce and star stamp all stay inside it, so no
+ *  card is ever clipped. Dimming never uses opacity (a card is never see-through). `size` is the plate. */
+export function PicCard({ w, onTap, state, size = 250, gutter = 24, wait, className = "", still }: { w: string; onTap?: (el: HTMLElement) => void; state?: CardState; size?: number; gutter?: number; wait?: boolean; className?: string; still?: boolean }) {
+  const p = plateOf(w);
+  const style = { width: size + 2 * gutter, height: size + 2 * gutter, padding: gutter, "--plate": PLATE_COLOURS[p.plate], "--ps": `${size}px` } as React.CSSProperties;
+  const plate = (
+    <span className={`pcard-plate ${p.plate === "night" ? "night" : ""}`}>
+      <span className="pcard-halo" aria-hidden="true" />
+      {p.grounded && <span className="pcard-shadow" aria-hidden="true" />}
+      <img src={img(`pic_${w}`)} alt="" draggable={false} />
+      <span className="pcard-sweep" aria-hidden="true" />
+      {(state === "right" || state === "found") && <span className="pcard-tick" aria-hidden="true" />}
+    </span>
+  );
+  // `still`: a picture that is part of something bigger to tap (a reading rail) or just shown (a sticker): not a button
+  if (still) return <span data-pic={w} data-plate={p.plate} className={`pcard still ${state ?? ""} ${className}`} style={style}>{plate}</span>;
   return (
-    <button
-      aria-label={w}
-      className={`pic-card ${state ?? ""} ${wait ? "wait" : ""}`}
-      style={{ width: size, height: size }}
-      {...tapProps<HTMLButtonElement>((el) => onTap?.(el))}
-    >
-      <img src={img(`pic_${w}`)} alt="" />
+    <button aria-label={w} data-pic={w} data-plate={p.plate} className={`pcard ${state ?? ""} ${wait ? "wait" : ""} ${className}`} style={style} {...tapProps<HTMLButtonElement>((el) => onTap?.(el))}>
+      {plate}
     </button>
   );
 }
+/** The plate colour of a picture (cards, stickers and rewards all use it). */
+export const plateColour = (w: string) => PLATE_COLOURS[plateOf(w).plate];
 
 /** Lines under a picture: one per sound; `show` = which positions have their spelling revealed. */
-function SoundLines({ word, show, lit }: { word: Word | null; show: number[]; lit?: number }) {
+export function SoundLines({ word, show, lit }: { word: Word | null; show: number[]; lit?: number }) {
   if (!word) return null;
   return (
     <div className="sound-lines">
@@ -722,16 +755,47 @@ function SoundLines({ word, show, lit }: { word: Word | null; show: number[]; li
 
 /** Phases report how far through they are; the bar then moves item by item inside the phase's range. */
 const SubProgress = createContext<(f: number) => void>(() => {});
+
+/** Pace follows mastery (content/pace.ts): the level's answers and clock, shared by its phases. A level without a pace
+ *  (every level outside Bamboo Village's first lessons) plays every item. */
+interface LevelPace {
+  pace: Pace | null;
+  t0: number;
+  tally: PaceTally;
+}
+const PaceCtx = createContext<LevelPace>({ pace: null, t0: 0, tally: { answers: 0, firstTry: 0 } });
+/** One phase's pacing: `answered()` after each item the child answered; `next()` at each item boundary. */
+function usePhasePace(kind: PhaseKind, readsAfter = false) {
+  const lp = useContext(PaceCtx);
+  const phase = useRef<PhaseTally>({ firstTry: 0, ownFirstTry: 0 });
+  return {
+    answered(mode: PaceItem["mode"], firstTry: boolean) {
+      if (mode === "ido") return;
+      lp.tally.answers++;
+      if (firstTry) {
+        lp.tally.firstTry++;
+        phase.current.firstTry++;
+        if (mode === "youdo") phase.current.ownFirstTry++;
+      }
+    },
+    next: (items: readonly PaceItem[], from: number) => nextItem(lp.pace, kind, items, from, lp.tally, phase.current, ((performance.now() - lp.t0) * FAST) / 1000, readsAfter),
+    paced: !!lp.pace,
+  };
+}
 const useReportProgress = (f: number) => {
   const report = useContext(SubProgress);
   useEffect(() => report(f), [f]);
 };
 
 /** The play area (docs/HERO.md): right of the ninja zone (stage x 0-330) and left of the Help corner. Rows are centred in it. */
-const PLAY = { left: 340, right: 160 } as const;
-const PLAY_CX = (1280 - PLAY.right + PLAY.left) / 2;
+export const PLAY = { left: 340, right: 160 } as const;
+export const PLAY_CX = (1280 - PLAY.right + PLAY.left) / 2;
 
-function Frame({ level, children, progress: fixed, range }: { level: Level; children: ReactNode; progress?: number; range?: [number, number] }) {
+/** A level's frame: the background, the ninja bottom-left (and its streak's light), the progress bar, the caption
+ *  bubble. `top`: something in place of the progress bar (the warm-ups' lesson beads). */
+export function Frame({ level, children, progress: fixed, range, top, className = "" }: { level: Level; children: ReactNode; progress?: number; range?: [number, number]; top?: ReactNode; className?: string }) {
+  useState(() => beginLevel(level)); // the narrative ledger's level (during the first render, before the games ask)
+  const [pace] = useState<LevelPace>(() => ({ pace: paceOf(level), t0: performance.now(), tally: { answers: 0, firstTry: 0 } }));
   const world = worldOf(level);
   const [sub, setSub] = useState(0);
   const { tier } = useStreak();
@@ -744,18 +808,23 @@ function Frame({ level, children, progress: fixed, range }: { level: Level; chil
   useEffect(() => setSub(0), [range?.[0]]);
   const progress = range ? range[0] + (range[1] - range[0]) * Math.min(1, sub) : fixed ?? 0;
   return (
-    <div className={`scene early streak-${fresh ? tier : 0}`}>
-      <img className="bg-img" src={img(level.kind === "listen" ? `bg_${world.key}` : "dojo_bg")} alt="" />
+    <div className={`scene early streak-${fresh ? tier : 0} ${className}`}>
+      <img className="bg-img" src={img(level.kind === "listen" || level.kind === "ears" || level.kind === "picread" ? `bg_${world.key}` : "dojo_bg")} alt="" />
       <div className="vignette" />
       {/* the ninja's power lights up the room from the bottom-left, a little more with every streak tier */}
       <div className="early-light" aria-hidden="true" />
       {fresh && <NinjaSpot />}
-      <div className="row" style={{ position: "absolute", left: 0, right: 0, top: 18, gap: 6, pointerEvents: "none" }}>
-        <div style={{ width: 360, height: 20, borderRadius: 12, border: "4px solid var(--ink)", background: "rgba(43,29,20,.3)", overflow: "hidden" }}>
-          <div style={{ width: `${progress * 100}%`, height: "100%", background: "linear-gradient(180deg,#ffe38a,#ffc53d)", transition: "width .4s" }} />
+      {top ?? (
+        <div className="row" style={{ position: "absolute", left: 0, right: 0, top: 18, gap: 6, pointerEvents: "none" }}>
+          <div style={{ width: 360, height: 20, borderRadius: 12, border: "4px solid var(--ink)", background: "rgba(43,29,20,.3)", overflow: "hidden" }}>
+            <div style={{ width: `${progress * 100}%`, height: "100%", background: "linear-gradient(180deg,#ffe38a,#ffc53d)", transition: "width .4s" }} />
+          </div>
         </div>
-      </div>
-      <SubProgress.Provider value={setSub}>{children}</SubProgress.Provider>
+      )}
+      <PaceCtx.Provider value={pace}>
+        <SubProgress.Provider value={setSub}>{children}</SubProgress.Provider>
+      </PaceCtx.Provider>
+      <NarrOverlay />
       <SenseiDock />
     </div>
   );
@@ -763,6 +832,8 @@ function Frame({ level, children, progress: fixed, range }: { level: Level; chil
 
 const soundOf = (g: string) => GRAPHEMES[g] as PhonemeId;
 const HAS_AN = LINES.some((l) => l.id === "this_is_an");
+const LINE_IDS = new Set(LINES.map((l) => l.id));
+const HAS_LINE = (id: string) => LINE_IDS.has(id);
 const picWords = (f: (w: Word) => boolean) => WORDS.filter((w) => w.pic && f(w)).map((w) => w.text);
 const firstIs = (w: string, p: PhonemeId) => (WORD_BY_TEXT[w]?.segs[0].p ?? ORAL_WORDS[w]?.first) === p;
 const hasMiddle = (w: string, p: PhonemeId) => WORD_BY_TEXT[w]?.segs.some((s, i) => i > 0 && s.p === p);
@@ -770,6 +841,8 @@ const hasMiddle = (w: string, p: PhonemeId) => WORD_BY_TEXT[w]?.segs.some((s, i)
 // ---------------------------------------------------------------- the pick-game engine
 export interface PickItem {
   mode: Mode;
+  /** extra practice a child on track skips (content/pace.ts) */
+  optional?: boolean;
   options: string[]; // ids
   answer: string;
   prompt: Say[];
@@ -788,6 +861,7 @@ export interface PickItem {
 const pickEl = (id: string) => document.querySelector(`.pick-row [aria-label="${CSS.escape(id)}"]`);
 
 function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, youdo: number) => void; kind: "pic" | "tile"; avoid?: Move[] }) {
+  const pace = usePhasePace("pick");
   const [queue, setQueue] = useState<PickItem[]>(items);
   const [i, setI] = useState(0);
   const [state, setState] = useState<Record<string, "glow" | "right" | "wrong" | "dim" | "">>({});
@@ -804,23 +878,28 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
   const item = queue[i];
   useReportProgress(i / queue.length);
 
+  const prevMode = useRef<Mode | null>(null);
   const present = async (it: PickItem) => {
     setBusy(true);
     setState({});
     setPaw(null);
     misses.current = 0;
     const seq: Say[] = [];
-    if (it.mode === "ido" && (i === 0 || queue[i - 1].mode !== "ido")) seq.push({ line: "ido" }, { gap: 250 });
-    if (it.mode === "wedo" && queue[i - 1]?.mode === "ido") seq.push({ line: "wedo" }, { gap: 250 });
-    if (it.mode === "youdo" && queue[i - 1] && queue[i - 1].mode !== "youdo") seq.push({ line: "youdo" }, { gap: 250 });
+    const before = prevMode.current;
+    prevMode.current = it.mode;
+    if (it.mode === "ido" && before !== "ido") seq.push({ line: "ido" }, { gap: 250 });
+    if (it.mode === "wedo" && before === "ido") seq.push({ line: "wedo" }, { gap: 250 });
+    if (it.mode === "youdo" && before && before !== "youdo") seq.push({ line: "youdo" }, { gap: 250 });
     // name pictures the first times they appear
     if (opts.kind === "pic")
       for (const o of it.options)
         if (!named.current.has(o)) {
           named.current.add(o);
-          // "This is an apple", not "a apple" (falls back to "This is..." until the line exists)
+          // one whole recorded sentence ("This is an apple.", Round 13: no spliced word), or, for a picture without
+          // one, "This is a..." and the word
+          const whole = nameLine(o);
           const article = /^[aeiou]/.test(o) ? (HAS_AN ? "this_is_an" : "this_is") : "this_is_a";
-          seq.push({ line: article }, { gap: 80 }, { word: o }, { gap: 350 });
+          seq.push(...(whole ? [{ line: whole }] : [{ line: article }, { gap: 80 }, { word: o }]), { gap: 350 });
         }
     if (seq.length) await say(seq);
     // while the question itself is playing, an eager answer counts: it interrupts Sensei (see choose)
@@ -867,6 +946,7 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
         youdo.current++;
         if (misses.current === 0) firstTry.current++;
       }
+      if (!auto) pace.answered(item.mode, misses.current === 0);
       // the word Sensei models follows the tap at once, while the (soft) move is still in the air
       if (item.onRight) {
         await afterLanding(landed);
@@ -877,7 +957,9 @@ function usePickGame(items: PickItem[], opts: { onFinish: (firstTry: number, you
       else if (!auto && (!item.onRight || item.praise)) await say({ line: pickPraise() });
       await sleep(300);
       item.after?.();
-      if (i + 1 < queue.length) setI(i + 1);
+      // (a child on track skips the extra practice: content/pace.ts)
+      const n = pace.next(queue, i + 1);
+      if (n < queue.length) setI(n);
       else {
         setFinished(true);
         opts.onFinish(firstTry.current, youdo.current);
@@ -935,7 +1017,7 @@ function PickBoard({ game, kind, reveal }: { game: ReturnType<typeof usePickGame
         {item.options.map((o, k) => (
           <div key={o} style={{ position: "relative", animationDelay: `${k * 0.08}s` }} className="drop-in">
             {kind === "pic" ? (
-              <PicCard w={o} state={state[o] ?? ""} wait={game.waitTap === o} onTap={(el) => choose(o, false, el)} />
+              <PicCard w={o} size={240} state={state[o] ?? ""} wait={game.waitTap === o} onTap={(el) => choose(o, false, el)} />
             ) : (
               <Tile g={o} size={n <= 3 ? "xl" : "lg"} state={state[o] === "glow" ? "hint" : state[o] === "right" ? "right" : state[o] === "wrong" ? "wrong" : ""} onTap={(el) => choose(o, false, el)} className={state[o] === "dim" ? "dimmed" : ""} />
             )}
@@ -1054,8 +1136,8 @@ export function FirstSoundLevel(props: LevelProps) {
         }
         return (d.last = d.left.shift()!);
       };
-      const mk = (mode: Mode, p: PhonemeId, answer: string, other: string): PickItem => ({
-        mode, answer, options: shuffle([answer, other]),
+      const mk = (mode: Mode, p: PhonemeId, answer: string, other: string, optional?: boolean): PickItem => ({
+        mode, optional, answer, options: shuffle([answer, other]),
         prompt: [{ line: "first_q" }, { gap: 300 }, { sound: p }],
         listenAgain: [{ line: "listen_again" }, { gap: 150 }, STRETCHED.has(answer) ? x(answer) : { word: answer }, { gap: 250 }, { line: "first_q" }, { gap: 200 }, { sound: p }],
         onRight: async ({ held }) => {
@@ -1065,12 +1147,16 @@ export function FirstSoundLevel(props: LevelProps) {
           setRevealWord(w);
           setRevealX(picX(answer));
           setRevealShow([]);
-          await say([{ word: answer }, { gap: 100 }, { line: "starts_with" }, { gap: 100 }, { sound: p }]);
+          // "Mop starts with..." [/m/]: the word and its lead-in are one recording (only the pure sound is joined)
+          await say(HAS_LINE(`fs_${answer}`) ? [{ line: `fs_${answer}` }, { gap: 120 }, { sound: p }] : [{ word: answer }, { gap: 100 }, { line: "starts_with" }, { gap: 100 }, { sound: p }]);
           if (!introduced.current.has(g) || mode !== "youdo") {
             introduced.current.add(g);
-            // the ninja's spell writes the spelling on its line while Sensei says how we write it
+            // the ninja's spell writes the spelling on its line while Sensei says how we spell it. The very first
+            // spelling a child sees says what a spelling is (NARRATIVE_AUDIT F11): we hear a sound, we see its spelling
             const written = castSpelling(0, () => setRevealShow([0]));
-            await say([{ line: "how_we_spell" }, { gap: 150 }, { sound: p }]);
+            const hearSee = isDue("hear-see:w1", "once");
+            const ok = await say([{ line: hearSee ? "audit_hear_see" : "how_we_spell" }, { gap: 150 }, { sound: p }]);
+            if (ok && hearSee) heard("hear-see:w1");
             await written;
           } else {
             // a spelling the child has met: it simply appears, and stays a moment to be seen (a tier beat is that moment)
@@ -1082,7 +1168,8 @@ export function FirstSoundLevel(props: LevelProps) {
       });
       for (const p of sounds) {
         const f = shuffle(foils.filter((w) => picSaysFirst(w) && !firstIs(w, p) && !sounds.includes(WORD_BY_TEXT[w].segs[0].p)));
-        out.push(mk("ido", p, next(p), f[0]), mk("wedo", p, next(p), f[1]), mk("youdo", p, next(p), f[2]), mk("youdo", p, next(p), f[3]));
+        // (the second "your turn" is extra practice: a child on track goes on, content/pace.ts)
+        out.push(mk("ido", p, next(p), f[0]), mk("wedo", p, next(p), f[1]), mk("youdo", p, next(p), f[2]), mk("youdo", p, next(p), f[3], true));
       }
       if (sounds.length > 1) {
         // head to head: the other picture starts with the other sound
@@ -1092,7 +1179,7 @@ export function FirstSoundLevel(props: LevelProps) {
           const p = k % 2 ? b : a;
           const answer = next(p);
           const pool = others.get(p === a ? b : a)!;
-          out.push(mk("youdo", p, answer, pool[k % pool.length]));
+          out.push(mk("youdo", p, answer, pool[k % pool.length], k >= 2));
         }
       }
       return out;
@@ -1107,7 +1194,7 @@ export function FirstSoundLevel(props: LevelProps) {
         const g = teach[k % teach.length];
         const n = teach.length > 1 ? 2 : 2;
         const opts = shuffle([g, ...shuffle(pool.filter((o) => o !== g)).slice(0, n - 1 + (k > 1 && pool.length > 2 ? 1 : 0))]);
-        out.push({ mode: "youdo", answer: g, options: opts, prompt: [{ line: "find_q" }, { gap: 300 }, { sound: soundOf(g) }], listenAgain: [{ line: "listen_again" }, { gap: 150 }, { sound: soundOf(g) }] });
+        out.push({ mode: "youdo", optional: k >= 2, answer: g, options: opts, prompt: [{ line: "find_q" }, { gap: 300 }, { sound: soundOf(g) }], listenAgain: [{ line: "listen_again" }, { gap: 150 }, { sound: soundOf(g) }] });
       }
       return out;
     })(),
@@ -1168,6 +1255,9 @@ export function SoundHuntLevel(props: LevelProps) {
   const items = useRef<PickItem[]>(
     pairs.map(([ans, other], k): PickItem => ({
       mode: k === 0 ? "ido" : k < 3 ? "wedo" : "youdo",
+      // extra practice a child on track skips (content/pace.ts): the second "together" and all but the first alone
+      // (I do, we do, you do: as each sound in the first-sound game)
+      optional: k === 2 || k >= 4,
       answer: ans, options: shuffle([ans, other]),
       prompt: [{ line: "hunt_q" }, { gap: 250 }, { sound: p }, { gap: 350 }, x(ans), { gap: 350 }, x(other)],
       listenAgain: [{ line: "listen_again" }, { gap: 150 }, x(ans), { gap: 300 }, x(other)],
@@ -1176,7 +1266,8 @@ export function SoundHuntLevel(props: LevelProps) {
         setRevealWord(w);
         setRevealX(picX(ans));
         setRevealShow([]);
-        await say([{ word: ans }, { gap: 100 }, { line: "has_in_middle" }, { gap: 100 }, { sound: p }]);
+        // "Pin has this sound in the middle..." [/i/], in one recording up to the pure sound
+        await say(HAS_LINE(`mid_${ans}`) ? [{ line: `mid_${ans}` }, { gap: 120 }, { sound: p }] : [{ word: ans }, { gap: 100 }, { line: "has_in_middle" }, { gap: 100 }, { sound: p }]);
         const at = w.segs.findIndex((s, i) => i > 0 && s.p === p);
         if (k < 3) {
           const written = castSpelling(at, () => setRevealShow([at]));
@@ -1193,7 +1284,12 @@ export function SoundHuntLevel(props: LevelProps) {
   const [started, setStarted] = useState(false);
   useLevelAudio();
   useEffect(() => {
-    say({ line: "hunt_intro" }).then(() => setStarted(true));
+    // what "the middle" means, before the first hunt and once more a level later (NARRATIVE_AUDIT F09)
+    const middle = isDue("place:middle", "twice");
+    say([{ line: "hunt_intro" }, ...(middle ? [{ gap: 300 }, { line: "audit_middle_place" }] : [])]).then((ok) => {
+      if (ok && middle) heard("place:middle");
+      setStarted(true);
+    });
     return () => hush();
   }, []);
   void hasMiddle;
@@ -1230,15 +1326,20 @@ export function EarlyDojo(props: LevelProps) {
   );
 }
 
-interface BuildItem { word: Word; mode: Mode; extra: number }
+interface BuildItem { word: Word; mode: Mode; extra: number; optional?: boolean }
 /** Word building with gradual release: I do the first word, we do the next two, then you do. */
 export function BuildSequence({ level, words, onFinish, intro }: { level: Level; words: string[]; onFinish: (f: number, y: number) => void; intro?: boolean }) {
   const seq = useRef<BuildItem[]>(
     (() => {
       const ws = words.map((w) => WORD_BY_TEXT[w]).filter(Boolean);
-      const out: BuildItem[] = [{ word: ws[0], mode: "ido", extra: 0 }, { word: ws[0], mode: "wedo", extra: 0 }];
-      if (ws[1]) out.push({ word: ws[1], mode: "wedo", extra: 0 });
-      const you = [...ws, ...ws.slice().reverse()].slice(0, Math.max(4, ws.length));
+      // a practice dojo (the World Flower's Practise gate) practises a spelling the child has been taught: no "watch
+      // me", one word together, then the child's own (five builds, not seven)
+      const practice = !!practiceGemOf(level);
+      const out: BuildItem[] = practice ? [{ word: ws[0], mode: "wedo", extra: 0 }] : [{ word: ws[0], mode: "ido", extra: 0 }, { word: ws[0], mode: "wedo", extra: 0 }];
+      // (the second word together is extra practice for a child who built the first one right: content/pace.ts)
+      if (ws[1] && !practice) out.push({ word: ws[1], mode: "wedo", extra: 0, optional: true });
+      // on their own: the words not built yet first, so a child who moves on early has still built every word it can
+      const you = paceOf(level) ? ownWords(ws, out.map((b) => b.word), Math.max(4, ws.length)) : [...ws, ...ws.slice().reverse()].slice(0, Math.max(4, ws.length));
       you.forEach((w, k) => out.push({ word: w, mode: "youdo", extra: k < 2 ? 0 : 1 }));
       return out;
     })(),
@@ -1246,9 +1347,18 @@ export function BuildSequence({ level, words, onFinish, intro }: { level: Level;
   const [k, setK] = useState(-1);
   const first = useRef(0);
   const youdo = useRef(0);
+  const pace = usePhasePace("build", !!level.read?.length);
+  const prev = useRef<Mode | null>(null);
   useReportProgress(Math.max(0, k) / seq.length);
   useEffect(() => {
     (async () => {
+      // the dojo, the first time a child comes to one (NARRATIVE_AUDIT F08; it counts as the Dojo's first welcome)
+      if (intro && isDue("dojo:first", "once")) {
+        if (await say([{ line: "audit_dojo_first" }, { gap: 300 }])) {
+          heard("dojo:first");
+          heard("dojo:welcome");
+        }
+      }
       if (intro) await say({ line: seq[0].word.segs.length === 2 ? "two_sounds" : "three_sounds" });
       setK(0);
     })();
@@ -1260,13 +1370,17 @@ export function BuildSequence({ level, words, onFinish, intro }: { level: Level;
       key={k}
       level={level}
       item={it}
-      announce={k === 0 ? "ido" : seq[k - 1].mode !== it.mode ? it.mode : null}
+      announce={prev.current !== it.mode ? it.mode : null}
       onDone={(firstTry) => {
+        prev.current = it.mode;
         if (it.mode === "youdo") {
           youdo.current++;
           if (firstTry) first.current++;
         }
-        if (k + 1 < seq.length) setK(k + 1);
+        pace.answered(it.mode, firstTry);
+        // a child on track moves on after about three words right first time (content/pace.ts)
+        const n = pace.next(seq, k + 1);
+        if (n < seq.length) setK(n);
         else onFinish(first.current, youdo.current);
       }}
     />
@@ -1299,7 +1413,9 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
 
   const ask = async (i: number) => {
     setLit(i);
-    await say([{ line: slotQ(i) }, { gap: 200 }, x(word.text)]);
+    const last = i > 0 && i === word.segs.length - 1 && isDue("place:last", "twice");
+    const ok = await say([...(last ? [{ line: "audit_last_place" }, { gap: 300 }] : []), { line: slotQ(i) }, { gap: 200 }, x(word.text)]);
+    if (ok && last) heard("place:last");
     if (mode === "wedo") setGlow(word.segs[i].g);
   };
 
@@ -1343,6 +1459,8 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
       void (streak.tier === 0 || mode === "ido" ? ninja.act("cheer") : gift(slotsRef.current, { shape: "sides" }));
       if (mode !== "ido") await say({ line: pickPraise() });
     }
+    // the first word the child builds fills a gem (NARRATIVE_AUDIT F04, once per save): it pops up beside the word
+    if (mode !== "ido") await explainGemEnergy(gemSeg(word, level.teach), { x: PLAY_CX + 250, y: 190 }, () => !!slotsRef.current?.isConnected);
     onDone(misses.current === 0);
   };
 
@@ -1351,7 +1469,13 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
       const pre: Say[] = [];
       if (announce) pre.push({ line: announce }, { gap: 250 });
       if (mode === "ido") {
-        await say([...pre, { line: "build_ido_1" }, { gap: 200 }, { word: word.text }, { gap: 350 }, { line: "build_ido_2" }, { gap: 200 }, x(word.text), { gap: 300 }, { line: "build_ido_3" }]);
+        await say([...pre, { line: "build_ido_1" }, { gap: 200 }, { word: word.text }, { gap: 350 }, { line: "build_ido_2" }, { gap: 200 }, x(word.text), { gap: 300 }]);
+        // the picture rail's "Ninjas read this way!" (warm-up W2) carried over to printed words (NARRATIVE_AUDIT F10)
+        if (isDue("left-right:build", "once")) {
+          const [ok] = await Promise.all([say([{ line: "fm_l2_way" }, { gap: 200 }, { line: "audit_left_right" }]), sweepUnder(slotsRef.current, 1800)]);
+          if (ok) heard("left-right:build");
+        }
+        await say({ line: "build_ido_3" });
         for (let i = 0; i < word.segs.length; i++) {
           setLit(i);
           await say(x(word.text));
@@ -1406,7 +1530,7 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
       held.current = 0;
       await wrongAnswer();
       // never segment for the child: stretch the word and point at the slot; 2nd miss shows the answer
-      if (misses.current % 2 === 1) await say([{ line: "listen_here" }, { gap: 200 }, x(word.text)]);
+      if (misses.current % 2 === 1) await say([{ line: listenLead(word.text) }, { gap: 200 }, x(word.text)]);
       else {
         setGlow(s.g);
         await say({ line: "its_this_one" });
@@ -1421,7 +1545,7 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
   useHelp(
     (n) => {
       if (n >= 2) setGlow(word.segs[filled.length]?.g ?? null);
-      say([{ line: "listen_here" }, { gap: 150 }, x(word.text)]);
+      say([{ line: listenLead(word.text) }, { gap: 150 }, x(word.text)]);
     },
     [filled.length],
   );
@@ -1464,6 +1588,9 @@ function BuildOne({ level, item, announce, onDone }: { level: Level; item: Build
 export function ReadCheck({ pairs, onFinish }: { pairs: [string, string][]; onFinish: (f: number, y: number) => void }) {
   const [k, setK] = useState(-1);
   const first = useRef(0);
+  const done = useRef(0);
+  const pace = usePhasePace("read");
+  const items = useRef<PaceItem[]>(pairs.map(() => ({ mode: "youdo" }))).current;
   useReportProgress(Math.max(0, k) / pairs.length);
   useEffect(() => {
     (async () => {
@@ -1480,8 +1607,12 @@ export function ReadCheck({ pairs, onFinish }: { pairs: [string, string][]; onFi
       wrong={WORD_BY_TEXT[wrongW]}
       onDone={(ok) => {
         if (ok) first.current++;
-        if (k + 1 < pairs.length) setK(k + 1);
-        else onFinish(first.current, pairs.length);
+        done.current++;
+        pace.answered("youdo", ok);
+        // one reading check right first time is enough for a child on track (content/pace.ts)
+        const n = pace.next(items, k + 1);
+        if (n < pairs.length) setK(n);
+        else onFinish(first.current, done.current);
       }}
     />
   );

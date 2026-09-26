@@ -4,12 +4,10 @@ export const words = [
     "text": "toe",
     "segs": "t.oe=oe",
     "unit": "EC4",
-    "pic": "one bare foot with its toes clearly visible",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oe"
+      "sort:oe",
+      "dictation-safe"
     ]
   },
   {
@@ -105,24 +103,20 @@ export const words = [
     "text": "gold",
     "segs": "g.o=oe.l.d",
     "unit": "EC4",
-    "pic": "one small plain gold nugget",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:o"
+      "sort:o",
+      "dictation-safe"
     ]
   },
   {
     "text": "pole",
     "segs": "p.o=oe.le=l",
     "unit": "EC4",
-    "pic": "one plain upright wooden pole",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:o"
+      "sort:o",
+      "dictation-safe"
     ]
   },
   {
@@ -165,7 +159,7 @@ export const words = [
     "unit": "EC4",
     "tags": [
       "new",
-      "dictation-safe",
+      "reading-only",
       "sort:o"
     ]
   },
@@ -251,24 +245,20 @@ export const words = [
     "text": "coal",
     "segs": "c.oa.l",
     "unit": "EC4",
-    "pic": "one lump of black coal",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oa"
+      "sort:oa",
+      "dictation-safe"
     ]
   },
   {
     "text": "oak",
     "segs": "oa.k",
     "unit": "EC4",
-    "pic": "one broad oak tree with a thick trunk",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oa"
+      "sort:oa",
+      "dictation-safe"
     ]
   },
   {

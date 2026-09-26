@@ -162,12 +162,10 @@ export const words = [
     "text": "stand",
     "segs": "s.t.a.n.d",
     "unit": "EC17",
-    "pic": "one child standing upright with arms by their sides, full body visible",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   }
 ] as const;

@@ -6,6 +6,8 @@
 //  • "Which spelling of /ae/ is in 'rain'?"    pick the right alternative spelling for the gap: r _ n
 //  • "Tap every word with this sound"          same sound, different spellings
 // Stages get harder; enough rounds right moves up, the first miss stops. The child starts just past what they showed.
+// Since docs/FIRST_MINUTES.md, a new child is placed by the school-year opt-in (OptIn.tsx), and this quiz is reached
+// only from the grown-ups' settings ("Check the starting point"): the old seed/star question is gone.
 // The child's ninja stands bottom-left (docs/HERO.md). Every right round gets a move aimed at the answer (kick, jab,
 // shuriken, spell, and more once it glows, never the same move twice running) and counts towards the streak, so a child
 // who knows a lot sees the ninja light up, power up at 3, 6 and 10 in a row, and fly. Moving up a stage gets a cheer.
@@ -17,11 +19,13 @@ import { say, sfx, playMusic, preload, urls } from "../engine/audio";
 import { shuffle, pick } from "../engine/learner";
 import { img, fx, sleep, tapProps, SenseiDock, useHelp, Tile } from "../ui/ui";
 import { NinjaSpot, ninja } from "../ui/Ninja";
-import { streak } from "../engine/streak";
+import { streak, tierLineId } from "../engine/streak";
 import { powerBeat } from "./Training";
 import "../styles/shell.css";
 import { GEMS } from "../content/flower";
-import { placeAtUnit } from "../engine/gems";
+import { placeAtUnit, frontier } from "../engine/gems";
+import { logAdjust } from "../engine/store";
+import { worldOf } from "../content/worlds";
 
 type Round =
   | { kind: "sound"; p: PhonemeId; answer: string; options: string[] }
@@ -114,7 +118,7 @@ const blendFont = (opts: Word[]) => {
 };
 
 export function Placement({ onDone }: { onDone: () => void }) {
-  const [phase, setPhase] = useState<"ask" | "play" | "done">("ask");
+  const [phase, setPhase] = useState<"play" | "done">("play");
   const [stage, setStage] = useState(0);
   const [round, setRound] = useState<Round>(() => STAGES[0].make());
   const [picked, setPicked] = useState<string[]>([]);
@@ -126,7 +130,10 @@ export function Placement({ onDone }: { onDone: () => void }) {
   useEffect(() => {
     streak.reset(); // a fresh streak: no flames carried over from training
     playMusic("dojo");
-    say({ line: "place_ask" });
+    void (async () => {
+      await say({ line: "place_intro" });
+      await ask();
+    })();
   }, []);
 
   const ask = (r = round) => {
@@ -139,11 +146,15 @@ export function Placement({ onDone }: { onDone: () => void }) {
     if (r.kind === "gap") return say([{ line: "place_gap" }, { gap: 300 }, { sound: r.answer.segs[r.slot].p }, { gap: 300 }, { line: "place_gap_in" }, { gap: 250 }, { word: r.answer.text }]);
     return say([{ line: "place_findall" }, { gap: 400 }, { sound: r.p }]);
   };
-  useHelp(() => (phase === "ask" ? say({ line: "place_ask" }) : ask()), [phase, round]);
+  useHelp(() => ask(), [phase, round]);
 
   const finish = async (unit: number) => {
     setPhase("done");
+    const was = frontier();
     placeAtUnit(unit);
+    const now = frontier();
+    if (now.id !== was.id) logAdjust(`Checked the starting point: moved to ${worldOf(now).name}, stone ${worldOf(now).levels.indexOf(now) + 1}`);
+    else logAdjust("Checked the starting point: stayed where they were");
     sfx.fanfare();
     fx.rain("confetti", 70);
     await Promise.all([say({ line: unit > 0 ? "place_done" : "place_new" }), ninja.celebrate()]);
@@ -162,7 +173,7 @@ export function Placement({ onDone }: { onDone: () => void }) {
     done.current++;
     await Promise.all([sleep(700), Promise.race([landed.then(() => sleep(380)), sleep(1400)])]);
     // 3, 6 or 10 in a row: the ninja powers up. Let that and "Ninja power!" land before the next question.
-    if (ev.tierUp) await powerBeat(`streak_${[0, 3, 6, 10][ev.tier]}`);
+    if (ev.tierUp) await powerBeat(tierLineId(ev.tier) ?? "streak_3");
     let st = stage;
     if (done.current >= STAGES[stage].rounds) {
       passed.current = STAGES[stage].unit;
@@ -252,7 +263,7 @@ export function Placement({ onDone }: { onDone: () => void }) {
   // bot / testing hook
   const nextAnswer =
     round.kind === "sound" ? round.answer : round.kind === "blend" ? round.answer.text : round.kind === "spell" ? round.answer.segs[picked.length]?.g : round.kind === "gap" ? round.answer.segs[round.slot].g : round.targets.find((t) => !picked.includes(t));
-  (window as any).__snState = phase === "play" ? { scene: "find", next: nextAnswer } : { scene: "place-ask" };
+  (window as any).__snState = phase === "play" ? { scene: "find", next: nextAnswer } : { scene: "place-done" };
 
   const tileState = (id: string, correct: boolean) => (wrong === id ? "wrong" : picked.includes(id) && correct ? "right" : "");
 
@@ -261,20 +272,6 @@ export function Placement({ onDone }: { onDone: () => void }) {
       <img className="bg-img" src={img("dojo_bg")} alt="" />
       <div className="vignette" />
       <NinjaSpot />
-      {phase === "ask" && (
-        <div className="row" style={{ position: "absolute", left: 340, right: 180, top: 96, gap: 80 }}>
-          <button aria-label="I'm just starting" className="panel pop-in" {...tapProps(() => { sfx.pop(); finish(0); })} style={{ width: 290, height: 290, display: "grid", placeItems: "center", background: "linear-gradient(180deg,#eaffd9,#a8e07a)" }}>
-            <svg viewBox="0 0 64 64" width="200" height="200">
-              <path d="M32 58V30" stroke="#2b1d14" strokeWidth="5" strokeLinecap="round" />
-              <path d="M32 34c-14 0-20-10-20-18 10 0 20 6 20 18zM32 30c0-12 8-20 22-20 0 12-8 20-22 20z" fill="#6cc04a" stroke="#2b1d14" strokeWidth="4" strokeLinejoin="round" />
-              <ellipse cx="32" cy="58" rx="16" ry="4" fill="#8b5a3c" stroke="#2b1d14" strokeWidth="3" />
-            </svg>
-          </button>
-          <button aria-label="Show Sensei what I know" className="panel pop-in" {...tapProps(async () => { sfx.great(); setPhase("play"); await say({ line: "place_intro" }); await ask(); })} style={{ width: 290, height: 290, display: "grid", placeItems: "center", background: "linear-gradient(180deg,#fff6c8,#ffc53d)", animationDelay: ".12s" }}>
-            <img src={img("item_star")} alt="" style={{ width: 210 }} />
-          </button>
-        </div>
-      )}
       {phase === "play" && (
         <>
           <div className="row" style={{ position: "absolute", left: 340, right: 180, top: 30, gap: 10 }}>

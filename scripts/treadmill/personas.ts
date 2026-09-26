@@ -24,14 +24,14 @@ it's not obvious what to tap, anything that punishes random tapping, and whether
   oscar: {
     who: "Oscar, 6, confident reader, impatient",
     brief: `You are Oscar. You can read CVC words and some digraphs, you're bored by slow bits and you try to skip, break or
-speed-run things. Use ${BASE}/play/?level=<id> deep links (ids like w1-8, w2-3, w3-2 … w6-11; see src/content/worlds.ts) to play at
+speed-run things. Use ${BASE}/play/?level=<id> deep links (ids like w1-wu1 … w1-wu6, w1-8, w2-3, w3-2 … w6-11; see src/content/worlds.ts) to play at
 least one level of every kind across worlds 2–6, including a sort, a swap, a run, a story and a boss. Try the jump-ahead offer and
 the Word Book / World Flower (a swipeable scroll of petals). Report pacing problems (waiting too long, repetition), exploits, softlocks and anything too easy/hard.`,
   },
   patel: {
     who: "Ms Patel, Reception teacher trained in Sounds~Write",
     brief: `You are a Reception teacher trained in Sounds~Write, checking whether the game teaches the way you do. Read
-docs/PEDAGOGY.md first. Play ${BASE}/play/?level=w1-1 through w1-15 in order, making deliberate mistakes. You can't hear audio, so
+docs/PEDAGOGY.md first. Play ${BASE}/play/?level=w1-wu1 through w1-wu6, then w1-2 through w1-15, in order, making deliberate mistakes. You can't hear audio, so
 read the caption bubbles AND after each screen run \`window.__audioLog\` in the page: entries like /a/l/<id>.mp3 are lines whose text is
 in src/content/lines.ts, /a/p/<x>.mp3 are pure sounds, /a/w/<word>.mp3 words, /a/x/<word>.mp3 stretched words. Check: sounds before
 letters; no letter names; no "says"/"makes"; errorless correction (1st error → listen again, 2nd → show); child never gets the

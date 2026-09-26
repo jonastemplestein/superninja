@@ -52,6 +52,28 @@ async function botStep(page: Page, opts: { mistakes?: boolean } = {}) {
 }
 
 interface Clip { name: string; url: string; save?: Save; seconds: number; skip?: number; mistakes?: boolean; script?: (page: Page) => Promise<void> }
+
+/** A child part-way through Blossom Hills who has met ai and ay: a flower with some petals home, gems charging and
+ *  one ready, and words found (the World Flower clips). */
+const FLOWER_SAVE = baseSave({
+  petals: ["a", "i", "m", "s", "t", "n", "o", "p", "b", "c", "g", "h", "d", "e", "f", "v", "k", "l", "r", "u", "ff", "ll", "ss", "ai", "ay"],
+  gems: ["a>a", "t>t", "p>p", "m>m", "i>i", "s>s", "n>n", "ay>ae"],
+  energy: { "o>o": 5, "c>k": 3, "b>b": 6, "ai>ae": 8, "ss>s": 4, "l>l": 7 },
+  words: { rain: { n: 2, ok: 2, last: 3 }, tail: { n: 1, ok: 1, last: 2 }, day: { n: 1, ok: 1, last: 1 } },
+});
+/** Swipe the World Flower's petal scroll sideways with the mouse (the scroll pans on a mouse drag), `dx` in pixels. */
+async function swipeScroll(page: Page, dx: number) {
+  const box = await page.locator(".petal-scroll").boundingBox();
+  if (!box) return;
+  const y = box.y + box.height * 0.85, x0 = box.x + box.width / 2 - dx / 2;
+  await page.mouse.move(x0, y);
+  await page.mouse.down();
+  for (let i = 1; i <= 24; i++) {
+    await page.mouse.move(x0 + (dx * i) / 24, y);
+    await page.waitForTimeout(16);
+  }
+  await page.mouse.up();
+}
 const CLIPS: Clip[] = [
   { name: "battle", url: "/play/?level=w1-6", seconds: 16, skip: 3, mistakes: true },
   { name: "run", url: "/play/?level=w1-4", seconds: 16, skip: 4 },
@@ -61,20 +83,31 @@ const CLIPS: Clip[] = [
   { name: "boss", url: "/play/?level=w2-8", seconds: 16, skip: 6 },
   {
     name: "map", url: "/play/?scene=map", seconds: 7, skip: 1,
-    save: baseSave({ hero: "suki", stars: { "w1-1": 3, "w1-2": 2, "w1-3": 3 }, settings: { relaxed: false, music: 0.3, captions: false, unlockAll: false } }),
+    save: baseSave({ hero: "suki", stars: { "w1-wu1": 1, "w1-wu2": 1, "w1-wu3": 1, "w1-wu4": 1, "w1-wu5": 1, "w1-wu6": 1, "w1-2": 2, "w1-3": 3 }, settings: { relaxed: false, music: 0.3, captions: false, unlockAll: false } }),
   },
   {
-    name: "flower", url: "/play/?scene=tree", seconds: 10, skip: 1,
-    save: baseSave({ petals: ["a", "i", "m", "s", "t", "n", "o", "p", "b", "c", "g", "h"], gems: ["a>a", "t>t", "p>p", "m>m", "i>i", "s>s"], energy: { "n>n": 8, "o>o": 5, "c>k": 3, "b>b": 6 } }),
+    // the World Flower, then the petal chart as a ninja scroll (swiped both ways), then one petal up close with Sensei
+    name: "flower", url: "/play/?scene=tree", seconds: 20, skip: 1,
+    save: FLOWER_SAVE,
     script: async (page) => {
-      await page.waitForTimeout(3500);
-      await page.locator('[aria-label="petal n"]').dispatchEvent("pointerdown");
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(3000);
+      await page.locator('[aria-label="Petal chart"]').dispatchEvent("pointerdown");
+      await page.waitForTimeout(1500);
+      await swipeScroll(page, -760);
+      await page.waitForTimeout(700);
+      await swipeScroll(page, -520);
+      await page.waitForTimeout(700);
+      await swipeScroll(page, 1280);
+      await page.waitForTimeout(900);
+      await page.locator('.petal-scroll [aria-label="petal ae"]').click();
+      await page.waitForTimeout(8000);
     },
   },
+  // a gem won: the victory music, the gem flying into its petal, the bloom, and Sensei's explanation
+  { name: "victory", url: "/play/?scene=tree&gem=ai>ae&celebrate=1", seconds: 21, skip: 0, save: FLOWER_SAVE },
   {
     name: "trial", url: "/play/?scene=tree", seconds: 16, skip: 2,
-    save: baseSave({ petals: ["a", "i", "m", "s", "t", "n", "o", "p"], stars: { "w1-1": 3, "w1-2": 3, "w1-3": 3 }, energy: { "m>m": 8 } }),
+    save: baseSave({ petals: ["a", "i", "m", "s", "t", "n", "o", "p"], stars: { "w1-wu1": 1, "w1-wu2": 1, "w1-wu3": 1, "w1-wu4": 1, "w1-wu5": 1, "w1-wu6": 1, "w1-2": 3, "w1-3": 3 }, energy: { "m>m": 8 } }),
     script: async (page) => {
       await page.waitForTimeout(1200);
       await page.locator('[aria-label="petal m"]').dispatchEvent("pointerdown");
@@ -107,7 +140,7 @@ const CLIPS: Clip[] = [
       await page.waitForTimeout(3000);
       await page.locator('[aria-label="petal c"]').dispatchEvent("pointerdown").catch(() => {});
       await page.waitForTimeout(4000);
-      await page.keyboard.press("Escape").catch(() => {});
+      await page.locator('[aria-label="close"]').dispatchEvent("pointerdown").catch(() => {});
       await page.waitForTimeout(800);
       await page.locator('[aria-label="petal v"]').dispatchEvent("pointerdown").catch(() => {});
       await page.waitForTimeout(4000);
@@ -115,7 +148,7 @@ const CLIPS: Clip[] = [
   },
 ];
 // 1080p trailer copies of the landing-page clips (same bot scripts, trailer output dir)
-for (const n of ["battle", "run", "dojo", "swap", "story", "boss", "flower", "trial"]) {
+for (const n of ["battle", "run", "dojo", "swap", "story", "boss", "flower", "trial", "victory"]) {
   const c = CLIPS.find((x) => x.name === n)!;
   CLIPS.push({ ...c, name: `tr_${n}` });
 }
@@ -160,18 +193,20 @@ for (const clip of CLIPS.filter((c) => !only.length || only.includes(c.name))) {
   const inputs: string[] = [];
   const chains: string[] = [];
   const total = (clip.skip ?? 0) + clip.seconds + 1;
-  log.forEach((e) => {
+  log.forEach((e, n) => {
     const at = Math.max(0, e.t - videoStart);
-    if (at / 1000 > total) return;
+    if (at / 1000 > total || e.kind === "music-stop") return;
     const file = e.kind === "sfx" ? `assets-src/sfx/${e.url.slice(4)}.wav` : `public${e.url}`;
     if (!existsSync(file)) return;
-    const k = inputs.length / (e.kind === "music" ? 4 : 2);
     if (e.kind === "music") inputs.push("-stream_loop", "-1", "-i", file);
     else inputs.push("-i", file);
     const idx = chains.length + 1;
-    const vol = e.kind === "music" ? 0.22 : e.kind === "sfx" ? 0.5 : 1.0;
-    chains.push(`[${idx}:a]aresample=44100,aformat=channel_layouts=stereo,adelay=${at}|${at},volume=${vol},atrim=0:${total}[a${idx}]`);
-    void k;
+    // background music loops until the next music starts (or the game stops it, e.g. for the gem victory's sting)
+    const next = e.kind === "music" ? log.slice(n + 1).find((x) => x.kind === "music" || x.kind === "music-stop") : undefined;
+    const end = next ? Math.max(0, next.t - videoStart) + 800 : total * 1000;
+    const vol = e.kind === "music" ? 0.22 : e.kind === "sting" ? 0.5 : e.kind === "sfx" ? 0.5 : 1.0;
+    const fade = next ? `,afade=t=out:st=${(end - 800) / 1000}:d=0.8` : "";
+    chains.push(`[${idx}:a]aresample=44100,aformat=channel_layouts=stereo,adelay=${at}|${at},volume=${vol},atrim=0:${Math.min(total, end / 1000)}${fade}[a${idx}]`);
   });
   const outDir = clip.name.startsWith("tr_") ? "assets-src/trailer/clips" : OUT; // trailer footage stays out of public/
   mkdirSync(outDir, { recursive: true });

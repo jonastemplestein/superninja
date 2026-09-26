@@ -99,7 +99,7 @@ export const words = [
     "unit": "EC1",
     "tags": [
       "new",
-      "dictation-safe",
+      "reading-only",
       "sort:ay"
     ]
   },
@@ -230,12 +230,10 @@ export const words = [
     "text": "flame",
     "segs": "f.l.a=ae.me=m",
     "unit": "EC1",
-    "pic": "one orange flame rising from a candle",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:a"
+      "sort:a",
+      "dictation-safe"
     ]
   },
   {
@@ -316,7 +314,7 @@ export const words = [
     "unit": "EC1",
     "tags": [
       "new",
-      "dictation-safe",
+      "reading-only",
       "sort:ai"
     ]
   },

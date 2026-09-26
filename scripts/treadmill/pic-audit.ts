@@ -1,16 +1,21 @@
 // Blind picture-naming audit. Run with Doppler for the Gemini API key:
-// doppler run -p os-legacy-2026-04 -c dev -- bun scripts/treadmill/pic-audit.ts <runDir> [--only sand,soap] [--concurrency 6]
+// doppler run -p os-legacy-2026-04 -c dev -- bun scripts/treadmill/pic-audit.ts <runDir> [--only sand,soap] [--concurrency 6] [--age 3] [--warmups]
+//   --age 3      the child naming the cards is 3, not 4 (the warm-ups' audience: docs/FIRST_MINUTES.md §11 rule 7)
+//   --warmups    only the warm-up pictures (content/warmups.ts warmupPictures())
+// Every picture of a living thing (content/living.ts) must also show a face: a faceless dog or fish is a major finding.
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ORAL_WORDS, PHONEMES, WORDS } from "../../src/content/phonics";
+import { LIVING_WORDS } from "../../src/content/living";
+import { warmupPictures } from "../../src/content/warmups";
 import type { PhonemeId, Word } from "../../src/content/phonics";
 import { generate, pool, textOf } from "../gemini";
 import type { Finding, Severity } from "./types";
 
 type Name = { name: string; probability: number };
-type Answer = { index: number; names: Name[] };
+type Answer = { index: number; names: Name[]; face: boolean };
 type Picture = { word: string; path: string; first: PhonemeId; vowel?: PhonemeId };
 type Result = {
   word: string;
@@ -19,6 +24,9 @@ type Result = {
   sharesFirstSound: boolean;
   sharesVowel: boolean | null;
   severity: Severity | null;
+  /** can the child see a face on it? (asked of every picture; only living things must have one) */
+  face: boolean;
+  living: boolean;
 };
 
 const BATCH_SIZE = 12;
@@ -34,6 +42,8 @@ function options() {
   if (!runArg || runArg.startsWith("--")) usage();
   let only: Set<string> | undefined;
   let concurrency = 6;
+  let age = 4;
+  let warmups = false;
   while (args.length) {
     const arg = args.shift()!;
     if (arg === "--only" || arg.startsWith("--only=")) {
@@ -41,13 +51,19 @@ function options() {
       if (!value) usage();
       only = new Set(value.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean));
       if (!only.size) usage();
+    } else if (arg === "--age" || arg.startsWith("--age=")) {
+      age = Number(arg === "--age" ? args.shift() : arg.slice(6));
+      if (![3, 4, 5].includes(age)) usage();
+    } else if (arg === "--warmups") {
+      warmups = true;
     } else if (arg === "--concurrency" || arg.startsWith("--concurrency=")) {
       const value = arg === "--concurrency" ? args.shift() : arg.slice(14);
       concurrency = Number(value);
       if (!Number.isSafeInteger(concurrency) || concurrency < 1) usage();
     } else usage();
   }
-  return { runDir: resolve(runArg), only, concurrency };
+  if (warmups) only = new Set([...(only ?? []), ...warmupPictures()]);
+  return { runDir: resolve(runArg), only, concurrency, age };
 }
 
 function firstVowel(word: Word): PhonemeId | undefined {
@@ -162,7 +178,8 @@ function schema() {
         names: { type: "ARRAY", items: { type: "OBJECT", properties: {
           name: { type: "STRING" }, probability: { type: "NUMBER" },
         }, required: ["name", "probability"] } },
-      }, required: ["index", "names"] } },
+        face: { type: "BOOLEAN" },
+      }, required: ["index", "names", "face"] } },
     },
     required: ["pictures"],
   };
@@ -179,7 +196,7 @@ function parseAnswers(raw: string, count: number): Answer[] {
     if (!Number.isInteger(answer.index) || answer.index < 1 || answer.index > count || indexes.has(answer.index) ||
         !Array.isArray(answer.names) || answer.names.length !== 3 ||
         answer.names.some((n) => typeof n.name !== "string" || !n.name.trim() ||
-          typeof n.probability !== "number" || n.probability < 0 || n.probability > 1)) {
+          typeof n.probability !== "number" || n.probability < 0 || n.probability > 1) || typeof answer.face !== "boolean") {
       throw new Error("Invalid Gemini picture names or indexes");
     }
     indexes.add(answer.index);
@@ -188,8 +205,8 @@ function parseAnswers(raw: string, count: number): Answer[] {
   return answers.sort((a, b) => a.index - b.index);
 }
 
-async function nameBatch(batch: Picture[], images: Map<string, string>): Promise<Answer[]> {
-  const prompt = `You are a 4-year-old British child looking at picture cards. What is each picture of? For EACH numbered picture, give the three most likely short, everyday names a child would actually say, most likely first, with a probability from 0 to 1 for each. Judge only what you see. Do not infer a target word, read a filename, or use nearby pictures as clues. Prefer the ordinary name of the most salient visible thing. If it depicts an action or scene, name what a child would say for that picture. Use British English (e.g. bin, cot, pram, vest). Keep names distinct and probabilities in descending order, roughly summing to 1. Return exactly one entry for every index 1–${batch.length}.`;
+async function nameBatch(batch: Picture[], images: Map<string, string>, age: number): Promise<Answer[]> {
+  const prompt = `You are a ${age}-year-old British child looking at picture cards. What is each picture of? For EACH numbered picture, give the three most likely short, everyday names a child would actually say, most likely first, with a probability from 0 to 1 for each. Judge only what you see. Do not infer a target word, read a filename, or use nearby pictures as clues. Prefer the ordinary name of the most salient visible thing. If it depicts an action or scene, name what a child would say for that picture. Use British English (e.g. bin, cot, pram, vest). Keep names distinct and probabilities in descending order, roughly summing to 1. Also say for each picture whether you can see a FACE on the main thing in it (eyes you could look into, from the front or the side): "face": true or false. Return exactly one entry for every index 1–${batch.length}.`;
   const parts: ({ text: string } | { inlineData: { mimeType: string; data: string } })[] = [{ text: prompt }];
   batch.forEach((picture, i) => {
     parts.push({ text: `Picture ${i + 1}:` });
@@ -210,36 +227,39 @@ async function nameBatch(batch: Picture[], images: Map<string, string>): Promise
   throw lastError;
 }
 
-function assess(picture: Picture, names: Name[]): Result {
+function assess(picture: Picture, names: Name[], face: boolean): Result {
   const top = names[0].name;
   const intendedIndex = names.findIndex(({ name }) => sameWord(name, picture.word));
   const intendedRank = intendedIndex < 0 ? null : intendedIndex + 1;
   const guess = guessSounds(top);
   const sharesFirstSound = guess.first === picture.first;
   const sharesVowel = guess.vowel && picture.vowel ? guess.vowel === picture.vowel : null;
-  const severity = intendedRank === 1 ? null : intendedRank !== null ? "polish"
-    : sharesFirstSound ? "minor" : "major";
-  return { word: picture.word, names, intendedRank, sharesFirstSound, sharesVowel, severity };
+  const living = LIVING_WORDS.has(picture.word);
+  const named = intendedRank === 1 ? null : intendedRank !== null ? "polish" : sharesFirstSound ? "minor" : "major";
+  // a living thing without a face reads as a blob or an object to a 3-year-old (docs/FIRST_MINUTES.md §0, §11)
+  const severity: Severity | null = living && !face ? "major" : named;
+  return { word: picture.word, names, intendedRank, sharesFirstSound, sharesVowel, severity, face, living };
 }
 
 function finding(result: Result, picture: Picture, runDir: string): Finding | null {
   if (!result.severity) return null;
   const names = result.names.map(({ name, probability }) => `“${name}” ${Math.round(probability * 100)}%`).join(", ");
   const vowel = result.sharesVowel === null ? "unknown" : result.sharesVowel ? "same" : "different";
+  const faceless = result.living && !result.face;
   return {
     sig: `pics:${result.word}`, source: "critic", severity: result.severity, case: "pictures",
-    title: `pic_${result.word} looks like “${result.names[0].name}”`,
+    title: faceless ? `pic_${result.word} (a living thing) has no face` : `pic_${result.word} looks like “${result.names[0].name}”`,
     detail: `Blind names: ${names}. Intended “${result.word}” rank: ${result.intendedRank ?? "absent"}. First sound: ${result.sharesFirstSound ? "same" : "different"}; vowel: ${vowel} (simple spelling guess for pictured name).`,
     evidence: [relative(runDir, picture.path).replaceAll("\\", "/")],
   };
 }
 
 async function main() {
-  const { runDir, only, concurrency } = options();
+  const { runDir, only, concurrency, age } = options();
   const available = pictures();
   if (only) {
     const missing = [...only].filter((name) => !available.some((picture) => picture.word === name));
-    if (missing.length) throw new Error(`Unknown picture words: ${missing.join(", ")}`);
+    if (missing.length) console.warn(`Not picture words (skipped): ${missing.join(", ")}`);
   }
   const selected = only ? available.filter((picture) => only.has(picture.word)) : available;
   if (!selected.length) throw new Error("No pictures selected");
@@ -252,14 +272,14 @@ async function main() {
   const failures: string[] = [];
   await pool(batches, concurrency, async (batch, i) => {
     try {
-      answers[i] = await nameBatch(batch, images);
+      answers[i] = await nameBatch(batch, images, age);
       console.log(`Named ${batch[0].word}–${batch.at(-1)!.word} (${batch.length})`);
     } catch (error) {
       failures.push(`${batch[0].word}–${batch.at(-1)!.word}: ${String(error)}`);
     }
   });
   if (failures.length) throw new Error(`Picture audit incomplete:\n${failures.join("\n")}`);
-  const results = batches.flatMap((batch, i) => batch.map((picture, j) => assess(picture, answers[i][j].names)));
+  const results = batches.flatMap((batch, i) => batch.map((picture, j) => assess(picture, answers[i][j].names, answers[i][j].face)));
   const byWord = new Map(selected.map((picture) => [picture.word, picture]));
   const findings = results.flatMap((result) => {
     const item = finding(result, byWord.get(result.word)!, runDir);

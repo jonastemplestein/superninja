@@ -94,44 +94,36 @@ export const words = [
     "text": "twig",
     "segs": "t.w.i.g",
     "unit": "IC9",
-    "pic": "one thin twig with two small side branches and a few leaves, lying alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "flap",
     "segs": "f.l.a.p",
     "unit": "IC9",
-    "pic": "one bird flapping its wings in mid-air, clearly seen from the side",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "slam",
     "segs": "s.l.a.m",
     "unit": "IC9",
-    "pic": "one wooden door swinging shut, with motion lines and no person",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "plod",
     "segs": "p.l.o.d",
     "unit": "IC9",
-    "pic": "one child walking slowly through shallow mud in wellies",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {

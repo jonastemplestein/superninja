@@ -5,7 +5,7 @@ import { execFileSync } from "node:child_process";
 import { WORDS, SPECIAL_WORDS, ORAL_WORDS } from "../src/content/phonics";
 import { LINES } from "../src/content/lines";
 import { STORIES } from "../src/content/stories";
-import { tts, finishAudio, judgeAudio } from "./tts";
+import { tts, finishAudio, judgeAudio, trailingBlip, checkLoudness } from "./tts";
 import { pool, generate, textOf } from "./gemini";
 
 export const VOICES = { sensei: "Sulafat", baron: "Algenib" } as const;
@@ -17,7 +17,10 @@ const want = (k: string) => !kinds.length || kinds.includes(k);
 // Isolated special words that TTS would otherwise read as letter names
 const SAY: Record<string, string> = { fin: "Fin!", sniff: "Sniff!", hum: "Hum!", huff: "Huff!", a: "uh.", I: "I.", the: "the.", to: "to.", of: "of.", said: "said.", was: "was." };
 
-interface Job { out: string; text: string; voice: string; rubric: string; blindWord?: string }
+/** `lead`: a lead-in ("This is how we spell...") that a pure sound or word is spliced after: its tail must be clean. */
+interface Job { out: string; text: string; voice: string; rubric: string; blindWord?: string; lead?: boolean }
+/** A one-phrase line ending on "..." (a lead-in); "Is it? No! It's..." has a pause before its last words by design. */
+const isLeadIn = (t: string) => /\.\.\.$/.test(t.trim()) && !/[.?!]\s/.test(t.trim().replace(/\.\.\.$/, ""));
 const jobs: Job[] = [];
 const fileId = (w: string) => w.toLowerCase().replace(/[^a-z0-9]/g, "_");
 
@@ -52,9 +55,11 @@ if (want("words")) {
 }
 if (want("lines")) {
   for (const l of LINES) {
+    const lead = isLeadIn(l.text);
     jobs.push({
-      out: `public/a/l/${l.id}.mp3`, text: l.text, voice: VOICES[l.who ?? "sensei"],
-      rubric: `The clip should be a British-accented voice reading exactly this script, expressively, with nothing added or missed: "${l.text}". Score 10 if it matches the script exactly with a natural British accent. Score low if words are missing/added, if it reads stage directions or instructions aloud, or if the accent is not British.`,
+      out: `public/a/l/${l.id}.mp3`, text: l.text, voice: VOICES[l.who ?? "sensei"], lead,
+      rubric: `The clip should be a British-accented voice reading exactly this script, expressively, with nothing added or missed: "${l.text}". Score 10 if it matches the script exactly with a natural British accent. Score low if words are missing/added, if it reads stage directions or instructions aloud, or if the accent is not British.` +
+        (lead ? ` It is a lead-in that another clip follows straight after, so it must end cleanly on its last word ("${l.text.trim().replace(/\.\.\.$/, "").split(" ").at(-1)}"): score 4 or less if there is any breath, hiss, "shh", click or extra sound after it.` : ""),
     });
   }
 }
@@ -82,25 +87,31 @@ const report: Record<string, any> = existsSync(LOG) ? JSON.parse(readFileSync(LO
 let done = 0;
 
 await pool(todo, 10, async (j) => {
-  let best: { score: number; wav: Buffer; heard: string } | null = null;
+  let best: { score: number; wav: Buffer; heard: string; judge: number } | null = null;
   for (let attempt = 0; attempt < (j.blindWord ? 6 : 4); attempt++) {
     const wav = await tts({ text: j.text, voice: j.voice });
     const tmp = j.out.replace(/\.mp3$/, `.try${attempt}.mp3`).replace("public/a/", "assets-src/tmp/");
     finishAudio(wav, tmp);
     const r = await judgeAudio(tmp, j.rubric);
+    // a lead-in's tail: a short burst after a pause at the end is a breath, "shh" or stray consonant (tts.ts)
+    const blip = j.lead ? trailingBlip(tmp) : null;
+    if (blip != null) (r.score = Math.min(r.score, 4)), (r.heard += ` [tail ${blip}s]`);
     // words must ALSO be recognised blind (without telling the judge the target)
     const blindOk = j.blindWord ? await blindWord(tmp, j.blindWord) : true;
     const hz = j.blindWord ? parseFloat(execFileSync("uv", ["run", "--with", "numpy", "python", "scripts/pitch.py", tmp]).toString()) || 0 : 0;
     const pitchOk = !j.blindWord || hz === 0 || (hz >= 140 && hz <= 290);
     const score = r.score + (blindOk ? 10 : 0) - (pitchOk ? 0 : 6);
-    if (!best || score > best.score) best = { score, wav, heard: r.heard + (blindOk ? "" : " [blind✗]") };
+    if (!best || score > best.score) best = { score, wav, heard: r.heard + (blindOk ? "" : " [blind✗]"), judge: r.score };
     if (r.score >= 8 && blindOk && pitchOk) break;
   }
   if (j.blindWord) best!.score -= 10;
   finishAudio(best!.wav, j.out);
   report[j.out] = { score: best!.score, heard: best!.heard, text: j.text };
   done++;
-  if (best!.score < 8) console.log("⚠", j.out, best!.score, best!.heard);
+  // (the judge's own score: `score` also carries the blind-word bonus)
+  if (best!.judge < 8) console.log("⚠", j.out, best!.judge, best!.heard);
+  const loud = checkLoudness(j.out);
+  if (!loud.ok) console.log("⚠ loudness", j.out, `${loud.lufs} LUFS`);
   if (done % 25 === 0) {
     console.log(`${done}/${todo.length}`);
     writeFileSync(LOG, JSON.stringify(report, null, 1));

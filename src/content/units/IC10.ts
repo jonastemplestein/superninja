@@ -4,11 +4,9 @@ export const words = [
     "text": "stand",
     "segs": "s.t.a.n.d",
     "unit": "IC10",
-    "pic": "one child standing upright with arms by their sides, full body visible",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -25,22 +23,18 @@ export const words = [
     "text": "strap",
     "segs": "s.t.r.a.p",
     "unit": "IC10",
-    "pic": "one plain blue fabric strap with a buckle, laid out alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "crust",
     "segs": "c.r.u.s.t",
     "unit": "IC10",
-    "pic": "one crisp brown crust cut from a loaf of bread, alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -58,33 +52,27 @@ export const words = [
     "text": "twist",
     "segs": "t.w.i.s.t",
     "unit": "IC10",
-    "pic": "one twisted strip of bright paper, alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "frost",
     "segs": "f.r.o.s.t",
     "unit": "IC10",
-    "pic": "one garden leaf edged with white frost crystals",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "scrub",
     "segs": "s.c.r.u.b",
     "unit": "IC10",
-    "pic": "one hand scrubbing a dirty plate with a sponge",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -101,33 +89,27 @@ export const words = [
     "text": "strip",
     "segs": "s.t.r.i.p",
     "unit": "IC10",
-    "pic": "one long narrow strip of red cloth, alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "split",
     "segs": "s.p.l.i.t",
     "unit": "IC10",
-    "pic": "one log split neatly into two matching halves",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "scrap",
     "segs": "s.c.r.a.p",
     "unit": "IC10",
-    "pic": "one small scrap of blue cloth with frayed edges, alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -145,11 +127,9 @@ export const words = [
     "text": "clump",
     "segs": "c.l.u.m.p",
     "unit": "IC10",
-    "pic": "one clump of grass with roots and soil visible",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {

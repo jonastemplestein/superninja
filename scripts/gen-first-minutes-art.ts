@@ -9,13 +9,7 @@
 // post-art.py only knows the jobs in assets-src/art-jobs.json, which scripts/export-art-jobs.ts rewrites from the
 // manifest, so every run (and `--export` alone) merges these jobs back into that file.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { STYLE, type ArtJob } from "./art-manifest";
-
-// The picture-card styles from docs/FIRST_MINUTES.md §11 (the manifest still has the single PIC_STYLE).
-const CARD =
-  "like a board-book picture, with chunky rounded simple shapes and few details, bold even dark-brown ink outlines, rich cel-shaded colour with one soft shade tone, one highlight and a subtle painterly grain, lit from the top-left. Nothing else in the picture. No flags, no text, no letters, no numbers, no scenery, no ground, no shadow. Centred on a plain flat pure white background with a wide empty margin on every side; nothing touches the edge.";
-const PIC_OBJECT = `Super Ninja picture-card style: exactly ONE single object, instantly recognisable to a British 3-year-old, drawn whole in its most typical view and usual colour, ${CARD} The object has no face.`;
-const PIC_LIVING = `Super Ninja picture-card style: exactly ONE single animal or person, instantly recognisable to a British 3-year-old, drawn whole from head to toe (or tail), facing the viewer or in three-quarter front view, never from behind, with a friendly face, two big clear eyes and a smile, ${CARD}`;
+import { STYLE, PIC_OBJECT, PIC_LIVING, type ArtJob } from "./art-manifest";
 const SPRITE = "A single full-body character, centred, on a plain flat pure white background, no ground, no shadow, no scenery, nothing else in the image.";
 const ITEM = "centred, as a game item sprite on a plain flat pure white background, nothing else.";
 const SCHOOL = (hero: string): ArtJob => ({

@@ -1,4 +1,4 @@
-// Generate the ninja's extra move sprites (kick, punch, spin, power, think, ready, flip) for Kai and Suki.
+// Generate the ninja's extra move sprites (kick, punch, spin, power, think, listen, ready, flip) for Kai and Suki.
 // Same approach as gen-art.ts: image-to-image from the raw idle sprite, with the art-manifest STYLE.
 //
 // Pipeline (ids or prefixes are optional; "kick" selects both heroes' kick, "hero_suki" all of Suki's):
@@ -58,6 +58,9 @@ export const MOVES: Record<string, { how: string; aspect?: string; rotated?: boo
   },
   ready: {
     how: "in a BOUNCY FIGHTING STANCE, clearly different from a normal standing pose: body turned side-on to the right in profile, feet wide apart with one foot in front of the other, knees bent low, springing up on tiptoes as if bouncing, lead fist pushed forward towards the right and the rear fist guarding the chin, an eager confident grin, headband tails fluttering behind, side view facing right",
+  },
+  listen: {
+    how: "LISTENING very carefully to a quiet sound: one hand cupped behind the ear nearest the viewer, fingers curved like a little dish, head tilted slightly towards that hand, eyes looking up and to the side, eyebrows raised, a small curious smile with the mouth closed, the other hand resting on the hip, standing still and relaxed, three-quarter view facing right",
   },
   flip: {
     how: "doing a MID-AIR SOMERSAULT forwards to the right: curled up in a tight round tuck high in the air, knees pulled up to the chest with both hands hugging the shins, back rounded, the whole tucked body tipped forward about 45 degrees with the head leading down and to the right (the head stays at the upper right of the ball with the face the right way up and fully visible, never upside down), a big joyful grin, the headband tails trailing behind in a short curl, facing right, a compact round silhouette",

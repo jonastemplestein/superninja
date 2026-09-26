@@ -24,11 +24,9 @@ export const words = [
     "text": "kiss",
     "segs": "k.i.ss",
     "unit": "IC7",
-    "pic": "two teddy bears touching noses in a gentle kiss, full bodies visible",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -56,33 +54,27 @@ export const words = [
     "text": "yell",
     "segs": "y.e.ll",
     "unit": "IC7",
-    "pic": "one child calling out loudly with hands cupped round the mouth",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "mess",
     "segs": "m.e.ss",
     "unit": "IC7",
-    "pic": "one messy pile of coloured toy blocks scattered on the floor",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "puff",
     "segs": "p.u.ff",
     "unit": "IC7",
-    "pic": "one soft white puff of steam rising from a kettle",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -99,11 +91,9 @@ export const words = [
     "text": "fix",
     "segs": "f.i.x",
     "unit": "IC7",
-    "pic": "one child fixing a broken toy wheel with a small screwdriver, full action visible",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -120,11 +110,9 @@ export const words = [
     "text": "mill",
     "segs": "m.i.ll",
     "unit": "IC7",
-    "pic": "one old windmill with four sails on a hill",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {

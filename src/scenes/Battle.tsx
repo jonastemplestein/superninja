@@ -12,6 +12,10 @@
 // let the monster charge, and a monster attack is the only time the ninja is hurt. Layout contract (docs/HERO.md): the ninja stands bottom-left,
 // Sensei's Help button bottom-right, the monster above Sensei's corner, and the letter tiles between x 340 and 1100,
 // drawn above the ninja, so a lunge never hides a letter.
+// Explanations (docs/NARRATIVE_AUDIT.md, ./narrate.tsx): the first battle says why Baron Muddle's monsters are here
+// (F18); the first Gem Trial says what it is for, and shows the purple bar filling while Sensei explains it and the
+// hearts (F16); Help and running out of hearts never say the word's sounds one by one to a child spelling it (F29);
+// a finished word can bring a spaced "two letters, one sound" reminder, with that spelling lit.
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import type { LevelProps } from "../App";
 import type { Word } from "../content/phonics";
@@ -24,12 +28,15 @@ import { trialWords, gemByKey } from "../engine/gems";
 import { FAST } from "../engine/fast";
 import { streak, useStreak, tierOf, streakLine, type Tier } from "../engine/streak";
 import { STRETCHED } from "../content/stretch";
-import { correction, pickPraise } from "../engine/feedback";
+import { pickPraise } from "../engine/feedback";
 import { GemIcon } from "../ui/Gem";
 import { BARON_TAUNTS } from "../content/lines";
 import { SenseiDock, Tile, img, RoundButton, Icon, Hearts, fx, fxDom, stageRect, sleep, shakeStage, useIdlePrompt, useHelp, useBaronOnScreen, useUpright, WordCard } from "../ui/ui";
 import { NinjaSpot, ninja, type Move } from "../ui/Ninja";
 import { useKeyTiles } from "../ui/keys";
+import { adjacentSlots, adjacentUnit, gemSeg } from "../content/narrative";
+import { NarrOverlay, SlotPointer, beginLevel, correctionFor, explain, explainGemEnergy, heard, lettersReminder, spellingHelp, timesHeard, twoSoundsReminder } from "./narrate";
+import { useLessonClock } from "../engine/lessonClock";
 import "../styles/battle.css";
 
 const MAX_HEARTS = 3;
@@ -220,6 +227,7 @@ function squash(el: Element | null | undefined, tier: Tier, big = false) {
 }
 
 export function Battle({ level, onDone, onQuit }: LevelProps) {
+  useState(() => beginLevel(level)); // (during the first render)
   const boss = level.kind === "boss";
   const info = MONSTER_INFO[level.monster!];
   const world = worldOf(level);
@@ -233,7 +241,8 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
   const firstTimed = useRef(timed && !store.get().seenTimer).current;
   const upright = useUpright();
   const { tier } = useStreak();
-  const [explain, setExplain] = useState(false);
+  const [explainBar, setExplainBar] = useState(false);
+  const [heartsPulse, setHeartsPulse] = useState(false);
   const words = useRef<Word[]>(
     trialKey
       ? trialWords(trialKey, info.hp)
@@ -247,6 +256,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
     if (!words.length) onQuit();
   }, []);
   const [idx, setIdx] = useState(0);
+  const timeUp = useLessonClock(level);
   const [hp, setHp] = useState(hpMax);
   const [chip, setChip] = useState(0); // sounds that have landed on this word: they wear its health pip down
   const [hearts, setHearts] = useState(MAX_HEARTS);
@@ -331,22 +341,42 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
         await sleep(450); // Sensei speaks as the power-up's fanfare fades
         if (!live) return;
         await say({ line: "battle_boss" });
-      } else await say({ line: trialKey ? "trial_start" : level.id === "review" ? "challenge_start" : "battle_start" });
+      } else if (trialKey) {
+        // a Gem Trial: the first one says what it is for (NARRATIVE_AUDIT F16)
+        if (!(await explain("trial:first", "once", [{ line: "audit_trial_first" }])) && live) await say({ line: "trial_start" });
+      } else {
+        // Baron Muddle's motive, once, before his first monster (F18: a skipped film leaves him unexplained; the film
+        // can mark this heard with narrate.tsx heard("baron-motive") once his lines have played in full)
+        if (level.id !== "review") await explain("baron-motive", "once", [{ line: "audit_baron_first" }, { gap: 200 }]);
+        if (!live) return;
+        await say({ line: level.id === "review" ? "challenge_start" : "battle_start" });
+      }
       if (!live) return;
       if (firstTimed) {
-        setExplain(true);
-        await say({ line: "timer_intro_1" });
-        // demo: fill the bar a little so they see it move
-        for (let k = 0; k <= 30; k++) {
+        // the bar and the hearts, shown as they are explained: the bar fills a little while Sensei talks about it
+        setExplainBar(true);
+        const said = say({ line: "audit_timer_short" });
+        for (let k = 0; k <= 45 && live; k++) {
           setCharge(k / 100);
-          await sleep(30);
+          await sleep(40);
         }
-        await say({ line: "timer_intro_2" });
-        await say({ line: "timer_intro_3" });
+        await said;
+        if (!live) return;
+        setHeartsPulse(true);
+        await say([{ gap: 150 }, { line: "audit_timer_hearts" }]);
+        setHeartsPulse(false);
         setCharge(0);
-        setExplain(false);
+        setExplainBar(false);
         store.set((s) => void (s.seenTimer = true));
+      } else if (trialKey && timed && timesHeard(`trial-fail:${trialKey}`) > timesHeard(`trial-retry:${trialKey}`)) {
+        // back after running out of hearts on this gem: a short reminder about the bar
+        setExplainBar(true);
+        if (await say({ line: "audit_timer_short" })) heard(`trial-retry:${trialKey}`);
+        setExplainBar(false);
       }
+      if (!live) return;
+      // adjacent consonants (units 8-10): a short spaced reminder before the first word (NARRATIVE_AUDIT F12)
+      if (!trialKey && adjacentUnit(level.units) && adjacentSlots(words[0]?.segs ?? []).length > 1) await explain("adjacent:remind", "concept", [{ line: "audit_neighbours_short" }, { gap: 250 }]);
       if (live) await ask();
     })();
     return () => {
@@ -450,8 +480,9 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
     setHearts(h);
     await sleep(T * 0.44 + 250);
     if (h <= 0 && trialKey) {
-      // trial failed: gentle, and the gem keeps most of its energy
+      // trial failed: gentle, and the gem keeps most of its energy (the next try starts with a word about the bar)
       store.set((s) => void (s.energy[trialKey] = ENERGY_FULL * 0.6));
+      heard(`trial-fail:${trialKey}`);
       await say({ line: "trial_fail" });
       if (alive.current) onDone(0);
       return;
@@ -460,9 +491,10 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       knockouts.current++;
       await say({ line: "battle_oops" });
       setHearts(MAX_HEARTS);
-      // model the word so they can succeed
-      await say([{ line: "battle_hint" }, { gap: 100 }]);
-      await sayBlend(word.segs, word.text);
+      // help them succeed: the next tile glows, and Sensei says the whole word again and asks about the slot they're
+      // on. Never the word's sounds one by one: that would spell it for them (NARRATIVE_AUDIT F29)
+      setHelpLvl(3);
+      await say(spellingHelp(word.text));
     } else {
       await say([{ line: "listen_again" }, { gap: 80 }, { word: word.text }]);
     }
@@ -579,7 +611,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       setLocked(true);
       slotMisses.current++;
       // Sensei's first word comes once the "hm?" and the fizzle are over, so it is clear.
-      await say([{ gap: 450 }, ...(lost ? [{ line: lost }, { gap: 250 }] : []), ...correction(g, need, word.text, slotMisses.current)], { reveal: slotMisses.current > 1 });
+      await say([{ gap: 450 }, ...(lost ? [{ line: lost }, { gap: 250 }] : []), ...correctionFor(g, need, word.text, slotMisses.current, bank.current[idx])], { reveal: slotMisses.current > 1 });
       if (!alive.current) return;
       setWrong(null);
       setLocked(false);
@@ -789,7 +821,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
     setLit(-1);
     if (!alive.current) return;
     const nhp = hp - 1;
-    const final = nhp <= 0;
+    const final = nhp <= 0 || timeUp(); // (a cut lesson: the monster is knocked out by this word when time is up)
     const hits = finisher(final, power);
     const landed = hits.last.then(() => void (alive.current && bigHit(final, nhp, power.cols)));
     if (final) {
@@ -819,6 +851,15 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       await sleep(baronHere ? 200 : 650);
       if (!alive.current) return;
     }
+    // a spaced reminder about one of the word's spellings, with that spelling lit ("It's two letters, but it's one
+    // sound."), when nothing bigger is happening (narrate.tsx says when one is due)
+    const remind = grr || taunt || trialKey ? null : (twoSoundsReminder(word.segs) ?? lettersReminder(word.segs));
+    if (remind) {
+      setLit(remind.i);
+      if (await say(remind.say)) remind.done();
+      setLit(-1);
+      if (!alive.current) return;
+    }
     if (grr) {
       setEnraged(true);
       roar();
@@ -829,6 +870,9 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       await say({ line: pickPraise() });
     }
     await landed;
+    if (!alive.current) return;
+    // the first time right answers fill a gem (once per save): it pops up beside the word, and fills
+    if (idx === 0 && !trialKey) await explainGemEnergy(gemSeg(word, level.teach), { x: TOP_CX - 270, y: 118 }, () => alive.current);
     if (!alive.current) return;
     wordMisses.current = 0;
     setFilled([]);
@@ -979,7 +1023,8 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       if (!word || locked) return;
       setHelpLvl(n);
       if (n === 1) say([{ word: word.text }, { gap: 350 }, { line: "help_tiles" }]);
-      else if (n === 2) say([{ line: "say_sounds" }, { sounds: word.segs, gap: 300 }, { word: word.text }]);
+      // the whole word again, and an arrow at the slot they're on: never its sounds one by one (NARRATIVE_AUDIT F29)
+      else if (n === 2) say(spellingHelp(word.text));
       else say([{ line: "help_look" }, { gap: 100 }, { sound: word.segs[filled.length]?.p ?? word.segs[0].p }], { reveal: true });
     },
     [idx, filled.length, locked],
@@ -1064,7 +1109,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
             ))}
           </div>
           {!relaxed && (
-            <div className={`bt-meter ${explain ? "explain" : ""} ${charge > 0.75 ? "hot" : ""}`}>
+            <div className={`bt-meter ${explainBar ? "explain" : ""} ${charge > 0.75 ? "hot" : ""}`}>
               <b style={{ width: `${charge * 100}%` }} />
             </div>
           )}
@@ -1085,7 +1130,11 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
         <RoundButton sm label="map" onClick={onQuit}>
           <Icon.home />
         </RoundButton>
-        {timed && <Hearts n={hearts} max={MAX_HEARTS} />}
+        {timed && (
+          <div style={heartsPulse ? { animation: "pulse 0.9s ease-in-out infinite" } : undefined}>
+            <Hearts n={hearts} max={MAX_HEARTS} />
+          </div>
+        )}
         <div className="spacer" />
       </div>
 
@@ -1104,6 +1153,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
             {word.segs.map((_, i) => (
               <div key={`${idx}-${i}`} ref={(el) => void (slotRefs.current[i] = el)} className={`slot ${i < filled.length ? "filled" : i === filled.length && !locked ? "active" : ""} ${lit === i ? "bt-say" : ""}`}>
                 {i < filled.length && <Tile g={filled[i]} className="bt-land" withButtons={filled.length === word.segs.length} lit={lit === i} />}
+                {helpLvl === 2 && i === filled.length && !locked && <SlotPointer />}
               </div>
             ))}
           </div>
@@ -1124,6 +1174,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
 
       {/* the streak flames, plus pale ones for the word's first-try answers held until its finisher */}
       <NinjaSpot pose="ready" pending={pendN} />
+      <NarrOverlay />
       <SenseiDock />
     </div>
   );

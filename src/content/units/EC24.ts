@@ -94,12 +94,10 @@ export const words = [
     "text": "park",
     "segs": "p.ar=ar.k",
     "unit": "EC24",
-    "pic": "one small park with a bench and a tree",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ar"
+      "sort:ar",
+      "dictation-safe"
     ]
   },
   {
@@ -154,12 +152,10 @@ export const words = [
     "text": "card",
     "segs": "c.ar=ar.d",
     "unit": "EC24",
-    "pic": "one blank greeting card folded open",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ar"
+      "sort:ar",
+      "dictation-safe"
     ]
   },
   {
@@ -178,12 +174,10 @@ export const words = [
     "text": "charm",
     "segs": "ch.ar=ar.m",
     "unit": "EC24",
-    "pic": "one small silver charm hanging from a bracelet",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ar"
+      "sort:ar",
+      "dictation-safe"
     ]
   },
   {

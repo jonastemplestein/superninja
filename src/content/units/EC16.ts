@@ -111,24 +111,20 @@ export const words = [
     "text": "kiss",
     "segs": "k.i.ss",
     "unit": "EC16",
-    "pic": "two teddy bears touching noses in a gentle kiss, full bodies visible",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:ss"
+      "sort:ss",
+      "dictation-safe"
     ]
   },
   {
     "text": "mess",
     "segs": "m.e.ss",
     "unit": "EC16",
-    "pic": "one messy pile of coloured toy blocks scattered on the floor",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:ss"
+      "sort:ss",
+      "dictation-safe"
     ]
   },
   {
@@ -263,12 +259,10 @@ export const words = [
     "text": "stand",
     "segs": "s.t.a.n.d",
     "unit": "EC16",
-    "pic": "one child standing upright with arms by their sides, full body visible",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {
@@ -352,12 +346,10 @@ export const words = [
     "text": "strap",
     "segs": "s.t.r.a.p",
     "unit": "EC16",
-    "pic": "one plain blue fabric strap with a buckle, laid out alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {
@@ -375,12 +367,10 @@ export const words = [
     "text": "crust",
     "segs": "c.r.u.s.t",
     "unit": "EC16",
-    "pic": "one crisp brown crust cut from a loaf of bread, alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {
@@ -399,36 +389,30 @@ export const words = [
     "text": "twist",
     "segs": "t.w.i.s.t",
     "unit": "EC16",
-    "pic": "one twisted strip of bright paper, alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {
     "text": "frost",
     "segs": "f.r.o.s.t",
     "unit": "EC16",
-    "pic": "one garden leaf edged with white frost crystals",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {
     "text": "scrub",
     "segs": "s.c.r.u.b",
     "unit": "EC16",
-    "pic": "one hand scrubbing a dirty plate with a sponge",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {
@@ -468,24 +452,20 @@ export const words = [
     "text": "strip",
     "segs": "s.t.r.i.p",
     "unit": "EC16",
-    "pic": "one long narrow strip of red cloth, alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {
     "text": "split",
     "segs": "s.p.l.i.t",
     "unit": "EC16",
-    "pic": "one log split neatly into two matching halves",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {
@@ -504,12 +484,10 @@ export const words = [
     "text": "scrap",
     "segs": "s.c.r.a.p",
     "unit": "EC16",
-    "pic": "one small scrap of blue cloth with frayed edges, alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:s"
+      "sort:s",
+      "dictation-safe"
     ]
   },
   {

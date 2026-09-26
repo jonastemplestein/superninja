@@ -1,0 +1,158 @@
+/* The warm-ups (src/scenes/Warmup.tsx, docs/FIRST_MINUTES.md §5, §7): cards on slots that glide between layouts, the
+   lesson beads, the tortoise and rabbit, the sound ribbon, pockets, the reading rail, stacked rails and sound dots.
+   Stage px (1280×720): the ninja zone is x 0–330 at the bottom, Help is bottom-right, the play area is x 340–1110. */
+
+/* ---------------------------------------------------------------- card slots: absolutely placed, gliding */
+.wu-cards { position: absolute; inset: 0; pointer-events: none; }
+.wu-slot {
+  position: absolute; pointer-events: auto; z-index: 3;
+  transition: left 0.5s cubic-bezier(0.3, 1.2, 0.5, 1), top 0.5s cubic-bezier(0.3, 1.2, 0.5, 1), width 0.5s, height 0.5s, opacity 0.35s, scale 0.35s;
+  animation: wu-in 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.wu-slot .pcard { transition: width 0.5s, height 0.5s, padding 0.5s; }
+.wu-slot.out { opacity: 0; scale: 0.6; pointer-events: none; animation: none; }
+.wu-slot.moving { pointer-events: none; }
+@keyframes wu-in { from { translate: 0 -60px; scale: 0.7; opacity: 0; } to { translate: 0 0; scale: 1; opacity: 1; } }
+/* a card being read on the rail gets a warm light under it */
+.wu-slot.lit .pcard-plate { box-shadow: 0 8px 0 var(--ink), 0 0 0 7px #fff8e8, 0 18px 30px 6px rgba(255, 226, 140, 0.9); }
+
+/* fast: the card hops; slow: it stretches like elastic in time with the stretched word, then snaps back */
+.wu-slot.fx-hop .pcard { animation: wu-hop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes wu-hop { 30% { translate: 0 -46px; scale: 0.94 1.08; } 60% { translate: 0 4px; scale: 1.06 0.95; } 100% { translate: 0 0; scale: 1; } }
+.wu-slot.fx-stretch .pcard { animation: wu-stretch var(--fx-ms) cubic-bezier(0.25, 0.1, 0.25, 1) both; }
+@keyframes wu-stretch {
+  0% { scale: 1 1; }
+  18% { scale: 1.22 0.93; }
+  82% { scale: 1.32 0.9; }
+  92% { scale: 0.94 1.05; }
+  100% { scale: 1 1; }
+}
+
+/* ---------------------------------------------------------------- lesson beads (top-centre; the sticker is last) */
+.wu-beads {
+  position: absolute; top: 16px; left: 50%; translate: -50% 0; z-index: 6; display: flex; align-items: center; gap: 12px;
+  padding: 6px 14px; border-radius: 999px; background: rgba(43, 29, 20, 0.35); pointer-events: none;
+}
+.wu-bead { width: 34px; height: 34px; border-radius: 50%; border: 4px solid var(--ink); background: rgba(255, 244, 220, 0.55); transition: background 0.3s, scale 0.3s; }
+.wu-bead.on { background: radial-gradient(circle at 38% 32%, #fff6c8, #ffc53d 70%); scale: 1.08; animation: wu-bead 0.45s cubic-bezier(0.3, 1.8, 0.5, 1); }
+@keyframes wu-bead { 0% { scale: 0.6; } 60% { scale: 1.3; } 100% { scale: 1.08; } }
+.wu-bead.sticker { width: 50px; height: 50px; display: grid; place-items: center; background: radial-gradient(circle at 38% 32%, #ffd9e8, #ff7aa2 75%); }
+.wu-bead.sticker img { width: 36px; height: 36px; object-fit: contain; }
+.wu-bead.sticker.burst { animation: wu-burst 0.9s cubic-bezier(0.3, 1.8, 0.5, 1) both; box-shadow: 0 0 0 8px rgba(255, 197, 61, 0.7), 0 0 30px 12px rgba(255, 226, 140, 0.9); }
+@keyframes wu-burst { 0% { scale: 1; } 40% { scale: 1.7; rotate: 20deg; } 100% { scale: 1.25; rotate: 0deg; } }
+
+/* ---------------------------------------------------------------- the tortoise (slow) and the rabbit (fast) */
+.wu-speed {
+  position: absolute; z-index: 5; padding: 12px; border-radius: 50%; border: 6px solid var(--ink); box-shadow: 0 7px 0 var(--ink);
+  background: radial-gradient(circle at 40% 35%, #f4fff0, #cdeeb4 75%); display: grid; place-items: center; cursor: pointer;
+  animation: wu-in 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) both; transition: scale 0.2s, box-shadow 0.2s;
+}
+.wu-speed.rabbit { background: radial-gradient(circle at 40% 35%, #fff4fb, #ffd0e0 75%); }
+.wu-speed img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.wu-speed.pulse { animation: wu-pulse 1s ease-in-out infinite; }
+@keyframes wu-pulse { 50% { scale: 1.12; box-shadow: 0 7px 0 var(--ink), 0 0 0 10px rgba(255, 244, 220, 0.8); } }
+.wu-speed.glow { box-shadow: 0 7px 0 var(--ink), 0 0 0 10px rgba(255, 197, 61, 0.95), 0 0 28px 10px rgba(255, 214, 102, 0.7); animation: wu-pulse 1s ease-in-out infinite; }
+.wu-speed.flash { scale: 1.16; box-shadow: 0 7px 0 var(--ink), 0 0 0 10px #fff8e8, 0 0 34px 14px rgba(255, 248, 226, 0.95); }
+
+/* ---------------------------------------------------------------- the sound ribbon under the fast/slow card */
+.wu-ribbon {
+  position: absolute; z-index: 4; width: 300px; height: 46px; border-radius: 24px; border: 5px solid var(--ink);
+  background: rgba(43, 29, 20, 0.35); overflow: hidden; pointer-events: none; animation: wu-in 0.45s both;
+}
+.wu-ribbon-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(90deg, #fff4dc, #ffe38a 60%, #ffc53d); box-shadow: 0 0 18px 6px rgba(255, 226, 140, 0.8); }
+.wu-ribbon.zip .wu-ribbon-fill { animation: wu-zip var(--ms) linear both; }
+.wu-ribbon.draw .wu-ribbon-fill { animation: wu-draw var(--ms) linear both; }
+@keyframes wu-zip { from { width: 0; } 80% { width: 100%; } to { width: 100%; opacity: 0.2; } }
+@keyframes wu-draw { from { width: 0; } to { width: 100%; } }
+.wu-ribbon-dots { position: absolute; inset: 0; display: flex; justify-content: space-around; align-items: center; }
+.wu-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--ink); border: 3px solid #fff4dc; scale: 0; transition: scale 0.25s cubic-bezier(0.3, 1.8, 0.5, 1); }
+.wu-dot.on { scale: 1; }
+.wu-dot.pulse { scale: 1.6; background: #ffc53d; box-shadow: 0 0 0 4px var(--ink); }
+
+/* sound dots under a card (noticing the first sound): the first one swells to gold */
+.wu-cdots { position: absolute; left: 50%; top: calc(100% - 4px); translate: -50% 0; display: flex; gap: 26px; pointer-events: none; }
+.wu-cdots span { width: 26px; height: 26px; border-radius: 50%; background: var(--ink); border: 4px solid #fff4dc; transition: scale 0.35s cubic-bezier(0.3, 1.8, 0.5, 1), background 0.35s; }
+.wu-cdots span.gold { background: #ffc53d; scale: 1.6; box-shadow: 0 0 18px 6px rgba(255, 214, 102, 0.9); }
+
+/* sound lines on a card (Reception): a strip across the bottom of the plate, one line per sound, and the spelling
+   appears on its line (kept inside the card, so it never covers the row below) */
+.wu-lines {
+  position: absolute; left: 50%; bottom: 20px; translate: -50% 0; display: flex; gap: 6px; pointer-events: none; z-index: 4;
+  padding: 2px 8px 6px; border-radius: 12px; border: 3px solid var(--ink); background: rgba(255, 248, 230, 0.94);
+}
+.wu-lines .sound-line { width: 40px; height: 44px; border-bottom: 5px solid var(--ink); display: grid; place-items: end center; }
+.wu-lines .tile { --size: 38px; font-size: 28px; }
+.wu-lines .tile .g { color: var(--ink); -webkit-text-stroke: 0; }
+
+/* ---------------------------------------------------------------- tap all: the pockets show how many to find */
+.wu-pockets { position: absolute; left: 1004px; z-index: 4; display: flex; flex-direction: column; gap: 14px; pointer-events: none; }
+.wu-pocket {
+  width: 90px; height: 90px; border-radius: 22px; border: 5px dashed rgba(43, 29, 20, 0.7); background: rgba(255, 226, 140, 0.55);
+  display: grid; place-items: center; box-shadow: inset 0 6px 12px rgba(43, 29, 20, 0.25);
+}
+.wu-pocket.full { border-style: solid; border-color: var(--ink); background: radial-gradient(circle at 40% 35%, #fff6c8, #ffc53d 75%); animation: wu-bead 0.4s cubic-bezier(0.3, 1.8, 0.5, 1); }
+.wu-pocket img { width: 70px; height: 70px; object-fit: contain; }
+.wu-fly { position: absolute; left: 0; top: 0; object-fit: contain; pointer-events: none; z-index: 5; filter: drop-shadow(0 6px 0 rgba(43, 29, 20, 0.4)) drop-shadow(0 0 14px rgba(255, 244, 220, 0.9)); }
+
+/* ---------------------------------------------------------------- the reading rail (x 360–1090, line at y 520) */
+.wu-rail { position: absolute; left: 360px; width: 730px; height: 28px; z-index: 2; pointer-events: none; animation: wu-rail-in 0.5s cubic-bezier(0.3, 1.3, 0.5, 1) both; }
+@keyframes wu-rail-in { from { translate: -60px 0; opacity: 0; } to { translate: 0 0; opacity: 1; } }
+.wu-rail-bar {
+  position: absolute; inset: 0; border-radius: 14px; border: 5px solid var(--ink); box-shadow: 0 6px 0 var(--ink);
+  background: repeating-linear-gradient(90deg, #b8d86a 0 150px, #8fb847 150px 156px), linear-gradient(180deg, #d6ef8a, #8fb847);
+  background-blend-mode: multiply;
+}
+.wu-rail-arrow { position: absolute; left: -12px; top: -74px; width: 112px; height: 56px; overflow: visible; filter: drop-shadow(0 3px 0 rgba(43, 29, 20, 0.35)); }
+.wu-rail-arrow.glow { filter: drop-shadow(0 0 12px rgba(255, 214, 102, 0.95)); }
+.wu-rail-arrow.pulse { animation: wu-arrow 0.5s ease-in-out 3; }
+@keyframes wu-arrow { 50% { translate: 26px 0; scale: 1.15; } }
+.wu-rail-light {
+  position: absolute; top: -26px; width: 180px; height: 80px; translate: -50% 0; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(255, 248, 210, 0.95) 0%, rgba(255, 214, 102, 0.5) 45%, rgba(255, 214, 102, 0) 72%);
+  transition: left 0.3s ease-out;
+}
+
+/* ---------------------------------------------------------------- which did I read? two stacked rails */
+.wu-rails { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.wu-rail-btn {
+  /* centred on the play area (x 730) by transform, so the entrance animation (which moves `translate`) can't undo it */
+  position: absolute; left: 730px; transform: translateX(-50%); pointer-events: auto; display: flex; gap: 14px; padding: 10px 26px 24px;
+  border-radius: 30px; border: 6px solid var(--ink); background: rgba(255, 244, 220, 0.88); box-shadow: 0 8px 0 var(--ink); cursor: pointer;
+  animation: wu-in 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) both; transition: box-shadow 0.25s, scale 0.25s;
+}
+.wu-rail-btn:nth-child(2) { animation-delay: 0.1s; }
+.wu-rail-line { position: absolute; left: 20px; right: 20px; bottom: 10px; height: 10px; border-radius: 6px; background: #8fb847; border: 3px solid var(--ink); }
+.wu-rail-card { position: relative; display: block; border-radius: 24px; transition: filter 0.2s; }
+.wu-rail-card.lit .pcard-plate { box-shadow: 0 8px 0 var(--ink), 0 0 0 7px #fff8e8, 0 16px 26px 6px rgba(255, 226, 140, 0.95); }
+.wu-rail-btn.glow { box-shadow: 0 8px 0 var(--ink), 0 0 0 10px rgba(255, 197, 61, 0.95), 0 0 30px 10px rgba(255, 214, 102, 0.7); }
+.wu-rail-btn.flash { box-shadow: 0 8px 0 var(--ink), 0 0 0 10px rgba(63, 191, 106, 0.85), 0 0 34px 12px rgba(140, 235, 165, 0.7); }
+.wu-rail-btn.wrong { animation: pcard-wobble 0.4s ease-in-out; }
+
+/* ---------------------------------------------------------------- sound dots under a picture (W6) */
+.wu-dotrow { position: absolute; left: 730px; top: 420px; translate: -50% 0; height: 116px; display: flex; justify-content: space-around; align-items: center; z-index: 4; }
+.wu-dotrow-line { position: absolute; left: 0; right: 0; top: 50%; height: 12px; translate: 0 -50%; border-radius: 6px; background: rgba(43, 29, 20, 0.45); }
+.wu-dotrow.sweep .wu-dotrow-line { background: linear-gradient(90deg, #ffc53d, #fff4dc); animation: wu-draw 0.6s linear both; box-shadow: 0 0 18px 6px rgba(255, 226, 140, 0.9); }
+.wu-bigdot {
+  position: relative; width: 100px; height: 100px; border-radius: 50%; border: 6px solid var(--ink); background: #fff4dc; box-shadow: 0 6px 0 var(--ink);
+  cursor: pointer; transition: background 0.2s, scale 0.2s;
+}
+.wu-bigdot::after { content: ""; position: absolute; inset: 26px; border-radius: 50%; background: var(--ink); }
+.wu-bigdot.on { background: #ffc53d; }
+.wu-bigdot.lit { scale: 1.18; box-shadow: 0 6px 0 var(--ink), 0 0 0 8px #fff8e8, 0 0 24px 8px rgba(255, 226, 140, 0.9); }
+.wu-bigdot.wrong { animation: pcard-wobble 0.4s ease-in-out; }
+
+/* ---------------------------------------------------------------- the speaker: Hear it again (bottom-centre) */
+.wu-speaker { position: absolute; bottom: 26px; translate: -50% 0; z-index: 6; }
+
+/* A merged picture (the fish-dog) bounces with joy while Sensei says its name, then settles (docs/FIRST_MINUTES.md,
+   re-audit r2: the payoff must be seen clean) */
+.wu-slot.fx-joy .pcard { animation: wu-joy 1.4s cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+@keyframes wu-joy {
+  0% { translate: 0 0; rotate: 0deg; scale: 1; }
+  16% { translate: 0 -30px; rotate: -3deg; scale: 1.06 1.04; }
+  32% { translate: 0 0; rotate: 2deg; scale: 1.04 0.97; }
+  48% { translate: 0 -12px; rotate: -2deg; scale: 1.02; }
+  64% { translate: 0 0; rotate: 1.5deg; scale: 1; }
+  80% { rotate: -1deg; }
+  100% { translate: 0 0; rotate: 0deg; scale: 1; }
+}

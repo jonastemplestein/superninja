@@ -150,12 +150,10 @@ export const words = [
     "text": "yell",
     "segs": "y.e.ll",
     "unit": "EC7",
-    "pic": "one child calling out loudly with hands cupped round the mouth",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:e"
+      "sort:e",
+      "dictation-safe"
     ]
   },
   {
@@ -173,12 +171,10 @@ export const words = [
     "text": "mess",
     "segs": "m.e.ss",
     "unit": "EC7",
-    "pic": "one messy pile of coloured toy blocks scattered on the floor",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:e"
+      "sort:e",
+      "dictation-safe"
     ]
   },
   {
@@ -207,12 +203,10 @@ export const words = [
     "text": "hen",
     "segs": "h.e.n",
     "unit": "EC7",
-    "pic": "one adult brown hen standing alone, with a red comb and short beak",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:e"
+      "sort:e",
+      "dictation-safe"
     ]
   },
   {
@@ -230,12 +224,10 @@ export const words = [
     "text": "jet",
     "segs": "j.e.t",
     "unit": "EC7",
-    "pic": "one grey jet aircraft with swept wings and two engines, flying alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:e"
+      "sort:e",
+      "dictation-safe"
     ]
   },
   {

@@ -174,7 +174,7 @@ export const UNITS: Unit[] = [
     words: [
       "kit", "kid", "leg|one isolated bare human leg from the upper thigh to all five toes, bent slightly at the clearly visible knee, natural skin colour, no sock, shoe, trousers or rest of body", "lid|a pot lid", "lip", "lap", "let", "lot", "log|a log", "red", "rat|one large brown rat side-on, with a long pointed snout, visible front teeth, very small ears, coarse fur and a long thick bare pink tail curling behind it, no mouse", "rag", "rip",
       "rod|a fishing rod", "run|a child running", "rub", "rug|a round colourful rug", "cup|a small shallow porcelain teacup with a delicate curved handle, wide open rim, sitting on a matching saucer, empty inside", "cut", "sun|the sun", "bun|a single soft round iced bun with a little swirl of white icing on top, no plate or bread slices", "bus|a red double-decker bus",
-      "bug|a bug", "hug|two cute teddy bears giving each other a big hug", "mug|a mug", "nut|a shelled walnut cracked open to show the wrinkled nut kernel inside, no acorn cap", "gum", "hut|a tiny rustic round thatched hut with a simple wooden door and no windows, made of straw and timber, clearly a one-room shelter", "tub|a bath tub", "up", "us",
+      "bug|a bug: a small round cartoon beetle with six little legs and two antennae", "hug|two cute teddy bears giving each other a big hug", "mug|a mug", "nut|a shelled walnut cracked open to show the wrinkled nut kernel inside, no acorn cap", "gum", "hut|a tiny rustic round thatched hut with a simple wooden door and no windows, made of straw and timber, clearly a one-room shelter", "tub|a bath tub", "up", "us",
       "mum", "dug", "fun", "pup|a puppy", "cub|a bear cub", "rub", "kin",
     ],
   },
@@ -245,8 +245,10 @@ export const UNITS: Unit[] = [
   },
 ];
 
-/** Picture words used only in LISTENING games (never written), e.g. first-sound /a/ in "apple". */
-export const ORAL_WORDS: Record<string, { pic: string; first: PhonemeId }> = {
+/** Picture words used only in LISTENING games (never written), e.g. first-sound /a/ in "apple". `segs`: the word's
+ *  sounds, for the warm-ups' sound dots (moon = m·oo·n); `plate`: the card's colour, when the picture needs a
+ *  particular one (scripts/art-manifest.ts → gen-pic-plates.py). */
+export const ORAL_WORDS: Record<string, { pic: string; first: PhonemeId; segs?: PhonemeId[] }> = {
   apple: { pic: "a shiny red apple", first: "a" },
   astronaut: { pic: "a friendly child astronaut in a white space suit waving", first: "a" },
   insect: { pic: "a cute green beetle insect", first: "i" },
@@ -254,14 +256,18 @@ export const ORAL_WORDS: Record<string, { pic: string; first: PhonemeId }> = {
   octopus: { pic: "a friendly purple octopus", first: "o" },
   otter: { pic: "a cute brown otter floating on its back", first: "o" },
   // first minutes (docs/FIRST_MINUTES.md): Lesson 1 and 2 pictures, the compound words and the fish-dog gag
-  sausage: { pic: "one plump golden-brown cooked sausage, slightly curved", first: "s" },
-  moon: { pic: "a glowing pale-yellow crescent moon", first: "m" },
-  flower: { pic: "one red flower with five round petals, a yellow middle, a green stem and two leaves", first: "f" },
-  sunflower: { pic: "one tall sunflower with big bright yellow petals, a round brown middle, a green stem and two leaves", first: "s" },
-  star: { pic: "one plump bright yellow five-pointed star with rounded points, on its own (no card, no frame, no background shape)", first: "s" },
-  starfish: { pic: "an orange starfish with five chunky rounded arms and little dots, facing the viewer with a friendly smile", first: "s" },
-  fishdog: { pic: "a funny goldfish with floppy brown puppy ears, a pink tongue and a wagging puppy tail, facing the viewer and smiling", first: "f" },
-  dogfish: { pic: "a funny brown-and-white puppy with orange goldfish fins on its back and a goldfish tail, sitting and facing the viewer, smiling", first: "d" },
+  sausage: { pic: "one plump golden-brown cooked sausage, slightly curved", first: "s", segs: ["s", "o", "s", "i", "j"] },
+  moon: { pic: "a glowing pale-yellow crescent moon", first: "m", segs: ["m", "oo", "n"] },
+  flower: { pic: "one red flower with five round petals, a yellow middle, a green stem and two leaves", first: "f", segs: ["f", "l", "ou", "schwa"] },
+  sunflower: { pic: "one tall sunflower with big bright yellow petals, a round brown middle, a green stem and two leaves", first: "s", segs: ["s", "u", "n", "f", "l", "ou", "schwa"] },
+  star: { pic: "one plump bright yellow five-pointed star with rounded points, on its own (no card, no frame, no background shape)", first: "s", segs: ["s", "t", "ar"] },
+  starfish: { pic: "an orange starfish with five chunky rounded arms and little dots, facing the viewer with a friendly smile", first: "s", segs: ["s", "t", "ar", "f", "i", "sh"] },
+  fishdog: { pic: "a funny goldfish with floppy brown puppy ears, a pink tongue and a wagging puppy tail, facing the viewer and smiling", first: "f", segs: ["f", "i", "sh", "d", "o", "g"] },
+  dogfish: { pic: "a funny brown-and-white puppy with orange goldfish fins on its back and a goldfish tail, sitting and facing the viewer with big open shiny eyes and a happy smile", first: "d", segs: ["d", "o", "g", "f", "i", "sh"] },
+  // warm-up W4's picture words: rain + bow, snow + man (rain, snow and man are word pictures already)
+  rainbow: { pic: "one bright rainbow arch with seven clear colour stripes, a small fluffy white cloud at each end", first: "r", segs: ["r", "ae", "n", "b", "oe"] },
+  bow: { pic: "one big shiny red ribbon bow with two loops and two short tails, tied in the middle, nothing else", first: "b", segs: ["b", "oe"] },
+  snowman: { pic: "a friendly snowman made of two big snowballs, with a carrot nose, two coal eyes, a smile, a red woolly scarf, a black hat and stick arms", first: "s", segs: ["s", "n", "oe", "m", "a", "n"] },
 };
 
 /** Special (tricky) words: taught whole, with their unusual part noted. */

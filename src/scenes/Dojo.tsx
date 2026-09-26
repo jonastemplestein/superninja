@@ -15,6 +15,11 @@
 //   and says the top tier's line with ninja.streakLine() just before the word is read back (see Build).
 // Layout (stage 1280×720): the play area is centred on x 722, between the ninja zone (x 0-330) and Sensei's Help
 // corner (x 1116+); rows of tiles stay inside x 340-1100.
+// Explanations (docs/NARRATIVE_AUDIT.md; spacing in src/content/narrative.ts, the ledger in ./narrate.tsx): a new
+// spelling's reveal can't be cut off by a tap (the tap waits for it), and says "It's two letters, but it's one sound."
+// (or, for < x >, two sounds together; for a spelling with a second sound, "The same spelling can sometimes be...");
+// adjacent consonants are pointed out before the first word of units 8-10; Help never says a word's sounds one by
+// one to a child who is spelling it; a word read back can bring a spaced "two letters, one sound" reminder.
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { flushSync } from "react-dom";
 import type { LevelProps } from "../App";
@@ -24,23 +29,36 @@ import { say, sayBlend, sfx, playMusic, preload, urls, isSpeaking, type Say } fr
 import { FAST } from "../engine/fast";
 import { chooseWords, tileBank, shuffle } from "../engine/learner";
 import { recordSpell, recordWordSpelt, store } from "../engine/store";
-import { correction, pickPraise } from "../engine/feedback";
+import { pickPraise } from "../engine/feedback";
 import { streak, tierOf, streakLine, type StreakEvent, type Tier } from "../engine/streak";
 import { NinjaSpot, ninja, type Move } from "../ui/Ninja";
 import { Tile, img, RoundButton, Icon, Progress, fx, fxDom, stageRect, sleep, useIdlePrompt, TapHint, tapProps, useHelp, WordCard, SenseiDock } from "../ui/ui";
+import type { Level } from "../content/worlds";
+import type { PhonemeId } from "../content/phonics";
+import { STRETCHED } from "../content/stretch";
+import { adjacentSlots, adjacentUnit, clusterFirst, gemSeg, lettersKey, lettersLine, otherSound, twoSoundsKey } from "../content/narrative";
+import { NarrOverlay, SlotPointer, beginLevel, correctionFor, explain, explainGemEnergy, heard, isDue, lettersReminder, lettersSay, readThisWay, sameSpellingSay, spellingHelp, twoSoundsReminder } from "./narrate";
+import { useLessonClock } from "../engine/lessonClock";
 import "../styles/dojo.css";
 
-type Phase = { k: "learn"; i: number } | { k: "find"; i: number } | { k: "build"; i: number } | { k: "done" };
+/** `done.last`: the word that stays up for the finish (a cut lesson can end before the last word) */
+type Phase = { k: "learn"; i: number } | { k: "find"; i: number } | { k: "build"; i: number } | { k: "done"; last: number };
 
 /** Centre of the play area (between the ninja and the Help corner), in stage px. */
 const MID = 722;
 
 export function Dojo({ level, onDone, onQuit }: LevelProps) {
+  useState(() => beginLevel(level)); // (during the first render, before Learn and Build ask what's due)
   const teach = (level.teach ?? []).map(teachEntry);
-  const words = useRef<Word[]>(chooseWords(level, 5, "spell", { maxLen: level.units.some((u) => u >= 10) ? 5 : 4 })).current;
+  // (units 8-10: a word with sounds next to each other first, for the unit's explanation: clusterFirst)
+  const words = useRef<Word[]>(clusterFirst(chooseWords(level, 5, "spell", { maxLen: level.units.some((u) => u >= 10) ? 5 : 4 }), level.units)).current;
   const [phase, setPhase] = useState<Phase>(teach.length ? { k: "learn", i: 0 } : { k: "build", i: 0 });
   const mistakes = useRef(0);
+  // a cut lesson (§9) ends after the word being built when its time is up; the teaching (Learn, Find) always plays
+  const timeUp = useLessonClock(level);
   const total = teach.length * 2 + words.length;
+  /** Is teach entry i a new spelling of a sound the child already knows how to spell? */
+  const alsoSpelt = (i: number) => [...knownSpellings(level)].some((k) => k !== teach[i].g && GRAPHEMES[k] === teach[i].p && !teach.slice(i).some((x) => x.g === k));
   const doneCount = phase.k === "learn" ? phase.i : phase.k === "find" ? teach.length + phase.i : phase.k === "build" ? teach.length * 2 + phase.i : total;
   // a new level starts a new streak; the ninja mounts after the reset, so it never arrives wearing old flames
   const [fresh, setFresh] = useState(false);
@@ -59,7 +77,7 @@ export function Dojo({ level, onDone, onQuit }: LevelProps) {
     setPhase((p) => {
       if (p.k === "learn") return p.i + 1 < teach.length ? { k: "learn", i: p.i + 1 } : { k: "find", i: 0 };
       if (p.k === "find") return p.i + 1 < teach.length ? { k: "find", i: p.i + 1 } : { k: "build", i: 0 };
-      if (p.k === "build") return p.i + 1 < words.length ? { k: "build", i: p.i + 1 } : { k: "done" };
+      if (p.k === "build") return p.i + 1 < words.length && !timeUp() ? { k: "build", i: p.i + 1 } : { k: "done", last: p.i };
       return p;
     });
   };
@@ -94,17 +112,20 @@ export function Dojo({ level, onDone, onQuit }: LevelProps) {
           t={teach[phase.i]}
           first={phase.i === 0}
           onNext={next}
-          alsoSpelt={[...knownSpellings(level)].some((k) => k !== teach[phase.i].g && GRAPHEMES[k] === teach[phase.i].p && !teach.slice(phase.i).some((x) => x.g === k))}
+          alsoSpelt={alsoSpelt(phase.i) ? (teach.slice(0, phase.i).some((_, j) => alsoSpelt(j)) ? "again" : "first") : undefined}
+          world={level.world}
+          secondSound={((o) => (o && teach.slice(0, phase.i).some((x) => x.g === teach[phase.i].g && x.p === o) ? o : null))(otherSound(teach[phase.i]))}
         />
       )}
       {phase.k === "find" && <Find key={`f${phase.i}`} t={teach[phase.i]} pool={[...knownSpellings(level)]} onNext={next} onMiss={() => mistakes.current++} />}
       {/* the last word stays up for the finish: the ninja's stars land on it while the confetti falls */}
       {(phase.k === "build" || (phase.k === "done" && words.length > 0)) &&
-        ((i) => <Build key={`b${i}`} word={words[i]} bank={tileBank(words[i], level, 2)} first={i === 0} longer={!teach.length} onNext={next} onMiss={() => mistakes.current++} />)(
-          phase.k === "build" ? phase.i : words.length - 1,
+        ((i) => <Build key={`b${i}`} word={words[i]} bank={tileBank(words[i], level, 2)} first={i === 0} longer={!teach.length && !!adjacentUnit(level.units)} level={level} onNext={next} onMiss={() => mistakes.current++} />)(
+          phase.k === "build" ? phase.i : phase.last,
         )}
       {/* letters flying into their slots (see deliver); part of the scene, so they go with it if the child leaves */}
       <div className="dj-flies" aria-hidden="true" />
+      <NarrOverlay />
       <SenseiDock />
     </div>
   );
@@ -335,7 +356,7 @@ async function deliver(el: HTMLElement, slot: HTMLElement, move: Deliver, alive:
 }
 
 // ---------------------------------------------------------------- learn: hear the sound, see its spelling, tap and say it
-function Learn({ t, first, onNext, alsoSpelt }: { t: Seg; first: boolean; onNext: () => void; alsoSpelt?: boolean }) {
+function Learn({ t, first, onNext, alsoSpelt, secondSound, world }: { t: Seg; first: boolean; onNext: () => void; alsoSpelt?: "first" | "again"; secondSound?: PhonemeId | null; world: number }) {
   const { g, p } = t;
   const [taps, setTaps] = useState(0);
   // the ninja's spell is on its way to the ear: from now on the ear can't be tapped (a tap, or Help, would cut off the
@@ -348,15 +369,26 @@ function Learn({ t, first, onNext, alsoSpelt }: { t: Seg; first: boolean; onNext
   const ear = useRef<HTMLButtonElement>(null);
   const tapsRef = useRef(0);
   const helped = useRef(false); // Help was pressed during the explanation (and said the gist again itself)
+  // The spelling is on screen and Sensei is explaining it (NARRATIVE_AUDIT F06): a tap now would cut off "It's two
+  // letters, but it's one sound", the one moment this spelling is taught. The tile nods to show the tap was felt,
+  // and the tap counts as soon as the explanation is over.
+  const explaining = useRef(false);
+  const queued = useRef<HTMLElement | null>(null);
   const alive = useAlive();
-  // "Two letters, one sound!" (said while the spelling is on screen)
+  // What this spelling is (said while it is on screen, in the teach.ts wording): "It's two letters, but it's one
+  // sound."; < x >: "This spelling is two sounds together!" /k/ /s/; a spelling taught a moment ago with its other
+  // sound (th, then th as in "this"): "The same spelling can sometimes be /th/ ... and sometimes /dh/ ..."
+  // (NARRATIVE_AUDIT F06, F07, F19). A new spelling of a known sound also says so (in full the first time in a level,
+  // then "Same sound, different spellings!").
+  const letters = lettersSay(t);
   const about: Say[] = [];
-  if (alsoSpelt) about.push({ line: "same_sound_new" }, { gap: 200 });
-  else if (g.length === 2) about.push({ line: "two_letters_one_sound" }, { gap: 200 });
-  if (g.length === 3) about.push({ line: "three_letters_one_sound" }, { gap: 200 });
+  if (secondSound) about.push(...sameSpellingSay(g, secondSound, p), { gap: 350 });
+  else {
+    if (alsoSpelt) about.push({ line: alsoSpelt === "first" ? "same_sound_new" : "same_sound_diff" }, { gap: 250 });
+    if (letters.length) about.push(...letters, { gap: 300 });
+  }
   // the gist, again: the sound, how many letters, "Tap it, and say it with me!"
-  const letters: Say[] = g.length === 3 ? [{ line: "three_letters_one_sound" }, { gap: 200 }] : g.length === 2 ? [{ line: "two_letters_one_sound" }, { gap: 200 }] : [];
-  const recap: Say[] = [{ sound: p }, { gap: 150 }, ...letters, { line: "dojo_tap_say" }];
+  const recap: Say[] = [{ sound: p }, { gap: 150 }, ...(letters.length ? [...letters, { gap: 250 }] : []), { line: "dojo_tap_say" }];
   useEffect(() => {
     if (!shown) return;
     const t = setTimeout(() => setHint(true), 6500);
@@ -364,11 +396,14 @@ function Learn({ t, first, onNext, alsoSpelt }: { t: Seg; first: boolean; onNext
   }, [shown]);
   useEffect(() => {
     (async () => {
-      // sound first: hear it (twice), then see how we write it
+      // the dojo, explained the first two times (in different levels); then a short welcome back, then nothing
+      const welcome = !first ? null : isDue("dojo:welcome", "twice") ? "dojo:welcome" : isDue("dojo:back", "short") ? "dojo:back" : null;
+      // sound first: hear it (twice), then see how we spell it
       const intro: Say[] = [];
-      if (first) intro.push({ line: "dojo_hello" }, { gap: 250 });
+      if (welcome) intro.push({ line: welcome === "dojo:welcome" ? "dojo_hello" : "audit_dojo_back" }, { gap: 250 });
       intro.push({ line: "listen" }, { gap: 150 }, { sound: p }, { gap: 500 }, { sound: p }, { gap: 400 });
-      await say(intro); // (false if the child tapped the ear or Help meanwhile: let that finish, then carry on)
+      const heardIntro = await say(intro); // (false if the child tapped the ear or Help meanwhile: let that finish, then carry on)
+      if (heardIntro && welcome) heard(welcome);
       for (let k = 0; k < 50 && isSpeaking(); k++) await sleep(60);
       if (!alive.current) return;
       // the ninja summons the new spelling: a spell flies to the ear, and the letters appear where it bursts
@@ -377,10 +412,27 @@ function Learn({ t, first, onNext, alsoSpelt }: { t: Seg; first: boolean; onNext
       const where = ear.current ?? { x: MID, y: 290 };
       await Promise.race([ninja.act("cast", where, { react: false }), sleep(1500)]);
       if (!alive.current) return;
+      explaining.current = true;
       setShown(true);
       sfx.pop();
-      // ...and only then "And this is how we write it", with the letters there to look at
-      const ok = await say([{ line: "dojo_this_sound" }, { gap: 150 }, { sound: p }, { gap: 300 }, ...about, { line: "dojo_tap_say" }]);
+      // ...and only then "And this is how we spell it", with the letters there to look at. The first long spelling
+      // in each land says what that means in full: a sound we hear, a spelling we see (NARRATIVE_AUDIT F11's reprise)
+      const hearSee = !!lettersLine(t) && g !== "x" && isDue(`hear-see:w${world}`, "once") ? `hear-see:w${world}` : null;
+      const ok = await say([{ line: hearSee ? "audit_hear_see" : "audit_spell_it" }, { gap: 150 }, { sound: p }, { gap: 300 }, ...about, { line: "dojo_tap_say" }]);
+      explaining.current = false;
+      if (ok && hearSee) heard(hearSee);
+      if (ok) {
+        // taught: the spaced reminders (narrate.tsx) count from here
+        if (secondSound) heard(twoSoundsKey(g));
+        else if (lettersLine(t)) heard(lettersKey(g));
+      }
+      // a tap that waited for the explanation counts now
+      const q = queued.current;
+      queued.current = null;
+      if (q && alive.current) {
+        setReady(true);
+        return void tapRef.current(q);
+      }
       // cut off, and not by the child tapping the spelling or by Help (which says the gist itself): say the gist again
       // in a moment, rather than leaving the child in silence until the idle prompt
       if (!ok && alive.current && !tapsRef.current && !helped.current) {
@@ -394,10 +446,20 @@ function Learn({ t, first, onNext, alsoSpelt }: { t: Seg; first: boolean; onNext
   useIdlePrompt(ready && taps < 2, 8000, () => say([{ line: "dojo_tap_say" }]));
   useHelp((n) => {
     if (casting && !shown) return; // the spelling is about to appear, with its explanation: let that come
+    if (explaining.current) return; // ...and is being explained
     if (shown) helped.current = true;
     say(shown ? recap : [{ line: "listen" }, { sound: p }]).then(() => n > 1 && setHint(true));
   });
   const tap = async (el: HTMLElement) => {
+    if (explaining.current) {
+      // felt, and kept for when the explanation is over (a nod, a tink; the explanation carries on)
+      if (!queued.current) {
+        queued.current = el;
+        wobble(el);
+        sfx.tink();
+      }
+      return;
+    }
     if (!shown || tapsRef.current >= 2) return;
     const n = ++tapsRef.current;
     setTaps(n);
@@ -417,12 +479,14 @@ function Learn({ t, first, onNext, alsoSpelt }: { t: Seg; first: boolean; onNext
       if (alive.current) onNext();
     }
   };
+  const tapRef = useRef(tap);
+  tapRef.current = tap;
   (window as any).__snState = { scene: "learn", next: shown ? g : null, streak: streak.n };
   return (
     <div className={`center dj-learn ${shown ? "dj-front" : ""}`} style={{ left: MID, top: "46%" }}>
       {shown ? (
         <span className="dj-reveal">
-          <Tile g={g} size="xl" onTap={tap} className={taps < 2 ? "hint" : "right"} />
+          <Tile g={g} size="xl" onTap={tap} className={taps < 2 ? "hint" : "right"} withButtons={g.length > 1 || g === "x"} />
         </span>
       ) : (
         <button
@@ -456,7 +520,22 @@ function Find({ t, pool, onNext, onMiss }: { t: Seg; pool: string[]; onNext: () 
   const firstTry = useRef(true);
   const alive = useAlive();
   const prompt = () => say([{ line: "dojo_find" }, { gap: 450 }, { sound: p }]);
-  useEffect(() => void prompt().then(() => alive.current && setReady(true)), []);
+  // the speaker button, explained the first two times it matters (docs/ARCHITECTURE.md §15.3): it pulses meanwhile
+  const [speakerTip, setSpeakerTip] = useState(false);
+  useEffect(
+    () =>
+      void prompt().then(async (ok) => {
+        if (!alive.current) return;
+        if (ok && isDue("hear-again", "twice")) {
+          setSpeakerTip(true);
+          await explain("hear-again", "twice", [{ gap: 250 }, { line: "tut_speaker" }]);
+          if (!alive.current) return;
+          setSpeakerTip(false);
+        }
+        setReady(true);
+      }),
+    [],
+  );
   const [helpLvl, setHelpLvl] = useState(0);
   useHelp((n) => {
     setHelpLvl(n);
@@ -514,7 +593,7 @@ function Find({ t, pool, onNext, onMiss }: { t: Seg; pool: string[]; onNext: () 
         </div>
       </div>
       <div style={{ position: "absolute", left: MID, bottom: 60, translate: "-50% 0" }}>
-        <RoundButton label="Hear it again" onClick={prompt}><Icon.speaker /></RoundButton>
+        <RoundButton label="Hear it again" className={speakerTip ? "pulse" : ""} onClick={prompt}><Icon.speaker /></RoundButton>
       </div>
     </>
   );
@@ -547,7 +626,7 @@ function bankSize(bank: string[]): { size: number; gap: number } {
 }
 
 /** Word building: hear the word, build it sound by sound in slots, then read it back with sound buttons lit. */
-export function Build({ word, bank: bankIn, first, onNext, onMiss, longer }: { word: Word; bank: string[]; first: boolean; onNext: () => void; onMiss: () => void; longer?: boolean }) {
+export function Build({ word, bank: bankIn, first, onNext, onMiss, longer, level }: { word: Word; bank: string[]; first: boolean; onNext: () => void; onMiss: () => void; longer?: boolean; level: Level }) {
   const bank = useRef(bankIn).current;
   const { size, gap } = bankSize(bank);
   const [filled, setFilled] = useState<string[]>([]);
@@ -566,11 +645,29 @@ export function Build({ word, bank: bankIn, first, onNext, onMiss, longer }: { w
   const slotMisses = useRef(0); // misses on the current slot: 1st → listen again, 2nd → show
   const slotRefs = useRef<(HTMLDivElement | null)[]>([]);
   const slotsRef = useRef<HTMLDivElement>(null);
+  const wordToken = useRef({}).current; // this word (a second "listen again" in one word is short)
   const alive = useAlive();
+  // Adjacent consonants (units 8-10, NARRATIVE_AUDIT F12): at the first word in the level with sounds next to each
+  // other (the Dojo puts one first: clusterFirst), once per unit, arrows point at the slots of the sounds that sit
+  // next to each other, and Sensei says so (while the word is said slowly, when there is a stretched recording). Taps
+  // wait for it: it is the one time the idea is explained.
+  const unit = adjacentUnit(level.units);
+  const pairs = adjacentSlots(word.segs);
+  const [neighbours] = useState(() => (!!unit && pairs.length > 1 && isDue(`adjacent:u${unit}`, "once") ? `adjacent:u${unit}` : null));
+  const [pointAt, setPointAt] = useState<number[]>([]);
+  const introLock = useRef(!!neighbours);
   const prompt = async (intro = false) => {
-    const seq: any[] = [];
-    if (intro && first) seq.push({ line: longer ? "dojo_longer" : "dojo_build" }, { gap: 200 });
-    if (intro && first) seq.push({ line: "dojo_build_word" }, { gap: 500 });
+    const seq: Say[] = [];
+    if (intro && neighbours) {
+      const slow = STRETCHED.has(word.text);
+      setPointAt(pairs);
+      const ok = await say([{ line: slow ? "audit_neighbours" : "audit_neighbours_plain" }, ...(slow ? [{ gap: 300 }, { stretch: word.text }] : []), { gap: 450 }]);
+      if (!alive.current) return;
+      setPointAt([]);
+      if (ok) heard(neighbours);
+      introLock.current = false;
+      seq.push({ line: "dojo_build_word" }, { gap: 500 });
+    } else if (intro && first) seq.push({ line: longer ? "dojo_longer" : "dojo_build" }, { gap: 200 }, { line: "dojo_build_word" }, { gap: 500 });
     seq.push({ word: word.text });
     await say(seq);
   };
@@ -582,9 +679,12 @@ export function Build({ word, bank: bankIn, first, onNext, onMiss, longer }: { w
   useEffect(() => setHelpLvl(0), [filled.length]);
   useHelp(
     (n) => {
+      if (introLock.current) return;
       setHelpLvl(n);
       if (n === 1) say([{ word: word.text }, { gap: 350 }, { line: "help_tiles" }]);
-      else if (n === 2) say([{ line: "say_sounds" }, { sounds: word.segs, gap: 300 }, { word: word.text }]);
+      // the whole word again, slowly where we can, and an arrow at the slot they're on: never the word's sounds one by
+      // one, which would do the segmenting for a child who is spelling it (NARRATIVE_AUDIT F27)
+      else if (n === 2) say(spellingHelp(word.text));
       else say([{ line: "help_look" }, { gap: 100 }, { sound: word.segs[filledRef.current.length]?.p ?? word.segs[0].p }], { reveal: true });
     },
     [filled.length],
@@ -605,6 +705,7 @@ export function Build({ word, bank: bankIn, first, onNext, onMiss, longer }: { w
 
   const tap = async (g: string, el: HTMLElement) => {
     if (finishing.current) return;
+    if (introLock.current) return void wobble(el); // the adjacent-sounds explanation first (it's short)
     const i = filledRef.current.length;
     const need = word.segs[i];
     if (!need) return;
@@ -645,12 +746,25 @@ export function Build({ word, bank: bankIn, first, onNext, onMiss, longer }: { w
         gathering.current = 0;
         if (!alive.current) return;
         setDone(true);
+        // the first word read back in each land's first dojo: "Ninjas read this way!", an arrow under the word
+        if (first) await readThisWay(slotsRef.current, level.world);
+        if (!alive.current) return;
         await sayBlend(word.segs, word.text, setLit);
         if (!alive.current) return;
+        // a spaced reminder about one of its spellings, with that spelling lit: "It's two letters, but it's one
+        // sound." or "This can be /th/, but in this word, it's /dh/." (narrate.tsx says when one is due)
+        const remind = twoSoundsReminder(word.segs) ?? lettersReminder(word.segs);
+        if (remind) {
+          setLit(remind.i);
+          if (await say([{ gap: 250 }, ...remind.say])) remind.done();
+          if (!alive.current) return;
+        }
         setLit(-1);
         sfx.great();
         finisher();
         await say({ line: pickPraise() });
+        // the first time right answers fill a gem (once per save): the gem pops up beside the picture, and fills
+        if (alive.current) await explainGemEnergy(gemSeg(word, level.teach), { x: MID - 262, y: 196 }, () => alive.current);
         if (alive.current) onNext();
       }
     } else {
@@ -664,7 +778,7 @@ export function Build({ word, bank: bankIn, first, onNext, onMiss, longer }: { w
       sfx.wrong();
       slotMisses.current++;
       // "Keep going, ninja!" (from a streak) first, so the last thing heard is the stretched word or the target sound
-      await say([...lead, ...correction(g, need, word.text, slotMisses.current)], { reveal: slotMisses.current > 1 });
+      await say([...lead, ...correctionFor(g, need, word.text, slotMisses.current, wordToken)], { reveal: slotMisses.current > 1 });
       setWrong(null);
     }
   };
@@ -685,7 +799,13 @@ export function Build({ word, bank: bankIn, first, onNext, onMiss, longer }: { w
       <div className="slots dj-slotbg" style={SLOT_ROW}>
         {word.segs.map((_, i) => {
           const cls = landed.has(i) ? "filled" : i === filled.length && !done ? "active" : i < filled.length ? "incoming" : "";
-          return <div key={i} ref={(el) => void (slotRefs.current[i] = el)} className={`slot ${cls}`} />;
+          // arrows: at the sounds that sit together (the adjacent-sounds explanation), or at the slot Help asks about
+          const point = pointAt.includes(i) || (helpLvl === 2 && i === filled.length && !done);
+          return (
+            <div key={i} ref={(el) => void (slotRefs.current[i] = el)} className={`slot ${cls}`}>
+              {point && <SlotPointer />}
+            </div>
+          );
         })}
       </div>
       <div className="slots dj-slots" ref={slotsRef} style={SLOT_ROW}>

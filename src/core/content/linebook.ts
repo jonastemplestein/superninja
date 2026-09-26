@@ -1,6 +1,7 @@
 import { LINES } from '../../content/lines';
 import type { DurationTable, Key, LineBook, LineMeta, Need, NotionRegistry, Tag, UttPart, Utterance, UtteranceSpec } from '../types';
 import { durations } from './durations';
+import { lineTags } from './line-tags';
 import { teachMoment } from './teach';
 export function lineHash(text:string,who:string):string { let h=2166136261; for(const c of `${who}\n${text}`) h=Math.imul(h^c.charCodeAt(0),16777619); return (h>>>0).toString(16).padStart(8,'0'); }
 const indexed=Object.fromEntries(LINES.map(l=>[l.id,l]));
@@ -16,7 +17,7 @@ export function validateLineTags(meta:Readonly<Record<string,LineMeta>>, notions
   }
   return errors;
 }
-export function createLineBook(meta:Readonly<Record<string,LineMeta>>={},duration:DurationTable=durations):LineBook {
+export function createLineBook(meta:Readonly<Record<string,LineMeta>>=lineTags,duration:DurationTable=durations):LineBook {
   const partMs=(part:UttPart):number => 'gap' in part?part.gap:'line' in part?duration.line(part.line)??350*(indexed[part.line]?.text.trim().split(/\s+/).length??1):'word' in part?duration.word(part.word)??350:'stretch' in part?duration.stretch(part.stretch)??350:'sound' in part?duration.sound(part.sound)??350:'sounds' in part?part.sounds.reduce((n,s,i)=>n+(duration.sound(s.p)??350)+(i?part.gapMs??320:0),0):duration.story(part.story,part.page)??350;
   const utter=(spec:UtteranceSpec,o:{interruptible?:boolean;reveal?:boolean;rotation?:number}={}):Utterance => {
     const parts:UttPart[]='line' in spec?[{line:spec.line}]:'teach' in spec?teachMoment(spec.teach,o.rotation??0):spec.parts;

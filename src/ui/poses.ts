@@ -1,15 +1,15 @@
 // Hero pose sprites: public/a/i/hero_<kai|suki>_<pose>.webp.
-// The move poses (kick, punch, spin, power, think, ready, flip) are newer art. Until a file exists, a pose falls back
+// The move poses (kick, punch, spin, power, think, listen, ready, flip) are newer art. Until a file exists, a pose falls back
 // to the nearest original pose; a startup probe (Image onload/onerror) switches each one over by itself.
 // New sprites are trimmed to their content, so a flying kick is drawn at a different pixel scale from the idle pose.
 // poseFit() measures each sprite's painted area and centre so every pose shows the ninja at the same size and spot.
 import { useSyncExternalStore } from "react";
 
 export type Hero = "kai" | "suki";
-export type Pose = "idle" | "run" | "jump" | "throw" | "cast" | "hurt" | "cheer" | "kick" | "punch" | "spin" | "power" | "think" | "ready" | "flip";
+export type Pose = "idle" | "run" | "jump" | "throw" | "cast" | "hurt" | "cheer" | "kick" | "punch" | "spin" | "power" | "think" | "listen" | "ready" | "flip";
 export const BASE_POSES: Pose[] = ["idle", "run", "jump", "throw", "cast", "hurt", "cheer"];
 /** Move pose → the original pose used until its sprite exists. */
-export const FALLBACK: Partial<Record<Pose, Pose>> = { kick: "throw", punch: "throw", spin: "jump", power: "cheer", think: "idle", ready: "idle", flip: "jump" };
+export const FALLBACK: Partial<Record<Pose, Pose>> = { kick: "throw", punch: "throw", spin: "jump", power: "cheer", think: "idle", listen: "think", ready: "idle", flip: "jump" };
 /** Hand-tuned size multipliers per pose, applied on top of the measured fit (1 = trust the measurement). */
 const TWEAK: Partial<Record<Pose, number>> = { flip: 0.9, spin: 0.95 };
 

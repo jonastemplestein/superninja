@@ -1,0 +1,138 @@
+#!/usr/bin/env python3
+"""Card plates for word pictures (docs/FIRST_MINUTES.md §11): each picture gets the swatch FURTHEST IN HUE from its own
+dominant saturated colour (a tie goes to the better lightness contrast), plus its drawn bounding box, coverage and
+whether it is grounded (gets a contact shadow). Writes src/content/pic-plates.gen.ts.
+
+    python3 scripts/gen-pic-plates.py
+
+The manual overrides are the art manifest's `plate:` (scripts/art-manifest.ts PLATE, copied into
+assets-src/art-jobs.json), then `PLATE_OVERRIDE` below. Pictures are the published public/a/i/pic_*.webp files;
+post-art.py runs this after new word pictures.
+"""
+import colorsys
+import json
+from pathlib import Path
+
+from PIL import Image
+
+ROOT = Path(__file__).resolve().parent.parent
+SWATCHES = {
+    "sky": "#bfe6ff", "leaf": "#cdeeb4", "coral": "#ffc9b8", "lilac": "#e3d4ff",
+    "butter": "#ffe9a6", "teal": "#bdeee6", "peach": "#ffd9b0", "rose": "#ffd0e0",
+}
+NIGHT = "#2f3b73"
+# the moon and stars sit on the night plate; the others keep neighbours in the first lessons apart (fish and dog on
+# the reading rail, sun and sunflower, star and starfish)
+PLATE_OVERRIDE = {"moon": "night", "star": "night", "night": "night", "dog": "lilac", "sunflower": "lilac", "starfish": "teal"}
+# floating things get no contact shadow (the sun, moon, stars, fish, flying things)
+FLOATING = set("sun moon star fish fishdog starfish cloud rain rainbow bird bee bat kite blimp bulb light night bubble crow owl snow".split())
+
+
+def rgb(h):
+    h = h.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+
+
+def lum(c):
+    r, g, b = c
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def hue_dist(a, b):
+    d = abs(a - b) % 1.0
+    return min(d, 1 - d) * 360
+
+
+def analyse(path):
+    im = Image.open(path).convert("RGBA")
+    w, h = im.size
+    small = im.resize((max(1, w // 3), max(1, h // 3)))
+    px = list(small.get_flattened_data()) if hasattr(small, "get_flattened_data") else list(small.getdata())
+    hist = [0.0] * 36
+    n_opaque = 0
+    light = 0.0
+    for r, g, b, a in px:
+        if a < 128:
+            continue
+        n_opaque += 1
+        rr, gg, bb = r / 255, g / 255, b / 255
+        hh, s, v = colorsys.rgb_to_hsv(rr, gg, bb)
+        light += lum((rr, gg, bb))
+        if s > 0.35 and v > 0.3:
+            hist[int(hh * 36) % 36] += s * v
+    total = sum(hist)
+    avg_light = light / max(1, n_opaque)
+    dominant = None
+    if n_opaque and total / n_opaque > 0.08:
+        smooth = [hist[(i - 1) % 36] + 2 * hist[i] + hist[(i + 1) % 36] for i in range(36)]
+        i = max(range(36), key=lambda k: smooth[k])
+        dominant = (i + 0.5) / 36
+    bbox = im.getchannel("A").point(lambda a: 255 if a > 24 else 0).getbbox() or (0, 0, w, h)
+    x0, y0, x1, y1 = bbox
+    cover = n_opaque / max(1, len(px))
+    return dominant, avg_light, (x0 / w, y0 / h, (x1 - x0) / w, (y1 - y0) / h), cover, (w, h)
+
+
+def choose(word, dominant, avg_light):
+    """The swatch furthest in hue from the picture's colour. Most pictures are warm (orange, brown, yellow), so a strict
+    maximum would put nearly all of them on the same blue: every swatch within 25% of the best hue distance (and at least
+    90 degrees away) counts as a tie, and ties rotate by the word, so a row of cards differs while each keeps a strong
+    hue contrast. With no saturated colour (a white duck, a grey rock), the best lightness contrast wins."""
+    scored = []
+    for name, hexc in SWATCHES.items():
+        c = rgb(hexc)
+        hh, _, _ = colorsys.rgb_to_hsv(*c)
+        hd = hue_dist(hh, dominant) if dominant is not None else 0
+        scored.append((name, hd, abs(lum(c) - avg_light)))
+    if dominant is None:
+        return max(scored, key=lambda x: x[2])[0]
+    top = max(hd for _, hd, _ in scored)
+    ties = sorted([x for x in scored if x[1] >= max(90, top * 0.75)], key=lambda x: -x[2]) or [max(scored, key=lambda x: x[1])]
+    h = sum(ord(ch) * (i + 1) for i, ch in enumerate(word))
+    return ties[h % len(ties)][0]
+
+
+def manifest_plates():
+    """`plate:` from the art manifest (via assets-src/art-jobs.json), by word."""
+    try:
+        jobs = json.loads((ROOT / "assets-src/art-jobs.json").read_text())
+    except (OSError, ValueError):
+        return {}
+    return {j["id"][4:]: j["plate"] for j in jobs if j.get("plate") and j["id"].startswith("pic_")}
+
+
+def main():
+    out = {}
+    overrides = {**PLATE_OVERRIDE, **manifest_plates()}
+    for p in sorted((ROOT / "public/a/i").glob("pic_*.webp")):
+        word = p.stem[4:]
+        dominant, avg_light, box, cover, size = analyse(p)
+        plate = overrides.get(word) or choose(word, dominant, avg_light)
+        out[word] = {
+            "plate": plate,
+            "box": [round(v, 3) for v in box],
+            "cover": round(cover, 3),
+            "aspect": round(size[0] / size[1], 3),
+            "grounded": word not in FLOATING,
+        }
+    lines = [
+        "// Generated by scripts/gen-pic-plates.py (docs/FIRST_MINUTES.md §11): do not edit by hand.",
+        "// plate: the card's swatch (furthest in hue from the picture's own colour); box: the drawn area as fractions of",
+        "// the image [x, y, w, h]; cover: how much of the image is drawn; aspect: width / height; grounded: gets a contact shadow.",
+        "export const PLATE_COLOURS = " + json.dumps({**SWATCHES, "night": NIGHT}) + " as const;",
+        "export type Plate = keyof typeof PLATE_COLOURS;",
+        "export interface PicPlate { plate: Plate; box: [number, number, number, number]; cover: number; aspect: number; grounded: boolean }",
+        "export const PIC_PLATES: Record<string, PicPlate> = {",
+    ]
+    for word, v in out.items():
+        lines.append(f"  {json.dumps(word)}: {json.dumps(v)},")
+    lines.append("};")
+    (ROOT / "src/content/pic-plates.gen.ts").write_text("\n".join(lines) + "\n")
+    counts = {}
+    for v in out.values():
+        counts[v["plate"]] = counts.get(v["plate"], 0) + 1
+    print(f"{len(out)} pictures → src/content/pic-plates.gen.ts", counts)
+
+
+if __name__ == "__main__":
+    main()

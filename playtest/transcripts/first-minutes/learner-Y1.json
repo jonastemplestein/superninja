@@ -1,0 +1,1842 @@
+{
+ "evs": [
+  {
+   "t": 0,
+   "kind": "tap",
+   "text": "Start"
+  },
+  {
+   "t": 0,
+   "kind": "piece",
+   "text": "title"
+  },
+  {
+   "t": 0.7,
+   "kind": "tap",
+   "text": "player Ninja"
+  },
+  {
+   "t": 0.7,
+   "kind": "piece",
+   "text": "profiles"
+  },
+  {
+   "t": 1.3,
+   "kind": "piece",
+   "text": "intro film"
+  },
+  {
+   "t": 1.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Long ago, on the Island of Sounds, there grew a magic World Flower.  ‹film_1›"
+  },
+  {
+   "t": 7.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Every petal was a sound. With sounds, we could talk, and read, and sing!  ‹film_2›"
+  },
+  {
+   "t": 14.1,
+   "kind": "say",
+   "who": "baron",
+   "text": "Words, words, WORDS! How I HATE them!  ‹film_3›"
+  },
+  {
+   "t": 20.2,
+   "kind": "say",
+   "who": "baron",
+   "text": "I am Baron Muddle! Every sound on this island is MINE! Mwa-ha-ha-ha!  ‹film_4›"
+  },
+  {
+   "t": 28.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Oh no! The petals blew away, all over the island!  ‹film_5›"
+  },
+  {
+   "t": 32.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The World Flower has gone dark. Now nobody can read!  ‹film_6›"
+  },
+  {
+   "t": 37.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "We need a hero. We need... a Super Ninja!  ‹film_7›"
+  },
+  {
+   "t": 41.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Win back every petal, one sound at a time!  ‹film_8›"
+  },
+  {
+   "t": 46.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I am Sensei Maple. I will train you. Now, choose your ninja!  ‹intro_8›"
+  },
+  {
+   "t": 46.5,
+   "kind": "tap",
+   "text": "kai"
+  },
+  {
+   "t": 46.5,
+   "kind": "piece",
+   "text": "choose"
+  },
+  {
+   "t": 46.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Great choice! Let's rescue those sounds!  ‹chose›"
+  },
+  {
+   "t": 47.2,
+   "kind": "tap",
+   "text": "kai"
+  },
+  {
+   "t": 47.8,
+   "kind": "tap",
+   "text": "kai"
+  },
+  {
+   "t": 48.4,
+   "kind": "tap",
+   "text": "kai"
+  },
+  {
+   "t": 49,
+   "kind": "tap",
+   "text": "kai"
+  },
+  {
+   "t": 49.6,
+   "kind": "tap",
+   "text": "kai"
+  },
+  {
+   "t": 50.2,
+   "kind": "piece",
+   "text": "opt-in"
+  },
+  {
+   "t": 50.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Do you go to big school yet?  ‹fm_opt_q1›"
+  },
+  {
+   "t": 52.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Not yet? Tap the teddy!  ‹fm_opt_notyet›"
+  },
+  {
+   "t": 55.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Yes? Tap the school!  ‹fm_opt_yes›"
+  },
+  {
+   "t": 60.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Big school!  ‹fm_opt_echo_school›"
+  },
+  {
+   "t": 60.5,
+   "kind": "tap",
+   "text": "school"
+  },
+  {
+   "t": 62.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Which class are you in?  ‹fm_opt_q2›"
+  },
+  {
+   "t": 63.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Reception!  ‹fm_opt_rec›"
+  },
+  {
+   "t": 65.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Year One!  ‹fm_opt_y1›"
+  },
+  {
+   "t": 66.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Year Two!  ‹fm_opt_y2›"
+  },
+  {
+   "t": 68.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Not sure? Tap the cloud!  ‹fm_opt_unsure›"
+  },
+  {
+   "t": 73.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Year One!  ‹fm_opt_y1›"
+  },
+  {
+   "t": 73.5,
+   "kind": "tap",
+   "text": "Year One"
+  },
+  {
+   "t": 75.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I've set up the game for Year One, with new ways to spell the sounds you know!  ‹fm_opt_ok_y1›"
+  },
+  {
+   "t": 80,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Your grown-ups can change this later, in the grown-ups' settings.  ‹fm_opt_grownups›"
+  },
+  {
+   "t": 83.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninja training! First, tap the big gong!  ‹tut_1›"
+  },
+  {
+   "t": 84,
+   "kind": "piece",
+   "text": "dojo welcome"
+  },
+  {
+   "t": 89.2,
+   "kind": "tap",
+   "text": "gong"
+  },
+  {
+   "t": 89.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Stuck? Tap me, down here in the corner. Try it now!  ‹fm_help_short›"
+  },
+  {
+   "t": 96.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it! I'm always here to help.  ‹fm_help_ok›"
+  },
+  {
+   "t": 96.2,
+   "kind": "tap",
+   "text": "Help"
+  },
+  {
+   "t": 98.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And when you tap the speaker, I'll say it again!  ‹fm_speaker›"
+  },
+  {
+   "t": 104.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And when you tap the speaker, I'll say it again!  ‹fm_speaker›"
+  },
+  {
+   "t": 104.4,
+   "kind": "tap",
+   "text": "Hear it again"
+  },
+  {
+   "t": 107.1,
+   "kind": "piece",
+   "text": "?"
+  },
+  {
+   "t": 107.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds.  ‹dojo_hello›"
+  },
+  {
+   "t": 107.7,
+   "kind": "piece",
+   "text": "lesson 1"
+  },
+  {
+   "t": 113,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...  ‹listen›"
+  },
+  {
+   "t": 113.9,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 115,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 116.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "We hear the sound. Now look: this is how we spell it.  ‹audit_hear_see›"
+  },
+  {
+   "t": 117.1,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 117.8,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 118.4,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 119,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 119.6,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 120.2,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 120.8,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 120.9,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 121.5,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 121.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.  ‹t_two_letters›"
+  },
+  {
+   "t": 122.1,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 122.7,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 123.3,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 124,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 124.6,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 124.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!  ‹dojo_tap_say›"
+  },
+  {
+   "t": 125.2,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 125.8,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 126.4,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 126.8,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 127,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 127,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 127.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Amazing!  ‹yay_5›"
+  },
+  {
+   "t": 127.6,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 128.3,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 128.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...  ‹listen›"
+  },
+  {
+   "t": 129.8,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 130.8,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 132.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.  ‹audit_spell_it›"
+  },
+  {
+   "t": 132.6,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 133.2,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 133.9,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 134.3,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 134.5,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 135.1,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 135.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.  ‹same_sound_new›"
+  },
+  {
+   "t": 135.7,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 136.3,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 137,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 137.6,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 138.2,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 138.8,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 139.5,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 140.1,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 140.7,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 141.4,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 142,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.  ‹t_two_letters›"
+  },
+  {
+   "t": 142,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 142.6,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 143.2,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 143.8,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 144.5,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 145.1,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 145.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!  ‹dojo_tap_say›"
+  },
+  {
+   "t": 145.7,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 146.3,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 146.9,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 147.2,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 147.6,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 147.6,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 148.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Smashing!  ‹yay_9›"
+  },
+  {
+   "t": 148.2,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 148.8,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 149,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...  ‹dojo_find›"
+  },
+  {
+   "t": 149.4,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 149.5,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 150.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Brilliant!  ‹yay_1›"
+  },
+  {
+   "t": 150.1,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 150.7,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 151.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...  ‹dojo_find›"
+  },
+  {
+   "t": 151.3,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 151.3,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 151.9,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 152.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Three right answers in a row! Your ninja is getting stronger.  ‹audit_streak_first›"
+  },
+  {
+   "t": 152.5,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 153.2,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 153.8,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 154.4,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 155,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 155.6,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 156.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now let's make words! First, listen to the word. Then tap its sounds, one at a time.  ‹dojo_build›"
+  },
+  {
+   "t": 156.3,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 156.3,
+   "kind": "tap",
+   "text": "p"
+  },
+  {
+   "t": 156.9,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 156.9,
+   "kind": "tap",
+   "text": "ai"
+  },
+  {
+   "t": 157.5,
+   "kind": "sound",
+   "text": "/n/"
+  },
+  {
+   "t": 157.5,
+   "kind": "tap",
+   "text": "n"
+  },
+  {
+   "t": 158.1,
+   "kind": "tap",
+   "text": "t"
+  },
+  {
+   "t": 158.2,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 158.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow! Super ninja streak!  ‹streak_6›"
+  },
+  {
+   "t": 161.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninjas read this way!  ‹fm_l2_way›"
+  },
+  {
+   "t": 162.7,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 163.2,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 164,
+   "kind": "sound",
+   "text": "/n/"
+  },
+  {
+   "t": 164.9,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 165.7,
+   "kind": "word",
+   "text": "paint"
+  },
+  {
+   "t": 166.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done!  ‹yay_4›"
+  },
+  {
+   "t": 167.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up.  ‹audit_gem_first›"
+  },
+  {
+   "t": 175.2,
+   "kind": "word",
+   "text": "spray"
+  },
+  {
+   "t": 175.5,
+   "kind": "tap",
+   "text": "s"
+  },
+  {
+   "t": 175.6,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 176.2,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 176.2,
+   "kind": "tap",
+   "text": "p"
+  },
+  {
+   "t": 176.8,
+   "kind": "sound",
+   "text": "/r/"
+  },
+  {
+   "t": 176.8,
+   "kind": "tap",
+   "text": "r"
+  },
+  {
+   "t": 177.4,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 177.4,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 178.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Amazing! You're a ninja master!  ‹streak_10›"
+  },
+  {
+   "t": 181.7,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 182.7,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 183.2,
+   "kind": "sound",
+   "text": "/r/"
+  },
+  {
+   "t": 184.2,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 185.2,
+   "kind": "word",
+   "text": "spray"
+  },
+  {
+   "t": 185.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!  ‹yay_2›"
+  },
+  {
+   "t": 186.6,
+   "kind": "word",
+   "text": "spit"
+  },
+  {
+   "t": 186.7,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 186.7,
+   "kind": "tap",
+   "text": "s"
+  },
+  {
+   "t": 187.3,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 187.3,
+   "kind": "tap",
+   "text": "p"
+  },
+  {
+   "t": 188,
+   "kind": "sound",
+   "text": "/i/"
+  },
+  {
+   "t": 188,
+   "kind": "tap",
+   "text": "i"
+  },
+  {
+   "t": 188.6,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 188.6,
+   "kind": "tap",
+   "text": "t"
+  },
+  {
+   "t": 189.4,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 190.4,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 191,
+   "kind": "sound",
+   "text": "/i/"
+  },
+  {
+   "t": 191.5,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 192.4,
+   "kind": "word",
+   "text": "spit"
+  },
+  {
+   "t": 193,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ace!  ‹yay_10›"
+  },
+  {
+   "t": 193.8,
+   "kind": "word",
+   "text": "stay"
+  },
+  {
+   "t": 194.2,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 194.2,
+   "kind": "tap",
+   "text": "s"
+  },
+  {
+   "t": 194.8,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 194.8,
+   "kind": "tap",
+   "text": "t"
+  },
+  {
+   "t": 195.4,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 195.4,
+   "kind": "tap",
+   "text": "ay"
+  },
+  {
+   "t": 196.3,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 197.3,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 198,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 199,
+   "kind": "word",
+   "text": "stay"
+  },
+  {
+   "t": 199.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!  ‹yay_2›"
+  },
+  {
+   "t": 200.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done! You practised so hard!  ‹dojo_done›"
+  },
+  {
+   "t": 203.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look! Your pictures are turning into stickers!  ‹fm_rw_look›"
+  },
+  {
+   "t": 204,
+   "kind": "piece",
+   "text": "reward 1"
+  },
+  {
+   "t": 207.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is your Sticker Book!  ‹fm_rw_book›"
+  },
+  {
+   "t": 208.9,
+   "kind": "word",
+   "text": "paint"
+  },
+  {
+   "t": 209.5,
+   "kind": "word",
+   "text": "spray"
+  },
+  {
+   "t": 210.2,
+   "kind": "word",
+   "text": "spit"
+  },
+  {
+   "t": 210.9,
+   "kind": "word",
+   "text": "stay"
+  },
+  {
+   "t": 211.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Every picture you play with becomes a sticker!  ‹fm_rw_every›"
+  },
+  {
+   "t": 214.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap a sticker!  ‹fm_rw_tap›"
+  },
+  {
+   "t": 215,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 215,
+   "kind": "tap",
+   "text": "sticker paint"
+  },
+  {
+   "t": 215.5,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 215.6,
+   "kind": "tap",
+   "text": "sticker paint"
+  },
+  {
+   "t": 216.3,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 216.3,
+   "kind": "tap",
+   "text": "sticker paint"
+  },
+  {
+   "t": 216.8,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 217.5,
+   "kind": "tap",
+   "text": "Next"
+  },
+  {
+   "t": 218.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You know this sound! Now let's look at the different ways we spell it.  ‹audit_bridging_first›"
+  },
+  {
+   "t": 218.1,
+   "kind": "piece",
+   "text": "lesson 2"
+  },
+  {
+   "t": 222.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Sorting time! These words have the same sound, but it's spelt in different ways.  ‹audit_sort_first›"
+  },
+  {
+   "t": 227.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This sound can be spelt in two ways.  ‹audit_sort_pair›"
+  },
+  {
+   "t": 230.5,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 231.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.  ‹t_two_letters›"
+  },
+  {
+   "t": 234.7,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 235.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.  ‹t_two_letters›"
+  },
+  {
+   "t": 238.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the chest with the same spelling as the word.  ‹help_sort›"
+  },
+  {
+   "t": 242.1,
+   "kind": "word",
+   "text": "tail"
+  },
+  {
+   "t": 242.4,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 242.5,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 243,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 243.2,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 243.6,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 244,
+   "kind": "sound",
+   "text": "/l/"
+  },
+  {
+   "t": 244.2,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 244.9,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 245.2,
+   "kind": "word",
+   "text": "tail"
+  },
+  {
+   "t": 245.5,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 246.1,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 246.7,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 247.1,
+   "kind": "word",
+   "text": "nail"
+  },
+  {
+   "t": 247.3,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 247.5,
+   "kind": "sound",
+   "text": "/n/"
+  },
+  {
+   "t": 248,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 248.3,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 248.6,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 249.1,
+   "kind": "sound",
+   "text": "/l/"
+  },
+  {
+   "t": 249.2,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 249.8,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 250.4,
+   "kind": "word",
+   "text": "nail"
+  },
+  {
+   "t": 250.4,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 251.1,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 251.7,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 252.3,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 252.4,
+   "kind": "sound",
+   "text": "/p/"
+  },
+  {
+   "t": 252.9,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 252.9,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 253.5,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 253.7,
+   "kind": "sound",
+   "text": "/n/"
+  },
+  {
+   "t": 254.2,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 254.6,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 254.8,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 255.4,
+   "kind": "word",
+   "text": "paint"
+  },
+  {
+   "t": 255.4,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 256,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 256.6,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 257.3,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 257.7,
+   "kind": "word",
+   "text": "say"
+  },
+  {
+   "t": 257.9,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 258,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 258.5,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 259.1,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 259.1,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 259.8,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 260,
+   "kind": "word",
+   "text": "say"
+  },
+  {
+   "t": 260.4,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 261,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 261.6,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 261.7,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 262.2,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 262.8,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 262.9,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 263.5,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 263.5,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 264.1,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 264.4,
+   "kind": "word",
+   "text": "stay"
+  },
+  {
+   "t": 264.7,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 265.3,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 266,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 266.4,
+   "kind": "word",
+   "text": "day"
+  },
+  {
+   "t": 266.6,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 266.7,
+   "kind": "sound",
+   "text": "/d/"
+  },
+  {
+   "t": 267.2,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 267.3,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 267.8,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 268.3,
+   "kind": "word",
+   "text": "day"
+  },
+  {
+   "t": 268.4,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 269,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 269.7,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 270.3,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 270.4,
+   "kind": "sound",
+   "text": "/t/"
+  },
+  {
+   "t": 270.9,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 271.1,
+   "kind": "sound",
+   "text": "/r/"
+  },
+  {
+   "t": 271.6,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 272.1,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 272.2,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 272.8,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 273,
+   "kind": "word",
+   "text": "tray"
+  },
+  {
+   "t": 273.4,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 274,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 274.6,
+   "kind": "tap",
+   "text": "basket ay"
+  },
+  {
+   "t": 275.1,
+   "kind": "word",
+   "text": "snail"
+  },
+  {
+   "t": 275.2,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 275.4,
+   "kind": "sound",
+   "text": "/s/"
+  },
+  {
+   "t": 275.9,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 276.4,
+   "kind": "sound",
+   "text": "/n/"
+  },
+  {
+   "t": 276.5,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 277.1,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 277.3,
+   "kind": "sound",
+   "text": "/ae/"
+  },
+  {
+   "t": 277.7,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 278.1,
+   "kind": "sound",
+   "text": "/l/"
+  },
+  {
+   "t": 278.3,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 279,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 279.3,
+   "kind": "word",
+   "text": "snail"
+  },
+  {
+   "t": 279.6,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 280.2,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 280.8,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 281.4,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 281.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Sorted! What a clever ninja.  ‹sort_done›"
+  },
+  {
+   "t": 282,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 282.6,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 283.3,
+   "kind": "tap",
+   "text": "basket ai"
+  },
+  {
+   "t": 283.9,
+   "kind": "piece",
+   "text": "reward 2"
+  },
+  {
+   "t": 284.3,
+   "kind": "word",
+   "text": "tail"
+  },
+  {
+   "t": 284.9,
+   "kind": "word",
+   "text": "nail"
+  },
+  {
+   "t": 285.5,
+   "kind": "word",
+   "text": "say"
+  },
+  {
+   "t": 286.1,
+   "kind": "word",
+   "text": "day"
+  },
+  {
+   "t": 286.6,
+   "kind": "word",
+   "text": "tray"
+  },
+  {
+   "t": 287.4,
+   "kind": "word",
+   "text": "snail"
+  },
+  {
+   "t": 289.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Your Sticker Book lives here, on the map!  ‹fm_rw2_map›"
+  },
+  {
+   "t": 289.4,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 292.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the glowing stone to start your next adventure.  ‹map_hint›"
+  }
+ ],
+ "spans": [
+  {
+   "piece": "title",
+   "start": 0,
+   "secs": 0.7
+  },
+  {
+   "piece": "profiles",
+   "start": 0.7,
+   "secs": 0.6
+  },
+  {
+   "piece": "intro film",
+   "start": 1.3,
+   "secs": 45.3
+  },
+  {
+   "piece": "choose",
+   "start": 46.5,
+   "secs": 3.7
+  },
+  {
+   "piece": "opt-in",
+   "start": 50.2,
+   "secs": 33.8
+  },
+  {
+   "piece": "dojo welcome",
+   "start": 84,
+   "secs": 23.1
+  },
+  {
+   "piece": "?",
+   "start": 107.1,
+   "secs": 0.6
+  },
+  {
+   "piece": "lesson 1",
+   "start": 107.7,
+   "secs": 96.3
+  },
+  {
+   "piece": "reward 1",
+   "start": 204,
+   "secs": 14.1
+  },
+  {
+   "piece": "lesson 2",
+   "start": 218.1,
+   "secs": 65.7
+  },
+  {
+   "piece": "reward 2",
+   "start": 283.9,
+   "secs": 5.5
+  },
+  {
+   "piece": "map",
+   "start": 289.4,
+   "secs": 6.1
+  }
+ ],
+ "beats": {
+  "lesson 1": {},
+  "lesson 2": {}
+ },
+ "optinSettledS": 25.1,
+ "save": {
+  "schoolYear": "Y1",
+  "band": "Y1",
+  "seenPlacement": true,
+  "stickers": [
+   "paint",
+   "spray",
+   "spit",
+   "stay",
+   "tail",
+   "nail",
+   "say",
+   "day",
+   "tray",
+   "snail"
+  ],
+  "shiny": [],
+  "firstSession": null,
+  "adjustLog": [
+   {
+    "at": 1790438334202,
+    "text": "Chose \"Year One\": started at Year One"
+   }
+  ]
+ }
+}

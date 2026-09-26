@@ -5,6 +5,10 @@
 // shuriken, spin, leap or flip knocks the word spinning into the chest, or a spell lifts it and floats it in. The chest
 // gulps it and the word stands up inside with the others. The move's sounds never land on the teaching sounds.
 // Words fall faster as you go (timed, but never fails). Layout: src/styles/sort.css and docs/HERO.md.
+// The introduction (docs/NARRATIVE_AUDIT.md F13): before the first word, each chest hops and glows in turn while its
+// sound is said, so "same sound, different spellings" comes with the actual spellings (and "It's two letters, but
+// it's one sound." for a long one, when due). The first sort of each sound adds how many ways there are, and what to
+// do; later ones are short. The first sorted word of a save shows its gem filling up (./narrate.tsx).
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { LevelProps } from "../App";
 import { WORDS, type Word } from "../content/phonics";
@@ -14,9 +18,12 @@ import { say, sfx, playMusic, preload, urls, hush, isSpeaking, onCaption, type S
 import { FAST } from "../engine/fast";
 import { shuffle } from "../engine/learner";
 import { recordRead, useSave } from "../engine/store";
-import { streak, useStreak, type Tier } from "../engine/streak";
+import { streak, useStreak, tierLineId, type Tier } from "../engine/streak";
 import { img, RoundButton, Icon, Progress, fx, stageRect, Tile, tapProps, useHelp, useIdlePrompt, SenseiDock, isUpright, shakeStage, sleep, useHero } from "../ui/ui";
 import { NinjaSpot, ninja, type Move } from "../ui/Ninja";
+import { lettersKey, lettersLine, sortWaysLine } from "../content/narrative";
+import { LETTERS, NarrOverlay, beginLevel, explainGemEnergy, heard as told, isDue, lettersSay } from "./narrate";
+import { useLessonClock } from "../engine/lessonClock";
 import "../styles/sort.css";
 
 const ROUNDS = 8;
@@ -309,6 +316,7 @@ function ChestEyes({ mood }: { mood?: Mood }) {
 }
 
 export function Sort({ level, onDone, onQuit }: LevelProps) {
+  useState(() => beginLevel(level)); // (during the first render)
   const world = worldOf(level);
   const hero = useHero();
   const relaxed = useSave((s) => s.settings.relaxed);
@@ -323,6 +331,7 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
     ).slice(0, ROUNDS),
   ).current;
   const [i, setI] = useState(-1);
+  const timeUp = useLessonClock(level);
   const [result, setResult] = useState<"right" | "wrong" | null>(null);
   const [nope, setNope] = useState<string | null>(null); // the chest that was tapped by mistake (it shakes its head)
   const [gone, setGone] = useState(false); // the word has left for its chest
@@ -331,6 +340,7 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
   const [shine, setShine] = useState<Record<string, number>>({});
   const [moods, setMoods] = useState<Record<string, Mood | undefined>>({});
   const [helpLvl, setHelpLvl] = useState(0);
+  const [introLit, setIntroLit] = useState<string | null>(null); // the chest being shown in the introduction
   const alive = useRef(true); // false once the child has left: nothing may carry on after that
   const timers = useRef<number[]>([]);
   const misses = useRef(0);
@@ -365,9 +375,37 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
     preload([...words.map((w) => urls.word(w.text)), ...new Set(words.flatMap((w) => w.segs.map((s) => urls.sound(s.p))))]);
     streak.reset();
     spellings.forEach((_, k) => later(() => sfx.pop(), 330 + k * 160));
+    // (hop is declared below; the introduction only calls it after its first await)
     (async () => {
-      await say([{ line: "sort_start" }, { gap: 200 }, { sound }, { gap: 300 }, { line: "same_sound_diff" }]);
-      if (live && alive.current) setI(0);
+      const on = () => live && alive.current;
+      // "Sorting time!" and the idea (the first sort of a save says it in full)
+      const first = isDue("sort:first", "once");
+      // the first sort of each sound: how many ways there are, and what to do
+      const full = isDue(`sort:${sound}`, "once");
+      const ways = full ? sortWaysLine(spellings.length) : null;
+      await sleep(250 + spellings.length * 160); // (the chests pop in)
+      if (!on()) return;
+      // (the first sort is the Bridging Unit's first lesson, after IC11: "You know this sound! Now let's look at the
+      // different ways we spell it." NARRATIVE_AUDIT F25)
+      const bridge: Say[] = first ? [{ line: "audit_bridging_first" }, { gap: 300 }] : [];
+      const ok = await say([...bridge, { line: first ? "audit_sort_first" : "audit_sort_again" }, { gap: 300 }, ...(ways ? [{ line: ways }, { gap: 250 }] : [])]);
+      if (!on()) return;
+      if (ok && first) told("sort:first");
+      // each chest in turn: it hops and glows while its sound is said ("It's two letters, but it's one sound." for a
+      // long spelling, when due)
+      for (const g of spellings) {
+        setIntroLit(g);
+        hop(g, 20);
+        sfx.pop();
+        const seg = { g, p: sound };
+        const letters = full && lettersLine(seg) && isDue(lettersKey(g), "concept", LETTERS) ? lettersSay(seg) : [];
+        const said = await say([{ gap: 150 }, { sound }, ...(letters.length ? [{ gap: 300 }, ...letters] : []), { gap: 400 }]);
+        if (!on()) return;
+        if (said && letters.length) told(lettersKey(g), LETTERS);
+      }
+      setIntroLit(null);
+      if (full && (await say({ line: "help_sort" }))) told(`sort:${sound}`);
+      if (on()) setI(0);
     })();
     return () => {
       live = false;
@@ -568,7 +606,7 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
     setResult("right"); // the word turns green where it is
     sfx.good();
     hop(g);
-    const finale = i + 1 >= words.length;
+    const finale = i + 1 >= words.length || timeUp(); // (a cut lesson ends after this word when its time is up)
     const retry = missedThis.current;
     // the ninja powers up while the word is sounded out: each spelling lights up as it's said and sends a spark
     const c = (charge.current = startCharge(chargeRef.current, powerRef.current, hero, streak.tier));
@@ -597,7 +635,16 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
     if (!retry) {
       const e = streak.hit(); // the ninja powers up by itself on a new tier and says its line at the next quiet moment
       tierUp = e.tierUp;
-      if (tierUp) lineGate.current = lineDone(`streak_${[0, 3, 6, 10][e.tier]}`);
+      if (tierUp) lineGate.current = lineDone(tierLineId(e.tier) ?? "streak_3");
+    }
+    // the first time right answers fill a gem (once per save): it pops up over the chest, and fills
+    if (i === 0 && isDue("gem-energy", "once")) {
+      if (lineGate.current) await lineGate.current;
+      if (!alive.current) return;
+      const m = mouthOf(g);
+      await explainGemEnergy(w.segs.find((s) => target(s)), { x: m.x, y: Math.max(130, m.y - 190) }, () => alive.current);
+      lineGate.current = null;
+      if (!alive.current) return;
     }
     if (!finale) {
       // the next word pops straight in (it's said once the streak line, if any, is over)
@@ -737,7 +784,7 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
               <ChestEyes mood={moods[g]} />
               <div ref={(el) => void (mouthRefs.current[g] = el)} className="so-mouth" />
               <div className="so-label">
-                <Tile g={g} state={result === "right" && w && spellingOf(w) === g ? "right" : nope === g ? "wrong" : helpLvl >= 2 && w && spellingOf(w) === g ? "hint" : ""} />
+                <Tile g={g} state={result === "right" && w && spellingOf(w) === g ? "right" : nope === g ? "wrong" : (helpLvl >= 2 && w && spellingOf(w) === g) || introLit === g ? "hint" : ""} />
               </div>
             </button>
           </div>
@@ -746,6 +793,7 @@ export function Sort({ level, onDone, onQuit }: LevelProps) {
       <div ref={powerRef} className="so-power" />
       <NinjaSpot />
       <div ref={chargeRef} className="so-charge" />
+      <NarrOverlay />
       <SenseiDock />
     </div>
   );

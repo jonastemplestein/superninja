@@ -16,12 +16,10 @@ export const words = [
     "text": "toy",
     "segs": "t.oy=oy",
     "unit": "EC23",
-    "pic": "one small colourful toy robot",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oy"
+      "sort:oy",
+      "dictation-safe"
     ]
   },
   {
@@ -50,36 +48,30 @@ export const words = [
     "text": "oil",
     "segs": "oi=oy.l",
     "unit": "EC23",
-    "pic": "one small clear bottle filled with golden cooking oil, no label",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oi"
+      "sort:oi",
+      "dictation-safe"
     ]
   },
   {
     "text": "soil",
     "segs": "s.oi=oy.l",
     "unit": "EC23",
-    "pic": "one little pile of dark garden soil",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oi"
+      "sort:oi",
+      "dictation-safe"
     ]
   },
   {
     "text": "boil",
     "segs": "b.oi=oy.l",
     "unit": "EC23",
-    "pic": "one pot of water bubbling on a hob",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oi"
+      "sort:oi",
+      "dictation-safe"
     ]
   },
   {

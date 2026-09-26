@@ -1,7 +1,11 @@
 # Post-process generated art: background removal (rembg isnet-anime) for sprites, trim, resize, webp.
-# Usage: uv run --with 'rembg[cpu]' --with pillow scripts/post-art.py
-# Reads assets-src/art-jobs.json (written by scripts/export-art-jobs.ts).
-import json, os, sys
+# Usage: uv run --with 'rembg[cpu]' --with pillow scripts/post-art.py [idPrefix...]
+# Reads assets-src/art-jobs.json (written by scripts/export-art-jobs.ts). After any word picture (pic_*), the card plates
+# are worked out again (scripts/gen-pic-plates.py → src/content/pic-plates.gen.ts).
+# PAD=0.14 re-pads word pictures to a 14% transparent margin (docs/FIRST_MINUTES.md §11). Off by default: the game's
+# card fits the tightly trimmed picture into its safe box, so a padded picture would sit smaller than the other 243
+# (docs/DECISIONS.md); turn it on only when re-cutting every picture.
+import json, os, subprocess, sys
 from PIL import Image
 
 from PIL import ImageFilter
@@ -22,6 +26,7 @@ def add_rim(im, frac=0.018):
 jobs = json.load(open("assets-src/art-jobs.json"))
 only = sys.argv[1:]
 session = None
+pics_done = False
 os.makedirs("public/a/i", exist_ok=True)
 os.makedirs("assets-src/cut", exist_ok=True)
 
@@ -54,9 +59,21 @@ for j in jobs:
             pad = 6
             bbox = (max(0, bbox[0] - pad), max(0, bbox[1] - pad), min(im.width, bbox[2] + pad), min(im.height, bbox[3] + pad))
             im = im.crop(bbox)
+    pad_frac = float(os.environ.get("PAD", "0"))
+    if pad_frac and j["id"].startswith("pic_"):
+        m = round(max(im.size) * pad_frac)
+        padded = Image.new("RGBA", (im.width + 2 * m, im.height + 2 * m), (0, 0, 0, 0))
+        padded.paste(im, (m, m))
+        im = padded
     w = j["w"]
     # (no sticker rim: the art already has ink outlines; a soft shadow is added in CSS)
     if im.width > w:
         im = im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
     im.save(out, "WEBP", quality=86, method=6)
     print("✓", j["id"], im.size)
+    if j["id"].startswith("pic_"):
+        pics_done = True
+
+# new word pictures: their card plates (colour, drawn box, contact shadow)
+if pics_done:
+    subprocess.run([sys.executable, "scripts/gen-pic-plates.py"], check=True)

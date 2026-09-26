@@ -4,7 +4,8 @@ import { LINES } from "../content/lines";
 import { attachLipsync, setSpeaker } from "./lipsync";
 import { FAST } from "./fast";
 import { PHONEMES, type PhonemeId, type Seg } from "../content/phonics";
-import { STRETCHED } from "../content/stretch";
+import { STRETCHED, HELD_ONSET } from "../content/stretch";
+import { WORD_TIMES } from "../content/word-times";
 
 let ctx: AudioContext | null = null;
 let master: GainNode, speechBus: GainNode, musicBus: GainNode, sfxBus: GainNode;
@@ -105,6 +106,8 @@ export const urls = {
   sound: (p: PhonemeId) => `/a/p/${p}.mp3`,
   story: (story: string, page: string) => `/a/s/${story}_${page}.mp3`,
   music: (id: string) => `/a/m/${id}.mp3`,
+  stretch: (w: string) => `/a/x/${fid(w)}.mp3`,
+  onset: (w: string) => `/a/o/${fid(w)}.mp3`,
 };
 
 export function preload(list: string[]) {
@@ -116,6 +119,8 @@ export type Say =
   | { line: string }
   | { word: string }
   | { stretch: string }
+  /** a word with its first sound held ("sssun"): public/a/o/, else the stretched word, else the word */
+  | { onset: string }
   | { sound: PhonemeId }
   | { story: string; page: string; caption?: string }
   | { gap: number }
@@ -128,6 +133,33 @@ export function onCaption(fn: CaptionListener) {
   captionListeners.add(fn);
   return () => void captionListeners.delete(fn);
 }
+// ---------- clips as they play: spotlights and word-timed animations follow the speech exactly
+/** A clip's id for onClip: a line's id, or "word:sun", "stretch:sun", "onset:sun", "sound:s", "story:s1_2". */
+export const clipId = (it: Say): string | null =>
+  "line" in it ? it.line : "word" in it ? `word:${it.word}` : "stretch" in it ? `stretch:${it.stretch}` : "onset" in it ? `onset:${it.onset}` : "sound" in it ? `sound:${it.sound}` : "story" in it ? `story:${it.story}_${it.page}` : null;
+/** `start`/`end`: performance.now() ms when the clip starts and will end (real time: at ?fast=N it plays N× faster). */
+type ClipListener = (id: string, start: number, end: number) => void;
+const clipListeners = new Set<ClipListener>();
+/** Hear every speech clip as it starts. Returns an unsubscribe function. */
+export function onClip(fn: ClipListener) {
+  clipListeners.add(fn);
+  return () => void clipListeners.delete(fn);
+}
+/** The next time clip `id` starts (subscribe BEFORE the say() that plays it); null if it hasn't started within `ms`. */
+export function nextClip(id: string, ms = 4000): Promise<{ start: number; end: number } | null> {
+  return new Promise((resolve) => {
+    const t = setTimeout(() => (off(), resolve(null)), ms);
+    const off = onClip((c, start, end) => {
+      if (c !== id) return;
+      clearTimeout(t);
+      off();
+      resolve({ start, end });
+    });
+  });
+}
+/** When each word starts inside a multi-word clip (seconds into the clip), if measured (content/word-times.ts). */
+export const wordTimes = (id: string): readonly number[] | undefined => WORD_TIMES[id];
+
 let caption: Caption = null;
 /** The caption showing right now (for a bubble that mounts mid-line, e.g. after a scene's first say()). */
 export const currentCaption = () => caption;
@@ -188,6 +220,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /** Stop whatever is being said. */
 export function hush() {
+  hushGen++;
   speakToken++;
   try {
     current?.stop();
@@ -226,8 +259,36 @@ async function playGated(buf: AudioBuffer, token: number) {
   }
 }
 
-/** Say a sequence of clips. A new call interrupts the previous one. Resolves when done (or interrupted). */
-export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: boolean } = {}): Promise<boolean> {
+function emitClip(id: string, buf: AudioBuffer) {
+  if (!clipListeners.size) return;
+  const start = performance.now();
+  const end = start + (buf.duration * 1000) / FAST;
+  clipListeners.forEach((f) => f(id, start, end));
+}
+
+/** A line that must be heard in full (`protect`), e.g. the first streak's explanation, which the ninja says while the
+ *  scene carries on: a say() that comes meanwhile waits for it instead of cutting it off. A hush() (the child left the
+ *  screen) still stops it, and then the waiting say() is dropped too. */
+let protectedSay: Promise<boolean> | null = null;
+let hushGen = 0;
+
+/** Say a sequence of clips. A new call interrupts the previous one (unless that one is protected). Resolves when done
+ *  (or interrupted). */
+export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: boolean; protect?: boolean } = {}): Promise<boolean> {
+  if (!opts.protect && protectedSay) {
+    const gen = hushGen;
+    while (protectedSay) await protectedSay;
+    if (gen !== hushGen) return false; // left the screen meanwhile
+  }
+  const p = sayNow(items, opts);
+  if (opts.protect) {
+    protectedSay = p;
+    void p.finally(() => protectedSay === p && (protectedSay = null));
+  }
+  return p;
+}
+
+async function sayNow(items: Say[] | Say, opts: { keep?: boolean; reveal?: boolean }): Promise<boolean> {
   const list = Array.isArray(items) ? items : [items];
   if (gate) await gated();
   if (!opts.keep) hush();
@@ -236,7 +297,12 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
   const loaders = list.map((it) => {
     if ("line" in it) return load(urls.line(it.line));
     if ("word" in it) return load(urls.word(it.word));
-    if ("stretch" in it) return STRETCHED.has(it.stretch) ? load(`/a/x/${it.stretch}.mp3`).then((b) => b ?? load(urls.word(it.stretch))) : load(urls.word(it.stretch));
+    if ("stretch" in it) return STRETCHED.has(it.stretch) ? load(urls.stretch(it.stretch)).then((b) => b ?? load(urls.word(it.stretch))) : load(urls.word(it.stretch));
+    if ("onset" in it) {
+      const w = it.onset;
+      const stretched = () => (STRETCHED.has(w) ? load(urls.stretch(w)).then((b) => b ?? load(urls.word(w))) : load(urls.word(w)));
+      return HELD_ONSET.has(w) ? load(urls.onset(w)).then((b) => b ?? stretched()) : stretched();
+    }
     if ("sound" in it) return load(urls.sound(it.sound));
     if ("story" in it) return load(urls.story(it.story, it.page));
     if ("sounds" in it) return Promise.all(it.sounds.map((s) => load(urls.sound(s.p))));
@@ -260,6 +326,7 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
     } else if ("sound" in it) parts.push(opts.reveal ? `/${PHONEMES[it.sound].label}/` : "🔊");
     else if ("word" in it) parts.push(opts.reveal ? `“${it.word}”` : "🔊");
     else if ("stretch" in it) parts.push(opts.reveal ? `“${it.stretch}”` : "🔊");
+    else if ("onset" in it) parts.push(opts.reveal ? `“${it.onset}”` : "🔊");
     else if ("sounds" in it && opts.reveal) parts.push(it.sounds.map((s) => `/${PHONEMES[s.p].label}/`).join(" "));
   }
   // a line's trailing "..." leads into what follows ("Let's think about the story... What made the Baron happy?"); at the
@@ -285,6 +352,7 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
           it.onSeg?.(k);
           const b = bufs[k];
           if (b) {
+            emitClip(`sound:${it.sounds[k].p}`, b);
             teach(true);
             try {
               await playGated(b, token);
@@ -304,8 +372,10 @@ export async function say(items: Say[] | Say, opts: { keep?: boolean; reveal?: b
         const l = lineById.get(it.line);
         if (l && l.who !== who) emitCaption({ text: l.text, who: l.who ?? "sensei" });
       }
-      const target = "sound" in it || "word" in it || "stretch" in it;
+      const target = "sound" in it || "word" in it || "stretch" in it || "onset" in it;
       if (buf) {
+        const id = clipId(it);
+        if (id) emitClip(id, buf);
         if (target) teach(true);
         try {
           await playGated(buf, token);

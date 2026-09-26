@@ -4,7 +4,7 @@ import { pathToFileURL } from "node:url";
 import { PHONEMES, WORDS } from "../../src/content/phonics";
 import { PIC_NAMES } from "../../src/content/pic-names";
 import {
-  BRIDGING_UNIT, FRESHFORD_SPECIAL_WORDS, INITIAL_CODE_UNITS, SW_SEQUENCE, SYLLABLE_EXAMPLES,
+  BRIDGING_UNIT, FRESHFORD_SPECIAL_WORDS, INITIAL_CODE_UNITS, POLYSYLLABIC, SW_SEQUENCE, SYLLABLE_EXAMPLES,
   VALIDATOR_RULES, contentQuota, isDecodableAt, knownGpcsAt, newGpcsIn, renderSegs,
   structureOf, swapBetween, unitIndex, type SwSeg, type SwUnitId, type ValidatorRuleId,
 } from "../../src/content/sw";
@@ -23,6 +23,7 @@ const allSpecial = new Set<string>([...FRESHFORD_SPECIAL_WORDS.reception, ...FRE
 const IPA = (s: SwSeg[]) => s.map(x => PHONEMES[x.p]?.ipa ?? x.p).join(" ");
 const picBad = (pic: string) => /\b(?:with|showing|containing|bearing)\s+(?:any\s+)?(?:text|words?|letters?|numbers?|a logo|a label|writing)\b/i.test(pic) || /["“”]/.test(pic);
 const pronounceDoubt = (w: string, segs: SwSeg[]) => ACCENT_SENSITIVE.has(w) || /nk/.test(w) || (w === "with" && segs.some(s => s.p === "dh"));
+const PW_CODE: Record<string, SwUnitId> = { PW1: "EC4", PW2: "EC6", PW3: "EC8", PW4: "EC20", PW5: "EC36", PW6: "EC49", PW7: "EC49", PW8: "EC49", PW9: "EC49" };
 
 export async function loadUnit(unit: SwUnitId): Promise<UnitData> {
   const f = join(import.meta.dir, `../../src/content/units/${unit}.ts`);
@@ -35,7 +36,8 @@ export async function validateUnit(unit: SwUnitId, data: UnitData, allData: Map<
   seedExistingJev();
   const findings = new Map<ValidatorRuleId, string[]>(ids.map(id => [id, []]));
   const fail = (r: ValidatorRuleId, reason: string) => findings.get(r)!.push(reason);
-  const known = knownGpcsAt(unit, POLICY);
+  const codeUnit = PW_CODE[unit] ?? unit;
+  const known = knownGpcsAt(codeUnit, POLICY);
   const newCode = new Set(newGpcsIn(unit, POLICY));
   const ic = INITIAL_CODE_UNITS.find(u => u.id === unit);
   const wordByText = new Map<string, UnitWord>();
@@ -165,8 +167,8 @@ export async function validateUnit(unit: SwUnitId, data: UnitData, allData: Map<
     const parts = p.syllables.split("|");
     if (parts.length < 2) fail("polysyllabic-syllables", `${p.text}: needs at least two syllables`);
     for (const part of parts) {
-      const segs = align(part, unit);
-      if (!segs || !isDecodableAt(segs, unit, { ...POLICY, checkStructure: false })) fail("polysyllabic-syllables", `${p.text}: ${part} not decodable`);
+      const segs = align(part, codeUnit);
+      if (!segs || !isDecodableAt(segs, codeUnit, { ...POLICY, checkStructure: false })) fail("polysyllabic-syllables", `${p.text}: ${part} not decodable`);
     }
     const example = SYLLABLE_EXAMPLES.find(x => x.word.toLowerCase() === p.text.toLowerCase());
     if (example && example.split.toLowerCase() !== p.syllables.toLowerCase()) fail("polysyllabic-syllables", `${p.text}: use ${example.split}`);
@@ -174,7 +176,7 @@ export async function validateUnit(unit: SwUnitId, data: UnitData, allData: Map<
     if (parts.some(x => /^(?:a|e|i|o|u)$/.test(x)) && !p.schwa?.length) fail("polysyllabic-syllables", `${p.text}: possible schwa syllable not flagged`);
   }
 
-  return { unit, rules: ids.map(rule => ({ rule, pass: !findings.get(rule)!.length, reasons: findings.get(rule)! })), counts: { words: data.words.length, pictures: data.words.filter(w => w.tags.includes("picture")).length, chains: data.chains.length, sentences: data.sentences.length, poly: data.poly.length }, quota: contentQuota(unit) };
+  return { unit, rules: ids.map(rule => ({ rule, pass: !findings.get(rule)!.length, reasons: findings.get(rule)! })), counts: { words: data.words.length + (unit.startsWith("PW") ? data.poly.length : 0), pictures: data.words.filter(w => w.tags.includes("picture")).length, chains: data.chains.length, sentences: data.sentences.length, poly: data.poly.length }, quota: contentQuota(unit) };
 }
 
 export async function validateUnits(units: SwUnitId[]): Promise<UnitReport[]> {
@@ -186,11 +188,12 @@ export async function validateUnits(units: SwUnitId[]): Promise<UnitReport[]> {
 }
 
 if (import.meta.main) {
-  const units = (process.argv.slice(2).length ? process.argv.slice(2) : SW_SEQUENCE.filter(u => u.startsWith("IC") || u === "BR")) as SwUnitId[];
-  for (const u of units) if (!SW_SEQUENCE.includes(u)) throw new Error(`Unknown unit ${u}`);
+  const allUnits = [...SW_SEQUENCE, ...POLYSYLLABIC.map(p => p.id)];
+  const units = (process.argv.slice(2).length ? process.argv.slice(2) : allUnits) as SwUnitId[];
+  for (const u of units) if (!allUnits.includes(u)) throw new Error(`Unknown unit ${u}`);
   const reports = await validateUnits(units);
   for (const r of reports) {
-    console.log(`${r.unit}: ${r.counts.words}/${r.quota.words} words, ${r.counts.pictures}/${r.quota.pictures} pictures, ${r.counts.chains}/${r.quota.swapChains} chains, ${r.counts.sentences}/${r.quota.sentences} sentences`);
+    console.log(`${r.unit}: ${r.counts.words}/${r.quota.words} words, ${r.counts.pictures}/${r.quota.pictures} pictures, ${r.counts.chains}/${r.quota.swapChains} chains, ${r.counts.sentences}/${r.quota.sentences} sentences, ${r.counts.poly}/${r.quota.polysyllabic} poly`);
     for (const rule of r.rules) console.log(`  ${rule.pass ? "PASS" : "FAIL"} ${rule.rule}${rule.reasons.length ? `: ${rule.reasons.join("; ")}` : ""}`);
   }
   if (reports.some(r => r.rules.some(x => !x.pass))) process.exitCode = 1;

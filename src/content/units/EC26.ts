@@ -112,12 +112,10 @@ export const words = [
     "text": "flame",
     "segs": "f.l.a=ae.me=m",
     "unit": "EC26",
-    "pic": "one orange flame rising from a candle",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:a"
+      "sort:a",
+      "dictation-safe"
     ]
   },
   {
@@ -242,12 +240,10 @@ export const words = [
     "text": "stand",
     "segs": "s.t.a.n.d",
     "unit": "EC26",
-    "pic": "one child standing upright with arms by their sides, full body visible",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:a"
+      "sort:a",
+      "dictation-safe"
     ]
   },
   {
@@ -287,12 +283,10 @@ export const words = [
     "text": "wag",
     "segs": "w.a.g",
     "unit": "EC26",
-    "pic": "one happy dog's tail wagging from side to side, full dog shown",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:a"
+      "sort:a",
+      "dictation-safe"
     ]
   },
   {

@@ -86,14 +86,11 @@ This doc sets out what the research and Sounds~Write actually do, and turns that
 
 Times are approximate playing times. A 3–4 year old will take longer and repeat more, which is fine.
 
-**0. Ninja Training (2 min).** Keep the existing scene, but **replace the letter tiles with named pictures** ("Tap the sun!"). The tutorial must not test letter–sound knowledge that hasn't been taught.
+**0 and 1: replaced (26 September 2026) by [the first five minutes](FIRST_MINUTES.md).** Ninja Training is now the dojo welcome (the gong, Help and the speaker, with no picture rounds), and w1-1 "Listening Ears" is retired. In their place, a school-year opt-in and six short warm-up stones at the front of Bamboo Village (`w1-wu1` … `w1-wu6`): Ninja Ears, Ninjas Read This Way, then /a/ in it and /m/ first, three pictures in a row and picture words (rain + bow, snow + man), sounds to words (w1-1's minimal pairs, with clear pictures), and sound dots. Every warm-up game starts with "Let me show you!", then "Now you try!"; the full I do / we do / you do below starts at stop 2. The old text, for the record:
 
-**1. Listening Ears (6 min): M1 only, no letters.**
-- (a) Whole-word minimal pairs, 2 pictures, 4 items: pan/pin, map/mop, tap/top, cat/cot.
-- (b) Stretched words, 2 pictures that start differently, 4 items: sun/dog, mat/bus, fan/cup, man/hat.
-- (c) Segmented sounds, 2 → 3 pictures, 4–6 items: map, sun, fan, mug, then pan, pig, cat (stop-consonant starts come last).
-- Modelling: Sensei does item 1 of each part, saying "Listen: /m/ /a/ /p/… I can hear *map*!" while tapping the map.
-- Pass: 80% on the part (c) You do items.
+~~**0. Ninja Training (2 min).** Keep the existing scene, but replace the letter tiles with named pictures ("Tap the sun!").~~
+
+~~**1. Listening Ears (6 min): M1 only, no letters.** Minimal pairs, stretched words, then segmented sounds, 12–14 items.~~
 
 **2. First Sounds: /m/ and /s/ (7 min): M2, and the first letters.**
 - Items: which starts with /m/ (vs non-/m/); which starts with /s/; then /m/ vs /s/ head to head (mat vs sun).

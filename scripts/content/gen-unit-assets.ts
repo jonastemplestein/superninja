@@ -8,11 +8,11 @@ import { PIC_STYLE } from "../art-manifest";
 import { generate, textOf } from "../gemini";
 import { makeImage } from "../img";
 import { tts, finishAudio, judgeAudio } from "../tts";
-import { SW_SEQUENCE, type SwUnitId } from "../../src/content/sw";
+import { POLYSYLLABIC, SW_SEQUENCE, type SwUnitId } from "../../src/content/sw";
 import { loadUnit } from "./validate-units";
 
 const ROOT = resolve(import.meta.dir, "../..");
-const AUDIT_DIR = join(ROOT, "playtest/runs/pics-units");
+const AUDIT_DIR = join(ROOT, "playtest/content");
 const REPLACE = new Set("nap hen dot fog fin hug tub pup cub jet hill twig stamp ship quilt squid bug jump desk".split(" "));
 const args = process.argv.slice(2);
 const doAudio = args.includes("--audio") || !args.some(a => ["--pictures", "--audit"].includes(a));
@@ -31,7 +31,7 @@ async function each<T>(items: T[], concurrency: number, fn: (item: T) => Promise
   }));
 }
 
-const units = SW_SEQUENCE.slice(0, SW_SEQUENCE.indexOf("EC26") + 1) as SwUnitId[];
+const units = [...SW_SEQUENCE, ...POLYSYLLABIC.map(p => p.id)] as SwUnitId[];
 const words = new Map<string, { pic?: string }>();
 for (const unit of units) {
   const data = await loadUnit(unit);
@@ -56,9 +56,26 @@ const HOMOPHONES: Record<string, string[]> = {
   sail: ["sale"], kerb: ["curb"], herd: ["heard"], fir: ["fur"],
   threw: ["through"], son: ["sun"],
   won: ["one"], hare: ["hair"], few: ["phew"],
+  whey: ["way", "weigh"], weigh: ["way", "whey"], weight: ["wait"],
+  sleigh: ["slay"], neigh: ["nay"], steal: ["steel"],
+  knew: ["new"], boar: ["bore"], oar: ["or", "ore"],
+  sore: ["saw"], wore: ["war"], deer: ["dear"],
+  shore: ["sure"],
+  hay: ["hey"], hoe: ["ho"], know: ["no"],
+  shone: ["shon"], year: ["yeer"], laughter: ["lafter", "lahfter"],
 };
 function sayText(word: string, attempt: number) {
   const capital = word[0].toUpperCase() + word.slice(1);
+  const phonetic: Record<string, string[]> = {
+    hay: ["Hey.", "Hey!", "hey", "Hay.", "Hey...", "HAY!"],
+    hoe: ["Ho.", "Ho!", "ho", "Hoe.", "Ho...", "HO!"],
+    know: ["No.", "No!", "no", "Know.", "No...", "NO!"],
+    shone: ["Shon.", "Shonn.", "shon", "Shon!", "shone", "SHON!"],
+    year: ["Yeer.", "Yeer!", "yeer", "Year.", "Yeer...", "YEER!"],
+    laughter: ["Lafter.", "Laafter.", "laafter", "Lafter!", "LAHFTUH", "Lafter"],
+  };
+  if (phonetic[word]) return phonetic[word][attempt - 1];
+  if (word === "laugh") return ["Lahf.", "LAHF!", "Lahf", "I laugh.", "Laugh.", "laugh"][attempt - 1];
   return [`${word}.`, `${capital}.`, `${word}!`, word, `${capital}!`, `${word}...`][attempt - 1];
 }
 async function blindAudio(file: string, word: string) {
@@ -81,7 +98,7 @@ if (doAudio) {
     for (let attempt = 1; attempt <= 6; attempt++) {
       const tmp = join(tmpdir(), `sn-word-${process.pid}-${word}-${attempt}.mp3`);
       try {
-        const wav = await tts({ text: sayText(word, attempt), voice: "Sulafat", lang: "en-GB" });
+        const wav = await tts({ text: sayText(word, attempt), voice: ["hoe", "year", "laughter"].includes(word) ? "Charon" : "Sulafat", lang: "en-GB" });
         finishAudio(wav, tmp);
         const rubric = `Exactly one naturally spoken Southern British English word, ${word}, once only, for a young child. Judge the phonetic word: ${HOMOPHONES[word]?.join(", ") ?? "no listed homophone"} would sound identical and is acceptable if transcribed that way. Score low for a genuinely different pronunciation, letter name, American accent, or added speech.`;
         const [judged, blind] = await Promise.all([judgeAudio(tmp, rubric), blindAudio(tmp, word)]);
@@ -119,41 +136,56 @@ async function blindPicture(file: string, word: string) {
 
 if (doPictures) {
   const jobs = selected([...words].filter(([word, w]) => w.pic &&
-    (status[`picture:${word}`]?.attempts ?? 0) < 3 &&
+    (status[`picture:${word}`]?.attempts ?? 0) < 5 &&
     (redo.has(word) || !existsSync(join(ROOT, `public/a/i/pic_${word}.webp`)) || (REPLACE.has(word) && !status[`picture:${word}`]?.ok)))
     .map(([word, w]) => ({ word, pic: w.pic! })));
   console.log(`Pictures: ${jobs.length} missing or flagged cards`);
   mkdirSync(AUDIT_DIR, { recursive: true });
   const work = mkdtempSync(join(tmpdir(), "sn-unit-art-"));
-  mkdirSync(join(work, "assets-src/art"), { recursive: true });
-  mkdirSync(join(work, "public/a/i"), { recursive: true });
-  writeFileSync(join(work, "assets-src/art-jobs.json"), JSON.stringify(jobs.map(({ word }) => ({ id: `pic_${word}`, w: 384, cut: true }))));
   const pending = new Map(jobs.map(j => [j.word, j]));
-  const auditFile = join(AUDIT_DIR, "unit-asset-audit.json");
+  const auditFile = join(AUDIT_DIR, "unit-picture-audit.json");
   const auditRows: { word: string; take: number; name?: string; ok: boolean; error?: string }[] =
     existsSync(auditFile) ? JSON.parse(readFileSync(auditFile, "utf8")) : [];
   for (let round = 1; pending.size; round++) {
-    const active = [...pending.values()].filter(({ word }) => (status[`picture:${word}`]?.attempts ?? 0) < 3);
+    const active = [...pending.values()].filter(({ word }) => (status[`picture:${word}`]?.attempts ?? 0) < 5);
     if (!active.length) break;
     const take = new Map(active.map(({ word }) => [word, (status[`picture:${word}`]?.attempts ?? 0) + 1]));
+    const roundWork = join(work, `take-${round}`);
+    mkdirSync(join(roundWork, "assets-src/art"), { recursive: true });
+    mkdirSync(join(roundWork, "public/a/i"), { recursive: true });
+    writeFileSync(join(roundWork, "assets-src/art-jobs.json"), JSON.stringify(active.map(({ word }) => ({ id: `pic_${word}`, w: 384, cut: true }))));
     console.log(`Picture take ${round}: ${active.length}`);
+    const rendered = new Set<string>();
     await each(active, 6, async ({ word, pic }) => {
       try {
-        await makeImage({ out: join(work, `assets-src/art/pic_${word}.png`), prompt: `${pic}. ${PIC_STYLE}`, aspect: "1:1" });
+        const previousName = status[`picture:${word}`]?.detail?.replace(/^named /, "");
+        const rethink = take.get(word)! >= 4 && previousName
+          ? `Make the single subject immediately identifiable as ${word}, with a silhouette distinct from ${previousName}. Remove secondary objects and scenery.`
+          : "Show one iconic, concrete subject that a four-year-old would name at once.";
+        await makeImage({ out: join(roundWork, `assets-src/art/pic_${word}.png`), prompt: `${pic}. ${rethink} ${PIC_STYLE}`, model: "gemini-3.1-flash-image", aspect: "1:1" });
+        rendered.add(word);
       } catch (e) {
         const error = String(e).slice(0, 300);
         auditRows.push({ word, take: take.get(word)!, ok: false, error });
         status[`picture:${word}`] = { ok: false, attempts: take.get(word)!, detail: error }; save();
       }
     });
-    const ready = active.map(({ word }) => word).filter(word => existsSync(join(work, `assets-src/art/pic_${word}.png`)));
+    const ready = active.map(({ word }) => word).filter(word => rendered.has(word));
     if (ready.length) {
-      try {
-        execFileSync("uv", ["run", "--with", "rembg[cpu]", "--with", "pillow", "python", join(ROOT, "scripts/post-art.py"), ...ready.map(w => `pic_${w}`)], { cwd: work, stdio: "ignore", maxBuffer: 32 * 1024 * 1024 });
-      } catch (e) { console.log(`Post-art failed: ${String(e).slice(0, 300)}`); }
+      for (let i = 0; i < ready.length; i += 12) {
+        const batch = ready.slice(i, i + 12);
+        try {
+          execFileSync("uv", ["run", "--with", "rembg[cpu]", "--with", "pillow", "python", join(ROOT, "scripts/post-art.py"), ...batch.map(w => `pic_${w}`)], { cwd: roundWork, stdio: "ignore", maxBuffer: 32 * 1024 * 1024 });
+        } catch (e) {
+          // post-art.py also tries to regenerate app picture plates; its script
+          // is intentionally absent from this isolated asset workspace.
+          if (!batch.every(w => existsSync(join(roundWork, `public/a/i/pic_${w}.webp`))))
+            console.log(`Post-art failed for ${batch.join(", ")}: ${String(e).slice(0, 200)}`);
+        }
+      }
     }
     await each(ready, 6, async word => {
-      const file = join(work, `public/a/i/pic_${word}.webp`);
+      const file = join(roundWork, `public/a/i/pic_${word}.webp`);
       if (!existsSync(file)) return;
       try {
         const result = await blindPicture(file, word);

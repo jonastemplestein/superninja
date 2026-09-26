@@ -1,5 +1,6 @@
 // Every generated image in the game. `cut` = remove background to transparent sprite.
 import { WORDS } from "../src/content/phonics";
+import { LIVING_WORDS } from "../src/content/living";
 
 export const STYLE =
   "Art style: premium hand-painted 2D children's video game art. Bold, clean, confident dark-brown ink outlines of even weight, rich saturated cel-shaded colours with soft painterly texture, warm rim light, big readable silhouettes, expressive friendly faces, charming and slightly cheeky, high production value like a top-tier mobile adventure game. Not photorealistic, no 3D render look. Absolutely no text, no letters, no numbers, no watermark, no signature, no border.";
@@ -16,6 +17,8 @@ export interface ArtJob {
   model?: string;
   /** output width in px for webp */
   w: number;
+  /** word pictures: the card's colour, when the picture needs a particular one (read by scripts/gen-pic-plates.py) */
+  plate?: string;
 }
 
 const HERO_KAI = "SUPER NINJA KAI: a brave, cheerful 6-year-old child ninja with warm brown skin and a messy black top-knot, deep indigo ninja outfit with golden trim, a bright red headband with long fluttering tails, golden sash, white wrapped hands and feet, big bright eyes and a huge confident grin. Chibi proportions (big head, small body).";
@@ -118,11 +121,23 @@ const items: [string, string][] = [
 ];
 for (const [id, d] of items) ART.push({ id: `item_${id}`, w: 320, cut: true, prompt: `${d}, centred, as a game item sprite on a plain flat pure white background, nothing else. ${STYLE}` });
 
-// Word pictures (see docs/ART_STYLE.md)
+// Word pictures (see docs/ART_STYLE.md and docs/FIRST_MINUTES.md §11): one object, or one living thing with a face
+const CARD =
+  "like a board-book picture, with chunky rounded simple shapes and few details, bold even dark-brown ink outlines, rich cel-shaded colour with one soft shade tone, one highlight and a subtle painterly grain, lit from the top-left. Nothing else in the picture. No flags, no text, no letters, no numbers, no scenery, no ground, no shadow. Centred on a plain flat pure white background with a wide empty margin on every side; nothing touches the edge.";
+export const PIC_OBJECT = `Super Ninja picture-card style: exactly ONE single object, instantly recognisable to a British 3-year-old, drawn whole in its most typical view and usual colour, ${CARD} The object has no face.`;
+export const PIC_LIVING = `Super Ninja picture-card style: exactly ONE single animal or person, instantly recognisable to a British 3-year-old, drawn whole from head to toe (or tail), facing the viewer or in three-quarter front view, never from behind, with a friendly face, two big clear eyes and a smile, ${CARD}`;
+/** The picture style for a word: a living thing always gets a face (the image model drew faceless dogs and fish when one
+ *  style said "no face unless it is an animal or person"). */
+export const picStyleFor = (w: string) => (LIVING_WORDS.has(w) ? PIC_LIVING : PIC_OBJECT);
+/** Card colours chosen by hand (the rest are picked by hue in scripts/gen-pic-plates.py): the moon and stars sit on
+ *  the night plate; the others keep neighbours in the first lessons apart (fish and dog on the reading rail, sun and
+ *  sunflower, star and starfish). */
+export const PLATE: Record<string, string> = { moon: "night", star: "night", night: "night", dog: "lilac", sunflower: "lilac", starfish: "teal" };
+/** The older single style, still used for the petal-corner pictures. */
 export const PIC_STYLE =
   "Super Ninja picture-card style: exactly ONE single object, instantly recognisable to a 4-year-old, drawn with chunky rounded simple shapes and few details, bold even dark-brown ink outlines, rich cel-shaded colour with one soft shade tone, one highlight and a subtle painterly grain, three-quarter view, lit from the top-left. The object has NO face and NO eyes (unless it is an animal or person). No flags, no union jacks, no patterns of flags, no text, no letters, no numbers, no scenery, no ground, no shadow. Centred on a plain flat pure white background with a generous empty margin all around.";
 for (const w of WORDS.filter((w) => w.pic)) {
-  ART.push({ id: `pic_${w.text}`, w: 384, cut: true, prompt: `${w.pic}. ${PIC_STYLE}` });
+  ART.push({ id: `pic_${w.text}`, w: 384, cut: true, prompt: `${w.pic}. ${picStyleFor(w.text)}`, plate: PLATE[w.text] });
 }
 
 // Story scenes (hero is composited in-game, so leave room on the left)
@@ -144,4 +159,4 @@ for (const c of CHART_PETALS) {
 
 // Listening-game pictures (spoken only, never written)
 import { ORAL_WORDS } from "../src/content/phonics";
-for (const [w, o] of Object.entries(ORAL_WORDS)) ART.push({ id: `pic_${w}`, w: 384, cut: true, prompt: `${o.pic}. ${PIC_STYLE}` });
+for (const [w, o] of Object.entries(ORAL_WORDS)) ART.push({ id: `pic_${w}`, w: 384, cut: true, prompt: `${o.pic}. ${picStyleFor(w)}`, plate: PLATE[w] });

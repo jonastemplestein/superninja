@@ -5,6 +5,8 @@
 //   bun scripts/treadmill/run.ts --quick         one level of each kind, bots + jev only           (~1–2 min)
 //   bun scripts/treadmill/run.ts --personas      also run the Codex persona playtesters            (~30–60 min)
 //   bun scripts/treadmill/run.ts --pics          also blind-name every word picture (after art changes)
+//   bun scripts/treadmill/run.ts --joins         also "one take, or joined?": the first minutes' spliced speech, judged
+//                                                 by ear (transcript.ts, then joins.ts; ~3 min)
 //   bun scripts/treadmill/run.ts --watch         quick run on every change under src/ (debounced)
 // Plays a frozen build of the current source (safe to keep editing); --live / --watch use the dev server on :5173.
 // Secrets come from Doppler per stage.
@@ -31,7 +33,7 @@ async function snapshot(): Promise<() => void> {
   BASE = "http://localhost:4180";
   return () => srv.kill();
 }
-const QUICK = ["w1-1", "w1-2", "w1-4", "w1-6", "w1-7", "w1-8", "w1-9", "w1-14", "w1-15", "w3-2", "training", "map"];
+const QUICK = ["w1-wu1", "w1-wu2", "w1-2", "w1-4", "w1-6", "w1-7", "w1-8", "w1-9", "w1-14", "w1-15", "w6-br1", "training", "map"];
 const GEMINI = ["doppler", "run", "-p", "os-legacy-2026-04", "-c", "dev", "--"];
 const CF = ["doppler", "run", "-p", "os", "-c", "dev", "--"];
 
@@ -57,6 +59,11 @@ async function once(quick: boolean) {
   const stages = readdirSync("scripts/treadmill").filter((f) => /^jev-.*\.ts$/.test(f) && readFileSync(`scripts/treadmill/${f}`, "utf8").slice(0, 600).includes("@treadmill-stage"));
   for (const f of stages.sort())
     if (!has("no-jev")) sh(`jev ${f}`, [...CF, "bun", `scripts/treadmill/${f}`, runDir]);
+  if (has("joins")) {
+    const tdir = `${runDir}/transcripts`;
+    if (sh("transcripts (first minutes)", ["bun", "scripts/treadmill/transcript.ts", "--base", BASE, "--only", "w1-wu1,w1-wu2,w1-wu3,w1-2,w1-7", "--persona", "perfect", "--out", tdir]))
+      sh("joins (one take, or joined?)", [...GEMINI, "bun", "scripts/treadmill/joins.ts", tdir, runDir]);
+  }
   if (has("personas")) sh("personas", ["bun", "scripts/treadmill/personas.ts", runDir, "--base", BASE]);
   stop();
   const s = mergeRun(runDir);

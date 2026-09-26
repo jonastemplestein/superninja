@@ -50,12 +50,10 @@ export const words = [
     "text": "ship",
     "segs": "sh.i.p",
     "unit": "IC11",
-    "pic": "one large ship with a tall funnel, decks and portholes, floating on water",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:sh"
+      "sort:sh",
+      "dictation-safe"
     ]
   },
   {
@@ -148,13 +146,11 @@ export const words = [
     "text": "chunk",
     "segs": "ch.u.n=ng.k",
     "unit": "IC11",
-    "pic": "one chunky piece of cheese cut from a block, no plate",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
       "sort:ch",
-      "sort:n"
+      "sort:n",
+      "dictation-safe"
     ]
   },
   {
@@ -526,13 +522,11 @@ export const words = [
     "text": "quilt",
     "segs": "q.u=w.i.l.t",
     "unit": "IC11",
-    "pic": "one stitched patchwork quilt folded on a plain bed, with a repeating square pattern",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
       "sort:q",
-      "sort:u"
+      "sort:u",
+      "dictation-safe"
     ]
   },
   {
@@ -658,12 +652,10 @@ export const words = [
     "text": "hatch",
     "segs": "h.a.tch",
     "unit": "IC11",
-    "pic": "one little yellow chick hatching from a cracked egg",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:tch"
+      "sort:tch",
+      "dictation-safe"
     ]
   },
   {

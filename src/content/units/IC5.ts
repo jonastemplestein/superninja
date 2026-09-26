@@ -116,22 +116,18 @@ export const words = [
     "text": "tub",
     "segs": "t.u.b",
     "unit": "IC5",
-    "pic": "one freestanding bath tub with four little feet and no taps",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "pup",
     "segs": "p.u.p",
     "unit": "IC5",
-    "pic": "one very young puppy standing alone with oversized paws and floppy ears",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -158,11 +154,9 @@ export const words = [
     "text": "cub",
     "segs": "c.u.b",
     "unit": "IC5",
-    "pic": "one young bear cub standing alone, small round ears and short snout, no adult bear",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -199,11 +193,9 @@ export const words = [
     "text": "lad",
     "segs": "l.a.d",
     "unit": "IC5",
-    "pic": "one smiling young boy standing alone in ordinary clothes",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {

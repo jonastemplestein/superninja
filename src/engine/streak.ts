@@ -6,6 +6,7 @@
 // so short levels can still reach the top tiers; quitting a level or a long break starts afresh.
 import { useSyncExternalStore } from "react";
 import { LINES } from "../content/lines";
+import { store } from "./store";
 
 export type Tier = 0 | 1 | 2 | 3;
 export const TIER_AT = [0, 3, 6, 10] as const;
@@ -102,11 +103,25 @@ export const streak = {
 };
 
 const hasLine = (id: string) => LINES.some((l) => l.id === id);
-/** The line that goes with an event (streak_3/6/10 on a tier-up, streak_lost on a miss that ended a streak of 3 or
- *  more), or null. Only ids that exist in LINES. */
+/** The first time a child's streak reaches the first tier (once per save), the tier-up explains itself instead of
+ *  "Ninja power!" (NARRATIVE_AUDIT F17: streaks were named but never explained). */
+export const FIRST_STREAK = "audit_streak_first";
+/** The line for crossing into a tier: streak_3/6/10, or the first-streak explanation (once per save). */
+export function tierLineId(tier: Tier): string | null {
+  if (tier === 1 && !store.get().seenStreak && hasLine(FIRST_STREAK)) return FIRST_STREAK;
+  const id = `streak_${TIER_AT[tier]}`;
+  return hasLine(id) ? id : null;
+}
+/** Call when a tier line has been said: the first-streak explanation is then never said again for this child. */
+export function tierLineSaid(id: string | null | undefined, finished = true) {
+  if (id === FIRST_STREAK && finished && !store.get().seenStreak) store.set((s) => void (s.seenStreak = true));
+}
+/** The line that goes with an event (a tier line on a tier-up, streak_lost on a miss that ended a streak of 3 or
+ *  more), or null. Only ids that exist in LINES. A scene that says a tier line itself calls tierLineSaid() after. */
 export function streakLine(e: StreakEvent | null | undefined): string | null {
   if (!e) return null;
-  const id = e.tierUp ? `streak_${TIER_AT[e.tier]}` : e.type === "miss" && e.prevN >= 3 ? "streak_lost" : null;
+  if (e.tierUp) return tierLineId(e.tier);
+  const id = e.type === "miss" && e.prevN >= 3 ? "streak_lost" : null;
   return id && hasLine(id) ? id : null;
 }
 

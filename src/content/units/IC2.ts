@@ -74,11 +74,9 @@ export const words = [
     "text": "nap",
     "segs": "n.a.p",
     "unit": "IC2",
-    "pic": "one child asleep on a small bed in daylight, shoes off and blanket folded back",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {

@@ -1,7 +1,19 @@
 // Feedback every game shares, the Sounds~Write way (docs/PEDAGOGY.md): the correction for a wrong spelling, and
 // everyday praise. Never letter names.
 import { GRAPHEMES, type Seg } from "../content/phonics";
+import { LISTEN_AGAIN, rotate } from "../content/narrative";
+import { STRETCHED } from "../content/stretch";
 import type { Say } from "./audio";
+
+/** The "listen again" lead of a correction, rotated with whole-sentence alternatives, so a learner who misses often
+ *  doesn't hear one sentence over and over (NARRATIVE_AUDIT: listen_here was heard 207 times in the learner journey).
+ *  The stretched set promises a slow word, so it is only for words with a stretched recording. Every game shares it. */
+let lastListen: string | null = null;
+export function listenLead(word: string): string {
+  return (lastListen = rotate(STRETCHED.has(word) ? LISTEN_AGAIN.stretched : LISTEN_AGAIN.plain, lastListen));
+}
+/** Is this line one of the rotating "listen again" leads? */
+export const isListenLead = (id: string) => (LISTEN_AGAIN.stretched as readonly string[]).includes(id);
 
 /** Correction for a wrong spelling: never do the segmenting for the child.
  *  1st miss → back to listening: hear the word again, stretched (a word with no stretched recording is said plainly).
@@ -9,7 +21,7 @@ import type { Say } from "./audio";
  *  Same sound but another spelling → say so; that's about spelling, not listening. */
 export function correction(g: string, need: Seg, word: string, attempt: number): Say[] {
   if (GRAPHEMES[g] === need.p) return [{ line: "same_sound_spelling" }, { gap: 100 }, { sound: need.p }];
-  if (attempt <= 1) return [{ line: "listen_here" }, { gap: 150 }, { stretch: word }];
+  if (attempt <= 1) return [{ line: listenLead(word) }, { gap: 150 }, { stretch: word }];
   return [{ line: "thats" }, { sound: GRAPHEMES[g] }, { gap: 200 }, { line: "we_need" }, { sound: need.p }];
 }
 

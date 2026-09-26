@@ -45,7 +45,7 @@ export function chooseWords(level: Level, n: number, mode: "read" | "spell", opt
   };
   const main = weightedSample(pool, weight, Math.ceil(n * 0.8));
   // review: earlier levels' words the child found hard
-  const idx = LEVELS.indexOf(level);
+  const idx = LEVELS.findIndex((l) => l.id === level.id); // (by id: a cut lesson is a copy of its level)
   const earlier = new Set(LEVELS.slice(0, idx).flatMap((l) => levelWords(l).map((w) => w.text)));
   const known = knownSpellings(level);
   let review = WORDS.filter((w) => earlier.has(w.text) && !main.includes(w) && w.segs.every((sg) => known.has(sg.g)));
@@ -96,7 +96,7 @@ function oneSwap(a: Word, b: Word): number {
 /** A word ladder (hat → hot → hop → mop ...) within the level's words. */
 export function swapChain(level: Level, len = 5): { from: Word; to: Word; pos: number }[] {
   const pool = levelWords(level).concat(
-    LEVELS.slice(0, LEVELS.indexOf(level)).flatMap((l) => levelWords(l)),
+    LEVELS.slice(0, LEVELS.findIndex((l) => l.id === level.id)).flatMap((l) => levelWords(l)),
   );
   const uniq = [...new Map(pool.map((w) => [w.text, w])).values()];
   let best: Word[] = [];

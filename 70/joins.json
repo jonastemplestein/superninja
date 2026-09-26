@@ -1,0 +1,77 @@
+{
+ "findings": [
+  {
+   "sig": "joins:listen.mp3+k.mp3+k.mp3",
+   "source": "critic",
+   "severity": "major",
+   "case": "w5-3",
+   "title": "audible join: listen.mp3 + k.mp3 + k.mp3",
+   "detail": "The speaker says the letter name 'kay' (/keɪ/) twice instead of producing the target pure phoneme /k/. (judge 0/10; heard: lɪsən... kʰeɪ, kʰeɪ)",
+   "evidence": [
+    "/a/l/listen.mp3",
+    "/a/p/k.mp3",
+    "/a/p/k.mp3"
+   ]
+  },
+  {
+   "sig": "joins:t_but_in_this_word.mp3+th.mp3",
+   "source": "critic",
+   "severity": "major",
+   "case": "w5-6",
+   "title": "audible join: t_but_in_this_word.mp3 + th.mp3",
+   "detail": "The target sound /θ/ has an audible plosive onset and sounds like 'tfs' rather than a clean, pure voiceless dental fricative. (judge 3/10; heard: bət ɪn ðɪs wɜːd ɪts [tfsː])",
+   "evidence": [
+    "/a/l/t_but_in_this_word.mp3",
+    "/a/p/th.mp3"
+   ]
+  },
+  {
+   "sig": "joins:dojo_find.mp3+ae.mp3",
+   "source": "critic",
+   "severity": "major",
+   "case": "w6-1",
+   "title": "audible join: dojo_find.mp3 + ae.mp3",
+   "detail": "The recording provides the letter name /eɪ/ rather than the target short vowel sound /æ/, and the final sound has an unnatural pause and drop in energy, making it sound pasted in. (judge 4/10; heard: kæn juː faɪnd eɪ)",
+   "evidence": [
+    "/a/l/dojo_find.mp3",
+    "/a/p/ae.mp3"
+   ]
+  },
+  {
+   "sig": "joins:thats.mp3+w.mp3",
+   "source": "critic",
+   "severity": "major",
+   "case": "w5-3",
+   "title": "audible join: thats.mp3 + w.mp3",
+   "detail": "The target sound is pronounced as 'woo' with a prominent vowel rather than a pure /w/ phoneme, though the voice match and acoustic environment are consistent. (judge 4/10; heard: ðæts wuː)",
+   "evidence": [
+    "/a/l/thats.mp3",
+    "/a/p/w.mp3"
+   ]
+  },
+  {
+   "sig": "joins:dojo_find.mp3+ks.mp3",
+   "source": "critic",
+   "severity": "minor",
+   "case": "w3-6",
+   "title": "audible join: dojo_find.mp3 + ks.mp3",
+   "detail": "The recording join and acoustics are seamless, but the speaker pronounces the letter name 'x' (/ɛks/) instead of the pure phoneme /ks/. (judge 6/10; heard: kən juː faɪnd ɛks)",
+   "evidence": [
+    "/a/l/dojo_find.mp3",
+    "/a/p/ks.mp3"
+   ]
+  },
+  {
+   "sig": "joins:listen.mp3+ks.mp3",
+   "source": "critic",
+   "severity": "minor",
+   "case": "w3-6",
+   "title": "audible join: listen.mp3 + ks.mp3",
+   "detail": "The transition and acoustics are relatively smooth, but the teacher pronounces the letter name 'x' (/ɛks/) instead of the target pure sound /ks/. (judge 6/10; heard: ˈlɪsən... ɛks)",
+   "evidence": [
+    "/a/l/listen.mp3",
+    "/a/p/ks.mp3"
+   ]
+  }
+ ]
+}

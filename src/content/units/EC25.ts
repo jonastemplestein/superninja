@@ -253,36 +253,30 @@ export const words = [
     "text": "dot",
     "segs": "d.o.t",
     "unit": "EC25",
-    "pic": "one small black round dot centred on a plain white square, no other marks",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:o"
+      "sort:o",
+      "dictation-safe"
     ]
   },
   {
     "text": "jog",
     "segs": "j.o.g",
     "unit": "EC25",
-    "pic": "one child jogging along a clear path in trainers, seen from the side",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:o"
+      "sort:o",
+      "dictation-safe"
     ]
   },
   {
     "text": "frost",
     "segs": "f.r.o.s.t",
     "unit": "EC25",
-    "pic": "one garden leaf edged with white frost crystals",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:o"
+      "sort:o",
+      "dictation-safe"
     ]
   },
   {
@@ -311,12 +305,10 @@ export const words = [
     "text": "fog",
     "segs": "f.o.g",
     "unit": "EC25",
-    "pic": "one patch of thick grey fog curling across a field, no trees or buildings",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:o"
+      "sort:o",
+      "dictation-safe"
     ]
   },
   {

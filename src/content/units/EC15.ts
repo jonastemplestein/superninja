@@ -16,12 +16,10 @@ export const words = [
     "text": "group",
     "segs": "g.r.ou=oo.p",
     "unit": "EC15",
-    "pic": "one small group of smiling children standing together",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ou"
+      "sort:ou",
+      "dictation-safe"
     ]
   },
   {

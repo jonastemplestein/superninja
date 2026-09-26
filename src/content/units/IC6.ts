@@ -4,11 +4,9 @@ export const words = [
     "text": "wag",
     "segs": "w.a.g",
     "unit": "IC6",
-    "pic": "one happy dog's tail wagging from side to side, full dog shown",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -25,22 +23,18 @@ export const words = [
     "text": "jet",
     "segs": "j.e.t",
     "unit": "IC6",
-    "pic": "one grey jet aircraft with swept wings and two engines, flying alone",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "win",
     "segs": "w.i.n",
     "unit": "IC6",
-    "pic": "one child crossing a finish line first with both arms raised, no writing",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -57,11 +51,9 @@ export const words = [
     "text": "jog",
     "segs": "j.o.g",
     "unit": "IC6",
-    "pic": "one child jogging along a clear path in trainers, seen from the side",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {

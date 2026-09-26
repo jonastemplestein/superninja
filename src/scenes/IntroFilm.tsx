@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import { say, playMusic, hush } from "../engine/audio";
 import { RoundButton, Icon, useHelp, useBaronOnScreen, tapProps } from "../ui/ui";
+import { heard } from "./narrate";
 
 const SHOTS = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => ({ video: `/a/v/intro_${n}.mp4`, line: `film_${n}` }));
 type Timing = { shot: number; lineDelayMs: number; minMs: number }[];
@@ -17,6 +18,7 @@ const timingReady = fetch("/a/v/intro_timing.json")
   .catch(() => {});
 
 export function IntroFilm({ onDone }: { onDone: () => void }) {
+  const [heardFilm] = useState(() => new Set<string>());
   const [shot, setShot] = useState(0);
   const [pointNext, setPointNext] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -78,7 +80,11 @@ export function IntroFilm({ onDone }: { onDone: () => void }) {
         });
       } else await new Promise((r) => setTimeout(r, delay * 1000));
       if (!live) return;
-      await say({ line: SHOTS[shot].line });
+      const said = await say({ line: SHOTS[shot].line });
+      // Baron Muddle's motive (film_3 "Words... how I HATE them!", film_4 "Every sound on this island is MINE!"), heard in
+      // full: the first battle then needn't explain him again (NARRATIVE_AUDIT F18; a skipped film doesn't count)
+      if (said) heardFilm.add(SHOTS[shot].line);
+      if (said && heardFilm.has("film_3") && heardFilm.has("film_4")) heard("baron-motive");
       lineDone = true;
       if (shot === SHOTS.length - 1) await new Promise((r) => setTimeout(r, 600));
       check();

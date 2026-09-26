@@ -17,7 +17,7 @@ const bookWords = Object.fromEntries(["cat", "cap", "bat", "bag", "hat", "pig", 
 
 const SHOTS: { name: string; url: string; save?: object; wait: number; act?: string[] }[] = [
   { name: "title", url: "/play/?scene=title", wait: 2500 },
-  { name: "map", url: "/play/?scene=map", wait: 2500, save: base({ stars: { "w1-1": 3, "w1-2": 2, "w1-3": 3 }, settings: { unlockAll: false, music: 0, captions: false, relaxed: false } }) },
+  { name: "map", url: "/play/?scene=map", wait: 2500, save: base({ stars: { "w1-wu1": 1, "w1-wu2": 1, "w1-wu3": 1, "w1-wu4": 1, "w1-wu5": 1, "w1-wu6": 1, "w1-2": 2, "w1-3": 3 }, settings: { unlockAll: false, music: 0, captions: false, relaxed: false } }) },
   { name: "battle", url: "/play/?level=w2-8", wait: 9000 },
   { name: "flower", url: "/play/?scene=tree", wait: 2500, save: base({ petals: ["a", "i", "m", "s", "t", "n", "o", "p", "b", "c", "g", "h", "d", "e", "f", "v"], gems: ["a>a", "t>t", "p>p", "m>m", "i>i", "s>s", "n>n", "o>o", "b>b", "g>g"], energy: { "c>k": 8, "h>h": 5, "d>d": 3 } }) },
   { name: "petal", url: "/play/?scene=tree", wait: 1500, act: ['[aria-label="petal k"]'], save: base({ petals: ["a", "i", "m", "s", "t", "n", "o", "p", "b", "c", "g", "h", "k", "l", "r", "u"], gems: ["c>k"], energy: { "k>k": 8 } }) },

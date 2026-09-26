@@ -135,12 +135,10 @@ export const words = [
     "text": "jump",
     "segs": "j.u.m.p",
     "unit": "EC14",
-    "pic": "one child jumping straight up with both feet in the air, full body clearly visible",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:u"
+      "sort:u",
+      "dictation-safe"
     ]
   },
   {
@@ -281,24 +279,20 @@ export const words = [
     "text": "tub",
     "segs": "t.u.b",
     "unit": "EC14",
-    "pic": "one freestanding bath tub with four little feet and no taps",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:u"
+      "sort:u",
+      "dictation-safe"
     ]
   },
   {
     "text": "pup",
     "segs": "p.u.p",
     "unit": "EC14",
-    "pic": "one very young puppy standing alone with oversized paws and floppy ears",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:u"
+      "sort:u",
+      "dictation-safe"
     ]
   },
   {
@@ -316,12 +310,10 @@ export const words = [
     "text": "puff",
     "segs": "p.u.ff",
     "unit": "EC14",
-    "pic": "one soft white puff of steam rising from a kettle",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:u"
+      "sort:u",
+      "dictation-safe"
     ]
   }
 ] as const;

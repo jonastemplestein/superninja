@@ -1,0 +1,1759 @@
+{
+  "method": "Praat autocorrelation pitch, 10 ms intensity, Burg F1/F2; faster-whisper secondary",
+  "model": "tiny.en",
+  "clips": {
+    "a": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Ah.",
+        "metrics": {
+          "duration_ms": 312,
+          "active_ms": 230,
+          "voiced_ms": 120,
+          "longest_voiced_ms": 120,
+          "intensity": {
+            "median_dbfs": -21.3,
+            "rise_db": 0,
+            "rise_at_ms": 0,
+            "fall_db": 0,
+            "fall_at_ms": 0
+          },
+          "formants_hz": {
+            "early": [
+              1033,
+              1889
+            ],
+            "middle": [
+              1027,
+              1884
+            ],
+            "late": [
+              1054,
+              1907
+            ],
+            "f1_change": 21,
+            "f2_change": 18
+          }
+        },
+        "path": "public/a/p/a.mp3"
+      }
+    },
+    "i": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "F1 moves +1743 Hz: not a steady vowel"
+        ],
+        "whisper": "E.",
+        "metrics": {
+          "duration_ms": 270,
+          "active_ms": 190,
+          "voiced_ms": 130,
+          "longest_voiced_ms": 130,
+          "intensity": {
+            "median_dbfs": -18.9,
+            "rise_db": 0,
+            "rise_at_ms": 0,
+            "fall_db": 0,
+            "fall_at_ms": 0
+          },
+          "formants_hz": {
+            "early": [
+              305,
+              2754
+            ],
+            "middle": [
+              270,
+              2948
+            ],
+            "late": [
+              2048,
+              2883
+            ],
+            "f1_change": 1743,
+            "f2_change": 129
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/i.mp3"
+      }
+    },
+    "m": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Mm.",
+        "metrics": {
+          "duration_ms": 659,
+          "active_ms": 590,
+          "voiced_ms": 570,
+          "longest_voiced_ms": 570,
+          "intensity": {
+            "median_dbfs": -15.3,
+            "rise_db": 2.2,
+            "rise_at_ms": 450,
+            "fall_db": -2.7,
+            "fall_at_ms": 210
+          },
+          "formants_hz": {
+            "early": [
+              229,
+              1606
+            ],
+            "middle": [
+              226,
+              1624
+            ],
+            "late": [
+              490,
+              1813
+            ],
+            "f1_change": 261,
+            "f2_change": 207
+          }
+        },
+        "path": "public/a/p/m.mp3"
+      }
+    },
+    "s": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 783,
+          "active_ms": 710,
+          "voiced_ms": 20,
+          "longest_voiced_ms": 20,
+          "intensity": {
+            "median_dbfs": -20.7,
+            "rise_db": 2.4,
+            "rise_at_ms": 130,
+            "fall_db": -5.2,
+            "fall_at_ms": 580
+          },
+          "formants_hz": {
+            "early": [
+              1494,
+              2249
+            ],
+            "middle": [
+              1476,
+              2367
+            ],
+            "late": [
+              1489,
+              2638
+            ],
+            "f1_change": -5,
+            "f2_change": 389
+          }
+        },
+        "path": "public/a/p/s.mp3"
+      }
+    },
+    "t": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "stop/affricate is 420 ms (limit 120 ms)"
+        ],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 437,
+          "active_ms": 420,
+          "voiced_ms": 30,
+          "longest_voiced_ms": 30,
+          "intensity": {
+            "median_dbfs": -35.3,
+            "rise_db": 17.3,
+            "rise_at_ms": 300,
+            "fall_db": -4.2,
+            "fall_at_ms": 200
+          },
+          "formants_hz": {
+            "early": [
+              1661,
+              2723
+            ],
+            "middle": [
+              1473,
+              2683
+            ],
+            "late": [
+              1492,
+              2716
+            ],
+            "f1_change": -169,
+            "f2_change": -7
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/t.mp3"
+      }
+    },
+    "n": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Mmm.",
+        "metrics": {
+          "duration_ms": 591,
+          "active_ms": 490,
+          "voiced_ms": 490,
+          "longest_voiced_ms": 490,
+          "intensity": {
+            "median_dbfs": -14.8,
+            "rise_db": 0.9,
+            "rise_at_ms": 130,
+            "fall_db": -5.4,
+            "fall_at_ms": 290
+          },
+          "formants_hz": {
+            "early": [
+              263,
+              1973
+            ],
+            "middle": [
+              266,
+              1919
+            ],
+            "late": [
+              332,
+              1879
+            ],
+            "f1_change": 69,
+            "f2_change": -94
+          }
+        },
+        "path": "public/a/p/n.mp3"
+      }
+    },
+    "o": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "F2 moves +2221 Hz: diphthong rather than steady /o/",
+          "Whisper hears letter name 'Oh.'"
+        ],
+        "whisper": "Oh.",
+        "metrics": {
+          "duration_ms": 331,
+          "active_ms": 250,
+          "voiced_ms": 180,
+          "longest_voiced_ms": 180,
+          "intensity": {
+            "median_dbfs": -17.7,
+            "rise_db": -7.7,
+            "rise_at_ms": 130,
+            "fall_db": -7.7,
+            "fall_at_ms": 130
+          },
+          "formants_hz": {
+            "early": [
+              634,
+              990
+            ],
+            "middle": [
+              543,
+              929
+            ],
+            "late": [
+              920,
+              3211
+            ],
+            "f1_change": 286,
+            "f2_change": 2221
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/o.mp3"
+      }
+    },
+    "p": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "stop/affricate is 170 ms (limit 120 ms)"
+        ],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 251,
+          "active_ms": 170,
+          "voiced_ms": 30,
+          "longest_voiced_ms": 30,
+          "intensity": {
+            "median_dbfs": -22.7,
+            "rise_db": 0,
+            "rise_at_ms": 0,
+            "fall_db": 0,
+            "fall_at_ms": 0
+          },
+          "formants_hz": {
+            "early": [
+              1226,
+              2534
+            ],
+            "middle": [
+              1165,
+              2059
+            ],
+            "late": [
+              1182,
+              1956
+            ],
+            "f1_change": -44,
+            "f2_change": -578
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/p.mp3"
+      }
+    },
+    "b": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "stop/affricate is 330 ms (limit 120 ms)",
+          "310 ms voiced (limit 100 ms)",
+          "310 ms continuous voicing indicates a following vowel",
+          "Whisper hears letter name 'B.'"
+        ],
+        "whisper": "B.",
+        "metrics": {
+          "duration_ms": 433,
+          "active_ms": 330,
+          "voiced_ms": 310,
+          "longest_voiced_ms": 310,
+          "intensity": {
+            "median_dbfs": -17.9,
+            "rise_db": -2.3,
+            "rise_at_ms": 160,
+            "fall_db": -4.7,
+            "fall_at_ms": 180
+          },
+          "formants_hz": {
+            "early": [
+              421,
+              2586
+            ],
+            "middle": [
+              339,
+              3070
+            ],
+            "late": [
+              309,
+              3030
+            ],
+            "f1_change": -112,
+            "f2_change": 444
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/b.mp3"
+      }
+    },
+    "k": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "stop/affricate is 420 ms (limit 120 ms)",
+          "280 ms voiced (limit 60 ms)",
+          "280 ms continuous voicing indicates a following vowel"
+        ],
+        "whisper": "Okay.",
+        "metrics": {
+          "duration_ms": 473,
+          "active_ms": 420,
+          "voiced_ms": 280,
+          "longest_voiced_ms": 280,
+          "intensity": {
+            "median_dbfs": -20.3,
+            "rise_db": 1.2,
+            "rise_at_ms": 230,
+            "fall_db": -5.8,
+            "fall_at_ms": 270
+          },
+          "formants_hz": {
+            "early": [
+              771,
+              2196
+            ],
+            "middle": [
+              637,
+              2241
+            ],
+            "late": [
+              357,
+              2839
+            ],
+            "f1_change": -414,
+            "f2_change": 643
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/k.mp3"
+      }
+    },
+    "g": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "stop/affricate is 210 ms (limit 120 ms)",
+          "150 ms voiced (limit 100 ms)"
+        ],
+        "whisper": "Good.",
+        "metrics": {
+          "duration_ms": 315,
+          "active_ms": 210,
+          "voiced_ms": 150,
+          "longest_voiced_ms": 80,
+          "intensity": {
+            "median_dbfs": -18.3,
+            "rise_db": 0,
+            "rise_at_ms": 0,
+            "fall_db": 0,
+            "fall_at_ms": 0
+          },
+          "formants_hz": {
+            "early": [
+              227,
+              680
+            ],
+            "middle": [
+              465,
+              1803
+            ],
+            "late": [
+              356,
+              1779
+            ],
+            "f1_change": 129,
+            "f2_change": 1099
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/g.mp3"
+      }
+    },
+    "h": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "36.6 dB internal rise suggests a following vowel"
+        ],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 524,
+          "active_ms": 460,
+          "voiced_ms": 0,
+          "longest_voiced_ms": 0,
+          "intensity": {
+            "median_dbfs": -39.5,
+            "rise_db": 36.6,
+            "rise_at_ms": 290,
+            "fall_db": -2.7,
+            "fall_at_ms": 220
+          },
+          "formants_hz": {
+            "early": [
+              1462,
+              2824
+            ],
+            "middle": [
+              1143,
+              1977
+            ],
+            "late": [
+              1270,
+              1954
+            ],
+            "f1_change": -192,
+            "f2_change": -870
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/h.mp3"
+      }
+    },
+    "d": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "stop/affricate is 280 ms (limit 120 ms)",
+          "170 ms voiced (limit 100 ms)"
+        ],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 368,
+          "active_ms": 280,
+          "voiced_ms": 170,
+          "longest_voiced_ms": 90,
+          "intensity": {
+            "median_dbfs": -28.8,
+            "rise_db": 44.2,
+            "rise_at_ms": 160,
+            "fall_db": -0.1,
+            "fall_at_ms": 130
+          },
+          "formants_hz": {
+            "early": [
+              248,
+              2091
+            ],
+            "middle": [
+              1274,
+              2454
+            ],
+            "late": [
+              548,
+              2001
+            ],
+            "f1_change": 300,
+            "f2_change": -90
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/d.mp3"
+      }
+    },
+    "e": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Eh.",
+        "metrics": {
+          "duration_ms": 716,
+          "active_ms": 180,
+          "voiced_ms": 100,
+          "longest_voiced_ms": 100,
+          "intensity": {
+            "median_dbfs": -14.1,
+            "rise_db": 0,
+            "rise_at_ms": 0,
+            "fall_db": 0,
+            "fall_at_ms": 0
+          },
+          "formants_hz": {
+            "early": [
+              715,
+              2303
+            ],
+            "middle": [
+              707,
+              2387
+            ],
+            "late": [
+              890,
+              2552
+            ],
+            "f1_change": 175,
+            "f2_change": 249
+          }
+        },
+        "path": "public/a/p/e.mp3"
+      }
+    },
+    "f": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 672,
+          "active_ms": 650,
+          "voiced_ms": 0,
+          "longest_voiced_ms": 0,
+          "intensity": {
+            "median_dbfs": -20.9,
+            "rise_db": 0.0,
+            "rise_at_ms": 200,
+            "fall_db": -4.1,
+            "fall_at_ms": 450
+          },
+          "formants_hz": {
+            "early": [
+              1700,
+              2682
+            ],
+            "middle": [
+              1536,
+              2573
+            ],
+            "late": [
+              1440,
+              2286
+            ],
+            "f1_change": -260,
+            "f2_change": -396
+          }
+        },
+        "path": "public/a/p/f.mp3"
+      }
+    },
+    "v": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Mmm.",
+        "metrics": {
+          "duration_ms": 714,
+          "active_ms": 620,
+          "voiced_ms": 610,
+          "longest_voiced_ms": 610,
+          "intensity": {
+            "median_dbfs": -17.7,
+            "rise_db": 4.5,
+            "rise_at_ms": 130,
+            "fall_db": -5.1,
+            "fall_at_ms": 350
+          },
+          "formants_hz": {
+            "early": [
+              1280,
+              2668
+            ],
+            "middle": [
+              1359,
+              2971
+            ],
+            "late": [
+              1452,
+              2838
+            ],
+            "f1_change": 172,
+            "f2_change": 170
+          }
+        },
+        "path": "public/a/p/v.mp3"
+      }
+    },
+    "l": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "I don't know.",
+        "metrics": {
+          "duration_ms": 798,
+          "active_ms": 700,
+          "voiced_ms": 680,
+          "longest_voiced_ms": 680,
+          "intensity": {
+            "median_dbfs": -14.9,
+            "rise_db": 2.0,
+            "rise_at_ms": 450,
+            "fall_db": -1.0,
+            "fall_at_ms": 200
+          },
+          "formants_hz": {
+            "early": [
+              294,
+              1852
+            ],
+            "middle": [
+              345,
+              1795
+            ],
+            "late": [
+              365,
+              1741
+            ],
+            "f1_change": 71,
+            "f2_change": -111
+          }
+        },
+        "path": "public/a/p/l.mp3"
+      }
+    },
+    "r": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "F1/F2 rise +868/+1051 Hz indicates /r/ moving into a vowel"
+        ],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 684,
+          "active_ms": 610,
+          "voiced_ms": 590,
+          "longest_voiced_ms": 590,
+          "intensity": {
+            "median_dbfs": -15.7,
+            "rise_db": 1.5,
+            "rise_at_ms": 400,
+            "fall_db": -4.8,
+            "fall_at_ms": 470
+          },
+          "formants_hz": {
+            "early": [
+              437,
+              1329
+            ],
+            "middle": [
+              1263,
+              2122
+            ],
+            "late": [
+              1305,
+              2380
+            ],
+            "f1_change": 868,
+            "f2_change": 1051
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/r.mp3"
+      }
+    },
+    "u": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "F1/F2 1127/1566 Hz outside /u/ target 420\u2013980/850\u20132050",
+          "F1 moves +548 Hz: not a steady vowel"
+        ],
+        "whisper": "Ah.",
+        "metrics": {
+          "duration_ms": 509,
+          "active_ms": 410,
+          "voiced_ms": 170,
+          "longest_voiced_ms": 170,
+          "intensity": {
+            "median_dbfs": -25.0,
+            "rise_db": 0.2,
+            "rise_at_ms": 250,
+            "fall_db": -10.4,
+            "fall_at_ms": 180
+          },
+          "formants_hz": {
+            "early": [
+              751,
+              1392
+            ],
+            "middle": [
+              1127,
+              1566
+            ],
+            "late": [
+              1299,
+              1911
+            ],
+            "f1_change": 548,
+            "f2_change": 519
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/u.mp3"
+      }
+    },
+    "j": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "stop/affricate is 450 ms (limit 175 ms)",
+          "250 ms voiced (limit 100 ms)",
+          "160 ms continuous voicing indicates a following vowel"
+        ],
+        "whisper": "DJ.",
+        "metrics": {
+          "duration_ms": 518,
+          "active_ms": 450,
+          "voiced_ms": 250,
+          "longest_voiced_ms": 160,
+          "intensity": {
+            "median_dbfs": -18.4,
+            "rise_db": 10.9,
+            "rise_at_ms": 210,
+            "fall_db": -10.9,
+            "fall_at_ms": 140
+          },
+          "formants_hz": {
+            "early": [
+              351,
+              3148
+            ],
+            "middle": [
+              685,
+              2883
+            ],
+            "late": [
+              751,
+              2401
+            ],
+            "f1_change": 400,
+            "f2_change": -747
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/j.mp3"
+      }
+    },
+    "w": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "late F1 1215 Hz indicates an open vowel after /w/ (target wwoo)"
+        ],
+        "whisper": "Woo!",
+        "metrics": {
+          "duration_ms": 670,
+          "active_ms": 560,
+          "voiced_ms": 500,
+          "longest_voiced_ms": 440,
+          "intensity": {
+            "median_dbfs": -17.3,
+            "rise_db": 4.8,
+            "rise_at_ms": 130,
+            "fall_db": -11.0,
+            "fall_at_ms": 410
+          },
+          "formants_hz": {
+            "early": [
+              313,
+              1206
+            ],
+            "middle": [
+              453,
+              1263
+            ],
+            "late": [
+              1215,
+              1848
+            ],
+            "f1_change": 902,
+            "f2_change": 642
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/w.mp3"
+      }
+    },
+    "z": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Mm.",
+        "metrics": {
+          "duration_ms": 686,
+          "active_ms": 590,
+          "voiced_ms": 490,
+          "longest_voiced_ms": 490,
+          "intensity": {
+            "median_dbfs": -16.2,
+            "rise_db": 1.0,
+            "rise_at_ms": 320,
+            "fall_db": -5.6,
+            "fall_at_ms": 470
+          },
+          "formants_hz": {
+            "early": [
+              203,
+              1924
+            ],
+            "middle": [
+              231,
+              1853
+            ],
+            "late": [
+              222,
+              2003
+            ],
+            "f1_change": 19,
+            "f2_change": 79
+          }
+        },
+        "path": "public/a/p/z.mp3"
+      }
+    },
+    "ks": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "Whisper hears letter name 'X.'"
+        ],
+        "whisper": "X.",
+        "metrics": {
+          "duration_ms": 564,
+          "active_ms": 480,
+          "voiced_ms": 90,
+          "longest_voiced_ms": 90,
+          "intensity": {
+            "median_dbfs": -18.9,
+            "rise_db": 48.9,
+            "rise_at_ms": 270,
+            "fall_db": -29.7,
+            "fall_at_ms": 150
+          },
+          "formants_hz": {
+            "early": [
+              787,
+              2269
+            ],
+            "middle": [
+              1406,
+              1970
+            ],
+            "late": [
+              1617,
+              2716
+            ],
+            "f1_change": 830,
+            "f2_change": 447
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/ks.mp3"
+      }
+    },
+    "y": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Yee!",
+        "metrics": {
+          "duration_ms": 658,
+          "active_ms": 590,
+          "voiced_ms": 570,
+          "longest_voiced_ms": 570,
+          "intensity": {
+            "median_dbfs": -19.5,
+            "rise_db": 6.6,
+            "rise_at_ms": 190,
+            "fall_db": -3.9,
+            "fall_at_ms": 390
+          },
+          "formants_hz": {
+            "early": [
+              251,
+              2858
+            ],
+            "middle": [
+              352,
+              2935
+            ],
+            "late": [
+              322,
+              3105
+            ],
+            "f1_change": 71,
+            "f2_change": 247
+          }
+        },
+        "path": "public/a/p/y.mp3"
+      }
+    },
+    "sh": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Shh.",
+        "metrics": {
+          "duration_ms": 672,
+          "active_ms": 610,
+          "voiced_ms": 0,
+          "longest_voiced_ms": 0,
+          "intensity": {
+            "median_dbfs": -20.2,
+            "rise_db": 0.2,
+            "rise_at_ms": 150,
+            "fall_db": -4.0,
+            "fall_at_ms": 410
+          },
+          "formants_hz": {
+            "early": [
+              2263,
+              2979
+            ],
+            "middle": [
+              2219,
+              2942
+            ],
+            "late": [
+              2251,
+              2838
+            ],
+            "f1_change": -12,
+            "f2_change": -141
+          }
+        },
+        "path": "public/a/p/sh.mp3"
+      }
+    },
+    "ch": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "stop/affricate is 360 ms (limit 175 ms)"
+        ],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 446,
+          "active_ms": 360,
+          "voiced_ms": 0,
+          "longest_voiced_ms": 0,
+          "intensity": {
+            "median_dbfs": -36.3,
+            "rise_db": 1.4,
+            "rise_at_ms": 240,
+            "fall_db": -20.0,
+            "fall_at_ms": 170
+          },
+          "formants_hz": {
+            "early": [
+              2078,
+              3207
+            ],
+            "middle": [
+              2051,
+              2947
+            ],
+            "late": [
+              null,
+              null
+            ],
+            "f1_change": null,
+            "f2_change": null
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/ch.mp3"
+      }
+    },
+    "th": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 1129,
+          "active_ms": 1100,
+          "voiced_ms": 0,
+          "longest_voiced_ms": 0,
+          "intensity": {
+            "median_dbfs": -23.4,
+            "rise_db": 2.1,
+            "rise_at_ms": 970,
+            "fall_db": -4.7,
+            "fall_at_ms": 860
+          },
+          "formants_hz": {
+            "early": [
+              1452,
+              2302
+            ],
+            "middle": [
+              1404,
+              2172
+            ],
+            "late": [
+              1317,
+              2116
+            ],
+            "f1_change": -135,
+            "f2_change": -186
+          }
+        },
+        "path": "public/a/p/th.mp3"
+      }
+    },
+    "dh": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "The...",
+        "metrics": {
+          "duration_ms": 466,
+          "active_ms": 390,
+          "voiced_ms": 340,
+          "longest_voiced_ms": 340,
+          "intensity": {
+            "median_dbfs": -16.7,
+            "rise_db": 5.3,
+            "rise_at_ms": 270,
+            "fall_db": -2.9,
+            "fall_at_ms": 180
+          },
+          "formants_hz": {
+            "early": [
+              219,
+              2304
+            ],
+            "middle": [
+              2125,
+              3179
+            ],
+            "late": [
+              558,
+              1661
+            ],
+            "f1_change": 339,
+            "f2_change": -643
+          }
+        },
+        "path": "public/a/p/dh.mp3"
+      }
+    },
+    "ng": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "And...",
+        "metrics": {
+          "duration_ms": 491,
+          "active_ms": 360,
+          "voiced_ms": 340,
+          "longest_voiced_ms": 340,
+          "intensity": {
+            "median_dbfs": -14.3,
+            "rise_db": 0.9,
+            "rise_at_ms": 130,
+            "fall_db": -4.7,
+            "fall_at_ms": 210
+          },
+          "formants_hz": {
+            "early": [
+              252,
+              1819
+            ],
+            "middle": [
+              239,
+              1812
+            ],
+            "late": [
+              314,
+              1477
+            ],
+            "f1_change": 62,
+            "f2_change": -342
+          }
+        },
+        "path": "public/a/p/ng.mp3"
+      }
+    },
+    "kw": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "110 ms voicing in /kw/ pair"
+        ],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 292,
+          "active_ms": 210,
+          "voiced_ms": 110,
+          "longest_voiced_ms": 80,
+          "intensity": {
+            "median_dbfs": -22.3,
+            "rise_db": 0,
+            "rise_at_ms": 0,
+            "fall_db": 0,
+            "fall_at_ms": 0
+          },
+          "formants_hz": {
+            "early": [
+              1116,
+              1985
+            ],
+            "middle": [
+              1018,
+              1873
+            ],
+            "late": [
+              605,
+              1667
+            ],
+            "f1_change": -511,
+            "f2_change": -318
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/kw.mp3"
+      }
+    },
+    "ae": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "A.",
+        "metrics": {
+          "duration_ms": 531,
+          "active_ms": 450,
+          "voiced_ms": 390,
+          "longest_voiced_ms": 390,
+          "intensity": {
+            "median_dbfs": -17.7,
+            "rise_db": 0.8,
+            "rise_at_ms": 270,
+            "fall_db": -4.1,
+            "fall_at_ms": 210
+          },
+          "formants_hz": {
+            "early": [
+              810,
+              2343
+            ],
+            "middle": [
+              739,
+              2490
+            ],
+            "late": [
+              407,
+              2875
+            ],
+            "f1_change": -403,
+            "f2_change": 532
+          }
+        },
+        "path": "public/a/p/ae.mp3"
+      }
+    },
+    "ee": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "E.",
+        "metrics": {
+          "duration_ms": 700,
+          "active_ms": 590,
+          "voiced_ms": 570,
+          "longest_voiced_ms": 570,
+          "intensity": {
+            "median_dbfs": -15.8,
+            "rise_db": 1.7,
+            "rise_at_ms": 150,
+            "fall_db": -3.8,
+            "fall_at_ms": 470
+          },
+          "formants_hz": {
+            "early": [
+              284,
+              3295
+            ],
+            "middle": [
+              337,
+              3234
+            ],
+            "late": [
+              306,
+              3212
+            ],
+            "f1_change": 22,
+            "f2_change": -83
+          }
+        },
+        "path": "public/a/p/ee.mp3"
+      }
+    },
+    "ie": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Bye.",
+        "metrics": {
+          "duration_ms": 630,
+          "active_ms": 510,
+          "voiced_ms": 500,
+          "longest_voiced_ms": 500,
+          "intensity": {
+            "median_dbfs": -14.9,
+            "rise_db": -0.4,
+            "rise_at_ms": 140,
+            "fall_db": -5.0,
+            "fall_at_ms": 280
+          },
+          "formants_hz": {
+            "early": [
+              918,
+              1344
+            ],
+            "middle": [
+              922,
+              1444
+            ],
+            "late": [
+              663,
+              2407
+            ],
+            "f1_change": -255,
+            "f2_change": 1063
+          }
+        },
+        "path": "public/a/p/ie.mp3"
+      }
+    },
+    "oe": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Oh.",
+        "metrics": {
+          "duration_ms": 628,
+          "active_ms": 500,
+          "voiced_ms": 380,
+          "longest_voiced_ms": 380,
+          "intensity": {
+            "median_dbfs": -15.3,
+            "rise_db": -0.5,
+            "rise_at_ms": 220,
+            "fall_db": -12.7,
+            "fall_at_ms": 350
+          },
+          "formants_hz": {
+            "early": [
+              739,
+              1471
+            ],
+            "middle": [
+              481,
+              1124
+            ],
+            "late": [
+              864,
+              1151
+            ],
+            "f1_change": 125,
+            "f2_change": -320
+          }
+        },
+        "path": "public/a/p/oe.mp3"
+      }
+    },
+    "oo": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "F2 moves +927 Hz: diphthong rather than steady /oo/",
+          "F1 moves +405 Hz: not a steady vowel"
+        ],
+        "whisper": "Ooh.",
+        "metrics": {
+          "duration_ms": 639,
+          "active_ms": 520,
+          "voiced_ms": 340,
+          "longest_voiced_ms": 310,
+          "intensity": {
+            "median_dbfs": -18.2,
+            "rise_db": -0.7,
+            "rise_at_ms": 130,
+            "fall_db": -12.4,
+            "fall_at_ms": 310
+          },
+          "formants_hz": {
+            "early": [
+              357,
+              1100
+            ],
+            "middle": [
+              373,
+              869
+            ],
+            "late": [
+              762,
+              2027
+            ],
+            "f1_change": 405,
+            "f2_change": 927
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/oo.mp3"
+      }
+    },
+    "ar": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "R.",
+        "metrics": {
+          "duration_ms": 661,
+          "active_ms": 590,
+          "voiced_ms": 340,
+          "longest_voiced_ms": 340,
+          "intensity": {
+            "median_dbfs": -22.0,
+            "rise_db": 41.7,
+            "rise_at_ms": 180,
+            "fall_db": -5.4,
+            "fall_at_ms": 470
+          },
+          "formants_hz": {
+            "early": [
+              1050,
+              1353
+            ],
+            "middle": [
+              674,
+              1077
+            ],
+            "late": [
+              831,
+              1528
+            ],
+            "f1_change": -219,
+            "f2_change": 175
+          }
+        },
+        "path": "public/a/p/ar.mp3"
+      }
+    },
+    "or": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Or?",
+        "metrics": {
+          "duration_ms": 615,
+          "active_ms": 540,
+          "voiced_ms": 410,
+          "longest_voiced_ms": 390,
+          "intensity": {
+            "median_dbfs": -16.2,
+            "rise_db": 3.2,
+            "rise_at_ms": 360,
+            "fall_db": -10.0,
+            "fall_at_ms": 430
+          },
+          "formants_hz": {
+            "early": [
+              459,
+              754
+            ],
+            "middle": [
+              564,
+              1119
+            ],
+            "late": [
+              632,
+              1275
+            ],
+            "f1_change": 173,
+            "f2_change": 521
+          }
+        },
+        "path": "public/a/p/or.mp3"
+      }
+    },
+    "er": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Ah.",
+        "metrics": {
+          "duration_ms": 763,
+          "active_ms": 670,
+          "voiced_ms": 590,
+          "longest_voiced_ms": 590,
+          "intensity": {
+            "median_dbfs": -18.7,
+            "rise_db": 0.4,
+            "rise_at_ms": 550,
+            "fall_db": -2.3,
+            "fall_at_ms": 220
+          },
+          "formants_hz": {
+            "early": [
+              741,
+              1703
+            ],
+            "middle": [
+              695,
+              1509
+            ],
+            "late": [
+              654,
+              1492
+            ],
+            "f1_change": -87,
+            "f2_change": -211
+          }
+        },
+        "path": "public/a/p/er.mp3"
+      }
+    },
+    "ou": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "F2 fall +1313 Hz is too small for /ou/"
+        ],
+        "whisper": "Ow.",
+        "metrics": {
+          "duration_ms": 723,
+          "active_ms": 640,
+          "voiced_ms": 500,
+          "longest_voiced_ms": 500,
+          "intensity": {
+            "median_dbfs": -15.5,
+            "rise_db": 1.0,
+            "rise_at_ms": 310,
+            "fall_db": -7.9,
+            "fall_at_ms": 500
+          },
+          "formants_hz": {
+            "early": [
+              857,
+              1411
+            ],
+            "middle": [
+              649,
+              970
+            ],
+            "late": [
+              991,
+              2724
+            ],
+            "f1_change": 134,
+            "f2_change": 1313
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/ou.mp3"
+      }
+    },
+    "oy": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Oi!",
+        "metrics": {
+          "duration_ms": 720,
+          "active_ms": 600,
+          "voiced_ms": 330,
+          "longest_voiced_ms": 190,
+          "intensity": {
+            "median_dbfs": -25.4,
+            "rise_db": 1.1,
+            "rise_at_ms": 420,
+            "fall_db": -8.1,
+            "fall_at_ms": 280
+          },
+          "formants_hz": {
+            "early": [
+              666,
+              1247
+            ],
+            "middle": [
+              506,
+              2594
+            ],
+            "late": [
+              945,
+              2578
+            ],
+            "f1_change": 279,
+            "f2_change": 1331
+          }
+        },
+        "path": "public/a/p/oy.mp3"
+      }
+    },
+    "ue": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "You.",
+        "metrics": {
+          "duration_ms": 605,
+          "active_ms": 520,
+          "voiced_ms": 440,
+          "longest_voiced_ms": 440,
+          "intensity": {
+            "median_dbfs": -19.9,
+            "rise_db": 7.3,
+            "rise_at_ms": 180,
+            "fall_db": -6.1,
+            "fall_at_ms": 330
+          },
+          "formants_hz": {
+            "early": [
+              255,
+              2833
+            ],
+            "middle": [
+              349,
+              2509
+            ],
+            "late": [
+              323,
+              1367
+            ],
+            "f1_change": 68,
+            "f2_change": -1466
+          }
+        },
+        "path": "public/a/p/ue.mp3"
+      }
+    },
+    "uu": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Oh.",
+        "metrics": {
+          "duration_ms": 305,
+          "active_ms": 210,
+          "voiced_ms": 170,
+          "longest_voiced_ms": 170,
+          "intensity": {
+            "median_dbfs": -16.8,
+            "rise_db": 0,
+            "rise_at_ms": 0,
+            "fall_db": 0,
+            "fall_at_ms": 0
+          },
+          "formants_hz": {
+            "early": [
+              431,
+              1196
+            ],
+            "middle": [
+              365,
+              1140
+            ],
+            "late": [
+              332,
+              1081
+            ],
+            "f1_change": -99,
+            "f2_change": -115
+          }
+        },
+        "path": "public/a/p/uu.mp3"
+      }
+    },
+    "air": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Ah.",
+        "metrics": {
+          "duration_ms": 517,
+          "active_ms": 420,
+          "voiced_ms": 310,
+          "longest_voiced_ms": 230,
+          "intensity": {
+            "median_dbfs": -16.2,
+            "rise_db": 0.9,
+            "rise_at_ms": 310,
+            "fall_db": -5.8,
+            "fall_at_ms": 240
+          },
+          "formants_hz": {
+            "early": [
+              915,
+              2229
+            ],
+            "middle": [
+              884,
+              2115
+            ],
+            "late": [
+              867,
+              2101
+            ],
+            "f1_change": -48,
+            "f2_change": -128
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/air.mp3"
+      }
+    },
+    "eer": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "Yeah.",
+        "metrics": {
+          "duration_ms": 518,
+          "active_ms": 430,
+          "voiced_ms": 250,
+          "longest_voiced_ms": 250,
+          "intensity": {
+            "median_dbfs": -17.8,
+            "rise_db": 0.4,
+            "rise_at_ms": 140,
+            "fall_db": -7.2,
+            "fall_at_ms": 260
+          },
+          "formants_hz": {
+            "early": [
+              340,
+              2853
+            ],
+            "middle": [
+              556,
+              2225
+            ],
+            "late": [
+              785,
+              1760
+            ],
+            "f1_change": 445,
+            "f2_change": -1093
+          }
+        },
+        "path": "public/a/p/eer.mp3"
+      }
+    },
+    "zh": {
+      "after": {
+        "verdict": "PASS",
+        "reasons": [],
+        "whisper": "",
+        "metrics": {
+          "duration_ms": 794,
+          "active_ms": 710,
+          "voiced_ms": 710,
+          "longest_voiced_ms": 710,
+          "intensity": {
+            "median_dbfs": -16.5,
+            "rise_db": 1.6,
+            "rise_at_ms": 130,
+            "fall_db": -2.1,
+            "fall_at_ms": 350
+          },
+          "formants_hz": {
+            "early": [
+              2442,
+              3503
+            ],
+            "middle": [
+              2250,
+              3236
+            ],
+            "late": [
+              2319,
+              3487
+            ],
+            "f1_change": -123,
+            "f2_change": -16
+          }
+        },
+        "path": "public/a/p/zh.mp3"
+      }
+    },
+    "schwa": {
+      "after": {
+        "verdict": "FAIL",
+        "reasons": [
+          "F2 moves +726 Hz: diphthong rather than steady /schwa/",
+          "F1 moves +431 Hz: not a steady vowel"
+        ],
+        "whisper": "Ah.",
+        "metrics": {
+          "duration_ms": 473,
+          "active_ms": 390,
+          "voiced_ms": 170,
+          "longest_voiced_ms": 170,
+          "intensity": {
+            "median_dbfs": -23.3,
+            "rise_db": 0.2,
+            "rise_at_ms": 130,
+            "fall_db": -9.8,
+            "fall_at_ms": 220
+          },
+          "formants_hz": {
+            "early": [
+              610,
+              1496
+            ],
+            "middle": [
+              658,
+              1648
+            ],
+            "late": [
+              1041,
+              2222
+            ],
+            "f1_change": 431,
+            "f2_change": 726
+          }
+        },
+        "path": ".trash/phonemes-2026-09-26/schwa.mp3"
+      }
+    }
+  }
+}

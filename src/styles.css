@@ -302,6 +302,15 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
 
 /* gems */
 .gem-ready { animation: gemready 1s ease-in-out infinite; }
+/* a charging gem's energy: its surface rocks gently (the wave is 40 units long, so sliding by 40 loops seamlessly) */
+.gem-liquid { animation: gem-slosh 2.6s linear infinite; }
+@keyframes gem-slosh { from { translate: 0 0; } to { translate: -40px 0; } }
+/* the reward names one gem ("Look, this gem has filled a little more."): it lifts and pulses, the others dim */
+.reward-gems > div { transition: opacity 0.35s, filter 0.35s, translate 0.35s, scale 0.35s; }
+.reward-gems.focusing > div { opacity: 0.4; filter: saturate(0.5); }
+.reward-gems.focusing > div.rw-gem-focus { opacity: 1; filter: none; translate: 0 -14px; scale: 1.18; }
+.reward-gems.focusing > div.rw-gem-focus > div { animation: rw-gem-pulse 0.9s ease-in-out infinite; }
+@keyframes rw-gem-pulse { 0%, 100% { scale: 1; filter: drop-shadow(0 0 0 rgba(255, 244, 220, 0)); } 50% { scale: 1.08; filter: drop-shadow(0 0 14px rgba(255, 244, 220, 0.95)); } }
 @keyframes gemready { 0%, 100% { translate: 0 0; filter: drop-shadow(0 0 0 rgba(255,197,61,0)); } 50% { translate: 0 -6px; filter: drop-shadow(0 0 16px rgba(255,197,61,.95)); } }
 .gem-sparkle { position: absolute; right: 8%; top: 6%; width: 22%; height: 22%; pointer-events: none;
   background: radial-gradient(circle, #fff 0 18%, transparent 20%), conic-gradient(from 0deg, transparent 0 20deg, #fff 22deg 26deg, transparent 28deg 110deg, #fff 112deg 116deg, transparent 118deg 200deg, #fff 202deg 206deg, transparent 208deg 290deg, #fff 292deg 296deg, transparent 298deg);

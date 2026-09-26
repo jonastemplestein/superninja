@@ -14,6 +14,8 @@ import { PIC_NAMES } from "./pic-names";
 import { TEACH_EXAMPLES } from "./teach-lines.gen";
 
 const HAS = new Set(LINES.map((l) => l.id));
+/** "This is a spelling of the sound..." (wf_spelling_of: re-recorded, the older take ends in a stray /k/) */
+const SPELLING_OF = HAS.has("wf_spelling_of") ? "wf_spelling_of" : "t_spelling_of";
 /** a clip, or nothing if it hasn't been recorded yet (so new wording can ship before its audio) */
 const L = (id: string): Say[] => (HAS.has(id) ? [{ line: id }] : []);
 const S = (p: PhonemeId): Say => ({ sound: p });
@@ -91,7 +93,20 @@ export interface Explanation {
   say: Say[];
   /** the words to show while it plays, each with the spelling to highlight */
   show: { word: Word; highlight: { g: string; p: PhonemeId } }[];
+  /** the same speech in labelled parts, so a scene can time its pictures to them (`say` is all of them in order) */
+  beats?: Beat[];
 }
+/** One part of an explanation or a trip to the World Flower. `cue` tells the scene what to show while it plays. */
+export interface Beat {
+  cue: string;
+  say: Say[];
+  /** words to show during this part */
+  show?: Explanation["show"];
+  /** the sound (petal) or gem this part is about */
+  p?: PhonemeId;
+  gem?: string;
+}
+const flat = (beats: Beat[]): Say[] => beats.flatMap((b, i) => (i && b.say.length ? [G(350), ...b.say] : b.say));
 const shown = (words: Word[], g: string | null, p: PhonemeId): Explanation["show"] =>
   words.map((w) => ({ word: w, highlight: { g: g ?? w.segs[soundAt(w, p)]?.g ?? "", p } }));
 
@@ -103,6 +118,12 @@ const canon = (key: string): Word[] | null => {
 };
 /** a recorded sentence if there is one, else the spliced fallback */
 const clip = (id: string, fallback: Say[]): Say[] => (HAS.has(id) ? [{ line: id }] : fallback);
+
+/** The example words Sensei uses for a sound or one of its spellings, to show before she speaks (no rotation). */
+export function exampleWords(p: PhonemeId, g?: string | null, met?: Set<string>): Explanation["show"] {
+  const ex = g ? canon(`gem:${g}>${p}`) ?? examplesFor(g, p, { n: 3, met }) : canon(`petal:${p}`) ?? soundExamples(p, { n: 3, met });
+  return shown(ex, g ?? null, p);
+}
 
 // ---------------------------------------------------------------- moments
 /** Introduce a sound (a petal). */
@@ -120,44 +141,61 @@ export function introPetal(p: PhonemeId, ctx: { met?: Set<string> } = {}): Expla
 
 /** Introduce a spelling (a gem). `knownWays`: how many spellings of this sound the child now knows (for "Now you know
  *  three ways to spell /ae/"). `another`: the child already knew another spelling of this sound. */
-export function introGem(gem: Pick<Gem, "g" | "p">, ctx: { met?: Set<string>; knownWays?: number; another?: boolean } = {}): Explanation {
+export function introGem(gem: Pick<Gem, "g" | "p">, ctx: { met?: Set<string>; knownWays?: number; another?: boolean; phrasing?: "way" } = {}): Explanation {
   const { g, p } = gem;
-  const k = safe(`${g}>${p}`);
-  const ex = canon(`gem:${g}>${p}`) ?? examplesFor(g, p, { n: 3, met: ctx.met });
+  const key = `${g}>${p}`;
+  const k = safe(key);
+  const ex = canon(`gem:${key}`) ?? examplesFor(g, p, { n: 3, met: ctx.met });
   const [first, ...rest] = ex;
-  const facts = [...lettersLine(gem), ...doubleNote(g)];
-  const factsSay = facts.length ? [G(350), ...facts.flatMap((f, i) => (i ? [G(250), f] : [f]))] : [];
-  const ways = ctx.knownWays && ctx.knownWays >= 2 ? [G(450), ...L(`t_ways_${Math.min(10, ctx.knownWays)}`), G(100), S(p), { gap: 1 } as Say] : [];
+  const facts: Say[][] = [lettersLine(gem), doubleNote(g)].filter((f) => f.length);
+  // a long spelling for one sound: the child says the sound while looking at it ("Say that sound with me!"),
+  // the Sounds~Write "This is /ie/. Say /ie/ here." routine (NARRATIVE_AUDIT F21)
+  if (letters(g) >= 3 && !(g === "x" && p === "ks")) facts.push([...L("t_everyone_say"), G(250), S(p)]);
+  const factsSay = facts.length ? [G(350), ...facts.flatMap((f, i) => (i ? [G(250), ...f] : f))] : [];
+  const ways = waysLine(p, ctx.knownWays);
+  const beats = (main: Say[]): Beat[] => [{ cue: "explain", say: main, show: shown(ex, g, p), gem: key, p }, ...(ways.length ? [{ cue: "ways", say: ways, gem: key, p }] : [])];
   if (!first) {
     // no example words yet (a spelling taught later): the spelling and its facts only
-    return { say: [...L("t_spelling_of"), G(100), S(p), ...factsSay, ...ways], show: [] };
+    const b = beats([...L(SPELLING_OF), G(100), S(p), ...factsSay]);
+    return { say: flat(b), show: [], beats: b };
   }
   const variants: Say[][] = [
     // "This is the way we spell /ae/ in rain." + facts + "We see this spelling in play and paint."
     [...L("t_way_we_spell"), G(100), S(p), G(80), ...clip(`tg_${k}_in`, [...L("t_in"), G(60), W(first)]), ...factsSay,
-      ...(rest.length ? [G(400), ...clip(`tg_${k}_see`, [...L("t_we_see_it_in"), G(100), ...list(rest)])] : []), ...ways],
+      ...(rest.length ? [G(400), ...clip(`tg_${k}_see`, [...L("t_we_see_it_in"), G(100), ...list(rest)])] : [])],
     // "This is a spelling of the sound /ae/." + facts + "…like in rain, play and paint."
-    [...L("t_spelling_of"), G(100), S(p), ...factsSay, G(300), ...clip(`tg_${k}_like`, [...L("t_like_in"), G(80), ...list(ex)]), ...ways],
+    [...L(SPELLING_OF), G(100), S(p), ...factsSay, G(300), ...clip(`tg_${k}_like`, [...L("t_like_in"), G(80), ...list(ex)])],
   ];
-  if (ctx.another) variants.push([...L("t_another_way"), G(100), S(p), ...factsSay, G(300), ...clip(`tg_${k}_like`, [...L("t_like_in"), G(80), ...list(ex)]), ...ways]);
-  return { say: pick("gem", `${g}>${p}`, variants), show: shown(ex, g, p) };
+  // a spelling of a sound the child already knows: "This is another way to spell the sound /ae/" comes first
+  if (ctx.another) variants.unshift([...L("t_another_way"), G(100), S(p), ...factsSay, G(300), ...clip(`tg_${k}_like`, [...L("t_like_in"), G(80), ...list(ex)])]);
+  // `phrasing: "way"`: always "This is the way we spell /ae/ in rain…" (when the line before has already said the rest)
+  const b = beats(ctx.phrasing === "way" ? variants[ctx.another ? 1 : 0] : pick("gem", key, variants));
+  return { say: flat(b), show: shown(ex, g, p), beats: b };
+}
+/** "Now you know three ways to spell /ae/." (from two ways on) */
+function waysLine(p: PhonemeId, n?: number): Say[] {
+  return n && n >= 2 ? [...L(`t_ways_${Math.min(10, n)}`), G(100), S(p), { gap: 1 } as Say] : [];
 }
 
 /** "Different spellings of /ae/… but it's the same sound!" then one example word for each spelling the child knows. */
 export function sameSound(p: PhonemeId, knownGems: Pick<Gem, "g" | "p">[], ctx: { met?: Set<string> } = {}): Explanation {
-  const ex = knownGems.map((gm) => examplesFor(gm.g, p, { n: 1, met: ctx.met })[0]).filter(Boolean);
+  // one example word per spelling (a spelling with no word yet is left out, and <x>, which spells two sounds)
+  const pairs = knownGems.filter((gm) => gm.g !== "x").map((gm) => ({ g: gm.g, w: examplesFor(gm.g, p, { n: 1, met: ctx.met })[0] })).filter((x) => !!x.w);
+  const ex = pairs.map((x) => x.w);
   const say = pick("same", p, [
     [...L("t_diff_spellings_of"), G(80), S(p), G(80), ...L("t_same_sound"), G(450), ...list(ex)],
     [...L("t_lets_remember"), G(100), S(p), G(350), ...list(ex), G(450), ...L("t_diff_spellings_of"), G(80), S(p), G(80), ...L("t_same_sound")],
   ]);
-  return { say, show: ex.map((w, i) => ({ word: w, highlight: { g: knownGems[i]?.g ?? "", p } })) };
+  return { say, show: pairs.map(({ g, w }) => ({ word: w, highlight: { g, p } })) };
 }
 
 /** One spelling, different sounds (Extended Code): "The same spelling can sometimes be /o/ and sometimes /oe/." */
 export function sameSpelling(g: string, a: PhonemeId, b: PhonemeId, ctx: { met?: Set<string> } = {}): Explanation {
   const wa = examplesFor(g, a, { n: 1, met: ctx.met });
   const wb = examplesFor(g, b, { n: 1, met: ctx.met });
-  const say = [...L("t_same_spelling_sometimes"), G(80), S(a), G(80), ...wa.map(W), G(300), ...L("t_and_sometimes"), G(80), S(b), G(80), ...wb.map(W)];
+  // "The same spelling can sometimes be /th/ in moth, and sometimes /dh/ in this."
+  const inW = (w: Word[]) => (w.length ? [G(60), ...L("t_in"), G(40), W(w[0])] : []);
+  const say = [...L("t_same_spelling_sometimes"), G(80), S(a), ...inW(wa), G(350), ...L("t_and_sometimes"), G(80), S(b), ...inW(wb)];
   return { say, show: [...shown(wa, g, a), ...shown(wb, g, b)] };
 }
 
@@ -185,7 +223,107 @@ export function revisitIntro(key = "any"): Say[] {
 /** A newly won gem flies into its petal: "Your new gem goes right here!" + the gem's explanation, counting the ways. */
 export function newGem(gem: Pick<Gem, "g" | "p">, ctx: { met?: Set<string>; knownWays: number }): Explanation {
   const e = introGem(gem, { ...ctx, another: ctx.knownWays > 1 });
-  return { say: [...L("t_new_gem_here"), G(400), ...e.say], show: e.show };
+  // (wf_new_gem_here: the same words re-recorded in Sensei's British voice; t_new_gem_here came out American)
+  const beats: Beat[] = [{ cue: "here", say: HAS.has("wf_new_gem_here") ? L("wf_new_gem_here") : L("t_new_gem_here"), gem: `${gem.g}>${gem.p}`, p: gem.p }, ...(e.beats ?? [])];
+  return { say: flat(beats), show: e.show, beats };
+}
+
+// ---------------------------------------------------------------- trips to the World Flower (src/scenes/Tree.tsx, Intros.tsx)
+// What Sensei says when the game brings the child to the World Flower (engine/gems.ts FlowerVisit says when). Each
+// script is a list of beats; the scene shows the matching picture for each cue while its speech plays.
+
+/** A gem won in its Gem Trial: the victory sequence. Cues: won → (the gem flies home, music only) → here, explain,
+ *  ways → petal-home (its petal is complete and flies back onto the World Flower) → flower-done. */
+export function victoryScript(gem: Pick<Gem, "g" | "p">, ctx: { met?: Set<string>; knownWays: number; petalDone: boolean; flowerDone: boolean }): Beat[] {
+  const key = `${gem.g}>${gem.p}`;
+  return [
+    { cue: "won", say: L("trial_win"), gem: key, p: gem.p },
+    ...(newGem(gem, ctx).beats ?? []),
+    ...(ctx.petalDone ? [{ cue: "petal-home", say: L("petal_complete"), p: gem.p, gem: key }] : []),
+    ...(ctx.flowerDone ? [{ cue: "flower-done", say: L("flower_complete") }] : []),
+  ];
+}
+
+/** Spellings met for the first time in a level: each gem appears in its petal. A new sound is announced as a sound
+ *  ("You found a new sound!"); a new spelling of a known sound as a gem in that sound's petal, then "another way to
+ *  spell", the number of ways, and, when the spelling also spells a sound the child knows, "the same spelling can
+ *  sometimes be…". Cues per gem: found → explain → ways → same-spelling. Several gems in one level get the short
+ *  form after the first, so the trip stays short. */
+export function foundScript(
+  gems: { gem: Pick<Gem, "g" | "p">; newSound: boolean; knownWays: number; others: PhonemeId[] }[],
+  ctx: { met?: Set<string> } = {},
+): Beat[] {
+  const out: Beat[] = [];
+  gems.forEach(({ gem, newSound, knownWays, others }, i) => {
+    const key = `${gem.g}>${gem.p}`;
+    // a new spelling of a sound the child knows: "Ooh! You already know this sound. Here's another way to spell it!
+    // Same sound, different spelling." (one whole recording), then "This is the way we spell /ae/ in tray…"
+    const lead = newSound ? (i === 0 ? L("wf_found_sound") : []) : HAS.has("same_sound_new") ? L("same_sound_new") : [...L("wf_found_gem"), G(100), S(gem.p)];
+    if (lead.length) out.push({ cue: "found", say: lead, gem: key, p: gem.p });
+    if (i > 0 && gems.length > 2) {
+      // the third gem of a level and on: just "This is the way we spell /h/ in hat."
+      const ex = canon(`gem:${key}`) ?? examplesFor(gem.g, gem.p, { n: 1, met: ctx.met });
+      const k = safe(key);
+      out.push({ cue: "explain", say: [...L("t_way_we_spell"), G(100), S(gem.p), G(80), ...(ex[0] ? clip(`tg_${k}_in`, [...L("t_in"), G(60), W(ex[0])]) : [])], show: shown(ex.slice(0, 1), gem.g, gem.p), gem: key, p: gem.p });
+      return;
+    }
+    const e = introGem(gem, { met: ctx.met, knownWays, phrasing: "way" });
+    out.push(...(e.beats ?? []));
+    for (const o of others) out.push({ ...twoSounds(gem.g, o, gem.p, ctx), cue: "same-spelling", gem: key });
+  });
+  return out;
+}
+
+/** The start of a new land. Cues: visit (the flower) → petals (every shining petal lights in turn) → recap (one
+ *  sound re-explained, rotating between "same sound, different spellings", "do you remember this one?" and "the same
+ *  spelling can sometimes be…", always with fresh examples) → hidden (the petals still in the mist here shimmer). */
+export function worldScript(
+  ctx: { multi: { p: PhonemeId; gems: Pick<Gem, "g" | "p">[] }[]; recent: PhonemeId[]; twoSounds: { g: string; a: PhonemeId; b: PhonemeId }[]; met?: Set<string>; hidden: number },
+): Beat[] {
+  const recaps: (() => Beat | null)[] = [];
+  if (ctx.multi.length) {
+    recaps.push(() => {
+      const m = pick("world-same", "any", ctx.multi);
+      const e = sameSound(m.p, m.gems, { met: ctx.met });
+      return { cue: "recap", say: e.say, show: e.show, p: m.p };
+    });
+  }
+  if (ctx.recent.length) {
+    recaps.push(() => {
+      const p = pick("world-recent", "any", ctx.recent);
+      const e = introPetal(p, { met: ctx.met });
+      return { cue: "recap", say: [...L("t_remember_this"), G(350), ...e.say], show: e.show, p };
+    });
+  }
+  if (ctx.twoSounds.length) {
+    recaps.push(() => {
+      const t = pick("world-two", "any", ctx.twoSounds);
+      return { ...twoSounds(t.g, t.a, t.b, { met: ctx.met }), cue: "recap" };
+    });
+  }
+  const recap = recaps.length ? pick("world-recap", "any", recaps)() : null;
+  return [
+    { cue: "visit", say: revisitIntro("world") },
+    { cue: "petals", say: L("wf_petals_you_know") },
+    ...(recap ? [recap] : []),
+    ...(ctx.hidden ? [{ cue: "hidden", say: L("wf_world_new") }] : []),
+  ];
+}
+
+/** One spelling, two sounds the child knows, in turn: "The same spelling can sometimes be /th/, thin, and sometimes
+ *  /dh/, this." or, with a word on screen, "This can be /th/, but in this word, it's /dh/. This." */
+function twoSounds(g: string, a: PhonemeId, b: PhonemeId, ctx: { met?: Set<string> }): Beat {
+  const w = examplesFor(g, b, { n: 1, met: ctx.met })[0];
+  const same = sameSpelling(g, a, b, ctx);
+  const variants: Beat[] = [{ cue: "", say: same.say, show: same.show, p: b }];
+  if (w) variants.push({ cue: "", say: [...canBe(a, b), G(300), W(w)], show: shown([w], g, b), p: b });
+  return pick("two-sounds", `${g}:${a}:${b}`, variants);
+}
+
+/** Back from a practice dojo: the gem's energy fills up. Cues: practised (the bar fills) → ready (it glows). */
+export function practisedScript(gem: Pick<Gem, "g" | "p">, ready: boolean): Beat[] {
+  const key = `${gem.g}>${gem.p}`;
+  return [{ cue: "practised", say: L("wf_practised"), gem: key, p: gem.p }, ...(ready ? [{ cue: "ready", say: L("gem_ready"), gem: key, p: gem.p }] : [])];
 }
 
 // ---------------------------------------------------------------- for grown-ups (text; shown on the flower and in the grown-ups area)

@@ -7,6 +7,9 @@
 // word has been blended, so a tier-up's shout comes after the child hears their word. A tier-up or a lost streak makes
 // the ninja say a line; the scene stays quiet until it has (see streakLineSaid).
 // Nothing ever covers the new letter or the new picture: their sparkles burst out from BEHIND them (Halo).
+// Explanations (docs/NARRATIVE_AUDIT.md, ./narrate.tsx): the right sound picked, Sensei names its place ("Yes, the
+// first sound changes!"), spaced per save; a fixed word can bring a spaced "two letters, one sound" reminder about its
+// new spelling, with that spelling lit; the first fixed word of a save shows its gem filling up.
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import type { LevelProps } from "../App";
 import type { Word } from "../content/phonics";
@@ -17,10 +20,13 @@ import { FAST } from "../engine/fast";
 import { swapChain, shuffle } from "../engine/learner";
 import { WORD_BY_TEXT, GRAPHEMES } from "../content/phonics";
 import { recordRead, recordSpell } from "../engine/store";
-import { streak, TIER_AT, type StreakEvent } from "../engine/streak";
+import { streak, tierLineId, type StreakEvent } from "../engine/streak";
 import { SenseiDock, Tile, img, RoundButton, Icon, Progress, fx, stageRect, sleep, useHelp, useBaronOnScreen, WordCard } from "../ui/ui";
 import { NinjaSpot, ninja, type Move } from "../ui/Ninja";
 import { pickPraise, correction } from "../engine/feedback";
+import { positionName, SWAP_POSITION_LINE } from "../content/narrative";
+import { NarrOverlay, beginLevel, explainGemEnergy, heard, isDue, lettersReminder, twoSoundsReminder } from "./narrate";
+import { useLessonClock } from "../engine/lessonClock";
 import "../styles/swap.css";
 
 function fixedChain(ws: string[]) {
@@ -126,7 +132,7 @@ const VOWELS = ["a", "e", "i", "o", "u", "ai", "ay", "ee", "ea", "igh", "ie", "o
  *  it has to be listening before the line starts. Resolves true if the line was said. */
 function streakLineSaid(e: StreakEvent | null): Promise<boolean> {
   if (!e) return Promise.resolve(false);
-  const id = e.tierUp ? `streak_${TIER_AT[e.tier]}` : e.type === "miss" && e.prevN >= 3 ? "streak_lost" : null;
+  const id = e.tierUp ? tierLineId(e.tier) : e.type === "miss" && e.prevN >= 3 ? "streak_lost" : null;
   const text = id && ninja.mounted ? LINES.find((l) => l.id === id)?.text : undefined;
   if (!text) return Promise.resolve(false);
   hush(); // the child has acted, so whatever was being said is moot, and the line needs a quiet moment
@@ -175,8 +181,10 @@ function ninjaSettled(max = 2400): Promise<void> {
 }
 
 export function Swap({ level, onDone, onQuit }: LevelProps) {
+  useState(() => beginLevel(level)); // (during the first render)
   const world = worldOf(level);
   const [chain] = useState(() => (level.chain ? fixedChain(level.chain) : pictureChain(level)));
+  const timeUp = useLessonClock(level);
   const early = !!level.chain;
   const [step, setStep] = useState(0);
   /** the sound the child picked to change (only ever the right one) */
@@ -301,6 +309,17 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
     });
   };
 
+  /** "Now pick the new sound." Where the child can use the name of the sound's place, Sensei says it first ("Yes, the
+   *  last sound changes! Now pick the new sound."): each place in up to three levels (first, middle, last are
+   *  explained in the warm-ups and early lessons; this is their practice in use). */
+  const sayPick = async () => {
+    const name = s ? positionName(s.pos, s.from.segs.length) : null;
+    const key = name ? `position:${name}` : null;
+    if (!name || !key || !isDue(key, "concept")) return void say({ line: "swap_pick" });
+    heard(key); // (counted as soon as it starts: a quick child taps the new sound over it, and has used the idea)
+    void say({ line: SWAP_POSITION_LINE[name] });
+  };
+
   const tapPos = async (i: number, el: HTMLElement) => {
     if (busy || !s || picked !== null) return;
     if (i === s.pos) {
@@ -323,7 +342,7 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
       setKnocked(true);
       sfx.whoosh();
       // "Now pick the new sound." as the choices land, so the words come with the tiles they are about
-      if (!tierUp) window.setTimeout(() => alive.current && lock.current === null && void say({ line: "swap_pick" }), 350);
+      if (!tierUp) window.setTimeout(() => alive.current && lock.current === null && void sayPick(), 350);
       if (tierUp) {
         // this kick powered the ninja up: the choices spring in while the power-up plays and the ninja shouts about it.
         // A spell now would cut the power-up short, so a choice tapped meanwhile is kept (it glows: "got it") and cast
@@ -346,7 +365,7 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
         lock.current = null;
         lineWait.current = null;
         setBusy(false);
-        void say({ line: "swap_pick" });
+        void sayPick();
       }
     } else {
       misses.current++;
@@ -442,6 +461,16 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
       if (!alive.current) return;
       await sayBlend(s.to.segs, s.to.text, setLit);
       if (!alive.current) return;
+      // a spaced reminder about the new spelling (or another of the word's), with it lit: "It's two letters, but
+      // it's one sound." (narrate.tsx says when one is due)
+      const seg = s.to.segs[s.pos];
+      const own = twoSoundsReminder([seg]) ?? lettersReminder([seg]);
+      const remind = own ? { ...own, i: s.pos } : (twoSoundsReminder(s.to.segs) ?? lettersReminder(s.to.segs));
+      if (remind) {
+        setLit(remind.i);
+        if (await say([{ gap: 200 }, ...remind.say])) remind.done();
+        if (!alive.current) return;
+      }
       setLit(-1);
       sfx.good();
       // the word is fixed, and heard: now it counts. A tier-up's power-up and shout ("Super ninja streak!") are the praise,
@@ -452,7 +481,7 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
         await ninjaSettled(1800);
         if (!alive.current) return;
       }
-      const last = step + 1 >= chain.length;
+      const last = step + 1 >= chain.length || timeUp(); // (a cut lesson ends after this word when its time is up)
       // the last word: a big move sends Baron packing, then the ninja celebrates
       const bonk = bonkBaron(last);
       const cheered = await lineSaid;
@@ -468,6 +497,9 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
         return;
       }
       await (cheered ? Promise.race([bonk, sleep(900)]) : say({ line: pickPraise() }));
+      if (!alive.current) return;
+      // the first time right answers fill a gem (once per save): it pops up beside the picture, and fills
+      if (step === 0) await explainGemEnergy(s.to.segs[s.pos], { x: CARD.left + CARD.width + 110, y: CARD.top + 96 }, () => alive.current);
       if (!alive.current) return;
       stepMisses.current = 0;
       posMisses.current = 0;
@@ -601,6 +633,7 @@ export function Swap({ level, onDone, onQuit }: LevelProps) {
         </div>
       )}
       <NinjaSpot />
+      <NarrOverlay />
       <SenseiDock />
     </div>
   );

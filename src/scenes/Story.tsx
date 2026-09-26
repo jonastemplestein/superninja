@@ -11,6 +11,12 @@
 // Order matters when an answer counts for the streak: start the strike FIRST, then streak.hit(). The ninja's tier-up
 // power move waits for whatever move is running when the hit is counted, so a hit counted first would start the power
 // move and have the strike cut it off.
+//
+// Explanations (docs/NARRATIVE_AUDIT.md, ./narrate.tsx): until the child has made a story choice, a choice page says
+// "Read the two words. Tap the one you choose." and its words wait for it (F14); later ones say it short. A read
+// page with a common word whose spelling hasn't been taught ("the", "is", "I") lights that word and says the official
+// "This is 'the'. Just say 'the' here." first, spaced (F15). A word tapped for help can bring a spaced "two letters,
+// one sound" reminder.
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import type { LevelProps } from "../App";
 import { STORIES, type Page, type Story } from "../content/stories";
@@ -21,8 +27,9 @@ import { WORD_BY_TEXT, type Seg } from "../content/phonics";
 import { img, RoundButton, Icon, fx, sleep, SenseiDock, tapProps, useHelp, stageRect, useIdlePrompt, nudgeHelp, isUpright } from "../ui/ui";
 import { NinjaSpot, ninja, type Move } from "../ui/Ninja";
 import { streak, streakLine, type StreakEvent } from "../engine/streak";
-import { LINES } from "../content/lines";
 import { pickPraise } from "../engine/feedback";
+import { SPECIAL_LINE, specialKey, specialWords } from "../content/narrative";
+import { beginLevel, heard, heardBefore, isDue, lettersReminder, twoSoundsReminder } from "./narrate";
 import "../styles/story.css";
 
 type Pt = { x: number; y: number };
@@ -200,6 +207,7 @@ function karaoke(words: string[], dur: number, set: (i: number) => void): () => 
 
 // ---------------------------------------------------------------- the story
 export function StoryScene({ level, onDone, onQuit }: LevelProps) {
+  useState(() => beginLevel(level)); // (during the first render)
   const story = STORIES.find((s) => s.id === level.story)!;
   const [pageId, setPageId] = useState<string | null>(null);
   const page = story.pages.find((p) => p.id === pageId);
@@ -515,8 +523,16 @@ export function ReadWord({ text, maxUnit, big, onHelp, on, i = 0, size }: { text
   const help = async () => {
     onHelp?.();
     sfx.tap();
-    if (segs) await sayBlend(segs, clean.toLowerCase(), setLit);
-    else await say({ word: clean.toLowerCase() === "i" ? "I" : clean.toLowerCase() });
+    if (segs) {
+      // read to them, then (spaced) what one of its spellings is, with it lit: "It's two letters, but it's one sound."
+      if (await sayBlend(segs, clean.toLowerCase(), setLit)) {
+        const remind = twoSoundsReminder(segs) ?? lettersReminder(segs);
+        if (remind) {
+          setLit(remind.i);
+          if (await say([{ gap: 200 }, ...remind.say])) remind.done();
+        }
+      }
+    } else await say({ word: clean.toLowerCase() === "i" ? "I" : clean.toLowerCase() });
     setLit(-1);
   };
   const lead = text.match(/^[^A-Za-z']*/)?.[0] ?? "";
@@ -585,12 +601,28 @@ function ReadPage({ story, page, maxUnit, onNext }: { story: string; page: PageO
     }
   });
   const [turnSaid, setTurnSaid] = useState(false);
+  // a common word with a spelling the child hasn't been taught (the first one due on this page): it lights up, and
+  // Sensei says "This is 'the'. Just say 'the' here." before the child's turn; the tick waits for it
+  const [special] = useState(() => specialWords(page.text).find(({ word }) => isDue(specialKey(word), "special")) ?? null);
+  const [teachIdx, setTeachIdx] = useState(-1);
+  const teaching = useRef(!!special);
   useEffect(() => {
     alive.current = true;
-    void say({ line: "story_your_turn" }).then(() => {
+    (async () => {
+      if (special) {
+        setTeachIdx(special.index);
+        const ok = await say({ line: SPECIAL_LINE[special.word] });
+        if (!alive.current) return;
+        setTeachIdx(-1);
+        if (ok) heard(specialKey(special.word));
+        await sleep(200);
+        if (!alive.current) return;
+      }
+      teaching.current = false; // (the tick waits until "Your turn!" has begun)
+      await say({ line: "story_your_turn" });
       turnDoneAt.current = performance.now();
       if (alive.current) setTurnSaid(true);
-    });
+    })();
     return () => void (alive.current = false);
   }, []);
   const sideRef = useRef<HTMLDivElement>(null);
@@ -616,6 +648,7 @@ function ReadPage({ story, page, maxUnit, onNext }: { story: string; page: PageO
   };
   const readIt = async () => {
     if (phase === "done") return;
+    if (teaching.current) return void bounce(wordsRef.current?.querySelectorAll(".st-word")[special?.index ?? 0]); // hear the special word first
     // the child says they've read it: the ninja's magic lands on the words, then Sensei reads it back fluently
     sfx.good();
     setPhase("done");
@@ -643,7 +676,7 @@ function ReadPage({ story, page, maxUnit, onNext }: { story: string; page: PageO
           {rows.map((row, j) => (
             <div key={j} className="st-line">
               {row.map(({ w, i }) => (
-                <ReadWord key={i} i={i} text={w} size={size} maxUnit={maxUnit} on={i === hi} onHelp={() => void (triedWord.current = true)} />
+                <ReadWord key={i} i={i} text={w} size={size} maxUnit={maxUnit} on={i === hi || i === teachIdx} onHelp={() => void (triedWord.current = true)} />
               ))}
             </div>
           ))}
@@ -686,10 +719,12 @@ function ChoicePage({ story, page, onPick, visited }: { story: Story; page: Page
   const [lit, setLit] = useState(-1);
   const firstTry = !page.options.some((o) => visited.has(o.next));
   const segsOf = (word: string) => WORD_BY_TEXT[word]?.segs ?? decode(word, story.maxUnit);
-  // "What should Super Ninja do?" is already how story_choose begins: then that line alone, so it isn't said twice
-  const choose = LINES.find((l) => l.id === "story_choose")?.text.toLowerCase() ?? "";
-  const ask = () =>
-    say(choose.startsWith(page.text.trim().toLowerCase()) ? { line: "story_choose" } : [{ story: story.id, page: page.id, caption: page.text }, { gap: 200 }, { line: "story_choose" }]);
+  // The question, then how to answer it (NARRATIVE_AUDIT F14): until the child has made a story choice, "Read the two
+  // words. Tap the one you choose.", and the words wait for it (it's the only time it is explained); then the short
+  // "Read the words, and tap one!"
+  const [firstEver] = useState(() => !heardBefore("story:choice"));
+  const waiting = useRef(firstEver);
+  const ask = () => say([{ story: story.id, page: page.id, caption: page.text }, { gap: 200 }, { line: firstEver ? "audit_story_choice" : "audit_story_choose_again" }]);
   useHelp(() => void ask());
   const [asked, setAsked] = useState(false);
   const choicesRef = useRef<HTMLDivElement>(null);
@@ -697,6 +732,7 @@ function ChoicePage({ story, page, onPick, visited }: { story: Story; page: Page
     alive.current = true;
     // the ninja wonders too, once the question's been asked
     void ask().then((ok) => {
+      waiting.current = false;
       if (!alive.current) return;
       setAsked(true);
       if (ok && !picked.current) void ninja.act("think");
@@ -714,7 +750,9 @@ function ChoicePage({ story, page, onPick, visited }: { story: Story; page: Page
   });
   const pick = async (o: PageOf<"choice">["options"][number], el: HTMLElement) => {
     if (picked.current) return;
+    if (waiting.current) return void (bounce(el), sfx.tink()); // felt; the words wait for "Tap the one you choose."
     picked.current = true;
+    if (!heardBefore("story:choice")) heard("story:choice");
     let hit: StreakEvent | null = null;
     hush(); // the child has chosen: the question stops (the word is sounded out next)
     // a detour ("pig" or "den"? The child can't know): a funny look somewhere else, which neither feeds nor breaks the

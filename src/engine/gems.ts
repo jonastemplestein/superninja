@@ -1,10 +1,12 @@
 // Gem progression: practice charges a spelling's gem; a full gem unlocks a timed Gem Trial; won gems fill petals.
-import { GEMS, PETALS, neededGems, gemByKey, type Gem, type Petal } from "../content/flower";
-import { WORDS, UNITS, dictationSafe, type Word } from "../content/phonics";
-import { LEVELS, knownSpellings, setTrialLevel, MILESTONES, startLevelAfter, type Level } from "../content/worlds";
+import { GEMS, PETALS, neededGems, gemByKey, petalsOfGem, type Gem, type Petal } from "../content/flower";
+import { WORDS, UNITS, dictationSafe, teachEntry, type PhonemeId, type Word } from "../content/phonics";
+import { LEVELS, WORLDS, knownSpellings, setTrialLevel, MILESTONES, startLevelAfter, type Level } from "../content/worlds";
 import { store, ENERGY_FULL, type Save } from "./store";
 
 export type GemState = "future" | "hidden" | "charging" | "ready" | "won";
+/** Has the child met this spelling (it has been taught, so its gem shows its letters)? */
+export const isMet = (st: GemState) => st === "charging" || st === "ready" || st === "won";
 
 /** The level the child is up to (first without stars, respecting placement). */
 export function frontier(s: Save = store.get()): Level {
@@ -67,6 +69,149 @@ export function makeTrial(key: string): Level {
 }
 export const currentTrial = () => trial;
 export { gemByKey };
+
+// ---------------------------------------------------------------- practice (the petal detail's "Practise" button)
+/** A practice dojo is a Level with the gem it practises. */
+export type PracticeLevel = Level & { practiceGem: string };
+
+/** Words for practising one spelling: they use it for its sound, the child can decode every other spelling in them,
+ *  and they can be dictated. Short words first (4 sounds at most), then words with clear pictures, then words met. */
+export function practiceWords(key: string, s: Save = store.get(), n = 3): Word[] {
+  const known = knownNow(s);
+  const has = (w: Word) => w.segs.some((sg) => `${sg.g}>${sg.p}` === key || (key === "x>ks" && sg.g === "x"));
+  const pool = WORDS.filter((w) => has(w) && w.segs.every((sg) => known.has(sg.g)) && dictationSafe(w) && w.segs.length <= 4);
+  const score = (w: Word) => (w.segs.length === 3 ? 3 : w.segs.length === 2 ? 2 : 0) + (w.pic ? 2 : 0) + (s.words[w.text] ? 1 : 0) - w.unit * 0.05;
+  const ranked = pool.sort((a, b) => score(b) - score(a));
+  // the first word is the one Sensei models ("This word has three sounds!"): two or three sounds, never four
+  const first = ranked.findIndex((w) => w.segs.length <= 3);
+  if (first < 0) return [];
+  if (first > 0) ranked.unshift(...ranked.splice(first, 1));
+  return ranked.slice(0, n);
+}
+
+/** Can this gem be practised now? It must be met, not a future gem, and have at least two words to build. */
+export function canPractise(key: string, s: Save = store.get()): boolean {
+  const gem = gemByKey(key);
+  if (!gem?.inPlay) return false;
+  return isMet(gemState(gem, s)) && practiceWords(key, s).length >= 2;
+}
+
+let practice: { level: PracticeLevel; from: number } | null = null;
+/**
+ * A short practice dojo for one spelling, from words the child can decode (mirrors makeTrial). The dojo builds them
+ * with gradual release: Sensei models the first word, you build it together, then the child builds them all (the
+ * word-building dojo that plays levels with fixed `words`). Every letter charges its gem as usual.
+ * It uses the same one-off level slot as Gem Trials: route to it with go({ name: "level", id: "trial" }), and when it
+ * is done, practiceGemOf(level) says which gem it practised (send the child back to the World Flower with
+ * visitFlower({ kind: "practised", gem })).
+ */
+export function makePractice(key: string): PracticeLevel {
+  const f = frontier();
+  const gem = gemByKey(key);
+  const words = practiceWords(key);
+  const level: PracticeLevel = {
+    id: "trial",
+    world: f.world,
+    kind: "dojo",
+    units: [...new Set([gem?.unit ?? 0, ...words.map((w) => w.unit)].filter((u) => u > 0 && u < 99))],
+    upTo: f.id,
+    words: words.map((w) => w.text),
+    distractors: 1,
+    practiceGem: key,
+  };
+  practice = { level, from: energyOf(key) };
+  setTrialLevel(level);
+  return level;
+}
+/** The gem a level practises, if it is a practice dojo. */
+export const practiceGemOf = (l: Level | null | undefined): string | null => (l && (l as PracticeLevel).practiceGem) || null;
+/** The last practice: its gem and how full the gem was before it (the World Flower animates the gain). */
+export const lastPractice = () => (practice ? { gem: practice.level.practiceGem, from: practice.from } : null);
+
+// ---------------------------------------------------------------- trips to the World Flower (docs/FEEDBACK.md Round 12)
+/**
+ * Why the child is being brought to the World Flower. Each one plays once per child (see flowerVisitAfter):
+ * - `gem`: a gem was just won in its Gem Trial (the victory sequence; its petal may come home too)
+ * - `spelling`: a level has just taught these spellings for the first time: their gems appear in their petals
+ * - `world`: the start of a new land: the flower so far, one re-explanation, and the sounds hiding in this land
+ * - `practised`: back from a practice dojo: the gem's energy fills up (and it may be ready for its battle)
+ */
+export type FlowerVisit =
+  | { kind: "gem"; gem: string }
+  | { kind: "spelling"; gems: string[] }
+  | { kind: "world"; world: number }
+  | { kind: "practised"; gem: string; from?: number };
+
+const visitId = (v: FlowerVisit) => (v.kind === "spelling" ? v.gems.map((g) => `spelling:${g}`) : v.kind === "world" ? [`world:${v.world}`] : v.kind === "gem" ? [`gem:${v.gem}`] : []);
+/** Has this child had this trip already? */
+export function visited(id: string, s: Save = store.get()): boolean {
+  return !!s.flowerSeen?.includes(id);
+}
+/** Remember that a trip has played (the World Flower calls this as it starts). */
+export function markVisited(v: FlowerVisit) {
+  const ids = visitId(v);
+  if (!ids.length) return;
+  store.set((s) => {
+    const seen = (s.flowerSeen ??= []);
+    for (const id of ids) if (!seen.includes(id)) seen.push(id);
+  });
+}
+
+/** The gem key for a level's teach entry ("th=dh" → "th>dh"; <x> is one gem for /k/+/s/). */
+export const gemKeyOfTeach = (t: string) => {
+  const sg = teachEntry(t);
+  return sg.g === "x" ? "x>ks" : `${sg.g}>${sg.p}`;
+};
+
+/** Sounds whose first spelling is taught in this land: the petals still hiding in the mist there. */
+export function worldNewSounds(world: number): PhonemeId[] {
+  const before = new Set(LEVELS.filter((l) => l.world < world).flatMap((l) => (l.teach ?? []).map((t) => teachEntry(t).p)));
+  const out: PhonemeId[] = [];
+  for (const l of WORLDS[world - 1]?.levels ?? []) for (const t of l.teach ?? []) {
+    const p = teachEntry(t).p;
+    if (!before.has(p) && !out.includes(p)) out.push(p);
+  }
+  return out;
+}
+
+/**
+ * The trip to the World Flower that should follow a finished level, if any (the level host asks after the reward):
+ * - a level that taught spellings for the first time → `spelling` (their gems appear in their petals)
+ * - otherwise, the last level of a land → `world` for the next land (from the second land on)
+ * Trips already had are skipped, so replaying a level never repeats one.
+ */
+export function flowerVisitAfter(level: Level, s: Save = store.get()): FlowerVisit | null {
+  if (level.id === "review" || level.trialGem || practiceGemOf(level)) return null;
+  const gems = [...new Set((level.teach ?? []).map(gemKeyOfTeach))].filter((k) => gemByKey(k)?.inPlay && !visited(`spelling:${k}`, s));
+  if (gems.length) return { kind: "spelling", gems };
+  const w = WORLDS[level.world - 1];
+  if (w && w.levels[w.levels.length - 1].id === level.id && level.world < WORLDS.length) return flowerVisitForWorld(level.world + 1, s);
+  return null;
+}
+/** The start-of-land trip, for a land the child is entering (null if had already, or for the first land). */
+export function flowerVisitForWorld(world: number, s: Save = store.get()): FlowerVisit | null {
+  if (world < 2 || world > WORLDS.length || visited(`world:${world}`, s)) return null;
+  return { kind: "world", world };
+}
+
+/** Is this gem one way to spell its petal's sound? Not <x>: it spells two sounds, /k/ and /s/, so although it sits in
+ *  both petals (as on the school's chart) it is never counted as a way to spell /k/ or /s/. */
+export const isWayToSpell = (g: Pick<Gem, "key">) => g.key !== "x>ks";
+/** How many ways to spell this sound the child knows now (met or won), for "Now you know three ways to spell /ae/". */
+export function waysKnown(p: PhonemeId, s: Save = store.get()): number {
+  const known = knownNow(s);
+  const pt = PETALS.find((x) => x.p === p);
+  return pt ? pt.gems.filter((g) => isWayToSpell(g) && isMet(gemState(g, s, known))).length : 0;
+}
+/** The petal a gem lives in (the first, for <x>, which lives in both /k/ and /s/). */
+export const petalOfGem = (key: string): Petal | null => petalsOfGem(key)[0] ?? null;
+/** Other sounds this spelling spells that the child already knows (e.g. <th> is /th/ in thin and /dh/ in this). */
+export function otherSoundsOf(key: string, s: Save = store.get()): PhonemeId[] {
+  const gem = gemByKey(key);
+  if (!gem || key === "x>ks") return [];
+  const known = knownNow(s);
+  return GEMS.filter((g) => g.g === gem.g && g.p !== gem.p && g.key !== "x>ks" && isMet(gemState(g, s, known))).map((g) => g.p);
+}
 
 /** Put a child at a point in the school year: unlock earlier levels, add their sounds to the flower and
  *  half-charge those gems (they still earn each gem in a trial). Used by "Show Sensei" and "Jump ahead". */

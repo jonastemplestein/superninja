@@ -24,11 +24,9 @@ export const words = [
     "text": "hen",
     "segs": "h.e.n",
     "unit": "IC4",
-    "pic": "one adult brown hen standing alone, with a red comb and short beak",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -55,11 +53,9 @@ export const words = [
     "text": "dot",
     "segs": "d.o.t",
     "unit": "IC4",
-    "pic": "one small black round dot centred on a plain white square, no other marks",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -106,11 +102,9 @@ export const words = [
     "text": "fog",
     "segs": "f.o.g",
     "unit": "IC4",
-    "pic": "one patch of thick grey fog curling across a field, no trees or buildings",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -127,11 +121,9 @@ export const words = [
     "text": "fin",
     "segs": "f.i.n",
     "unit": "IC4",
-    "pic": "one single bright orange fan-shaped fish fin with thin ribs, shown alone against a plain background; no fish, shark, water or other object",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {

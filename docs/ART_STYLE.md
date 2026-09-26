@@ -13,7 +13,7 @@ The look is **painted characters living inside painted worlds**. Children aged 4
 - Dark-brown ink outline of even weight. Rich cel-shaded colour: one shade tone, one highlight, and soft painterly grain.
 - Chunky rounded silhouettes with few details, lit from the top-left.
 - Characters use chibi proportions: roughly 2.5 heads tall with big eyes.
-- No text, letters, numbers or flags anywhere. Objects have no faces; only characters and monsters do.
+- No text, letters, numbers or flags anywhere. Objects have no faces; characters, monsters and **every living thing in a word picture** do (below).
 - Japanese-inspired motifs in the world: swirl clouds, seigaiha waves, lanterns and blossom.
 
 ## Palette anchors
@@ -45,4 +45,12 @@ The World Flower is the heart of the story and the most gorgeous thing in the ga
 
 ## Word picture cards
 
-These use the *same* outline and painting rules as characters, but show a single object in three-quarter view, with no face, centred on white, with a generous margin. A word picture must be instantly recognisable to a 4-year-old in the UK, without novelty props.
+These use the *same* outline and painting rules as characters, centred on white with a wide margin. A word picture must be instantly recognisable to a **3-year-old** in the UK, without novelty props (docs/FIRST_MINUTES.md §11). There are two styles (`scripts/art-manifest.ts`):
+
+- **`PIC_OBJECT`**: one object, drawn whole in its most typical view and usual colour, with no face.
+- **`PIC_LIVING`**: one animal or person (or a character such as the snowman or the fish-dog), drawn whole from head to toe or tail, facing the viewer or in three-quarter front view, never from behind, **with a friendly face, two big clear eyes and a smile**. The old single style said "no face unless it is an animal or person", and the image model dropped the faces anyway: a faceless dog, a pig from behind. `src/content/living.ts` lists the living words; the picture audit (`scripts/treadmill/pic-audit.ts`, now with `--age 3` and `--warmups`) flags any living picture a child can't see a face on.
+
+**Cards and plates.** In the game a picture sits on a coloured card, never plain white:
+- Each picture gets the plate colour furthest in hue from its own main colour (`scripts/gen-pic-plates.py` → `src/content/pic-plates.gen.ts`), with ties rotated by word so a row of cards differs. `plate:` in the art manifest (`PLATE`) picks one by hand: the moon and stars sit on the night plate; dog and sunflower are lilac and starfish teal, so neighbours in the first lessons differ. post-art.py runs gen-pic-plates.py after every new word picture.
+- The card fits the (tightly trimmed) picture into a 78% × 74% safe box with `contain`, with a halo and, for grounded things, a contact shadow. The picture is never clipped and never goes see-through; the five card states (named, found, right, wrong, dimmed) change the plate, not the picture's opacity.
+- New pictures are trimmed like the old ones. `PAD=0.14` in post-art.py re-pads to a 14% margin, but only use it when re-cutting every picture, or the new ones sit smaller.

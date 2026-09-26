@@ -32,7 +32,7 @@ const firstSoundTargets = (p: PhonemeId) => [
 function uses(): Record<string, string[]> {
   const u: Record<string, Set<string>> = {};
   const add = (w: string, s: string) => (u[w] ??= new Set()).add(s);
-  LISTEN.forEach((w) => add(w, "listening game w1-1: pick the picture you hear"));
+  LISTEN.forEach((w) => add(w, "listening game (warm-ups): pick the picture you hear"));
   FOILS.forEach((w) => add(w, "first-sound game foil picture"));
   for (const [g, pairs] of Object.entries(HUNT)) pairs.flat().forEach((w) => add(w, `sound-hunt picture (/${g}/ in the middle?)`));
   for (const l of LEVELS) {

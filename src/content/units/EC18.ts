@@ -38,12 +38,10 @@ export const words = [
     "text": "yell",
     "segs": "y.e.ll",
     "unit": "EC18",
-    "pic": "one child calling out loudly with hands cupped round the mouth",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:ll"
+      "sort:ll",
+      "dictation-safe"
     ]
   },
   {
@@ -104,12 +102,10 @@ export const words = [
     "text": "pole",
     "segs": "p.o=oe.le=l",
     "unit": "EC18",
-    "pic": "one plain upright wooden pole",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:le"
+      "sort:le",
+      "dictation-safe"
     ]
   },
   {
@@ -354,24 +350,20 @@ export const words = [
     "text": "quilt",
     "segs": "q.u=w.i.l.t",
     "unit": "EC18",
-    "pic": "one stitched patchwork quilt folded on a plain bed, with a repeating square pattern",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:l"
+      "sort:l",
+      "dictation-safe"
     ]
   },
   {
     "text": "split",
     "segs": "s.p.l.i.t",
     "unit": "EC18",
-    "pic": "one log split neatly into two matching halves",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:l"
+      "sort:l",
+      "dictation-safe"
     ]
   },
   {

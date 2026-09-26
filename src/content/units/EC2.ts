@@ -79,24 +79,20 @@ export const words = [
     "text": "bean",
     "segs": "b.ea.n",
     "unit": "EC2",
-    "pic": "one green bean pod with two beans visible",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ea"
+      "sort:ea",
+      "reading-only"
     ]
   },
   {
     "text": "meal",
     "segs": "m.ea.l",
     "unit": "EC2",
-    "pic": "one plate of food with vegetables and potatoes",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ea"
+      "sort:ea",
+      "dictation-safe"
     ]
   },
   {
@@ -246,7 +242,7 @@ export const words = [
     "unit": "EC2",
     "tags": [
       "new",
-      "dictation-safe",
+      "reading-only",
       "sort:ea"
     ]
   },

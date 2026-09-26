@@ -16,6 +16,10 @@
 // streak the ninja kicks crates out of the way and flips over spikes; without one it trips and hops over them (never
 // hurt). At the end the gong is already in view: a flying kick on it, a backflip, a ground-pound and a cheer.
 // Speech always leads: the moves run alongside it and never make the child wait.
+// Explanations (docs/NARRATIVE_AUDIT.md, ./narrate.tsx): the cue before a word's sounds rotates between whole
+// sentences after the first; the first reading cue in each land says "Ninjas read this way!" with an arrow under the
+// word (F10); units 8-10 get a spaced "some sounds sit close together" reminder (F12); a caught word can bring a
+// spaced "two letters, one sound" reminder with that spelling lit; the first catch of a save shows its gem filling.
 import { useEffect, useRef, useState } from "react";
 import type { LevelProps } from "../App";
 import type { Seg, Word } from "../content/phonics";
@@ -24,10 +28,12 @@ import { LINES } from "../content/lines";
 import { say, sayBlend, sfx, playMusic, preload, urls, hush, type Say } from "../engine/audio";
 import { chooseWords, shuffle } from "../engine/learner";
 import { recordRead } from "../engine/store";
-import { streak, type Tier } from "../engine/streak";
+import { streak, tierLineId, tierLineSaid, type Tier } from "../engine/streak";
 import { img, RoundButton, Icon, Progress, fx, useHero, W, H, sleep, useHelp, SenseiDock, isUpright, shakeStage } from "../ui/ui";
 import { poseSrc, poseFit, probePoses, type Pose } from "../ui/poses";
 import { pickPraise } from "../engine/feedback";
+import { adjacentSlots, adjacentUnit, gemSeg, rotate, RUN_BLEND_CUES } from "../content/narrative";
+import { NarrOverlay, beginLevel, explainGemEnergy, heard as told, isDue, lettersReminder, sweepUnder, twoSoundsReminder } from "./narrate";
 import "../styles/run.css";
 
 const GROUND = 612;
@@ -427,6 +433,7 @@ function similar(target: Word, pool: Word[], n: number): Word[] {
 }
 
 export function Run({ level, onDone, onQuit }: LevelProps) {
+  useState(() => beginLevel(level)); // (during the first render)
   const world = worldOf(level);
   const EVENTS = eventsFor(level.world);
   const hero = useHero();
@@ -538,17 +545,22 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
       ((window as any).__snState = { scene: "run", event: eventIdx, of: EVENTS, mode, streak: streak.n, tier: streak.tier, glow, gong: gongX !== null, finished });
     publish();
     const hasLine = (id: string) => LINES.some((l) => l.id === id);
-    /** Sensei's prompt for the lanterns: the ninja holds still while it plays (see the speeds in update). */
-    const cue = async (parts: (Say | Say[])[], opts: { reveal?: boolean } = {}) => {
+    /** Sensei's prompt for the lanterns: the ninja holds still while it plays (see the speeds in update). Resolves true
+     *  if every part was said. */
+    const cue = async (parts: (Say | Say[])[], opts: { reveal?: boolean } = {}): Promise<boolean> => {
       const k = ++cueN;
       cueDone = false;
       try {
         // stop if something else took over (a right answer's blend must never be cut off by the rest of the prompt)
-        for (const p of parts) if (!(await say(p, opts))) break;
+        for (const p of parts) if (!(await say(p, opts))) return false;
+        return true;
       } finally {
         if (k === cueN) cueDone = heard = true;
       }
     };
+    // the cue before a word's sounds, rotating after the first (run_blend was said 39 times in one journey)
+    let lastCue: string | null = null;
+    const adjUnit = adjacentUnit(level.units);
     const offStreak = streak.on((e) => {
       publish();
       if (e.type === "reset") {
@@ -624,10 +636,21 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
       allInAt = -1;
       if (mode === "blend") {
         setBanner({ text: "", mode });
-        await cue([eventIdx === 0 ? [{ line: "run_start" }, { gap: 300 }, { line: "run_blend" }] : [{ line: "run_blend" }], { sounds: w.segs, gap: 330 }]);
+        const line = eventIdx === 0 ? "run_blend" : rotate(RUN_BLEND_CUES, lastCue);
+        lastCue = line;
+        // units 8-10: "some sounds sit close together", spaced (NARRATIVE_AUDIT F12)
+        const adj = !!adjUnit && adjacentSlots(w.segs).length > 1 && isDue("adjacent:remind", "concept");
+        const lead: Say[] = [...(eventIdx === 0 ? [{ line: "run_start" }, { gap: 300 }] : []), ...(adj ? [{ line: "audit_neighbours_short" }, { gap: 300 }] : []), { line: line }];
+        const said = await cue([lead, { sounds: w.segs, gap: 330 }]);
+        if (said && adj) told("adjacent:remind");
       } else {
         setBanner({ text: w.text, mode });
-        await cue([[{ line: "run_read" }]]);
+        // the first reading in each land: "Ninjas read this way!", with an arrow under the word (NARRATIVE_AUDIT F10)
+        const ltrKey = `left-right:w${level.world}`;
+        const ltr = isDue(ltrKey, "once");
+        if (ltr) window.setTimeout(() => void sweepUnder(document.querySelector(".run-banner")), 350);
+        const said = await cue([[...(ltr ? [{ line: "fm_l2_way" }, { gap: 350 }] : []), { line: "run_read" }]]);
+        if (said && ltr) told(ltrKey);
       }
     };
 
@@ -781,10 +804,24 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
           if (i < 0) (trophy.all = true), (trophy.lit = -1);
           else trophy.lit = i;
         });
+        // a spaced reminder about one of its spellings, with that spelling lit ("It's two letters, but it's one sound.")
+        const remind = twoSoundsReminder(w.segs) ?? lettersReminder(w.segs);
+        if (remind && trophy && trophy.w === w) {
+          trophy.all = false;
+          trophy.lit = remind.i;
+          if (await say([{ gap: 200 }, ...remind.say])) remind.done();
+          if (trophy && trophy.w === w) {
+            trophy.lit = -1;
+            trophy.all = true;
+          }
+        }
         // Crossing into a tier: the streak line is the praise ("Ninja power!"), and the ninja powers up as it's said.
-        const line = hit?.tierUp ? `streak_${[0, 3, 6, 10][hit.tier]}` : null;
+        const line = hit?.tierUp ? tierLineId(hit.tier) : null;
         if (hit?.tierUp) pendingPower = { at: t, tier: hit.tier };
-        await say({ line: line && hasLine(line) ? line : pickPraise() });
+        const praised = await say({ line: line && hasLine(line) ? line : pickPraise() });
+        tierLineSaid(line, praised);
+        // the first time right answers fill a gem (once per save): it pops up, and fills, while the word is still up
+        if (eventIdx === 0) await explainGemEnergy(gemSeg(w, level.teach), { x: 760, y: 170 });
         if (trophy && trophy.w === w) trophy.leave = t;
         eventIdx++;
         setProgress(eventIdx / EVENTS);
@@ -2116,6 +2153,7 @@ export function Run({ level, onDone, onQuit }: LevelProps) {
           <RoundButton sm label="Hear the sounds again" onClick={() => api.current.repeat()} className="pulse"><Icon.ear /></RoundButton>
         </div>
       )}
+      <NarrOverlay />
       <SenseiDock />
     </div>
   );

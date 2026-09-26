@@ -26,7 +26,7 @@ export const words = [
     "unit": "EC6",
     "tags": [
       "new",
-      "dictation-safe",
+      "reading-only",
       "sort:er"
     ]
   },
@@ -86,24 +86,20 @@ export const words = [
     "text": "nurse",
     "segs": "n.ur=er.se=s",
     "unit": "EC6",
-    "pic": "one friendly nurse in plain blue scrubs with a stethoscope, no badges or writing",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ur"
+      "sort:ur",
+      "dictation-safe"
     ]
   },
   {
     "text": "fur",
     "segs": "f.ur=er",
     "unit": "EC6",
-    "pic": "one patch of soft brown animal fur",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ur"
+      "sort:ur",
+      "reading-only"
     ]
   },
   {

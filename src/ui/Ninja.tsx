@@ -8,7 +8,7 @@ import { fx, fxDom, img, stageRect, useHero, shakeStage, setFxSpeed } from "./ui
 import { sfx, say, isSpeaking, onCaption } from "../engine/audio";
 import { LINES } from "../content/lines";
 import { FAST } from "../engine/fast";
-import { streak, useStreak, TIER_AT, type Tier, type StreakEvent } from "../engine/streak";
+import { streak, useStreak, tierLineId, tierLineSaid, FIRST_STREAK, type Tier, type StreakEvent } from "../engine/streak";
 import { poseSrc, poseFit, probePoses, usePoseVersion, BASE_POSES, FALLBACK, type Pose } from "./poses";
 
 export type Move = "kick" | "punch" | "spin" | "cast" | "throw" | "jump" | "flip" | "cheer" | "think" | "hurt" | "power";
@@ -919,7 +919,6 @@ function chooseMove(tier: Tier, soft = false): Move {
 
 // ---------------------------------------------------------------- streak reactions
 const hasLine = (id: string) => LINES.some((l) => l.id === id);
-const tierLineId = (tier: Tier) => (hasLine(`streak_${TIER_AT[tier]}`) ? `streak_${TIER_AT[tier]}` : null);
 /** Bumped whenever a queued line must be dropped: the ninja left the screen, or a newer streak event came (a new level,
  *  or the child has already answered the next question, so the line would be stale). A higher tier-up drops a lower
  *  one's line this way too. */
@@ -949,7 +948,8 @@ async function sayWhenQuiet(id: string, within = 6500, gate?: Promise<void>): Pr
     if (isSpeaking()) quietSince = 0;
     else if (!quietSince) quietSince = performance.now();
     else if (open && performance.now() - quietSince >= 280 / FAST) {
-      await say({ line: id });
+      // (the first streak's explanation is protected: the scene's next line waits for it rather than cutting it off)
+      tierLineSaid(id, await say({ line: id }, { protect: id === FIRST_STREAK }));
       return;
     }
     await new Promise((r) => setTimeout(r, 40));
@@ -1014,7 +1014,7 @@ export const ninja = {
     heldTier = 0;
     if (!t || !spot) return;
     const id = opts.line === false ? null : tierLineId(t);
-    await track(Promise.all([ninja.act("power"), id ? say({ line: id }) : null]));
+    await track(Promise.all([ninja.act("power"), id ? say({ line: id }).then((ok) => tierLineSaid(id, ok)) : null]));
   },
   /** The tier held back for streakLine() (0 if none). */
   get heldTier(): Tier {

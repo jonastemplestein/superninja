@@ -14,11 +14,9 @@ export const words = [
     "text": "jump",
     "segs": "j.u.m.p",
     "unit": "IC8",
-    "pic": "one child jumping straight up with both feet in the air, full body clearly visible",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
@@ -136,22 +134,18 @@ export const words = [
     "text": "mint",
     "segs": "m.i.n.t",
     "unit": "IC8",
-    "pic": "one fresh mint plant with small bright green leaves in a pot",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {
     "text": "dent",
     "segs": "d.e.n.t",
     "unit": "IC8",
-    "pic": "one clear dent in the side of a plain metal tin",
     "tags": [
       "new",
-      "picture",
-      "new-prompt"
+      "dictation-safe"
     ]
   },
   {

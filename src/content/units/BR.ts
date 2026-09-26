@@ -70,48 +70,40 @@ export const words = [
     "text": "crust",
     "segs": "c.r.u.s.t",
     "unit": "BR",
-    "pic": "one crisp brown crust cut from a loaf of bread, alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:c"
+      "sort:c",
+      "dictation-safe"
     ]
   },
   {
     "text": "cub",
     "segs": "c.u.b",
     "unit": "BR",
-    "pic": "one young bear cub standing alone, small round ears and short snout, no adult bear",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:c"
+      "sort:c",
+      "dictation-safe"
     ]
   },
   {
     "text": "scrub",
     "segs": "s.c.r.u.b",
     "unit": "BR",
-    "pic": "one hand scrubbing a dirty plate with a sponge",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:c"
+      "sort:c",
+      "dictation-safe"
     ]
   },
   {
     "text": "scrap",
     "segs": "s.c.r.a.p",
     "unit": "BR",
-    "pic": "one small scrap of blue cloth with frayed edges, alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:c"
+      "sort:c",
+      "dictation-safe"
     ]
   },
   {
@@ -129,12 +121,10 @@ export const words = [
     "text": "kiss",
     "segs": "k.i.ss",
     "unit": "BR",
-    "pic": "two teddy bears touching noses in a gentle kiss, full bodies visible",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:k"
+      "sort:k",
+      "dictation-safe"
     ]
   },
   {
@@ -176,12 +166,10 @@ export const words = [
     "text": "park",
     "segs": "p.a.r.k",
     "unit": "BR",
-    "pic": "one small park with a bench and a tree",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:k"
+      "sort:k",
+      "dictation-safe"
     ]
   },
   {
@@ -225,13 +213,11 @@ export const words = [
     "text": "chunk",
     "segs": "ch.u.n=ng.k",
     "unit": "BR",
-    "pic": "one chunky piece of cheese cut from a block, no plate",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
       "sort:k",
-      "sort:ch"
+      "sort:ch",
+      "dictation-safe"
     ]
   },
   {
@@ -483,12 +469,10 @@ export const words = [
     "text": "hatch",
     "segs": "h.a.tch",
     "unit": "BR",
-    "pic": "one little yellow chick hatching from a cracked egg",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:tch"
+      "sort:tch",
+      "dictation-safe"
     ]
   },
   {
@@ -580,12 +564,10 @@ export const words = [
     "text": "wag",
     "segs": "w.a.g",
     "unit": "BR",
-    "pic": "one happy dog's tail wagging from side to side, full dog shown",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:w"
+      "sort:w",
+      "dictation-safe"
     ]
   },
   {
@@ -603,36 +585,30 @@ export const words = [
     "text": "win",
     "segs": "w.i.n",
     "unit": "BR",
-    "pic": "one child crossing a finish line first with both arms raised, no writing",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:w"
+      "sort:w",
+      "dictation-safe"
     ]
   },
   {
     "text": "twist",
     "segs": "t.w.i.s.t",
     "unit": "BR",
-    "pic": "one twisted strip of bright paper, alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:w"
+      "sort:w",
+      "dictation-safe"
     ]
   },
   {
     "text": "twig",
     "segs": "t.w.i.g",
     "unit": "BR",
-    "pic": "one thin twig with two small side branches and a few leaves, lying alone",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:w"
+      "sort:w",
+      "dictation-safe"
     ]
   },
   {
@@ -843,48 +819,40 @@ export const words = [
     "text": "lawn",
     "segs": "l.a.w.n",
     "unit": "BR",
-    "pic": "one small square of green lawn grass",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:w"
+      "sort:w",
+      "dictation-safe"
     ]
   },
   {
     "text": "corn",
     "segs": "c.o.r.n",
     "unit": "BR",
-    "pic": "one corn cob with yellow kernels and green husk",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:c"
+      "sort:c",
+      "dictation-safe"
     ]
   },
   {
     "text": "howl",
     "segs": "h.o.w.l",
     "unit": "BR",
-    "pic": "one wolf with its head raised, howling",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:w"
+      "sort:w",
+      "dictation-safe"
     ]
   },
   {
     "text": "clump",
     "segs": "c.l.u.m.p",
     "unit": "BR",
-    "pic": "one clump of grass with roots and soil visible",
     "tags": [
       "review",
-      "picture",
-      "new-prompt",
-      "sort:c"
+      "sort:c",
+      "dictation-safe"
     ]
   },
   {

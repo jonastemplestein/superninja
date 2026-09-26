@@ -62,7 +62,6 @@ export const LINES: Line[] = [
   s("this_is", "This is..."),
   s("which_sound", "Which sound comes next?"),
   s("two_letters_one_sound", "Two letters, one sound!"),
-  s("three_letters_one_sound", "Three letters, one sound!"),
   s("same_sound_diff", "Same sound, different spellings!"),
   s("same_sound_new", "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling."),
   s("same_sound_spelling", "Yes, that's a spelling of that sound too! But in this word, we spell it like this..."),
@@ -70,7 +69,6 @@ export const LINES: Line[] = [
 
   // --- Dojo (learning new sounds + word building)
   s("dojo_hello", "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds."),
-  s("dojo_this_sound", "And this is how we write it."),
   s("dojo_tap_say", "Tap it, and say it with me!"),
   s("dojo_find", "Can you find..."),
   s("dojo_build", "Now let's make words! First, listen to the word. Then tap its sounds, one at a time."),
@@ -107,13 +105,11 @@ export const LINES: Line[] = [
   s("swap_done", "You fixed them all!"),
 
   // --- Sort (same sound, different spellings)
-  s("sort_start", "Sorting time! These words have the same sound, but it's written in different ways. Put each word in the right chest!"),
   s("sort_done", "Sorted! What a clever ninja."),
 
   // --- Story
   s("story_start", "Story time! I'll read, and you read too."),
   s("story_your_turn", "Your turn to read! Tap a word if you need help."),
-  s("story_choose", "What should Super Ninja do? Read the words and choose!"),
   s("story_question", "Let's think about the story..."),
   s("story_end", "The end! What a story!"),
   s("story_tap_help", "Tap any word and I'll help you read it."),
@@ -129,15 +125,10 @@ export const LINES: Line[] = [
   s("flower_intro", "This is the World Flower! Every petal is a sound. The gems inside are all the different ways to spell it."),
   s("flower_i1", "This is the World Flower. Baron Muddle blew all its petals away!"),
   s("flower_i2", "Every petal is one sound. Listen! This is the petal for the sound..."),
-  s("flower_i3", "Inside each petal are shiny gems. Each gem is a way to write the sound."),
   s("flower_i4", "When you play and get it right, a gem fills up with ninja power."),
   s("flower_i5", "When a gem is full, it glows. Then you can win it in a gem battle!"),
   s("flower_i6", "Win all the gems in a petal, and the petal flies back onto the World Flower!"),
-  s("book_i1", "This is your Word Book. It's a book of stickers!"),
-  s("book_i2", "Every time you read or spell a word, you win its sticker."),
-  s("book_i3", "Can you fill the whole book?"),
   s("flower_tap", "Tap a petal to see its gems."),
-  s("gem_energy", "Look! Your gems are filling up with ninja energy!"),
   s("gem_ready", "A gem is glowing! It's ready for a gem battle."),
   s("gem_charging", "This gem is filling up. Keep playing to fill it!"),
   s("gem_hidden", "This gem is still a secret. You'll find it later!"),
@@ -149,10 +140,8 @@ export const LINES: Line[] = [
   s("petal_complete", "All the gems are in! The petal flies back onto the World Flower!"),
   s("flower_complete", "The World Flower is glowing again! You are a true Super Ninja!"),
 
-  // --- Word Book
-  s("book_intro", "This is your Word Book! Every word you read or spell goes in here as a sticker."),
+  // --- Sticker Book
   s("book_missing", "This sticker is still out on your adventure. Keep playing to find it!"),
-  s("book_new", "New stickers for your Word Book!"),
   s("help_players", "Tap your picture to play. New ninja? Tap the big plus!"),
   s("help_name", "Ask a grown-up to help you type your name, then tap the green tick."),
   s("help_book", "Tap a sticker to hear its word. Tap the arrows to turn the pages."),
@@ -168,7 +157,6 @@ export const LINES: Line[] = [
   s("listen_tap", "Tap the..."),
   s("listen_slow", "Now I'll say it slowly. Tap the..."),
   s("listen_sounds", "Now I'll say it in sounds. Can you hear the word? Tap the..."),
-  s("words_made", "Words are made of sounds. Listen!"),
   s("first_intro", "Every word starts with a sound. Let's listen for the very first sound!"),
   s("first_q", "Which one starts with..."),
   s("starts_with", "starts with..."),
@@ -309,7 +297,7 @@ export const LINES: Line[] = [
   // --- Grown-ups
   s("grownups", "This part is for grown-ups. Hold the button to open."),
 
-  // ---- First minutes (docs/FIRST_MINUTES.md)
+  // --- First minutes (docs/FIRST_MINUTES.md): the school-year opt-in, the dojo welcome, and warm-up games for 3-to-4-year-olds who can't read (big picture cards; Sensei shows one first, then the child tries), then the Sticker Book rewards
   // Every line that contains a word is one whole recording; only pure sounds, stretched words and held first sounds are
   // spliced, after a lead-in ending on "..." (§12).
   // opt-in (§4)
@@ -408,6 +396,162 @@ export const LINES: Line[] = [
   s("fm_tap_all_words_in", "Tap all the words with this sound in them..."),
   s("fm_warm_up", "Let's do some warm-up training first!"),
   s("fm_super_listener", "You're a super listener! Now let's find out how we write the sounds."),
+  // "Let me show you!" then "Now you try!" (the Amendment): every warm-up game type opens with Sensei and the ninja
+  // doing one item, then the child's turn. The _2 lines are alternates for variety.
+  s("fm_show_me", "Let me show you!"),
+  s("fm_you_try", "Now you try!"),
+  s("fm_show_me_2", "Watch me first!"),
+  s("fm_you_try_2", "Your turn!"),
+  s("fm_tap_sun", "Tap the sun!"),
+  // the dojo welcome also shows the Hear it again button (docs/ARCHITECTURE.md §15.3)
+  s("fm_speaker", "And when you tap the speaker, I'll say it again!"),
+  // pace across the warm-ups (§10)
+  s("fm_practise_again", "Let's practise that again!"),
+  // W3 (ears): fast and slow on mug, "/a/ in it", first sound /m/
+  s("fm_name_mug", "This is a mug."),
+  s("fm_name_bag", "This is a bag."),
+  s("fm_name_jam", "This is some jam."),
+  s("fm_name_van", "This is a van."),
+  s("fm_name_map", "This is a map."),
+  s("fm_diff_sun", "Sun starts with a different sound."),
+  s("fm_all_start", "They all start with..."),
+  // W4 (picread): three in a row, and a picture word the child makes
+  s("fm_read_cat_dog_fish", "Cat... dog... fish. Cat-dog-fish!"),
+  s("fm_triple_cat_dog_fish", "Cat dog fish!"),
+  s("fm_l4_swap", "Now they're the other way round. Fish... dog... cat. Fish dog cat!"),
+  s("fm_which_three", "Listen. Fish... dog... cat. Which one did I read?"),
+  s("fm_triple_fish_dog_cat", "Fish dog cat!"),
+  s("fm_sunflower_q", "Sun... flower. Tap the rabbit to say them fast!"),
+  s("fm_sunflower_fast", "Sunflower!"),
+  // W5 (ears): Sensei says the sounds, the child listens for the word
+  s("fm_sounds_intro", "I'll say the sounds. You listen for the word!"),
+  s("fm_name_mop", "This is a mop."),
+  s("fm_name_cap", "This is a cap."),
+  s("fm_name_bug", "This is a bug."),
+  s("fm_name_fan", "This is a fan."),
+  s("fm_name_man", "This is a man."),
+  s("fm_name_jug", "This is a jug."),
+  s("fm_name_bun", "This is a bun."),
+  s("fm_name_bus", "This is a bus."),
+  s("fm_l5_done", "You heard the words in the sounds. Super listening!"),
+  // W6 (picread): sound dots under pictures, tapped this way like the sound buttons in the dojo
+  s("fm_dots_intro", "Every dot is a sound. Ninjas tap them this way!"),
+  s("fm_dots_turn", "Your turn! Tap the dots this way, and say the sounds with me."),
+  s("fm_dots_say", "Say the sounds... and say the word!"),
+  s("fm_l6_done", "Now you're ready to find out how we write the sounds!"),
+
+  // --- World Flower 2.0 (src/scenes/Tree.tsx, src/scenes/Intros.tsx; the scripts are in src/content/teach.ts)
+  // trips to the World Flower (engine/gems.ts FlowerVisit), the petal detail's Practise gate, and the first-visit intro
+  s("wf_i3", "Inside each petal are shiny gems. Each gem is a way to spell the sound."),
+  s("wf_found_sound", "You found a new sound! Look, here is its petal, shining through the mist."),
+  s("wf_found_gem", "You found a new gem! It's a spelling of the sound..."),
+  s("wf_petals_you_know", "Every shining petal is a sound that you know!"),
+  s("wf_world_new", "New sounds are hiding in this land. Let's go and find them!"),
+  s("wf_practised", "Look! Your gem filled up with ninja power."),
+  s("wf_help_petal", "Tap a gem to hear how it spells the sound. Tap the gate to practise it in the dojo!"),
+  s("wf_new_gem_here", "Look! Your new gem goes here, in its petal."),
+  s("wf_spelling_of", "This is a spelling of the sound..."),
+
+  // ---- Narrative audit (docs/NARRATIVE_AUDIT.md, playtest/narrative/audit.json): explanations in the level scenes.
+  // When each one plays is src/content/narrative.ts (spacing) and src/scenes/narrate.tsx (the per-save ledger). The
+  // sub-headings below name the scene, so the line linter knows what is on screen.
+  // --- Dojo (narrative audit): a new spelling, adjacent consonants (F12), and Help that never segments the word (F27)
+  s("audit_spell_it", "And this is how we spell it."),
+  s("audit_hear_see", "We hear the sound. Now look: this is how we spell it."),
+  s("audit_dojo_back", "Back to the dojo! Let's learn some new sounds."),
+  s("audit_neighbours", "These sounds sit next to each other. Listen for each one as we say the word slowly."),
+  s("audit_neighbours_plain", "These sounds sit next to each other. Listen for every one!"),
+  s("audit_spelling_help", "Listen to the word slowly. What sound do you hear here?"),
+  s("audit_spelling_help_plain", "Listen to the word again. What sound do you hear here?"),
+  // --- Correction (narrative audit): whole-sentence alternatives to listen_here, rotated; a stretched word follows
+  s("audit_listen_slowly", "Let's listen to the word again, slowly."),
+  s("audit_listen_next", "Hmm, listen again. What sound comes next?"),
+  // --- Praise (narrative audit): the first time the child's right answers fill a gem, in any level (F04)
+  s("audit_gem_first", "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up."),
+  // --- Battle (narrative audit): Baron Muddle's motive (F18), the first Gem Trial and its bar (F16)
+  s("audit_baron_first", "Baron Muddle hid the sounds. Let's win them back from his monsters."),
+  s("audit_trial_first", "Your gem is ready. Spell the words to win it."),
+  s("audit_timer_short", "Watch the purple bar. Spell the word before it fills."),
+  s("audit_timer_hearts", "If it fills, you lose a heart. I will help you try again."),
+  s("audit_neighbours_short", "In these words, some sounds sit close together. Listen carefully for every one!"),
+  // --- Run (narrative audit): a rotating cue before a word's sounds (with run_blend and t_listen_for_word)
+  s("audit_sounds_again", "Listen to the sounds, and catch the word they make!"),
+  // --- Sort (narrative audit): the chests' spellings, shown one by one with their sound (F13)
+  s("audit_sort_first", "Sorting time! These words have the same sound, but it's spelt in different ways."),
+  s("audit_sort_again", "Sorting time! Same sound, different spellings."),
+  s("audit_sort_pair", "This sound can be spelt in two ways."),
+  s("audit_sort_three", "This sound can be spelt in three ways."),
+  // --- Swap (narrative audit): the place of the sound that changes (first, middle, last)
+  s("audit_swap_first", "Yes, the first sound changes! Now pick the new sound."),
+  s("audit_swap_middle", "Yes, the middle sound changes! Now pick the new sound."),
+  s("audit_swap_last", "Yes, the last sound changes! Now pick the new sound."),
+  // --- Story (narrative audit): choosing by reading (F14), and common words with untaught spellings (F15), in the
+  // official parent wording "This is 'the', just say 'the' here"
+  s("audit_story_choice", "Read the two words. Tap the one you choose."),
+  s("audit_story_choose_again", "Read the words, and tap one!"),
+  s("audit_special_the", "This is 'the'. Just say 'the' here."),
+  s("audit_special_is", "This is 'is'. Just say 'is' here."),
+  s("audit_special_his", "This is 'his'. Just say 'his' here."),
+  s("audit_special_to", "This is 'to'. Just say 'to' here."),
+  s("audit_special_i", "This is 'I'. Just say 'I' here."),
+  s("audit_special_so", "This is 'so'. Just say 'so' here."),
+  s("audit_special_he", "This is 'he'. Just say 'he' here."),
+  s("audit_special_you", "This is 'you'. Just say 'you' here."),
+  s("audit_special_go", "This is 'go'. Just say 'go' here."),
+
+  // ---- Integration (26 Sep 2026): the narrative audit's explanations in the early games, the rewards and the
+  // Bridging Unit (docs/NARRATIVE_AUDIT.md F02, F04, F08-F10, F17, F25). Sub-headings name the scene for the linter.
+  // --- Dojo (integration): the first word-building dojo (w1-4): what a dojo is, left to right, and the last sound
+  s("audit_dojo_first", "This is our dojo. Here we listen to sounds, make words, and read them."),
+  s("audit_left_right", "We start here, and go this way."),
+  s("audit_last_place", "The last sound is at the end of the word. Listen to the end."),
+  // --- Early learning (integration): the middle sound (Sound Hunt), and a reminder before the sounds-to-words game
+  s("audit_middle_place", "The middle sound comes after the first sound, and before the last sound."),
+  s("audit_made_of_sounds", "Remember? Words are made of sounds!"),
+  // --- Early learning (integration): each picture in the first-sound and sound-hunt games named in one whole sentence
+  // (Round 13: no "This is a..." + [word] splices), like the warm-ups' fm_name_ lines
+  s("fm_name_ant", "This is an ant."), s("fm_name_apple", "This is an apple."), s("fm_name_bed", "This is a bed."), s("fm_name_bin", "This is a bin."),
+  s("fm_name_cot", "This is a cot."), s("fm_name_cup", "This is a cup."), s("fm_name_fox", "This is a fox."), s("fm_name_hat", "This is a hat."),
+  s("fm_name_leg", "This is a leg."), s("fm_name_lid", "This is a lid."), s("fm_name_log", "This is a log."), s("fm_name_mat", "This is a mat."),
+  s("fm_name_milk", "This is some milk."), s("fm_name_nest", "This is a nest."), s("fm_name_net", "This is a net."), s("fm_name_nut", "This is a nut."),
+  s("fm_name_pan", "This is a pan."), s("fm_name_peg", "This is a peg."), s("fm_name_pen", "This is a pen."), s("fm_name_pig", "This is a pig."),
+  s("fm_name_pin", "This is a pin."), s("fm_name_pond", "This is a pond."), s("fm_name_pot", "This is a pot."), s("fm_name_sand", "This is some sand."),
+  s("fm_name_sit", "Look, she can sit."), s("fm_name_tap", "This is a tap."), s("fm_name_tent", "This is a tent."), s("fm_name_tin", "This is a tin."),
+  s("fm_name_top", "This is a top."), s("fm_name_web", "This is a web."), s("fm_name_zip", "This is a zip."),
+  // --- Early learning (integration): the answer's word and its lead-in in one recording, so only the pure sound is
+  // joined ("Mop starts with..." [/m/], "Pin has this sound in the middle..." [/i/]; docs/FIRST_MINUTES.md §12 rule 1)
+  s("fs_ant", "Ant starts with..."), s("fs_apple", "Apple starts with..."), s("fs_man", "Man starts with..."), s("fs_map", "Map starts with..."),
+  s("fs_mat", "Mat starts with..."), s("fs_milk", "Milk starts with..."), s("fs_mop", "Mop starts with..."), s("fs_mug", "Mug starts with..."),
+  s("fs_nest", "Nest starts with..."), s("fs_net", "Net starts with..."), s("fs_nut", "Nut starts with..."), s("fs_pan", "Pan starts with..."),
+  s("fs_peg", "Peg starts with..."), s("fs_pen", "Pen starts with..."), s("fs_pig", "Pig starts with..."), s("fs_pin", "Pin starts with..."),
+  s("fs_pond", "Pond starts with..."), s("fs_pot", "Pot starts with..."), s("fs_sand", "Sand starts with..."), s("fs_sit", "Sit starts with..."),
+  s("fs_sock", "Sock starts with..."), s("fs_sun", "Sun starts with..."), s("fs_tap", "Tap starts with..."), s("fs_tent", "Tent starts with..."),
+  s("fs_tin", "Tin starts with..."), s("fs_top", "Top starts with..."),
+  s("mid_pin", "Pin has this sound in the middle..."), s("mid_tin", "Tin has this sound in the middle..."), s("mid_zip", "Zip has this sound in the middle..."),
+  s("mid_lid", "Lid has this sound in the middle..."), s("mid_pig", "Pig has this sound in the middle..."), s("mid_milk", "Milk has this sound in the middle..."),
+  s("mid_bin", "Bin has this sound in the middle..."), s("mid_mop", "Mop has this sound in the middle..."), s("mid_top", "Top has this sound in the middle..."),
+  s("mid_pot", "Pot has this sound in the middle..."), s("mid_cot", "Cot has this sound in the middle..."), s("mid_log", "Log has this sound in the middle..."),
+  s("mid_dog", "Dog has this sound in the middle..."), s("mid_fox", "Fox has this sound in the middle..."),
+  // --- First minutes (integration): warm-up W4's picture words, rain + bow and snow + man (the child says them fast)
+  s("fm_name_rain", "This is rain."), s("fm_name_bow", "This is a bow."), s("fm_name_snow", "This is snow."),
+  s("fm_rainbow_q", "Rain... bow. Tap the rabbit to say them fast!"), s("fm_rainbow", "Rainbow!"),
+  s("fm_snowman_q", "Snow... man. Tap the rabbit to say them fast!"), s("fm_snowman", "Snowman!"),
+  // --- Rewards (integration): what the first petal means (F03), and gem energy only when a gem visibly fills (F04)
+  s("audit_petal_means", "This petal is for the sound..."),
+  s("audit_gem_more", "Look, this gem has filled a little more."),
+  // --- Praise (integration): the first time a streak powers the ninja up (F17)
+  s("audit_streak_first", "Three right answers in a row! Your ninja is getting stronger."),
+  // --- Sort (integration): the Bridging Unit's first sort, after all the one-sound spellings (F25)
+  s("audit_bridging_first", "You know this sound! Now let's look at the different ways we spell it."),
+
+  // --- First minutes (review pass, 26 Sep): Lesson 1's "words are made of sounds" in about 4 s (the 7.2 s
+  // fm_hear_sounds stays as the fallback). Owned by the first-minutes review fixes; edit only this block.
+  s("fm_hear_sounds_short", "Slowly, I hear its sounds. Words are made of sounds!"),
+
+  // --- Re-audit r2 fixes (26 Sep): whole sentences for a merged picture said again once it is clean (the dog-fish), and
+  // the battle reward naming more than one gem. Owned by the re-audit r2 fix pass; edit only this block.
+  s("r2_dog_fish", "Dog fish!"),
+  s("r2_gems_more", "Look, these gems have filled a little more."),
 
   // --- Baron Muddle
   b("baron_taunt_1", "Mwa-ha-ha... I hid THAT sound very well, little ninja."),

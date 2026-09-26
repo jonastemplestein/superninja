@@ -3,6 +3,9 @@
 > **Amendment (Jonas, 26 Sep 2026): "have the same let me show you, now you try mechanism in the warm ups".** Every warm-up game type opens with **"Let me show you!"**: Sensei and the ninja demonstrate one item, with the paw tapping and the ninja moving, and nothing for the child to do. Then comes **"Now you try!"**, where the child does it. This applies to Ninja Ears (naming and picking), fast and slow, "tap all that start with /s/", "Ninjas read this way" and "Which did I read?". The demo item counts towards the time budget (keep it to about 5 s). Keep it light: two phases in the warm-ups; the full I do / we do / you do comes back from IC Unit 1. New lines to record: `fm_show_me` "Let me show you!" and `fm_you_try` "Now you try!". Alternates for variety: `fm_show_me_2` "Watch me first!" and `fm_you_try_2` "Your turn!".
 
 
+> **Review pass (26 Sep 2026, agents on Jonas's behalf; every change is a row in docs/DECISIONS.md).** Lesson 1 has no slow-word pick: with the Amendment's demos the governor dropped both for every child, so the first one is W3's, with its own "Let me show you!" (Reception keeps its cat pick). "Words are made of sounds" is the 4.4 s `fm_hear_sounds_short`. In the warm-ups only choices between pictures count towards the streak, and tier-ups are silent. Lesson 2's swap is ◇ and the which-did-I-read demo is dropped when the lesson is behind; beat times are the quick bot's, and an optional beat plays only if the lesson still finishes by its target. At the hard cap the child keeps their turn (their first tap, or 7 s) before the paw, "Here's the last one!" is only for one answer left, and "You found them…!" only counts the child's own finds. Reward 2's book flies to the map before the first petal blooms on a real World Flower, which then flies into the map's flower button. Measured with a bot answering after 1.2 s: Lesson 1 80.7 s, Lesson 2 55.8 s, title to the map 4:23 (at 2×; 82.6 s, 56.8 s and 4:32 at 4×).
+
+
 **Status:** the spec for implementation, written 26 September 2026 in answer to Jonas's Round 13 feedback (docs/FEEDBACK.md). It merges three competing drafts (a preschool designer, a teacher and a UX designer), scored in section 1.
 
 **What it replaces:**
@@ -297,6 +300,7 @@ In the table, `[x w]` is the stretched word ("sssuuunnn"), `[o w]` is the held f
 | 9 | 3 | Every bead lit; the sticker bead bursts. | `fm_l1_done` "You can hear the sounds in words. Brilliant listening!" | celebrates |
 
 That comes to 83 s. The child makes seven decisions: sock, tortoise, rabbit ◇, cat, sock ◇, and two finds; they also say /s/ aloud once.
+- *(Review pass: beat 6, the slow words, has left Lesson 1: it never fitted beside the Amendment's demos. The first slow-word pick is W3's, with a demo. So the child makes five decisions here: sock, tortoise, rabbit ◇ and two finds.)*
 - If the lesson is behind, the governor drops the rabbit and the second slow word, saving about 12 s.
 - The stretched words are never segmented. Sensei stretches, and the dots only show that the sounds are there.
 
@@ -365,6 +369,8 @@ That comes to 59 s, with six decisions (four with ◇ dropped).
 | 10–15 | The /s/ stickers (sun, sock, sausage, sunflower) hop in turn, each first dot glowing gold. | `fm_rw2_s` "Sun, sock, sausage and sunflower. They all start with..." [/s/] | taps each with a ki pulse |
 | 15–20 | A small World Flower (`FlowerIcon`) rises over the book. The **/s/ petal glows through the mist**, from hidden to met, with a chime. **First time only.** | `fm_rw2_petal` "You found your very first sound! Look, its petal is shining through the mist." | powers up, facing the flower |
 | 20–26 | The book shuts and flies into the map's Sticker Book button. The map fades in and the ninja hops from stone 1 to stone 3. Stone 3 bounces with the pointing hand. | `fm_rw2_map` "Your Sticker Book lives here, on the map!" then `map_hint` | the map hop |
+
+*(Review pass: the book shuts and flies to the map before the petal beat, so the petal has the stage to itself: a real World Flower of 420 stage px, every petal in the mist, the /s/ petal blooming into colour on "its petal is shining", then the flower flies into the map's World Flower button.)*
 
 ---
 
@@ -567,7 +573,7 @@ The ninja stands bottom-left all the time and glows on streaks (docs/HERO.md). L
 | Swap | a leapfrog flip over the rail |
 | Compound word | a spell orb pulls two cards into one; for starfish, **throws its own golden star** onto the fish |
 | Wrong | a head-scratch "think" of 0.7 s or less; never hurt, never red |
-| 3, 6 and 10 in a row | the existing tier beats, carried from Lesson 1 into Lesson 2 |
+| 3, 6 and 10 in a row | the existing tier beats, carried from Lesson 1 into Lesson 2. In the warm-ups only choices between pictures count (not the tortoise or rabbit), and a tier-up is the power-up alone, with no line: the first streak's explanation waits for the first lesson where the child reads or spells (review pass, docs/DECISIONS.md) |
 | Rewards | a hop or air punch on each sticker landing; laughs at the shiny sticker; powers up as the petal glows |
 | Opt-in | leans toward each spotlit card; dashes through the chosen class door |
 
@@ -695,7 +701,8 @@ All are Sensei's. `[/s/]`, `[x w]` and `[o w]` after a line are spliced clips, n
 | fm_fast_sun | I can say a word fast. Sun! | L1 fast/slow |
 | fm_slow | Or I can say it slowly... | L1, then [x sun] |
 | fm_same_word | Fast or slow, it's the same word. Sun! | L1 |
-| fm_hear_sounds | When I say a word slowly, I can hear the sounds that make up the word. Words are made of sounds! | L1 |
+| fm_hear_sounds | When I say a word slowly, I can hear the sounds that make up the word. Words are made of sounds! | L1 (fallback only) |
+| fm_hear_sounds_short | Slowly, I hear its sounds. Words are made of sounds! | L1 (4.4 s; the review pass, 26 Sep) |
 | fm_tap_tortoise | Your turn! Tap the tortoise, and say it slowly with me. | L1 |
 | fm_tap_rabbit | Now tap the rabbit, and say it fast! | L1 ◇ |
 | fm_slow_listen | Listen to my slow word... | L1, then [x cat] |

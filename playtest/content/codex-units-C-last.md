@@ -1,0 +1,3 @@
+Created EC27–EC49 and PW1–PW9, and repaired the earlier units against the reconciled `sw.ts`. **All 70 unit files pass** `bun scripts/content/validate-units.ts`.
+
+Audio is present for all **1,113** published unit and poly words. The picture audit passed 37 of 128 attempted cards; after up to five takes, I removed 91 ambiguous picture tags. Every remaining picture-tagged word has a card. Quota shortfalls, schwa decisions and words for human review are in the [phase C report](/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/content/units-C-report.md). No commit was made.

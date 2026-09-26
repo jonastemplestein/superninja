@@ -78,12 +78,10 @@ export const words = [
     "text": "cook",
     "segs": "c.oo=uu.k",
     "unit": "EC12",
-    "pic": "one smiling cook in a white hat stirring a pot",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oo"
+      "sort:oo",
+      "dictation-safe"
     ]
   },
   {
@@ -102,12 +100,10 @@ export const words = [
     "text": "wood",
     "segs": "w.oo=uu.d",
     "unit": "EC12",
-    "pic": "one small stack of cut firewood logs",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:oo"
+      "sort:oo",
+      "reading-only"
     ]
   },
   {

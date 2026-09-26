@@ -1,36 +1,50 @@
 // The World Flower: the heart of the Island of Sounds (docs/ART_STYLE.md, assets-src/world-flower/model_sheet.png).
 // View 0 is the flower itself: 44 glassy teardrop petals, one per sound, in the school chart's colours. A petal glows
-// once all its gems are won, fills in as gems are won, and is a dim outline while it is still missing.
+// once all its gems are won, fills in as gems are won, is inked in once its sound is met, and is a pale ghost before.
 // View 1 is the petal chart as a ninja scroll the child swipes: the school's "Extended Code alternative spellings"
 // sheet (sheet 1, sheet 2, then the extra sounds) as one row of big teardrop petals with every spelling inside.
 // Every spelling is a gem: dim until taught, charging with practice, glowing when its Gem Trial is ready, and a solid
-// jewel once won. Tap a petal (on the flower or the scroll) to open it.
+// jewel once won. Tap a petal (on the flower or the scroll) to open it: tap a gem to hear Sensei explain how it spells
+// the sound, and tap the green gate to practise it in the dojo.
+// World Flower 2.0 (docs/FEEDBACK.md Round 12): the game also brings children here (engine/gems.ts FlowerVisit): a gem
+// won in its Gem Trial plays the victory sequence below (GemVictory); new spellings, a new land and a finished practice
+// play their trips (Intros.tsx GemFound and WorldVisit, and the practised beat here). What Sensei says is in teach.ts.
 // Layout: nothing interactive in the bottom-left 330×340 (the player's ninja) or the bottom-right 150×150 (Sensei's help).
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { PETALS, CHART_PETALS, chartOf, neededGems, type Petal, type Gem, type ChartPetal } from "../content/flower";
-import { PHONEMES, WORDS, WORD_BY_TEXT, type PhonemeId, type Word } from "../content/phonics";
-import { introGem, introPetal, sameSound, type Explanation } from "../content/teach";
-import { say, sfx, playMusic } from "../engine/audio";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { PETALS, CHART_PETALS, chartOf, neededGems, gemByKey, type Petal, type Gem, type ChartPetal } from "../content/flower";
+import { PHONEMES, WORD_BY_TEXT, type PhonemeId, type Word } from "../content/phonics";
+import { introGem, introPetal, sameSound, exampleWords, victoryScript, practisedScript, type Explanation, type Beat } from "../content/teach";
+import { say, sfx, playMusic, load, urls, audioCtx, settings, isSpeaking, preload, onClip } from "../engine/audio";
+import { TEACH_WORD_TIMES } from "../content/teach-word-times.gen";
+import { PIC_PLATES, PLATE_COLOURS } from "../content/pic-plates.gen";
+import { FAST } from "../engine/fast";
 import { useSave, store, type Save } from "../engine/store";
-import { gemState, energyOf, petalComplete, flowerComplete, knownNow, readyGems, type GemState } from "../engine/gems";
-import { img, RoundButton, Icon, fx, SenseiDock, tapProps, useHelp } from "../ui/ui";
-import { GemIcon } from "../ui/Gem";
-import { FlowerIntro } from "./Intros";
+import {
+  gemState, energyOf, petalComplete, flowerComplete, knownNow, readyGems, canPractise, waysKnown, markVisited, lastPractice, petalOfGem, isMet, isWayToSpell,
+  type GemState, type FlowerVisit,
+} from "../engine/gems";
+import { img, RoundButton, Icon, fx, SenseiDock, tapProps, useHelp, TalkingFace, TapHint, stageRect, sleep, shakeStage } from "../ui/ui";
+import { NinjaSpot, ninja } from "../ui/Ninja";
+import { FlowerIntro, WorldVisit, GemFound } from "./Intros";
 import "../styles/tree-teach.css";
+import "../styles/tree-visit.css";
 
 /** Teardrop petal (round top, point at the bottom), centred on 0,0 — the shape on the school's sheet. */
-export const teardrop = (w: number, h: number) => {
+export const teardrop = (w: number, h: number) => teardropAt(w, h, 0, 0);
+/** The same teardrop centred on (x, y), e.g. for a CSS clip-path, which works in the element's own box. */
+export function teardropAt(w: number, h: number, x: number, y: number) {
   const r = w / 2;
   const cy = -h / 2 + r;
-  return `M0,${h / 2} C${-w * 0.12},${h * 0.28} ${-r},${h * 0.06} ${-r},${cy} A${r},${r} 0 0 1 ${r},${cy} C${r},${h * 0.06} ${w * 0.12},${h * 0.28} 0,${h / 2} Z`;
-};
+  const P = (px: number, py: number) => `${+(px + x).toFixed(2)},${+(py + y).toFixed(2)}`;
+  return `M${P(0, h / 2)} C${P(-w * 0.12, h * 0.28)} ${P(-r, h * 0.06)} ${P(-r, cy)} A${r},${r} 0 0 1 ${P(r, cy)} C${P(r, h * 0.06)} ${P(w * 0.12, h * 0.28)} ${P(0, h / 2)} Z`;
+}
 
 const petalOf = (p: PhonemeId) => PETALS.find((x) => x.p === p)!;
 
 // ---------------------------------------------------------------- the World Flower (SVG, matches the painted design)
 const rgb = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 const hex = (c: number[]) => "#" + c.map((v) => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, "0")).join("");
-const mix = (a: string, b: string, t: number) => hex(rgb(a).map((v, i) => v + (rgb(b)[i] - v) * t));
+export const mix = (a: string, b: string, t: number) => hex(rgb(a).map((v, i) => v + (rgb(b)[i] - v) * t));
 function hue(h: string) {
   const [r, g, b] = rgb(h).map((v) => v / 255);
   const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
@@ -39,7 +53,7 @@ function hue(h: string) {
   return x / 6;
 }
 /** The chart's /or/ petal is ink-dark; on the flower it is painted deep bronze so it doesn't read as a hole. */
-const flowerColour = (c: string) => (c === "#2b1d14" ? "#7a4a24" : c);
+export const flowerColour = (c: string) => (c === "#2b1d14" ? "#7a4a24" : c);
 /** Inner ring: the 20 vowel sounds; outer ring: the 24 consonants. Each ring runs round in rainbow order. */
 export const FLOWER_RINGS: ChartPetal[][] = [
   CHART_PETALS.filter((c) => PHONEMES[c.p].vowel).sort((a, b) => hue(a.colour) - hue(b.colour)),
@@ -52,20 +66,28 @@ const RING = [
 ];
 const HEART = 104;
 
-/** How lit a petal is: 1 = back on the flower; 0..1 = share of its gems won so far. */
-export function petalLight(p: PhonemeId, save: Save) {
+/** How lit a petal is: 1 = back on the flower; 0.15..0.9 = some of its gems won; a touch of ink (0.06) once its sound
+ *  has been met, so the child can see which sounds they know; 0 = still missing. */
+export function petalLight(p: PhonemeId, save: Save, known: Set<string> = knownNow(save)) {
   const pt = petalOf(p);
   if (petalComplete(pt, save)) return 1;
   const need = neededGems(pt);
-  return need.length ? (0.9 * need.filter((g) => save.gems.includes(g.key)).length) / need.length : 0;
+  const won = need.filter((g) => save.gems.includes(g.key)).length;
+  if (won) return 0.15 + (0.75 * won) / need.length;
+  return pt.gems.some((g) => isMet(gemState(g, save, known))) ? 0.06 : 0;
 }
 
 let flowerIds = 0;
 /**
  * The World Flower, sized by its container (the bloom fills the box; the painted stem hangs below it, outside the box).
- * `light(p)` 0..1 per petal, `ready` petals get a pulsing gold outline, `landing` animates one petal flying home.
+ * `light(p)` 0..1 per petal, `ready` petals get a pulsing gold outline, `landing` animates one petal flying home,
+ * `hint` petals shimmer through the mist (sounds hiding in this land), and `flash` lights one petal up for a moment.
+ * `misty`: the missing petals are drawn in their own colours, softened (a flower still lost in the mist, over a dimmed
+ * stage), not as pale ghosts. `bloom`: this petal pops out to twice its size and settles, bigger and glowing, on top.
  */
-export function WorldFlower({ light, ready, landing, count, onPetal, stem = true, label = "The World Flower" }: {
+export function WorldFlower({ light, ready, landing, count, onPetal, stem = true, label = "The World Flower", hint, flash, misty, bloom }: {
+  misty?: boolean;
+  bloom?: PhonemeId | null;
   light: (p: PhonemeId) => number;
   ready?: Set<string>;
   landing?: PhonemeId | null;
@@ -73,6 +95,8 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
   onPetal?: (p: PhonemeId) => void;
   stem?: boolean;
   label?: string;
+  hint?: Set<PhonemeId>;
+  flash?: PhonemeId | null;
 }) {
   const uid = useMemo(() => `wf${++flowerIds}`, []);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -109,21 +133,22 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
     const col = flowerColour(c.colour);
     const on = l >= 1;
     const d = teardrop(g.w, g.len);
+    const blooming = bloom === c.p;
     return (
       <g key={c.p} transform={`rotate(${a}) translate(0 ${-(g.r0 + g.len / 2)})`}>
-        <g className={landing === c.p ? "wf-land" : undefined}>
+        <g className={landing === c.p ? "wf-land" : blooming ? "wf-bloom" : undefined} filter={blooming ? `url(#${uid}-lit)` : undefined}>
           <path
             d={d}
             data-p={c.p}
             aria-label={`petal ${c.p}`}
-            // missing petals are pale ghosts with a hint of their colour (as in the painted "partly regrown" state);
-            // petals with some gems won fill in with their colour
-            fill={on ? `url(#${uid}-${c.p})` : l > 0 ? col : mix(col, "#fff4dc", 0.72)}
-            fillOpacity={on ? 1 : l > 0 ? 0.25 + 0.5 * l : 0.3}
-            stroke={on || l > 0 ? "#2b1d14" : "#fff4dc"}
-            strokeOpacity={on ? 1 : l > 0 ? 0.5 : 0.9}
+            // missing petals are pale ghosts with a hint of their colour (as in the painted "partly regrown" state), or
+            // in the mist their own colours softened; met petals are inked in; petals with some gems won fill in
+            fill={on ? `url(#${uid}-${c.p})` : l > 0 ? col : misty ? mix(col, "#7d7a96", 0.4) : mix(col, "#fff4dc", 0.72)}
+            fillOpacity={on ? 1 : l > 0 ? 0.25 + 0.5 * l : misty ? 0.72 : 0.3}
+            stroke={on || l > 0 || misty ? "#2b1d14" : "#fff4dc"}
+            strokeOpacity={on ? 1 : l > 0 ? 0.5 : misty ? 0.4 : 0.9}
             strokeWidth={on ? 5 : 3.5}
-            style={{ cursor: onPetal ? "pointer" : undefined }}
+            style={{ cursor: onPetal ? "pointer" : undefined, transition: "fill-opacity .8s" }}
           />
           {on && <ellipse cx={-g.w * 0.16} cy={-g.len / 2 + g.w * 0.36} rx={g.w * 0.13} ry={g.w * 0.24} fill="#fff" opacity={0.55} transform={`rotate(-18 ${-g.w * 0.16} ${-g.len / 2 + g.w * 0.36})`} pointerEvents="none" />}
           {ready?.has(c.p) && (
@@ -131,6 +156,12 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
               <animate attributeName="stroke-opacity" values="0.2;1;0.2" dur="1.3s" repeatCount="indefinite" />
             </path>
           )}
+          {hint?.has(c.p) && (
+            <path d={d} fill="#fff" fillOpacity={0.3} stroke="#fff" strokeWidth={7} strokeDasharray="16 12" pointerEvents="none">
+              <animate attributeName="opacity" values="0.15;1;0.15" dur="1.6s" repeatCount="indefinite" />
+            </path>
+          )}
+          {flash === c.p && <path key={`f${c.p}`} className="wf-flash" d={d} fill="#fff6c8" stroke="#ffc53d" strokeWidth={12} pointerEvents="none" />}
         </g>
       </g>
     );
@@ -147,7 +178,7 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
         />
       )}
       <svg ref={svgRef} viewBox="-480 -480 960 960" width="100%" height="100%" role={onPetal ? "button" : "img"} aria-label={label} onPointerDown={onPetal ? pick : undefined} style={{ position: "absolute", inset: 0, overflow: "visible", zIndex: 1, touchAction: "none" }}>
-        <style>{`.wf-land{transform-box:fill-box;transform-origin:50% 100%;animation:wfland 1s cubic-bezier(.3,1.4,.5,1) both}@keyframes wfland{from{transform:translateY(-160px) scale(.2) rotate(-50deg);opacity:0}to{transform:none;opacity:1}}`}</style>
+        <style>{`.wf-land{transform-box:fill-box;transform-origin:50% 100%;animation:wfland 1s cubic-bezier(.3,1.4,.5,1) both}@keyframes wfland{from{transform:translateY(-160px) scale(.2) rotate(-50deg);opacity:0}to{transform:none;opacity:1}}.wf-flash{animation:wfflash .7s ease-out both}@keyframes wfflash{0%{opacity:0}25%{opacity:1}100%{opacity:0}}.wf-bloom{transform-box:fill-box;transform-origin:50% 100%;animation:wfbloom 1.7s cubic-bezier(.3,1.5,.5,1) both}@keyframes wfbloom{0%{transform:scale(1)}26%{transform:scale(2.1)}52%{transform:scale(1.62)}74%{transform:scale(1.4)}100%{transform:scale(1.32)}}`}</style>
         <defs>
           <radialGradient id={`${uid}-glow`}>
             <stop offset="0" stopColor="#fff6c8" stopOpacity="0.95" />
@@ -193,8 +224,8 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
         {/* outer ring first, so the inner petals overlap its pointed bases */}
         {[1, 0].map((ri) => (
           <g key={ri}>
-            <g>{FLOWER_RINGS[ri].map((c, i) => (light(c.p) >= 1 ? null : petal(c, i, ri)))}</g>
-            <g filter={`url(#${uid}-lit)`}>{FLOWER_RINGS[ri].map((c, i) => (light(c.p) >= 1 ? petal(c, i, ri) : null))}</g>
+            <g>{FLOWER_RINGS[ri].map((c, i) => (light(c.p) >= 1 || c.p === bloom ? null : petal(c, i, ri)))}</g>
+            <g filter={`url(#${uid}-lit)`}>{FLOWER_RINGS[ri].map((c, i) => (light(c.p) >= 1 && c.p !== bloom ? petal(c, i, ri) : null))}</g>
           </g>
         ))}
         {/* the golden heart with its ring of stamens */}
@@ -211,6 +242,8 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
             </>
           )}
         </g>
+        {/* a blooming petal, over the heart and every other petal */}
+        {bloom && [0, 1].map((ri) => FLOWER_RINGS[ri].map((c, i) => (c.p === bloom ? petal(c, i, ri) : null)))}
       </svg>
     </div>
   );
@@ -242,7 +275,7 @@ function scrollTap(fn: () => void) {
 }
 
 const PETAL_H = 262;
-const met = (st: GemState) => st === "charging" || st === "ready" || st === "won";
+const met = isMet;
 
 /** A spelling the child hasn't met yet: a dark crystal with a faint glint (no letters). */
 export function DarkCrystal({ size = 34 }: { size?: number }) {
@@ -257,31 +290,76 @@ export function DarkCrystal({ size = 34 }: { size?: number }) {
   );
 }
 
+/**
+ * A spelling as a cut jewel with its letters big enough to read on a phone (the flying gem, the big petal and the
+ * petal detail). Won: a polished jewel in the petal's colour. Ready: gold, bouncing. Charging: pale stone with a ring
+ * of gold energy round it.
+ */
+export function Jewel({ g, colour, state, energy = 0, size = 110, className = "", lit = 0 }: { g: string; colour: string; state: GemState; energy?: number; size?: number; className?: string; lit?: number }) {
+  const uid = useMemo(() => `jw${++flowerIds}`, []);
+  const won = state === "won", ready = state === "ready";
+  const txt = g.replace(/-/g, "");
+  const font = txt.length > 3 ? 27 : txt.length > 2 ? 34 : txt.length > 1 ? 44 : 54;
+  const [c0, c1] = won ? [mix(colour, "#ffffff", 0.5), mix(colour, "#2b1d14", 0.28)] : ready ? ["#fff6c8", "#ffc53d"] : ["#fffaf0", "#e8d8bd"];
+  return (
+    <div className={`jewel ${ready ? "gem-ready" : ""} ${lit > txt.length ? "joined" : ""} ${className}`} style={{ position: "relative", width: size, height: size, flex: "none" }}>
+      <svg viewBox="0 0 100 100" width={size} height={size} style={{ overflow: "visible", filter: won ? `drop-shadow(0 0 ${size * 0.06}px ${mix(colour, "#ffffff", 0.5)})` : ready ? "drop-shadow(0 0 8px #ffc53d)" : undefined }}>
+        <defs>
+          <linearGradient id={uid} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor={c0} />
+            <stop offset="1" stopColor={c1} />
+          </linearGradient>
+        </defs>
+        {state === "charging" && (
+          <>
+            <circle cx="50" cy="50" r="49" fill="none" stroke="rgba(43,29,20,.2)" strokeWidth="6" />
+            <circle cx="50" cy="50" r="49" fill="none" stroke="#ffc53d" strokeWidth="6" strokeLinecap="round" strokeDasharray={`${Math.max(0.02, energy) * 308} 308`} transform="rotate(-90 50 50)" style={{ transition: "stroke-dasharray 1.4s cubic-bezier(.3,1.2,.5,1)" }} />
+          </>
+        )}
+        <polygon points="50,7 86,25 93,61 50,93 7,61 14,25" fill={`url(#${uid})`} stroke="#2b1d14" strokeWidth="5" strokeLinejoin="round" />
+        <g stroke="#2b1d14" strokeWidth="1.8" opacity={won ? 0.45 : 0.2} fill="none">
+          <polyline points="14,25 31,31 50,25 69,31 86,25" />
+          <path d="M31,31 L50,93 L69,31 M7,61 L31,31 M93,61 L69,31" />
+        </g>
+        {won && <polygon points="24,22 39,16 34,31" fill="#fff" opacity={0.7} />}
+        <text x="50" y="52" textAnchor="middle" dominantBaseline="central" fontFamily="Andika, sans-serif" fontWeight={700} fontSize={font} fill={won ? "#fff" : "#2b1d14"} stroke={won ? "#2b1d14" : "#fffaf0"} strokeWidth={won ? 7 : 5} paintOrder="stroke">
+          {/* `lit`: its letters light one by one ("It's two letters…"), then all together ("…but it's one sound") */}
+          {lit ? [...txt].map((ch, i) => <tspan key={i} className={i < lit ? "jw-lit" : undefined}>{ch}</tspan>) : txt}
+        </text>
+      </svg>
+      {won && <span className="gem-sparkle" />}
+    </div>
+  );
+}
+
 /** One spelling inside a scroll petal, as a gem chip: met spellings are readable stone (charging, with an energy bar),
- *  a ready gem glows gold, a won gem is a polished jewel in the petal's colour, and unmet spellings are dark crystals. */
-function GemChip({ gem, st, energy, colour, size, focus }: { gem: Gem; st: GemState; energy: number; colour: string; size: number; focus?: boolean }) {
+ *  a ready gem glows gold, a won gem is a polished jewel in the petal's colour, and unmet spellings are dark crystals.
+ *  `reveal` pops it in with a burst of light (a spelling just met, after its trip here). */
+function GemChip({ gem, st, energy, colour, size, focus, reveal }: { gem: Gem; st: GemState; energy: number; colour: string; size: number; focus?: boolean; reveal?: boolean }) {
   if (!met(st)) return <DarkCrystal size={size * 0.95} />;
   const base: React.CSSProperties = { position: "relative", fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: size, lineHeight: 1.12, padding: "0 7px 2px", borderRadius: 9, whiteSpace: "nowrap", border: "2.5px solid #2b1d14" };
   const glow = focus ? { outline: "4px solid #ffc53d", outlineOffset: 2, animation: "wffocus 1s ease-in-out infinite" } : {};
+  const cls = reveal ? "chip-reveal" : "";
   if (st === "won")
-    return <span className="gem-won" style={{ ...base, ...glow, color: "#fff", background: `linear-gradient(160deg, ${mix(colour, "#ffffff", 0.45)}, ${colour} 55%, ${mix(colour, "#2b1d14", 0.25)})`, textShadow: "0 1.5px 0 #2b1d14, 0 0 2px #2b1d14", boxShadow: `inset 0 3px 0 rgba(255,255,255,.55), 0 0 10px ${colour}` }}>{gem.g}</span>;
-  if (st === "ready") return <span className="gem-ready" style={{ ...base, ...glow, color: "#2b1d14", background: "linear-gradient(160deg, #fff1b8, #ffc53d)", boxShadow: "0 0 12px #ffc53d" }}>{gem.g}</span>;
+    return <span data-gem-chip={gem.key} className={`gem-won ${cls}`} style={{ ...base, ...glow, color: "#fff", background: `linear-gradient(160deg, ${mix(colour, "#ffffff", 0.45)}, ${colour} 55%, ${mix(colour, "#2b1d14", 0.25)})`, textShadow: "0 1.5px 0 #2b1d14, 0 0 2px #2b1d14", boxShadow: `inset 0 3px 0 rgba(255,255,255,.55), 0 0 10px ${colour}` }}>{gem.g}</span>;
+  if (st === "ready") return <span data-gem-chip={gem.key} className={`gem-ready ${cls}`} style={{ ...base, ...glow, color: "#2b1d14", background: "linear-gradient(160deg, #fff1b8, #ffc53d)", boxShadow: "0 0 12px #ffc53d" }}>{gem.g}</span>;
   // charging: unpolished stone with an energy bar filling along the bottom
   return (
-    <span style={{ ...base, ...glow, color: "rgba(43,29,20,.86)", background: "repeating-linear-gradient(45deg, rgba(120,100,80,.07) 0 3px, transparent 3px 7px), #efe6d6", overflow: "hidden" }}>
+    <span data-gem-chip={gem.key} className={cls} style={{ ...base, ...glow, color: "rgba(43,29,20,.86)", background: "repeating-linear-gradient(45deg, rgba(120,100,80,.07) 0 3px, transparent 3px 7px), #efe6d6", overflow: "hidden" }}>
       {gem.g}
-      <i style={{ position: "absolute", left: 0, bottom: 0, height: 5, width: `${Math.max(6, energy * 100)}%`, background: "#ffc53d", borderTop: "1.5px solid #2b1d14" }} />
+      <i style={{ position: "absolute", left: 0, bottom: 0, height: 5, width: `${Math.max(6, energy * 100)}%`, background: "#ffc53d", borderTop: "1.5px solid #2b1d14", transition: "width 1.4s cubic-bezier(.3,1.2,.5,1)" }} />
     </span>
   );
 }
 
-function ScrollPetal({ p, save, known, onOpen, focusGem }: { p: PhonemeId; save: Save; known: Set<string>; onOpen: (p: Petal) => void; focusGem?: string | null }) {
+function ScrollPetal({ p, save, known, onOpen, focusGem, energyShow, reveal }: { p: PhonemeId; save: Save; known: Set<string>; onOpen: (p: Petal) => void; focusGem?: string | null; energyShow?: Record<string, number>; reveal?: string[] }) {
   const pt = petalOf(p);
   const c = chartOf(p);
   const done = petalComplete(pt, save);
-  const states = pt.gems.map((g) => gemState(g, save, known));
+  // a gem whose energy is being shown filling up (back from practice) stays a charging stone until it is full
+  const states = pt.gems.map((g) => ((st) => (st === "ready" && energyShow && g.key in energyShow ? "charging" : st))(gemState(g, save, known)));
   const known1 = states.some(met); // has the child met this sound yet?
-  const fill = done ? 1 : petalLight(p, save);
+  const fill = done ? 1 : petalLight(p, save, known);
   const focused = !!focusGem && pt.gems.some((g) => g.key === focusGem);
   // petals widen with the number of spellings (1 to about 12), so every spelling stays big enough to read
   const n = pt.gems.length;
@@ -362,7 +440,7 @@ function ScrollPetal({ p, save, known, onOpen, focusGem }: { p: PhonemeId; save:
       {known1 && (
         <div style={{ position: "absolute", left: w * 0.1, right: w * 0.1, top: h * 0.08, height: h * 0.6, display: "flex", flexWrap: "wrap", alignContent: "center", alignItems: "center", justifyContent: "center", gap: n > 9 ? "4px 5px" : "6px 6px", pointerEvents: "none" }}>
           {pt.gems.map((g, i) => (
-            <GemChip key={g.key + g.g} gem={g} st={states[i]} energy={energyOf(g.key, save)} colour={c.colour} size={n > 9 ? 25 : n > 6 ? 27 : 30} focus={g.key === focusGem} />
+            <GemChip key={g.key + g.g} gem={g} st={states[i]} energy={energyShow?.[g.key] ?? energyOf(g.key, save)} colour={c.colour} size={n > 9 ? 25 : n > 6 ? 27 : 30} focus={g.key === focusGem} reveal={reveal?.includes(g.key)} />
           ))}
         </div>
       )}
@@ -425,12 +503,17 @@ const ChartIcon = () => (
     ))}
   </svg>
 );
-const FlowerIcon = () => (
-  <svg viewBox="-60 -60 120 120">
-    {Array.from({ length: 8 }, (_, i) => (
-      <path key={i} d={teardrop(24, 40)} transform={`rotate(${i * 45}) translate(0 -34)`} fill={["#e8312f", "#f7a23b", "#f3c74a", "#2fa65a", "#2ec4b6", "#4a7dff", "#8a3be0", "#f0226b"][i]} stroke="#2b1d14" strokeWidth={4} />
-    ))}
-    <circle r={17} fill="#ffc53d" stroke="#2b1d14" strokeWidth={5} />
+/** The World Flower as an icon (the same one the map and the reward screen use: ui.tsx Icon.tree). */
+export const FlowerIcon = Icon.tree;
+
+/** The dojo's gate (a torii), for the Practise button. */
+export const GateIcon = () => (
+  <svg viewBox="0 0 64 64">
+    <path d="M6 14c14 4 38 4 52 0l-2 8c-13 3-35 3-48 0z" fill="#e8312f" stroke="#2b1d14" strokeWidth={4} strokeLinejoin="round" />
+    <rect x="10" y="26" width="44" height="7" rx="2" fill="#e8312f" stroke="#2b1d14" strokeWidth={4} />
+    <path d="M17 22v34M47 22v34" stroke="#2b1d14" strokeWidth={11} strokeLinecap="round" />
+    <path d="M17 22v34M47 22v34" stroke="#e8312f" strokeWidth={5} strokeLinecap="round" />
+    <rect x="28" y="22" width="8" height="11" fill="#fff4dc" stroke="#2b1d14" strokeWidth={3} />
   </svg>
 );
 
@@ -452,73 +535,582 @@ function GemKey() {
   );
 }
 
+// ---------------------------------------------------------------- shared pieces for the trips (Intros.tsx uses them too)
+/**
+ * The example word Sensei is saying right now (Round 13: "highlight the card being named"): a word clip of one of
+ * `words`, or the moment each is named inside a teacher-language sentence ("...like in rain, tail and nail.", timed by
+ * scripts/gen-teach-word-times.py), on the clip's own clock. null between words.
+ */
+export function useSpokenWord(words: string[]): string | null {
+  const [spot, setSpot] = useState<string | null>(null);
+  const key = words.join(" ");
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const clear = () => timers.splice(0).forEach(clearTimeout);
+    // (timers run on game time, like the clip: at ?fast=N both are N× faster)
+    const at = (ms: number, f: () => void) => timers.push(setTimeout(f, Math.max(0, ms)));
+    const off = onClip((id, start, end) => {
+      const len = (end - start) * FAST;
+      if (id.startsWith("word:")) {
+        const w = id.slice(5);
+        if (!words.includes(w)) return;
+        clear();
+        setSpot(w);
+        at(len + 450, () => setSpot(null));
+        return;
+      }
+      const hits = (TEACH_WORD_TIMES[id] ?? []).filter(([w]) => words.includes(w));
+      if (!hits.length) return;
+      clear();
+      setSpot(null);
+      // (a touch early, so the card is lit as the word begins)
+      hits.forEach(([w, t]) => at(t * 1000 - 60, () => setSpot(w)));
+      at(len + 450, () => setSpot(null));
+    });
+    return () => {
+      off();
+      clear();
+    };
+  }, [key]);
+  return spot;
+}
+const plateOfWord = (w: string) => PIC_PLATES[w]?.plate ?? "butter";
+
+/** Example words, each a card with its picture and the word with the spelling of the sound coloured in, on its
+ *  picture's plate colour. The word Sensei is saying is spotlit (a warm-white ring, a little bigger), the others dim.
+ *  Tap to hear. */
+export function ExampleWords({ show, colour, vertical, className = "" }: { show: Explanation["show"]; colour: string; vertical?: boolean; className?: string }) {
+  const spot = useSpokenWord(show.map((s) => s.word.text));
+  if (!show.length) return null;
+  return (
+    <div className={`ex-words ${vertical ? "vertical" : ""} ${spot ? "has-spot" : ""} ${className}`} onPointerDown={(e) => e.stopPropagation()}>
+      {show.map(({ word, highlight }, i) => (
+        <button
+          key={word.text + i}
+          className={`ex-word ${spot === word.text ? "spot" : ""} ${plateOfWord(word.text) === "night" ? "on-night" : ""}`}
+          aria-label={`word ${word.text}`}
+          style={{ animationDelay: `${i * 0.14}s`, "--plate": PLATE_COLOURS[plateOfWord(word.text)] } as CSSProperties}
+          {...tapProps(() => say({ word: word.text }))}
+        >
+          {word.pic && <img src={img(`pic_${word.text}`)} alt="" />}
+          <span>
+            {word.segs.map((s, j) => (
+              <b key={j} style={s.g === highlight.g && s.p === highlight.p ? { color: colour, WebkitTextStroke: "1.5px #2b1d14" } : undefined}>{s.g.replace("-", "")}</b>
+            ))}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export interface PetalSlot { gem: Gem; st: GemState; energy: number }
+/**
+ * One petal, big: the teardrop in its chart colour, filling from the point as its gems are won, its picture, and
+ * every spelling as a gem in its round top. Used by the gem victory (Tree), the new-gem trip and the land trip (Intros).
+ * `socket`: this gem's place is still empty (its gem is on its way). `reveal`: this gem's dark crystal cracks open.
+ * `lit`: gems lit up by a count ("Now you know three ways…"). `mist`: the whole petal is still hidden (it clears when
+ * this turns false). `bloom` (a counter): each change makes the petal burst into bloom once.
+ */
+export function BigPetal({ p, w = 330, h = 470, light, slots, socket, reveal, lit, focus, mist, bloom = 0, home, className = "", style, pulse, letters }: {
+  /** this gem pulses (each time `n` changes: its sound is being said) */
+  pulse?: { key: string; n: number } | null;
+  /** this gem's letters light up, `lit` of them (one more than it has: all together) */
+  letters?: { key: string; lit: number } | null;
+  p: PhonemeId;
+  w?: number;
+  h?: number;
+  light: number;
+  slots: PetalSlot[];
+  socket?: string | null;
+  reveal?: string | null;
+  lit?: string[];
+  focus?: string | null;
+  mist?: boolean;
+  bloom?: number;
+  home?: boolean;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  const c = chartOf(p);
+  const col = c.colour;
+  const done = light >= 1;
+  const d = teardropAt(w - 14, h - 14, w / 2, h / 2);
+  // gems the child knows are big enough to read; the ones still hidden are small dark crystals
+  const n = slots.filter((x) => met(x.st) || x.gem.key === socket || x.gem.key === reveal).length;
+  const size = (n <= 2 ? 118 : n <= 4 ? 96 : n <= 6 ? 80 : 66) * (w / 330);
+  const small = 46 * (w / 330);
+  const uid = `bp-${p}`;
+  return (
+    <div className={`big-petal ${done ? "done" : ""} ${className}`} data-petal={p} style={{ width: w, height: h, "--petal": col, ...style } as CSSProperties}>
+      <div key={bloom} className={bloom ? "bp-bloom" : ""} style={{ position: "absolute", inset: 0 }}>
+        <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} style={{ position: "absolute", inset: 0, overflow: "visible" }}>
+          <defs>
+            <linearGradient id={`${uid}-g`} x1="0.5" y1="0" x2="0.5" y2="1">
+              <stop offset="0" stopColor={mix(flowerColour(col), "#ffffff", 0.55)} />
+              <stop offset="0.6" stopColor={flowerColour(col)} />
+              <stop offset="1" stopColor={mix(flowerColour(col), "#2b1d14", 0.2)} />
+            </linearGradient>
+          </defs>
+          <path d={d} fill="#fffaf0" />
+          <path d={d} fill={`url(#${uid}-g)`} style={{ opacity: done ? 1 : 0, transition: "opacity 1.2s" }} />
+        </svg>
+        {/* the colour rising from the point as the gems are won */}
+        <div className="bp-fill" style={{ clipPath: `path("${d}")` }}>
+          <i style={{ height: `${done ? 100 : Math.max(0, light) * 100}%`, background: `linear-gradient(0deg, ${col}, ${mix(col, "#ffffff", 0.35)})` }} />
+        </div>
+        <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} style={{ position: "absolute", inset: 0, overflow: "visible", pointerEvents: "none" }}>
+          <path d={d} fill="none" stroke="#2b1d14" strokeWidth={16} />
+          <path d={d} fill="none" stroke={col} strokeWidth={9} />
+          {done && <ellipse cx={w * 0.33} cy={h * 0.2} rx={w * 0.07} ry={w * 0.15} fill="#fff" opacity={0.55} transform={`rotate(-20 ${w * 0.33} ${h * 0.2})`} />}
+        </svg>
+        <img className="bp-pic" src={img(`petal_${p}`)} alt="" draggable={false} style={{ left: w * 0.5 - w * 0.18, top: h * 0.58, width: w * 0.36, height: w * 0.36 }} onError={(e) => (e.currentTarget.style.display = "none")} />
+        <div className="bp-gems" style={{ left: w * 0.13, right: w * 0.13, top: h * 0.07, height: h * 0.5 }}>
+          {slots.map(({ gem, st, energy }) => {
+            const on = lit?.includes(gem.key);
+            const big = met(st) || socket === gem.key || reveal === gem.key;
+            const sz = big ? size : small;
+            return (
+              <div key={gem.key + gem.g + (pulse?.key === gem.key ? pulse.n : "")} data-slot={gem.key} className={`bp-slot ${on ? "lit" : ""} ${focus === gem.key ? "focus" : ""} ${pulse?.key === gem.key && pulse.n ? "pulse" : ""}`} style={{ width: sz, height: sz }}>
+                {socket === gem.key ? (
+                  <span className="bp-socket" />
+                ) : reveal === gem.key ? (
+                  <>
+                    <span className="bp-crack"><DarkCrystal size={size * 0.6} /></span>
+                    <span className="bp-emerge"><Jewel g={gem.g} colour={col} state={met(st) ? st : "charging"} energy={energy} size={size} /></span>
+                  </>
+                ) : met(st) ? (
+                  <Jewel g={gem.g} colour={col} state={st} energy={energy} size={size} lit={letters?.key === gem.key ? letters.lit : 0} />
+                ) : (
+                  <DarkCrystal size={small * 0.8} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+        {/* a sound not met yet: ink mist over the whole petal, which clears when it is found */}
+        <div className="bp-mist" style={{ clipPath: `path("${d}")`, opacity: mist ? 1 : 0 }}>
+          <span>?</span>
+        </div>
+      </div>
+      {done && home && <span className="gem-sparkle" style={{ right: "22%", top: "6%", width: "26%", height: "18%" }} />}
+    </div>
+  );
+}
+
+/** The slots for a petal as a save sees them. */
+export function slotsOf(pt: Petal, save: Save, known: Set<string> = knownNow(save)): PetalSlot[] {
+  return pt.gems.map((gem) => ({ gem, st: gemState(gem, save, known), energy: energyOf(gem.key, save) }));
+}
+
+/** The gem-victory music (public/a/m/gem_victory.mp3, a 10 s sting that builds, bursts and rings out), played over
+ *  the World Flower's own music (which fades out for it) and ducked under Sensei's voice. */
+function playSting(id: string) {
+  const c = audioCtx();
+  const vol = Math.min(0.95, settings.music * 2.6);
+  const gain = c.createGain();
+  gain.gain.value = 0.0001;
+  gain.connect(c.destination);
+  let src: AudioBufferSourceNode | null = null;
+  let stopped = false;
+  let ducked = false;
+  const poll = setInterval(() => {
+    const d = isSpeaking();
+    if (d === ducked || !src) return;
+    ducked = d;
+    gain.gain.setTargetAtTime(d ? vol * 0.28 : vol, c.currentTime, 0.15);
+  }, 90);
+  const started = load(urls.music(id)).then((buf) => {
+    if (!buf || stopped) return false;
+    src = c.createBufferSource();
+    src.buffer = buf;
+    src.playbackRate.value = FAST;
+    src.connect(gain);
+    ducked = isSpeaking();
+    gain.gain.setValueAtTime(ducked ? vol * 0.28 : vol, c.currentTime);
+    src.onended = () => clearInterval(poll);
+    src.start();
+    // (scripts/record-clips.ts mixes a "sting" once, not looped like music)
+    ((window as any).__audioLog as unknown[] | undefined)?.push({ t: Date.now(), url: urls.music(id), kind: "sting" });
+    return true;
+  });
+  return {
+    started,
+    stop() {
+      stopped = true;
+      clearInterval(poll);
+      try {
+        gain.gain.setTargetAtTime(0, c.currentTime, 0.25);
+        const s = src;
+        setTimeout(() => {
+          try {
+            s?.stop();
+          } catch {}
+          gain.disconnect();
+        }, 1500);
+      } catch {}
+    },
+  };
+}
+
+// ---------------------------------------------------------------- the gem victory
+type VictoryPhase = "build" | "petal" | "fly" | "bloom" | "talk" | "home" | "out";
+/** Stage coordinates of the victory (the play area between the ninja and Sensei's corner). */
+const VX = 700, VY = 330;
+const VP = { left: VX - 165, top: 88, w: 330, h: 470 };
+
+/**
+ * A gem won in its Gem Trial. On the victory music's shape (build 0–4 s, burst at 4 s, brass and flute to 7.5 s,
+ * ring-out to 10 s): the gem spins up in the middle of the screen, charging with light while the ninja powers up
+ * and Sensei says "You won the gem!"; its petal draws itself in behind it; on the burst the gem flies into its place
+ * in the petal, the petal blooms (flash, rings, sparks, petals falling, the ninja's big celebration) and fills with
+ * colour. As the music rings out Sensei explains the spelling (teach.ts newGem: "Your new gem goes right here! This is
+ * the way we spell /ae/ in rain… Now you know two ways to spell /ae/.") with its words on cards and the known gems
+ * lighting up one by one as she counts. Every beat moves something: the gem pulses each time its sound is said, its
+ * letters light one by one on "It's two letters…" and together on "…but it's one sound", and each example word's card
+ * is spotlit as she names it. A petal that is now complete flies home in the middle of the stage (re-audit r2): the big
+ * World Flower comes in, the petal flies into its own place on it, blooms there with a burst, rays and a chime, and
+ * holds. A complete petal shows only the gems it needs (petalComplete counts those), so "All the gems are in!" is
+ * true of what the child sees: spellings with no words yet stay out of it.
+ */
+function GemVictory({ gemKey, onDone, onBeat }: { gemKey: string; onDone: (petalDone: PhonemeId | null) => void; onBeat?: (cue: string) => void }) {
+  const gem = gemByKey(gemKey)!;
+  const pt = petalOfGem(gemKey)!;
+  const colour = chartOf(pt.p).colour;
+  const data = useMemo(() => {
+    const s0 = store.get();
+    // as won (a deep link may not have it in the save yet)
+    const after: Save = { ...s0, gems: s0.gems.includes(gemKey) ? s0.gems : [...s0.gems, gemKey] };
+    const before: Save = { ...after, gems: after.gems.filter((k) => k !== gemKey) };
+    const known = knownNow(after);
+    const petalDone = petalComplete(pt, after);
+    const needed = new Set(neededGems(pt).map((g) => g.key));
+    return {
+      slots: slotsOf(pt, after, known).filter((x) => !petalDone || needed.has(x.gem.key)),
+      ways: waysKnown(pt.p, after),
+      petalDone,
+      flowerDone: petalDone && flowerComplete(after),
+      lightBefore: petalLight(pt.p, before, known),
+      lightAfter: petalLight(pt.p, after, known),
+      met: new Set(Object.keys(after.words ?? {})),
+      afterSave: after,
+      known,
+    };
+  }, []);
+  const beats = useMemo(() => victoryScript(gem, { met: data.met, knownWays: data.ways, petalDone: data.petalDone, flowerDone: data.flowerDone }), []);
+  const [phase, setPhase] = useState<VictoryPhase>("build");
+  const [heat, setHeat] = useState(0); // how charged the gem is while the music builds (0..3)
+  const [cue, setCue] = useState("");
+  const [lit, setLit] = useState<string[]>([]);
+  const [words, setWords] = useState<Explanation["show"]>([]);
+  const [bloom, setBloom] = useState(0);
+  const [landing, setLanding] = useState<PhonemeId | null>(null);
+  // the won gem pulses each time its sound is said, and its letters light up on "two letters, one sound"
+  const [pulse, setPulse] = useState(0);
+  const [letters, setLetters] = useState(0);
+  // the homecoming: the big flower comes in, the petal steps aside, flies into its place and lands
+  const [home, setHome] = useState<"" | "flower" | "landed">("");
+  const flyRef = useRef<HTMLDivElement>(null);
+  const petalRef = useRef<HTMLDivElement>(null);
+  const flowerRef = useRef<HTMLDivElement>(null);
+  const talk = useRef<Beat[]>([]);
+  useHelp(() => say(talk.current.flatMap((b, i) => (i ? [{ gap: 300 }, ...b.say] : b.say))));
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const n = gem.g.replace(/-/g, "").length;
+    const off = onClip((id, start, end) => {
+      if (id === `sound:${pt.p}`) setPulse((k) => k + 1);
+      if (/^t_(two|three|four)_letters$/.test(id)) {
+        // "It's two letters…": each letter lights in turn; "…but it's one sound": they glow as one (game time)
+        const len = (end - start) * FAST;
+        for (let i = 1; i <= n; i++) timers.push(setTimeout(() => setLetters(i), 120 + ((len * 0.42) * (i - 1)) / Math.max(1, n - 1)));
+        timers.push(setTimeout(() => setLetters(n + 1), len * 0.58));
+        timers.push(setTimeout(() => setLetters(0), len + 1600));
+      }
+    });
+    return () => {
+      off();
+      timers.forEach(clearTimeout);
+    };
+  }, []);
+  /** The petal flies home onto the big World Flower in the middle of the stage (while Sensei says so). */
+  const homecoming = async (live: () => boolean) => {
+    setHome("flower");
+    const el = petalRef.current;
+    // the petal steps aside as the flower grows in
+    el?.animate([{ transform: "none" }, { transform: "translate(330px, 70px) scale(.5) rotate(8deg)" }], { duration: 650, easing: "cubic-bezier(.3,1.3,.5,1)", fill: "forwards" });
+    await sleep(900);
+    if (!live()) return;
+    void ninja.act("cast", flowerRef.current ?? undefined);
+    // its own place on the flower: the ring, the angle and the size of the flower's petal there
+    const svg = flowerRef.current?.querySelector("svg");
+    const f = svg ? stageRect(svg) : null;
+    const ri = FLOWER_RINGS[0].some((c) => c.p === pt.p) ? 0 : 1;
+    const i = FLOWER_RINGS[ri].findIndex((c) => c.p === pt.p);
+    if (el && f && f.w && i >= 0) {
+      const g = RING[ri];
+      const a = (i / FLOWER_RINGS[ri].length) * 360 + g.off;
+      const u = f.w / 960; // stage px per bloom unit
+      const rr = (g.r0 + g.len / 2) * u;
+      const tx = f.x + f.w / 2 + Math.sin((a * Math.PI) / 180) * rr, ty = f.y + f.h / 2 - Math.cos((a * Math.PI) / 180) * rr;
+      const cx = VP.left + VP.w / 2, cy = VP.top + VP.h / 2;
+      const sx = (g.w * u) / (VP.w - 14), sy = (g.len * u) / (VP.h - 14);
+      const spin = ((a + 540) % 360) - 180; // the short way round
+      el.animate(
+        [
+          { transform: "translate(330px, 70px) scale(.5) rotate(8deg)" },
+          { transform: `translate(${(tx - cx) * 0.45 + 120}px, ${ty - cy - 150}px) scale(.42) rotate(${spin * 0.4}deg)`, offset: 0.45 },
+          { transform: `translate(${tx - cx}px, ${ty - cy}px) rotate(${spin}deg) scale(${sx}, ${sy})` },
+        ],
+        { duration: 1150, easing: "cubic-bezier(.45,0,.4,1)", fill: "forwards" },
+      );
+      await sleep(1150);
+      if (!live()) return;
+      // it lands: the petal is the flower's own now, lit, with a burst, rays and a chime
+      setHome("landed");
+      setLanding(pt.p);
+      sfx.petal();
+      sfx.great();
+      fx.ring(tx, ty, { color: "#fff4dc", r0: 20, r1: 220, width: 16, life: 26 });
+      fx.ring(tx, ty, { color: colour, r0: 30, r1: 360, width: 12, life: 34 });
+      fx.burst(tx, ty, "sparks", 36, 1.2);
+      fx.twinkle(tx, ty, ["#fff4dc", "#ffe38a", mix(colour, "#ffffff", 0.4)], 16, 8, 30);
+      fx.ring(f.x + f.w / 2, f.y + f.h / 2, { color: "#ffe38a", r0: f.w * 0.3, r1: f.w * 0.75, width: 10, life: 36 });
+      fx.rain("confetti", 70);
+      void ninja.celebrate();
+    }
+  };
+
+  useEffect(() => {
+    let live = true;
+    const sting = playSting("gem_victory");
+    playMusic(null);
+    ((window as any).__audioLog as unknown[] | undefined)?.push({ t: Date.now(), url: "", kind: "music-stop" });
+    preload(beats.flatMap((b) => b.say).flatMap((s) => ("line" in s ? [urls.line(s.line)] : "sound" in s ? [urls.sound(s.sound)] : "word" in s ? [urls.word(s.word)] : [])));
+    const slotEl = () => petalRef.current?.querySelector(`[data-slot="${CSS.escape(gemKey)}"]`) as HTMLElement | null;
+    (async () => {
+      // the timeline runs on the music: wait (a little) for it to start
+      await Promise.race([sting.started, sleep(1500)]);
+      if (!live) return;
+      const t0 = performance.now();
+      const at = async (ms: number) => {
+        const left = ms / FAST - (performance.now() - t0);
+        if (left > 0) await sleep(left * FAST);
+        return live;
+      };
+      // --- the build: the gem charges up, the ninja powers up, Sensei: "You won the gem! It's going into its petal!"
+      void ninja.act("power");
+      void say(beats[0].say);
+      onBeat?.("won");
+      for (let i = 0; i < 5; i++) {
+        if (!(await at(250 + i * 680))) return;
+        fx.implode(VX, VY, [colour, "#ffe38a", "#fff4dc"], 12 + i * 5, 250 + i * 20, 30);
+        if (i >= 2) fx.glow(VX, VY, ["#fff4dc", "#ffe38a"], 3, 70, 3);
+        setHeat(Math.min(3, 1 + (i >> 1)));
+        if (i === 3) setPhase("petal"); // the petal draws itself in behind the gem
+      }
+      // --- the flight: the gem dives into its place in the petal, landing on the burst
+      if (!(await at(3500))) return;
+      setPhase("fly");
+      const slot = slotEl(), fly = flyRef.current;
+      if (slot && fly) {
+        const a = stageRect(fly), b = stageRect(slot);
+        const dx = b.x + b.w / 2 - (a.x + a.w / 2), dy = b.y + b.h / 2 - (a.y + a.h / 2), k = b.w / a.w;
+        fly.animate(
+          [
+            { transform: "translate(0px, 0px) scale(1) rotate(0deg)" },
+            { transform: `translate(${-dx * 0.08}px, 46px) scale(1.14) rotate(-12deg)`, offset: 0.3 },
+            { transform: `translate(${dx}px, ${dy}px) scale(${k}) rotate(360deg)` },
+          ],
+          { duration: 480, easing: "cubic-bezier(.55,0,.8,.45)", fill: "forwards" },
+        );
+      }
+      // --- the burst: the gem lands, the petal blooms
+      if (!(await at(3990))) return;
+      setPhase("bloom");
+      setBloom(1);
+      const s = slot ? stageRect(slot) : { x: VX, y: VY - 120, w: 0, h: 0 };
+      const sx = s.x + s.w / 2, sy = s.y + s.h / 2;
+      fx.ring(sx, sy, { color: "#fff4dc", r0: 20, r1: 260, width: 18, life: 26 });
+      fx.ring(sx, sy, { color: colour, r0: 40, r1: 420, width: 16, life: 34 });
+      fx.ring(VX, VY, { color: "#ffe38a", r0: 120, r1: 640, width: 12, life: 40 });
+      fx.burst(sx, sy, "sparks", 44, 1.4);
+      fx.twinkle(sx, sy, ["#fff4dc", "#ffe38a", mix(colour, "#ffffff", 0.4)], 16, 9, 34);
+      fx.lines(sx, sy, 14, "#fff4dc", 90);
+      fx.rain("petals", 46);
+      shakeStage();
+      void ninja.celebrate();
+      // brass and flute: rainbow sparkles keep rising round the petal
+      for (let i = 0; i < 6; i++) {
+        if (!(await at(4500 + i * 450))) return;
+        fx.twinkle(VX + (Math.random() - 0.5) * 360, VY + (Math.random() - 0.3) * 300, ["#fff4dc", "#ffe38a", "#ff9ec0", "#8fe3ff"], 5, 4, 26);
+        if (i === 2) fx.rain("confetti", 50);
+      }
+      // --- as the music rings out: the explanation (the music ducks under Sensei's voice)
+      if (!(await at(7200))) return;
+      setPhase("talk");
+      talk.current = beats.filter((b) => b.cue !== "won");
+      const metKeys = data.slots.filter((x) => met(x.st) && isWayToSpell(x.gem)).map((x) => x.gem.key);
+      for (const b of beats.slice(1)) {
+        if (!live) return;
+        onBeat?.(b.cue);
+        setCue(b.cue);
+        if (b.cue === "explain") setWords(b.show ?? []);
+        if (b.cue === "ways") {
+          // the gems light up one by one as Sensei counts them
+          setLit([]);
+          metKeys.forEach((k, i) =>
+            setTimeout(() => {
+              if (!live) return;
+              setLit((l) => [...l, k]);
+              sfx.tink();
+              const el = petalRef.current?.querySelector(`[data-slot="${CSS.escape(k)}"]`);
+              if (el) {
+                const r = stageRect(el);
+                fx.twinkle(r.x + r.w / 2, r.y + r.h / 2, ["#fff4dc", "#ffe38a"], 6, 5, 24);
+              }
+            }, 350 + i * 380),
+          );
+          void ninja.act("cheer");
+        }
+        if (b.cue === "petal-home") {
+          setWords([]);
+          setPhase("home");
+          sfx.gong();
+          // the big World Flower comes in; the ninja sends the petal home with a spell and it lands in its own place;
+          // then it holds, blooming, for 1.5 s
+          await Promise.all([say(b.say), homecoming(() => live)]);
+          await sleep(1500);
+          continue;
+        }
+        if (b.cue === "flower-done") {
+          sfx.fanfare();
+          fx.rain("confetti", 120);
+          fx.rain("petals", 60);
+        }
+        await say(b.say);
+        await sleep(250);
+      }
+      if (!live) return;
+      await sleep(1100);
+      if (!live) return;
+      setPhase("out");
+      await sleep(650);
+      if (live) onDone(data.petalDone ? pt.p : null);
+    })();
+    return () => {
+      live = false;
+      sting.stop();
+    };
+  }, []);
+
+  const flying = phase === "build" || phase === "petal" || phase === "fly";
+  const socket = flying ? gemKey : null;
+  const bloomed = phase === "bloom" || phase === "talk" || phase === "home" || phase === "out";
+  const light = (phase === "home" || phase === "out") && data.petalDone ? 1 : bloomed ? data.lightAfter : data.lightBefore;
+  return (
+    <div className={`gem-victory gv-${phase} ${data.petalDone ? "gv-complete" : ""} ${home === "landed" ? "gv-landed" : ""}`} data-modal style={{ "--petal": colour } as CSSProperties}>
+      <div className="gv-rays" data-heat={heat} />
+      <div className="gv-glow" data-heat={heat} />
+      {/* the petal, drawing itself in behind the gem, then blooming as the gem lands */}
+      <div ref={petalRef} className="gv-petal" style={{ left: VP.left, top: VP.top }}>
+        <BigPetal p={pt.p} w={VP.w} h={VP.h} light={light} slots={data.slots} socket={socket} lit={lit} focus={cue === "here" ? gemKey : null} bloom={bloom} home={phase === "home"} pulse={{ key: gemKey, n: pulse }} letters={{ key: gemKey, lit: letters }} />
+      </div>
+      {/* the gem itself, big and spinning, until it dives into its place */}
+      {flying && (
+        <div ref={flyRef} className="gv-gem" style={{ left: VX - 125, top: VY - 125 }}>
+          <div className="gv-spin" data-heat={heat}>
+            {/* a front and a back face, so the letters never show mirrored as it turns */}
+            <div className="gv-face"><Jewel g={gem.g} colour={colour} state="won" size={250} /></div>
+            <div className="gv-face back"><Jewel g={gem.g} colour={colour} state="won" size={250} /></div>
+          </div>
+        </div>
+      )}
+      {phase === "bloom" && <div className="gv-flash" />}
+      {/* the words Sensei uses, on cards to tap */}
+      <div className="gv-words">
+        <ExampleWords key={words.map((w) => w.word.text).join()} show={words} colour={colour} vertical />
+      </div>
+      {/* a complete petal flies home onto the big World Flower, in the middle of the stage */}
+      {(phase === "home" || (phase === "out" && data.petalDone)) && (
+        <div ref={flowerRef} className={`gv-flower ${home === "landed" ? "landed" : ""}`}>
+          <WorldFlower light={(p) => (p === pt.p ? (landing ? 1 : 0) : petalLight(p, data.afterSave, data.known))} flash={landing} bloom={landing} stem={false} label="The World Flower" />
+        </div>
+      )}
+      <NinjaSpot />
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------- the scene
 type View = 0 | 1; // 0 = the World Flower, 1 = the petal scroll (the school chart)
 
 // ---------------------------------------------------------------- extension points
+let pendingVisit: FlowerVisit | null = null;
+let pendingFocus: string | null = null;
+/** Bring the child to the World Flower for a reason (engine/gems.ts FlowerVisit), then route to the tree scene
+ *  (App: go({ name: "tree" })). The same trips work from a URL, for testing: /play/?scene=tree&visit=world:2,
+ *  &visit=spelling:ai>ae,ay>ae, &visit=practised:ai>ae&from=0.25, and &gem=ai>ae&celebrate=1 for the victory. */
+export function visitFlower(v: FlowerVisit) {
+  pendingVisit = v;
+}
 /**
- * Open the World Flower screen on the scroll, focused on one gem: the scroll moves to its petal, the petal and the gem
- * glow, and "celebrate" also plays a small fanfare (the full gem-mastered victory sequence is future work).
- * Call it, then route to the tree scene (App: go({ name: "tree" })). The same focus works from a URL:
- * /play/?scene=tree&gem=<key>&celebrate=1, where <key> is a gem key such as "ai>ae" (spelling>sound, see content/flower.ts).
+ * Open the World Flower on the scroll, focused on one gem: the scroll moves to its petal, and the petal and the gem
+ * glow. "celebrate" plays the gem victory instead. Call it, then route to the tree scene. The same focus works from
+ * a URL: /play/?scene=tree&gem=<key>, where <key> is a gem key such as "ai>ae" (spelling>sound, see content/flower.ts).
  */
 export function focusGem(gemKey: string, how: "glow" | "celebrate" = "glow") {
-  pendingFocus = { gem: gemKey, how };
+  if (how === "celebrate") pendingVisit = { kind: "gem", gem: gemKey };
+  else pendingFocus = gemKey;
 }
 export const celebrateGem = (gemKey: string) => focusGem(gemKey, "celebrate");
-let pendingFocus: { gem: string; how: "glow" | "celebrate" } | null = null;
-function takeFocus(): { gem: string; how: "glow" | "celebrate" } | null {
-  const f = pendingFocus;
-  pendingFocus = null;
-  if (f) return f;
+function takeVisit(): { visit: FlowerVisit | null; focus: string | null; open?: boolean } {
+  const v = pendingVisit, f = pendingFocus;
+  pendingVisit = pendingFocus = null;
+  if (v || f) return { visit: v, focus: f };
   try {
     const q = new URLSearchParams(location.search);
+    const ok = (k: string | null | undefined): k is string => !!k && !!gemByKey(k);
+    const [kind, arg] = (q.get("visit") ?? "").split(":");
+    if (kind === "world" && Number(arg) >= 1) return { visit: { kind: "world", world: Number(arg) }, focus: null };
+    if (kind === "spelling") {
+      const gems = (arg ?? "").split(",").filter(ok);
+      if (gems.length) return { visit: { kind: "spelling", gems }, focus: null };
+    }
+    if (kind === "practised" && ok(arg)) return { visit: { kind: "practised", gem: arg, from: q.has("from") ? Number(q.get("from")) : undefined }, focus: null };
     const gem = q.get("gem");
-    if (gem && PETALS.some((pt) => pt.gems.some((g) => g.key === gem))) return { gem, how: q.get("celebrate") ? "celebrate" : "glow" };
+    // &open=1 opens the gem's petal as well (the treadmill and the landing-page clips use it)
+    if (ok(gem)) return q.get("celebrate") ? { visit: { kind: "gem", gem }, focus: null } : { visit: null, focus: gem, open: q.has("open") };
   } catch {}
-  return null;
+  return { visit: null, focus: null };
 }
 
-/** Slots in the petal detail panel, for a follow-up to fill. Each is optional and renders only when given. */
-export interface PetalDetailSlots {
-  /** the words the child has met with this sound or spelling (tap to hear, with a picture) */
-  words?: ReactNode;
-  /** actions such as a "Practise" button that opens a dojo practice for this sound */
-  actions?: ReactNode;
-  /** a teacher-language explanation of the sound and its spellings, with many examples */
-  explanation?: ReactNode;
-}
-/** Builds the slots for a petal (and the focused gem, if any). Empty for now; the follow-up implements it. */
-export function petalDetailSlots(pt: Petal, gem: Gem | null, save: Save): PetalDetailSlots {
+/** Pick the gem the Practise gate practises: the chosen gem, or the petal's emptiest gem that can be practised. */
+function practiceGemFor(pt: Petal, sel: string | null, save: Save): string | null {
+  if (sel && canPractise(sel, save)) return sel;
   const known = knownNow(save);
-  const metGems = pt.gems.filter((g) => met(gemState(g, save, known)));
-  if (!metGems.length) return {}; // a secret petal: nothing to explain yet
-  return {
-    words: <MetWords pt={pt} gem={gem} save={save} />,
-    explanation: <Explain key={`${pt.p}:${gem?.key ?? ""}`} pt={pt} gem={gem && met(gemState(gem, save, known)) ? gem : null} metGems={metGems} save={save} />,
-  };
+  const cands = pt.gems.filter((g) => met(gemState(g, save, known)) && canPractise(g.key, save));
+  const charging = cands.filter((g) => gemState(g, save, known) === "charging").sort((a, b) => energyOf(a.key, save) - energyOf(b.key, save));
+  return (charging[0] ?? cands[0])?.key ?? null;
 }
 
 /** The words the child has met with this sound (or this spelling), each with its picture and the spelling of the
- *  sound coloured in. Tap to hear. Before any are met: the example words Sensei uses. */
+ *  sound coloured in. Tap to hear. Hidden until the child has met at least one. */
 function MetWords({ pt, gem, save }: { pt: Petal; gem: Gem | null; save: Save }) {
   const has = (w: Word) => w.segs.some((s) => s.p === pt.p && (!gem || s.g === gem.g));
   const metWords = Object.entries(save.words ?? {})
     .sort((a, b) => b[1].last - a[1].last)
     .map(([t]) => WORD_BY_TEXT[t])
     .filter((w): w is Word => !!w && has(w))
-    .slice(0, 8);
-  const shown = metWords.length ? metWords : (gem ? introGem(gem, {}).show : introPetal(pt.p, {}).show).map((x) => x.word);
+    .slice(0, 5);
+  if (!metWords.length) return null;
   const colour = chartOf(pt.p).colour;
   return (
-    <>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-        <RoundButton sm label="Hear about these words" onClick={() => say({ line: "t_words_you_found" })}><Icon.speaker /></RoundButton>
-        <span style={{ font: "700 18px/1.1 var(--font-ui)", color: "var(--ink-soft)" }}>{metWords.length ? "Words you found" : "Words with this sound"}</span>
-      </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-        {shown.map((w) => (
-          <button key={w.text} aria-label={`word ${w.text}`} className="met-word" {...tapProps(() => say({ word: w.text }))}>
+    <div className="pd-found">
+      <RoundButton sm label="Hear about these words" onClick={() => say({ line: "t_words_you_found" })}><Icon.speaker /></RoundButton>
+      <div className="pd-found-words">
+        {metWords.map((w) => (
+          <button key={w.text} aria-label={`word ${w.text}`} className={`met-word ${plateOfWord(w.text) === "night" ? "on-night" : ""}`} style={{ "--plate": PLATE_COLOURS[plateOfWord(w.text)] } as CSSProperties} {...tapProps(() => say({ word: w.text }))}>
             {w.pic && <img src={img(`pic_${w.text}`)} alt="" />}
             <span>
               {w.segs.map((s, i) => (
@@ -528,45 +1120,45 @@ function MetWords({ pt, gem, save }: { pt: Petal; gem: Gem | null; save: Save })
           </button>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
 /** Sensei explains the sound, the chosen spelling, or "same sound, different spellings", in Sounds~Write teacher
- *  language (content/teach.ts), automatically when the petal opens and again on the big button. Rotates phrasings. */
-function Explain({ pt, gem, metGems, save }: { pt: Petal; gem: Gem | null; metGems: Gem[]; save: Save }) {
-  const [shown, setShown] = useState<Explanation["show"]>([]);
+ *  language (content/teach.ts), each time `run` goes up (and not before it is 1), rotating phrasings. The words she
+ *  uses are shown on cards to tap. `onDone` hears whether she finished (a tap elsewhere can cut her off). */
+function Explain({ pt, gem, metGems, save, run, onDone, onReplay }: { pt: Petal; gem: Gem | null; metGems: Gem[]; save: Save; run: number; onDone?: (finished: boolean) => void; onReplay: () => void }) {
   const metSet = useMemo(() => new Set(Object.keys(save.words ?? {})), [save.words]);
-  const explain = () => {
+  const [shown, setShown] = useState<Explanation["show"]>(() => exampleWords(pt.p, gem?.g, metSet));
+  useEffect(() => {
+    if (run < 1) return;
     const e: Explanation = gem
       ? introGem(gem, { met: metSet, another: metGems.length > 1 })
       : metGems.length > 1 && Math.random() < 0.5
         ? sameSound(pt.p, metGems, { met: metSet })
         : introPetal(pt.p, { met: metSet });
     setShown(e.show);
-    say(e.say);
-  };
-  useEffect(() => {
-    const t = setTimeout(explain, 500); // after the panel pops in
-    return () => clearTimeout(t);
-  }, []);
+    let live = true;
+    const t = setTimeout(async () => {
+      const finished = await say(e.say);
+      if (live) onDone?.(finished);
+    }, run === 1 ? 750 : 150); // the first time, after the panel pops in and the petal's sound has been said
+    return () => {
+      live = false;
+      clearTimeout(t);
+    };
+  }, [run]);
+  const colour = chartOf(pt.p).colour;
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-      <button className="explain-btn" aria-label="Sensei explains" {...tapProps(explain)}>
-        <img src={img("sensei_face_talk")} alt="" />
+    <div className="pd-explain">
+      <button className="explain-btn" aria-label="Sensei explains" {...tapProps(onReplay)}>
+        <TalkingFace who="sensei" />
       </button>
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center" }}>
-        {shown.map(({ word, highlight }) => (
-          <span key={word.text} className="explain-word">
-            {word.segs.map((s, i) => (
-              <b key={i} style={s.g === highlight.g && s.p === highlight.p ? { color: chartOf(pt.p).colour, WebkitTextStroke: "1px #2b1d14" } : undefined}>{s.g.replace("-", "")}</b>
-            ))}
-          </span>
-        ))}
-      </div>
+      <ExampleWords key={shown.map((s) => s.word.text).join()} show={shown} colour={colour} />
     </div>
   );
 }
+
 const HINT_KEY = "superninja.scrollHint";
 const hintSeen = () => {
   try {
@@ -576,62 +1168,108 @@ const hintSeen = () => {
   }
 };
 
-export function Tree({ onBack, onTrial, celebrate }: { onBack: () => void; onTrial: (key: string) => void; celebrate?: { gem: string; won: boolean } }) {
+type Step = "intro" | "visit" | "done" | "free";
+export function Tree({ onBack, onTrial, onPractice, celebrate, visit: visitProp }: {
+  onBack: () => void;
+  onTrial: (key: string) => void;
+  /** open a practice dojo for this gem (App: makePractice(key), then go({ name: "level", id: "trial" })) */
+  onPractice?: (key: string) => void;
+  celebrate?: { gem: string; won: boolean };
+  visit?: FlowerVisit | null;
+}) {
   const save = useSave((s) => s);
   const known = useMemo(() => knownNow(save), [save]);
-  const [focus] = useState(() => (celebrate ? null : takeFocus()));
-  const [view, setView] = useState<View>(focus ? 1 : 0);
-  const [intro, setIntro] = useState(() => !store.get().seenFlower && !celebrate);
-  const celebratePetal = celebrate ? PETALS.find((p) => p.gems.some((g) => g.key === celebrate.gem)) ?? null : null;
-  const [open, setOpen] = useState<Petal | null>(celebratePetal);
-  const [landing, setLanding] = useState<PhonemeId | null>(null);
+  const practise = onPractice;
+  // why the child is here: a trip (a gem won, spellings met, a new land, a practice done), a failed trial, or a look
+  const [{ visit, focus, failed, openFocus }] = useState((): { visit: FlowerVisit | null; focus: string | null; failed: string | null; openFocus?: boolean } => {
+    if (celebrate) return celebrate.won ? { visit: { kind: "gem", gem: celebrate.gem }, focus: null, failed: null } : { visit: null, focus: celebrate.gem, failed: celebrate.gem };
+    if (visitProp) return { visit: visitProp, focus: null, failed: null };
+    const t = takeVisit();
+    return { visit: t.visit, focus: t.focus, failed: null, openFocus: t.open };
+  });
+  const tripGem = visit?.kind === "spelling" ? visit.gems[0] : visit?.kind === "practised" ? visit.gem : null;
+  const scrollFocus = focus ?? tripGem;
+  const [view, setView] = useState<View>(scrollFocus ? 1 : 0);
+  // a child's first time here starts with the World Flower's introduction (not before a victory: that comes first)
+  const [step, setStep] = useState<Step>(() => (!store.get().seenFlower && visit?.kind !== "gem" ? "intro" : visit ? "visit" : "free"));
+  const [open, setOpen] = useState<Petal | null>(() => (failed ? petalOfGem(failed) : openFocus && focus ? petalOfGem(focus) : null));
+  const [openQuiet, setOpenQuiet] = useState(!!failed);
+  const [bloomed, setBloomed] = useState<PhonemeId | null>(null);
   const [nudge, setNudge] = useState(false);
-  useHelp(() => say({ line: "help_flower" }));
+  const [energyShow, setEnergyShow] = useState<Record<string, number>>(() => (visit?.kind === "practised" ? { [visit.gem]: visit.from ?? lastPractice()?.from ?? 0 } : {}));
+  const [reveal, setReveal] = useState<string[]>([]);
+  const [beat, setBeat] = useState("");
+  const [carryHint, setCarryHint] = useState(false);
+  useHelp(() => say({ line: step === "done" ? "help_next" : "help_flower" }), [step]);
 
   const ready = useMemo(() => new Set(readyGems(save).flatMap((g) => PETALS.filter((pt) => pt.gems.some((x) => x.key === g.key)).map((pt) => pt.p))), [save]);
-  const light = (p: PhonemeId) => petalLight(p, save);
+  const light = (p: PhonemeId) => petalLight(p, save, known);
   const placed = PETALS.filter((pt) => petalComplete(pt, save)).length;
 
   useEffect(() => {
-    playMusic("world_blossom");
+    if (visit?.kind !== "gem") playMusic("world_blossom");
     const t = setTimeout(() => setNudge(true), 6000); // invite a look at the chart
-    if (celebrate?.won) {
-      (async () => {
-        sfx.fanfare();
-        fx.rain("petals", 50);
-        await say({ line: "trial_win" });
-        const pt = celebratePetal;
-        if (pt && petalComplete(pt)) {
-          sfx.gong();
-          fx.rain("confetti", 90);
-          await say({ line: "petal_complete" });
-        }
-        if (flowerComplete()) await say({ line: "flower_complete" });
-      })();
-    } else if (store.get().seenFlower) say({ line: "flower_tap" });
+    if (step === "free" && !failed && store.get().seenFlower) say({ line: "flower_tap" });
     return () => clearTimeout(t);
   }, []);
 
+  // a trip starts: remember it (it plays once), and run the parts that happen on the scroll itself
+  useEffect(() => {
+    if (step !== "visit" || !visit) return;
+    markVisited(visit);
+    if (visit.kind !== "practised") return;
+    let live = true;
+    (async () => {
+      // back from the dojo: the scroll glides to the gem, and its energy bar fills up
+      const g = gemByKey(visit.gem)!;
+      await sleep(1400);
+      if (!live) return;
+      setEnergyShow({});
+      sfx.coin();
+      const chip = document.querySelector(`[data-gem-chip="${CSS.escape(visit.gem)}"]`);
+      if (chip) {
+        const r = stageRect(chip);
+        fx.twinkle(r.x + r.w / 2, r.y + r.h / 2, ["#fff4dc", "#ffe38a"], 10, 6, 28);
+        fx.glow(r.x + r.w / 2, r.y + r.h / 2, ["#ffe38a"], 4, 60, 2);
+      }
+      const isReady = gemState(g, store.get()) === "ready";
+      for (const b of practisedScript(g, isReady)) {
+        if (!live) return;
+        setBeat(b.cue);
+        if (b.cue === "ready") {
+          setOpenQuiet(true);
+          setOpen(petalOfGem(visit.gem));
+        }
+        await say(b.say);
+      }
+      if (live) setStep("done");
+    })();
+    return () => void (live = false);
+  }, [step]);
+
+  // after a trip, the green arrow carries on (a pointing hand after a few seconds, then Sensei says so)
+  useEffect(() => {
+    if (step !== "done") return;
+    const ts = [setTimeout(() => setCarryHint(true), 3000), setTimeout(() => !open && say({ line: "help_next" }), 7000)];
+    return () => ts.forEach(clearTimeout);
+  }, [step]);
+
+  // bots and the treadmill read what is happening here (scripts/treadmill/bot.ts)
+  (window as any).__snState = { scene: "tree", view, open: open?.p ?? null, visit: visit?.kind ?? null, step, beat, intro: step === "intro", busy: step === "visit", done: step === "done" };
+
   const openPetal = (p: PhonemeId) => {
     sfx.petal();
+    setOpenQuiet(false);
     setOpen(petalOf(p));
     say({ sound: p });
   };
-  const closeDetail = () => {
-    // a petal that has just come home flies onto the flower when the child comes back to it
-    if (open && celebrate?.won && open === celebratePetal && petalComplete(open)) {
-      setView(0);
-      setLanding(open.p);
-      setTimeout(() => fx.burst(700, 300, "sparks", 30), 500);
-    }
-    setOpen(null);
-  };
-
+  const closeDetail = () => setOpen(null);
   const next = () => {
     sfx.page();
     setNudge(false);
     setView(view ? 0 : 1);
   };
+  const endTrip = () => setStep("done");
 
   return (
     <div className="scene" style={{ background: "#f7ddd0", overflow: "hidden" }}>
@@ -641,29 +1279,83 @@ export function Tree({ onBack, onTrial, celebrate }: { onBack: () => void; onTri
       {view === 0 ? (
         // the World Flower, big: one tap target, the nearest petal opens
         <div key="flower" className="pop-in" style={{ position: "absolute", left: 405, top: 26, width: 580, height: 580 }}>
-          <WorldFlower light={light} ready={ready} landing={landing} count={[placed, PETALS.length]} onPetal={openPetal} label="The World Flower: tap a petal" />
+          <WorldFlower light={light} ready={ready} bloom={bloomed} count={[placed, PETALS.length]} onPetal={openPetal} label="The World Flower: tap a petal" />
         </div>
       ) : (
-        <PetalScroll save={save} known={known} onOpen={(pt) => setOpen(pt)} light={light} placed={placed} focus={focus} />
+        <PetalScroll save={save} known={known} onOpen={(pt) => (setOpenQuiet(false), setOpen(pt))} light={light} placed={placed} focus={scrollFocus} energyShow={energyShow} reveal={reveal} />
       )}
 
       {/* switch between the flower and the scroll (clear of the scroll band and of the Help corner) */}
       <div style={{ position: "absolute", right: 16, top: 424 }}>
-        <RoundButton label={view === 0 ? "Petal chart" : "The World Flower"} className={`pink ${view === 0 && nudge ? "pulse" : ""}`} onClick={next}>
+        <RoundButton label={view === 0 ? "Petal chart" : "The World Flower"} className={`pink ${view === 0 && nudge && step === "free" ? "pulse" : ""}`} onClick={next}>
           {view === 0 ? <ChartIcon /> : <FlowerIcon />}
         </RoundButton>
       </div>
 
-      {intro && (
+      {/* after a trip: carry on (to the map) */}
+      {step === "done" && (
+        <div className="tree-carry pop-in">
+          <RoundButton label="Carry on" className="go pulse" onClick={onBack} style={{ width: 128, height: 128 }}><Icon.next /></RoundButton>
+          <TapHint show={carryHint && !open} style={{ right: -70, bottom: -20 }} />
+        </div>
+      )}
+
+      {step === "intro" && (
         <FlowerIntro
           onDone={() => {
             store.set((s) => void (s.seenFlower = true));
-            setIntro(false);
-            say({ line: "flower_tap" });
+            if (visit) setStep("visit");
+            else {
+              setStep("free");
+              say({ line: "flower_tap" });
+            }
           }}
         />
       )}
-      {open && <PetalDetail pt={open} gem={celebrate?.gem ?? focus?.gem ?? null} onClose={closeDetail} onTrial={onTrial} celebrateGem={celebrate?.won ? celebrate.gem : undefined} />}
+      {step === "visit" && visit?.kind === "gem" && (
+        <GemVictory
+          gemKey={visit.gem}
+          onBeat={setBeat}
+          onDone={(home) => {
+            setView(0);
+            playMusic("world_blossom");
+            if (home) {
+              // the petal that has just come home is picked out on the big flower too: it blooms, and stays bigger and
+              // glowing while the child is here
+              setBloomed(home);
+              setTimeout(() => {
+                const el = document.querySelector(`[aria-label="The World Flower: tap a petal"] [data-p="${home}"]`);
+                const r = el ? stageRect(el) : null;
+                if (r?.w) fx.burst(r.x + r.w / 2, r.y + r.h / 2, "sparks", 30);
+              }, 450);
+            }
+            endTrip();
+          }}
+        />
+      )}
+      {step === "visit" && visit?.kind === "spelling" && (
+        <GemFound
+          gems={visit.gems}
+          onBeat={setBeat}
+          onDone={() => {
+            setReveal(visit.gems);
+            endTrip();
+          }}
+        />
+      )}
+      {step === "visit" && visit?.kind === "world" && <WorldVisit world={visit.world} onBeat={setBeat} onDone={endTrip} />}
+      {open && (
+        <PetalDetail
+          key={open.p}
+          pt={open}
+          gem={failed ?? tripGem ?? focus ?? null}
+          quiet={openQuiet}
+          invite={!!failed}
+          onClose={closeDetail}
+          onTrial={onTrial}
+          onPractice={practise}
+        />
+      )}
 
       <div className="topbar">
         <RoundButton sm label="back" onClick={onBack}><Icon.home /></RoundButton>
@@ -674,7 +1366,7 @@ export function Tree({ onBack, onTrial, celebrate }: { onBack: () => void; onTri
 }
 
 /** The petal chart as a ninja scroll: one row of big petals in the school sheet's order, swiped sideways. */
-function PetalScroll({ save, known, onOpen, light, placed, focus }: { save: Save; known: Set<string>; onOpen: (p: Petal) => void; light: (p: PhonemeId) => number; placed: number; focus?: { gem: string; how: "glow" | "celebrate" } | null }) {
+function PetalScroll({ save, known, onOpen, light, placed, focus, energyShow, reveal }: { save: Save; known: Set<string>; onOpen: (p: Petal) => void; light: (p: PhonemeId) => number; placed: number; focus?: string | null; energyShow?: Record<string, number>; reveal?: string[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const [hint, setHint] = useState(() => !hintSeen() && !focus);
   const touched = useRef(!!focus);
@@ -684,13 +1376,12 @@ function PetalScroll({ save, known, onOpen, light, placed, focus }: { save: Save
     const el = ref.current!;
     if (focus) {
       // move the focused gem's petal to the middle of the scroll, then let it glow
-      const pt = PETALS.find((x) => x.gems.some((g) => g.key === focus.gem));
+      const pt = PETALS.find((x) => x.gems.some((g) => g.key === focus));
       const target = pt && (el.querySelector(`[data-p="${pt.p}"]`) as HTMLElement | null);
       if (target) {
         const box = el.getBoundingClientRect(), t = target.getBoundingClientRect(), k = box.width / el.clientWidth; // the stage is scaled
         const left = el.scrollLeft + (t.left - box.left) / k - (el.clientWidth - t.width / k) / 2;
         setTimeout(() => el.scrollTo({ left, behavior: "smooth" }), 350);
-        if (focus.how === "celebrate") setTimeout(() => (sfx.fanfare(), fx.burst(640, 230, "sparks", 36)), 1100);
       }
     }
     // a small automatic nudge shows that the scroll moves
@@ -745,7 +1436,7 @@ function PetalScroll({ save, known, onOpen, light, placed, focus }: { save: Save
               <div key={gi} style={{ display: "flex", alignItems: "center", gap: 14, flex: "none" }}>
                 {gi > 0 && <span aria-hidden style={{ width: 22, height: 22, borderRadius: "50%", background: "#ffc53d", border: "4px solid #2b1d14", flex: "none", margin: "0 10px" }} />}
                 {g.map((c) => (
-                  <ScrollPetal key={c.p} p={c.p} save={save} known={known} onOpen={onOpen} focusGem={focus?.gem} />
+                  <ScrollPetal key={c.p} p={c.p} save={save} known={known} onOpen={onOpen} focusGem={focus} energyShow={energyShow} reveal={reveal} />
                 ))}
               </div>
             ))}
@@ -768,76 +1459,106 @@ function PetalScroll({ save, known, onOpen, light, placed, focus }: { save: Save
 }
 
 /**
- * One petal up close: the sound, its picture, and every spelling as a gem (tap a ready gem for its Gem Trial).
- * `gem` is the focused gem (it glows). The words / actions / explanation slots come from petalDetailSlots() and
- * render in their own labelled areas when a follow-up provides them.
+ * One petal up close: the sound (tap the petal to hear it), every spelling as a gem, Sensei's explanation with its
+ * words, the words the child has found, and the green gate that opens a practice dojo. Tap a gem the child has met to
+ * hear how it spells the sound (Sensei then invites a charging gem to the dojo); tap a glowing gem for its Gem Trial.
+ * `gem`: the gem to start on. `quiet`: open without explaining (Sensei has just spoken). `invite`: straight to "Shall
+ * we practise this in the dojo?" (after a Gem Trial that didn't go well).
  */
-export function PetalDetail({ pt, gem, onClose, onTrial, celebrateGem }: { pt: Petal; gem?: string | null; onClose: () => void; onTrial: (key: string) => void; celebrateGem?: string }) {
+export function PetalDetail({ pt, gem, onClose, onTrial, onPractice, quiet, invite }: {
+  pt: Petal;
+  gem?: string | null;
+  onClose: () => void;
+  onTrial: (key: string) => void;
+  onPractice?: (key: string) => void;
+  quiet?: boolean;
+  invite?: boolean;
+}) {
   const save = useSave((s) => s);
-  const known = knownNow(save);
-  const slots = petalDetailSlots(pt, pt.gems.find((g) => g.key === gem) ?? null, save);
+  const known = useMemo(() => knownNow(save), [save]);
   const c = chartOf(pt.p);
-  const example = WORDS.find((w) => w.pic && w.segs.some((s) => s.p === pt.p));
-  const tapGem = (key: string) => {
-    const gem = pt.gems.find((g) => g.key === key)!;
-    const st = gemState(gem, save, known);
+  const states = pt.gems.map((g) => gemState(g, save, known));
+  const metGems = pt.gems.filter((_, i) => met(states[i]));
+  const [sel, setSel] = useState<string | null>(() => (gem && metGems.some((g) => g.key === gem) ? gem : null));
+  const selGem = metGems.find((g) => g.key === sel) ?? null;
+  const practiseKey = onPractice ? practiceGemFor(pt, sel, save) : null;
+  const [run, setRun] = useState(quiet || invite || !metGems.length ? 0 : 1);
+  const [pulse, setPulse] = useState(false);
+  useHelp(() => say({ line: "wf_help_petal" }));
+  const replay = () => {
+    setPulse(false);
+    setRun((n) => n + 1);
+  };
+  useEffect(() => {
+    if (!invite || !practiseKey) return;
+    const t = setTimeout(async () => {
+      if (await say({ line: "t_practise_invite" })) setPulse(true);
+    }, 900);
+    return () => clearTimeout(t);
+  }, []);
+  // after explaining a gem that is still charging, Sensei invites the child to practise it
+  const explained = async (finished: boolean) => {
+    if (!finished || !selGem || !practiseKey || practiseKey !== selGem.key) return;
+    if (gemState(selGem, store.get()) !== "charging") return;
+    if (await say({ line: "t_practise_invite" })) setPulse(true);
+  };
+  const tapGem = (g: Gem, st: GemState) => {
     if (st === "ready") {
       sfx.great();
-      onTrial(key);
-    } else if (st === "won") say({ sound: pt.p });
-    else if (st === "charging") say([{ sound: pt.p }, { gap: 200 }, { line: "gem_charging" }]);
-    else if (st === "hidden") say({ line: "gem_hidden" });
+      onTrial(g.key);
+    } else if (met(st)) {
+      sfx.petal();
+      setSel(g.key);
+      setPulse(false);
+      setRun((n) => n + 1);
+    } else if (st === "hidden") say({ line: "gem_hidden" });
     else say({ line: "gem_future" });
   };
   const n = pt.gems.length;
+  const size = n > 8 ? 92 : n > 5 ? 108 : n > 3 ? 128 : 150;
   return (
-    <div data-modal style={{ position: "absolute", inset: 0, zIndex: 20, background: "rgba(29,18,48,.55)" }} {...tapProps(onClose)}>
-      <div className="sheet pop-in" onPointerDown={(e) => e.stopPropagation()} style={{ position: "absolute", left: 340, right: 160, top: 28, bottom: 28, padding: 20, display: "flex", gap: 16 }}>
-        <div style={{ width: 220, flex: "none", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-          <div {...tapProps(() => say({ sound: pt.p }))} style={{ position: "relative", cursor: "pointer" }}>
-            <svg viewBox="-110 -160 220 320" width="190" height="276" style={{ overflow: "visible" }}>
-              <path d={teardrop(200, 300)} fill="#fff" stroke={c.colour} strokeWidth={9} />
-              <text x="0" y="-40" textAnchor="middle" fontFamily="Andika, sans-serif" fontWeight={700} fontSize={PHONEMES[pt.p].label.length > 2 ? 60 : 78} fill={c.colour} style={{ paintOrder: "stroke", stroke: "#2b1d14", strokeWidth: 3 }}>
-                {PHONEMES[pt.p].label}
-              </text>
+    <div data-modal className="pd-backdrop" {...tapProps(onClose)}>
+      <div className="pd-sheet pop-in" onPointerDown={(e) => e.stopPropagation()} style={{ "--petal": c.colour } as CSSProperties}>
+        <div className="pd-left">
+          {/* The petal leads with its picture, and is itself the "hear the sound" button (a speaker on it). No letters: a
+              sound is never shown to a child as a letter string (it read as another spelling, next to the gems); the
+              school's petal chart has only the picture and the spellings. Grown-ups get the /sound/ as a tooltip. */}
+          <div className="pd-petal" role="button" aria-label="petal sound" title={`/${PHONEMES[pt.p].label}/`} {...tapProps(() => say({ sound: pt.p }))}>
+            <svg viewBox="-110 -160 220 320" width="200" height="290" style={{ overflow: "visible" }}>
+              <path d={teardrop(200, 300)} fill="#fff" stroke="#2b1d14" strokeWidth={15} />
+              <path d={teardrop(200, 300)} fill={mix(c.colour, "#ffffff", 0.82)} stroke={c.colour} strokeWidth={9} />
             </svg>
-            <img src={img(`petal_${pt.p}`)} alt="" style={{ position: "absolute", left: 47, top: 114, width: 96, height: 96, objectFit: "contain" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+            <img src={img(`petal_${pt.p}`)} alt="" style={{ position: "absolute", left: 32, top: 30, width: 136, height: 136, objectFit: "contain" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+            <span className="pd-petal-hear" aria-hidden="true"><Icon.speaker /></span>
           </div>
-          <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-            <RoundButton label="Hear the sound" onClick={() => say({ sound: pt.p })}><Icon.speaker /></RoundButton>
-            {example && <img src={img(`pic_${example.text}`)} alt="" style={{ width: 84, height: 84, objectFit: "contain", cursor: "pointer" }} {...tapProps(() => say({ word: example.text }))} />}
+          <div className="pd-actions">
+            {practiseKey && (
+              <RoundButton label="Practise in the dojo" className={`go pd-practise ${pulse ? "pulse" : ""}`} onClick={() => (sfx.great(), onPractice!(practiseKey))}>
+                <GateIcon />
+              </RoundButton>
+            )}
           </div>
         </div>
-        <div style={{ flex: 1, display: "flex", flexWrap: "wrap", alignContent: "center", justifyContent: "center", gap: 6, marginRight: 56 }}>
-          {pt.gems.map((g) => {
-            const st = gemState(g, save, known);
-            return (
-              <div key={g.key + g.g} role="button" aria-label={`gem ${g.g} ${st}`} {...tapProps(() => tapGem(g.key))} className={g.key === celebrateGem ? "pop-in" : ""} style={{ textAlign: "center", cursor: "pointer" }}>
-                {met(st) ? (
-                  <GemIcon g={g.g} colour={c.colour} state={st} energy={energyOf(g.key, save)} size={n > 8 ? 104 : n > 5 ? 122 : n > 3 ? 140 : 170} style={g.key === gem ? { filter: "drop-shadow(0 0 14px #ffc53d)" } : undefined} />
-                ) : (
-                  <div style={{ width: n > 8 ? 104 : n > 5 ? 122 : n > 3 ? 140 : 170, display: "grid", placeItems: "center", aspectRatio: "1" }}>
-                    <DarkCrystal size={(n > 8 ? 104 : n > 5 ? 122 : n > 3 ? 140 : 170) * 0.55} />
-                  </div>
-                )}
-                {st === "ready" && (
-                  <div className="btn-round go pulse" style={{ width: 78, height: 78, margin: "-6px auto 0" }}>
-                    <Icon.play />
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        {/* extension slots (petalDetailSlots): words met with this sound, actions such as Practise, and an explanation */}
-        {(slots.words || slots.actions || slots.explanation) && (
-          <div data-slot="petal-extras" style={{ width: 260, flex: "none", display: "flex", flexDirection: "column", gap: 12, overflowY: "auto" }}>
-            {slots.words && <section data-slot="words">{slots.words}</section>}
-            {slots.actions && <section data-slot="actions">{slots.actions}</section>}
-            {slots.explanation && <section data-slot="explanation">{slots.explanation}</section>}
+        <div className="pd-main">
+          <div className="pd-gems">
+            {pt.gems.map((g, i) => {
+              const st = states[i];
+              return (
+                <div key={g.key + g.g} role="button" aria-label={`gem ${g.g} ${st}`} {...tapProps(() => tapGem(g, st))} className={`pd-gem ${g.key === sel ? "sel" : ""}`} style={{ width: met(st) ? size : 92, height: met(st) ? size : 92 }}>
+                  {met(st) ? <Jewel g={g.g} colour={c.colour} state={st} energy={energyOf(g.key, save)} size={size} /> : <DarkCrystal size={size * 0.42} />}
+                  {st === "ready" && (
+                    <span className="pd-play btn-round go pulse" aria-hidden>
+                      <Icon.play />
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
-        )}
-        <div style={{ position: "absolute", right: 14, top: 14 }}>
+          {metGems.length > 0 && <Explain key={sel ?? "petal"} pt={pt} gem={selGem} metGems={metGems} save={save} run={run} onDone={explained} onReplay={replay} />}
+          <MetWords pt={pt} gem={selGem} save={save} />
+        </div>
+        <div className="pd-close">
           <RoundButton sm label="close" onClick={onClose}><Icon.check /></RoundButton>
         </div>
       </div>

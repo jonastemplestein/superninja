@@ -40,24 +40,20 @@ export const words = [
     "text": "town",
     "segs": "t.ow=ou.n",
     "unit": "EC8",
-    "pic": "a small cluster of colourful houses in a town",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ow"
+      "sort:ow",
+      "dictation-safe"
     ]
   },
   {
     "text": "howl",
     "segs": "h.ow=ou.l",
     "unit": "EC8",
-    "pic": "one wolf with its head raised, howling",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ow"
+      "sort:ow",
+      "dictation-safe"
     ]
   },
   {
@@ -142,12 +138,10 @@ export const words = [
     "text": "pouch",
     "segs": "p.ou=ou.ch",
     "unit": "EC8",
-    "pic": "one small leather pouch with a drawstring",
     "tags": [
       "new",
-      "picture",
-      "new-prompt",
-      "sort:ou"
+      "sort:ou",
+      "dictation-safe"
     ]
   },
   {
@@ -342,7 +336,7 @@ export const sentences = [
     "maxUnit": "EC6"
   },
   {
-    "text": "A little bird sat on the fence.",
+    "text": "A little bird sat on a log.",
     "maxUnit": "EC6"
   }
 ] as const;

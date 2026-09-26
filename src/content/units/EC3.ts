@@ -103,7 +103,7 @@ export const words = [
     "unit": "EC3",
     "tags": [
       "review",
-      "dictation-safe",
+      "reading-only",
       "sort:ea"
     ]
   },

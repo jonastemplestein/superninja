@@ -3,7 +3,7 @@
 // the child DID (every tap), plus key sounds (right/wrong). Two personas: "perfect" and "learner" (about 1 in 3 first
 // tries wrong, so corrections and help appear). Output: playtest/transcripts/<run>/{journey-<persona>.md,.json}.
 // This is the material for the explanation audit ("is anything never explained? mentioned once but needed three times?").
-// Usage: bun scripts/treadmill/transcript.ts [--base http://localhost:5173] [--only w1-1,w1-2] [--persona perfect,learner]
+// Usage: bun scripts/treadmill/transcript.ts [--base http://localhost:5173] [--only w1-wu1,w1-2] [--persona perfect,learner] [--out dir]
 import { chromium, type Page } from "playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { LEVELS, WORLDS } from "../../src/content/worlds";
@@ -19,13 +19,14 @@ const BASE = arg("base", "http://localhost:5173")!;
 const FAST = 4;
 const ONLY = arg("only")?.split(",");
 const PERSONAS = (arg("persona", "perfect,learner")!).split(",") as ("perfect" | "learner")[];
-const RUN = `playtest/transcripts/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}`;
+const RUN = arg("out") ?? `playtest/transcripts/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}`;
 mkdirSync(RUN, { recursive: true });
 
 const LINE = new Map(LINES.map((l) => [l.id, l]));
 const PAGE = new Map(STORIES.flatMap((st) => st.pages.map((p) => [`${st.id}_${p.id}`, p.text] as const)));
 
-type Ev = { t: number; kind: "say" | "sound" | "word" | "stretch" | "story" | "tap" | "sfx" | "scene"; who?: string; text: string };
+/** `url`: the clip that played (speech events), so scripts/treadmill/joins.ts can rebuild what the child heard. */
+type Ev = { t: number; kind: "say" | "sound" | "word" | "stretch" | "onset" | "story" | "tap" | "sfx" | "scene"; who?: string; text: string; url?: string };
 const CASES = [
   { name: "training", url: "/play/?scene=training", title: "Ninja Training (tutorial)", save: save({ seenTraining: false }) },
   { name: "placement", url: "/play/?scene=placement", title: "Show Sensei (placement)", save: save({ seenPlacement: false }) },
@@ -41,16 +42,16 @@ function decode(url: string): Omit<Ev, "t"> | null {
   if ((m = url.match(/\/a\/p\/([^/]+)\.mp3/))) return { kind: "sound", text: `/${m[1]}/` };
   if ((m = url.match(/\/a\/w\/([^/]+)\.mp3/))) return { kind: "word", text: m[1] };
   if ((m = url.match(/\/a\/x\/([^/]+)\.mp3/))) return { kind: "stretch", text: m[1] };
+  if ((m = url.match(/\/a\/o\/([^/]+)\.mp3/))) return { kind: "onset", text: m[1] };
   if ((m = url.match(/\/a\/s\/([^/]+)\.mp3/))) return { kind: "story", who: "sensei", text: PAGE.get(m[1]) ?? `[story ${m[1]}]` };
   if ((m = url.match(/^sfx:(good|great|wrong|fanfare|petal|gong|hit|hurt)$/))) return { kind: "sfx", text: m[1] };
   return null;
 }
 
 async function play(page: Page, c: (typeof CASES)[number], persona: "perfect" | "learner"): Promise<Ev[]> {
-  await page.goto(BASE + "/play/");
-  await page.evaluate((s) => localStorage.setItem("superninja.save.v1", JSON.stringify(s)), { ...c.save, settings: { relaxed: false, music: 0, captions: true, unlockAll: true } });
-  await page.goto(`${BASE}${c.url}&fast=${FAST}`);
-  await page.evaluate(() => {
+  // the logs exist before the game's own code runs, so a level's very first line (dojo_hello, story_start, ...) is
+  // recorded too (setting them after the page had loaded missed it)
+  await page.addInitScript(() => {
     (window as any).__audioLog = [];
     (window as any).__taps = [];
     document.addEventListener("pointerdown", (e) => {
@@ -59,6 +60,9 @@ async function play(page: Page, c: (typeof CASES)[number], persona: "perfect" | 
       (window as any).__taps.push({ t: Date.now(), label });
     }, true);
   });
+  await page.goto(BASE + "/play/");
+  await page.evaluate((s) => localStorage.setItem("superninja.save.v1", JSON.stringify(s)), { ...c.save, settings: { relaxed: false, music: 0, captions: true, unlockAll: true } });
+  await page.goto(`${BASE}${c.url}&fast=${FAST}`);
   await page.mouse.click(420, 4);
   const t0 = Date.now();
   let lastScene = "";
@@ -89,7 +93,7 @@ async function play(page: Page, c: (typeof CASES)[number], persona: "perfect" | 
   await page.waitForTimeout(1500); // let the end-of-level speech land in the log
   const { audio, taps } = await page.evaluate(() => ({ audio: (window as any).__audioLog ?? [], taps: (window as any).__taps ?? [] }));
   const evs: Ev[] = [
-    ...audio.map((a: any) => { const d = decode(a.url); return d ? { t: a.t, ...d } : null; }).filter(Boolean),
+    ...audio.map((a: any) => { const d = decode(a.url); return d ? { t: a.t, ...d, ...(a.url.startsWith("/a/") ? { url: a.url } : {}) } : null; }).filter(Boolean),
     ...taps.map((x: any) => ({ t: x.t, kind: "tap" as const, text: x.label })),
     ...scenes,
   ];
@@ -112,8 +116,8 @@ function render(title: string, evs: Ev[]): string {
     words = [];
   };
   for (const e of evs) {
-    if (e.kind === "sound" || e.kind === "word" || e.kind === "stretch") {
-      words.push(e.kind === "word" ? `"${e.text}"` : e.kind === "stretch" ? `"${e.text}" (slowly)` : e.text);
+    if (e.kind === "sound" || e.kind === "word" || e.kind === "stretch" || e.kind === "onset") {
+      words.push(e.kind === "word" ? `"${e.text}"` : e.kind === "stretch" ? `"${e.text}" (slowly)` : e.kind === "onset" ? `"${e.text}" (first sound held)` : e.text);
       continue;
     }
     flush();
