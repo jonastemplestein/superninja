@@ -6,11 +6,12 @@
 // Screens say what those do with useNav() (a stack: a dialog or a hold sits over its screen), or use the pieces below
 // directly. usePresentation() runs a show as held steps; holdNext() holds a scripted scene at one step.
 import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode, type RefObject } from "react";
-import { say, hush, onSay, isSpeaking, type Say } from "../engine/audio";
+import { say, hush, onSay, onSpeaking, isSpeaking, type Say } from "../engine/audio";
+import { FAST } from "../engine/fast";
 import { pauseLessonClock, resumeLessonClock } from "../engine/lessonClock";
 import { isRegisterable } from "../content/instructions";
 import type { PhonemeId } from "../content/phonics";
-import { Icon, RoundButton, TapHint, useHelp, pushHelp, isUpright, tapProps } from "./ui";
+import { Icon, RoundButton, TapHint, useHelp, pushHelp, isUpright, onUpright, tapProps } from "./ui";
 import { ninja } from "./Ninja";
 import { SoundBadge, badgeHeight } from "./SoundBadge";
 import "../styles/nav.css";
@@ -162,10 +163,14 @@ export function replayTold(): Promise<boolean> {
 /** `via`: what moved a step that isn't a nav show's own (a story page: "next", "back", "read" for I read it!, "pick" for
  *  a choice, "answer" for a question). */
 type NavLogEntry = { kind: "tap" | "step" | "replay"; nav?: NavKind; id?: string; from?: number | null; to?: number | null; via?: string };
-/** `window.__snNavLog`: every nav tap and step change, with performance.now() times. */
+/** How many entries `window.__snNavLog` keeps (the newest). */
+export const NAV_LOG_MAX = 500;
+/** `window.__snNavLog`: every nav tap and step change, with performance.now() times (the last NAV_LOG_MAX). */
 export function navLog(e: NavLogEntry) {
   const w = window as any;
-  (w.__snNavLog ??= []).push({ t: performance.now(), ...e });
+  const log: unknown[] = (w.__snNavLog ??= []);
+  log.push({ t: performance.now(), ...e });
+  if (log.length > NAV_LOG_MAX) log.splice(0, log.length - NAV_LOG_MAX);
 }
 
 /** Run a replay (Hear it again, Show me again) with lesson clocks stopped until it has been said. */
@@ -253,6 +258,8 @@ export function ShowAgainButton({ onShow, size = 96, style, className = "", laye
 // The idle nudge at a held Next (§3.2): 8 s glow (a gold ring, a bigger bounce, the pointing hand); 16 s Sensei says
 // "Tap the arrow when you're ready!" and the ninja leaps and points a star at the arrow; 40 s the line once more; then
 // quiet. Any tap starts it again; it waits while anyone is speaking and while the phone is upright. Game time.
+// Waiting costs nothing: the quiet time is counted from timestamps, one timeout sleeps until the next step, and speech or
+// the phone turning upright (onSpeaking, onUpright) pause the count. The glow and the hand are CSS on the compositor.
 const nudgeSubs = new Set<() => void>();
 /** Point at the ready Next now (Help's second press on a held step): the glow, the line and the ninja's star. */
 export function nudgeNext() {
@@ -268,29 +275,52 @@ function useIdleNudge(active: boolean, el: RefObject<HTMLElement | null>): boole
   useEffect(() => {
     setGlow(false);
     if (!active) return;
-    let idle = 0, said16 = false, said40 = false;
+    const STEPS = [8000, 16000, 40000]; // game ms of quiet: the glow, the line and the ninja's star, the line again
+    let idle = 0; // quiet game ms counted so far
+    let from = 0; // performance.now() when the current quiet stretch began (0: paused)
+    let step = 0; // steps done
+    let t = 0;
+    let alive = true;
+    const fire = (k: number) => {
+      if (k === 0) setGlow(true);
+      else if (k === 1) pointAt(el.current?.querySelector("button") ?? null);
+      else void say({ line: "nav_ready" });
+    };
+    // bank the quiet time so far, do what is due, then sleep until the next step (or until it's quiet again)
+    const sync = () => {
+      if (!alive) return;
+      if (from) idle += (performance.now() - from) * FAST;
+      from = 0;
+      clearTimeout(t);
+      while (step < STEPS.length && idle >= STEPS[step] - 5) fire(step++); // (a step's line pauses the count itself)
+      if (step < STEPS.length && !isUpright() && !isSpeaking()) {
+        from = performance.now();
+        t = window.setTimeout(sync, STEPS[step] - idle); // (setTimeout runs in game time)
+      }
+    };
     const reset = () => {
       idle = 0;
-      said16 = said40 = false;
+      from = 0;
+      step = 0;
       setGlow(false);
+      sync();
     };
-    const tick = window.setInterval(() => {
-      if (isUpright() || isSpeaking()) return;
-      idle += 250;
-      if (idle >= 8000) setGlow(true);
-      if (idle >= 16000 && !said16) (said16 = true), pointAt(el.current?.querySelector("button") ?? null);
-      else if (idle >= 40000 && !said40) (said40 = true), void say({ line: "nav_ready" });
-    }, 250);
     const now = () => {
       setGlow(true);
       pointAt(el.current?.querySelector("button") ?? null);
     };
     nudgeSubs.add(now);
+    const offSpeaking = onSpeaking(sync);
+    const offUpright = onUpright(sync);
     window.addEventListener("pointerdown", reset, true);
     window.addEventListener("keydown", reset, true);
+    sync();
     return () => {
-      clearInterval(tick);
+      alive = false;
+      clearTimeout(t);
       nudgeSubs.delete(now);
+      offSpeaking();
+      offUpright();
       window.removeEventListener("pointerdown", reset, true);
       window.removeEventListener("keydown", reset, true);
     };

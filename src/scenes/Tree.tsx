@@ -10,7 +10,7 @@
 // won in its Gem Trial plays the victory sequence below (GemVictory); new spellings, a new land and a finished practice
 // play their trips (Intros.tsx GemFound and WorldVisit, and the practised beat here). What Sensei says is in teach.ts.
 // Layout: nothing interactive in the bottom-left 330×340 (the player's ninja) or the bottom-right 150×150 (Sensei's help).
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { memo, startTransition, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { PETALS, CHART_PETALS, chartOf, neededGems, gemByKey, type Petal, type Gem, type ChartPetal } from "../content/flower";
 import { PHONEMES, WORD_BY_TEXT, type PhonemeId, type Word } from "../content/phonics";
 import { introGem, introPetal, sameSound, exampleWords, victoryScript, practisedScript, type Explanation } from "../content/teach";
@@ -91,6 +91,11 @@ let flowerIds = 0;
  * `hint` petals shimmer through the mist (sounds hiding in this land), and `flash` lights one petal up for a moment.
  * `misty`: the missing petals are drawn in their own colours, softened (a flower still lost in the mist, over a dimmed
  * stage), not as pale ghosts. `bloom`: this petal pops out to twice its size and settles, bigger and glowing, on top.
+ *
+ * Performance (docs/PERF.md fix 9): nothing in the flower's SVG animates, so it is painted once. What moves is drawn by
+ * the compositor on HTML layers stacked with the SVG, in the same drawing order: the glow, then the slowly turning rays
+ * (only once a petal is home), then the petals; a pulsing outline (a ready gem's petal, a hint) sits on its own layer
+ * between the petals drawn before it and the ones drawn after, so the petals that covered it still cover it.
  */
 export function WorldFlower({ light, ready, landing, count, onPetal, stem = true, label = "The World Flower", hint, flash, misty, bloom, pics = true }: {
   /** every met petal shows its sound's picture near its round tip, upright, like the school chart (§4); unmet ones don't */
@@ -115,7 +120,7 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
   const glow = 0.25 + 0.75 * progress;
 
   // a tap anywhere on the bloom picks the nearest petal, so small fingers never miss
-  const pick = (e: React.PointerEvent<SVGSVGElement>) => {
+  const pick = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!onPetal || e.button > 0) return;
     e.preventDefault();
     const now = performance.now();
@@ -135,21 +140,34 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
     onPetal(ring[Math.round(deg / (360 / ring.length)) % ring.length].p);
   };
 
-  const petal = (c: ChartPetal, i: number, ri: number) => {
+  /** A petal's pulsing outline: a gem ready for its battle (gold), or a sound hiding in this land (a white shimmer). */
+  const pulseOf = (p: PhonemeId): "ready" | "hint" | null => (ready?.has(p) ? "ready" : hint?.has(p) ? "hint" : null);
+  /** Where a petal sits on the bloom, and the classes and glow of the group that carries its landing or bloom. */
+  const place = (c: ChartPetal, i: number, ri: number) => {
     const g = RING[ri];
-    const a = (i / FLOWER_RINGS[ri].length) * 360 + g.off;
+    const blooming = bloom === c.p;
+    return {
+      g,
+      a: (i / FLOWER_RINGS[ri].length) * 360 + g.off,
+      d: teardrop(g.w, g.len),
+      cls: landing === c.p ? "wf-land" : blooming ? "wf-bloom" : undefined,
+      filter: blooming ? `url(#${uid}-lit)` : undefined,
+    };
+  };
+  const petal = (c: ChartPetal, i: number, ri: number) => {
+    const { g, a, d, cls, filter } = place(c, i, ri);
     const l = light(c.p);
     const col = flowerColour(c.colour);
     const on = l >= 1;
-    const d = teardrop(g.w, g.len);
-    const blooming = bloom === c.p;
     return (
       <g key={c.p} transform={`rotate(${a}) translate(0 ${-(g.r0 + g.len / 2)})`}>
-        <g className={landing === c.p ? "wf-land" : blooming ? "wf-bloom" : undefined} filter={blooming ? `url(#${uid}-lit)` : undefined}>
+        <g className={cls} filter={filter}>
           <path
             d={d}
             data-p={c.p}
             aria-label={`petal ${c.p}`}
+            // (the layers let taps through to the flower; the petals themselves take them)
+            pointerEvents="visiblePainted"
             // missing petals are pale ghosts with a hint of their colour (as in the painted "partly regrown" state), or
             // in the mist their own colours softened; met petals are inked in; petals with some gems won fill in
             fill={on ? `url(#${uid}-${c.p})` : l > 0 ? col : misty ? mix(col, "#7d7a96", 0.4) : mix(col, "#fff4dc", 0.72)}
@@ -160,16 +178,6 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
             style={{ cursor: onPetal ? "pointer" : undefined, transition: "fill-opacity .8s" }}
           />
           {on && <ellipse cx={-g.w * 0.16} cy={-g.len / 2 + g.w * 0.36} rx={g.w * 0.13} ry={g.w * 0.24} fill="#fff" opacity={0.55} transform={`rotate(-18 ${-g.w * 0.16} ${-g.len / 2 + g.w * 0.36})`} pointerEvents="none" />}
-          {ready?.has(c.p) && (
-            <path d={d} fill="none" stroke="#ffc53d" strokeWidth={9} pointerEvents="none">
-              <animate attributeName="stroke-opacity" values="0.2;1;0.2" dur="1.3s" repeatCount="indefinite" />
-            </path>
-          )}
-          {hint?.has(c.p) && (
-            <path d={d} fill="#fff" fillOpacity={0.3} stroke="#fff" strokeWidth={7} strokeDasharray="16 12" pointerEvents="none">
-              <animate attributeName="opacity" values="0.15;1;0.15" dur="1.6s" repeatCount="indefinite" />
-            </path>
-          )}
           {flash === c.p && <path key={`f${c.p}`} className="wf-flash" d={d} fill="#fff6c8" stroke="#ffc53d" strokeWidth={12} pointerEvents="none" />}
           {/* the sound's picture in the round part of every met petal, turned upright (a sound is shown as its picture) */}
           {pics && l > 0 && (
@@ -189,9 +197,73 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
       </g>
     );
   };
+  /** A petal's pulsing outline on its own: a ready gem's gold ring, or a hint's shimmer through the mist. In the
+   *  petal's place, glowing like the petal (a lit petal's group glow, a bloom) and moving with it (landing, bloom). */
+  const pulse = (c: ChartPetal, i: number, ri: number, kind: "ready" | "hint", lit: boolean) => {
+    const { g, a, d, cls, filter } = place(c, i, ri);
+    return (
+      <g key={c.p} filter={lit ? `url(#${uid}-lit)` : undefined}>
+        <g transform={`rotate(${a}) translate(0 ${-(g.r0 + g.len / 2)})`}>
+          <g className={cls} filter={filter}>
+            {kind === "ready" ? (
+              <path d={d} fill="none" stroke="#ffc53d" strokeWidth={9} />
+            ) : (
+              <path d={d} fill="#fff" fillOpacity={0.3} stroke="#fff" strokeWidth={7} strokeDasharray="16 12" />
+            )}
+          </g>
+        </g>
+      </g>
+    );
+  };
 
+  // The drawing order: the halo ring; the outer ring's petals, then the inner ring's (each ring: the missing and partly
+  // lit petals, then the lit ones in one glowing group); the heart; a blooming petal over everything. The petals go on
+  // SVG layers; a petal with a pulsing outline ends its layer, the outline gets a layer of its own (animated on the
+  // compositor: its opacity), and the petals after it start a new SVG layer above.
+  const layers: { pulse?: "ready" | "hint"; nodes: React.ReactNode[] }[] = [{ nodes: [] }];
+  const top = () => layers[layers.length - 1].nodes;
+  let litRun: React.ReactNode[] = [];
+  const flushLit = () => {
+    if (litRun.length) top().push(<g key={`lit${top().length}`} filter={`url(#${uid}-lit)`}>{litRun}</g>);
+    litRun = [];
+  };
+  const draw = (c: ChartPetal, i: number, ri: number, lit: boolean) => {
+    (lit ? litRun : top()).push(petal(c, i, ri));
+    const k = pulseOf(c.p);
+    if (!k) return;
+    flushLit();
+    layers.push({ pulse: k, nodes: [pulse(c, i, ri, k, lit)] }, { nodes: [] });
+  };
+  top().push(<circle key="halo" r={458} fill="none" stroke="#ffe08a" strokeWidth={5} opacity={0.15 + 0.7 * progress} pointerEvents="none" />);
+  // outer ring first, so the inner petals overlap its pointed bases
+  for (const ri of [1, 0]) {
+    FLOWER_RINGS[ri].forEach((c, i) => light(c.p) < 1 && c.p !== bloom && draw(c, i, ri, false));
+    FLOWER_RINGS[ri].forEach((c, i) => light(c.p) >= 1 && c.p !== bloom && draw(c, i, ri, true));
+    flushLit();
+  }
+  // the golden heart with its ring of stamens
+  top().push(
+    <g key="heart" pointerEvents="none">
+      {Array.from({ length: 28 }, (_, i) => (
+        <circle key={i} cx={Math.sin((i / 28) * Math.PI * 2) * (HEART + 10)} cy={-Math.cos((i / 28) * Math.PI * 2) * (HEART + 10)} r={7} fill={mix("#ffd35a", "#8f8470", 1 - glow)} stroke="#2b1d14" strokeWidth={2.5} />
+      ))}
+      <circle r={HEART} fill={`url(#${uid}-heart)`} stroke="#2b1d14" strokeWidth={6} />
+      <ellipse cx={-30} cy={-38} rx={34} ry={20} fill="#fff" opacity={0.25 + 0.35 * glow} transform="rotate(-25 -30 -38)" />
+      {count && (
+        <>
+          <text y={14} textAnchor="middle" fontFamily="Luckiest Guy, sans-serif" fontSize={84} fill="#fff" stroke="#2b1d14" strokeWidth={9} paintOrder="stroke">{count[0]}</text>
+          <text y={58} textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight={800} fontSize={30} fill="#2b1d14">of {count[1]}</text>
+        </>
+      )}
+    </g>,
+  );
+  // a blooming petal, over the heart and every other petal
+  if (bloom) [0, 1].forEach((ri) => FLOWER_RINGS[ri].forEach((c, i) => c.p === bloom && draw(c, i, ri, false)));
+  if (!top().length) layers.pop();
+
+  const layer = { position: "absolute", inset: 0, overflow: "visible", zIndex: 1, pointerEvents: "none" } as const;
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+    <div role={onPetal ? "button" : "img"} aria-label={label} onPointerDown={onPetal ? pick : undefined} style={{ position: "relative", width: "100%", height: "100%", touchAction: onPetal ? "none" : undefined }}>
       {stem && (
         // the painted stem (assets-src/world-flower/world_flower_stem.png): its calyx sits under the bloom's centre
         <img
@@ -200,74 +272,72 @@ export function WorldFlower({ light, ready, landing, count, onPetal, stem = true
           style={{ position: "absolute", left: "18.96%", top: "40.2%", width: "95.6%", zIndex: 0, pointerEvents: "none", filter: `saturate(${0.35 + 0.65 * glow}) brightness(${0.8 + 0.2 * glow})`, transition: "filter 1s" }}
         />
       )}
-      <svg ref={svgRef} viewBox="-480 -480 960 960" width="100%" height="100%" role={onPetal ? "button" : "img"} aria-label={label} onPointerDown={onPetal ? pick : undefined} style={{ position: "absolute", inset: 0, overflow: "visible", zIndex: 1, touchAction: "none" }}>
-        <style>{`.wf-land{transform-box:fill-box;transform-origin:50% 100%;animation:wfland 1s cubic-bezier(.3,1.4,.5,1) both}@keyframes wfland{from{transform:translateY(-160px) scale(.2) rotate(-50deg);opacity:0}to{transform:none;opacity:1}}.wf-flash{animation:wfflash .7s ease-out both}@keyframes wfflash{0%{opacity:0}25%{opacity:1}100%{opacity:0}}.wf-bloom{transform-box:fill-box;transform-origin:50% 100%;animation:wfbloom 1.7s cubic-bezier(.3,1.5,.5,1) both}@keyframes wfbloom{0%{transform:scale(1)}26%{transform:scale(2.1)}52%{transform:scale(1.62)}74%{transform:scale(1.4)}100%{transform:scale(1.32)}}`}</style>
+      {/* radiance: the glow, the slowly turning rays and the halo ring all grow with the number of petals home */}
+      <svg viewBox="-480 -480 960 960" width="100%" height="100%" aria-hidden="true" style={layer}>
         <defs>
           <radialGradient id={`${uid}-glow`}>
             <stop offset="0" stopColor="#fff6c8" stopOpacity="0.95" />
             <stop offset="0.45" stopColor="#ffd970" stopOpacity="0.55" />
             <stop offset="1" stopColor="#ffc53d" stopOpacity="0" />
           </radialGradient>
-          <radialGradient id={`${uid}-heart`} cx="40%" cy="35%" r="70%">
-            <stop offset="0" stopColor={mix("#fff6c8", "#b8ab94", 1 - glow)} />
-            <stop offset="0.55" stopColor={mix("#ffc53d", "#9b8f7a", 1 - glow)} />
-            <stop offset="1" stopColor={mix("#e08a12", "#6f6656", 1 - glow)} />
-          </radialGradient>
-          <linearGradient id={`${uid}-ray`} x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0" stopColor="#ffe9a0" stopOpacity="0.85" />
-            <stop offset="1" stopColor="#ffe9a0" stopOpacity="0" />
-          </linearGradient>
-          {all.map((c) => {
-            const col = flowerColour(c.colour);
-            return (
-              <linearGradient key={c.p} id={`${uid}-${c.p}`} x1="0.5" y1="0" x2="0.5" y2="1">
-                <stop offset="0" stopColor={mix(col, "#ffffff", 0.42)} />
-                <stop offset="0.55" stopColor={col} />
-                <stop offset="1" stopColor={mix(col, "#2b1d14", 0.18)} />
-              </linearGradient>
-            );
-          })}
-          <filter id={`${uid}-lit`} x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b" />
-            <feMerge>
-              <feMergeNode in="b" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
         </defs>
-        {/* radiance: glow, slowly turning rays and the halo ring all grow with the number of petals home */}
-        <circle r={470} fill={`url(#${uid}-glow)`} opacity={0.35 + 0.65 * progress} pointerEvents="none" />
-        <g opacity={progress * 0.9} pointerEvents="none">
-          {Array.from({ length: 16 }, (_, i) => (
-            <path key={i} d="M-26,-150 L26,-150 L64,-560 L-64,-560 Z" fill={`url(#${uid}-ray)`} transform={`rotate(${i * 22.5})`} />
-          ))}
-          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="90s" repeatCount="indefinite" />
-        </g>
-        <circle r={458} fill="none" stroke="#ffe08a" strokeWidth={5} opacity={0.15 + 0.7 * progress} pointerEvents="none" />
-        {/* outer ring first, so the inner petals overlap its pointed bases */}
-        {[1, 0].map((ri) => (
-          <g key={ri}>
-            <g>{FLOWER_RINGS[ri].map((c, i) => (light(c.p) >= 1 || c.p === bloom ? null : petal(c, i, ri)))}</g>
-            <g filter={`url(#${uid}-lit)`}>{FLOWER_RINGS[ri].map((c, i) => (light(c.p) >= 1 && c.p !== bloom ? petal(c, i, ri) : null))}</g>
-          </g>
-        ))}
-        {/* the golden heart with its ring of stamens */}
-        <g pointerEvents="none">
-          {Array.from({ length: 28 }, (_, i) => (
-            <circle key={i} cx={Math.sin((i / 28) * Math.PI * 2) * (HEART + 10)} cy={-Math.cos((i / 28) * Math.PI * 2) * (HEART + 10)} r={7} fill={mix("#ffd35a", "#8f8470", 1 - glow)} stroke="#2b1d14" strokeWidth={2.5} />
-          ))}
-          <circle r={HEART} fill={`url(#${uid}-heart)`} stroke="#2b1d14" strokeWidth={6} />
-          <ellipse cx={-30} cy={-38} rx={34} ry={20} fill="#fff" opacity={0.25 + 0.35 * glow} transform="rotate(-25 -30 -38)" />
-          {count && (
-            <>
-              <text y={14} textAnchor="middle" fontFamily="Luckiest Guy, sans-serif" fontSize={84} fill="#fff" stroke="#2b1d14" strokeWidth={9} paintOrder="stroke">{count[0]}</text>
-              <text y={58} textAnchor="middle" fontFamily="Baloo 2, sans-serif" fontWeight={800} fontSize={30} fill="#2b1d14">of {count[1]}</text>
-            </>
-          )}
-        </g>
-        {/* a blooming petal, over the heart and every other petal */}
-        {bloom && [0, 1].map((ri) => FLOWER_RINGS[ri].map((c, i) => (c.p === bloom ? petal(c, i, ri) : null)))}
+        <circle r={470} fill={`url(#${uid}-glow)`} opacity={0.35 + 0.65 * progress} />
       </svg>
+      {progress > 0 && (
+        <div className="wf-layer wf-rays" aria-hidden="true" style={{ opacity: progress * 0.9 }}>
+          <svg viewBox="-480 -480 960 960" width="100%" height="100%" style={layer}>
+            <defs>
+              <linearGradient id={`${uid}-ray`} x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0" stopColor="#ffe9a0" stopOpacity="0.85" />
+                <stop offset="1" stopColor="#ffe9a0" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            {Array.from({ length: 16 }, (_, i) => (
+              <path key={i} d="M-26,-150 L26,-150 L64,-560 L-64,-560 Z" fill={`url(#${uid}-ray)`} transform={`rotate(${i * 22.5})`} />
+            ))}
+          </svg>
+        </div>
+      )}
+      {layers.map((ly, n) =>
+        ly.pulse ? (
+          <div key={n} className={`wf-layer wf-pulse ${ly.pulse}`} aria-hidden="true">
+            <svg viewBox="-480 -480 960 960" width="100%" height="100%" style={layer}>{ly.nodes}</svg>
+          </div>
+        ) : (
+          <svg key={n} ref={n === 0 ? svgRef : undefined} viewBox="-480 -480 960 960" width="100%" height="100%" style={layer}>
+            {n === 0 && (
+              <>
+                <style>{`.wf-land{transform-box:fill-box;transform-origin:50% 100%;animation:wfland 1s cubic-bezier(.3,1.4,.5,1) both}@keyframes wfland{from{transform:translateY(-160px) scale(.2) rotate(-50deg);opacity:0}to{transform:none;opacity:1}}.wf-flash{animation:wfflash .7s ease-out both}@keyframes wfflash{0%{opacity:0}25%{opacity:1}100%{opacity:0}}.wf-bloom{transform-box:fill-box;transform-origin:50% 100%;animation:wfbloom 1.7s cubic-bezier(.3,1.5,.5,1) both}@keyframes wfbloom{0%{transform:scale(1)}26%{transform:scale(2.1)}52%{transform:scale(1.62)}74%{transform:scale(1.4)}100%{transform:scale(1.32)}}`}</style>
+                <defs>
+                  <radialGradient id={`${uid}-heart`} cx="40%" cy="35%" r="70%">
+                    <stop offset="0" stopColor={mix("#fff6c8", "#b8ab94", 1 - glow)} />
+                    <stop offset="0.55" stopColor={mix("#ffc53d", "#9b8f7a", 1 - glow)} />
+                    <stop offset="1" stopColor={mix("#e08a12", "#6f6656", 1 - glow)} />
+                  </radialGradient>
+                  {all.map((c) => {
+                    const col = flowerColour(c.colour);
+                    return (
+                      <linearGradient key={c.p} id={`${uid}-${c.p}`} x1="0.5" y1="0" x2="0.5" y2="1">
+                        <stop offset="0" stopColor={mix(col, "#ffffff", 0.42)} />
+                        <stop offset="0.55" stopColor={col} />
+                        <stop offset="1" stopColor={mix(col, "#2b1d14", 0.18)} />
+                      </linearGradient>
+                    );
+                  })}
+                  <filter id={`${uid}-lit`} x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b" />
+                    <feMerge>
+                      <feMergeNode in="b" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+              </>
+            )}
+            {ly.nodes}
+          </svg>
+        ),
+      )}
     </div>
   );
 }
@@ -300,16 +370,23 @@ function scrollTap(fn: () => void) {
 const PETAL_H = 262;
 const met = isMet;
 
-/** A spelling the child hasn't met yet: a dark crystal with a faint glint (no letters). */
+/** A spelling the child hasn't met yet: a dark crystal with a faint glint (no letters). The glint is its own HTML layer
+ *  whose opacity the compositor animates (docs/PERF.md fix 9: an SVG animation repaints on the main thread every frame,
+ *  and the chart has dozens of these). */
 export function DarkCrystal({ size = 34 }: { size?: number }) {
+  const w = size, h = size * 1.18;
   return (
-    <svg viewBox="0 0 34 40" width={size} height={size * 1.18} aria-label="a hidden gem" style={{ flex: "none", overflow: "visible" }}>
-      <polygon points="17,1 32,11 32,29 17,39 2,29 2,11" fill="#3b3450" stroke="#2b1d14" strokeWidth={2.5} strokeLinejoin="round" />
-      <polygon points="17,1 32,11 17,17 2,11" fill="#5b5274" />
-      <polygon points="9,8 14,5 12,13" fill="#fff" opacity={0.5}>
-        <animate attributeName="opacity" values="0.1;0.8;0.1" dur="2.6s" begin={`${(size * 7) % 3}s`} repeatCount="indefinite" />
-      </polygon>
-    </svg>
+    <span role="img" aria-label="a hidden gem" className="dark-crystal" style={{ width: w, height: h }}>
+      <svg viewBox="0 0 34 40" width={w} height={h}>
+        <polygon points="17,1 32,11 32,29 17,39 2,29 2,11" fill="#3b3450" stroke="#2b1d14" strokeWidth={2.5} strokeLinejoin="round" />
+        <polygon points="17,1 32,11 17,17 2,11" fill="#5b5274" />
+      </svg>
+      <span className="dc-glint" style={{ animationDelay: `${(size * 7) % 3}s` }}>
+        <svg viewBox="0 0 34 40" width={w} height={h}>
+          <polygon points="9,8 14,5 12,13" fill="#fff" />
+        </svg>
+      </span>
+    </span>
   );
 }
 
@@ -361,23 +438,56 @@ export function Jewel({ g, colour, state, energy = 0, size = 110, className = ""
 function GemChip({ gem, st, energy, colour, size, focus, reveal }: { gem: Gem; st: GemState; energy: number; colour: string; size: number; focus?: boolean; reveal?: boolean }) {
   if (!met(st)) return <DarkCrystal size={size * 0.95} />;
   const base: React.CSSProperties = { position: "relative", fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: size, lineHeight: 1.12, padding: "0 7px 2px", borderRadius: 9, whiteSpace: "nowrap", border: "2.5px solid #2b1d14" };
-  const glow = focus ? { outline: "4px solid #ffc53d", outlineOffset: 2, animation: "wffocus 1s ease-in-out infinite" } : {};
+  // the focused gem: a gold ring, and a glow that pulses round it (its own layer, wf-focus: the compositor pulses its
+  // opacity; the chip's own glow gives way to it, as it did to the box-shadow keyframes this replaces)
+  const glow: React.CSSProperties = focus ? { outline: "4px solid #ffc53d", outlineOffset: 2, boxShadow: "none" } : {};
   const cls = reveal ? "chip-reveal" : "";
-  if (st === "won")
-    return <span data-gem-chip={gem.key} className={`gem-won ${cls}`} style={{ ...base, ...glow, color: "#fff", background: `linear-gradient(160deg, ${mix(colour, "#ffffff", 0.45)}, ${colour} 55%, ${mix(colour, "#2b1d14", 0.25)})`, textShadow: "0 1.5px 0 #2b1d14, 0 0 2px #2b1d14", boxShadow: `inset 0 3px 0 rgba(255,255,255,.55), 0 0 10px ${colour}` }}>{gem.g}</span>;
-  if (st === "ready") return <span data-gem-chip={gem.key} className={`gem-ready ${cls}`} style={{ ...base, ...glow, color: "#2b1d14", background: "linear-gradient(160deg, #fff1b8, #ffc53d)", boxShadow: "0 0 12px #ffc53d" }}>{gem.g}</span>;
-  // charging: unpolished stone with an energy bar filling along the bottom
-  return (
-    <span data-gem-chip={gem.key} className={cls} style={{ ...base, ...glow, color: "rgba(43,29,20,.86)", background: "repeating-linear-gradient(45deg, rgba(120,100,80,.07) 0 3px, transparent 3px 7px), #efe6d6", overflow: "hidden" }}>
-      {gem.g}
-      <i style={{ position: "absolute", left: 0, bottom: 0, height: 5, width: `${Math.max(6, energy * 100)}%`, background: "#ffc53d", borderTop: "1.5px solid #2b1d14", transition: "width 1.4s cubic-bezier(.3,1.2,.5,1)" }} />
-    </span>
-  );
+  const chip =
+    st === "won" ? (
+      <span data-gem-chip={gem.key} className={`gem-won ${cls}`} style={{ ...base, color: "#fff", background: `linear-gradient(160deg, ${mix(colour, "#ffffff", 0.45)}, ${colour} 55%, ${mix(colour, "#2b1d14", 0.25)})`, textShadow: "0 1.5px 0 #2b1d14, 0 0 2px #2b1d14", boxShadow: `inset 0 3px 0 rgba(255,255,255,.55), 0 0 10px ${colour}`, ...glow }}>{gem.g}</span>
+    ) : st === "ready" ? (
+      <span data-gem-chip={gem.key} className={`gem-ready ${cls}`} style={{ ...base, color: "#2b1d14", background: "linear-gradient(160deg, #fff1b8, #ffc53d)", boxShadow: "0 0 12px #ffc53d", ...glow }}>{gem.g}</span>
+    ) : (
+      // charging: unpolished stone with an energy bar filling along the bottom
+      <span data-gem-chip={gem.key} className={cls} style={{ ...base, ...glow, color: "rgba(43,29,20,.86)", background: "repeating-linear-gradient(45deg, rgba(120,100,80,.07) 0 3px, transparent 3px 7px), #efe6d6", overflow: "hidden" }}>
+        {gem.g}
+        <i style={{ position: "absolute", left: 0, bottom: 0, height: 5, width: `${Math.max(6, energy * 100)}%`, background: "#ffc53d", borderTop: "1.5px solid #2b1d14", transition: "width 1.4s cubic-bezier(.3,1.2,.5,1)" }} />
+      </span>
+    );
+  return focus ? <span className="wf-focus">{chip}</span> : chip;
 }
 
-function ScrollPetal({ p, save, known, onOpen, focusGem, energyShow, reveal }: { p: PhonemeId; save: Save; known: Set<string>; onOpen: (p: Petal) => void; focusGem?: string | null; energyShow?: Record<string, number>; reveal?: string[] }) {
+/** The mist blobs over a sound not met yet: [x, y, r] from the petal's centre, drifting to and fro (5 to 8 s). */
+const MIST = [[-40, -60, 70], [45, -20, 80], [-20, 40, 90], [30, 80, 60]] as const;
+
+/**
+ * One petal of the chart. Performance (docs/PERF.md fix 9): the scroll holds all 44 petals and a phone sees five, so a
+ * petal well out of view rests (PetalScroll's observers take data-live, then data-on away): its endless animations
+ * pause, and the browser skips its content (style, layout, paint; content-visibility: hidden, its box stays the same
+ * size). Nothing in
+ * its SVG animates: the ink mist's drift, the "?" shimmer and the focus ring's pulse are HTML layers whose transform or
+ * opacity the compositor animates. Memoised: the flower's own state changes don't re-render the chart.
+ */
+const ScrollPetal = memo(function ScrollPetal({ p, save, known, onOpen, focusGem, energyShow, reveal, later, inView }: {
+  p: PhonemeId;
+  save: Save;
+  known: Set<string>;
+  onOpen: (p: Petal) => void;
+  focusGem?: string | null;
+  energyShow?: Record<string, number>;
+  reveal?: string[];
+  /** out of view as the scroll opens: its place is kept (the same size), and it is drawn a moment later */
+  later?: boolean;
+  /** in view as the scroll opens (the observers keep data-on and data-live up to date from then on) */
+  inView?: boolean;
+}) {
   const pt = petalOf(p);
   const c = chartOf(p);
+  const on = inView ? "" : undefined;
+  if (later) {
+    const n = pt.gems.length;
+    return <div className="sp-cv" data-on={on} data-live={on} style={{ position: "relative", flex: "none", width: n > 9 ? 268 : n > 6 ? 232 : n > 3 ? 200 : 180, height: PETAL_H }} />;
+  }
   const done = petalComplete(pt, save);
   // a gem whose energy is being shown filling up (back from practice) stays a charging stone until it is full
   const states = pt.gems.map((g) => ((st) => (st === "ready" && energyShow && g.key in energyShow ? "charging" : st))(gemState(g, save, known)));
@@ -390,11 +500,15 @@ function ScrollPetal({ p, save, known, onOpen, focusGem, energyShow, reveal }: {
   const h = PETAL_H;
   const d = teardrop(w - 12, h - 8);
   const cid = `sp-${p}`;
+  const box = { viewBox: `${-w / 2} ${-h / 2} ${w} ${h}`, width: w, height: h, style: { position: "absolute", inset: 0, overflow: "visible" } as const };
   return (
     <div
       role="button"
       aria-label={`petal ${p}`}
       data-p={p}
+      className="sp-cv"
+      data-on={on}
+      data-live={on}
       tabIndex={0}
       {...scrollTap(() => {
         if (!known1) {
@@ -409,55 +523,49 @@ function ScrollPetal({ p, save, known, onOpen, focusGem, energyShow, reveal }: {
       })}
       style={{ position: "relative", flex: "none", width: w, height: h, cursor: "pointer", scrollSnapAlign: "center" }}
     >
-      <svg viewBox={`${-w / 2} ${-h / 2} ${w} ${h}`} width={w} height={h} style={{ position: "absolute", inset: 0, overflow: "visible" }}>
-        <defs>
-          <clipPath id={cid}>
-            <path d={d} />
-          </clipPath>
-          <radialGradient id={`${cid}-g`} cx="50%" cy="30%" r="75%">
-            <stop offset="0" stopColor="#fff" />
-            <stop offset="1" stopColor={c.colour} stopOpacity=".38" />
-          </radialGradient>
-          <radialGradient id={`${cid}-mist`}>
-            <stop offset="0" stopColor="#fff" stopOpacity="0.5" />
-            <stop offset="1" stopColor="#fff" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        {known1 ? (
-          <>
-            <path d={d} fill={done ? `url(#${cid}-g)` : "#fffaf0"} />
-            {/* the petal fills with its colour from the point upwards as its gems are won */}
-            {!done && fill > 0 && <rect x={-w / 2} y={h / 2 - fill * h} width={w} height={fill * h} fill={c.colour} opacity={0.3} clipPath={`url(#${cid})`} />}
-          </>
-        ) : (
-          // a sound not met yet: shrouded in drifting ink mist, with a shimmering rune
-          <g clipPath={`url(#${cid})`}>
-            <rect x={-w / 2} y={-h / 2} width={w} height={h} fill="#3b3450" />
-            {[[-40, -60, 70], [45, -20, 80], [-20, 40, 90], [30, 80, 60]].map(([x, y, r], i) => (
-              <ellipse key={i} cx={x} cy={y} rx={r} ry={r * 0.6} fill={`url(#${cid}-mist)`}>
-                <animateTransform attributeName="transform" type="translate" values={`0 0; ${i % 2 ? -26 : 26} ${i % 2 ? 8 : -8}; 0 0`} dur={`${5 + i}s`} repeatCount="indefinite" />
-              </ellipse>
+      {known1 ? (
+        <svg {...box}>
+          <defs>
+            <clipPath id={cid}>
+              <path d={d} />
+            </clipPath>
+            <radialGradient id={`${cid}-g`} cx="50%" cy="30%" r="75%">
+              <stop offset="0" stopColor="#fff" />
+              <stop offset="1" stopColor={c.colour} stopOpacity=".38" />
+            </radialGradient>
+          </defs>
+          <path d={d} fill={done ? `url(#${cid}-g)` : "#fffaf0"} />
+          {/* the petal fills with its colour from the point upwards as its gems are won */}
+          {!done && fill > 0 && <rect x={-w / 2} y={h / 2 - fill * h} width={w} height={fill * h} fill={c.colour} opacity={0.3} clipPath={`url(#${cid})`} />}
+          <path d={d} fill="none" stroke={c.colour} strokeWidth={done ? 9 : 7} style={done ? { filter: `drop-shadow(0 0 8px ${c.colour})` } : undefined} />
+        </svg>
+      ) : (
+        <>
+          {/* a sound not met yet: shrouded in drifting ink mist, with a shimmering rune */}
+          <div className="sp-mist" style={{ clipPath: `path("${teardropAt(w - 12, h - 8, w / 2, h / 2)}")` }}>
+            {MIST.map(([x, y, r], i) => (
+              <i key={i} className={`sp-blob ${i % 2 ? "b" : "a"}`} style={{ left: w / 2 + x - r, top: h / 2 + y - r * 0.6, width: 2 * r, height: 1.2 * r, animationDuration: `${5 + i}s` }} />
             ))}
-            <text y={-h * 0.08} textAnchor="middle" dominantBaseline="middle" fontFamily="Luckiest Guy, sans-serif" fontSize={w * 0.42} fill={mix(c.colour, "#ffffff", 0.35)} stroke="#2b1d14" strokeWidth={4} paintOrder="stroke">
-              ?
-              <animate attributeName="opacity" values="0.35;1;0.35" dur="2.4s" repeatCount="indefinite" />
-            </text>
-          </g>
-        )}
-        <path
-          d={d}
-          fill="none"
-          stroke={known1 ? c.colour : mix(c.colour, "#fff4dc", 0.35)}
-          strokeWidth={done ? 9 : 7}
-          strokeDasharray={known1 ? undefined : "14 10"}
-          style={done ? { filter: `drop-shadow(0 0 8px ${c.colour})` } : undefined}
-        />
-        {focused && (
-          <path d={d} fill="none" stroke="#ffc53d" strokeWidth={12}>
-            <animate attributeName="stroke-opacity" values="0.2;1;0.2" dur="1.1s" repeatCount="indefinite" />
-          </path>
-        )}
-      </svg>
+            <span className="sp-rune">
+              <svg {...box}>
+                <text y={-h * 0.08} textAnchor="middle" dominantBaseline="middle" fontFamily="Luckiest Guy, sans-serif" fontSize={w * 0.42} fill={mix(c.colour, "#ffffff", 0.35)} stroke="#2b1d14" strokeWidth={4} paintOrder="stroke">
+                  ?
+                </text>
+              </svg>
+            </span>
+          </div>
+          <svg {...box}>
+            <path d={d} fill="none" stroke={mix(c.colour, "#fff4dc", 0.35)} strokeWidth={7} strokeDasharray="14 10" />
+          </svg>
+        </>
+      )}
+      {focused && (
+        <span className="sp-focus">
+          <svg {...box}>
+            <path d={d} fill="none" stroke="#ffc53d" strokeWidth={12} />
+          </svg>
+        </span>
+      )}
       {/* the sound's picture in the petal's top-right corner, like the school chart (every met petal; unmet ones keep the mist) */}
       {known1 && <img src={petalImg(p)} alt="" draggable={false} style={{ position: "absolute", right: -10, top: -14, width: 64, height: 64, objectFit: "contain", filter: "drop-shadow(0 2px 2px rgba(0,0,0,.25))", pointerEvents: "none" }} onError={(e) => (e.currentTarget.style.display = "none")} />}
       {/* the spellings flow inside the round part of the teardrop, like the sheet but big enough to read */}
@@ -471,7 +579,7 @@ function ScrollPetal({ p, save, known, onOpen, focusGem, energyShow, reveal }: {
       {done && <span className="gem-sparkle" style={{ right: "30%", top: "8%", width: "30%", height: "22%" }} />}
     </div>
   );
-}
+});
 
 /** The overall progress along the top of the scroll: a vine that grows as petals come home, with one little petal
  *  marker per sound in scroll order (lit when restored, tinted while filling, pale while missing). No numbers. */
@@ -712,8 +820,9 @@ export function BigPetal({ p, w = 330, h = 470, light, slots, socket, reveal, li
             );
           })}
         </div>
-        {/* a sound not met yet: ink mist over the whole petal, which clears when it is found */}
-        <div className="bp-mist" style={{ clipPath: `path("${d}")`, opacity: mist ? 1 : 0 }}>
+        {/* a sound not met yet: ink mist over the whole petal, which clears when it is found (its "?" pulses only while
+            the mist is there) */}
+        <div className={`bp-mist ${mist ? "on" : ""}`} style={{ clipPath: `path("${d}")`, opacity: mist ? 1 : 0 }}>
           <span>?</span>
         </div>
       </div>
@@ -1482,6 +1591,44 @@ function PractisedTrip({ gem, from, onDone, onBeat, onEnergy }: { gem: string; f
 /** The petal chart as a ninja scroll: one row of big petals in the school sheet's order, swiped sideways. */
 function PetalScroll({ save, known, onOpen, light, placed, focus, energyShow, reveal }: { save: Save; known: Set<string>; onOpen: (p: Petal) => void; light: (p: PhonemeId) => number; placed: number; focus?: string | null; energyShow?: Record<string, number>; reveal?: string[] }) {
   const ref = useRef<HTMLDivElement>(null);
+  // (one callback for the scroll's life, so the memoised petals don't re-render when the flower does)
+  const openRef = useRef(onOpen);
+  openRef.current = onOpen;
+  const open = useCallback((pt: Petal) => openRef.current(pt), []);
+  const groups = [1, 2, 3].map((n) => CHART_PETALS.filter((c) => c.page === n));
+  // The chart is 44 petals and about 1,500 nodes, and a phone sees five of them at a time (docs/PERF.md fix 9). The
+  // first frame draws the petals in view (round the focused one, or the start); the rest follow in a transition, which
+  // React renders in short slices, so opening the chart is never one long task. A petal well out of view rests: its
+  // endless animations pause, and further out the browser skips its content; it wakes well before it scrolls in.
+  const [allDrawn, setAllDrawn] = useState(false);
+  const firstView = useMemo(() => {
+    const order = groups.flat().map((c) => c.p);
+    const at = focus ? order.findIndex((p) => petalOf(p).gems.some((g) => g.key === focus)) : -1;
+    return new Set(at >= 0 ? order.slice(Math.max(0, at - 5), at + 6) : order.slice(0, 9));
+  }, []);
+  useEffect(() => startTransition(() => setAllDrawn(true)), []);
+  useEffect(() => {
+    // data-live: in view, its animations run (one that pauses out of view resumes where it stopped: no jump); data-on:
+    // within half a scroll-width of the view, it is drawn.
+    // A petal's animations pause before its content is skipped (data-on goes a moment after data-live, even on a fast
+    // swipe): the browser doesn't restyle skipped content, so a pause set then would never take.
+    const root = ref.current!;
+    const later = new Map<Element, number>();
+    const watch = (margin: string, on: (el: Element) => void, off: (el: Element) => void) => {
+      const io = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? on : off)(e.target)), { root, rootMargin: `0px ${margin}` });
+      root.querySelectorAll(".sp-cv").forEach((el) => io.observe(el));
+      return io;
+    };
+    const ios = [
+      watch("0px", (el) => el.setAttribute("data-live", ""), (el) => el.removeAttribute("data-live")),
+      watch(
+        "50%",
+        (el) => (clearTimeout(later.get(el)), el.setAttribute("data-on", "")),
+        (el) => (clearTimeout(later.get(el)), later.set(el, window.setTimeout(() => el.removeAttribute("data-on"), 150))),
+      ),
+    ];
+    return () => (ios.forEach((io) => io.disconnect()), later.forEach((t) => clearTimeout(t)));
+  }, []);
   const [hint, setHint] = useState(() => !hintSeen() && !focus);
   const touched = useRef(!!focus);
   const userSwiped = useRef(false);
@@ -1520,10 +1667,9 @@ function PetalScroll({ save, known, onOpen, light, placed, focus, energyShow, re
   }, []);
   // mouse users: the wheel scrolls sideways, and dragging with the mouse pans the scroll
   const drag = useRef<{ x: number; sl: number } | null>(null);
-  const groups = [1, 2, 3].map((n) => CHART_PETALS.filter((c) => c.page === n));
   return (
     <>
-      <style>{`@keyframes wffocus{0%,100%{box-shadow:0 0 0 rgba(255,197,61,0)}50%{box-shadow:0 0 18px rgba(255,197,61,1)}}@keyframes swipehand{0%{transform:translateX(120px);opacity:0}15%{opacity:1}70%{transform:translateX(-200px);opacity:1}100%{transform:translateX(-220px);opacity:0}}.petal-scroll::-webkit-scrollbar{display:none}`}</style>
+      <style>{`@keyframes swipehand{0%{transform:translateX(120px);opacity:0}15%{opacity:1}70%{transform:translateX(-200px);opacity:1}100%{transform:translateX(-220px);opacity:0}}.petal-scroll::-webkit-scrollbar{display:none}`}</style>
       {/* the parchment band, between two fixed wooden rollers */}
       <div className="pop-in" style={{ position: "absolute", left: 22, right: 22, top: 92, height: 284 }}>
         <div style={{ position: "absolute", left: 16, right: 16, top: 0, bottom: 0, borderTop: "4px solid #2b1d14", borderBottom: "4px solid #2b1d14", background: "repeating-linear-gradient(90deg, rgba(160,110,50,.05) 0 3px, transparent 3px 11px), linear-gradient(180deg, #e8cf9c 0%, #f8ebc9 12%, #fbf1d6 50%, #f3e0b3 88%, #d9b97c 100%)", boxShadow: "0 10px 24px rgba(90,50,20,.3)" }} />
@@ -1550,7 +1696,7 @@ function PetalScroll({ save, known, onOpen, light, placed, focus, energyShow, re
               <div key={gi} style={{ display: "flex", alignItems: "center", gap: 14, flex: "none" }}>
                 {gi > 0 && <span aria-hidden style={{ width: 22, height: 22, borderRadius: "50%", background: "#ffc53d", border: "4px solid #2b1d14", flex: "none", margin: "0 10px" }} />}
                 {g.map((c) => (
-                  <ScrollPetal key={c.p} p={c.p} save={save} known={known} onOpen={onOpen} focusGem={focus} energyShow={energyShow} reveal={reveal} />
+                  <ScrollPetal key={c.p} p={c.p} save={save} known={known} onOpen={open} focusGem={focus} energyShow={energyShow} reveal={reveal} later={!allDrawn && !firstView.has(c.p)} inView={firstView.has(c.p)} />
                 ))}
               </div>
             ))}

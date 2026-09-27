@@ -3,13 +3,28 @@
 // same utterance echoed back to back ("/ae/ It's two letters, but it's one sound. /ae/ It's two letters, but it's one
 // sound."), spliced chains, stacked praise, silences, cut-off clips and explanation dosage per level.
 // Usage: bun scripts/treadmill/script-audit.ts <transcript.json>... [--out report.md]
+//        [--check [--findings findings.json] [--metrics metrics.json]]
+// --check: the acceptance targets of docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §11.2 (the SCRIPT_FIXES rows and the teacher's
+// voice rows, TV-F4.1), computed per transcript; prints a table (and appends it to --out), writes treadmill findings
+// (sig `script:<metric>`) and the raw values, and exits 1 when any target fails. See `checkRun()` below.
+// Reads continuous.ts JSON ({ evs, meta?, navlog? }), transcript.ts journeys ([{ name, events }]) and the teacher-voice
+// listener's events.json (the same shape as continuous.ts).
 import { readFileSync, writeFileSync } from "node:fs";
 import { LINES } from "../../src/content/lines";
+import { LEVELS } from "../../src/content/worlds";
+import type { Finding } from "./types";
 
 const args = process.argv.slice(2);
-const outAt = args.indexOf("--out");
-const OUT = outAt >= 0 ? args[outAt + 1] : null;
-const FILES = args.filter((a, i) => !a.startsWith("--") && (outAt < 0 || i !== outAt + 1));
+const VALUE_FLAGS = new Set(["--out", "--findings", "--metrics"]);
+const flag = (k: string) => {
+  const i = args.indexOf(k);
+  return i >= 0 ? args[i + 1] : null;
+};
+const OUT = flag("--out");
+const CHECK = args.includes("--check");
+const FINDINGS = flag("--findings");
+const METRICS = flag("--metrics");
+const FILES = args.filter((a, i) => !a.startsWith("--") && !VALUE_FLAGS.has(args[i - 1]));
 const DUR: Record<string, number> = JSON.parse(readFileSync("public/a/durations.json", "utf8"));
 const TEXT = new Map(LINES.map((l) => [l.id, l.text]));
 
@@ -187,6 +202,732 @@ function report(file: string): string {
   return lines.join("\n");
 }
 
-const md = [`# Script audit`, "", `Counts by scripts/treadmill/script-audit.ts. Utterance = clips joined within 0.6 s, with no tap between them. Times are game seconds.`, "", ...FILES.map(report)].join("\n");
-if (OUT) writeFileSync(OUT, md);
-else console.log(md);
+// ================================================================ --check: the §11.2 targets
+// Everything below reads a transcript into one list of events with, for each, the level and the game (docs/
+// TEACHER_SCRIPT.md §2.6's game ids) it belongs to, then computes one metric per §11.2 row. A metric is "n/a" when the
+// transcript can't show it (no w2-1 in it, no splitter taps, no recorded teacher-voice lines): n/a never fails.
+
+/** One event of a transcript, normalised: `lid` the clip id (line id, sound:s, word:sun...), `level` the level on screen,
+ *  `game` the game being played (continuous.ts records it; older transcripts get it from the scene), `nav` the nav
+ *  control a tap was on. New continuous.ts kinds: route, game, turn (a question opened), hold (a held step or a Ready,
+ *  with `id`, `end` and `how`), sfx, split (the splitter's deliberate split), paw. */
+export type CEv = Ev & { lid?: string; level: string | null; game: string | null; nav?: string | null; show?: string; route?: string; end?: number; how?: string; seg: string; dom?: any; next?: string; tapped?: string };
+export interface Run {
+  file: string;
+  label: string;
+  persona: string;
+  from: string | null;
+  optin: string;
+  /** a brand-new child (every game is met for the first time) */
+  fresh: boolean;
+  /** one page for the whole run (continuous.ts), or one page and a fresh save per level (transcript.ts) */
+  continuous: boolean;
+  evs: CEv[];
+  /** did the recorder publish game ids, turns and holds (continuous.ts from 27 Sep)? */
+  rich: boolean;
+}
+
+const LEVEL_KIND = new Map(LEVELS.map((l) => [l.id, l.kind]));
+const LEVEL_INDEX = new Map(LEVELS.map((l, i) => [l.id, i]));
+/** What a line said, as the transcript recorded it (the build's words; lines.ts may have moved on since), else lines.ts. */
+const TEXT_OF = (e: { lid?: string; text?: string; kind?: string }) => (e.kind === "say" && e.text && !e.text.startsWith("[line ") ? e.text : undefined) ?? (e.lid && !e.lid.includes(":") ? TEXT.get(e.lid) : undefined) ?? e.text ?? "";
+const norm = (s: string) => s.replace(/…/g, "...").replace(/[’]/g, "'").trim();
+/** Words in a line: the space-separated pieces with a letter in them, so "grown-up" and "Mwa-ha-ha!" are one word each.
+ *  The same count as scripts/gen-audio.ts `wordsIn`, which gates a take at 3.3 words a second, so `fast-line` here and
+ *  the recording's own check agree on every line (they differed on the 15 hyphenated lines: `tv_opt_ask` "Ask a
+ *  grown-up to help you choose." was 3.25 words a second there and 3.72 here). */
+export const wordCount = (s: string) => norm(s).split(/\s+/).filter((w) => /[A-Za-z]/.test(w)).length;
+/** Sentences, split after . ! ? (a "..." is a pause or a lead-in's tail, not the end of a sentence). */
+export function sentences(text: string): string[] {
+  const t = norm(text);
+  const out: string[] = [];
+  let cur = "";
+  for (let i = 0; i < t.length; i++) {
+    cur += t[i];
+    if (!/[.!?]/.test(t[i])) continue;
+    if (t[i] === "." && (t[i + 1] === "." || t[i - 1] === ".")) continue;
+    if (i + 1 >= t.length || /\s/.test(t[i + 1])) (out.push(cur.trim()), (cur = ""));
+  }
+  if (cur.trim()) out.push(cur.trim());
+  return out;
+}
+/** Verbs that open an order to the child ("Tap the sun!", "Listen...", "Spell...", "Watch me first!"). */
+const VERBS = new Set(["tap", "touch", "press", "listen", "watch", "look", "find", "spell", "build", "say", "try", "change", "pick", "read", "make", "catch", "jump", "choose", "come", "go", "put", "show", "hear", "drag", "swipe", "help", "start", "fix", "zap", "kick", "sort", "count", "get", "give", "keep", "take", "wait", "point", "check", "squish", "use", "open", "move", "match", "remember", "think", "write", "blend", "stop", "hold", "follow", "hop", "collect", "grab", "push", "slide"]);
+/** Words that lead into a sentence without being its verb ("Now tap…", "So I'll…", "Look, a gem!"). */
+const LEAD = /^(now|so|okay|ok|and|then|first|next|right|quick|quickly|come on|go on|hmm|oh|ooh|wow|yes|look,|little ninja|super ninja|ninja)\b[,!]?\s*/i;
+/** Is this sentence an instruction to the child? An imperative verb first (after "Now", "So", "Then"...), or one of the
+ *  bare labels ("Your turn!", "Now you try!", "Last one!", "Ninja ears on!"). A one-word exclamation is an instruction
+ *  only for listen and watch ("Zap!", "Look!", "Bong!" are not); a one-word lead-in is ("Spell...", "Listen...").
+ *  "Let's…", "Let me…" and "Look how…!" are not. */
+export function isInstructionSentence(sentence: string): boolean {
+  let s = norm(sentence).replace(/^[^A-Za-z]+/, "");
+  const one = wordCount(s) === 1;
+  const raw = s.toLowerCase();
+  if (/^(now )?you (try|do one|have a go)\b|^now you (tap|find|read|build|spell|say|make|swap|choose|pick|catch|kick)\b/.test(raw)) return true;
+  for (let k = 0; k < 3; k++) {
+    const m = s.match(LEAD);
+    if (!m || !m[0]) break;
+    s = s.slice(m[0].length);
+  }
+  const low = s.toLowerCase();
+  if (/^(your turn|last one|one more|ninja ears on|all together|everyone)\b/.test(low)) return true;
+  const w = low.match(/^[a-z']+/)?.[0] ?? "";
+  if (one && /!$/.test(low)) return w === "listen" || w === "watch";
+  if (/^look (how|what)\b/.test(low)) return false;
+  return VERBS.has(w);
+}
+const PRAISE_RE = /^(tv_praise_|tv_yay_|yay_|streak_)/;
+const isPraise = (id: string) => PRAISE.has(id) || PRAISE_RE.test(id) || ["tv_said_well", "tv_run_jump_ok", "well_read", "well_spelt", "audit_streak_first", "tv_streak_10"].includes(id);
+/** Lines that close a level or a game (a closing line is the level's praise, SCRIPT_STYLE §8). */
+const CLOSING = /^(tv_w\d_end|tv_w\d_done|fm_l\d_done|tv_first_done|tv_hunt_done|tv_build_done|tv_learn_done|tv_dojo_review_done|tv_swap_done|tv_sort_done|tv_review_done|dojo_done|swap_done|sort_done|battle_win|battle_boss_win|run_end|story_end|trial_win)$/;
+const MAP_LINE = /^(world_\d+|map_hint|tv_map_hint|tv_map_next_.*|welcome_back|tv_welcome_back|fm_rw2_map|tv_map_flower|tv_map_intro|fm_super_listener|map_locked|fm_practise_again|tv_practise_again)$/;
+/** Pattern lists: an entry ending in "*" is a prefix (a generated family: tv_your_word_<w>). */
+const inList = (id: string | undefined, pats: readonly string[]) => !!id && pats.some((p) => (p.endsWith("*") ? id.startsWith(p.slice(0, -1)) : id === p));
+
+/** The teacher's voice, game by game (TEACHER_SCRIPT §3 and §4.1): the lines that are the full form's frame, its narrated
+ *  demo and its hand-over; whether it has a Ready hold; where the preschool path first meets it (§2.6); and the age-3 limit
+ *  for its runs of talk (§6: the five named runs may reach 12.5 s). Mirrors src/content/games.ts (F2) until that lands;
+ *  GAMES' own frame lines are added at run time when it exists. */
+type Need = { frame: string[]; demo?: string[]; ready: boolean; handover?: string[]; met: string; limit3?: number; recap?: string[]; short?: string[] };
+const TV_GAMES: Record<string, Need> = {
+  tap: { frame: ["tv_ears_frame"], demo: ["tv_ears_demo"], ready: true, handover: ["tv_your_word_*"], met: "w1-wu1" },
+  fastslow: { frame: ["tv_ts_meet"], demo: ["tv_ts_fast", "tv_ts_slow"], ready: true, handover: ["fm_tap_tortoise"], met: "w1-wu1", limit3: 12.5, recap: ["tv_ts_again"], short: ["tv_ts_again"] },
+  notice: { frame: ["tv_notice_frame"], ready: false, handover: ["tv_tap_hear_*"], met: "w1-wu1" },
+  tapall: { frame: ["tv_pocket_frame"], demo: ["tv_pocket_ido"], ready: true, handover: ["tv_pocket_ready_*"], met: "w1-wu1", limit3: 12.5, recap: ["tv_pocket_recap"], short: ["tv_pocket_more_*"] },
+  "tapall:in": { frame: ["tv_pocket_middle"], demo: ["tv_pocket_ido", "tv_hear_middle"], ready: true, handover: ["tv_pocket_ready_*"], met: "w1-wu3", short: ["tv_pocket_middle_more_*"] },
+  rail: { frame: ["tv_rail_frame"], demo: ["tv_rail_ido"], ready: true, handover: ["tv_rail_ready", "tv_rail_turn"], met: "w1-wu2", recap: ["tv_rail_again"], short: ["tv_rail_again"] },
+  which: { frame: ["tv_which_frame"], demo: ["tv_which_demo", "tv_which_so"], ready: true, handover: ["tv_which_q_*"], met: "w1-wu2", recap: ["tv_which_again"], short: ["tv_which_again"] },
+  compound: { frame: ["tv_squish_frame"], demo: ["tv_squish_slow", "tv_squish_fast"], ready: true, handover: ["tv_squish_ready", "fm_starfish_q"], met: "w1-wu2", recap: ["tv_squish_again"], short: ["tv_squish_again"] },
+  slowpick: { frame: ["tv_slow_frame"], demo: ["tv_slow_demo", "tv_i_hear_*"], ready: true, handover: ["tv_slow_yours"], met: "w1-wu3", recap: ["tv_slow_recap"], short: ["tv_slow_short"] },
+  sounds: { frame: ["tv_guess_frame"], demo: ["tv_my_sounds", "tv_guess_so_*"], ready: true, handover: ["tv_guess_q"], met: "w1-wu5", recap: ["tv_guess_recap"], short: ["tv_guess_short"] },
+  dots: { frame: ["tv_dots_frame"], demo: ["tv_dots_ido", "tv_dots_word_ido"], ready: true, handover: ["tv_dots_ready"], met: "w1-wu6", limit3: 12.5, recap: ["tv_dots_recap"], short: ["tv_dots_short"] },
+  firstsound: { frame: ["tv_first_frame"], demo: ["tv_ido_pair_*", "tv_let_me_listen", "tv_so_i_tap"], ready: true, handover: ["tv_ready_together", "tv_together", "first_q"], met: "w1-2", recap: ["tv_first_recap"], short: ["tv_first_again_new", "tv_first_again_known"] },
+  find: { frame: ["tv_ne_frame"], ready: false, handover: ["tv_which_write"], met: "w1-2", recap: ["tv_ne_recap"], short: ["tv_ne_again", "tv_ne_new_sounds"] },
+  build: { frame: ["tv_build_frame"], demo: ["tv_word_card", "tv_i_say_slowly", "tv_first_is"], ready: true, handover: ["tv_build_ready", "tv_our_word"], met: "w1-4", recap: ["tv_build_recap"], short: ["tv_build_again_short", "tv_build_again_3", "tv_build_dojo", "tv_next_build", "tv_next_build_plain"] },
+  readcheck: { frame: ["tv_readers_meet", "tv_rc_how"], ready: false, handover: ["tv_you_read_first"], met: "w1-4", recap: ["tv_readers_back"], short: ["tv_readers_back"] },
+  battle: { frame: ["tv_battle_oh_no", "tv_battle_frame"], demo: ["tv_battle_card", "tv_first_is"], ready: true, handover: ["tv_battle_ready", "tv_your_word"], met: "w1-6", recap: ["tv_battle_recap"], short: ["tv_battle_again"] },
+  soundhunt: { frame: ["tv_hunt_frame"], demo: ["tv_ido_pair_*", "tv_let_me_listen", "mid_*"], ready: true, handover: ["tv_ready_together", "tv_hunt_q"], met: "w1-7", limit3: 12.5, recap: ["tv_hunt_recap"], short: ["tv_hunt_again"] },
+  swap: { frame: ["tv_swap_oh_dear", "tv_swap_frame"], demo: ["tv_swap_change_to", "tv_swap_in"], ready: true, handover: ["tv_swap_ready", "tv_swap_now_change"], met: "w1-8", recap: ["tv_swap_again"], short: ["tv_swap_again"] },
+  run: { frame: ["tv_run_frame"], ready: true, handover: ["tv_run_ready", "tv_run_lanterns"], met: "w1-9", recap: ["tv_run_again"], short: ["tv_run_again"] },
+  story: { frame: ["tv_story_frame"], ready: true, handover: ["tv_story_begin", "tv_story_yours"], met: "w1-14", recap: ["tv_story_recap"], short: ["tv_story_short"] },
+  boss: { frame: ["tv_boss_calm", "tv_boss_frame"], ready: true, handover: ["tv_boss_ready", "tv_your_word"], met: "w1-15", limit3: 12.5, recap: ["tv_boss_again"], short: ["tv_boss_again"] },
+  learn: { frame: ["tv_learn_frame_*", "tv_learn_how", "tv_dj_room", "tv_learn_frame_ways"], ready: true, handover: ["tv_learn_first"], met: "w2-1", recap: ["tv_learn_recap_*"], short: ["tv_learn_short_*"] },
+  sort: { frame: ["tv_sort_frame"], demo: ["tv_sort_ido", "tv_sort_see", "tv_sort_so"], ready: true, handover: ["tv_ready_yours", "help_sort"], met: "w6-br1", recap: ["tv_sort_recap"], short: ["audit_sort_again"] },
+  trial: { frame: ["tv_trial_frame", "tv_trial_bar"], ready: true, handover: ["tv_trial_ready", "tv_your_word"], met: "trial", recap: ["tv_trial_short"], short: ["tv_trial_short"] },
+  review: { frame: ["tv_review_frame", "tv_review_how"], ready: true, handover: ["tv_battle_go"], met: "review", short: ["tv_review_short"] },
+};
+/** Today's openers (before the teacher's voice): not frames by TEACHER_SCRIPT's standard (they don't say who does what),
+ *  but a full opener all the same, so said again in a session they are over-framing. */
+const LEGACY_OPENERS = ["fm_l1_hello", "fm_l2_way", "fm_tap_all_start", "fm_tap_all_in", "fm_l2_big_word", "fm_sounds_intro", "fm_dots_intro", "fm_first_listen", "first_intro", "hunt_intro", "audit_dojo_first", "dojo_hello", "read_intro", "battle_start", "battle_boss", "swap_start", "run_start", "story_start", "audit_sort_first", "audit_trial_first", "audit_made_of_sounds"];
+/** The frame lines TEACHER_SCRIPT marks "full" (or once per save) only: said again in a session, or to a child who knows
+ *  the game, they are over-framing (a later play uses the recap or short line). Lines the script says on every play
+ *  (tv_swap_read_first, tv_story_title) or on recaps (tv_ts_meet, tv_learn_how, tv_rc_how) are not in it. */
+const FULL_FRAMES = ["tv_ears_frame", "tv_ears_on", "tv_notice_frame", "tv_pocket_frame", "tv_pocket_middle", "tv_rail_frame", "tv_which_frame", "tv_squish_frame", "tv_slow_frame", "tv_guess_frame", "tv_dots_frame", "tv_first_frame", "tv_ne_frame", "tv_build_frame", "tv_build_lines", "tv_readers_meet", "tv_battle_oh_no", "tv_battle_frame", "tv_hunt_frame", "tv_swap_oh_dear", "tv_swap_frame", "tv_run_frame", "tv_run_lanterns_how", "tv_story_frame", "tv_boss_calm", "tv_boss_frame", "tv_learn_frame_*", "tv_sort_frame", "tv_sort_open", "tv_trial_frame", "tv_trial_bar", "tv_review_frame", "tv_review_how"];
+/** The Ready lines (TEACHER_SCRIPT §2.3 and each game's hand-over Ready): a demo window ends at one. */
+const READY_LINES = ["tv_ready_*", "tv_pocket_ready_*", "tv_rail_ready", "tv_squish_ready", "tv_dots_ready", "tv_swap_ready", "tv_battle_ready", "tv_boss_ready", "tv_learn_ready", "tv_run_ready", "tv_trial_ready", "tv_build_ready", "tv_battle_go", "tv_story_begin"];
+/** Demo starters: the show labels of today, and the teacher-voice demos (TEACHER_SCRIPT §2.1 "Demo"). */
+const DEMO_START = ["fm_show_me", "fm_show_me_2", "ido", "tv_ears_demo", "tv_pocket_ido", "tv_rail_ido", "tv_which_demo", "tv_squish_slow", "tv_slow_demo", "tv_my_sounds", "tv_dots_ido", "tv_ido_pair_*", "tv_i_say_slowly", "tv_battle_card", "tv_swap_change_to", "tv_sort_ido", "tv_ts_fast"];
+const TRY_LABELS = ["fm_you_try", "fm_you_try_2", "wedo", "youdo"];
+/** Join-ins: the child's own tap inside a long demo (TEACHER_SCRIPT §6), so addressed to the child on purpose. */
+const JOIN_INS = ["tv_word_card", "tv_you_find_last", "tv_petal_say", "tv_petal_say_short", "tv_new_petal_say", "tv_petal_first", "tv_battle_card", "tv_swap_kick", "tv_tap_hear_*", "tv_now_tap_hear_*", "tv_rw2_tap_petal", "tv_flower_tap", "tv_swap_read_first", "tv_you_read_first", "tv_run_jump"];
+/** A correction or an idle re-ask: the one place a bare "Listen…" may still go (mechanics §7.4). */
+const CORRECTION_RE = /^(thats|we_need|that_says|listen_again|listen_here|nearly|not_quite|its|its_this_one|fm_its_this|same_sound_spelling|stays_same|audit_listen_next|fm_diff_.*|fm_not_in_.*|help_.*|tv_fix_.*|tv_listen_here|tv_thats_write|tv_find_again_.*|tv_slow_again|tv_guess_again|tv_which_fix_.*|tv_run_fix|tv_lets_check|tv_ts_wrong_.*|tv_listen_sound_again|tv_dojo_idle_say|tv_dojo_help_sound)$/;
+const LISTEN_IDS = new Set(LINES.filter((l) => /^listen\W*$/i.test(norm(l.text))).map((l) => l.id));
+const LETTERS_IDS = new Set(["t_two_letters", "t_three_letters", "t_four_letters", "st_two_letters_too", "two_letters_one_sound"]);
+const REVEAL_IDS = new Set(["how_we_spell", "audit_hear_see", "audit_spell_it", "tv_how_we_write", "tv_and_how_we_write"]);
+const PLACE_IDS = new Set(["audit_swap_first", "audit_swap_middle", "audit_swap_last", "st_first_changes", "st_middle_changes", "st_last_changes"]);
+/** Sounds~Write routines that may repeat (SCRIPT_STYLE §5.1), and per-item carriers whose words change every time. */
+const ROUTINE = /^(say_sounds_read|tv_lets_say_read|first_sound_q|next_sound_q|last_sound_q|kai_says|suki_says|fm_name_.*|fs_.*|mid_.*|tp_.*|tg_.*|nav_ready)$/;
+/** Taps that leave or skip (they end nothing a child is doing). */
+const NOT_ACTION = new Set(["Home", "Back", "Skip film", "(somewhere)"]);
+
+const isSpeech = (e: CEv) => SPEECH.has(e.kind);
+const isSay = (e: CEv) => e.kind === "say" || e.kind === "story";
+const isTap = (e: CEv) => e.kind === "tap" || e.kind === "nav";
+/** A tap the game registered (TEACHER_SCRIPT §6: "a tap the game registers"): not Home or Back, and not a tile tapped
+ *  while the scene was busy (continuous.ts records `busy` at each tap from 27 Sep: the bot taps tiles during a demo, and
+ *  the game ignores them). Older transcripts don't record it, so every tap counts there: their runs of talk can only
+ *  come out shorter than the child heard them, never longer. */
+const isAction = (e: CEv) => isTap(e) && !NOT_ACTION.has(e.text) && !["home", "back"].includes(e.nav ?? "") && !(e as any).ignored;
+function markIgnoredTaps(evs: CEv[]) {
+  for (const t of evs) if (isTap(t) && !t.nav && !NAV_LABEL.has(t.text) && (t as any).busy === true) (t as any).ignored = true;
+}
+const NAV_LABEL = new Set(["Next", "Back", "Home", "Help", "Hear it again", "Show me again", "Skip film"]);
+const endOf = (e: CEv) => e.t + (e.dur ? e.dur / 1000 : durOf(e.lid ?? "x"));
+
+const WARMUP_GAMES = new Set(["tap", "fastslow", "notice", "tapall", "rail", "which", "compound", "slowpick", "sounds", "dots"]);
+/** The game a warm-up beat or a scene plays (TEACHER_SCRIPT §2.6), for transcripts that didn't record it. */
+export function gameOfScene(scene: string | null | undefined, level: string | null, beat?: string | null): string | null {
+  const kind = level ? LEVEL_KIND.get(level) : undefined;
+  switch (scene) {
+    case "warmup":
+      // (the warm-ups' hello, name, swap show and done beats are not games: they belong to the game around them)
+      return beat && WARMUP_GAMES.has(beat) ? beat : beat ? null : "warmup";
+    case "pick":
+      return kind === "soundhunt" ? "soundhunt" : "firstsound";
+    case "build":
+      return "build";
+    case "read":
+      return "readcheck";
+    case "learn":
+      return "learn";
+    case "find":
+      return "find";
+    case "battle":
+      return level === "review" ? "review" : kind === "boss" ? "boss" : "battle";
+    case "swap":
+      return kind === "picread" ? null : "swap";
+    case "sort":
+    case "run":
+    case "story":
+      return scene;
+    default:
+      return null;
+  }
+}
+
+/** Read one transcript file for the checks. */
+export function loadRun(file: string): Run {
+  const raw = JSON.parse(readFileSync(file, "utf8"));
+  const base = file.split("/").pop()!;
+  const meta = (!Array.isArray(raw) && raw.meta) || {};
+  const persona: string = meta.persona ?? (base.match(/(?:journey|continuous)-([a-z]+)/)?.[1] ?? (/run-a/.test(file) ? "learner" : "?"));
+  const from: string | null = meta.from ?? base.match(/-from-(w[\w-]+?)\.json$/)?.[1] ?? null;
+  const optin: string = meta.optin ?? "none";
+  const continuous = !Array.isArray(raw);
+  const evs: CEv[] = [];
+  if (!continuous) {
+    // transcript.ts: one fresh page per level, each with its own clock: laid end to end, 100 s apart
+    let offset = 0;
+    for (const c of raw as { name: string; events: Ev[] }[]) {
+      const level = LEVEL_KIND.has(c.name) ? c.name : null;
+      let scene: string | null = null, end = 0;
+      for (const e of c.events as any[]) {
+        if (e.kind === "scene") scene = e.text;
+        const lid = SPEECH.has(e.kind) ? idOf(e) ?? undefined : undefined;
+        evs.push({ ...e, t: e.t + offset, lid, seg: c.name, level, game: gameOfScene(scene, level) });
+        end = Math.max(end, e.t);
+      }
+      offset += end + 100;
+    }
+  } else {
+    // continuous.ts (and the listener's events.json): one stream; the level from routes (new) or pieces (older runs)
+    let level: string | null = null, scene: string | null = null, beat: string | null = null, game: string | null = null, seg = "start";
+    let firstMinutes = 0;
+    const rich = raw.evs.some((e: any) => e.kind === "game" || e.kind === "route");
+    const PRI0: Record<string, number> = { piece: 0, route: 1, scene: 2, game: 3 };
+    const ordered = (raw.evs as any[]).map((e, i) => ({ e, i })).sort((a, b) => a.e.t - b.e.t || (PRI0[a.e.kind] ?? 4) - (PRI0[b.e.kind] ?? 4) || a.i - b.i).map((x) => x.e);
+    for (const e of ordered) {
+      if (e.kind === "piece") {
+        seg = e.text;
+        const m = e.text.match(/^level (w[\w-]+|review|trial)/);
+        if (!rich) {
+          if (m) level = m[1];
+          else if (/^level \(first minutes\)/.test(e.text)) level = ++firstMinutes === 1 ? "w1-wu1" : firstMinutes === 2 ? "w1-wu2" : level;
+          else if (!/^stone /.test(e.text)) level = null;
+        }
+      }
+      if (e.kind === "route") {
+        const m = String(e.text).match(/^level:(.+)$/);
+        level = m ? m[1] : String(e.text).startsWith("trial") ? "trial" : null;
+      }
+      if (e.kind === "scene") scene = e.text;
+      if (e.dom) (scene = e.dom.scene ?? scene), (beat = e.dom.beat ?? beat);
+      if (e.kind === "game") game = e.text || null;
+      const g = rich ? game : gameOfScene(scene, level, beat);
+      const lid = SPEECH.has(e.kind) ? e.id ?? idOf(e) ?? undefined : undefined;
+      // a clip knows the route it started on (continuous.ts reads it in the page as the clip starts): exact where the
+      // harness's own route events lag
+      const own = typeof e.route === "string" ? (e.route.startsWith("level:") ? e.route.slice(6) : e.route.startsWith("trial") ? "trial" : null) : undefined;
+      evs.push({ ...e, lid, seg, level: own !== undefined ? own : level, game: own !== undefined && own !== level ? null : g });
+    }
+  }
+  const PRI: Record<string, number> = { piece: 0, route: 1, scene: 2, game: 3 };
+  evs.sort((a, b) => a.t - b.t || (PRI[a.kind] ?? 4) - (PRI[b.kind] ?? 4));
+  markIgnoredTaps(evs);
+  const who = persona === "perfect" ? "P" : persona === "learner" ? "L" : persona === "splitter" ? "S" : persona === "watcher" ? "W" : persona;
+  const label = continuous ? `C${from === "w5-1" ? "5" : from === "w6-br1" ? "6" : from ? `(${from})` : ""}-${who}${/run-a/.test(file) ? " (listener, to w2-1)" : ""}` : `J-${who}`;
+  return { file, label, persona, from, optin, fresh: continuous ? !from : true, continuous, evs, rich: evs.some((e) => e.kind === "game" || e.kind === "turn") };
+}
+
+/** A game's plays: runs of events with the same (level, game). `from` is where its talk may begin: the end of the play
+ *  before it in the same level (the frame is often said before the scene publishes the game). */
+type Play = { game: string; level: string | null; from: number; start: number; end: number; first: boolean };
+function playsOf(run: Run): Play[] {
+  const out: Play[] = [];
+  let cur: Play | null = null, levelStart = 0, lastLevel: string | null | undefined, lastEnd = 0;
+  const seen = new Set<string>();
+  for (const e of run.evs) {
+    if (e.level !== lastLevel) (lastLevel = e.level), (levelStart = e.t), (lastEnd = e.t);
+    if (!e.game) continue;
+    if (!cur || cur.game !== e.game || cur.level !== e.level) {
+      if (cur) (out.push(cur), (lastEnd = cur.level === e.level ? cur.end : levelStart));
+      const key: string = run.continuous ? e.game : `${e.seg}|${e.game}`;
+      // (2.5 s early: the harness notices a new scene a moment after its first line)
+      cur = { game: e.game, level: e.level, from: Math.max(levelStart, lastEnd) - 2.5, start: e.t, end: e.t, first: !seen.has(key) };
+      seen.add(key);
+    }
+    cur.end = e.t;
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+/** Is this game met for the first time in this run (a fresh child: every game; a `--from` child: games first met at or
+ *  after where they start, TEACHER_SCRIPT §2.6)? */
+function firstMeeting(run: Run, game: string): boolean {
+  if (run.fresh || !run.from) return true;
+  const met = TV_GAMES[game]?.met;
+  if (!met) return false;
+  return (LEVEL_INDEX.get(met) ?? Infinity) >= (LEVEL_INDEX.get(run.from) ?? 0);
+}
+/** The age band's limit for a run of talk (ARCHITECTURE §6.4): 12 s at age 3 (not at school yet), 15 s at 4 (Reception,
+ *  and every `--from` child: continuous.ts starts them as Reception), 18 s at 5 and over. */
+const ageLimit = (run: Run) => (run.from ? 15 : run.optin === "none" || run.optin === "unsure" ? 12 : run.optin === "R" ? 15 : 18);
+/** The Ready holds a run recorded (continuous.ts: `hold` events whose id starts with "ready:", or nav log "ready"). */
+const readyHolds = (run: Run) => run.evs.filter((e) => e.kind === "hold" && /^ready:/.test(e.text));
+
+export type Metric = { id: string; row: string; value: string; target: string; pass: boolean | null; detail: string[]; major?: boolean };
+const pct = (a: number, b: number) => (b ? `${Math.round((100 * a) / b)}%` : "–");
+const fmtT = (t: number) => `${Math.floor(t / 60)}:${(t % 60).toFixed(1).padStart(4, "0")}`;
+const quote = (e: CEv) => `‹${e.lid}› "${TEXT_OF(e).slice(0, 70)}"`;
+const where = (e: CEv) => `${e.level ?? e.seg} @${fmtT(e.t)}`;
+/** (a journey's times are laid end to end: `where` shows the run's clock, not the level's) */
+
+/** Every metric for one transcript. */
+export function checkRun(run: Run, games: Record<string, Need> = TV_GAMES): Metric[] {
+  const evs = run.evs;
+  const ALL_FRAMES = [...new Set(Object.values(games).flatMap((g) => g.frame))];
+  const says = evs.filter((e) => isSay(e) && e.lid);
+  const speech = evs.filter(isSpeech);
+  const taps = evs.filter(isTap);
+  const actions = evs.filter(isAction);
+  const opens = evs.filter((e) => e.kind === "turn" || e.kind === "hold");
+  const inLevel = (e: CEv) => !!e.level;
+  const M: Metric[] = [];
+  const add = (m: Metric) => M.push(m);
+  const na = (id: string, row: string, target: string, why: string, major = false) => add({ id, row, value: "n/a", target, pass: null, detail: [why], major });
+  // the cut-off flag: continuous.ts records it; for a journey, the next speech clip started before this one could end
+  const cut = (e: CEv) => (e.cut !== undefined ? !!e.cut : (() => { const i = speech.indexOf(e); const n = speech[i + 1]; return !!n && n.seg === e.seg && n.t < endOf(e) - 0.25; })());
+  const baron = (e: CEv) => e.who === "baron";
+
+  // ---------------- the SCRIPT_FIXES rows (§11.2, top half)
+  {
+    const letters = says.filter((e) => LETTERS_IDS.has(e.lid!));
+    const c6p = run.from === "w6-br1" && run.persona === "perfect";
+    add({ id: "letters-lines", row: "letters lines in C6-P (25 min) ≤ 12", value: String(letters.length), target: c6p ? "≤ 12" : "≤ 12 (C6-P only; info here)", pass: c6p ? letters.length <= 12 : null, detail: letters.slice(0, 6).map((e) => `${where(e)} ${quote(e)}`), major: true });
+    // the same letters sentence twice within 60 s
+    const near = letters.filter((e, i) => letters.slice(0, i).some((p) => p.lid === e.lid && e.t - p.t < 60));
+    add({ id: "letters-60s", row: "the same letters sentence never twice in 60 s", value: String(near.length), target: "0", pass: near.length === 0, detail: near.slice(0, 6).map((e) => `${where(e)} ${quote(e)} again within 60 s`), major: true });
+    // no spelling's full line twice in a session: keyed by the sound said in the same utterance (a sound with two
+    // two-letter spellings taught far apart can trip this; the learner's corrections are allowed to repeat it)
+    const full = letters.filter((e) => e.lid !== "st_two_letters_too");
+    const soundNear = (e: CEv) => speech.filter((s) => s.kind === "sound" && Math.abs(s.t - e.t) < 4).sort((a, b) => Math.abs(a.t - e.t) - Math.abs(b.t - e.t))[0]?.lid ?? "?";
+    const bySound = new Map<string, CEv[]>();
+    for (const e of full) bySound.set(soundNear(e), [...(bySound.get(soundNear(e)) ?? []), e]);
+    const twice = [...bySound].filter(([, xs]) => xs.length > 1);
+    add({ id: "letters-twice", row: "no spelling's full letters line twice in a session", value: `${twice.length} sounds`, target: run.persona === "perfect" ? "0" : "0 (perfect runs only; info here)", pass: run.persona === "perfect" && run.continuous ? twice.length === 0 : null, detail: twice.slice(0, 6).map(([p, xs]) => `${p.replace("sound:", "/")}/: ${xs.length}× (${xs.map((x) => `${x.level ?? x.seg} ${fmtT(x.t)}`).join(", ")})`), major: true });
+  }
+  {
+    // echoes of a letters line: "/ae/ It's two letters… /ae/ It's two letters…"
+    const utts = utterances(segsOf(run));
+    const echo: string[] = [];
+    for (const u of utts) {
+      const sh = u.ids.map((i) => (i.startsWith("sound:") ? "/X/" : i));
+      const rep = sh.some((_, i) => [1, 2, 3].some((k) => i + 2 * k <= sh.length && sh.slice(i, i + k).some((x) => LETTERS_IDS.has(x)) && sh.slice(i, i + k).join() === sh.slice(i + k, i + 2 * k).join()));
+      if (rep) echo.push(`${u.seg} @${fmtT(u.t)} (one breath): ${u.ids.map(label).join(" ")}`.slice(0, 220));
+    }
+    for (let i = 1; i < utts.length; i++) {
+      const a = utts[i - 1], b = utts[i];
+      if (a.seg === b.seg && b.t - a.t < 25 && shape(a.ids) === shape(b.ids) && a.ids.some((x) => LETTERS_IDS.has(x))) echo.push(`${a.seg} @${fmtT(a.t)}: ${a.ids.map(label).join(" ")} ‖ ${b.ids.map(label).join(" ")}`.slice(0, 220));
+    }
+    add({ id: "letters-echo", row: '"/X/ two letters · /X/ two letters" echoes', value: String(echo.length), target: "0", pass: echo.length === 0, detail: echo.slice(0, 5), major: true });
+  }
+  {
+    const late = says.filter((e) => e.lid === "same_sound_new" && says.some((r) => REVEAL_IDS.has(r.lid!) && r.t < e.t && e.t - r.t < 10));
+    add({ id: "same-sound-after-reveal", row: "`same_sound_new` after the reveal", value: String(late.length), target: "0", pass: late.length === 0, detail: late.slice(0, 5).map((e) => `${where(e)} ${quote(e)}`) });
+  }
+  if (run.continuous) {
+    const w = says.filter((e) => /^world_\d+$/.test(e.lid!));
+    const per = new Map<string, number>();
+    for (const e of w) per.set(e.lid!, (per.get(e.lid!) ?? 0) + 1);
+    const over = [...per].filter(([, n]) => n > 1);
+    add({ id: "world-welcomes", row: "world welcomes: 1 per land", value: [...per].map(([k, n]) => `${k} ×${n}`).join(", ") || "0", target: "≤ 1 per land", pass: over.length === 0, detail: over.map(([k, n]) => `${k} "${TEXT.get(k)}" said ${n} times`) });
+    const did = says.filter((e) => e.lid === "yay_7" && says.some((p) => p !== e && p.lid !== "yay_7" && (isPraise(p.lid!) || CLOSING.test(p.lid!)) && p.t <= e.t && e.t - p.t < 5));
+    add({ id: "did-it-after-praise", row: '"You did it!" straight after another praise line', value: String(did.length), target: "0", pass: did.length === 0, detail: did.slice(0, 5).map((e) => where(e)) });
+    const jumps = says.filter((e) => e.lid === "jump_offer" || e.lid === "tv_jump_offer");
+    const jt = run.fresh ? 0 : 1;
+    add({ id: "jump-offers", row: "jump offers: 0 on day one, ≤ 1 a session", value: String(jumps.length), target: `≤ ${jt}${run.fresh ? " (day one)" : " (one session)"}`, pass: jumps.length <= jt, detail: jumps.slice(0, 5).map((e) => where(e)) });
+    const tips = says.filter((e) => e.lid === "tut_speaker");
+    add({ id: "speaker-tip", row: '"Tap the speaker…": ≤ 2 a save, 0 cut', value: `${tips.length} (${tips.filter(cut).length} cut)`, target: "≤ 2, 0 cut", pass: tips.length <= 2 && !tips.some(cut), detail: tips.filter(cut).slice(0, 5).map((e) => `${where(e)} cut`) });
+    const hint = says.filter((e) => e.lid === "map_hint" || e.lid === "tv_map_hint");
+    add({ id: "map-hint-cut", row: "map hint cut by the next level", value: `${hint.filter(cut).length} of ${hint.length}`, target: "0", pass: !hint.some(cut), detail: hint.filter(cut).slice(0, 5).map((e) => `${where(e)} ${quote(e)} cut`) });
+    // a level's line that starts over the map: after the stone tap, while the map or App's fade from it is still on
+    // screen (the route flips to the level at the tap; Dec5 makes the level wait for the fade). continuous.ts records
+    // `mapOn` per clip; older transcripts: before the harness saw the level's piece begin (it polls, so a little late)
+    const overMap: CEv[] = [];
+    for (const tap of taps.filter((e) => /^level /.test(e.text))) {
+      const until = evs.find((e) => e.t > tap.t && e.kind === "piece" && /^level /.test(e.text))?.t ?? tap.t + 8;
+      overMap.push(...says.filter((e) => e.t > tap.t && e.t < tap.t + 8 && !MAP_LINE.test(e.lid!) && ((e as any).mapOn !== undefined ? (e as any).mapOn === true : e.t < until)));
+    }
+    add({ id: "over-map", row: "level lines started over the map", value: String(overMap.length), target: "0", pass: overMap.length === 0, detail: overMap.slice(0, 5).map((e) => `${where(e)} ${quote(e)}`) });
+  } else for (const [id, row] of [["world-welcomes", "world welcomes"], ["did-it-after-praise", '"You did it!" after praise'], ["jump-offers", "jump offers"], ["speaker-tip", '"Tap the speaker…"'], ["map-hint-cut", "map hint cut"], ["over-map", "level lines over the map"]]) na(id, row, "(continuous runs)", "a journey reloads every level: only a continuous run shows this");
+  {
+    // "This is how we spell/write…" in the first-sound and sound-hunt levels: once per spelling per level
+    const rev = says.filter((e) => REVEAL_IDS.has(e.lid!) && e.level && ["firstsound", "soundhunt"].includes(LEVEL_KIND.get(e.level) ?? ""));
+    const key = (e: CEv) => `${e.level}|${speech.find((s) => s.kind === "sound" && s.t >= e.t && s.t - e.t < 4)?.lid ?? "?"}`;
+    const per = new Map<string, number>();
+    for (const e of rev) per.set(key(e), (per.get(key(e)) ?? 0) + 1);
+    const over = [...per].filter(([, n]) => n > 1);
+    add({ id: "how-we-spell", row: '"This is how we spell…" once per spelling per level (C-P ≤ 5)', value: `${rev.length} (${over.length} repeats)`, target: "once per spelling per level", pass: rev.length ? over.length === 0 : null, detail: over.slice(0, 6).map(([k, n]) => `${k.replace("|sound:", " /")}/: ${n}×`) });
+  }
+  {
+    const place = says.filter((e) => PLACE_IDS.has(e.lid!));
+    add({ id: "swap-place-heard", row: "swap place lines heard to the end", value: place.length ? `${place.filter((e) => !cut(e)).length} of ${place.length}` : "0 said", target: "all", pass: place.length ? !place.some(cut) : null, detail: place.filter(cut).slice(0, 5).map((e) => `${where(e)} ${quote(e)} cut`) });
+  }
+  {
+    // praise: a minute of play, and stacks
+    const praise = says.filter((e) => isPraise(e.lid!));
+    const t0 = evs[0]?.t ?? 0, t1 = evs.at(-1)?.t ?? 0;
+    const mins = run.continuous ? Math.max(1, (t1 - t0) / 60) : Math.max(1, [...new Set(evs.map((e) => e.seg))].reduce((s, sg) => { const ts = evs.filter((e) => e.seg === sg).map((e) => e.t); return s + (Math.max(...ts) - Math.min(...ts)); }, 0) / 60);
+    const rate = praise.length / mins;
+    add({ id: "praise-rate", row: "praise lines a minute", value: rate.toFixed(2), target: "≤ 1.5", pass: rate <= 1.5, detail: [`${praise.length} praise lines in ${mins.toFixed(1)} min`] });
+    const stackable = says.filter((e) => isPraise(e.lid!) || CLOSING.test(e.lid!) || PRAISE.has(e.lid!));
+    const stacks: string[] = [];
+    for (let i = 1; i < stackable.length; i++) {
+      const a = stackable[i - 1], b = stackable[i];
+      if (a.seg === b.seg && b.t - a.t < 5 && !(stacks.length && stacks.at(-1)!.includes(`@${fmtT(a.t)}`))) stacks.push(`${where(a)}: "${TEXT_OF(a)}" → "${TEXT_OF(b)}"`);
+    }
+    add({ id: "praise-stacks", row: "praise stacks within 5 s", value: String(stacks.length), target: "0", pass: stacks.length === 0, detail: stacks.slice(0, 5) });
+  }
+  {
+    // any line more than twice in 60 s (bar the SCRIPT_STYLE §5.1 routines and per-item carriers)
+    const over = new Map<string, CEv>();
+    for (let i = 0; i < says.length; i++) {
+      const e = says[i];
+      if (ROUTINE.test(e.lid!) || over.has(e.lid!) || baron(e)) continue;
+      const n = says.filter((x) => x.lid === e.lid && x.t >= e.t && x.t - e.t <= 60 && (!run.continuous ? x.seg === e.seg : true)).length;
+      if (n > 2) over.set(e.lid!, e);
+    }
+    add({ id: "line-60s", row: "any line more than twice in 60 s (bar the §5.1 routines)", value: `${over.size} lines`, target: "0", pass: over.size === 0, detail: [...over.values()].slice(0, 6).map((e) => `${quote(e)} from ${where(e)}`) });
+  }
+  {
+    // cut-off explanations (not prompts): the explanation lines SCRIPT_STYLE §4 doses, the swap's place line, the map hint,
+    // the speaker tip and every teacher-voice frame
+    const expl = says.filter((e) => cut(e) && (EXPLAIN.includes(e.lid!) || PLACE_IDS.has(e.lid!) || ["tut_speaker", "map_hint", "tv_map_hint", "st_know_this_sound"].includes(e.lid!) || inList(e.lid, ALL_FRAMES) || LETTERS_IDS.has(e.lid!)));
+    add({ id: "cut-explanations", row: "cut-off explanations (not prompts)", value: String(expl.length), target: "0", pass: expl.length === 0, detail: expl.slice(0, 6).map((e) => `${where(e)} ${quote(e)}`) });
+  }
+  {
+    // the splitter: every deliberate split gets "That's /s/. We need /sh/. It's two letters, but it's one sound." before
+    // the child's next tap, heard to the end, with no "Listen again…" first
+    const splits = evs.filter((e) => e.kind === "split");
+    if (!splits.length) na("split-correction", "split-spelling errors with the two-letter correction (splitter)", "100%", "no splitter taps in this transcript (continuous.ts --persona splitter)", true);
+    else {
+      const ok = splits.filter((s) => {
+        const next = actions.find((a) => a.t > s.t + 0.2)?.t ?? s.t + 10;
+        const after = says.filter((e) => e.t > s.t && e.t < Math.min(next, s.t + 10));
+        const li = after.findIndex((e) => LETTERS_IDS.has(e.lid!));
+        const lis = after.findIndex((e) => e.lid === "listen_again" || e.lid === "listen_here" || e.lid === "tv_listen_here" || LISTEN_IDS.has(e.lid!));
+        return li >= 0 && !cut(after[li]) && (lis < 0 || lis > li);
+      });
+      add({ id: "split-correction", row: "split-spelling errors with the two-letter correction (splitter)", value: `${ok.length} of ${splits.length} (${pct(ok.length, splits.length)})`, target: "100%", pass: ok.length === splits.length, detail: splits.filter((s) => !ok.includes(s)).slice(0, 5).map((s) => `${where(s)} tapped < ${s.tapped} > for < ${s.next} >: then ${says.filter((e) => e.t > s.t && e.t < s.t + 6).slice(0, 4).map((e) => `"${TEXT_OF(e)}"${cut(e) ? " ✂" : ""}`).join(" · ") || "(nothing)"}`), major: true });
+    }
+  }
+  {
+    // "You're a ninja master!" (streak_10) before 7 whole answers in the streak, one of them in this level (Dec2). A
+    // proxy until the streak publishes its answers: whole answers = picture/row answers and finished words (a word's
+    // read-back) since the last wrong answer, and at least one in this level
+    const master = says.filter((e) => e.lid === "streak_10");
+    const bad = master.filter((m) => {
+      const lastWrong = evs.filter((e) => e.kind === "sfx" && e.text === "wrong" && e.t < m.t).at(-1)?.t ?? -1;
+      const answers = evs.filter((e) => e.t > lastWrong && e.t < m.t && ((e.kind === "word" && evs.some((s) => s.kind === "sound" && s.t < e.t && e.t - s.t < 3)) || (e.kind === "turn")));
+      const here = answers.filter((e) => e.level === m.level);
+      return answers.length < 7 || here.length < 1;
+    });
+    add({ id: "master-early", row: '"You\'re a ninja master!" before 7 whole answers (proxy)', value: `${bad.length} of ${master.length}`, target: "0", pass: master.length ? bad.length === 0 : null, detail: bad.slice(0, 4).map((e) => `${where(e)}`) });
+  }
+
+  // ---------------- the teacher's voice rows (§11.2 TV, TV-F4.1)
+  const plays = playsOf(run);
+  {
+    // unframed-turn: every game's first meeting has a frame line, a narrated demo (where the game has one), a Ready hold
+    // (`ready:` in the nav log) and a hand-over, in that order
+    const firsts = plays.filter((p) => p.first && firstMeeting(run, p.game) && p.game !== "warmup");
+    const res: string[] = [];
+    let bad = 0;
+    for (const p of firsts) {
+      const need = games[p.game];
+      const win = evs.filter((e) => e.t >= p.from && e.t <= p.end + 0.01);
+      const at = (pats: string[] | undefined) => (pats ? win.find((e) => isSay(e) && inList(e.lid, pats))?.t : undefined);
+      const f = need ? at(need.frame) : win.find((e) => isSay(e) && inList(e.lid, ALL_FRAMES))?.t;
+      const d = need?.demo ? at(need.demo) ?? win.find((e) => e.kind === "paw")?.t : undefined;
+      const r = win.find((e) => e.kind === "hold" && /^ready:/.test(e.text))?.t;
+      const h = need?.handover ? at(need.handover) : undefined;
+      const miss: string[] = [];
+      if (f === undefined) miss.push(`no frame line${need ? ` (${need.frame.join("/")})` : ""}`);
+      if (need?.demo && d === undefined) miss.push("no narrated demo");
+      if ((need?.ready ?? true) && r === undefined) miss.push(win.some((e) => isSay(e) && inList(e.lid, READY_LINES)) ? "a Ready line but no ready: hold" : "no Ready hold");
+      if (need?.handover && h === undefined) miss.push("no hand-over");
+      const order = [f, d, r, h].filter((x): x is number => x !== undefined);
+      if (!miss.length && order.some((x, i) => i && x < order[i - 1] - 1)) miss.push(`out of order (frame ${f?.toFixed(1)}, demo ${d?.toFixed(1)}, ready ${r?.toFixed(1)}, hand-over ${h?.toFixed(1)})`);
+      if (miss.length) {
+        bad++;
+        const opener = win.filter(isSay).slice(0, 2).map((e) => `"${TEXT_OF(e).slice(0, 50)}"`).join(" · ");
+        res.push(`${p.game} (${p.level ?? "?"} ${fmtT(p.start)}): ${miss.join(", ")}. Opens: ${opener || "(no line)"}`);
+      }
+    }
+    if (!firsts.length) na("unframed-turn", "every game's first meeting: frame, demo, Ready hold, hand-over, in order", "0 missing", run.fresh ? "no game plays recognised" : "no game is met for the first time in this run", true);
+    else add({ id: "unframed-turn", row: "every game's first meeting: frame, demo, Ready hold, hand-over, in order", value: `${bad} of ${firsts.length} games`, target: "0 missing", pass: bad === 0, detail: res.slice(0, 12), major: true });
+  }
+  {
+    // over-framed: a full frame (or today's full opener) said again in the same session; a --from child's known games
+    const frameSays = says.filter((e) => inList(e.lid, FULL_FRAMES) || LEGACY_OPENERS.includes(e.lid!));
+    const again: string[] = [];
+    const seen = new Map<string, CEv>();
+    for (const e of frameSays) {
+      const prev = seen.get(e.lid!);
+      if (prev && run.continuous) again.push(`${quote(e)} at ${where(e)}, again after ${where(prev)}`);
+      seen.set(e.lid!, e);
+      if (!run.fresh && run.from && inList(e.lid, FULL_FRAMES) && e.game && !firstMeeting(run, e.game)) again.push(`${quote(e)} at ${where(e)}: ${e.game} is known before ${run.from}`);
+    }
+    add({ id: "over-framed", row: "a replay that plays a full frame again", value: String(again.length), target: "0", pass: run.continuous ? again.length === 0 : null, detail: again.slice(0, 8) });
+  }
+  {
+    // bare-command: a Sensei line under 4 words that is an instruction
+    const bare = says.filter((e) => !baron(e) && wordCount(TEXT_OF(e)) < 4 && !norm(TEXT_OF(e)).endsWith("?") && !isPraise(e.lid!) && sentences(TEXT_OF(e)).some(isInstructionSentence));
+    const ids = new Map<string, number>();
+    for (const e of bare) ids.set(e.lid!, (ids.get(e.lid!) ?? 0) + 1);
+    add({ id: "bare-command", row: "bare-command lines (under 4 words, an instruction)", value: `${bare.length} said (${ids.size} lines)`, target: "0", pass: bare.length === 0, detail: [...ids].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([id, n]) => `‹${id}› "${TEXT_OF(bare.find((e) => e.lid === id)!)}" ×${n}`), major: true });
+  }
+  {
+    // bare-listen: the one-word "Listen…" clip anywhere but where mechanics §7.4 still allows it: inside a correction (a
+    // wrong answer or a correction line in the 5 s before), an idle re-ask (the child quiet for 7 s, and Sensei for 3 s)
+    // and Help. That is every "Listen…" that opens a game, a beat, a level or a turn; "opening" counts the ones with 1.5 s
+    // of quiet before them or that come before the child's first tap in the level (w2-1's four).
+    const flagged: { e: CEv; opens: boolean }[] = [];
+    const firstTapIn = new Map<string, number>();
+    for (const a of actions) if (a.level && !firstTapIn.has(a.level)) firstTapIn.set(a.level, a.t);
+    for (const e of says.filter((x) => LISTEN_IDS.has(x.lid!))) {
+      const prev = speech.filter((s) => s.t < e.t - 0.01).at(-1);
+      const quietBefore = !prev || prev.seg !== e.seg || e.t - endOf(prev) >= 1.5;
+      const corr = says.some((s) => s.t < e.t && e.t - s.t < 5 && (CORRECTION_RE.test(s.lid!) || s.lid === "streak_lost")) || evs.some((s) => s.kind === "sfx" && s.text === "wrong" && s.t <= e.t + 0.3 && e.t - s.t < 5);
+      const help = taps.some((t) => (t.text === "Help" || t.nav === "help") && t.t < e.t && e.t - t.t < 5);
+      const lastAct = actions.filter((a) => a.t < e.t).at(-1)?.t ?? -Infinity;
+      const asked = says.some((s) => s.t > lastAct && s.t < e.t && /\?$|\.\.\.$/.test(norm(TEXT_OF(s))));
+      const idle = e.t - lastAct >= 7 && (!prev || e.t - endOf(prev) >= 3) && asked;
+      if (corr || help || idle) continue;
+      flagged.push({ e, opens: quietBefore || (!!e.level && e.t < (firstTapIn.get(e.level) ?? Infinity)) });
+    }
+    const w21 = flagged.filter((f) => f.e.level === "w2-1");
+    add({ id: "bare-listen", row: 'a one-word "Listen…" opening a game, a beat, a level or a turn', value: `${flagged.length}${w21.length ? ` (${w21.length} in w2-1)` : ""}; ${flagged.filter((f) => f.opens).length} after quiet or before the level's first tap`, target: "0", pass: flagged.length === 0, detail: [...w21, ...flagged.filter((f) => f.e.level !== "w2-1")].slice(0, 8).map(({ e }) => `${where(e)} after ${says.filter((s) => s.t < e.t).at(-1)?.lid ?? "(nothing)"}: "Listen…" ${speech.filter((s) => s.t > e.t && s.t - e.t < 2).map((s) => s.text).slice(0, 2).join(" ")}`), major: true });
+  }
+  {
+    // talk-before-action: from a tap the game registers, how long Sensei talks before the line that cues the next one
+    // starts (TEACHER_SCRIPT §6: "say it with me" is not a break; the child can act from the cue line's first word). Per
+    // first meeting; the limit is the age band's, 12.5 s for the five runs TEACHER_SCRIPT §6 names.
+    const limit = ageLimit(run);
+    const firsts = plays.filter((p) => p.first && firstMeeting(run, p.game) && p.game !== "warmup");
+    const runs: { game: string; level: string | null; len: number; from: CEv; cue: CEv; lim: number }[] = [];
+    for (let i = 0; i + 1 < actions.length; i++) {
+      const a = actions[i], b = actions[i + 1];
+      const inGap = speech.filter((e) => e.t > a.t && e.t < b.t);
+      if (!inGap.length) continue;
+      const open = opens.find((o) => o.t > a.t + 0.1 && o.t < b.t);
+      const cueBy = open ? open.t + 0.3 : b.t;
+      const cue = inGap.filter((e) => isSay(e) && e.t <= cueBy).at(-1);
+      if (!cue || !cue.level) continue;
+      // (only the cue's own level's talk: not the reward or the map before it, nor another page of a journey)
+      const mine = inGap.filter((e) => e.level === cue.level && e.seg === cue.seg && e.t <= cue.t);
+      if (!mine.length) continue;
+      const cands = firsts.filter((p) => cue.t >= p.from && cue.t <= p.end + 0.5);
+      const play = cands.find((p) => p.game === cue.game) ?? cands.at(-1);
+      if (!play) continue;
+      const lim = limit === 12 ? games[play.game]?.limit3 ?? 12 : limit;
+      runs.push({ game: play.game, level: play.level, len: cue.t - mine[0].t, from: mine[0], cue, lim });
+    }
+    const over = runs.filter((r) => r.len > r.lim + 0.05).sort((x, y) => y.len - x.len);
+    const worst = runs.slice().sort((x, y) => y.len - x.len)[0];
+    if (!runs.length) na("talk-before-action", "talk before a child action, first meetings", `≤ ${limit} s`, "no first-meeting runs recognised", true);
+    else add({ id: "talk-before-action", row: "talk before a child action, first meetings", value: `max ${worst.len.toFixed(1)} s (${worst.game} ${worst.level ?? ""}); ${over.length} over`, target: `≤ ${limit} s (named runs ${limit === 12 ? "12.5" : limit} s)`, pass: over.length === 0, detail: over.slice(0, 8).map((r) => `${r.game} (${r.level}) ${r.len.toFixed(1)} s from ${quote(r.from)} to ${quote(r.cue)}`), major: true });
+  }
+  {
+    // turn-median: the words Sensei says between two child actions, in the levels
+    const turns: number[] = [];
+    for (let i = 0; i + 1 < actions.length; i++) {
+      const a = actions[i], b = actions[i + 1];
+      const w = says.filter((e) => e.t > a.t && e.t < b.t && !baron(e) && inLevel(e)).reduce((s, e) => s + wordCount(TEXT_OF(e)), 0);
+      if (w) turns.push(w);
+    }
+    const sorted = turns.sort((x, y) => x - y);
+    const med = sorted.length ? sorted[Math.floor(sorted.length / 2)] : 0;
+    const lineMed = (() => { const ws = says.filter((e) => inLevel(e) && !baron(e)).map((e) => wordCount(TEXT_OF(e))).sort((x, y) => x - y); return ws.length ? ws[Math.floor(ws.length / 2)] : 0; })();
+    if (!turns.length) na("turn-median", "the median Sensei turn (all talk between two child actions)", "8–25 words", "no turns in levels");
+    else add({ id: "turn-median", row: "the median Sensei turn (all talk between two child actions)", value: `${med} words (median line ${lineMed} words; ${turns.length} turns)`, target: "8–25 words", pass: med >= 8 && med <= 25, detail: [`turns under 8 words: ${turns.filter((w) => w < 8).length} of ${turns.length}`], major: true });
+  }
+  {
+    // rhetorical questions: a "?" the child can't answer: mid-line ("Did you notice? Sun and sock…") with no way to answer
+    // after it, or at the end of a line that Sensei talks straight past (no tap, no turn or hold opening, within 2.5 s)
+    const answerRoute = /\b(tap|choose|pick|find|touch|press)\b/i;
+    const rq: CEv[] = [];
+    for (const e of says.filter((x) => !baron(x) && norm(TEXT_OF(x)).includes("?"))) {
+      const t = norm(TEXT_OF(e));
+      const q = t.lastIndexOf("?");
+      if (q < t.length - 1) {
+        if (!answerRoute.test(t.slice(q + 1))) rq.push(e);
+        continue;
+      }
+      const end = endOf(e);
+      const next = says.find((x) => x.t > e.t + 0.05 && x.seg === e.seg);
+      if (!next || next.t - end > 2.5) continue;
+      if (evs.some((x) => (isTap(x) || x.kind === "turn" || x.kind === "hold") && x.t >= e.t && x.t <= next.t + 0.2)) continue;
+      if (answerRoute.test(TEXT_OF(next))) continue;
+      rq.push(e);
+    }
+    const ids = new Map<string, number>();
+    for (const e of rq) ids.set(e.lid!, (ids.get(e.lid!) ?? 0) + 1);
+    add({ id: "rhetorical-question", row: "rhetorical questions (a ? with no hold or turn that can answer it)", value: `${rq.length} said (${ids.size} lines)`, target: "0", pass: rq.length === 0, detail: [...ids].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([id, n]) => `‹${id}› "${TEXT_OF(rq.find((e) => e.lid === id)!)}" ×${n}`) });
+  }
+  {
+    // shouted instructions: an instruction that ends in "!" (the starting gun's "off we go!" and "Let's…!" are not)
+    const shout = says.filter((e) => !baron(e) && !isPraise(e.lid!) && sentences(TEXT_OF(e)).some((s) => s.endsWith("!") && !/off we go/i.test(s) && isInstructionSentence(s)));
+    const ids = new Map<string, number>();
+    for (const e of shout) ids.set(e.lid!, (ids.get(e.lid!) ?? 0) + 1);
+    add({ id: "shouted-instruction", row: 'instructions that end in "!"', value: `${shout.length} said (${ids.size} lines)`, target: "0", pass: shout.length === 0, detail: [...ids].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([id, n]) => `‹${id}› "${TEXT_OF(shout.find((e) => e.lid === id)!)}" ×${n}`), major: true });
+  }
+  {
+    // demo-command: during Sensei's own demo (from a show label or a teacher-voice demo line, or while the paw moves, to
+    // the child's next tap, the "your turn" label or the Ready), a line addressed to the child: an instruction or a question
+    const flagged: { e: CEv; start: CEv }[] = [];
+    for (const s of says.filter((x) => inList(x.lid, DEMO_START))) {
+      const endTap = actions.find((a) => a.t > s.t + 0.1 && !a.nav)?.t ?? Infinity;
+      const stop = says.find((x) => x.t > s.t && (inList(x.lid, TRY_LABELS) || inList(x.lid, READY_LINES) || /^(your turn|now you|now it's your turn)\b/i.test(norm(TEXT_OF(x)))))?.t ?? Infinity;
+      const hold = evs.find((x) => x.kind === "hold" && x.t > s.t)?.t ?? Infinity;
+      const until = Math.min(endTap, stop, hold, s.t + 12);
+      for (const e of says.filter((x) => x.t > s.t && x.t < until && x.seg === s.seg && !inList(x.lid, DEMO_START) && !inList(x.lid, JOIN_INS) && !isPraise(x.lid!) && !baron(x))) {
+        const t = norm(TEXT_OF(e));
+        const ask = t.endsWith("?") || /^(which|what|where|who|can you|find)\b.*\.\.\.$/i.test(t);
+        if ((ask || sentences(t).some(isInstructionSentence)) && !flagged.some((f) => f.e === e)) flagged.push({ e, start: s });
+      }
+    }
+    add({ id: "demo-command", row: "a line addressed to the child during Sensei's own demo", value: String(flagged.length), target: "0", pass: flagged.length === 0, detail: flagged.slice(0, 8).map(({ e, start }) => `${where(e)} ${quote(e)} during ${quote(start)}`), major: true });
+  }
+  {
+    // the first Dojo level (w2-1): tv_learn_frame_<n> first, then tv_learn_how and the tv_learn_ready hold, before any sound
+    const w = evs.filter((e) => e.level === "w2-1");
+    if (!w.length || !w.some(isSpeech)) na("first-dojo-opening", "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound", "yes", "no w2-1 in this transcript", true);
+    else {
+      const first = w.find(isSay);
+      const sound = w.find((e) => e.kind === "sound");
+      const how = w.find((e) => e.lid === "tv_learn_how");
+      const ready = w.find((e) => e.kind === "hold" && /^ready:/.test(e.text));
+      const ok = !!first && /^tv_learn_frame_/.test(first.lid ?? "") && !!how && !!ready && (!sound || (how.t < sound.t && ready.t < sound.t));
+      const opening = w.filter(isSpeech).slice(0, 5).map((e) => (e.kind === "say" ? `‹${e.lid}› "${TEXT_OF(e)}"` : e.text)).join(" · ");
+      add({ id: "first-dojo-opening", row: "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound", value: ok ? "yes" : "no", target: "yes", pass: ok, detail: [`w2-1 opens: ${opening}`], major: true });
+    }
+  }
+  {
+    // a Ready hold that ended without the child (the nav's auto-advance, for the transcript's own holds)
+    const holds = readyHolds(run);
+    if (!holds.length) na("ready-auto-advance", "a Ready hold that ends without the child", "0", "no Ready holds recorded");
+    else {
+      const bad = holds.filter((h) => !h.how || h.how === "none");
+      add({ id: "ready-auto-advance", row: "a Ready hold that ends without the child", value: `${bad.length} of ${holds.length}`, target: "0", pass: bad.length === 0, detail: bad.slice(0, 5).map((h) => `${where(h)} ${h.text}`) });
+    }
+  }
+  {
+    // the bots (FIX_PLAN §13.3): the watcher's paw at a Ready replays the demo, then "Are you ready to have a go now?"
+    // (tv_ready_now) and a hold that waits for the child; a hand-over Ready answered on the board counts as the first
+    // answer, so the hand-over's question isn't asked again straight after
+    const holds = readyHolds(run);
+    const pawed = holds.filter((h) => h.how === "show");
+    if (!pawed.length) na("watcher-replay", "the paw at a Ready: the demo, tv_ready_now, and a hold that waits", "all", "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)");
+    else {
+      const bad = pawed.filter((h) => {
+        const after = h.end ?? h.t;
+        const now = says.find((e) => e.t > after && e.t < after + 25 && e.lid === "tv_ready_now");
+        const again = holds.find((x) => x !== h && x.t > after && x.t < after + 30);
+        return !now || !again || !again.how || again.how === "none";
+      });
+      add({ id: "watcher-replay", row: "the paw at a Ready: the demo, tv_ready_now, and a hold that waits", value: `${pawed.length - bad.length} of ${pawed.length}`, target: "all", pass: bad.length === 0, detail: bad.slice(0, 5).map((h) => `${where(h)} ${h.text}`) });
+    }
+    const answered = holds.filter((h) => /^(answer|board)/.test(h.how ?? ""));
+    if (!answered.length) na("handover-once", "a hand-over Ready answered on the board isn't asked again", "0 re-asked", "no Ready answered on the board");
+    else {
+      const bad = answered.filter((h) => {
+        const g = h.game ?? evs.filter((e) => e.game && e.t <= h.t).at(-1)?.game ?? "";
+        const q = (games[g]?.handover ?? []).filter((x) => !inList(x, READY_LINES));
+        return q.length > 0 && says.some((e) => e.t > (h.end ?? h.t) && e.t < (h.end ?? h.t) + 6 && inList(e.lid, q));
+      });
+      add({ id: "handover-once", row: "a hand-over Ready answered on the board isn't asked again", value: `${bad.length} of ${answered.length} re-asked`, target: "0", pass: bad.length === 0, detail: bad.slice(0, 5).map((h) => `${where(h)} ${h.text} (${h.how})`) });
+    }
+  }
+  return M;
+}
+
+/** fast-line: teacher-voice sentence lines recorded faster than 3.3 words a second (TEACHER_SCRIPT §7.4), from the
+ *  durations of the recorded clips. Independent of any transcript. */
+export function fastLines(): Metric {
+  const tv = LINES.filter((l) => l.id.startsWith("tv_") && DUR[`l/${l.id}`] && wordCount(l.text) >= 4);
+  if (!tv.length) return { id: "fast-line", row: "new sentence lines faster than 3.3 words a second", value: "n/a", target: "0", pass: null, detail: [`${LINES.filter((l) => l.id.startsWith("tv_")).length} tv_ lines in lines.ts, none recorded yet (no durations)`] };
+  const fast = tv.map((l) => ({ l, wps: wordCount(l.text) / (DUR[`l/${l.id}`] / 1000) })).filter((x) => x.wps > 3.3).sort((a, b) => b.wps - a.wps);
+  return { id: "fast-line", row: "new sentence lines faster than 3.3 words a second", value: `${fast.length} of ${tv.length}`, target: "0 (or re-taken)", pass: fast.length === 0, detail: fast.slice(0, 8).map((x) => `‹${x.l.id}› ${x.wps.toFixed(1)} w/s "${x.l.text.slice(0, 60)}"`) };
+}
+
+/** Segments for the utterance helpers above, from a normalised run. */
+function segsOf(run: Run): Seg[] {
+  const out: Seg[] = [];
+  for (const e of run.evs) {
+    const s = out.at(-1);
+    if (!s || s.name !== e.seg) out.push({ name: e.seg, events: [e] });
+    else s.events.push(e);
+  }
+  return out;
+}
+
+function checkMarkdown(results: { run: Run; metrics: Metric[] }[], fast: Metric): string {
+  const v = (m: Metric) => (m.pass === null ? "n/a" : m.pass ? "pass" : "**FAIL**");
+  const out = ["## Checks (FIX_PLAN §11.2: the SCRIPT_FIXES rows, then the teacher's voice rows)", ""];
+  for (const { run, metrics } of results) {
+    out.push(`### ${run.label}: ${run.file}`, "", `${run.persona}${run.from ? `, from ${run.from}` : ", a brand-new child"}, opt-in ${run.optin}${run.rich ? "" : "; recorded before continuous.ts published games, turns and holds, so games come from the scene"}.`, "", "| Metric | Target | Value | Verdict |", "|---|---|---|---|");
+    for (const m of metrics) out.push(`| \`${m.id}\` ${m.row} | ${m.target} | ${m.value} | ${v(m)} |`);
+    const bad = metrics.filter((m) => m.pass === false);
+    if (bad.length) out.push("", ...bad.flatMap((m) => [`- **${m.id}**: ${m.detail.slice(0, 6).join("; ")}`]));
+    out.push("");
+  }
+  out.push(`### Recordings`, "", `| \`${fast.id}\` ${fast.row} | ${fast.target} | ${fast.value} | ${v(fast)} |`, "", ...fast.detail.map((d) => `- ${d}`), "");
+  return out.join("\n");
+}
+
+async function main() {
+  const md = [`# Script audit`, "", `Counts by scripts/treadmill/script-audit.ts. Utterance = clips joined within 0.6 s, with no tap between them. Times are game seconds.`, "", ...FILES.map(report)].join("\n");
+  if (!CHECK) {
+    if (OUT) writeFileSync(OUT, md);
+    else console.log(md);
+    return;
+  }
+  // src/content/games.ts (F2) once it lands: its frame lines join the table's
+  const games: Record<string, Need> = { ...TV_GAMES };
+  try {
+    const G: Record<string, any> = (await import("../../src/content/games" as string)).GAMES ?? {};
+    const slot = (id: string) => id.replace(/_<[^>]+>$/, "_*");
+    for (const [id, g] of Object.entries(G)) {
+      if (!games[id] || !Array.isArray(g?.full?.frame)) continue;
+      const demo = [...(games[id].demo ?? []), ...((g.full.demo ?? []) as string[]).map(slot)];
+      games[id] = { ...games[id], frame: [...new Set([...games[id].frame, ...(g.full.frame as string[]).map(slot)])], ...(demo.length ? { demo: [...new Set(demo)] } : {}) };
+    }
+  } catch {}
+  const results = FILES.map((f) => ({ run: loadRun(f), metrics: [] as Metric[] })).map((r) => ({ ...r, metrics: checkRun(r.run, games) }));
+  const fast = fastLines();
+  const table = checkMarkdown(results, fast);
+  if (OUT) writeFileSync(OUT, md + "\n\n" + table);
+  console.log(table);
+  // one finding per failing metric, across the runs
+  const fails = new Map<string, { m: Metric; runs: string[] }>();
+  for (const { run, metrics } of results) for (const m of [...metrics, ...(results[0]?.run === run ? [fast] : [])]) if (m.pass === false) fails.set(m.id, { m, runs: [...(fails.get(m.id)?.runs ?? []), `${run.label} ${m.value}`] });
+  const findings: Finding[] = [...fails].map(([id, { m, runs }]) => ({ sig: `script:${id}`, source: "script", severity: m.major ? "major" : "minor", case: "script", title: `script:${id}: ${m.row}`, detail: `Target ${m.target}. ${runs.join("; ")}. ${m.detail.slice(0, 3).join("; ")}`, evidence: FILES }));
+  if (FINDINGS) writeFileSync(FINDINGS, JSON.stringify(findings, null, 1));
+  if (METRICS) writeFileSync(METRICS, JSON.stringify({ fast, runs: results.map(({ run, metrics }) => ({ file: run.file, label: run.label, persona: run.persona, from: run.from, metrics })) }, null, 1));
+  const n = findings.length;
+  console.log(n ? `\n${n} metric${n > 1 ? "s" : ""} failed: ${[...fails.keys()].join(", ")}` : "\nall targets met");
+  process.exitCode = n ? 1 : 0;
+}
+if (import.meta.main) await main();

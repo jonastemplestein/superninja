@@ -120,13 +120,17 @@ const SPIRAL = (() => {
   }
   return d;
 })();
+/** The muddle's swirl. It spins on its HTML wrapper, which the compositor turns (an animation on the SVG itself would be
+ *  repainted on the main thread every frame). */
 function Swirl({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 200 200" className={className}>
-      <path d={SPIRAL} fill="none" stroke="#2b1d14" strokeWidth="15" strokeLinecap="round" opacity="0.45" />
-      <path d={SPIRAL} fill="none" stroke="#b48cff" strokeWidth="9" strokeLinecap="round" />
-      <path d={SPIRAL} fill="none" stroke="#efe0ff" strokeWidth="3" strokeLinecap="round" strokeDasharray="10 16" />
-    </svg>
+    <i className={`swap-spin ${className}`}>
+      <svg viewBox="0 0 200 200">
+        <path d={SPIRAL} fill="none" stroke="#2b1d14" strokeWidth="15" strokeLinecap="round" opacity="0.45" />
+        <path d={SPIRAL} fill="none" stroke="#b48cff" strokeWidth="9" strokeLinecap="round" />
+        <path d={SPIRAL} fill="none" stroke="#efe0ff" strokeWidth="3" strokeLinecap="round" strokeDasharray="10 16" />
+      </svg>
+    </i>
   );
 }
 const VOWELS = ["a", "e", "i", "o", "u", "ai", "ay", "ee", "ea", "igh", "ie", "oa", "ow"];

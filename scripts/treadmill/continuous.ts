@@ -8,6 +8,16 @@
 // Records every clip said (line id and text, pure sounds, words, stretched words), every tap, every scene change, and
 // which lines were CUT OFF (the next speech clip started before this clip's recorded duration had run: durations.json),
 // plus a DOM-size sample every 10 game seconds (a cheap leak signal for the performance work).
+// For scripts/treadmill/script-audit.ts --check (docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §4.4 F4.4, §13 TV-F4.2) it also
+// records: the route (window.__snRoute) and the game (TEACHER_SCRIPT §2.6's ids: __snState.game, else from the scene and
+// the warm-up beat) as they change; each question as it opens (`turn`: __snState.next set and not busy); every held
+// step (`hold`: __snNav.next "ready", with how it ended; a Ready is a hold whose id starts "ready:"); each sound clip's
+// job (`show`) and the route it started on; right/wrong sounds (`sfx`); whether the scene was busy at each tap; the
+// game's nav log (every entry, not just the last 500); the splitter's deliberate splits and paw moves.
+//
+// Personas: perfect, learner (about 1 in 3 first tries wrong), splitter (a learner's pace, and on the first try of any
+// slot whose spelling has two or more letters it taps a single-letter tile inside it: bot.ts), watcher (taps the paw once
+// at every Ready hold: bot.ts).
 //
 // Output: playtest/transcripts/<out>/continuous-<persona>.{md,json}
 // Usage: bun scripts/treadmill/continuous.ts [--base http://localhost:5173] [--persona learner,perfect] [--levels 12]
@@ -18,15 +28,18 @@ import { LINES } from "../../src/content/lines";
 import { LEVELS } from "../../src/content/worlds";
 import { teachEntry } from "../../src/content/phonics";
 import { STORIES } from "../../src/content/stories";
+import { warmupScript } from "../../src/content/warmups";
 import { step } from "./bot";
+import { gameOfScene } from "./script-audit";
 
 const arg = (k: string, d?: string) => {
   const i = process.argv.indexOf(`--${k}`);
   return i > 0 ? process.argv[i + 1] : d;
 };
+type Persona = "perfect" | "learner" | "splitter" | "watcher";
 const BASE = arg("base", "http://localhost:5173")!;
 const FAST = Number(arg("fast", "4"));
-const PERSONAS = arg("persona", "learner,perfect")!.split(",") as ("perfect" | "learner")[];
+const PERSONAS = arg("persona", "learner,perfect")!.split(",") as Persona[];
 const OPTIN = arg("optin", "none")!;
 /** stones to play from the map after the first minutes */
 const LEVELS_AFTER = Number(arg("levels", "12"));
@@ -40,7 +53,17 @@ const LINE = new Map(LINES.map((l) => [l.id, l]));
 const PAGE = new Map(STORIES.flatMap((st) => st.pages.map((p) => [`${st.id}_${p.id}`, p.text] as const)));
 const DUR: Record<string, number> = JSON.parse(readFileSync("public/a/durations.json", "utf8"));
 
-type Ev = { t: number; kind: "say" | "sound" | "word" | "stretch" | "onset" | "story" | "tap" | "scene" | "piece"; who?: string; text: string; id?: string; dur?: number; cut?: boolean };
+type Ev = {
+  t: number; kind: "say" | "sound" | "word" | "stretch" | "onset" | "story" | "tap" | "scene" | "piece" | "route" | "game" | "turn" | "hold" | "sfx" | "split" | "paw";
+  who?: string; text: string; id?: string; dur?: number; cut?: boolean;
+  /** a sound clip's job (§3.1: petal, tile, hidden, or unclassified), the route any clip started on, and whether the map
+   *  or App's fade from it was still on screen (a level's line that starts then speaks over the map: Dec5) */
+  show?: string; route?: string; mapOn?: boolean;
+  /** a tap: the nav control it was on, and whether the scene was busy (a tile tapped during a demo is ignored) */
+  nav?: string | null; busy?: boolean;
+  /** a hold: when it ended and how (next, show, board: <label>, answer: <label>, none); a split: the spelling and the tile */
+  end?: number; how?: string; next?: string; tapped?: string; game?: string | null;
+};
 
 function decode(url: string): Omit<Ev, "t"> | null {
   let m;
@@ -75,7 +98,25 @@ const pieceNow = (page: Page) =>
     return "level";
   });
 
-async function play(page: Page, persona: "perfect" | "learner") {
+/** The game on screen (TEACHER_SCRIPT §2.6): the scene's own `game` once it publishes one, else from the scene, the
+ *  level and the warm-up beat. A warm-up's tap-all is "tapall:in" when its script beat is a sound in the middle. */
+function gameNow(st: any, level: string | null, tiles: boolean, tapallN: number): string | null {
+  if (typeof st?.game === "string") return st.game;
+  if (st?.scene === "warmup" && st.beat === "tapall") {
+    let how = st.how;
+    if (!how && st.key) {
+      try {
+        how = (warmupScript(st.key).beats.filter((b: any) => b.kind === "tapall")[tapallN] as any)?.how;
+      } catch {}
+    }
+    return how === "in" ? "tapall:in" : "tapall";
+  }
+  if (st?.scene === "pick" && tiles) return "find";
+  if (st?.scene === "battle" && level === "trial") return "trial";
+  return gameOfScene(st?.scene, level, st?.beat ?? null);
+}
+
+async function play(page: Page, persona: Persona) {
   await page.goto(`${BASE}/play/?fast=${FAST}`);
   // a child part-way through: every earlier level done, its spellings met and its trips had
   const before = FROM ? LEVELS.slice(0, Math.max(0, LEVELS.findIndex((l) => l.id === FROM))) : [];
@@ -95,20 +136,40 @@ async function play(page: Page, persona: "perfect" | "learner") {
     localStorage.setItem(`superninja.save.${id}`, JSON.stringify({ v: 1, hero: null, seenIntro: false, stars: {}, read: {}, spell: {}, words: {}, petals: [], energy: {}, gems: [], placed: [], settings: { relaxed: false, music: 0, captions: true, unlockAll: false }, minutes: 0, sessions: 0, stickers: [], shiny: [], adjustLog: [], captionsV2: true, ...later }));
     sessionStorage.setItem("sn.setup", "done");
   }, later);
-  await page.addInitScript((o) => {
-    (window as any).__audioLog = [];
-    (window as any).__taps = [];
-    (window as any).__botOptIn = o;
+  await page.addInitScript(([o, persona]) => {
+    const w = window as any;
+    w.__taps = [];
+    w.__botOptIn = o;
+    w.__botPersona = persona;
+    // every clip, with the route and scene it started on (a level line that starts on the map spoke over it)
+    const log: any[] = [];
+    log.push = function (...items: any[]) {
+      for (const it of items) Array.prototype.push.call(this, { ...it, route: w.__snRoute != null ? String(w.__snRoute) : null, scene: w.__snState?.scene ?? null, mapOn: !!document.querySelector(".scene.map") || [...document.querySelectorAll(".fullscreen-fade")].some((f) => f.getAnimations().some((a) => a.playState === "running")) });
+      return this.length;
+    };
+    w.__audioLog = log;
+    // the game's nav log keeps its newest 500 entries; keep every one here
+    const all: any[] = (w.__botNavLog = []);
+    const nav: any[] = [];
+    nav.push = function (...items: any[]) {
+      all.push(...items);
+      return Array.prototype.push.apply(this, items);
+    };
+    w.__snNavLog = nav;
     addEventListener("pointerdown", (e) => {
       const el = (e.target as Element).closest?.("[aria-label], button, .tile, .card");
-      (window as any).__taps.push({ t: Date.now(), label: el?.getAttribute("aria-label") || (el?.textContent ?? "").trim().slice(0, 30) || "(somewhere)" });
+      const n = (e.target as Element).closest?.("[data-nav]")?.getAttribute("data-nav") ?? null;
+      const st = w.__snState;
+      w.__taps.push({ t: Date.now(), label: el?.getAttribute("aria-label") || (el?.textContent ?? "").trim().slice(0, 30) || "(somewhere)", nav: n, busy: typeof st?.busy === "boolean" ? st.busy : undefined });
     }, true);
-  }, OPTIN);
+  }, [OPTIN, persona] as const);
   await page.goto(`${BASE}/play/?fast=${FAST}`);
   await page.waitForTimeout(600);
   const t0 = Date.now();
   const pieces: { t: number; text: string }[] = [];
   const scenes: { t: number; text: string }[] = [];
+  const marks: { t: number; kind: "route" | "game" | "turn"; text: string; game?: string | null }[] = [];
+  const holds: { t: number; id: string; end: number | null }[] = [];
   const dom: { t: number; nodes: number; fx: number }[] = [];
   let last = "";
   let lastScene = "";
@@ -119,11 +180,14 @@ async function play(page: Page, persona: "perfect" | "learner") {
   let wait = 0;
   let domAt = 0;
   let finished = false;
-  const think = (persona === "perfect" ? 1200 : 2600) / FAST;
+  let lastRoute = "", lastGame: string | null | undefined, lastTurn = "", lastBeat = "", tapallN = 0, levelNow: string | null = null;
+  let hold: { t: number; id: string } | null = null;
+  const think = (persona === "perfect" || persona === "watcher" ? 1200 : 2600) / FAST;
   const down = (sel: string) => page.locator(sel).first().dispatchEvent("pointerdown", undefined, { timeout: 800 }).then(() => true).catch(() => false);
   while (Date.now() - t0 < (70 * 60_000) / FAST) {
     const now = await pieceNow(page).catch(() => "?");
-    const st: any = await page.evaluate(() => (window as any).__snState ?? {}).catch(() => ({}));
+    const snap: any = await page.evaluate(() => { const w = window as any; return { st: w.__snState ?? {}, nav: w.__snNav ?? null, route: w.__snRoute != null ? String(w.__snRoute) : "", tiles: !!document.querySelector(".pick-row .tile") }; }).catch(() => ({ st: {}, nav: null, route: "", tiles: false }));
+    const st: any = snap.st;
     if (now !== last) {
       pieces.push({ t: Date.now(), text: now === "level" ? `level ${lastStone || "(first minutes)"}` : now });
       last = now;
@@ -132,13 +196,37 @@ async function play(page: Page, persona: "perfect" | "learner") {
       scenes.push({ t: Date.now(), text: st.scene });
       lastScene = st.scene;
     }
+    // the route, the game, the question and the held step, as they change
+    if (snap.route !== lastRoute) {
+      marks.push({ t: Date.now(), kind: "route", text: snap.route });
+      lastRoute = snap.route;
+      levelNow = snap.route.startsWith("level:") ? snap.route.slice(6) : snap.route.startsWith("trial") ? "trial" : null;
+      tapallN = 0;
+      lastBeat = "";
+    }
+    if (st.scene === "warmup" && st.beat !== lastBeat) {
+      if (lastBeat === "tapall") tapallN++;
+      lastBeat = st.beat;
+    }
+    const game = levelNow ? gameNow(st, levelNow, snap.tiles, tapallN) : null;
+    if (game !== lastGame) {
+      marks.push({ t: Date.now(), kind: "game", text: game ?? "" });
+      lastGame = game;
+    }
+    const turnKey = st.next && !st.busy ? JSON.stringify([st.scene, st.next, st.beat ?? st.word ?? st.i ?? st.pos ?? null]) : "";
+    if (turnKey && turnKey !== lastTurn) marks.push({ t: Date.now(), kind: "turn", text: String(st.next), game });
+    lastTurn = turnKey;
+    const readyNow = snap.nav?.next === "ready";
+    const holdId = snap.nav?.pres?.id ? `${snap.nav.pres.id}${snap.nav.pres.of > 1 ? ` ${snap.nav.pres.step + 1}/${snap.nav.pres.of}` : ""}` : st.scene ?? now;
+    if (readyNow && !hold) hold = { t: Date.now(), id: holdId };
+    else if (!readyNow && hold) (holds.push({ ...hold, end: Date.now() }), (hold = null));
     if (Date.now() - domAt > 10_000 / FAST) {
       domAt = Date.now();
       const s = await page.evaluate(() => ({ nodes: document.getElementsByTagName("*").length, fx: document.querySelector(".fx-layer, .fx")?.childElementCount ?? 0 })).catch(() => null);
       if (s) dom.push({ t: Date.now(), ...s });
     }
     // before the game: tap Start, pick the player, watch the film (each shot holds on Next), choose Kai and go on
-    const pre: any = ["title", "profiles", "choose", "intro film"].includes(now) ? await page.evaluate(() => (window as any).__snNav ?? null).catch(() => null) : null;
+    const pre: any = ["title", "profiles", "choose", "intro film"].includes(now) ? snap.nav : null;
     if (pre?.next === "ready") {
       await page.waitForTimeout(think);
       await down('[data-nav="next"]');
@@ -165,14 +253,17 @@ async function play(page: Page, persona: "perfect" | "learner") {
       } else if (st.next) await down(`[aria-label="level ${st.next}"]`);
     } else {
       // a held step: tap the green arrow once it's ready, even beside "Play again" (a child going on, not the harness
-      // ending its case as bot.ts does)
-      const nav: any = await page.evaluate(() => (window as any).__snNav ?? null).catch(() => null);
+      // ending its case as bot.ts does). A Ready hold (TEACHER_SCRIPT §2.3) goes to bot.ts, which answers it for the
+      // persona: the watcher's paw, and the default's right-answer tap on one hand-over Ready in three.
+      const nav: any = snap.nav;
       if (nav?.next === "ready" && !(st.scene === "warmup" && st.next)) {
         await page.waitForTimeout(think);
-        await down('[data-nav="next"]');
+        if (typeof nav?.pres?.id === "string" && nav.pres.id.startsWith("ready:")) await step(page).catch(() => {});
+        else await down('[data-nav="next"]');
         await page.waitForTimeout(150);
         continue;
       }
+      const wrongs = persona === "learner";
       // warm-ups: answer after the question, with a think; the learner gets about 1 in 3 first tries wrong
       if (st.scene === "warmup" && st.next) {
         if (!st.asked && st.beat !== "rail" && st.beat !== "dots") { await page.waitForTimeout(120); continue; }
@@ -180,7 +271,7 @@ async function play(page: Page, persona: "perfect" | "learner") {
         if (key !== lastNext) {
           lastNext = key;
           wait = Date.now() + think;
-          if (persona === "learner" && ++item % 3 === 0) {
+          if (wrongs && ++item % 3 === 0) {
             await page.waitForTimeout(think);
             const wrong = await page.evaluate((next) => {
               const opts = [...document.querySelectorAll(".wu .wu-slot:not(.out) button.pcard, .wu button.wu-speed, .wu button.wu-rail-btn, .wu button.wu-bigdot")].map((b) => b.getAttribute("aria-label")).filter((l) => l && l !== next);
@@ -200,7 +291,7 @@ async function play(page: Page, persona: "perfect" | "learner") {
         if (key !== lastNext) {
           lastNext = key;
           wait = Date.now() + think;
-          if (persona === "learner" && ++item % 3 === 0) {
+          if (wrongs && ++item % 3 === 0) {
             const wrong = page.locator(`button.tile:not([aria-label="${st.next}"]), .pick-row button:not([aria-label="${st.next}"])`).first();
             if (await wrong.count()) {
               await page.waitForTimeout(think);
@@ -225,9 +316,10 @@ async function play(page: Page, persona: "perfect" | "learner") {
     await page.waitForTimeout(150);
   }
   await page.waitForTimeout(1500);
-  const { audio, taps } = await page.evaluate(() => ({ audio: (window as any).__audioLog ?? [], taps: (window as any).__taps ?? [] }));
+  if (hold) holds.push({ ...hold, end: null });
+  const { audio, taps, navlog, splits, off } = await page.evaluate(() => { const w = window as any; return { audio: w.__audioLog ?? [], taps: w.__taps ?? [], navlog: w.__botNavLog ?? [], splits: w.__botSplits ?? [], off: Date.now() - performance.now() }; });
   const game = (t: number) => Math.round(((t - t0) * FAST) / 100) / 10;
-  const speech: Ev[] = audio.filter((a: any) => a.kind === "speech").map((a: any) => { const d = decode(a.url); return d ? { t: game(a.t), ...d } : null; }).filter(Boolean);
+  const speech: Ev[] = audio.filter((a: any) => a.kind === "speech").map((a: any) => { const d = decode(a.url); return d ? { t: game(a.t), ...d, ...(d.kind === "sound" ? { show: a.show ?? "unclassified" } : {}), ...(a.route ? { route: a.route } : {}), ...(d.kind === "say" && a.mapOn !== undefined ? { mapOn: !!a.mapOn } : {}) } : null; }).filter(Boolean);
   // a clip is cut off when the next speech clip starts before it could have finished (its recorded length, less 150 ms)
   for (let i = 0; i + 1 < speech.length; i++) {
     const e = speech[i];
@@ -237,15 +329,32 @@ async function play(page: Page, persona: "perfect" | "learner") {
   for (const x of taps.filter((x: any) => x.t >= t0 && x.label !== "(somewhere)")) {
     const t = game(x.t);
     if (tapEvs.some((o) => o.text === x.label && t - o.t < 2)) continue;
-    tapEvs.push({ t, kind: "tap", text: x.label });
+    tapEvs.push({ t, kind: "tap", text: x.label, ...(x.nav ? { nav: x.nav } : {}), ...(x.busy !== undefined ? { busy: x.busy } : {}) });
   }
+  const nav = navlog.map((e: any) => ({ ...e, t: game(e.t + off) }));
+  // how each held step ended: the nav log's own answer (a Ready logs { kind: "ready", how }), else the first tap
+  const holdEvs: Ev[] = holds.map((h) => {
+    const t = game(h.t), end = h.end == null ? null : game(h.end);
+    const logged = nav.find((e: any) => e.kind === "ready" && e.how && e.t >= t - 0.5 && (end == null || e.t <= end + 1));
+    const tap = tapEvs.find((x) => x.t >= t - 0.2 && (end == null || x.t <= end + 0.6));
+    const how = logged ? `${logged.how}${logged.label ? `: ${logged.label}` : ""}` : tap ? (tap.nav === "next" ? "next" : tap.nav === "show" ? "show" : `board: ${tap.text}`) : end == null ? "still waiting at the end" : "none";
+    return { t, kind: "hold" as const, text: h.id, ...(end != null ? { end } : {}), how };
+  });
+  const sfx: Ev[] = audio.filter((a: any) => a.kind === "sfx" && /^sfx:(good|great|wrong)$/.test(a.url)).map((a: any) => ({ t: game(a.t), kind: "sfx" as const, text: a.url.slice(4) }));
+  const splitEvs: Ev[] = splits.map((s: any) => ({ t: game(s.t), kind: "split" as const, text: `${s.tapped} for ${s.next}`, next: s.next, tapped: s.tapped }));
+  const paws: Ev[] = nav.filter((e: any) => e.kind === "paw" || e.kind === "demo").map((e: any) => ({ t: e.t, kind: "paw" as const, text: e.id ?? e.kind }));
   const evs: Ev[] = [
     ...speech,
     ...tapEvs,
     ...scenes.map((s) => ({ t: game(s.t), kind: "scene" as const, text: s.text })),
     ...pieces.map((p) => ({ t: game(p.t), kind: "piece" as const, text: p.text })),
+    ...marks.map((m) => ({ t: game(m.t), kind: m.kind, text: m.text, ...(m.kind === "turn" ? { game: m.game } : {}) })),
+    ...holdEvs,
+    ...sfx,
+    ...splitEvs,
+    ...paws,
   ].sort((a, b) => a.t - b.t);
-  return { evs, dom: dom.map((d) => ({ t: game(d.t), nodes: d.nodes, fx: d.fx })), stones };
+  return { evs, dom: dom.map((d) => ({ t: game(d.t), nodes: d.nodes, fx: d.fx })), stones, navlog: nav };
 }
 
 const fmt = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toFixed(1).padStart(4, "0")}`;
@@ -253,7 +362,7 @@ function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
   const out = [
     `# One continuous journey (${persona} child, ${FROM ? `from ${FROM}` : `opt-in: ${OPTIN}`})`,
     "",
-    `${FROM ? `A child who has finished every level before ${FROM}, from the title tap` : "A brand-new child from the title tap through the first minutes"}, then ${r.stones} stones from the map, in one page. Game time (played at ${FAST}×). ✂ marks a clip cut off by the next one.`,
+    `${FROM ? `A child who has finished every level before ${FROM}, from the title tap` : "A brand-new child from the title tap through the first minutes"}, then ${r.stones} stones from the map, in one page. Game time (played at ${FAST}×). ✂ marks a clip cut off by the next one; ⟂ a level's line that started while the map was still on screen. [ready: …] is a Ready hold (TEACHER_SCRIPT §2.3) and how the child answered it.`,
     "",
   ];
   let words: string[] = [];
@@ -267,13 +376,21 @@ function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
       words.push(e.cut ? `${w}✂` : w);
       continue;
     }
+    if (["route", "game", "turn", "sfx"].includes(e.kind)) continue;
+    if (e.kind === "hold" && !/^ready:/.test(e.text)) continue;
     flush();
     const ts = fmt(e.t).padStart(7);
-    if (e.kind === "say") out.push(`${ts} ${e.who === "baron" ? "BARON" : "SENSEI"}: ${e.text}${e.cut ? " ✂" : ""}  ‹${e.id}›`);
+    const overMap = e.kind === "say" && e.mapOn && /^stone /.test(r.evs.filter((x) => x.kind === "piece" && x.t <= e.t).at(-1)?.text ?? "") ? " ⟂" : "";
+    if (e.kind === "say") out.push(`${ts} ${e.who === "baron" ? "BARON" : "SENSEI"}: ${e.text}${e.cut ? " ✂" : ""}${overMap}  ‹${e.id}›`);
     else if (e.kind === "story") out.push(`${ts} STORY: ${e.text}${e.cut ? " ✂" : ""}`);
-    else if (e.kind === "tap") out.push(`${ts}     > child taps: ${e.text}`);
+    else if (e.kind === "tap") out.push(`${ts}     > ${e.nav ? `TAP ${e.text}` : `child taps: ${e.text}`}`);
     else if (e.kind === "scene") out.push(`${ts}     --- ${e.text} ---`);
     else if (e.kind === "piece") out.push("", `${ts} ===== ${e.text} =====`);
+    else if (e.kind === "hold") {
+      const how = e.how === "next" ? "TAP Next" : e.how === "show" ? "TAP Show me again" : e.how?.startsWith("board") ? `TAP ${e.how}` : e.how?.startsWith("answer") ? `TAP ${e.how}` : e.how ?? "";
+      out.push(`${ts}     [ready: ${e.text.replace(/^ready:/, "")}: ${how}${e.end != null ? ` after ${(e.end - e.t).toFixed(1)} s` : ""}]`);
+    } else if (e.kind === "split") out.push(`${ts}     > child taps < ${e.tapped} > for < ${e.next} > (splitter: a deliberate split)`);
+    else if (e.kind === "paw") out.push(`${ts}     (the paw: ${e.text})`);
   }
   flush();
   out.push("", "## Page size over time (DOM elements; fx layer children)", "", r.dom.map((d) => `${fmt(d.t)} ${d.nodes}/${d.fx}`).join(" · "));
@@ -286,9 +403,10 @@ await Promise.all(
     const ctx = await b.newContext({ viewport: { width: 844, height: 390 }, hasTouch: true });
     const page = await ctx.newPage();
     const r = await play(page, persona);
-    writeFileSync(`${RUN}/continuous-${persona}${FROM ? `-from-${FROM}` : ""}.json`, JSON.stringify(r, null, 1));
+    const meta = { persona, from: FROM ?? null, optin: OPTIN, fast: FAST, levels: LEVELS_AFTER, base: BASE, at: new Date().toISOString() };
+    writeFileSync(`${RUN}/continuous-${persona}${FROM ? `-from-${FROM}` : ""}.json`, JSON.stringify({ meta, ...r }, null, 1));
     writeFileSync(`${RUN}/continuous-${persona}${FROM ? `-from-${FROM}` : ""}.md`, render(persona, r));
-    console.log(`${persona}: ${r.stones} stones, ${r.evs.filter((e) => e.kind === "say").length} lines, ${r.evs.filter((e) => e.cut).length} cut off`);
+    console.log(`${persona}: ${r.stones} stones, ${r.evs.filter((e) => e.kind === "say").length} lines, ${r.evs.filter((e) => e.cut).length} cut off, ${r.evs.filter((e) => e.kind === "hold" && /^ready:/.test(e.text)).length} Ready holds, ${r.evs.filter((e) => e.kind === "split").length} splits`);
     await ctx.close();
   }),
 );

@@ -68,6 +68,8 @@ const fresh = (): Save => ({
   settings: { relaxed: false, music: 0.32, captions: false, unlockAll: false }, minutes: 0, sessions: 0,
   stickers: [], shiny: [], adjustLog: [],
 });
+/** The grown-ups' adjust log keeps its newest entries only (store.set clones the whole save on every call). */
+export const ADJUST_LOG_MAX = 200;
 /** Saves from before the first-minutes work (no `stickers`): the school year is "unset", every word already read or
  *  spelt becomes a sticker (in teaching order), and a child with progress skips the new warm-up stones (they start
  *  at w1-2, the first level after them; the warm-ups stay open on the map). */
@@ -130,6 +132,7 @@ function loadSave(id: string | null): Save {
         s.settings.captions = false;
         (s as any).captionsV2 = true;
       }
+      if (Array.isArray(s.adjustLog) && s.adjustLog.length > ADJUST_LOG_MAX) s.adjustLog = s.adjustLog.slice(-ADJUST_LOG_MAX);
       return migrate(parsed, s);
     }
   } catch {}
@@ -290,7 +293,11 @@ export function recordMet(w: string, shiny = false): boolean {
 }
 /** A line for the grown-ups' log of automatic moves. */
 export function logAdjust(text: string) {
-  store.set((s) => void (s.adjustLog ??= []).push({ at: Date.now(), text }));
+  store.set((s) => {
+    const log = (s.adjustLog ??= []);
+    log.push({ at: Date.now(), text });
+    if (log.length > ADJUST_LOG_MAX) log.splice(0, log.length - ADJUST_LOG_MAX);
+  });
 }
 
 /** Record a spelling attempt of one sound slot. */

@@ -1,9 +1,13 @@
 // Hidden dev scene: /play/?scene=ninja-demo. Every ninja move, every streak tier, a miss and the end-of-level
 // celebration on buttons, against a tile, a slot, a picture card, a chest and a monster. docs/HERO.md.
+// For stills (frame checks): ?tier=0..3 opens at that tier with its aura already on (no power-up, no line), and
+// ?strike=1 (or a move name: ?strike=cast) strikes the monster once, 1.5 s in; window.__demoHit is the
+// performance.now() when that strike lands.
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { img, Tile, tapProps, useHelp } from "../ui/ui";
+import { img, Tile, tapProps, useHelp, fx } from "../ui/ui";
 import { NinjaSpot, ninja, MOVES, type Move } from "../ui/Ninja";
-import { streak, useStreak } from "../engine/streak";
+import { GemIcon } from "../ui/Gem";
+import { streak, useStreak, TIER_AT, type Tier } from "../engine/streak";
 import { say } from "../engine/audio";
 
 type T = "tile" | "slot" | "card" | "chest" | "monster";
@@ -12,15 +16,70 @@ const btn: CSSProperties = {
   boxShadow: "0 4px 0 #2b1d14", minWidth: 64, minHeight: 44, color: "#2b1d14",
 };
 
+const q = new URLSearchParams(typeof location !== "undefined" ? location.search : "");
+const QT = Number(q.get("tier"));
+/** ?tier=N: the streak to open at (the tier's first streak length) */
+const OPEN_AT = q.has("tier") && QT >= 0 && QT <= 3 ? TIER_AT[QT as Tier] : null;
+const STRIKE = q.get("strike");
+const LOOK = q.has("look");
+const STRIKE_MOVE: Move | null = !STRIKE ? null : (MOVES as string[]).includes(STRIKE) ? (STRIKE as Move) : "kick";
+
+/** ?look=1: the looping effects that live in styles.css and Gem.tsx, side by side, for before/after stills (a ready gem,
+ *  charging gems, the reward's focused gem, hinted tiles, Baron's card). */
+function LookSheet() {
+  const c = "#e8312f";
+  // Sensei talks for about nine seconds, so the Help button's waves can be caught
+  useEffect(() => void say([{ line: "flower_i1" }, { line: "flower_i1" }]), []);
+  return (
+    <div data-look style={{ position: "absolute", inset: 0, zIndex: 30, background: "rgba(29,18,48,.55)" }}>
+      <div style={{ position: "absolute", left: 40, top: 40, display: "flex", gap: 28, alignItems: "center" }}>
+        <GemIcon g="ai" colour={c} state="future" size={120} />
+        <GemIcon g="ai" colour={c} state="hidden" size={120} />
+        <GemIcon g="ai" colour={c} state="charging" energy={0.35} size={120} />
+        <GemIcon g="ai" colour="#2ec4b6" state="charging" energy={0.8} size={120} />
+        <GemIcon g="ai" colour={c} state="ready" size={120} />
+        <GemIcon g="ai" colour="#4a7dff" state="won" size={120} />
+        <div className="reward-gems focusing" style={{ position: "relative", display: "flex", gap: 20, left: 0, top: 0, transform: "none" }}>
+          <div className="rw-gem-focus">
+            <GemIcon g="sh" colour="#8a3be0" state="charging" energy={0.6} size={120} />
+          </div>
+        </div>
+      </div>
+      <div style={{ position: "absolute", left: 60, top: 260, display: "flex", gap: 40, alignItems: "center" }}>
+        <Tile g="a" state="hint" />
+        <Tile g="sh" state="hint" size="lg" />
+        <Tile g="m" state="hint" size="sm" />
+      </div>
+      <div style={{ position: "absolute", left: 560, top: 250, width: 700, height: 440 }}>
+        <div className="villain-card" style={{ right: 40, top: 20 }}>
+          <div className="villain-clip">
+            <img src={img("baron_mouth_base")} alt="" />
+          </div>
+          <div className="villain-name">Baron Muddle</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function NinjaDemo() {
   const [target, setTarget] = useState<T>("monster");
   const [slow, setSlow] = useState(1);
+  // the streak starts before the ninja mounts, so a ?tier= opens with its aura on and no power-up
+  useState(() => {
+    streak.reset();
+    if (OPEN_AT != null) streak.set(OPEN_AT);
+  });
   const { n, tier } = useStreak();
   const refs = useRef<Partial<Record<T, HTMLElement | null>>>({});
   useHelp(() => say({ line: "help_start" }));
   useEffect(() => {
-    streak.reset();
-    return () => ninja.setSlowmo(1);
+    let t = 0;
+    if (STRIKE_MOVE)
+      t = window.setTimeout(() => {
+        void ninja.act(STRIKE_MOVE, refs.current.monster ?? null).then(() => ((window as any).__demoHit = performance.now()));
+      }, 1500);
+    return () => (clearTimeout(t), ninja.setSlowmo(1));
   }, []);
   (window as any).__snState = { scene: "ninja-demo", n, tier };
   const el = () => refs.current[target] ?? null;
@@ -69,6 +128,7 @@ export function NinjaDemo() {
         <B label="carry" on={() => void ninja.carry(refs.current.tile!, refs.current.slot!)} />
         <B label="knock" on={() => void ninja.knock(refs.current.tile!)} />
         <B label="kiai" on={() => ninja.say()} />
+        <B label="blossoms" on={() => fx.burst(640, 300, "blossoms", 30, 1.2)} />
         <B
           label={slow > 1 ? `slow ${slow}x` : "slow-mo"}
           on={() => {
@@ -83,6 +143,7 @@ export function NinjaDemo() {
       </div>
 
       <NinjaSpot />
+      {LOOK && <LookSheet />}
     </div>
   );
 }

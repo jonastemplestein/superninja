@@ -1,4 +1,4 @@
-import type { GameEvent, Key, Ledger, LedgerApi, LedgerEntry, Need, NotionReadiness, NotionRegistry, Dosage, DosageDue } from '../types';
+import type { AttemptError, GameEvent, Key, Ledger, LedgerApi, LedgerEntry, Need, NotionReadiness, NotionRegistry, Dosage, DosageDue } from '../types';
 import { knownGpcsAt, SW_SEQUENCE, type GpcKey } from '../../content/sw';
 import { DAY, expectedUnit } from '../kernel/time';
 import { notions } from '../content/notions';
@@ -96,6 +96,14 @@ export function owed(l: Ledger, keys: readonly Key[], now: number, notions: Noti
   }
   const rank = { 'before-use': 0, refresh: 1, spacing: 2, reminder: 3 };
   return out.sort((a,b) => rank[a.reason] - rank[b.reason] || b.overdue - a.overdue || a.key.localeCompare(b.key));
+}
+/** A notion whose reminders come only on errors (Dosage.reminders "error", SCRIPT_FIXES Part E): is a short reminder
+ *  owed after an attempt with these errors? Only once its full explanations are done (or it is assumed), only for the
+ *  notion's `remindOn` errors, and within its per-session cap. Before that, the schedule (owed) still explains it. */
+export function errorReminderDue(l: Ledger, key: Key, errors: readonly AttemptError[] | undefined, notions: NotionRegistry): boolean {
+  const n = notions[key], x = entry(l, key);
+  if (!n || n.dosage.reminders !== 'error' || !errors?.some(e => n.remindOn?.includes(e))) return false;
+  return (x.explained >= n.dosage.full || x.assumed) && x.thisSession < n.dosage.maxPerSession;
 }
 export function taughtCode(l: Ledger): ReadonlySet<GpcKey> { return new Set(Object.values(l.entries).filter(x => x.key.startsWith('gpc:') && (x.explained || x.assumed)).map(x => x.key.slice(4) as GpcKey)); }
 export const ledger: LedgerApi = { initial, apply, entry, meets, readiness, owed, taughtCode };

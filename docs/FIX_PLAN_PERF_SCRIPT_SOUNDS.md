@@ -10,12 +10,14 @@
 | [SCRIPT_STYLE.md](SCRIPT_STYLE.md) | the eight rules, dosage (§4), the target transcripts (§11), the targets (§12) | SS §n |
 | [SCRIPT_FIXES.md](SCRIPT_FIXES.md) | helpers A1–A9, the new lines (Part B), fixes C1–C21, the core (Part E), acceptance (Part F) | SF A2, SF C4 … |
 | [SOUND_DISPLAY.md](SOUND_DISPLAY.md) | the three sound jobs (§1), 65 rows (§3), the petal spec (§4), cases A1–A15 (§5), the build order (§6) | SD r28, SD §4.5, SD A12 |
+| [TEACHER_SCRIPT.md](TEACHER_SCRIPT.md) (added 27 Sep) | the teacher's voice: every game's frame, narrated demo, readiness tap and hand-over; the forms and the `game:<id>` state; 339 new lines. The lane work is §13 | TS §3.5, TS §2.3 |
 
 Read the source for the *why*. This plan says **who changes what**, the **contracts** between lanes, and **how we know it worked**: soak budgets, transcript expectations and frames for every group.
 
 **The findings, briefly.**
 - **Performance.** It isn't a particle leak; particles and effect nodes clear every time. The phone never rests: two rAF loops run for ever, and the ninja's aura animates hidden and non-compositable things. Memory also only goes up: decoded speech is never evicted, the title music is decoded for nothing, and every music change leaks an `<audio>` element and two audio nodes. Two screens are heavy: the runner's canvas and the World Flower.
 - **Script.** One composed shape is said per chest, per spelling and per trip: "It's two letters, but it's one sound." is said 34 times in 25 minutes. Spacing is counted in levels rather than sessions. Explanations come out of context, lines get cut off, praise is stacked, and a two-letter *error* never gets the two-letter explanation.
+- **Teacher's voice** (added 27 Sep, after Jonas's playtest with his 3- and 4-year-old). No game says what it is or who does what, demos are the child's own commands, nothing asks whether the child is ready, and "Listen…" is a bare one-word opener (the first Dojo level starts on it, with an unexplained ear). §13 adds the teacher's introduction to every game, lane by lane.
 - **Petals.** Most questions already show the sound's petal. It is missing in rewards, corrections, Help, the "two letters, one sound" reminders and two-sound explanations. Some petal pictures give the answer away, and the pictures are too small on a phone.
 
 ---
@@ -102,6 +104,8 @@ Integration logs each of these in `docs/DECISIONS.md`. They are numbered Dec1–
 | **D4 Sort** | `src/scenes/Sort.tsx`, `src/styles/sort.css` | SF C1; SD r43–45; PERF minor (the falling word) |
 | **D5 Run** | `src/scenes/Run.tsx`, `src/styles/run.css` | SF C16, the C4 and C15 callers; SD r38–41, A11; PERF 8 |
 | **D6 Story** | `src/scenes/Story.tsx`, `src/styles/story.css`, `src/content/stories.ts` | the SF C4 and C15 callers; SD r42; sound jobs |
+
+**Teacher's voice (§13) adds three files to the lanes:** `src/content/games.ts` (new, F2), `src/ui/poses.ts` (F1) and `scripts/gen-audio.ts` (F2, the short-clip loudness rule only). Every other TV change is inside a file its lane already owns.
 
 Shared CSS: `shell.css` is imported by A's scenes too, but only B1 edits it; A puts its styles in `nav-A.css`. `nav-D.css` belongs to D1; D4 and D5 put their styles in `sort.css` and `run.css`. `styles.css` belongs to F1 alone: F1 fixes every endless animation defined there, whichever scene uses it.
 
@@ -669,6 +673,20 @@ Run `continuous.ts --persona perfect,learner` three ways (from the start with 12
 | cut-off explanations (not prompts) | 0 | swap 6 of 6, speaker tip 8 of 10, map hint most visits |
 | split-spelling errors with the two-letter correction (splitter) | 100 % | 0 % |
 | "You're a ninja master!" before 7 whole answers | 0 | after about 3 words |
+| **TV:** every game type's first play (fresh profile, C-P and C-L to w2-1, plus `--from w6-br1` for Sorting): a frame line, a narrated demo (a paw event with first-person lines), a readiness hold (`ready:` in `__snNavLog`), and a hand-over, **in that order**, before the first question (`unframed-turn`) | 0 missing | no game has any |
+| **TV:** bare-command lines: a Sensei line under 4 words that is an instruction ("Watch.", "Your turn.", "Listen…", "Spell…", "Tap the sun!") (`bare-command`) | 0 | 410 of 847 lines are four words or fewer and not praise |
+| **TV:** a one-word `listen` clip that opens a game, a beat, a level or a turn (`bare-listen`) | 0 | 41 lines begin with "Listen"; 4 in w2-1's first 35 s |
+| **TV:** the median Sensei turn (all talk between two child actions) | 8–25 words | median line 4 words |
+| **TV:** talk before a child action (a tap the game registers; "say it with me" doesn't count), any first meeting (`talk-before-action`) | ≤ 12 s at age 3 (≤ 12.5 s for the five runs TEACHER_SCRIPT §6 names), ≤ 15 s at 4 | up to 31 s (w1-4), 29 s (w1-7), 23 s (w1-2) |
+| **TV:** a replay that plays a full frame again: a second play of a game in the same session, or a later day's play once two tellings are done (`over-framed`) | 0; later-day plays use the recap line, known games the short line | – |
+| **TV:** the first Dojo level (w2-1) opens with an explanation: its first clip is `tv_learn_frame_<n>`, then `tv_learn_how` and the `tv_learn_ready` hold, before any sound | yes, both personas | "This is the dojo… Let's practise some sounds. Listen…" |
+| **TV:** rhetorical questions: a "?" line with no hold or turn after it that can answer it (`rhetorical-question`) | 0 | "Did you notice?", "Do you remember this one?", "Shall we have a little break?" |
+| **TV:** instructions that end in "!" (`shouted-instruction`) | 0 | 177 of 440 lines end in "!" |
+| **TV:** a line addressed to the child during Sensei's own demo, while the paw moves (`demo-command`) | 0 | "Tap the sun!" as the demo |
+| **TV:** a readiness hold that ends without the child (`auto-advance`) | 0 | – |
+| **TV:** new sentence lines faster than 3.3 words a second (`fast-line`, from `durations.json`) | 0, or re-taken | 1 of 5 samples (TEACHER_SCRIPT §7.4) |
+
+**The teacher's voice reference.** TEACHER_SCRIPT §0.2's three before/after moments (W1's first game, w1-4's Word Building, w2-1's opening) must read as written in C-P, apart from the child's own timing.
 
 **The reference transcripts.** SF Part D (D1 the Sky Temple session, D2 Bamboo Village day one, D3 a two-letter error), with one change: per Dec4, every read-back reminder ends on its sound ("…It's two letters, but it's one sound. /sh/"). Read C-P and C6-P against D2 and D1 line by line. Log any other difference as intended (with the reason) or as a bug.
 
@@ -694,3 +712,127 @@ Run `continuous.ts --persona perfect,learner` three ways (from the start with 12
 | Warm-ups with no petals | SS §1 and SF C21 say the warm-ups have no SoundBadge. SD (later) finds the navigation workflow has added the nav-row petal. | Done already, apart from W5 (Dec1 dots), W6 (mini petals) and the introduction animation (C2.1–2.3). |
 | Ninja streaks | Jonas suspected particles. PERF: they clear; the standing cost is the issue. SS §8: the streak's praise is inflated. | F1.1–1.4 for the heat, and Dec2 for the praise. Flames stay per letter. |
 | The runner | PERF 8: canvas raster. SD r38, r41: blend dots, stars not petals. SF C16: cues. | One lane, D5. |
+
+---
+
+## 13. Teacher's voice (TV)
+
+**Added 27 September 2026**, after Jonas playtested the preschool levels with his 3- and 4-year-old: *"this extremely abbreviated way of talking, it doesn't help at all … teachers … say, so first, I'm going to show you how to do it. Are you ready? … I will show you this, and you will do that. Do you want to give it a go now? … Or this like weird shouted, listen … in the first dojo level where it just starts with this, and this ear appears. Teachers explain what they're doing."*
+
+The script is [TEACHER_SCRIPT.md](TEACHER_SCRIPT.md) ("TS"): every game's frame, narrated demo, readiness tap, hand-over, praise and wrap-up, and the replay forms. The mechanics are [teacher-voice/mechanics.md](teacher-voice/mechanics.md), with the changes in TS §8.2. The house style is [SCRIPT_STYLE.md](SCRIPT_STYLE.md) §T. The work goes to the **existing lanes, by the file ownership of §2**, in the existing phases: the F lanes in P1 (the lines, the state, the readiness control, the checks), the scene lanes in P2, and integration in P3. §0.2's house rules apply unchanged. IDs are `TV-<lane>.<n>`.
+
+### 13.1 Contracts (in place by Gate 1)
+
+**F2, `src/content/games.ts` (new, data only):** the registry of TS §4.1.
+
+```ts
+export type GameId = "tap" | "fastslow" | "notice" | "tapall" | "tapall:in" | "rail" | "which" | "compound" | "slowpick"
+  | "sounds" | "dots" | "firstsound" | "find" | "soundhunt" | "build" | "readcheck" | "learn" | "battle" | "boss" | "trial"
+  | "review" | "swap" | "sort" | "run" | "story";
+export interface GameDef {
+  id: GameId; mech: string; name: string | null;           // null: never said aloud ("which", "readcheck")
+  full: { frame: string[]; show: string | null; ready: string };            // line ids (TS §3)
+  recap: { line: string[]; show: boolean };                                   // a hold only after 21 days or a struggle
+  short: string[];
+  demoOwnPictures: boolean;                                                   // the paw's canonical demo can play on a short form
+  readyAt: "row" | "column";
+  mapPreview?: string;                                                        // tv_map_next_<game>
+}
+export const GAMES: Record<GameId, GameDef>;
+```
+
+**F2, `src/content/narrative.ts` and `src/scenes/narrate.tsx`:** mechanics §5.2's `FrameForm`, `GameExposure`, `frameForm()`, `GAME_TELLINGS = 2` and `GAME_REFRESH_MS`, with TS §2.2's change: `frameForm()` returns `"recap"` in both cases, and a new `recapHold(e, now): boolean` says whether the recap gets the Ready hold (true only after 21 days or `struggled`). In `narrate.tsx`: `gameForm(id)`, `framed(id)` (on the Ready answer, or on a recap's first answer), `played(id, { struggled })`, `onceInSave(key)` for `ready:first`, `ready:paw`, `sym:<name>` and `map:next:<game>`, and the migration of old saves (TS §2.2).
+
+**F3, `src/ui/nav.tsx`:** mechanics §4.6's `holdReady()` and `readyTap()`, with TS §2.3's hand-over rule:
+
+```ts
+export type ReadyAnswer = "next" | "board" | "answer" | false;   // "answer": a right answer tapped during a hand-over Ready
+export function holdReady(key: string, o: {
+  ask: Say[]; again: () => unknown; show?: (live: () => boolean) => Promise<unknown>;
+  after?: Say[];                  // tv_ready_now
+  offer?: Say[];                  // tv_offer_show, at 24 s, once
+  spot?: { next: number; show?: number };   // seconds into `ask` to spotlight ▶ (and the paw)
+  handover?: boolean;             // the Ready line names the task: a right-answer tap resolves "answer"
+  sound?: PhonemeId; at?: Anchor;
+}): Promise<ReadyAnswer>;
+/** A tap on the board during a hold. `right` is the scene's judgement of the tap as an answer. */
+export function readyTap(o?: { right?: boolean }): ReadyAnswer | false;
+```
+
+**F1, `src/ui/Ninja.tsx`, `src/ui/poses.ts`:** `ninja.act("bow")` (falling back to `ready` plus a hop and a "hup" until the art lands) and `ninja.pose("ready", { face: "next" })`.
+
+### 13.2 The work, by lane
+
+| ID | P | TS | File (lane) | Change |
+|---|---|---|---|---|
+| TV-F2.1 | P1 | §7 | `src/content/lines.ts` (F2: a new block only) | A block `// --- Teacher voice (docs/TEACHER_SCRIPT.md, 27 Sep).` with the **339 new ids** of TS §7.1 (the 25 families generated one whole recording per member, as `fm_name_<w>` is). Lead-ins end on ASCII "...". Record with `bun scripts/gen-audio.ts lines` (Sulafat, en-GB, **plain text only**), then `gen-durations.ts`, `sim/tag-lines.ts --missing` and `jev-lint-lines.ts`. Re-record the **24** ids of TS §7.2 (`--force`, those ids only). Word timings (Whisper) for every line that spotlights something: `tv_ready_first`, `tv_ready_paw`, `tv_choose_q`, `tv_opt_notyet`, `tv_opt_yes`, `tv_ts_meet`, `tv_ears_demo`, `tv_pocket_frame`, `tv_ido_pair_<pair>`, `tv_learn_frame_<n>`. Every caller guards with `HAS`/`L()`, so the wording can ship before its audio |
+| TV-F2.2 | P1 | §4.1 | `src/content/games.ts` (F2, new) | The registry (§13.1), filled from TS §4.1 |
+| TV-F2.3 | P1 | §2.2 | `narrative.ts`, `narrative.test.ts` (F2) | `frameForm`, `recapHold`, the constants. Tests: nothing → full; told in session 1, played again in 1 → none; first play in 2 → recap, no hold; told in 1 and 2 → short in 3, none later in 3; 22 days → recap with a hold; `struggled` → recap with a hold |
+| TV-F2.4 | P1 | §2.2 | `src/scenes/narrate.tsx` (F2) | `gameForm`, `framed`, `played`, `onceInSave`, the migration (stars → `n: 2`; `dojo:welcome`/`dojo:back` → `game:learn`; `dojo:first` → `game:build`) |
+| TV-F2.5 | P2 | §3.14, §4.3 | `scripts/gen-teach-lines.ts`, `teach-lines.gen.ts`, `src/content/teach.ts` (F2) | The new family `tg_<g>_<p>_way` ("This is the way we spell it in mat."); `foundScript` says `tv_here_sound` + the sound + `tg_<g>_<p>_way` in place of `t_way_we_spell` + sound + `tg_<g>_<p>_in`; the trips leave out `tg_<g>_<p>_see` before world 2 (T21); `tp_<p>_hear` filters its examples to words spelt with the taught spelling (the pedagogy judge's < c > finding) |
+| TV-F2.6 | P2 | §5.3, §5.4 | `src/engine/feedback.ts` (F2) | The corrections' wording (`tv_fix_together`, `tv_listen_here`, `its_this_one` ↻, `tv_not_in_middle`, `tv_fix_start`, `tv_fix_middle`); `praiseFor` picks the game's specific line first (TS §5.3's table, keyed by game id), and `yay_3`, `yay_5`, `yay_6`, `yay_9`, `yay_10` leave the everyday rotation |
+| TV-F2.7 | P2 | §5.3 | `src/engine/streak.ts` (F2) | `tv_streak_10` in place of `streak_10` |
+| TV-F2.8 | P2 | §7.4 | `scripts/gen-audio.ts` (F2, added by §13) | Clips under 1.2 s are levelled 3 LU under the sentences (−19 LUFS: mechanics §7.4); a warning for a sentence line faster than 3.3 words a second (`tv_learn_how` measured 3.8: take it again, or split it into `tv_learn_how` + "Then you say it with me.") |
+| TV-F3.1 | P1 | §2.3 | `src/ui/nav.tsx`, `src/styles/nav.css` (F3) | `holdReady()` and `readyTap()` (§13.1): one modal nav entry built on `holdNext`; ▶ and the paw live from the first word of `ask`; the idle ladder (8 s ▶ glows with the hand, 16 s `nav_ready` ↻, 24 s `tv_offer_show` once, 40 s `nav_ready`, then quiet); Help's first press `tv_ready_help`; Hear it again = the frame and the question; ▶ dim while the paw's replay plays, then `tv_ready_now`; `navLog({ kind: "ready", id, how })`; `__snNav.pres.id` starts with `ready:` |
+| TV-F3.2 | P1 | §2.3 | `nav.tsx` (F3) | `ShowAgainButton` gets `pulse`; `NAV_SLOTS.column.show` at (1204, 196); the warm-white spotlight on ▶ and the paw on their words (`spot`) |
+| TV-F3.3 | P2 | §3.5 C, §3.26 | `src/ui/SoundBadge.tsx` (F3) | A petal as a join-in: `onTap` is live while Sensei waits for it (and nods, with a tink, during an explanation); a `mist` row mode for the Dojo's waiting petals, each floating down on cue; the Learn's two mini petals under the letter (Dec6) |
+| TV-F3.4 | P2 | – | `src/scenes/NavDemo.tsx` (F3) | `?ready=1`: a hold with ▶, the paw, the ninja's stance and the spotlights, for F4's stills |
+| TV-F1.1 | P2 | §2.3 | `src/ui/Ninja.tsx`, `src/ui/poses.ts` (F1; `poses.ts` added by §13) | The `bow` move and `pose("ready", { face: "next" })`. Art: `hero_<kai\|suki>_bow` (mechanics §8), until then the fallback |
+| TV-F1.2 | P3 | §2.5 | `src/ui/ui.tsx` (F1) | Delete `Icon.ear` once nothing uses it |
+| TV-F4.1 | P1 | §6, §2.4 | `scripts/treadmill/script-audit.ts` (F4) | New `--check` metrics, the TV rows of §11.2: `unframed-turn`, `over-framed`, `bare-command` (a line under 4 words that is an instruction), `bare-listen`, `talk-before-action` (age bands; "say it with me" is not a break), `turn-median`, `rhetorical-question`, `shouted-instruction`, `demo-command`, `first-dojo-opening`, `fast-line` |
+| TV-F4.2 | P1 | §2.3 | `transcript.ts`, `continuous.ts`, `first-minutes.ts` (F4) | Holds written as `[ready: <id>: TAP Next after 1.4 s]` (or `TAP Show me again`, `TAP board: sock`, `TAP answer: sock`); paw events recorded; a "Ready" column beside "Holds on Next" |
+| TV-F4.3 | P2 | §2.3 | `bot.ts` (F4) | A `watcher` persona that taps the paw once at every Ready hold; the default bot answers one hand-over Ready in three with a right-answer tap (it tests T4) |
+| TV-A.1 | P1 | §3.4 | `src/scenes/Training.tsx` (A) | The three tricks: a star per trick, the rhyme on the speaker, the held ▶ into W1 (`tv_first_game`). **Supersedes A.1** (the speaker's "This is the sun.") |
+| TV-A.2 | P1 | §3.3 | `src/scenes/OptIn.tsx` (A) | The reason first, the "If…" lines spotlighting their cards on word timings, the echoes, the 8 s and 20 s idle lines, and the `tv_opt_to_dojo` hold. Screen B's ↻ lines |
+| TV-A.3 | P3 | §4.9 | `src/scenes/Placement.tsx` (A) | Show Sensei's lines |
+| TV-B1.1 | P1 | §3.2 | `src/App.tsx` (B1) | Choose: `tv_choose_hello`, `tv_choose_q` (Kai and Suki spotlit on their names; live from the first word), `chose` ↻, `tv_choose_why`, `tv_choose_ninja` and ▶ |
+| TV-B1.2 | P1 | §5.8 | `App.tsx` (B1) | The map: `tv_map_hint` (first two arrivals, then the 8 s nudge), `tv_map_next_<game>` once per save per game (after the arrival line, from `GAMES[…].mapPreview`), `tv_welcome_back` |
+| TV-B1.3 | P2 | §5.7 | `App.tsx` (B1) | The reward: `tv_to_reward` (the save's first three with a new sound), `tv_won_one` / `tv_won_<n>` (Dec8), `audit_gem_first` **moved here** from w1-4's we do, `tv_to_flower_first` / `tv_to_flower`, `tv_rest`, `tv_jump_offer`; `tv_practise_again` said as the repeated level opens (`LevelHost`) |
+| TV-B3.1 | P1 | §3.1 | `src/scenes/IntroFilm.tsx` (B3) | `tv_film_arrow` at the first held step, once per save |
+| TV-B3.2 | P2 | §3.14, §3.25 | `src/scenes/Intros.tsx` (B3) | The first visit: `flower_i1` ↻, `tv_flower_petal` and the child's petal tap, `wf_i3`, the found sounds with `tv_here_sound` / `tv_another_sound` and `tg_<g>_<p>_way`, `tv_flower_bye`. The land's end: `tv_flower_recap`, `tp_<p>_hear`, the petal tap |
+| TV-B4.1 | P1 | §3.6, §3.8 | `src/scenes/Stickers.tsx`, `Book.tsx` (B4) | Reward 1: the book waits closed for a tap (`tv_rw_book`), `tv_rw_every`, `tv_rw_tap`, the first sticker's `tv_rw_fast_slow`, `tv_rw_next`. Reward 2: `tv_rw2_flower`, the petal tap (`tv_rw2_tap_petal`), `tv_map_intro`, `tv_map_flower` |
+| TV-C1.1 | P1 | §3.13, §3.19 | `src/scenes/Early.tsx` (C1) | `usePickGame.present()`: the frame (`tv_first_frame`, `tv_hunt_frame`); each new sound's petal as a join-in (`tv_first_sound`/`tv_next_sound` + `tv_petal_say`); the narrated I do (`tv_ido_pair_<pair>` with the pairs fixed per level, `tv_let_me_listen`, the held or stretched word, `fs_<w>`/`mid_<w>`, `tv_so_i_tap`); `holdReady` (`tv_ready_together`) on the full form only; the we do and you do (`tv_together`, `tv_by_yourself`). The `ido`/`wedo`/`youdo` pushes go |
+| TV-C1.2 | P1 | §3.13 | `Early.tsx` (C1) | The first letter is written at the child's we do: `tv_watch_write`, `tv_how_we_write`, `tv_tap_it_say` and a letter tap, once per spelling per level (SF C9 stays) |
+| TV-C1.3 | P1 | §3.16 A, §3.17 | `Early.tsx` (C1) | `BuildSequence`: `tv_build_frame`, `tv_build_lines`, the word card as a tap (`tv_word_card`), "I start, you finish" (the last tile live during the demo, `tv_you_find_last`), `tv_lets_say_read`, `holdReady` (`tv_build_ready`); the short and recap forms; no gem held step in the we do |
+| TV-C1.4 | P2 | §3.16 B | `Early.tsx` (C1) | `ReadCheck`: `tv_readers_meet`, `tv_rc_how`, the sound buttons live on `tv_you_read_first`, the readers before the question, `tv_rc_q`, `tv_yes_<reader>`, `tv_lets_check` |
+| TV-C1.5 | P2 | §3.13 B | `Early.tsx` (C1) | The find phase: `tv_ne_frame` / `tv_ne_again`, the rotating stems (`tv_which_write`, `tv_find_write`, `tv_now_find`), `tv_thats_write`; the transitions `tv_next_build` / `tv_next_build_plain` |
+| TV-C1.6 | P2 | §3.15, §3.19 | `Early.tsx` (C1) | Decks: no apple for /a/ (SD A12; the I do uses the ant); flag zip, top, pin, tin and lid to Jonas's art list |
+| TV-C2.1 | P1 | §3.5 | `Warmup.tsx`, `warmups.ts` (C2) | W1: `tv_ears_frame`; the demo `tv_ears_demo` with the paw on its word timings; `holdReady` with `tv_ready_first`; `tv_your_word_<w>`; the rabbit and the tortoise with `tv_ready_paw`, and the rabbit **compulsory** (the governor never drops it in W1 or W3); the notice with **tappable cards** and the petal tap, and no `W1:7` hold; Pocket Hunt's frame, I do and hand-over Ready (`handover: true`); `tv_w1_end` |
+| TV-C2.2 | P1 | §3.7 | `Warmup.tsx`, `warmups.ts` (C2) | W2: the rail's frame, reading and Ready; `tv_next_game` on the swap's hold; two rows (the demo is never skipped at a first meeting); Word Squish; `tv_rw_link_book` |
+| TV-C2.3 | P2 | §3.9–§3.12 | `Warmup.tsx`, `warmups.ts` (C2) | W3–W6: the recap forms, Slow Words, the middle-sound Pocket Hunt with its petal join-in, Guess My Word (`tv_guess_together` after the first right answer), Sound Dots (`t_if_you_say_sounds` after the first word) |
+| TV-C2.4 | P2 | §6 | `warmups.ts` (C2) | Re-measure `secs`, the targets and the caps with the bot (mechanics §5.4) |
+| TV-D1.1 | P1 | §3.26 A | `src/scenes/Dojo.tsx` (D1) | **The "Listen!" and ear opening.** Before the first `Learn` mounts: the misty petals in a row (nothing pulsing), `tv_learn_frame_<n>`, `tv_learn_how`, and `holdReady` with `tv_learn_ready`. The recap and short forms from `GAMES.learn`. **No `listen` clip opens the level, a sound or a beat** |
+| TV-D1.2 | P1 | §3.26 A | `Dojo.tsx` (D1) | Each `Learn`: the petal floats down and blooms on its sound (`tv_learn_first` + `tv_here_it_comes` for the first; `tv_learn_next`, `tv_learn_another`, `tv_learn_last` after); `tp_<p>_hear` on the lesson's first sound only; the petal tap (`tv_petal_say` / `tv_petal_say_short`); `tv_watch_write`; `tv_how_we_write` / `tv_and_how_we_write`; the letter taps (`tv_tap_letter_say` / `tv_tap_it_say_short`, `tv_once_more` once per save); `tv_said_well`; `tv_learn_all_<n>`. The petal never pulses before it has bloomed |
+| TV-D1.3 | P2 | §3.26 B–C, §4.6 | `Dojo.tsx` (D1) | Find: `tv_ne_new_sounds`, `tv_petal_hint` before the question. Build: `tv_build_dojo`, the recap demo on a later day (and the full I do for a school path's first Build), `tv_your_word`, `tv_learn_done`. A school path's first lesson: `tv_dj_room`, `tv_learn_frame_ways`, the known-sound order |
+| TV-D2.1 | P2 | §3.18 | `src/scenes/Battle.tsx` (D2) | The first battle: the letters dim until ▶ (column); the demo with the card tap and the child finding the last sound; `tv_bar_down` on the first zap; `tv_battle_ready`; `tv_your_word`; `tv_battle_why` at the first win. Recap: `tv_battle_recap` + `tv_battle_go`. Short: `tv_battle_again`, the letters waking as it ends |
+| TV-D2.2 | P2 | §3.24, §4.2, §4.4 | `Battle.tsx` (D2) | The boss (`tv_boss_calm`, `tv_boss_frame`, `tv_boss_ready`; `tv_boss_again`), the gem battle (the bar starts on ▶; hearts explained at the first lost heart), Sensei's Challenge |
+| TV-D3.1 | P2 | §3.20 | `src/scenes/Swap.tsx` (D3) | Nothing tappable during `tv_swap_oh_dear`; the start word's tiles as sound buttons (`tv_swap_read_first`); `tv_swap_frame`; `holdReady` with `tv_ready_to_watch`; the demo with the child's kick (`tv_swap_kick`) and `tv_swap_in`; `tv_swap_ready`; the turn's `tv_swap_now_change`, `tv_swap_both`, `st_what_change`, the protected `st_*_changes`, `tv_swap_pick`. Short and recap forms |
+| TV-D4.1 | P3 | §4.3 | `src/scenes/Sort.tsx` (D4) | The first sort: the chests open on the child's taps (`tv_spelt_like_this_<w>`), the demo (`tv_sort_ido`, `tv_sort_see`, `tv_sort_so`), `holdReady` in the column, `tv_sort_done` |
+| TV-D5.1 | P2 | §3.21, §4.5 | `src/scenes/Run.tsx` (D5) | The world waits for ▶ on every run; the practice jump (`tv_run_jump`, `tv_run_jump_ok`); `tv_run_lanterns` at the first lanterns; `tv_guess_q` + the sounds for groups 1–3; `tv_run_which`; `tv_run_fix`; `tv_run_again`; `tv_run_read_first` |
+| TV-D6.1 | P2 | §3.23 | `src/scenes/Story.tsx` (D6) | The title page's frame and ▶; the first child page's `tv_story_yours`, `tv_story_help`, `tv_story_tick`, and `tv_story_together` at 8 s idle (the words lighting sound by sound); `tv_story_choice`; `tv_story_q`, with the pictures shown only after it |
+| TV-I.1 | P3 | §8.2 | `docs/DECISIONS.md` (P3) | Log T1–T23 |
+| TV-I.2 | P3 | §8.2 | docs (P3) | Amend mechanics.md (§3.2 the recap hold, §4.2 the hand-over tap, §6.4 the battle's short form), ARCHITECTURE §6.2's `mech:` row, FIRST_MINUTES (§3 rule 3 and the Amendment's show/try labels superseded; §14's cap to 5:30), NAVIGATION (rule 3: on full forms a show leads into a Ready hold), SCRIPT_FIXES (C2's "Your turn!", C11's `swap_make`, C19's speaker, C1/C3's `tg_<g>_<p>_in` tails, Part B's three dropped lines) |
+
+### 13.3 Acceptance (TV)
+
+- **Unit** (F2): the `frameForm`/`recapHold` tests above, and the migration.
+- **Transcript** (P3, and each lane on its own build for its own games): the §11.2 TV rows. On C-P, W1's first game, w1-4's Word Building and w2-1's opening read as TS §0.2, and the first-meeting runs are within TS §6's table.
+- **Frames** (`sound-shots.ts --freeze`, into `playtest/fix-plan/TV/frames/`):
+  - `w1-ready-first.png`: ▶ spotlit, the ninja in its ready stance facing it, the paw not yet shown;
+  - `w1-ready-paw.png`: ▶ and the paw, the paw spotlit on "paw";
+  - `w1-notice-petal-tap.png`: the /s/ petal blooming, waiting for the child's tap;
+  - `w2-1-frame.png`: four misty petals in a row, **nothing pulsing, no ear**;
+  - `w2-1-first-bloom.png`: the /b/ petal mid-introduction on "Here it comes…";
+  - `w1-6-letters-dim.png`: the letter row dim during the frame, ▶ in the column;
+  - `w1-8-kick.png`: the first tile glowing on "Can you tap it, and kick it out?".
+- **The bots:** the `watcher` persona's paw replays end on `tv_ready_now` and a hold that waits; a hand-over Ready answered with a right tap counts once (no second "Can you find…").
+
+### 13.4 The lines to record
+
+The full list with its text is TS §7.1 (**339 ids**: 314 single lines and 25 generated families, about 59 recordings), generated from the script by `playtest/runs/teacher-voice/extract-lines.py`, which F2 can run to produce the `LINES` block. The **24 re-records** are TS §7.2. **Not to record:** `st_speaker_ok`, `st_like_this_in` and `st_and_like_this_in` from SF Part B (TS §7.3). The six samples in `docs/teacher-voice/samples/` were finished like the library (−16 LUFS) and passed their judge; F2 may keep them as takes, except `tv_learn_how` (too fast).
+
+Record in this order:
+
+- **TV-P1: the first session (film to Reward 2), the w2-1 lesson, and the recurring moves (about 143 ids, with the shared lines w2-1 uses).** `tv_ready_first`, `tv_ready_paw`, `tv_show_again`, `tv_ready_now`, `tv_ready_go`, `tv_ready_together`, `tv_ready_yours`, `tv_ready_to_watch`, `tv_turn_again`, `tv_offer_show`, `tv_ready_help`, `tv_film_arrow`, `tv_choose_hello`, `tv_choose_q`, `tv_choose_why`, `tv_choose_ninja`, `tv_opt_why`, `tv_opt_notyet`, `tv_opt_yes`, `tv_opt_echo_notyet`, `tv_opt_echo_school`, `tv_opt_again`, `tv_opt_ask`, `tv_opt_ok_notyet`, `tv_opt_grownups`, `tv_opt_to_dojo`, `tv_train_hello`, `tv_train_tricks`, `tv_train_gong`, `tv_train_gong_ok`, `tv_train_help`, `tv_train_try_help`, `tv_train_speaker`, `tv_rhyme`, `tv_train_hear_again`, `tv_train_speaker_ok`, `tv_train_done`, `tv_first_game`, `tv_ears_frame`, `tv_ears_demo`, `tv_your_word_<w>`, `tv_find_again_<w>`, `tv_idle_look_<w>`, `tv_show_offer`, `tv_idle_point`, `tv_fix_together`, `tv_ts_meet`, `tv_ts_fast`, `tv_ts_slow`, `tv_same_word`, `tv_ts_wrong_rabbit`, `tv_ts_wrong_tortoise`, `tv_notice_frame`, `tv_ears_on`, `tv_tap_hear_<w>`, `tv_now_tap_hear_<w>`, `tv_petal_first`, `tv_pocket_frame`, `tv_pocket_ido`, `tv_so_pocket`, `tv_pocket_ready_<n>`, `tv_fix_start`, `tv_petal_hint`, `tv_w1_end`, `tv_rw_book`, `tv_rw_every`, `tv_rw_tap`, `tv_rw_fast_slow`, `tv_rw_next`, `tv_rail_frame`, `tv_rail_ido`, `tv_rail_ready`, `tv_rail_turn`, `tv_silly`, `tv_rail_start`, `tv_next_game`, `tv_which_frame`, `tv_which_demo`, `tv_which_so`, `tv_which_q_<pair>`, `tv_which_fix_<pair>`, `tv_squish_frame`, `tv_squish_slow`, `tv_squish_fast`, `tv_squish_ready`, `tv_praise_squish`, `tv_pocket_more_<p>`, `tv_rw_link_book`, `tv_rw2_flower`, `tv_rw2_tap_petal`, `tv_map_intro`, `tv_map_flower`, `tv_map_hint`, `tv_learn_frame_<n>`, `tv_learn_how`, `tv_learn_ready`, `tv_learn_first`, `tv_here_it_comes`, `tv_petal_say`, `tv_watch_write`, `tv_how_we_write`, `tv_tap_letter_say`, `tv_once_more`, `tv_said_well`, `tv_learn_next`, `tv_petal_say_short`, `tv_and_how_we_write`, `tv_tap_it_say_short`, `tv_learn_another`, `tv_learn_last`, `tv_learn_all_<n>`, `tv_dojo_idle_say`, `tv_dojo_help_sound`, `tv_ne_new_sounds`, `tv_which_write`, `tv_find_write`, `tv_now_find`, `tv_thats_write`, `tv_build_dojo`, `tv_your_word`, `tv_learn_done`, `tv_offer_show_miss`, the praise bank (`tv_praise_*`, `tv_yay_lovely`, `tv_yay_thats_it`, `tv_streak_10`), and the idle and correction lines (`tv_listen_here`, `tv_listen_sound_again`, `tv_which_starts_it`, `tv_which_way_write_it`, `tv_both_again`, `tv_which_changes`, `tv_take_time`).
+- **TV-P2: the rest of Bamboo Village's first meetings, w1-2 to w1-15, and the rewards and map (the rest).** TS §3.9 to §3.25 and §5.6–§5.9: W3–W6, First Sounds and Ninja Eyes, the World Flower's first visit, Word Building, Kai and Suki, the first battle, Sound Hunt, Sound Swap, Ninja Run, the second meetings, Story Time, the boss, the land's end, the reward leads, the map previews (`tv_map_next_<game>`, 12), `tv_welcome_back`, `tv_rest`, `tv_jump_offer`.
+- **TV-P3: recap and short forms, and the games a preschool child doesn't meet before w2-1 (54 ids).** TS §4: every `*_recap` and `*_short` line, `tv_now_your_turn`, the gem battle, Sorting, Sensei's Challenge, Ninja Run's reading groups, a school path's first Dojo, the word hunt, Show Sensei and the practice dojo.

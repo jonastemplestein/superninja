@@ -3,13 +3,16 @@
 The aim is for machines to produce feedback so humans don't have to. One command sends bots and AI playtesters through the whole game and turns everything they notice into one de-duplicated inbox: `playtest/INBOX.md`. Fix what's in it, rerun, and the fixed items close themselves.
 
 ```
-bun run dev                                  # the treadmill plays the dev server
 bun scripts/treadmill/run.ts --quick         # ~1–2 min: one level of each kind, bots + Jev
 bun scripts/treadmill/run.ts                 # ~10–15 min: every level + monkey + visual critic + Jev
 bun scripts/treadmill/run.ts --personas      # + Codex persona playtesters (30–60 min, run it while you sleep)
 bun scripts/treadmill/run.ts --watch         # quick run after every change under src/
 bun scripts/treadmill/run.ts --joins         # + "one take, or joined?": spliced speech judged by ear (~3 min)
+bun scripts/treadmill/run.ts --soak          # + the soak check: 8 levels in one page, judged against the perf budgets (~12 min)
+bun scripts/treadmill/run.ts --soak-phone    # + the same on a slow phone (CPU 4× slower), 12 levels (~25 min, nightly)
 ```
+
+By default a run plays a frozen build of the working tree (`frozen.ts`, served on :4180), so edits made mid-run can't reload its pages. `--live` and `--watch` play the dev server on :5173 instead (`bun run dev`).
 
 ## Stages
 
@@ -23,10 +26,47 @@ bun scripts/treadmill/run.ts --joins         # + "one take, or joined?": spliced
 | Picture audit | `pic-audit.ts --pics` (Gemini vision, blind; `--age 3 --warmups` for the warm-up pictures) | Names every word picture the way a 4-year-old (or 3-year-old) would, without being told the word, and flags any living thing drawn without a face. `pics-to-content.ts` turns that into `src/content/pic-names.ts`, so picture-only games automatically avoid pictures a child would name with a different sound (fin → "shark", wig → "hair"), and it warns about hand-picked pairs that fail | pennies | ~2 min |
 | Jev | `jev-*.ts` marked `@treadmill-stage` | TypeSafe's typed decision model through Cloudflare AI Gateway: lints every spoken line for pedagogy and vocabulary, triages and de-duplicates findings (see docs/JEV.md) | fractions of a penny | seconds |
 | Joins | `joins.ts --joins` (Gemini audio) | Rebuilds each splice the first minutes play (a lead-in ending "...", then a pure sound, a stretched or held word) from a transcript's audio log, with the real gaps, and asks "one take, or joined?". An audible jump in loudness or voice is a finding | pennies | ~3 min |
+| Soak | `soak.ts --check` (`--soak`, `--soak-phone`) | Does the game get slower or heavier the longer a child plays? The bot plays level after level in **one page with no reloads**, through the map, rewards, Next and World Flower trips, as a child does. Then it leaves the map still, leaves a reward with Next ready (Next's idle nudge), stands the ninja still at streak 0 and 10, and fires a burst of streak-10 strikes. The run is judged against the perf budgets (below) and writes `<runDir>/soak/summary.md` (the budget table, then every metric), `report.html` (charts) and `checks.json`. Failed budgets become findings (`soak:<check>`) in `<runDir>/soak.json`, and the run prints them at the end. (`inbox.ts` merges them once `soak` is in its file pattern.) | free | ~12 min (phone: ~25) |
 | Personas | `personas.ts` (Codex gpt-6-sol, headless browsers) | Maya (3¾, can't read, taps everything), Oscar (6, impatient, tries to break things), Ms Patel (Sounds~Write teacher, audits against docs/PEDAGOGY.md using `window.__audioLog`), and a parent setting it up on an iPhone | a few $ | 30–60 min |
 | Inbox | `inbox.ts` | Merges everything by signature, tracks it across runs in `playtest/known.json` (open / fixed / wontfix), marks new and regressed items, and auto-closes deterministic findings that stopped appearing | — | instant |
 
 Every source writes the same `Finding` shape (`types.ts`): `sig`, `source`, `severity`, `case`, `title`, `detail`, `evidence[]` and `repro`. Adding a new checker means writing `<runDir>/<name>.json` in that shape and adding it to the list in `inbox.ts`.
+
+## Frozen builds
+
+Test on a frozen build, never on the shared dev server, which reloads the page whenever anyone saves:
+
+```
+bun scripts/treadmill/frozen.ts --port 4404                    # build into playtest/runs/frozen/.build-4404, serve it, print the URL
+bun scripts/treadmill/frozen.ts --port 4404 --probes --detach  # with soak.ts's module probes; leave it running in the background
+bun scripts/treadmill/frozen.ts --port 4404 --stop             # stop a detached one
+```
+
+`--out <dir>` picks the folder. `--no-build` serves what is already there. `--retry N` waits 45 s and rebuilds when another agent's half-finished edit breaks the build. `--probes` builds with `soak.vite.config.ts`, which is the game plus read-only probes into module state (live particles, the ninja's effect nodes, listener sets, the decoded-audio cache, the save's `adjustLog`), exposed as `window.__snPerfMods`. That's for test builds only. `soak.ts` and `run.ts` use the same code (`import { frozen } from "./frozen"`).
+
+## The soak check
+
+```
+bun scripts/treadmill/soak.ts --mobile --cpu 4 --fast 2 --levels 12 --idle 60 --stress 150 --check   # the phone, ~25 min
+bun scripts/treadmill/soak.ts --fast 2 --levels 20 --check                                             # desktop, ~30 min
+bun scripts/treadmill/soak.ts --levels 4 --idle 20 --stress 60 --check                                 # a smoke, ~7 min
+bun scripts/treadmill/soak.ts --serve none --base http://127.0.0.1:4404 ...   # play a frozen build that is already up (built with --probes)
+bun scripts/treadmill/soak.ts --analyse <run dir> --check                     # re-judge a finished run, e.g. after a budget changes
+```
+
+`--check` prints the budget table and exits 1 if any budget fails. Each row says what was measured, where it first went over, and the owner. An animation row names each offending animation, how many ran at once, the file that defines its `@keyframes`, and the screens it ran on. The phone rows are only judged with `--cpu` > 1; on desktop they show their values marked "not judged". `n/a` means the run didn't measure that row: no World Flower visit, `--idle 0`, `--idle-next 0`, `--stress 0`, `--no-title`, `--no-aura`, or a build without the probes. Each run also writes `checks.json` (every row, machine-readable) and records its own flags in `levels.json`, so `--analyse` judges it the same way. `--findings <file>` writes the failures as treadmill findings.
+
+| When | Budget (docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §11.1, docs/PERF.md §5) |
+|---|---|
+| after each level, back on the map after a forced GC, compared with the first map sample | DOM nodes ≤ start + 600, JS heap ≤ start + 8 MB, listeners ≤ start + 40, map animations ≤ start + 5, intervals ≤ start + 1; particles ≤ 5, fx nodes 0; **rAF requests ≤ 5/s**; **live decoded audio ≤ 64 MB**; **Web Audio nodes ≤ start + 8**, **`<audio>` elements ≤ start + 2**; `__snNavLog` ≤ 500, `adjustLog` ≤ 200 |
+| the title, untouched for 5 s | live decoded audio ≤ 2 MB (the title music streams; it is never decoded) |
+| every sample while playing, and on still screens (the title, the map, a held Next) | ≤ 2 endless animations the compositor can't run (a non-compositable property such as `z-index`, `box-shadow`, `filter`, or an SVG target), ≤ 2 endless animations on hidden elements |
+| the still map (`--idle` s untouched), and a reward with Next ready (`--idle-next` s untouched: Next's idle nudge, with the glow at 8 s, the hand and the ninja's leap at 16 s, and the line again at 40 s) | rAF requests ≤ 5/s (median). Between its moments the nudge must ask for no frames |
+| phone ×4 | every screen's median fps ≥ 50; the still map ≤ 5 % main thread; a held Next (the reward, with the nudge) ≤ 6 %; the ninja standing still ≤ 6 % at streak 0 and ≤ 14 % at streak 10; the World Flower ≤ 30 % median main thread, longest task ≤ 120 ms |
+| the strike stress | particle peak ≤ 350; 10 s later 0 particles and 0 fx nodes |
+| the whole soak | no page reloads; the bot finished every level |
+
+Footprint and RSS are reported but not judged: under Playwright they include DevTools' copies of every response body and Chrome's image cache (PERF.md §2.2). The phone profile is headless Chrome with a 4× CPU throttle, not WebKit on an iPhone. Read its percentages as "how close to the edge", and compare runs made on the same machine. The bot is `bot.ts`'s `step()`, so it taps Next through held steps and presentations. `--patched` previews PERF.md's fixes 1–6 (`soak-fixes.ts`), a whole fix at a time. The build skips any fix that has already landed in the source or whose text has moved on, and `<out>/fixes.json` says which were applied. It retires once the real fixes are all in.
 
 ## Phoneme audio gate
 

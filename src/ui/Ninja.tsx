@@ -247,18 +247,26 @@ const poseAt = (run: Run, ms: number, p: Pose | (() => Pose)) => run.at(ms, () =
 function layer() {
   return fxDom();
 }
-/** Every effect element the ninja has put on the fx layer, so leaving the screen can clear what is still in flight. */
+/** Every effect element the ninja has put on the fx layer, so leaving the screen can clear what is still in flight. An
+ *  effect leaves it as it removes itself (drop). */
 const owned = new Set<HTMLElement>();
 function node(cls: string, w: number, h: number, html = ""): HTMLDivElement {
   const d = document.createElement("div");
   d.className = cls;
   d.style.width = `${w}px`;
   d.style.height = `${h}px`;
+  // not a layer of its own until it moves: fly() promotes what it moves frame by frame; a Web Animation promotes itself
+  d.style.willChange = "auto";
   d.innerHTML = html;
   layer()?.appendChild(d);
   if (owned.size > 120) owned.forEach((e) => !e.isConnected && owned.delete(e));
   owned.add(d);
   return d;
+}
+/** An effect removes itself. */
+function drop(el: HTMLElement) {
+  el.remove();
+  owned.delete(el);
 }
 function animate(el: Element, frames: Keyframe[], ms: number, o: KeyframeAnimationOptions = {}) {
   const a = el.animate(frames, { duration: ms, fill: "forwards", ...o });
@@ -284,7 +292,7 @@ function fly(
     const end = () => {
       if (finished) return;
       finished = true;
-      if (!o.keep) el.remove();
+      if (!o.keep) drop(el);
       resolve();
     };
     const guard = window.setTimeout(end, ms * slow + 400);
@@ -307,6 +315,7 @@ function fly(
         end();
       } else requestAnimationFrame(frame);
     };
+    el.style.willChange = "transform"; // moved every frame: its own compositor layer
     place(el, a, w, h, "scale(0.2)");
     requestAnimationFrame(frame);
   });
@@ -345,13 +354,13 @@ function pow(p: Pt, tier: Tier, size = 190) {
     ],
     300,
     { easing: "ease-out" },
-  ).finished.then(() => el.remove());
+  ).finished.then(() => drop(el));
 }
 function flash(alpha = 0.35, color = "255,250,230", at?: Pt) {
   const el = node("fx-flash", 1280, 720);
   const c = at ?? { x: 640, y: 360 };
   el.style.background = `radial-gradient(circle at ${c.x}px ${c.y}px, rgba(${color},${Math.min(1, alpha * 2)}) 0, rgba(${color},${alpha}) 260px, rgba(${color},${alpha * 0.35}) 700px)`;
-  animate(el, [{ opacity: 1 }, { opacity: 0 }], 260, { easing: "ease-out" }).finished.then(() => el.remove());
+  animate(el, [{ opacity: 1 }, { opacity: 0 }], 260, { easing: "ease-out" }).finished.then(() => drop(el));
 }
 /** Squash-and-flash whatever got hit. */
 function reactTo(el: Element, tier: Tier) {
@@ -449,7 +458,7 @@ function ribbon(c: Pt, r: number, from: number, sweep: number, tier: Tier, ms: n
   );
   place(el, c, size, size, `scale(1, ${1 - squash})`);
   el.querySelectorAll("path").forEach((p) => animate(p, [{ strokeDashoffset: len }, { strokeDashoffset: 0 }], ms, { easing: "ease-out" }));
-  animate(el, [{ opacity: 1 }, { opacity: 1, offset: 0.7 }, { opacity: 0 }], ms * 1.5).finished.then(() => el.remove());
+  animate(el, [{ opacity: 1 }, { opacity: 1, offset: 0.7 }, { opacity: 0 }], ms * 1.5).finished.then(() => drop(el));
 }
 /** Afterimages: coloured silhouettes of the ninja left behind in fast moves (tier 2 and up). */
 function ghost(tier: Tier) {
@@ -558,7 +567,7 @@ const kick: MoveFn = (t, tier, target, o) => {
     fx.lines(from.x, from.y, 7, "#fff4dc", 46);
     return fly(w, from, t, distMs(from, t, 2100), {
       arc: 20, via: o.via, orient: true, ease: (x) => 1 - Math.pow(1 - x, 1.6), scale: (x) => 0.7 + x * 0.5,
-      onFrame: (p) => fx.glow(p.x, p.y, COLS[tier], 1, 40, 0.6, 16),
+      onFrame: fx.trail(COLS[tier], { every: 32, size: 40, drift: 0.6, life: 16 }),
     }).then(() => impact(run, t, flying ? "boom" : "hit", tier, target, o));
   });
   return { hit, run };
@@ -591,7 +600,7 @@ const punch: MoveFn = (t, tier, target, o) => {
       const c = comet(tier, 150 + tier * 20);
       return fly(c, from, t, distMs(from, t, 2600, 170, 420), {
         arc: 10 + Math.random() * 20, via: o.via, orient: true, scale: (x) => 0.8 + x * 0.35,
-        onFrame: (p) => fx.glow(p.x, p.y, COLS[tier], 1, 30, 0.5, 12),
+        onFrame: fx.trail(COLS[tier], { every: 38, size: 30, drift: 0.5, life: 12 }),
       }).then(() => (final ? impact(run, t, "hit", tier, target, o) : minor(run, t, tier, o, true)));
     });
   const first = shot(140, 74, jabs === 1);
@@ -621,9 +630,10 @@ const throwMove: MoveFn = (t, tier, target, o) => {
         S.shuriken();
         const s = shuriken(72 + tier * 8);
         const arcs = [70, 150, -10];
+        const trail = fx.trail(COLS[tier], { every: 28, size: 26, drift: 0.4, life: 12 });
         return fly(s, from, { x: t.x + (i - (n - 1) / 2) * 14, y: t.y + (i - (n - 1) / 2) * 10 }, distMs(from, t, 1900, 220, 480), {
           arc: arcs[i] ?? 60, via: i === n - 1 && o.via ? o.via : undefined, spin: 1080, scale: (x) => 0.8 + x * 0.3,
-          onFrame: (p, x) => x > 0.05 && fx.glow(p.x, p.y, COLS[tier], 1, 26, 0.4, 12),
+          onFrame: (p, x) => x > 0.05 && trail(p),
         }).then(() => (i === n - 1 ? impact(run, t, "tink", tier, target, o) : minor(run, t, tier, o)));
       }),
     );
@@ -663,24 +673,27 @@ const cast: MoveFn = (t, tier, target, o) => {
     ob.style.zIndex = "1";
     S.magic();
     fx.ring(from.x, from.y, { color: ringCol(tier), r0: 10, r1: 90, width: 10, life: 14 });
-    // big spells bring two little moons circling the orb
+    // big spells bring two little moons circling the orb (moved every frame: their own layers)
     const moons = big ? [orb(tier, size * 0.34), orb(tier, size * 0.34)] : [];
+    moons.forEach((m) => (m.style.willChange = "transform"));
     const ms = distMs(from, t, 1500, 320, 580);
+    const trail = fx.trail(COLS[tier], { every: 22, n: 2, size: 44 + tier * 6, drift: 1.4, life: 22 });
+    const moonTrails = moons.map(() => fx.trail(COLS[tier], { every: 45, size: 20, drift: 0.2, life: 10 }));
     return fly(ob, from, t, ms, {
       arc: 110, via: o.via, ease: (x) => x * x * (3 - 2 * x) * 0.4 + x * 0.6, scale: (x) => (held + (1 - held) * Math.min(1, x * 5)) * (1 + Math.sin(x * Math.PI * 6) * 0.06),
       onFrame: (p, x) => {
-        fx.glow(p.x, p.y, COLS[tier], 2, 44 + tier * 6, 1.4, 22);
+        trail(p);
         moons.forEach((m, i) => {
           const a = x * Math.PI * 5 + i * Math.PI;
           const r = size * 0.72;
           const q = { x: p.x + Math.cos(a) * r, y: p.y + Math.sin(a) * r * 0.55 };
           place(m, q, size * 0.34, size * 0.34, `scale(${0.8 + 0.3 * Math.sin(a)})`);
           m.style.zIndex = Math.sin(a) > 0 ? "2" : "0";
-          fx.glow(q.x, q.y, COLS[tier], 1, 20, 0.2, 10);
+          moonTrails[i](q);
         });
       },
     }).then(() => {
-      moons.forEach((m) => m.remove());
+      moons.forEach(drop);
       impact(run, t, big ? "boom" : "magic", tier, target, o);
     });
   });
@@ -719,7 +732,7 @@ const spin: MoveFn = (t, tier, target, o) => {
     const w2 = wave(tier, 90 + tier * 16);
     const d = distMs(from, t, 2000);
     void fly(w2, from, t, d * 1.08, { arc: -30, via: o.via && { x: o.via.x, y: o.via.y + 40 }, orient: true, spin: 0, scale: (x) => 0.6 + x * 0.4 });
-    return fly(w, from, t, d, { arc: 40, via: o.via, orient: true, scale: (x) => 0.7 + x * 0.5, onFrame: (p) => fx.glow(p.x, p.y, COLS[tier], 1, 36, 0.6, 14) }).then(() =>
+    return fly(w, from, t, d, { arc: 40, via: o.via, orient: true, scale: (x) => 0.7 + x * 0.5, onFrame: fx.trail(COLS[tier], { every: 30, size: 36, drift: 0.6, life: 14 }) }).then(() =>
       impact(run, t, "hit", tier, target, o),
     );
   });
@@ -751,7 +764,7 @@ const jump: MoveFn = (t, tier, target, o) => {
     const s = starShot(90 + tier * 14);
     return fly(s, from, t, distMs(from, t, 2000, 220, 460), {
       arc: -20, via: o.via, spin: 540, scale: (x) => 0.7 + x * 0.5,
-      onFrame: (p) => (fx.glow(p.x, p.y, COLS[tier], 1, 34, 0.5, 18), Math.random() < 0.35 && fx.twinkle(p.x, p.y, COLS[tier], 1, 1.5, 18)),
+      onFrame: fx.trail(COLS[tier], { every: 30, size: 34, drift: 0.5, life: 18, also: (x, y) => void (Math.random() < 0.35 && fx.twinkle(x, y, COLS[tier], 1, 1.5, 18)) }),
     }).then(() => impact(run, t, "star", tier, target, o));
   });
   return { hit, run };
@@ -789,7 +802,7 @@ const flip: MoveFn = (t, tier, target, o) => {
         const s = starShot(62 + tier * 10);
         S.shuriken();
         return fly(s, from, { x: t.x + (i - (n - 1) / 2) * 18, y: t.y + (i - (n - 1) / 2) * 12 }, distMs(from, t, 2100, 200, 440), {
-          arc: 40 + i * 50, via: o.via && { x: o.via.x + (i - (n - 1) / 2) * 30, y: o.via.y - i * 20 }, spin: 720, onFrame: (p) => fx.glow(p.x, p.y, COLS[tier], 1, 26, 0.4, 14),
+          arc: 40 + i * 50, via: o.via && { x: o.via.x + (i - (n - 1) / 2) * 30, y: o.via.y - i * 20 }, spin: 720, onFrame: fx.trail(COLS[tier], { every: 32, size: 26, drift: 0.4, life: 14 }),
         }).then(() => (i === n - 1 ? impact(run, t, "star", tier, target, o) : minor(run, t, tier, o)));
       }),
     );
@@ -1124,10 +1137,11 @@ export const ninja = {
     const toR = to instanceof Element ? stageRect(to) : null;
     const endScale = toR && toR.w ? Math.min(1.4, Math.max(0.5, toR.w / a.w)) : 1;
     await wait(120);
-    if (run.dead) return void clone.remove();
+    if (run.dead) return void drop(clone);
+    const trail = fx.trail(COLS[tier], { every: 20, size: 36, drift: 1, life: 14 });
     await fly(clone, src, dst, distMs(src, dst, 1300, 280, 520), {
       arc: opts.arc ?? 120, ease: (x) => x * x * (3 - 2 * x), scale: (x) => 1 + Math.sin(x * Math.PI) * 0.22 + (endScale - 1) * x,
-      onFrame: (p, x) => x < 0.9 && fx.glow(p.x, p.y, COLS[tier], 1, 36, 1, 14),
+      onFrame: (p, x) => x < 0.9 && trail(p),
     });
     if (run.dead) return;
     if (opts.burst ?? true) {
@@ -1221,6 +1235,56 @@ const FLAME_COLS: Record<Tier, string[][]> = {
   3: [["#ff3b3b", "#ffb02e", "#fff8e0"], ["#ff8a1a", "#ffe23a", "#fffbe8"], ["#3fbf3f", "#ffe23a", "#fffbe8"], ["#2f8fff", "#ffd23d", "#fffbe8"], ["#9b5cf0", "#ffb02e", "#fff8e0"]],
 };
 const PALE = ["#fff4dc", "#fffaf0", "#ffffff"];
+
+// ---------------------------------------------------------------- the aura's loops
+// The loops with many elements out of step (ten flames flickering, fourteen sparks, the orbit's dots) are Web Animations,
+// not CSS animations (docs/PERF.md): a browser may wake the main thread at every iteration of an endless CSS animation,
+// for its animationiteration event (Chrome does, measured: forty loops out of step kept it busy every frame; ui.tsx
+// stops that in Chrome, but WebKit wasn't measured). A Web Animation of transform and opacity has no such event and
+// runs on the compositor alone, in any engine. Their look is the old CSS keyframes'.
+/** Start an endless loop on `el`; returns its canceller. `delay` as CSS animation-delay (ms; negative starts mid-way). */
+function loop(el: Element | null, frames: Keyframe[], o: { duration: number; delay?: number; alternate?: boolean }): () => void {
+  if (!el || typeof el.animate !== "function") return () => {};
+  const a = el.animate(frames, { duration: o.duration, delay: o.delay ?? 0, iterations: Infinity, direction: o.alternate ? "alternate" : "normal" });
+  if (FAST > 1) a.playbackRate = FAST;
+  return () => a.cancel();
+}
+/** A lit flame's flicker (0.46 s each way), and a pale flame's breathing (0.7 s each way). */
+const FLICKER: Keyframe[] = [
+  { scale: "0.94 1.05", rotate: "-5deg", easing: "ease-in-out" },
+  { scale: "1.06 0.94", rotate: "5deg" },
+];
+const PEND: Keyframe[] = [
+  { scale: "0.86", opacity: 0.6, easing: "ease-in-out" },
+  { scale: "1", opacity: 0.95 },
+];
+/** A spark rising the ninja's height and a tenth, turning half round (2.4 s). */
+const RISE = (nj: number): Keyframe[] => [
+  { offset: 0, translate: "0px 0px", opacity: 0, rotate: "0deg" },
+  { offset: 0.15, opacity: 1 },
+  { offset: 0.8, opacity: 1 },
+  { offset: 1, translate: `0px ${-1.1 * nj}px`, opacity: 0, rotate: "180deg" },
+];
+/** An orbit dot's lap round the waist (2.4 s): an ellipse 0.66 × 0.15 of the ninja's size, bigger and brighter near. */
+const ORBIT_KEYS = [
+  [-0.66, 0, 1, 0.72], [-0.61, 0.057, 1.13, 0.83], [-0.467, 0.106, 1.25, 0.92], [-0.253, 0.139, 1.32, 0.98], [0, 0.15, 1.35, 1],
+  [0.253, 0.139, 1.32, 0.98], [0.467, 0.106, 1.25, 0.92], [0.61, 0.057, 1.13, 0.83], [0.66, 0, 1, 0.72], [0.61, -0.057, 0.87, 0.61],
+  [0.467, -0.106, 0.75, 0.52], [0.253, -0.139, 0.68, 0.46], [0, -0.15, 0.65, 0.44], [-0.253, -0.139, 0.68, 0.46], [-0.467, -0.106, 0.75, 0.52],
+  [-0.61, -0.057, 0.87, 0.61], [-0.66, 0, 1, 0.72],
+] as const;
+const ORBIT = (nj: number): Keyframe[] => ORBIT_KEYS.map(([x, y, sc, op], k) => ({ offset: k / 16, translate: `${x * nj}px ${y * nj}px`, scale: `${sc}`, opacity: op }));
+const ORBIT_MS = 2400;
+function Spark({ l, d, s, nj }: { l: number; d: number; s: number; nj: number }) {
+  const ref = useRef<HTMLElement>(null);
+  useLayoutEffect(() => loop(ref.current, RISE(nj), { duration: 2400, delay: d * 1000 }), [nj, d]);
+  return <i ref={ref} style={{ left: `${l}%`, scale: `${s}` }} />;
+}
+function OrbitDot({ i, n, nj }: { i: number; n: number; nj: number }) {
+  const ref = useRef<HTMLElement>(null);
+  useLayoutEffect(() => loop(ref.current, ORBIT(nj), { duration: ORBIT_MS, delay: (-i * ORBIT_MS) / n }), [i, n, nj]);
+  return <i ref={ref} />;
+}
+
 function Flame({ i, tier, n, pale }: { i: number; tier: Tier; n: number; pale?: boolean }) {
   const set = FLAME_COLS[tier];
   const [outer, mid, core] = pale ? PALE : set[i % set.length];
@@ -1229,29 +1293,37 @@ function Flame({ i, tier, n, pale }: { i: number; tier: Tier; n: number; pale?: 
   const x = (i - (n - 1) / 2) * gap;
   const half = Math.max(1, ((n - 1) / 2) * gap);
   const y = -10 * (1 - (x / half) ** 2);
+  // the flicker moves this HTML wrapper on the compositor (the svg and its glow are drawn once), each flame out of step
+  const flick = useRef<HTMLElement>(null);
+  const d = Math.round(((i * 0.17) % 0.46) * 100) * 10; // ms, as the old CSS delay (to 0.01 s)
+  useLayoutEffect(() => loop(flick.current, pale ? PEND : FLICKER, pale ? { duration: 700, alternate: true } : { duration: 460, delay: d, alternate: true }), [pale, d]);
   return (
-    <span className={`nj-flame ${pale ? "pale" : ""}`} style={{ "--x": `${x}px`, "--y": `${y}px`, "--d": `${((i * 0.17) % 0.46).toFixed(2)}s` } as CSSProperties}>
-      <svg viewBox="0 0 40 54">
-        <path d={FLAME_PATH} fill={outer} stroke="#2b1d14" strokeWidth="3.5" strokeLinejoin="round" />
-        {!pale && <path d="M20 12 C24 20 31 26 31 36 C31 44 26 49 20 49 C14 49 9 44 9 37 C9 31 13 27 15 22 C16 27 18 29 20 29 C19 23 18 17 20 12 Z" fill={mid} />}
-        <path d="M20 26 C23 31 26 35 26 40 C26 44 23 47 20 47 C17 47 14 44 14 40 C14 35 18 31 20 26 Z" fill={core} opacity={pale ? 0.8 : 1} />
-      </svg>
+    <span className={`nj-flame ${pale ? "pale" : ""}`} style={{ "--x": `${x}px`, "--y": `${y}px` } as CSSProperties}>
+      <i ref={flick} className="nj-flick">
+        <svg viewBox="0 0 40 54">
+          <path d={FLAME_PATH} fill={outer} stroke="#2b1d14" strokeWidth="3.5" strokeLinejoin="round" />
+          {!pale && <path d="M20 12 C24 20 31 26 31 36 C31 44 26 49 20 49 C14 49 9 44 9 37 C9 31 13 27 15 22 C16 27 18 29 20 29 C19 23 18 17 20 12 Z" fill={mid} />}
+          <path d="M20 26 C23 31 26 35 26 40 C26 44 23 47 20 47 C17 47 14 44 14 40 C14 35 18 31 20 26 Z" fill={core} opacity={pale ? 0.8 : 1} />
+        </svg>
+      </i>
     </span>
   );
 }
 function Flames({ n, tier, pending = 0 }: { n: number; tier: Tier; pending?: number }) {
-  const [puff, setPuff] = useState(0);
-  const prev = useRef(n);
+  // A streak lost: the flames puff out (nj-puff, 0.6 s, which ends at opacity 0) and go at 0.58 s (0.4 % left), so their
+  // flicker loops never run on unseen. Worked out in the render that loses the streak (as NinjaSpot's tier fade), so the
+  // flames there are the same elements, still flickering, rather than gone for a frame and mounted again.
+  const [st, setSt] = useState({ n, puff: 0 });
+  let puff = st.puff;
+  if (st.n !== n) {
+    puff = n === 0 && st.n > 0 ? st.n : 0;
+    setSt({ n, puff });
+  }
   useEffect(() => {
-    const p = prev.current;
-    prev.current = n;
-    if (n === 0 && p > 0) {
-      setPuff(p);
-      const t = setTimeout(() => setPuff(0), 700);
-      return () => clearTimeout(t);
-    }
-    setPuff(0);
-  }, [n]);
+    if (!st.puff) return;
+    const t = setTimeout(() => setSt((s) => (s === st ? { n: s.n, puff: 0 } : s)), 580);
+    return () => clearTimeout(t);
+  }, [st]);
   const lit = Math.min(10, n || puff);
   const count = Math.min(10, lit + (puff ? 0 : Math.max(0, pending)));
   if (!count) return null;
@@ -1360,12 +1432,34 @@ export function NinjaSpot({ size = 250, x = 40, bottom = 18, pose = "idle", noFl
     return () => clearTimeout(t);
   }, []);
 
+  // The aura's decorations exist only at the tiers that show them (docs/PERF.md fix 3): the sparks from tier 1, the orbit
+  // at tier 3, the rays turn while an aura is on. When the tier drops they stay 0.48 s, still moving while the tier's CSS
+  // fades them out (0.5 s; the rays 0.6 s), and go just before the fade reaches nothing (0.1 % left; the rays stop turning
+  // at 2 %): none of their endless loops runs on at opacity 0.
+  // The tier they fade from is worked out during the render that drops the tier (React's "state from the previous
+  // render"), not in an effect after it: that render must keep them, or they unmount at once and come back as new
+  // elements that can't fade out (they did in perf round 1: the sparks and orbit vanished, and their loops ran on unseen).
+  const [fade, setFade] = useState<{ tier: Tier; from: Tier }>({ tier, from: 0 });
+  let fading = fade.from;
+  if (fade.tier !== tier) {
+    fading = tier < fade.tier ? fade.tier : 0; // a drop fades the tier it left; a rise ends any fade
+    setFade({ tier, from: fading });
+  }
+  useEffect(() => {
+    if (!fade.from) return;
+    const t = window.setTimeout(() => setFade((f) => (f === fade ? { tier: f.tier, from: 0 } : f)), 480);
+    return () => clearTimeout(t);
+  }, [fade]);
+  const shown = Math.max(tier, fading);
   const sparks = useMemo(() => Array.from({ length: 14 }, (_, i) => ({ l: 8 + Math.random() * 84, d: -Math.random() * 2.4, s: 0.6 + Math.random() * 0.7, i })), []);
   const orbit = useMemo(() => Array.from({ length: 9 }, (_, i) => i), []);
+  const dots = orbit.map((i) => <OrbitDot key={i} i={i} n={orbit.length} nj={size} />);
+  // sparks: 7 at tier 1, 11 at tier 2, 14 at tier 3 (only those shown exist, so none loops unseen)
+  const sparkN = shown >= 3 ? 14 : shown === 2 ? 11 : 7;
   return (
     <div
       ref={root}
-      className={`ninja-spot tier-${tier} ${baron ? "on-guard" : ""} ${className}`}
+      className={`ninja-spot tier-${tier} ${shown >= 1 ? "aura-on" : ""} ${baron ? "on-guard" : ""} ${className}`}
       data-hero={hero}
       style={{ left: x, bottom, width: size, height: size * 1.45, zIndex: z, "--nj": `${size}px`, ...style } as CSSProperties}
       aria-hidden="true"
@@ -1379,16 +1473,16 @@ export function NinjaSpot({ size = 250, x = 40, bottom = 18, pose = "idle", noFl
           <div ref={rim} className="nj-rim" />
           <img ref={im} className="nj-img" alt="" draggable={false} />
         </div>
-        <div className="nj-sparks">
-          {sparks.map((s) => (
-            <i key={s.i} style={{ left: `${s.l}%`, animationDelay: `${s.d}s`, scale: `${s.s}` }} />
-          ))}
-        </div>
-        <div className="nj-orbit">
-          {orbit.map((i) => (
-            <i key={i} style={{ animationDelay: `${(-i * 2.4) / orbit.length}s` }} />
-          ))}
-        </div>
+        {shown >= 1 && (
+          <div className="nj-sparks">
+            {sparks.slice(0, sparkN).map((s) => (
+              <Spark key={s.i} l={s.l} d={s.d} s={s.s} nj={size} />
+            ))}
+          </div>
+        )}
+        {/* the ring twice: behind the ninja clipped to the orbit's far half, in front clipped to its near half */}
+        {shown >= 3 && <div className="nj-orbit back">{dots}</div>}
+        {shown >= 3 && <div className="nj-orbit front">{dots}</div>}
         {!noFlames && <Flames n={n} tier={tier} pending={pending} />}
       </div>
     </div>

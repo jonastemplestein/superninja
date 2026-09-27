@@ -1,7 +1,7 @@
 // Web Audio engine: speech clips (queued, cancellable, with captions), looping music with ducking,
 // and synthesised sound effects. Everything is decoded into AudioBuffers for instant, gapless playback.
 import { LINES } from "../content/lines";
-import { attachLipsync, setSpeaker } from "./lipsync";
+import { attachLipsync, setSpeaker, speechStarted } from "./lipsync";
 import { FAST } from "./fast";
 import { PHONEMES, type PhonemeId, type Seg } from "../content/phonics";
 import { STRETCHED, HELD_ONSET } from "../content/stretch";
@@ -73,31 +73,61 @@ export function setMusicVolume(v: number) {
 }
 
 // ---------- clip loading
+// Decoded clips are float32 PCM, about 27× their download (0.5 MB for a speech clip), so they are kept up to a byte
+// budget, least recently used out first (docs/PERF.md fix 5). A clip that is playing keeps its buffer through its
+// source node; one that was dropped comes back from the HTTP cache and decodes in a few ms.
 const buffers = new Map<string, Promise<AudioBuffer | null>>();
 const bufferUrl = new WeakMap<AudioBuffer, string>();
-/** Recording hook (landing-page clips): when window.__audioLog exists, log every clip played. */
-const logAudio = (url: string, kind: "speech" | "music" | "sfx") => {
+/** The decoded-audio budget in bytes (about 130 speech clips). */
+export const DECODED_BUDGET = 40 * 1048576;
+const decodedLru = new Map<string, number>(); // url → bytes, least recently used first
+let decodedTotal = 0;
+function remember(url: string, b: AudioBuffer) {
+  const bytes = b.length * b.numberOfChannels * 4;
+  decodedTotal += bytes - (decodedLru.get(url) ?? 0);
+  decodedLru.delete(url);
+  decodedLru.set(url, bytes);
+  for (const [u, n] of decodedLru) {
+    if (decodedTotal <= DECODED_BUDGET || u === url) break;
+    decodedLru.delete(u);
+    buffers.delete(u);
+    decodedTotal -= n;
+  }
+}
+/** Recording hook (landing-page clips): when window.__audioLog exists, log every clip played (`extra`: a sound clip's
+ *  job and how long its cue waited, §3.1). */
+const logAudio = (url: string, kind: "speech" | "music" | "sfx", extra?: Record<string, unknown>) => {
   const log = (window as any).__audioLog as any[] | undefined;
-  if (log) log.push({ t: Date.now(), url, kind });
+  if (log) log.push({ t: Date.now(), url, kind, ...extra });
 };
 export function load(url: string): Promise<AudioBuffer | null> {
   let p = buffers.get(url);
-  if (!p) {
-    p = fetch(url)
-      .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(url))))
-      .then((ab) => audioCtx().decodeAudioData(ab))
-      .then((b) => {
-        bufferUrl.set(b, url);
-        return b;
-      })
-      .catch((e) => {
-        console.warn("audio load failed", url, e);
-        return null;
-      });
-    buffers.set(url, p);
+  if (p) {
+    const n = decodedLru.get(url);
+    if (n != null) {
+      decodedLru.delete(url); // recently used: to the back of the queue
+      decodedLru.set(url, n);
+    }
+    return p;
   }
+  const mine: Promise<AudioBuffer | null> = fetch(url)
+    .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(url))))
+    .then((ab) => audioCtx().decodeAudioData(ab))
+    .then((b) => {
+      bufferUrl.set(b, url);
+      if (buffers.get(url) === mine) remember(url, b);
+      return b;
+    })
+    .catch((e) => {
+      console.warn("audio load failed", url, e);
+      return null;
+    });
+  p = mine;
+  buffers.set(url, p);
   return p;
 }
+/** Decoded audio kept right now (for tests and the soak): clips and bytes. */
+export const decodedStats = () => ({ clips: decodedLru.size, bytes: decodedTotal });
 
 const fid = (w: string) => w.toLowerCase().replace(/[^a-z0-9]/g, "_");
 export const urls = {
@@ -115,16 +145,39 @@ export function preload(list: string[]) {
 }
 
 // ---------- speech queue
+/**
+ * A pure sound's job on screen (docs/SOUND_DISPLAY.md §1, docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §3.1):
+ * "petal": the child should see the sound's petal as it plays (one already on screen swells, or one pops up);
+ * "tile": a letter tile is saying its sound (a blend, a tile's voice): no petal;
+ * "hidden": the sound is the question (the child must find it): no petal until it's answered.
+ */
+export type SoundShow = "petal" | "tile" | "hidden";
+/** Where a popped petal should stand: an element, or a getter evaluated as the clip is cued. */
+export type SoundAt = Element | null | (() => Element | null);
 export type Say =
   | { line: string }
   | { word: string }
   | { stretch: string }
   /** a word with its first sound held ("sssun"): public/a/o/, else the stretched word, else the word */
   | { onset: string }
-  | { sound: PhonemeId }
+  /** `show`: the sound's job (unset: DEFAULT_SHOW); `at`: where a "petal" pop stands */
+  | { sound: PhonemeId; show?: SoundShow; at?: SoundAt }
   | { story: string; page: string; caption?: string }
   | { gap: number }
-  | { sounds: Seg[]; gap?: number; onSeg?: (i: number) => void };
+  /** a blend's sounds, one by one; `show` (default "tile") is every sound's job */
+  | { sounds: Seg[]; gap?: number; onSeg?: (i: number) => void; show?: "tile" | "hidden" };
+/** A sound clip's job and anchor, as onClip and onSoundCue hear them (`at` already evaluated). */
+export interface ClipInfo {
+  show?: SoundShow;
+  at?: Element | null;
+}
+/** Dec3: the job of a lone { sound } with no `show`. Undefined ("unclassified": no pop, and the sweep reports it) until
+ *  integration makes it "petal" (plan I.1). */
+export let DEFAULT_SHOW: SoundShow | undefined = undefined;
+/** Integration and tests only (plan I.1). */
+export function setDefaultShow(s: SoundShow | undefined) {
+  DEFAULT_SHOW = s;
+}
 
 type Caption = { text: string; who: "sensei" | "baron" } | null;
 type CaptionListener = (c: Caption) => void;
@@ -137,13 +190,52 @@ export function onCaption(fn: CaptionListener) {
 /** A clip's id for onClip: a line's id, or "word:sun", "stretch:sun", "onset:sun", "sound:s", "story:s1_2". */
 export const clipId = (it: Say): string | null =>
   "line" in it ? it.line : "word" in it ? `word:${it.word}` : "stretch" in it ? `stretch:${it.stretch}` : "onset" in it ? `onset:${it.onset}` : "sound" in it ? `sound:${it.sound}` : "story" in it ? `story:${it.story}_${it.page}` : null;
-/** `start`/`end`: performance.now() ms when the clip starts and will end (real time: at ?fast=N it plays N× faster). */
-type ClipListener = (id: string, start: number, end: number) => void;
+/** `start`/`end`: performance.now() ms when the clip starts and will end (real time: at ?fast=N it plays N× faster).
+ *  `info`: a sound clip's job and anchor (sound clips only, §3.1). */
+type ClipListener = (id: string, start: number, end: number, info?: ClipInfo) => void;
 const clipListeners = new Set<ClipListener>();
 /** Hear every speech clip as it starts. Returns an unsubscribe function. */
 export function onClip(fn: ClipListener) {
   clipListeners.add(fn);
   return () => void clipListeners.delete(fn);
+}
+/** Called just before a sound clip whose job is "petal" plays. A listener that needs a moment (a pop rising) returns
+ *  the ms to wait (at most 250); the sequence waits for the largest. Returns an unsubscribe function. */
+type CueListener = (p: PhonemeId, info: ClipInfo) => number | void;
+const cueListeners = new Set<CueListener>();
+export function onSoundCue(fn: CueListener) {
+  cueListeners.add(fn);
+  return () => void cueListeners.delete(fn);
+}
+const CUE_MAX = 250;
+/** Ask the cue listeners about a "petal" sound; resolves with the ms waited. */
+async function cueSound(p: PhonemeId, info: ClipInfo): Promise<number> {
+  let ms = 0;
+  cueListeners.forEach((f) => {
+    try {
+      const w = f(p, info);
+      if (typeof w === "number" && w > ms) ms = w;
+    } catch (e) {
+      console.warn("sound cue failed", p, e);
+    }
+  });
+  ms = Math.min(CUE_MAX, Math.max(0, ms));
+  if (ms > 0) await sleep(ms);
+  return ms;
+}
+const anchorOf = (at: SoundAt | undefined): Element | null => {
+  try {
+    return (typeof at === "function" ? at() : at) ?? null;
+  } catch {
+    return null;
+  }
+};
+/** Is a say() sequence starting or ending (the speaking count crossing zero)? For a wait that should sleep rather than
+ *  poll (the Next arrow's idle nudge). Returns an unsubscribe function. */
+const speakingListeners = new Set<(on: boolean) => void>();
+export function onSpeaking(fn: (on: boolean) => void) {
+  speakingListeners.add(fn);
+  return () => void speakingListeners.delete(fn);
 }
 /** The next time clip `id` starts (subscribe BEFORE the say() that plays it); null if it hasn't started within `ms`. */
 export function nextClip(id: string, ms = 4000): Promise<{ start: number; end: number } | null> {
@@ -171,6 +263,8 @@ const emitCaption = (c: Caption) => {
 const lineById = new Map(LINES.map((l) => [l.id, l]));
 let speakToken = 0;
 let current: AudioBufferSourceNode | null = null;
+/** Tells the lip-sync loop that `current` is over (lipsync.ts speechStarted). */
+let currentOver: (() => void) | null = null;
 let speaking = 0;
 /** A target sound, a blend or a modelled word is playing: what the child must hear. */
 let teaching = 0;
@@ -188,31 +282,41 @@ function mix() {
   sfxBus.gain.setTargetAtTime(gate ? 0 : teaching > 0 ? SFX_GAIN * 0.15 : speaking > 0 ? SFX_GAIN * 0.5 : SFX_GAIN, t, 0.03);
 }
 function duck(on: boolean) {
+  const was = speaking > 0;
   speaking = Math.max(0, speaking + (on ? 1 : -1));
   mix();
+  if (was !== speaking > 0) speakingListeners.forEach((f) => f(speaking > 0));
 }
 function teach(on: boolean) {
   teaching = Math.max(0, teaching + (on ? 1 : -1));
   mix();
 }
 
-function playBuffer(buf: AudioBuffer, bus: GainNode, rate = 1): Promise<void> {
+function playBuffer(buf: AudioBuffer, bus: GainNode, rate = 1, meta?: Record<string, unknown>): Promise<void> {
   rate *= FAST;
   return new Promise((resolve) => {
     // if audio is suspended (no gesture yet, iOS interruption), never hang the game: time out instead
-    const guard = setTimeout(resolve, (buf.duration / rate) * 1000 * FAST + 250); // setTimeout is itself sped up by FAST
+    let over: (() => void) | null = null;
+    const done = () => {
+      clearTimeout(guard);
+      over?.();
+      resolve();
+    };
+    const guard = setTimeout(done, (buf.duration / rate) * 1000 * FAST + 250); // setTimeout is itself sped up by FAST
     const src = audioCtx().createBufferSource();
     src.buffer = buf;
     src.playbackRate.value = rate;
     src.connect(bus);
-    src.onended = () => {
-      clearTimeout(guard);
-      resolve();
-    };
+    src.onended = done;
     src.start();
-    if (bus === speechBus) current = src;
+    // the lip-sync analyser runs from the moment a speech clip starts until it ends (however long its pauses), then
+    // sleeps after half a second of silence
+    if (bus === speechBus) {
+      current = src;
+      over = currentOver = speechStarted();
+    }
     const u = bufferUrl.get(buf);
-    if (u) logAudio(u, "speech");
+    if (u) logAudio(u, "speech", meta);
   });
 }
 
@@ -226,6 +330,8 @@ export function hush() {
     current?.stop();
   } catch {}
   current = null;
+  currentOver?.(); // don't wait for onended (it never comes while the audio is suspended)
+  currentOver = null;
   emitCaption(null);
 }
 
@@ -250,20 +356,20 @@ export function pauseSpeech(on: boolean) {
 async function gated() {
   while (gate) await gate;
 }
-async function playGated(buf: AudioBuffer, token: number) {
+async function playGated(buf: AudioBuffer, token: number, meta?: Record<string, unknown>) {
   const before = gate;
-  await playBuffer(buf, speechBus);
+  await playBuffer(buf, speechBus, 1, meta);
   if (gate && !before) {
     await gated();
-    if (token === speakToken) await playBuffer(buf, speechBus);
+    if (token === speakToken) await playBuffer(buf, speechBus, 1, meta);
   }
 }
 
-function emitClip(id: string, buf: AudioBuffer) {
+function emitClip(id: string, buf: AudioBuffer, info?: ClipInfo) {
   if (!clipListeners.size) return;
   const start = performance.now();
   const end = start + (buf.duration * 1000) / FAST;
-  clipListeners.forEach((f) => f(id, start, end));
+  clipListeners.forEach((f) => f(id, start, end, info));
 }
 
 /** A line that must be heard in full (`protect`), e.g. the first streak's explanation, which the ninja says while the
@@ -356,16 +462,17 @@ async function sayNow(items: Say[] | Say, opts: { keep?: boolean; reveal?: boole
       if ("sounds" in it) {
         setSpeaker("sensei");
         const bufs = (await loaders[i]) as (AudioBuffer | null)[];
+        const show = it.show ?? "tile"; // a blend's sounds are its tiles' voices (§3.1)
         for (let k = 0; k < bufs.length; k++) {
           if (gate) await gated();
           if (token !== speakToken) return false;
           it.onSeg?.(k);
           const b = bufs[k];
           if (b) {
-            emitClip(`sound:${it.sounds[k].p}`, b);
+            emitClip(`sound:${it.sounds[k].p}`, b, { show });
             teach(true);
             try {
-              await playGated(b, token);
+              await playGated(b, token, { show, cued: 0 });
             } finally {
               teach(false);
             }
@@ -385,10 +492,20 @@ async function sayNow(items: Say[] | Say, opts: { keep?: boolean; reveal?: boole
       const target = "sound" in it || "word" in it || "stretch" in it || "onset" in it;
       if (buf) {
         const id = clipId(it);
-        if (id) emitClip(id, buf);
+        // a lone sound's job: its own, else DEFAULT_SHOW (unset until integration: "unclassified", no pop). A "petal"
+        // sound is cued first, so a petal can rise before it plays (onSoundCue, at most 250 ms)
+        let info: ClipInfo | undefined, meta: Record<string, unknown> | undefined;
+        if ("sound" in it) {
+          const show = it.show ?? DEFAULT_SHOW;
+          info = { show, at: show === "petal" ? anchorOf(it.at) : null };
+          const cued = show === "petal" ? await cueSound(it.sound, info) : 0;
+          if (token !== speakToken) return false;
+          meta = { show: show ?? "unclassified", cued };
+        }
+        if (id) emitClip(id, buf, info);
         if (target) teach(true);
         try {
-          await playGated(buf, token);
+          await playGated(buf, token, meta);
         } finally {
           if (target) teach(false);
         }
@@ -403,53 +520,70 @@ async function sayNow(items: Say[] | Say, opts: { keep?: boolean; reveal?: boole
 
 /** "c... a... t... cat!" */
 export function sayBlend(segs: Seg[], word: string, onSeg?: (i: number) => void) {
-  return say([{ sounds: segs, onSeg, gap: 260 }, { gap: 150 }, { word }]);
+  return say([{ sounds: segs, onSeg, gap: 260, show: "tile" }, { gap: 150 }, { word }]);
 }
 
 export const soundLabel = (p: PhonemeId) => PHONEMES[p].label;
 
 // ---------- music: streamed <audio> elements routed through Web Audio (low memory on phones; gain works on iOS)
+// Two decks, made once and reused for every track: the new track fades in on one while the old one fades out on the
+// other. (A new element and MediaElementSource per change were never released: docs/PERF.md fix 6.)
+type Deck = { el: HTMLAudioElement; gain: GainNode; gen: number };
 let musicId: string | null = null;
-let musicEl: { el: HTMLAudioElement; gain: GainNode } | null = null;
+let musicEl: Deck | null = null;
+const decks: Deck[] = [];
+function makeDecks(c: AudioContext) {
+  for (let i = 0; i < 2; i++) {
+    const el = new Audio();
+    el.loop = true;
+    el.preload = "auto";
+    el.crossOrigin = "anonymous";
+    const gain = c.createGain();
+    gain.gain.value = 0;
+    try {
+      c.createMediaElementSource(el).connect(gain);
+    } catch {}
+    gain.connect(musicBus);
+    decks.push({ el, gain, gen: 0 });
+  }
+}
 export async function playMusic(id: string | null) {
   if (id === musicId) return;
   musicId = id;
   const c = audioCtx();
+  if (!decks.length) makeDecks(c);
   if (musicEl) {
     const old = musicEl;
+    const gen = ++old.gen;
+    old.gain.gain.cancelScheduledValues(c.currentTime);
     old.gain.gain.setTargetAtTime(0, c.currentTime, 0.35);
     setTimeout(() => {
+      if (old.gen !== gen || musicEl === old) return; // the deck has been given a track again meanwhile
       old.el.pause();
       old.el.removeAttribute("src");
       old.el.load();
-      old.gain.disconnect();
     }, 1800);
   }
+  const next = musicEl === decks[0] ? decks[1] : decks[0];
   musicEl = null;
   if (!id) return;
   logAudio(urls.music(id), "music");
-  const el = new Audio(urls.music(id));
   try {
     if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({ title: "Super Ninja", artist: "Sensei Maple", artwork: [{ src: "/icon-512.png", sizes: "512x512", type: "image/png" }] });
     }
   } catch {}
-  el.loop = true;
-  el.preload = "auto";
-  el.crossOrigin = "anonymous";
-  const gain = c.createGain();
-  gain.gain.value = 0;
+  next.gen++;
+  next.gain.gain.cancelScheduledValues(c.currentTime);
+  next.gain.gain.value = 0;
+  next.el.src = urls.music(id);
+  musicEl = next;
   try {
-    c.createMediaElementSource(el).connect(gain);
-  } catch {}
-  gain.connect(musicBus);
-  musicEl = { el, gain };
-  try {
-    await el.play();
+    await next.el.play();
   } catch {
     return;
   }
-  if (musicId === id) gain.gain.setTargetAtTime(1, c.currentTime, 0.6);
+  if (musicId === id && musicEl === next) next.gain.gain.setTargetAtTime(1, c.currentTime, 0.6);
 }
 
 // ---------- synthesised sfx

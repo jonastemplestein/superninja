@@ -82,6 +82,17 @@ const centre = (el: Element): Pt => {
   const r = stageRect(el);
   return { x: r.x + r.w / 2, y: r.y + r.h / 2 };
 };
+/** A trail's glows, at most 60 a second (docs/PERF.md fix 7): `drop` runs on a frame only if 1/60 s has passed since
+ *  the last one. On a 60 Hz screen that is every frame, exactly as before; a 120 Hz screen no longer lays twice as many. */
+function trailBy(drop: (p: Pt) => void) {
+  let last = -Infinity;
+  return (p: Pt) => {
+    const now = performance.now();
+    if (now - last < 15) return; // (15, not 16.7 ms: a 60 Hz frame that comes a little early still counts)
+    last = now;
+    drop(p);
+  };
+}
 /** Wait until cond() holds, or ms (game time) have passed. */
 async function until(cond: () => boolean, ms: number) {
   const t0 = performance.now();
@@ -104,6 +115,15 @@ function flyIn(el: HTMLElement, to: Pt, tier: Tier, style: "knock" | "spell", ms
   const end = Math.min(0.34, 120 / Math.max(1, r.w));
   el.style.animation = "none";
   if (spell) el.style.filter = `drop-shadow(0 0 10px ${COLS[tier][1]}) drop-shadow(0 0 26px ${COLS[tier][0]})`;
+  const glowTrail = trailBy((p) => {
+    if (spell) {
+      fx.glow(p.x, p.y, COLS[tier], 2, 46 + tier * 6, 1.2, 20);
+      if (Math.random() < 0.5) fx.twinkle(p.x, p.y, COLS[tier], 1, 2, 22);
+    } else {
+      fx.glow(p.x, p.y, COLS[tier], 1, 38 + tier * 6, 0.6, 16);
+      if (tier >= 1 && Math.random() < 0.4) fx.twinkle(p.x, p.y, COLS[tier], 1, 1.5, 20);
+    }
+  });
   return new Promise((resolve) => {
     const t0 = performance.now();
     let done = false;
@@ -132,14 +152,12 @@ function flyIn(el: HTMLElement, to: Pt, tier: Tier, style: "knock" | "spell", ms
           rot = Math.sin(k * Math.PI * 3) * 9 * (1 - k);
           s = 1.08 - (1.08 - end) * Math.pow(e, 1.4);
         }
-        fx.glow(p.x, p.y, COLS[tier], 2, 46 + tier * 6, 1.2, 20);
-        if (Math.random() < 0.5) fx.twinkle(p.x, p.y, COLS[tier], 1, 2, 22);
+        glowTrail(p);
       } else {
         p = bez(from, c, to, t);
         rot = dir * (t < 0.15 ? -14 * (t / 0.15) : -14 + 374 * Math.pow((t - 0.15) / 0.85, 1.3));
         s = 1 - (1 - end) * Math.pow(t, 1.5);
-        if (t > 0.04) fx.glow(p.x, p.y, COLS[tier], 1, 38 + tier * 6, 0.6, 16);
-        if (tier >= 1 && Math.random() < 0.4) fx.twinkle(p.x, p.y, COLS[tier], 1, 1.5, 20);
+        if (t > 0.04) glowTrail(p);
       }
       el.style.transform = `translate(${p.x - from.x}px, ${p.y - from.y}px) rotate(${rot}deg) scale(${s})`;
       if (t >= 1) {
@@ -159,6 +177,10 @@ function spark(layer: HTMLElement, a: Pt, to: () => Pt, cols: string[], ms: numb
   el.innerHTML = `<svg viewBox="0 0 40 40"><path d="M20 2 L24.5 15.5 L38 20 L24.5 24.5 L20 38 L15.5 24.5 L2 20 L15.5 15.5 Z" /></svg>`;
   layer.appendChild(el);
   fx.twinkle(a.x, a.y, cols, 5, 4, 18);
+  const glowTrail = trailBy((p) => {
+    fx.glow(p.x, p.y, cols, 2, 30, 0.6, 14);
+    if (Math.random() < 0.3) fx.twinkle(p.x, p.y, cols, 1, 1.5, 14);
+  });
   return new Promise((resolve) => {
     const t0 = performance.now();
     const frame = (now: number) => {
@@ -169,8 +191,7 @@ function spark(layer: HTMLElement, a: Pt, to: () => Pt, cols: string[], ms: numb
       const p = bez(a, c, b, e);
       el.style.translate = `${p.x}px ${p.y}px`;
       el.style.scale = `${1 - 0.35 * t}`;
-      if (t > 0.05) fx.glow(p.x, p.y, cols, 2, 30, 0.6, 14);
-      if (Math.random() < 0.3) fx.twinkle(p.x, p.y, cols, 1, 1.5, 14);
+      if (t > 0.05) glowTrail(p);
       if (t >= 1 || !layer.isConnected) {
         el.remove();
         resolve();
@@ -311,17 +332,27 @@ function startCharge(layer: HTMLElement | null, power: HTMLElement | null, hero:
   };
 }
 
-/** The chest's face, drawn over its painted eyes (item_chest.webp is 320×312): it blinks now and then, squeezes its
- *  eyes shut ("> <") as it shakes its head, and smiles with its eyes ("^ ^") when it gulps a word. */
-function ChestEyes({ mood }: { mood?: Mood }) {
+/** The chest's face, drawn over its painted eyes (item_chest.webp is 320×312): it blinks now and then (Sort's blink
+ *  timer adds "blink" for one short blink), squeezes its eyes shut ("> <") as it shakes its head, and smiles with its
+ *  eyes ("^ ^") when it gulps a word. */
+//  The lids (the ellipses at 175,198 r 22×21 and 242,191 r 20×22) and the lashes that show as they shut are HTML layers
+//  the compositor animates (sort.css); the faces are still SVG. (Animating the SVG shapes laid the page out every frame
+//  of a blink.)
+function ChestEyes({ mood, eyesRef }: { mood?: Mood; eyesRef?: (el: HTMLSpanElement | null) => void }) {
   return (
-    <svg className={`so-eyes ${mood ?? ""}`} viewBox="0 0 320 312" aria-hidden="true">
-      <ellipse className="lid" cx="175" cy="198" rx="22" ry="21" />
-      <ellipse className="lid" cx="242" cy="191" rx="20" ry="22" />
-      <path className="shut" d="M157 205 Q175 213 193 205 M226 198 Q242 206 258 198" />
-      <path className="yum" d="M157 207 Q175 180 193 207 M225 200 Q242 173 259 200" />
-      <path className="nope" d="M160 184 L190 198 L160 212 M257 177 L227 191 L257 205" />
-    </svg>
+    <span ref={eyesRef} className={`so-eyes ${mood ?? ""}`} aria-hidden="true">
+      <i className="lid l" />
+      <i className="lid r" />
+      <i className="lash">
+        <svg viewBox="0 0 320 312">
+          <path d="M157 205 Q175 213 193 205 M226 198 Q242 206 258 198" />
+        </svg>
+      </i>
+      <svg viewBox="0 0 320 312">
+        <path className="yum" d="M157 207 Q175 180 193 207 M225 200 Q242 173 259 200" />
+        <path className="nope" d="M160 184 L190 198 L160 212 M257 177 L227 191 L257 205" />
+      </svg>
+    </span>
   );
 }
 
@@ -359,6 +390,9 @@ export function Sort({ level, onDone }: LevelProps) {
   const busy = useRef(false);
   const frozen = useRef(false); // stop the fall while Sensei explains, and once the word is sorted
   const said = useRef(false); // the word has been said (it only starts falling then)
+  const fallSync = useRef<(() => void) | null>(null); // (the fall pauses or goes on at once when either changes)
+  const setFrozen = (v: boolean) => void ((frozen.current = v), fallSync.current?.());
+  const setSaid = () => void ((said.current = true), fallSync.current?.());
   const lineGate = useRef<Promise<void> | null>(null); // a streak line the next word waits for
   const wordGate = useRef<Promise<void> | null>(null); // (the same, for the word on screen)
   const helpQueued = useRef(false); // Help was pressed mid-move: help with the next word once it's said
@@ -368,6 +402,7 @@ export function Sort({ level, onDone }: LevelProps) {
   const phase = useRef<"charge" | "strike" | null>(null); // (for the bots and review films)
   const moodTimers = useRef<Record<string, number>>({});
   const chestRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const eyesRefs = useRef<Record<string, HTMLSpanElement | null>>({});
   const mouthRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const wordRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -449,6 +484,29 @@ export function Sort({ level, onDone }: LevelProps) {
     };
   }, []);
 
+  // The chests blink now and then: every 5.6 s each, the first ones staggered as before (1.4 s + 1.9 s a chest, then
+  // most of a cycle). Each blink is one short animation started here: an endless animation on an SVG shape is repainted
+  // on the main thread every frame, even while the eyes are open. (A face pulled meanwhile wins: see sort.css.)
+  useEffect(() => {
+    const ts = new Set<number>();
+    const after = (fn: () => void, ms: number) => {
+      const id = window.setTimeout(() => (ts.delete(id), fn()), ms);
+      ts.add(id);
+    };
+    spellings.forEach((g, k) => {
+      const blink = () => {
+        const el = eyesRefs.current[g];
+        if (el) {
+          el.classList.add("blink");
+          after(() => el.classList.remove("blink"), 320);
+        }
+        after(blink, 5600);
+      };
+      after(blink, 1400 + k * 1900 + 5342);
+    });
+    return () => ts.forEach(clearTimeout);
+  }, []);
+
   // new word: it pops in, Sensei says it (after any streak line the ninja is saying) and it starts falling (the fall
   // pauses while the phone is upright or Sensei is explaining, and stops once it's sorted)
   useEffect(() => {
@@ -466,7 +524,7 @@ export function Sort({ level, onDone }: LevelProps) {
     const sayIt = setTimeout(async () => {
       if (gate) await gate;
       if (!live || !alive.current || busy.current) return;
-      said.current = true;
+      setSaid();
       await say({ word: words[i].text });
       if (!live || !alive.current || busy.current || !helpQueued.current) return;
       helpQueued.current = false;
@@ -474,20 +532,31 @@ export function Sort({ level, onDone }: LevelProps) {
     }, 320);
     if (relaxed) return () => void ((live = false), clearTimeout(sayIt));
     const dur = 9000 - i * 500;
-    let t = 0, last = performance.now(), raf = 0;
-    const tick = (now: number) => {
-      const dt = Math.min(100, now - last) * FAST;
-      last = now;
-      if (!frozen.current && said.current && !isUpright()) t += dt;
-      const f = Math.min(1, t / dur);
-      if (wordRef.current) wordRef.current.style.top = `${TOP0 + f * FALL}px`;
-      if (f < 1) raf = requestAnimationFrame(tick);
+    // The word sinks on the compositor: a translate animation, paused until the word has been said, while Sensei
+    // explains and while the phone is upright (docs/PERF.md: moving it with style.top laid the page out every frame).
+    // (fast.ts speeds it up for bots, as the frame loop's FAST did.)
+    const fall = wordRef.current?.animate([{ translate: "-50% 0" }, { translate: `-50% ${FALL}px` }], { duration: dur, fill: "forwards" }) ?? null;
+    fall?.pause();
+    let held = true; // (only a pause of ours is lifted here)
+    const sync = () => {
+      if (!fall || fall.playState === "finished") return;
+      const go = !frozen.current && said.current && !isUpright();
+      if (go && held && fall.playState === "paused") {
+        fall.play();
+        held = false;
+      } else if (!go && fall.playState === "running") {
+        fall.pause();
+        held = true;
+      }
     };
-    raf = requestAnimationFrame(tick);
+    fallSync.current = sync;
+    // (the phone turned upright: checked a few times a second, not every frame)
+    const upright = window.setInterval(sync, 250);
     return () => {
       live = false;
       clearTimeout(sayIt);
-      cancelAnimationFrame(raf);
+      clearInterval(upright);
+      if (fallSync.current === sync) fallSync.current = null;
     };
   }, [i]);
 
@@ -596,8 +665,8 @@ export function Sort({ level, onDone }: LevelProps) {
 
   async function wrongChest(g: string, w: Word) {
     busy.current = true;
-    frozen.current = true;
-    said.current = true;
+    setFrozen(true);
+    setSaid();
     misses.current++;
     missedThis.current = true;
     hintUntil.current = i + 1;
@@ -622,7 +691,7 @@ export function Sort({ level, onDone }: LevelProps) {
     setLit(null);
     setNope(null);
     setResult(null);
-    frozen.current = false;
+    setFrozen(false);
     busy.current = false;
   }
 
@@ -632,8 +701,8 @@ export function Sort({ level, onDone }: LevelProps) {
     recordRead(w, right);
     if (!right) return wrongChest(g, w);
     busy.current = true;
-    frozen.current = true;
-    said.current = true;
+    setFrozen(true);
+    setSaid();
     setResult("right"); // the word turns green where it is
     sfx.good();
     hop(g);
@@ -741,10 +810,10 @@ export function Sort({ level, onDone }: LevelProps) {
     const on = () => alive.current && my === replayTok.current && !busy.current;
     const script = i === 0 ? intro.current : null;
     if (script) {
-      frozen.current = true;
+      setFrozen(true);
       const ok = await playIntro(script, on, false);
       if (my === replayTok.current && !busy.current) {
-        frozen.current = false;
+        setFrozen(false);
         setIntroLit(null);
       }
       if (!ok || !on()) return;
@@ -781,16 +850,6 @@ export function Sort({ level, onDone }: LevelProps) {
     <div className={`scene so-scene tier-${tier} n${spellings.length}`}>
       <img className="bg-img" src={img(`bg_${world.key}`)} alt="" />
       <div className="vignette" />
-      {/* the chests' eyelids (wood, darker under the brow); an SVG with display:none would drop the gradient */}
-      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
-        <defs>
-          <linearGradient id="so-lid" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#7e3a22" />
-            <stop offset="0.35" stopColor="#a15d36" />
-            <stop offset="1" stopColor="#b8703d" />
-          </linearGradient>
-        </defs>
-      </svg>
       <TopBar>
         <div className="spacer" />
         <Progress value={Math.max(0, i) / words.length} />
@@ -805,6 +864,14 @@ export function Sort({ level, onDone }: LevelProps) {
         <div key={w.text} ref={wordRef} className={`so-word ${gone ? "gone" : ""}`} style={{ top: TOP0 }}>
           <div className="drop-in">
             <div ref={panelRef} className={`so-panel ${result === "wrong" ? "no" : result === "right" ? "yes" : ""} ${lit !== null ? "blend" : ""}`}>
+              {/* the rainbow ring on a master streak (sort.css: shown at tier 3 only) */}
+              <span className="so-rb" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
               {w.pic && <img src={img(`pic_${w.text}`)} alt="" />}
               <span className="so-letters">
                 {w.segs.map((s, k) => {
@@ -842,7 +909,7 @@ export function Sort({ level, onDone }: LevelProps) {
                 })}
               </div>
               <img className="so-art front" src={img("item_chest")} alt="" draggable={false} />
-              <ChestEyes mood={moods[g]} />
+              <ChestEyes mood={moods[g]} eyesRef={(el) => void (eyesRefs.current[g] = el)} />
               <div ref={(el) => void (mouthRefs.current[g] = el)} className="so-mouth" />
               <div className="so-label">
                 <Tile g={g} state={result === "right" && w && spellingOf(w) === g ? "right" : nope === g ? "wrong" : (helpLvl >= 2 && w && spellingOf(w) === g) || introLit === g ? "hint" : ""} />

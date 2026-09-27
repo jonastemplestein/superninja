@@ -115,16 +115,29 @@ const ninjaHands = () => onNinja(0.93, 0.64);
 const lerp = (a: Pt, b: Pt, e: number): Pt => ({ x: a.x + (b.x - a.x) * e, y: a.y + (b.y - a.y) * e });
 /** A point on one of the ninja's ribbon swooshes (a circle squashed vertically, as Ninja.tsx draws them). */
 const onRibbon = (c: Pt, r: number, squash: number, deg: number): Pt => ({ x: c.x + r * Math.cos((deg * Math.PI) / 180), y: c.y + r * Math.sin((deg * Math.PI) / 180) * (1 - squash) });
+/** A trail's glows, at most 60 a second (docs/PERF.md fix 7): `drop` runs on a frame only if 1/60 s has passed since
+ *  the last one. On a 60 Hz screen that is every frame, exactly as before; a 120 Hz screen no longer lays twice as many. */
+function trailBy(drop: (p: Pt) => void) {
+  let last = -Infinity;
+  return (p: Pt) => {
+    const now = performance.now();
+    if (now - last < 15) return; // (15, not 16.7 ms: a 60 Hz frame that comes a little early still counts)
+    last = now;
+    drop(p);
+  };
+}
 /** Move an fx element (S px square) along a path, with an optional glowing trail. Resolves on arrival. */
 function glide(el: HTMLElement, S: number, path: (t: number) => Pt, ms: number, scale: (t: number) => number, trail?: string[], fade?: boolean): Promise<void> {
   const t0 = performance.now();
+  let t = 0;
+  const lay = trail && trailBy((p) => fx.glow(p.x, p.y, trail, 2, 30 + 20 * (1 - t), 0.5, 16));
   return new Promise((resolve) => {
     const frame = (now: number) => {
-      const t = Math.min(1, ((now - t0) * FAST) / ms);
+      t = Math.min(1, ((now - t0) * FAST) / ms);
       const p = path(t);
       el.style.transform = `translate(${p.x - S / 2}px, ${p.y - S / 2}px) scale(${scale(t)})`;
       if (fade) el.style.opacity = `${1 - t}`;
-      if (trail) fx.glow(p.x, p.y, trail, 2, 30 + 20 * (1 - t), 0.5, 16);
+      if (lay) lay(p);
       if (t < 1 && el.isConnected) requestAnimationFrame(frame);
       else resolve();
     };
@@ -152,6 +165,7 @@ function dot(a: Pt, b: Pt, ms: number, colors: string[]): Promise<void> {
   // drop out of the slot first, then swoop across to the hands (never across the other slots)
   const c = { x: a.x - (a.x - b.x) * 0.22, y: Math.max(a.y, b.y) + 30 };
   const t0 = performance.now();
+  const lay = trailBy((p) => fx.glow(p.x, p.y, colors, 2, 40, 0.6, 16));
   return new Promise((resolve) => {
     const frame = (now: number) => {
       const t = Math.min(1, ((now - t0) * FAST) / ms);
@@ -159,7 +173,7 @@ function dot(a: Pt, b: Pt, ms: number, colors: string[]): Promise<void> {
       const x = (1 - e) * (1 - e) * a.x + 2 * (1 - e) * e * c.x + e * e * b.x;
       const y = (1 - e) * (1 - e) * a.y + 2 * (1 - e) * e * c.y + e * e * b.y;
       el.style.transform = `translate(${x - S / 2}px, ${y - S / 2}px) rotate(${t * 400}deg) scale(${1.1 - t * 0.45})`;
-      fx.glow(x, y, colors, 2, 40, 0.6, 16);
+      lay({ x, y });
       if (t < 1 && el.isConnected) requestAnimationFrame(frame);
       else {
         el.remove();
@@ -235,6 +249,27 @@ function squash(el: Element | null | undefined, tier: Tier, big = false) {
   );
 }
 
+/** The cartoon "cross" mark by an angry head. Its throb (bt-vein) is on this HTML wrapper: an animation on the SVG itself
+ *  would be repainted on the main thread every frame. */
+function Vein() {
+  return (
+    <span className="bt-vein" aria-hidden="true">
+      <svg viewBox="0 0 100 100">
+        <g fill="none" strokeLinecap="round">
+          {[0, 1].map((k) => (
+            <g key={k} stroke={k ? "#ff4a36" : "#2b1d14"} strokeWidth={k ? 11 : 21}>
+              <path d="M38 8 Q40 36 10 38" />
+              <path d="M62 8 Q60 36 90 38" />
+              <path d="M38 92 Q40 64 10 62" />
+              <path d="M62 92 Q60 64 90 62" />
+            </g>
+          ))}
+        </g>
+      </svg>
+    </span>
+  );
+}
+
 export function Battle({ level, onDone, onQuit }: LevelProps) {
   useState(() => beginLevel(level)); // (during the first render)
   const boss = level.kind === "boss";
@@ -273,7 +308,8 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
   const [dead, setDead] = useState(false);
   const [ko, setKo] = useState(false); // knocked out: the health bar goes as the monster blasts off
   const [gemFlown, setGemFlown] = useState(false);
-  const [charge, setCharge] = useState(0);
+  const [hot, setHot] = useState(false); // the charge bar is over three quarters full
+  const [blasted, setBlasted] = useState(false); // the monster has blasted off out of sight: its endless effects stop
   const [filled, setFilled] = useState<string[]>([]);
   const [wrong, setWrong] = useState<string | null>(null);
   const [lit, setLit] = useState(-1);
@@ -296,7 +332,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
   const tierWait = useRef<Promise<void> | null>(null); // a tier-up still playing out (its line, its power-up)
   const tFinish = useRef(0); // when the child tapped a word's last sound (a word's drama is kept short after it)
   const lastDrama = useRef<"" | "grr" | "taunt">(""); // Baron Muddle's cut-in after the previous boss word
-  const [sky, setSky] = useState(0); // Baron Muddle, blasted off: 1 shaking his fist in the sky, 2 bonked away
+  const [sky, setSky] = useState(0); // Baron Muddle, blasted off: 1 shaking his fist in the sky, 2 bonked away, 3 gone
   const skyRef = useRef<HTMLDivElement>(null);
   const lastFinish = useRef("");
   const alive = useRef(true);
@@ -500,26 +536,66 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
   useNav({ again: () => hearWord(), againAt: "own" });
 
   // ---- charge timer (Gem Trials: the monster attacks when full). Waits while the phone is held upright.
+  // The bar's fill grows on the compositor (a transform animation to full, timed to the charge), so nothing is
+  // re-rendered while it charges (docs/PERF.md: the whole battle used to re-render 60 times a second). chargeRef is the
+  // charge while the bar is still; while it grows, `charging` holds when and from where, and chargeAt() reads it.
   const chargeRef = useRef(0);
+  const barRef = useRef<HTMLElement>(null);
+  const shown = useRef(0);
+  type Charging = { from: number; t0: number; per: number; speed: number; anim: Animation | null };
+  const charging = useRef<Charging | null>(null);
+  const chargeAt = (c: Charging) => Math.min(1, c.from + ((performance.now() - c.t0) / c.per) * c.speed);
+  /** Show the charge v on the bar (and its "hot" look over three quarters). */
+  const paintCharge = (v: number) => {
+    shown.current = v;
+    if (barRef.current) barRef.current.style.transform = `scaleX(${v})`;
+    setHot(v > 0.75);
+  };
+  /** Stop the bar where it is (a pause, a wrong tap, a hit): returns the charge, now in chargeRef. */
+  const holdCharge = () => {
+    const c = charging.current;
+    if (!c) return chargeRef.current;
+    charging.current = null;
+    chargeRef.current = chargeAt(c);
+    paintCharge(chargeRef.current);
+    c.anim?.cancel();
+    return chargeRef.current;
+  };
+  const setCharge = (v: number) => {
+    holdCharge();
+    paintCharge(v);
+  };
+  useLayoutEffect(() => {
+    if (barRef.current && !charging.current) barRef.current.style.transform = `scaleX(${shown.current})`;
+  });
   useEffect(() => {
     if (relaxed || locked || dead || upright || replaying) return;
     const per = (boss ? 7000 : 9000) + word.segs.length * 2200;
     const speed = (enraged ? 1.35 : 1) * (firstTimed ? 0.6 : 1);
-    let last = performance.now();
-    let raf = 0;
-    const tick = (t: number) => {
-      const dt = t - last;
-      last = t;
-      chargeRef.current = Math.min(1, chargeRef.current + (dt / per) * speed);
-      setCharge(chargeRef.current);
-      if (chargeRef.current >= 1) {
-        monsterAttack();
-        return;
-      }
-      raf = requestAnimationFrame(tick);
+    const from = chargeRef.current;
+    const ms = ((1 - from) * per) / speed; // real time until it's full
+    // (in real time, as the frame loop was, even in the bots' fast mode: fast.ts leaves a playbackRate of FAST alone)
+    const anim = barRef.current?.animate([{ transform: `scaleX(${from})` }, { transform: "scaleX(1)" }], { duration: Math.max(1, ms * FAST), fill: "forwards" }) ?? null;
+    if (anim) anim.playbackRate = FAST;
+    const me: Charging = { from, t0: performance.now(), per, speed, anim };
+    charging.current = me;
+    // (setTimeout is FAST-scaled in fast mode: these are real times too)
+    const hotT = window.setTimeout(() => charging.current === me && setHot(true), Math.max(0, ((0.75 - from) * per) / speed) * FAST + 1);
+    const full = () => {
+      if (charging.current !== me) return;
+      charging.current = null;
+      chargeRef.current = 1;
+      paintCharge(1);
+      anim?.cancel();
+      monsterAttack();
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    const fullT = anim ? 0 : window.setTimeout(full, ms * FAST);
+    anim?.finished.then(full, () => {});
+    return () => {
+      clearTimeout(hotT);
+      clearTimeout(fullT);
+      if (charging.current === me) holdCharge();
+    };
   }, [relaxed, locked, idx, dead, enraged, upright, replaying]);
 
   const monsterAttack = async () => {
@@ -681,7 +757,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       const lost = streakLine(e);
       if (e.prevN === 0) void ninja.act("think");
       gloat();
-      if (!relaxed) chargeRef.current = Math.min(0.95, chargeRef.current + 0.18);
+      if (!relaxed) chargeRef.current = Math.min(0.95, holdCharge() + 0.18);
       setLocked(true);
       slotMisses.current++;
       // Sensei's first word comes once the "hm?" and the fizzle are over, so it is clear.
@@ -869,7 +945,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
     knock(monHit.current, 48, 9);
     setHp(nhp);
     setChip(0);
-    chargeRef.current = Math.max(0, chargeRef.current - 0.35);
+    chargeRef.current = Math.max(0, holdCharge() - 0.35);
     setCharge(chargeRef.current);
     if (!final) setDizzy((d) => d + 1);
   };
@@ -981,7 +1057,7 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
         { transform: `translate(${dx}px, ${dy}px) rotate(720deg) scale(.04)`, opacity: 0 },
       ],
       { duration: 1000, easing: "cubic-bezier(.3,.1,.5,1)", fill: "forwards" },
-    );
+    )?.finished.then(() => alive.current && setBlasted(true), () => {});
     setTimeout(() => alive.current && ding(end), 860);
     await sleep(480);
   };
@@ -1121,25 +1197,12 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       <div className="shadow-blob bt-mon-shadow" style={{ left: monCx - monW * 0.38, top: MON_FEET - 12, width: monW * 0.76, opacity: dead ? 0 : 1 }} />
       <div ref={monPos} className="bt-mon" style={{ left: monCx - monW / 2, bottom: 720 - MON_FEET, width: monW }}>
         <div ref={monHit} className="bt-mon-hit">
-          <div className={`bt-mon-face ${info.facing === "right" ? "flipped" : ""} ${enraged ? "angry" : tier >= 2 ? "scared" : ""}`}>
-            <img ref={monRef} className={`bt-mon-img ${info.float ? "float" : "breathe"}`} src={img(`mon_${level.monster}`)} alt="" style={{ height: monH, maxWidth: monW }} />
+          <div className={`bt-mon-face ${info.facing === "right" ? "flipped" : ""} ${blasted ? "" : enraged ? "angry" : tier >= 2 ? "scared" : ""}`}>
+            <img ref={monRef} className={`bt-mon-img ${blasted ? "" : info.float ? "float" : "breathe"}`} src={img(`mon_${level.monster}`)} alt="" style={{ height: monH, maxWidth: monW }} />
           </div>
-          {enraged && (
-            <svg className="bt-vein" viewBox="0 0 100 100" aria-hidden="true">
-              <g fill="none" strokeLinecap="round">
-                {[0, 1].map((k) => (
-                  <g key={k} stroke={k ? "#ff4a36" : "#2b1d14"} strokeWidth={k ? 11 : 21}>
-                    <path d="M38 8 Q40 36 10 38" />
-                    <path d="M62 8 Q60 36 90 38" />
-                    <path d="M38 92 Q40 64 10 62" />
-                    <path d="M62 92 Q60 64 90 62" />
-                  </g>
-                ))}
-              </g>
-            </svg>
-          )}
+          {enraged && !blasted && <Vein />}
           {dizzy > 0 && (
-            <div key={dizzy} className="bt-dizzy">
+            <div key={dizzy} className="bt-dizzy" onAnimationEnd={(e) => e.target === e.currentTarget && e.animationName === "bt-dizzy-life" && setDizzy(0)}>
               <i />
               <i />
               <i />
@@ -1149,24 +1212,14 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
       </div>
 
       {/* Baron Muddle, blasted off, shaking his fist in the sky (his caption bubble points up at him) */}
-      {sky > 0 && (
-        <div ref={skyRef} className={`bt-sky ${sky === 2 ? "bonk" : ""}`} style={{ left: SKY.x - 92, top: SKY.y - 92 }}>
+      {(sky === 1 || sky === 2) && (
+        // (once bonked away he is gone: 3, and his endless shake and vein with him)
+        <div ref={skyRef} className={`bt-sky ${sky === 2 ? "bonk" : ""}`} style={{ left: SKY.x - 92, top: SKY.y - 92 }} onAnimationEnd={(e) => e.target === e.currentTarget && e.animationName === "bt-sky-out" && setSky(3)}>
           <div className="bt-sky-cloud" />
           <div className="bt-sky-fist">
             <img src={img(`mon_${level.monster}`)} alt="" />
           </div>
-          <svg className="bt-vein" viewBox="0 0 100 100" aria-hidden="true">
-            <g fill="none" strokeLinecap="round">
-              {[0, 1].map((k) => (
-                <g key={k} stroke={k ? "#ff4a36" : "#2b1d14"} strokeWidth={k ? 11 : 21}>
-                  <path d="M38 8 Q40 36 10 38" />
-                  <path d="M62 8 Q60 36 90 38" />
-                  <path d="M38 92 Q40 64 10 62" />
-                  <path d="M62 92 Q60 64 90 62" />
-                </g>
-              ))}
-            </g>
-          </svg>
+          <Vein />
         </div>
       )}
 
@@ -1180,13 +1233,15 @@ export function Battle({ level, onDone, onQuit }: LevelProps) {
           <div className="bt-pips">
             {Array.from({ length: hpMax }, (_, i) => (
               <div key={i} ref={(el) => void (pipRefs.current[i] = el)} className={`bt-pip ${i < hp ? "" : "gone"} ${i === curPip && !locked ? "cur" : ""}`}>
-                <i style={i === curPip ? { width: `${pipFill}%` } : undefined} />
+                <span>
+                  <i style={i === curPip ? { width: `${pipFill}%` } : undefined} />
+                </span>
               </div>
             ))}
           </div>
           {!relaxed && (
-            <div className={`bt-meter ${explainBar ? "explain" : ""} ${charge > 0.75 ? "hot" : ""}`}>
-              <b style={{ width: `${charge * 100}%` }} />
+            <div className={`bt-meter ${explainBar ? "explain" : ""} ${hot ? "hot" : ""}`}>
+              <b ref={barRef} />
             </div>
           )}
         </div>

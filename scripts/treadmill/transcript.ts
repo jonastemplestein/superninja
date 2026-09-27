@@ -6,6 +6,9 @@
 // Navigation (docs/NAVIGATION.md §5.E): taps on the nav controls read "TAP Next", "TAP Hear it again"...; each wait on a
 // ready Next is a line "[holds on Next: <step>, 1.2 s]", so the audit sees where a child sat; and the game's own nav log
 // (window.__snNavLog: every nav tap and step change) is written beside the journey as navlog-<persona>.json.
+// The teacher's voice (TEACHER_SCRIPT §2.3, FIX_PLAN §13 TV-F4.2): a Ready hold (a held step whose id starts "ready:") is
+// written as "[ready: <id>: TAP Next after 1.4 s]", or TAP Show me again, TAP board: sock, TAP answer: sock (the nav log's
+// own answer when it logs one, else the first tap); the paw's moves in a demo (nav log "paw") are written too.
 // Besides training, placement and the levels, it plays the shows around them: the film, Choose, the opt-in, a level's
 // reward and a sticker reward, the World Flower's first visit and its trips, and the finale. A show case is over once the
 // child has left it with Next (`leave`: window.__snRoute is no longer that route) or once it has settled (`done`).
@@ -32,7 +35,7 @@ const LINE = new Map(LINES.map((l) => [l.id, l]));
 const PAGE = new Map(STORIES.flatMap((st) => st.pages.map((p) => [`${st.id}_${p.id}`, p.text] as const)));
 
 /** `url`: the clip that played (speech events), so scripts/treadmill/joins.ts can rebuild what the child heard. */
-type Ev = { t: number; kind: "say" | "sound" | "word" | "stretch" | "onset" | "story" | "tap" | "nav" | "hold" | "sfx" | "scene"; who?: string; text: string; url?: string };
+type Ev = { t: number; kind: "say" | "sound" | "word" | "stretch" | "onset" | "story" | "tap" | "nav" | "hold" | "ready" | "paw" | "sfx" | "scene"; who?: string; text: string; url?: string };
 /** `leave`: the case is over once the route (window.__snRoute) is no longer this one; the bot taps Next at the end (even
  *  beside a reward's Play again). `done`: runs in the page; the case is over once it is true. */
 type Case = { name: string; url: string; title: string; save: object; leave?: string; done?: () => boolean };
@@ -133,15 +136,26 @@ async function play(page: Page, c: (typeof CASES)[number], persona: "perfect" | 
   if (hold) seen.push({ ...hold, end: null });
   const { audio, taps, navlog, off } = await page.evaluate(() => ({ audio: (window as any).__audioLog ?? [], taps: (window as any).__taps ?? [], navlog: (window as any).__snNavLog ?? [], off: Date.now() - performance.now() }));
   navlogs[c.name] = navlog.map((e: any) => ({ ...e, t: Math.round(e.t + off) }));
+  const secs = (a: number, b: number) => `${((Math.max(0, b - a) * FAST) / 1000).toFixed(1)} s`;
   const holds: Ev[] = seen.map((h) => {
+    if (/^ready:/.test(h.step)) {
+      // a Ready: how the child answered it (the nav log's { kind: "ready", how, label }, else the first tap)
+      const logged = navlog.map((e: any) => ({ ...e, t: e.t + off })).find((e: any) => e.kind === "ready" && e.how && e.t >= h.t - 100 && (h.end == null || e.t <= h.end + 800));
+      const tap = taps.find((x: any) => x.t >= h.t - 50 && (h.end == null || x.t <= h.end + 800));
+      const how = logged ? ({ next: "TAP Next", show: "TAP Show me again", board: `TAP board: ${logged.label ?? "?"}`, answer: `TAP answer: ${logged.label ?? "?"}` } as Record<string, string>)[logged.how] ?? logged.how : tap ? (tap.nav === "next" ? "TAP Next" : tap.nav === "show" ? "TAP Show me again" : `TAP board: ${tap.label}`) : null;
+      const end = logged?.t ?? tap?.t ?? h.end;
+      return { t: h.t, kind: "ready" as const, text: `${h.step.replace(/^ready:/, "").replace(/ 1\/1$/, "")}: ${how ?? "no tap"}${end == null ? ", still waiting at the end" : ` after ${secs(h.t, end)}`}` };
+    }
     const tap = taps.find((x: any) => x.nav === "next" && x.t >= h.t - 50 && (h.end == null || x.t <= h.end));
     const end = tap?.t ?? h.end;
-    return { t: h.t, kind: "hold" as const, text: end == null ? `${h.step}, still waiting at the end` : `${h.step}, ${(Math.max(0, end - h.t) * FAST / 1000).toFixed(1)} s` };
+    return { t: h.t, kind: "hold" as const, text: end == null ? `${h.step}, still waiting at the end` : `${h.step}, ${secs(h.t, end)}` };
   });
+  const paws: Ev[] = navlog.filter((e: any) => e.kind === "paw" || e.kind === "demo").map((e: any) => ({ t: e.t + off, kind: "paw" as const, text: e.id ?? e.to ?? e.kind }));
   const evs: Ev[] = [
     ...audio.map((a: any) => { const d = decode(a.url); return d ? { t: a.t, ...d, ...(a.url.startsWith("/a/") ? { url: a.url } : {}) } : null; }).filter(Boolean),
     ...taps.map((x: any) => ({ t: x.t, kind: x.nav ? ("nav" as const) : ("tap" as const), text: x.label })),
     ...holds,
+    ...paws,
     ...scenes,
   ];
   const start = Math.min(...evs.map((e) => e.t), t0);
@@ -174,6 +188,8 @@ function render(title: string, evs: Ev[]): string {
     else if (e.kind === "tap") out.push(`${ts}   > child taps: ${e.text}`);
     else if (e.kind === "nav") out.push(`${ts}   > TAP ${e.text}`);
     else if (e.kind === "hold") out.push(`${ts}   [holds on Next: ${e.text}]`);
+    else if (e.kind === "ready") out.push(`${ts}   [ready: ${e.text}]`);
+    else if (e.kind === "paw") out.push(`${ts}   (the paw: ${e.text})`);
     else if (e.kind === "sfx") out.push(`${ts}   [${e.text}]`);
     else if (e.kind === "scene") out.push(`${ts}   --- ${e.text} ---`);
   }

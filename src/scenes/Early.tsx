@@ -190,6 +190,7 @@ function floatTo(src: string, size: number, a: Pt, b: Pt, ms: number, tier: Tier
   el.style.width = el.style.height = `${size}px`;
   layer.appendChild(el);
   const c = { x: (a.x + b.x) / 2, y: Math.min(a.y, b.y) - 150 };
+  let glowAt = -Infinity; // when the trail last dropped a glow
   return new Promise((resolve) => {
     const t0 = performance.now();
     let done = false;
@@ -205,8 +206,12 @@ function floatTo(src: string, size: number, a: Pt, b: Pt, ms: number, tier: Tier
       const e = t * t * (3 - 2 * t);
       const p = { x: (1 - e) ** 2 * a.x + 2 * (1 - e) * e * c.x + e * e * b.x, y: (1 - e) ** 2 * a.y + 2 * (1 - e) * e * c.y + e * e * b.y };
       el.style.transform = `translate(${p.x - size / 2}px, ${p.y - size / 2}px) rotate(${Math.sin(t * Math.PI * 2) * 18}deg) scale(${0.55 + 0.45 * t + 0.25 * Math.sin(t * Math.PI)})`;
-      fx.glow(p.x, p.y, COLS[tier], 1, 30, 0.5, 18);
-      if (Math.random() < 0.3) fx.twinkle(p.x, p.y, COLS[tier], 1, 1.5, 16);
+      // the trail: at most 60 glows a second (docs/PERF.md fix 7): every frame at 60 Hz, as before; every other at 120
+      if (now - glowAt >= TRAIL_MS) {
+        glowAt = now;
+        fx.glow(p.x, p.y, COLS[tier], 1, 30, 0.5, 18);
+        if (Math.random() < 0.3) fx.twinkle(p.x, p.y, COLS[tier], 1, 1.5, 16);
+      }
       if (t < 1) requestAnimationFrame(frame);
       else end();
     };
@@ -509,6 +514,9 @@ const TRAILS: Record<Tier, string[][]> = {
   2: [["#ff7aa2", "#ffd1e3"], ["#5ec8f2", "#c8f0ff"]],
   3: [["#ffb03d", "#ffe94a"], ["#5fd35f", "#a6f0a6"], ["#4ab8ff", "#b48cff"]],
 };
+/** A trail drops its glows at most 60 times a second (docs/PERF.md fix 7): every frame on a 60 Hz screen, exactly as
+ *  before, but a 120 Hz screen no longer lays twice as many. (15, not 16.7 ms: a 60 Hz frame a little early counts.) */
+const TRAIL_MS = 15;
 function trail(p: Pt, prev: Pt, tier: Tier, t: number) {
   if (t > 0.8) return; // nothing piles up on the letter as it slows into its slot: it must be readable on landing
   const len = Math.hypot(p.x - prev.x, p.y - prev.y);
@@ -565,7 +573,7 @@ function flyTo(el: HTMLElement, size: { w: number; h: number }, a: Pt, b: Pt, o:
   return new Promise((resolve) => {
     const t0 = performance.now();
     let done = false;
-    let last = a2;
+    let last = a2, lastDrop = -Infinity;
     const end = () => {
       if (done) return;
       done = true;
@@ -585,7 +593,10 @@ function flyTo(el: HTMLElement, size: { w: number; h: number }, a: Pt, b: Pt, o:
         const q = at(e);
         const p = { x: q.x + f.dx, y: q.y + f.dy };
         put(p, f.css);
-        trail(p, last, o.tier, t);
+        if (now - lastDrop >= TRAIL_MS) {
+          trail(p, last, o.tier, t);
+          lastDrop = now;
+        }
         last = p;
         if (t >= 1) return end();
       }
@@ -1888,6 +1899,23 @@ function BuildOne({ level, item, announce, onDone, demo, onLeftRight }: { level:
 }
 
 // ---------------------------------------------------------------- M6: Who read it right?
+/** Sound waves coming off a reader: three arcs, each on its own HTML wrapper that fades in and out (an animation on an
+ *  SVG path is repainted on the main thread every frame; on a wrapper the compositor does it). */
+const WAVE_ARCS = ["M8 22c8 8 8 28 0 36", "M22 12c14 14 14 42 0 56", "M36 2c20 20 20 56 0 76"];
+function ReaderWaves({ me }: { me?: boolean }) {
+  return (
+    <span className={`reader-waves ${me ? "me-waves" : ""}`} aria-hidden="true">
+      {WAVE_ARCS.map((d) => (
+        <i key={d}>
+          <svg viewBox="0 0 60 80">
+            <path d={d} />
+          </svg>
+        </i>
+      ))}
+    </span>
+  );
+}
+
 export function ReadCheck({ pairs, onFinish }: { pairs: [string, string][]; onFinish: (f: number, y: number) => void }) {
   const [k, setK] = useState(-1);
   const first = useRef(0);
@@ -2088,30 +2116,20 @@ function ReadOne({ right, wrong, intro, onDone }: { right: Word; wrong: Word; in
               <span className="reader-window">
                 <img src={heroImg(r.who, pose)} alt="" key={pose} className={`pose-${pose}`} />
               </span>
-              <svg className="reader-book" viewBox="0 0 124 66" aria-hidden="true">
-                <path className="cover" d="M3 16v44c24-6 44-6 59 3 15-9 35-9 59-3V16" />
-                <path className="page" d="M62 13C46 4 24 4 7 10v44c17-6 39-6 55 3z" />
-                <path className="page" d="M62 13c16-9 38-9 55-3v44c-17-6-39-6-55 3z" />
-                <path className="text" d="M17 20c11-3 23-3 35 1M17 30c11-3 23-3 35 1M17 40c11-3 23-3 35 1M72 21c12-4 24-4 35-1M72 31c12-4 24-4 35-1M72 41c12-4 24-4 35-1" />
-              </svg>
-              {talking === r.who && (
-                <svg className="reader-waves" viewBox="0 0 60 80" aria-hidden="true">
-                  <path d="M8 22c8 8 8 28 0 36" />
-                  <path d="M22 12c14 14 14 42 0 56" />
-                  <path d="M36 2c20 20 20 56 0 76" />
+              <span className="reader-book" aria-hidden="true">
+                <svg viewBox="0 0 124 66">
+                  <path className="cover" d="M3 16v44c24-6 44-6 59 3 15-9 35-9 59-3V16" />
+                  <path className="page" d="M62 13C46 4 24 4 7 10v44c17-6 39-6 55 3z" />
+                  <path className="page" d="M62 13c16-9 38-9 55-3v44c-17-6-39-6-55 3z" />
+                  <path className="text" d="M17 20c11-3 23-3 35 1M17 30c11-3 23-3 35 1M17 40c11-3 23-3 35 1M72 21c12-4 24-4 35-1M72 31c12-4 24-4 35-1M72 41c12-4 24-4 35-1" />
                 </svg>
-              )}
+              </span>
+              {talking === r.who && <ReaderWaves />}
             </button>
           );
         })}
       </div>
-      {talking === hero && (
-        <svg className="reader-waves me-waves" viewBox="0 0 60 80" aria-hidden="true">
-          <path d="M8 22c8 8 8 28 0 36" />
-          <path d="M22 12c14 14 14 42 0 56" />
-          <path d="M36 2c20 20 20 56 0 76" />
-        </svg>
-      )}
+      {talking === hero && <ReaderWaves me />}
       <TurnNav ready={turn} again={again} />
     </>
   );

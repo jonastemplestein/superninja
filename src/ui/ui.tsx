@@ -11,6 +11,28 @@ export const W = 1280;
 export const H = 720;
 export const img = (id: string) => `/a/i/${id}.webp`;
 
+// ---------- endless CSS animations must not wake the main thread (docs/PERF.md)
+// Once any `animationiteration` listener exists in a document, Chrome has to wake the main thread (a style pass) at
+// every iteration boundary of every CSS animation, to fire the event: a loop that runs on the compositor then costs
+// main-thread time anyway, and loops with staggered delays (the ten flames, the orbit, the sparks, a map's petals) keep
+// it busy every frame. React registers one at its root for onAnimationIteration, which the game never uses, so it is
+// dropped here (this module runs before main.tsx's createRoot). Measured on the ninja at streak 10, phone ×4: 60 → 0
+// style passes a second. So NOTHING on the page ever hears animationiteration: a JSX onAnimationIteration never fires,
+// and nor does an addEventListener("animationiteration") (the dev build warns about the second). Scenes that need a
+// loop's rhythm use onAnimationEnd or a timer instead.
+if (typeof EventTarget !== "undefined") {
+  const add = EventTarget.prototype.addEventListener;
+  EventTarget.prototype.addEventListener = function (this: EventTarget, type: string, ...rest: [EventListenerOrEventListenerObject | null, (boolean | AddEventListenerOptions)?]) {
+    if (type === "animationiteration") {
+      // React's own registration is on the root container; anything else is someone expecting the event
+      if (import.meta.env.DEV && !(this instanceof Element && this.id === "root"))
+        console.warn("animationiteration listeners are dropped (src/ui/ui.tsx, docs/PERF.md): use animationend or a timer", this);
+      return;
+    }
+    return add.call(this, type, ...rest);
+  };
+}
+
 // ---------- stage scaling
 let stageScale = 1;
 let stageEl: HTMLElement | null = null;
@@ -77,6 +99,11 @@ const uprightSubs = new Set<() => void>();
 uprightQ?.addEventListener?.("change", () => uprightSubs.forEach((f) => f()));
 /** Is the phone held upright right now (the game is covered by the turn-your-phone picture)? */
 export const isUpright = () => !!uprightQ?.matches;
+/** Hear the phone turn upright or back. Returns an unsubscribe function. */
+export function onUpright(fn: () => void): () => void {
+  uprightSubs.add(fn);
+  return () => void uprightSubs.delete(fn);
+}
 /** Scenes with timers (e.g. a monster's attack) can pause while the phone is upright. */
 export function useUpright(): boolean {
   return useSyncExternalStore(
@@ -430,6 +457,15 @@ type Particle = {
   r0?: number; r1?: number; w?: number; sx?: number; sy?: number; tx?: number; ty?: number;
 };
 const particles: Particle[] = [];
+/** The most particles alive at once; beyond it the oldest go first (a 150-strike stress peaked at 461). */
+export const MAX_PARTICLES = 350;
+/** Wakes the particle canvas's loop (it sleeps while there is nothing to draw: docs/PERF.md fix 1). */
+let wakeFx: (() => void) | null = null;
+function add(p: Particle) {
+  if (particles.length >= MAX_PARTICLES) particles.shift();
+  particles.push(p);
+  wakeFx?.();
+}
 /** Particle time scale (the ninja demo's slow motion sets this below 1). */
 let fxSpeed = 1;
 export const setFxSpeed = (s: number) => void (fxSpeed = s);
@@ -447,6 +483,45 @@ function glowSprite(color: string) {
     g.fillStyle = grad;
     g.fillRect(0, 0, 64, 64);
     glowCache.set(color, c);
+  }
+  return c;
+}
+/** Round blossom petals (Dec6: a teardrop always means a sound, so decoration falls as blossoms): a pink petal with a
+ *  notch at its tip, drawn once per shade and reused. */
+const BLOSSOM_SHADES = ["#ffb7cf", "#ff9dbd", "#ffd0e0", "#ff85ab"];
+const blossomCache: HTMLCanvasElement[] = [];
+function blossomSprite(k: number) {
+  const i = Math.abs(k) % BLOSSOM_SHADES.length;
+  let c = blossomCache[i];
+  if (!c) {
+    c = document.createElement("canvas");
+    c.width = c.height = 64;
+    const g = c.getContext("2d")!;
+    g.beginPath();
+    g.moveTo(32, 60);
+    g.bezierCurveTo(11, 52, 5, 26, 15, 12);
+    g.quadraticCurveTo(22, 3, 29, 9);
+    g.lineTo(32, 16);
+    g.lineTo(35, 9);
+    g.quadraticCurveTo(42, 3, 49, 12);
+    g.bezierCurveTo(59, 26, 53, 52, 32, 60);
+    g.closePath();
+    const grad = g.createLinearGradient(32, 60, 32, 6);
+    grad.addColorStop(0, "#e2537f");
+    grad.addColorStop(0.35, BLOSSOM_SHADES[i]);
+    grad.addColorStop(1, "#fff1f6");
+    g.fillStyle = grad;
+    g.fill();
+    g.lineWidth = 2.5;
+    g.strokeStyle = "rgba(160, 40, 80, 0.55)";
+    g.stroke();
+    g.beginPath(); // a soft vein
+    g.moveTo(32, 54);
+    g.quadraticCurveTo(30, 36, 32, 22);
+    g.lineWidth = 2;
+    g.strokeStyle = "rgba(255, 255, 255, 0.6)";
+    g.stroke();
+    blossomCache[i] = c;
   }
   return c;
 }
@@ -474,37 +549,39 @@ function getImg(id: string) {
   return imgs[id];
 }
 export const fx = {
-  burst(x: number, y: number, kind: "petals" | "stars" | "sparks" | "confetti" | "dust" = "sparks", n = 18, spread = 1) {
+  /** `blossoms`: round pink blossom petals (decoration); `petals`: the rainbow sound petals (item_petal), for the moments
+   *  that mean all the sounds (Dec6). */
+  burst(x: number, y: number, kind: "petals" | "blossoms" | "stars" | "sparks" | "confetti" | "dust" = "sparks", n = 18, spread = 1) {
     for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2;
       const sp = (kind === "dust" ? 2 : 4 + Math.random() * 7) * spread;
-      particles.push({
+      add({
         x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - (kind === "confetti" ? 6 : 2),
         r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.3, life: 0,
-        max: kind === "petals" || kind === "confetti" ? 80 + Math.random() * 50 : kind === "dust" ? 30 : 40 + Math.random() * 25,
-        size: kind === "petals" ? 26 + Math.random() * 18 : kind === "stars" ? 22 + Math.random() * 20 : kind === "dust" ? 16 + Math.random() * 14 : 6 + Math.random() * 8,
+        max: kind === "petals" || kind === "blossoms" || kind === "confetti" ? 80 + Math.random() * 50 : kind === "dust" ? 30 : 40 + Math.random() * 25,
+        size: kind === "petals" || kind === "blossoms" ? 26 + Math.random() * 18 : kind === "stars" ? 22 + Math.random() * 20 : kind === "dust" ? 16 + Math.random() * 14 : 6 + Math.random() * 8,
         kind,
         color: kind === "confetti" ? ["#ff7aa2", "#ffc53d", "#5ec8f2", "#6cc04a", "#9b6cf0", "#fff4dc"][i % 6] : kind === "sparks" ? ["#fff4dc", "#ffc53d", "#ffe38a"][i % 3] : undefined,
       });
     }
   },
-  rain(kind: "petals" | "confetti" = "confetti", n = 60) {
+  rain(kind: "petals" | "blossoms" | "confetti" = "confetti", n = 60) {
     for (let i = 0; i < n; i++) {
-      particles.push({
+      add({
         x: Math.random() * W, y: -40 - Math.random() * 300, vx: (Math.random() - 0.5) * 2, vy: 2 + Math.random() * 3,
-        r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.2, life: 0, max: 260, size: kind === "petals" ? 28 + Math.random() * 16 : 8 + Math.random() * 8, kind,
+        r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.2, life: 0, max: 260, size: kind === "petals" || kind === "blossoms" ? 28 + Math.random() * 16 : 8 + Math.random() * 8, kind,
         color: ["#ff7aa2", "#ffc53d", "#5ec8f2", "#6cc04a", "#9b6cf0", "#fff4dc"][i % 6],
       });
     }
   },
   /** An expanding shockwave ring. */
   ring(x: number, y: number, o: { color?: string; r0?: number; r1?: number; width?: number; life?: number } = {}) {
-    particles.push({ x, y, vx: 0, vy: 0, r: 0, vr: 0, life: 0, max: o.life ?? 22, size: 0, kind: "ring", color: o.color ?? "#fff4dc", r0: o.r0 ?? 12, r1: o.r1 ?? 150, w: o.width ?? 12 });
+    add({ x, y, vx: 0, vy: 0, r: 0, vr: 0, life: 0, max: o.life ?? 22, size: 0, kind: "ring", color: o.color ?? "#fff4dc", r0: o.r0 ?? 12, r1: o.r1 ?? 150, w: o.width ?? 12 });
   },
   /** Soft glowing dots (additive), e.g. a spell's trail. `drift` is the random speed. */
   glow(x: number, y: number, colors: string[] = ["#ffe38a"], n = 1, size = 34, drift = 1.2, life = 26) {
     for (let i = 0; i < n; i++)
-      particles.push({
+      add({
         x, y, vx: (Math.random() - 0.5) * 2 * drift, vy: (Math.random() - 0.5) * 2 * drift, r: 0, vr: 0, life: 0, max: life * (0.7 + Math.random() * 0.6),
         size: size * (0.6 + Math.random() * 0.8), kind: "glow", color: colors[(Math.random() * colors.length) | 0],
       });
@@ -513,7 +590,7 @@ export const fx = {
   twinkle(x: number, y: number, colors: string[] = ["#fff4dc", "#ffe38a"], n = 10, speed = 6, size = 26) {
     for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2, sp = speed * (0.4 + Math.random() * 0.8);
-      particles.push({
+      add({
         x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: Math.random() * 2, vr: (Math.random() - 0.5) * 0.25, life: 0, max: 30 + Math.random() * 22,
         size: size * (0.5 + Math.random() * 0.8), kind: "twinkle", color: colors[i % colors.length],
       });
@@ -525,7 +602,7 @@ export const fx = {
     for (let i = 0; i < n; i++) {
       const a = (i / n) * Math.PI * 2 + Math.random() * 0.25;
       const ux = Math.cos(a), uy = Math.sin(a);
-      particles.push({
+      add({
         x: x + ux * (w / 2 + 14), y: y + uy * (h / 2 + 14), vx: ux * (5 + Math.random() * 3), vy: uy * (5 + Math.random() * 3), r: Math.random() * 2, vr: (Math.random() - 0.5) * 0.25,
         life: 0, max: life * (0.85 + Math.random() * 0.15), size: 22 + Math.random() * 12, kind: "twinkle", color: colors[i % colors.length],
       });
@@ -535,24 +612,59 @@ export const fx = {
   lines(x: number, y: number, n = 10, color = "#fff4dc", len = 70) {
     for (let i = 0; i < n; i++) {
       const a = (i / n) * Math.PI * 2 + Math.random() * 0.4;
-      particles.push({ x, y, vx: 0, vy: 0, r: a, vr: 0, life: 0, max: 14 + Math.random() * 6, size: len * (0.7 + Math.random() * 0.6), kind: "line", color });
+      add({ x, y, vx: 0, vy: 0, r: a, vr: 0, life: 0, max: 14 + Math.random() * 6, size: len * (0.7 + Math.random() * 0.6), kind: "line", color });
     }
   },
   /** Dust kicked up along the ground (landings). */
   puff(x: number, y: number, n = 8) {
     for (let i = 0; i < n; i++) {
       const side = i % 2 ? 1 : -1;
-      particles.push({
+      add({
         x: x + side * Math.random() * 30, y: y - Math.random() * 8, vx: side * (2 + Math.random() * 5), vy: -0.3 - Math.random() * 1.2, r: 0, vr: 0, life: 0,
         max: 26 + Math.random() * 16, size: 12 + Math.random() * 14, kind: "puff",
       });
     }
   },
+  /**
+   * A projectile's glowing trail, for a flight's onFrame: one glow (`n` dots) every `every` stage px travelled, spread
+   * along the path, whatever the frame rate (a 120 Hz phone draws no more than a 60 Hz one: docs/PERF.md fix 7). The
+   * first call marks the start. `size`, `drift` and `life` are fx.glow's; `also` runs at each glow (e.g. a twinkle).
+   */
+  trail(
+    colors: string | string[],
+    o: { every?: number; size?: number; life?: number; drift?: number; n?: number; also?: (x: number, y: number) => void } = {},
+  ): (p: { x: number; y: number }) => void {
+    const cols = typeof colors === "string" ? [colors] : colors;
+    const every = Math.max(4, o.every ?? 22), n = o.n ?? 1, size = o.size ?? 34, drift = o.drift ?? 1.2, life = o.life ?? 26;
+    let last: { x: number; y: number } | null = null;
+    let owed = 0;
+    const emit = (x: number, y: number) => {
+      fx.glow(x, y, cols, n, size, drift, life);
+      o.also?.(x, y);
+    };
+    return (p) => {
+      if (!last) {
+        last = { x: p.x, y: p.y };
+        return emit(p.x, p.y);
+      }
+      const dx = p.x - last.x, dy = p.y - last.y;
+      const d = Math.hypot(dx, dy);
+      owed += d;
+      // a long frame (a slow phone) fills its gap, up to 4 glows
+      for (let k = 0; owed >= every && k < 4; k++) {
+        owed -= every;
+        const f = d > 0 ? 1 - owed / d : 1;
+        emit(last.x + dx * f, last.y + dy * f);
+      }
+      if (owed >= every) owed = 0;
+      last = { x: p.x, y: p.y };
+    };
+  },
   /** Energy gathering inwards to a point (a power-up's anticipation). */
   implode(x: number, y: number, colors: string[] = ["#ffe38a", "#fff4dc"], n = 22, r = 190, life = 26) {
     for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2, d = r * (0.6 + Math.random() * 0.5);
-      particles.push({
+      add({
         x: x + Math.cos(a) * d, y: y + Math.sin(a) * d, sx: x + Math.cos(a) * d, sy: y + Math.sin(a) * d, tx: x, ty: y,
         vx: 0, vy: 0, r: 0, vr: 0, life: -Math.random() * 8, max: life, size: 22 + Math.random() * 20, kind: "implode", color: colors[i % colors.length],
       });
@@ -581,7 +693,7 @@ export function FxLayer() {
         p.x += p.vx * k;
         p.y += p.vy * k;
         p.r += p.vr * k;
-        if (p.kind === "petals" || p.kind === "confetti") {
+        if (p.kind === "petals" || p.kind === "blossoms" || p.kind === "confetti") {
           p.vx *= Math.pow(0.97, k);
           p.vy = p.vy * Math.pow(0.97, k) + 0.18 * k;
           p.x += Math.sin(p.life / 9 + i) * 0.8 * k;
@@ -665,6 +777,11 @@ export function FxLayer() {
         g.translate(p.x, p.y);
         g.rotate(p.r);
         if (p.kind === "petals" && petal.complete) g.drawImage(petal, -p.size / 2, -p.size / 2, p.size, p.size);
+        else if (p.kind === "blossoms") {
+          // a blossom tumbles as it falls: it narrows and widens as it turns over
+          g.scale(0.35 + 0.65 * Math.abs(Math.cos(p.life * 0.07 + p.size)), 1);
+          g.drawImage(blossomSprite(Math.round(p.size)), -p.size / 2, -p.size / 2, p.size, p.size);
+        }
         else if (p.kind === "stars" && star.complete) g.drawImage(star, -p.size / 2, -p.size / 2, p.size, p.size);
         else if (p.kind === "twinkle") {
           const s = p.size * (t < 0.2 ? t / 0.2 : 1 - (t - 0.2) * 0.6);
@@ -688,11 +805,19 @@ export function FxLayer() {
         }
         g.restore();
       }
+      // nothing left to draw: this frame has cleared the canvas, so sleep until the next particle (add() wakes it)
+      raf = particles.length ? requestAnimationFrame(loop) : 0;
+    };
+    wakeFx = () => {
+      if (raf) return;
+      last = performance.now();
       raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
+    wakeFx();
     return () => {
+      wakeFx = null;
       cancelAnimationFrame(raf);
+      raf = 0;
       if (fxDomEl === domRef.current) fxDomEl = null;
     };
   }, []);
@@ -741,8 +866,8 @@ export function useIdlePrompt(active: boolean, ms: number, prompt: () => void, d
 export function TapHint({ show, style }: { show: boolean; style?: CSSProperties }) {
   if (!show) return null;
   return (
+    // (the taphint keyframes are in styles.css: a <style> here would restyle the whole page each time a hand appears)
     <div style={{ position: "absolute", width: 110, height: 110, pointerEvents: "none", zIndex: 70, animation: "taphint 1.4s ease-in-out infinite", ...style }}>
-      <style>{`@keyframes taphint{0%,100%{transform:translate(0,0) scale(1)}45%{transform:translate(-10px,-18px) scale(1.05)}60%{transform:translate(0,0) scale(.92)}}`}</style>
       <svg viewBox="0 0 64 64" width="110" height="110">
         <path d="M26 30V12a5 5 0 0 1 10 0v16l3-1a5 5 0 0 1 6 3l1 1a5 5 0 0 1 6 4v8c0 9-6 16-15 16h-3c-6 0-10-3-13-8l-7-11a4 4 0 0 1 6-5l6 6z" fill="#fff4dc" stroke="#2b1d14" strokeWidth="4" strokeLinejoin="round" />
       </svg>
@@ -789,6 +914,7 @@ export function pressHelp() {
   top.fn.current(top.count);
 }
 
+const HELP_WAVES = ["M8 22c8 8 8 28 0 36", "M22 12c14 14 14 42 0 56", "M36 2c20 20 20 56 0 76"];
 export function HelpButton() {
   const [talking, setTalking] = useState(false);
   const [nudge, setNudge] = useState(false);
@@ -813,12 +939,18 @@ export function HelpButton() {
       })}
     >
       <TalkingFace who="sensei" className="help-face" />
+      {/* the talking waves: three arcs, each its own HTML layer whose opacity pulses (an animation on the SVG paths
+          themselves would be repainted every frame) */}
       {talking && (
-        <svg className="help-waves" viewBox="0 0 60 80" aria-hidden="true">
-          <path d="M8 22c8 8 8 28 0 36" />
-          <path d="M22 12c14 14 14 42 0 56" />
-          <path d="M36 2c20 20 20 56 0 76" />
-        </svg>
+        <span className="help-waves" aria-hidden="true">
+          {HELP_WAVES.map((d) => (
+            <i key={d}>
+              <svg viewBox="0 0 60 80">
+                <path d={d} />
+              </svg>
+            </i>
+          ))}
+        </span>
       )}
       {!talking && <span className="help-q">?</span>}
     </button>

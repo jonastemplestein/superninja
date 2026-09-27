@@ -575,8 +575,9 @@ export interface Attempt {
   correct: boolean;
   /** what the wrong answer was instead: feeds confusions, foils and the correction's contrast */
   confusedWith?: { gpc?: GpcKey; sound?: PhonemeId; spelling?: string; word?: string };
-  /** Teaching Through Errors classification (sw.ts ErrorType), when wrong */
-  errors?: ErrorType[];
+  /** Teaching Through Errors classification (sw.ts ErrorType), when wrong; plus the game's own `split-spelling` (a
+   *  tile that splits a two-letter spelling: < s > for < sh >, SCRIPT_FIXES A3), which brings back the two-letters idea */
+  errors?: AttemptError[];
   /** live options when the answer was given; 1/choices is the chance of a lucky tap (a slot: tiles left in the bank).
    *  choices ≤ 1 is a forced tap: logged, but never evidence (no BKT update, no Sounds~Write evidence, no grade). */
   choices: number;
@@ -830,6 +831,9 @@ export type Spacing =
   | { after: "days"; n: number };
 
 /** "Is there something we're only mentioning once, but should mention three times?" as numbers, per notion. */
+/** An attempt's error: Sounds~Write's Teaching Through Errors types, and `split-spelling` (SCRIPT_FIXES Part E). */
+export type AttemptError = ErrorType | "split-spelling";
+
 export interface Dosage {
   /** complete full explanations before the child must first act on it (usually 1) */
   beforeUse: number;
@@ -839,8 +843,10 @@ export interface Dosage {
   spacing: Spacing[];
   /** the full explanations must be spread over at least this many sessions */
   minSessions: number;
-  /** after the full explanations: a short reminder when the notion is used, until retired */
-  reminders: "short" | "none";
+  /** after the full explanations: a short reminder when the notion is used, until retired ("short"); none; or only on
+   *  an attempt whose error shows the idea is missing ("error": the notion's `remindOn` errors, e.g. a split spelling
+   *  for "two letters, one sound", SCRIPT_FIXES Part E) */
+  reminders: "short" | "none" | "error";
   /** independent correct uses (at most one per beat, and only when the notion was a need of the question answered)
    *  that retire the reminders. Retirement also needs all `full` explanations given and uses in ≥ minSessions
    *  sessions, so a quick child never retires a notion before its spaced explanations. */
@@ -895,6 +901,8 @@ export interface NotionInfo {
   sw?: { concept?: ConceptId; lessons?: SwLessonId[] };
   /** children below this age get the full form one extra time */
   gentleUnder?: AgeBand;
+  /** with `dosage.reminders: "error"`: the attempt errors that bring a reminder back */
+  remindOn?: AttemptError[];
 }
 export type NotionRegistry = Readonly<Record<string, NotionInfo>>;
 
@@ -1900,7 +1908,7 @@ export interface ProtocolParts<I extends CoreItemSpec> {
   demonstrate(item: I, ctx: ActivityCtx): Op[];
   /** after a right answer (the reveal, "I can hear map", "Say the sounds... and read the word") */
   onRight(item: I, step: number, ctx: ActivityCtx): Op[];
-  check(item: I, step: number, aff: AffordanceId): { correct: boolean; response: AttemptResponse; errors?: ErrorType[]; confusedWith?: Attempt["confusedWith"] };
+  check(item: I, step: number, aff: AffordanceId): { correct: boolean; response: AttemptResponse; errors?: AttemptError[]; confusedWith?: Attempt["confusedWith"] };
   target(item: I, step: number): AttemptTarget;
   /** Help press n (1: the strategy line, if the mechanic has one, then the question again; 2: glow; 3: the paw).
    *  Never segments a word the child is spelling. */
@@ -2308,6 +2316,8 @@ export type AuditRuleId =
   | "session-too-long" | "reward-drought" | "stars-inflated"
   // production
   | "missing-audio" | "untagged-line" | "spliced-speech" | "unlit-naming"
+  // the same utterance shape twice within 30 s in one beat ("/ae/ two letters · /ae/ two letters", SCRIPT_FIXES Part E)
+  | "echo"
   // judgement (nightly)
   | "jev-clarity" | "llm-review";
 

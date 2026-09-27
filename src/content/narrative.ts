@@ -6,11 +6,17 @@
 // up, then a couple of levels later, and then only at teaching moments (a new spelling's Learn) and on errors. A
 // spelling's own teaching moment always explains it. Sounds~Write wording throughout (teach.ts, teacher-language.md):
 // spellings spell sounds; "It's two letters, but it's one sound."; "This is 'the', just say 'the' here."
+//
+// From 26 Sep 2026 (docs/SCRIPT_FIXES.md Part A): the read-back reminders are spaced in SESSIONS, not levels (a child
+// plays four or five levels in a sitting), with first/next forms for anything said per item (lettersForm, stemFor,
+// fadeForm, afterWord), rationed praise, and the map's and the reward's lines. From 27 Sep (docs/TEACHER_SCRIPT.md
+// §2.2): each game type's introduction takes a full, recap, short or no form (frameForm); the registry is games.ts.
 import { PHONEMES, type PhonemeId, type Seg, type Word } from "./phonics";
 
 // ---------------------------------------------------------------- spacing
-/** Where a notion has been explained (level indices in LEVELS order, one per telling). */
-export interface Exposure { n: number; at: number[] }
+/** Where a notion has been explained: level indices in LEVELS order (one per telling) and, from 26 Sep 2026, the
+ *  sessions it fell in (SCRIPT_FIXES A1; an old exposure has no `s`). */
+export interface Exposure { n: number; at: number[]; s?: number[] }
 /**
  * Spacing schedules: entry k is the smallest number of levels between telling k and telling k+1 (0 = the same level
  * is fine, e.g. the next story page). Past the end the notion is retired (teach moments and errors still explain it).
@@ -38,8 +44,30 @@ export function due(e: Exposure | undefined, at: number, spacing: Spacing): bool
   if (n === 0 || !e?.at.length) return true;
   return at - e.at[e.at.length - 1] >= gaps[n];
 }
-/** The exposure after one more telling at level index `at`. */
-export const told = (e: Exposure | undefined, at: number): Exposure => ({ n: (e?.n ?? 0) + 1, at: [...(e?.at ?? []), at] });
+/** The exposure after one more telling at level index `at`, in session `session` (SCRIPT_FIXES A1). Any other fields
+ *  of the exposure (a game's `lastAt`, say) are kept. */
+export const told = <E extends Exposure>(e: E | undefined, at: number, session?: number): E =>
+  ({
+    ...e,
+    n: (e?.n ?? 0) + 1,
+    at: [...(e?.at ?? []), at],
+    s: [...(e?.s ?? []), ...(session === undefined ? [] : [session])],
+  }) as E;
+
+/** Session schedules (SCRIPT_STYLE §4): entry k is the least number of sessions between telling k and telling k+1. */
+export const SESSIONS = {
+  /** a spelling's "two letters, one sound", and concept 4's "This can be…": its teach moment, then the first word
+   *  with it in each of the next two sessions; after that, only on an error */
+  reminder: [0, 1, 1],
+} as const satisfies Record<string, readonly number[]>;
+/** Is the next telling due in `session`, spaced in sessions? An old exposure with no sessions is due (so an old save
+ *  gets one telling, then the new spacing). Past the end of `gaps` the notion is retired. */
+export function dueInSessions(e: Exposure | undefined, session: number, gaps: readonly number[]): boolean {
+  const n = e?.n ?? 0;
+  if (n >= gaps.length) return false;
+  const last = e?.s?.at(-1);
+  return n === 0 || last === undefined || session - last >= gaps[n];
+}
 
 // ---------------------------------------------------------------- two letters, one sound
 /** How many letters a spelling has, said the teach.ts way (its lettersLine): "It's two letters, but it's one sound."
@@ -54,6 +82,31 @@ export const lettersKey = (g: string) => `letters:${g}`;
 /** The spellings of a word worth a "two letters, one sound" (or < x >) reminder, with their slot, first come first. */
 export const multiLetter = (segs: readonly Seg[]): { i: number; seg: Seg }[] =>
   segs.map((seg, i) => ({ i, seg })).filter(({ seg }) => lettersLine(seg) !== null);
+/** How many letters a spelling has ("a-e" counts as two). */
+export const letterCount = (g: string) => g.replace(/-/g, "").length;
+
+/** How a spelling's letters are said at its teach moment (SCRIPT_STYLE §4.2 and §11.2): in full; as "This one's two
+ *  letters too…" when the two-letter sentence was said in full under two minutes ago (the second spelling in a row);
+ *  and not at all when two two-letter lines already fell in the last minute (the letters are on screen to see).
+ *  `recent`: the letters lines said so far (game-time ms, and how many letters), oldest first. A three- or four-letter
+ *  spelling is always said in full: it is different news, and it never makes the next one "two letters too". */
+export type LettersForm = "full" | "too" | "none";
+export interface LettersSaid { at: number; form: LettersForm; n: number }
+export function lettersForm(seg: Pick<Seg, "g" | "p">, recent: readonly LettersSaid[], now: number): LettersForm {
+  const n = letterCount(seg.g);
+  if (n !== 2 || seg.g === "x") return "full";
+  const twos = recent.filter((r) => r.n === 2);
+  if (twos.filter((r) => r.form !== "none" && now - r.at < 60_000).length >= 2) return "none";
+  const full = twos.filter((r) => r.form === "full").at(-1);
+  return full && now - full.at < 120_000 ? "too" : "full";
+}
+
+/** A wrong tile that splits a two-letter (or longer) spelling: one of its letters, or a shorter part of it
+ *  (< s > or < h > for < sh >, < a > for < ai >, < ch > for < tch >). SCRIPT_STYLE §10. */
+export function splitsSpelling(tile: string, need: Pick<Seg, "g">): boolean {
+  const g = need.g.replace(/-/g, "");
+  return g.length >= 2 && need.g !== "x" && tile.length < g.length && g.includes(tile);
+}
 
 // ---------------------------------------------------------------- one spelling, two sounds
 /** Spellings that spell two different sounds in the current worlds (Sounds~Write concept 4). */
@@ -102,18 +155,158 @@ export const SWAP_POSITION_LINE: Record<Position, string> = { first: "audit_swap
 
 // ---------------------------------------------------------------- rotating whole-sentence leads
 /** "Listen again" corrections, rotated so a learner who misses often doesn't hear one sentence over and over. The
- *  stretched set promises a slow word, so it is only for words with a stretched recording. */
+ *  stretched set promises a slow word, so it is only for words with a stretched recording. TEACHER_SCRIPT §5.4:
+ *  `tv_listen_here` "Let's listen again. What can you hear here?" replaces `listen_here` and `listen_again` (a line
+ *  that isn't recorded yet falls back through LISTEN_FALLBACK). */
 export const LISTEN_AGAIN = {
-  stretched: ["listen_here", "audit_listen_slowly", "audit_listen_next"],
-  plain: ["listen_here", "audit_listen_next"],
+  stretched: ["tv_listen_here", "audit_listen_slowly", "audit_listen_next"],
+  plain: ["tv_listen_here", "audit_listen_next"],
 } as const;
-/** Ninja Run's cue before a word's sounds (the first of a run keeps "Ninja Run! ..."). */
-export const RUN_BLEND_CUES = ["run_blend", "audit_sounds_again", "t_listen_for_word"] as const;
+/** What a new lead falls back to until its audio exists. */
+export const LISTEN_FALLBACK: Readonly<Record<string, string>> = { tv_listen_here: "listen_here" };
+/** Ninja Run's cue before a word's sounds, rotated (SCRIPT_FIXES C16: `t_listen_for_word` is gone, it told the child
+ *  to say the sounds while Sensei said them). */
+export const RUN_BLEND_CUES = ["run_blend", "audit_sounds_again"] as const;
+/** Ninja Run's cue for its `i`-th blend group (0 = the first): TEACHER_SCRIPT §3.21's "Listen for the word…"
+ *  (`tv_guess_q`) for groups 1–3 when it is recorded, else the rotated SCRIPT_FIXES C16 cues; from the fourth group, no
+ *  cue (the sounds alone, as the lantern comes). */
+export function runBlendCue(i: number, has: (id: string) => boolean, last?: string | null): string | null {
+  if (i >= 3) return null;
+  if (has("tv_guess_q")) return "tv_guess_q";
+  return rotate(RUN_BLEND_CUES as readonly string[], last);
+}
 /** The next item of a rotation after `last` (the first one when `last` isn't in it). */
 export function rotate<T>(list: readonly T[], last: T | null | undefined): T {
   const i = last == null ? -1 : list.indexOf(last);
   return list[(i + 1) % list.length];
 }
+
+// ---------------------------------------------------------------- praise, stems and fading (SCRIPT_FIXES A4–A6)
+/** Everyday praise after a right answer (SCRIPT_STYLE §8): never when the answer's own line is the praise (a streak
+ *  tier-up, a gem's first fill, a reminder), never straight before a closing line, otherwise every `every`-th right
+ *  answer (2; the warm-ups keep their 3). */
+export function praiseDue(o: { rightSincePraise: number; replaced?: boolean; closingNext?: boolean; every?: number }): boolean {
+  if (o.replaced || o.closingNext) return false;
+  return o.rightSincePraise + 1 >= (o.every ?? 2);
+}
+
+/** Recorded stems for questions asked item after item (SCRIPT_STYLE §5): the first two items use the first stem, then
+ *  they rotate, so no stem is said more than three times running. `write` is Ninja Eyes' set wherever it is played,
+ *  w1-2 and the Dojo alike (TEACHER_SCRIPT §3.13 B, §3.26 B). The old Dojo set (`dojo_find` "Can you find…",
+ *  `st_find_q2` "Where's…", `st_find_q3` "Now find…") is gone: `dojo_find` is retired (§3.26) and the others are
+ *  clipped orders (§2.4, script-audit's `bare-command`). */
+export const STEMS = {
+  first: ["first_q", "st_first_q2", "st_first_q3"],
+  write: ["tv_which_write", "tv_find_write", "tv_now_find"],
+} as const;
+/** The stem for item `n` (0 = the first). `has`: only stems whose audio exists. */
+export function stemFor(stems: readonly string[], n: number, has: (id: string) => boolean): string {
+  const ok = stems.filter(has);
+  if (ok.length < 2 || n < 2) return ok[0] ?? stems[0];
+  return ok[(n - 1) % ok.length];
+}
+
+/** SCRIPT_STYLE §5: the full instruction until the child has got `after` items of this kind right first time in a row;
+ *  then only the stimulus; any miss resets the run (the caller passes 0). The faded form is the stimulus alone or a
+ *  whole sentence, never a clipped order (TEACHER_SCRIPT §2.4). */
+export const fadeForm = (firstTriesInARow: number, after = 2): "full" | "short" => (firstTriesInARow >= after ? "short" : "full");
+
+// ---------------------------------------------------------------- after a word (SCRIPT_FIXES A7)
+export type AfterWord = "reminder" | "gem-first" | "praise";
+/** After a word's read-back (SCRIPT_STYLE §9): at most one of a reminder, the gem's first-fill explanation and
+ *  everyday praise, in that order of priority; nothing when the streak tier-up or "Ninjas read this way!" already
+ *  spoke for this word. What doesn't fit is deferred to the next word (not marked heard). */
+export function afterWord(o: { tierUp: boolean; leftRight: boolean; reminder: boolean; gemFirst: boolean; praise: boolean }): { say: AfterWord | null; defer: AfterWord[] } {
+  const want: AfterWord[] = [...(o.reminder ? ["reminder" as const] : []), ...(o.gemFirst ? ["gem-first" as const] : []), ...(o.praise ? ["praise" as const] : [])];
+  const room = o.tierUp || o.leftRight ? 0 : 1;
+  const say = room ? want[0] ?? null : null;
+  return { say, defer: want.filter((w) => w !== say && w !== "praise") };
+}
+
+// ---------------------------------------------------------------- the map, the reward, the jump offer (SCRIPT_FIXES A8)
+/** What the map says on arrival (SCRIPT_STYLE §4.2, TEACHER_SCRIPT §5.8): a lead that was asked for (welcome back,
+ *  practise again), or the land's welcome when the land has changed since the last welcome this session; then either
+ *  the one-line preview of a game this child has never played (`tv_map_next_<game>`, which says to tap the glowing
+ *  stone), or the glowing-stone hint on a save's first two map visits (after that it is the map's idle nudge).
+ *  `has`: which lines are recorded (without it, or until `tv_map_hint` is recorded, the hint is `map_hint`). */
+export function arrivalLines(o: { world: number; welcomed: number | null; lead: string | null; hintsSaid: number; preview?: string | null; has?: (id: string) => boolean }): string[] {
+  const has = o.has ?? (() => false);
+  const out: string[] = [];
+  if (o.lead) out.push(o.lead);
+  else if (o.welcomed !== o.world) out.push(`world_${o.world}`);
+  if (o.preview) out.push(o.preview);
+  else if (o.hintsSaid < 2) out.push(has("tv_map_hint") ? "tv_map_hint" : "map_hint");
+  return out;
+}
+/** Number words for the counted line families (`tv_won_<n>`, `tv_pocket_ready_<n>`, `tv_learn_frame_<n>`, …). */
+export const NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"] as const;
+/** The reward's opening lines (SCRIPT_STYLE §8, TEACHER_SCRIPT §5.7): the level's own closing line was its praise, so
+ *  "You did it!" only when the level had none; then the news. `newPetals` counts sounds, not spellings (Dec8).
+ *  `toReward`: the save's first three rewards that bring a new sound lead with "Let's see what you won back from Baron
+ *  Muddle." The won-back line is `tv_won_one` or `tv_won_<n>` (two to four) when `has` says it is recorded, else
+ *  `petal_got` / `petals_got`; the caller says each sound after it. */
+export function rewardLead(o: { closingSaid: boolean; boss: boolean; newPetals: number; lastInWorld: boolean; finale: boolean; toReward?: boolean; has?: (id: string) => boolean }): string[] {
+  const has = o.has ?? (() => false);
+  const out: string[] = [];
+  if (o.boss) out.push("battle_boss_win");
+  else if (!o.closingSaid) out.push("yay_7");
+  if (o.newPetals) {
+    if (o.toReward && has("tv_to_reward")) out.push("tv_to_reward");
+    const tv = o.newPetals === 1 ? "tv_won_one" : o.newPetals <= 4 ? `tv_won_${NUMBER_WORDS[o.newPetals]}` : null;
+    out.push(tv && has(tv) ? tv : o.newPetals > 1 ? "petals_got" : "petal_got");
+  }
+  if (o.lastInWorld && !o.finale) out.push("world_done");
+  return out;
+}
+/** The jump-ahead offer (SCRIPT_STYLE §4.2, Dec9): never in a child's first two sessions; then at most once a session,
+ *  with two sessions' rest after each offer. */
+export function jumpOfferDue(e: Exposure | undefined, session: number): boolean {
+  if (session < 3) return false;
+  const last = e?.s?.at(-1);
+  return last === undefined || session - last >= 2;
+}
+
+/** Example words for a spelling that aren't already used on this screen (SCRIPT_STYLE §6: never one word for two
+ *  spellings in one breath). */
+export const freshWords = <W extends { text: string }>(words: readonly W[], used: ReadonlySet<string>, n = words.length): W[] =>
+  words.filter((w) => !used.has(w.text)).slice(0, n);
+
+// ---------------------------------------------------------------- the teacher's voice: full, recap, short, none
+// TEACHER_SCRIPT §2.2 and teacher-voice/mechanics.md §5.2: each game type has one ledger entry, `game:<id>`. A telling
+// (the full form's Ready answered, or a recap's first answer) is counted with its session; `played()` notes when the
+// game was last played and whether the child struggled.
+export type FrameForm = "full" | "recap" | "short" | "none";
+/** A game type's exposure: its tellings with their sessions (A1), plus when it was last played (wall-clock ms), in
+ *  which session, and whether the child struggled then. */
+export interface GameExposure extends Exposure { lastAt?: number; lastSession?: number; struggled?: boolean }
+const DAY = 86_400_000;
+/** ARCHITECTURE §6.2 `mech:`: two tellings, the second in a later session */
+export const GAME_TELLINGS = 2;
+/** `mech:` refresh: a game not played for three weeks is told again (a recap, with its Ready hold) */
+export const GAME_REFRESH_MS = 21 * DAY;
+/**
+ * Which form a game's introduction takes now:
+ * - `full`: never told (frame, demo, Ready, hand-over);
+ * - `recap`: the child struggled last time, or hasn't played it for 21 days, or it is the first play in a later
+ *   session while it has had fewer than two tellings;
+ * - `short`: the first play in a session once it has had its two tellings;
+ * - `none`: a later play in the same session (inside a level: a level never opens on `none`, see narrate.tsx).
+ */
+export function frameForm(e: GameExposure | undefined, session: number, now: number): FrameForm {
+  if (!e || e.n === 0) return "full";
+  if (e.struggled) return "recap";
+  if (e.lastAt !== undefined && now - e.lastAt > GAME_REFRESH_MS) return "recap";
+  if (e.n < GAME_TELLINGS && (e.s?.at(-1) ?? session) < session) return "recap";
+  return e.lastSession === session ? "none" : "short";
+}
+/** Does a recap get the Ready hold? Only after 21 days away or a struggle (TEACHER_SCRIPT §2.2, T3): an ordinary
+ *  recap's telling counts on the child's first answer instead. */
+export function recapHold(e: GameExposure | undefined, now: number): boolean {
+  if (!e || e.n === 0) return false;
+  return !!e.struggled || (e.lastAt !== undefined && now - e.lastAt > GAME_REFRESH_MS);
+}
+/** A level never opens on `none`: it opens with at least the short line. */
+export const openingForm = (f: FrameForm): FrameForm => (f === "none" ? "short" : f);
 
 // ---------------------------------------------------------------- special words (stories)
 /** Common words with a spelling the child hasn't been taught, as the official parent guidance handles them: "This

@@ -50,8 +50,14 @@
 .wu-speed.rabbit { background: radial-gradient(circle at 40% 35%, #fff4fb, #ffd0e0 75%); }
 .wu-speed img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 .wu-speed.pulse { animation: wu-pulse 1s ease-in-out infinite; }
-@keyframes wu-pulse { 50% { scale: 1.12; box-shadow: 0 7px 0 var(--ink), 0 0 0 10px rgba(255, 244, 220, 0.8); } }
+@keyframes wu-pulse { 50% { scale: 1.12; } }
 .wu-speed.glow { box-shadow: 0 7px 0 var(--ink), 0 0 0 10px rgba(255, 197, 61, 0.95), 0 0 28px 10px rgba(255, 214, 102, 0.7); animation: wu-pulse 1s ease-in-out infinite; }
+/* the pulse's cream ring: a still ring faded in and out with the swell (it was box-shadow keyframes, restyled on the main
+   thread every frame; docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md C2.7). Only its shadows show, outside the button. */
+/* (its own copy of the ink drop shadow on top, so the ring passes under the ink as it did in the one shadow list) */
+.wu-speed::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; box-shadow: 0 7px 0 var(--ink), 0 0 0 10px rgba(255, 244, 220, 0.8); opacity: 0; pointer-events: none; }
+.wu-speed.pulse::after, .wu-speed.glow::after { animation: wu-ring 1s ease-in-out infinite; }
+@keyframes wu-ring { 50% { opacity: 1; } }
 .wu-speed.flash { scale: 1.16; box-shadow: 0 7px 0 var(--ink), 0 0 0 10px #fff8e8, 0 0 34px 14px rgba(255, 248, 226, 0.95); }
 
 /* ---------------------------------------------------------------- the sound ribbon under the fast/slow card */

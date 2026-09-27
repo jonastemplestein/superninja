@@ -9,6 +9,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Rain, tray and tail."
  },
  {
+  "id": "tg_ai_ae_way",
+  "text": "This is the way we spell it in rain."
+ },
+ {
   "id": "tg_ai_ae_in",
   "text": "...in rain."
  },
@@ -19,6 +23,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_ai_ae_like",
   "text": "...like in rain, tail and nail."
+ },
+ {
+  "id": "tg_ay_ae_way",
+  "text": "This is the way we spell it in tray."
  },
  {
   "id": "tg_ay_ae_in",
@@ -41,6 +49,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Bee, leaf and tree."
  },
  {
+  "id": "tg_ee_ee_way",
+  "text": "This is the way we spell it in bee."
+ },
+ {
   "id": "tg_ee_ee_in",
   "text": "...in bee."
  },
@@ -51,6 +63,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_ee_ee_like",
   "text": "...like in bee, tree and feet."
+ },
+ {
+  "id": "tg_ea_ee_way",
+  "text": "This is the way we spell it in leaf."
  },
  {
   "id": "tg_ea_ee_in",
@@ -73,6 +89,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Pie, light and tie."
  },
  {
+  "id": "tg_ie_ie_way",
+  "text": "This is the way we spell it in pie."
+ },
+ {
   "id": "tg_ie_ie_in",
   "text": "...in pie."
  },
@@ -83,6 +103,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_ie_ie_like",
   "text": "...like in pie, tie and lie."
+ },
+ {
+  "id": "tg_igh_ie_way",
+  "text": "This is the way we spell it in light."
  },
  {
   "id": "tg_igh_ie_in",
@@ -105,6 +129,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Boat, snow and goat."
  },
  {
+  "id": "tg_oa_oe_way",
+  "text": "This is the way we spell it in boat."
+ },
+ {
   "id": "tg_oa_oe_in",
   "text": "...in boat."
  },
@@ -115,6 +143,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_oa_oe_like",
   "text": "...like in boat, goat and coat."
+ },
+ {
+  "id": "tg_ow_oe_way",
+  "text": "This is the way we spell it in snow."
  },
  {
   "id": "tg_ow_oe_in",
@@ -137,6 +169,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Sit, dress and sun."
  },
  {
+  "id": "tg_s_s_way",
+  "text": "This is the way we spell it in sit."
+ },
+ {
   "id": "tg_s_s_in",
   "text": "...in sit."
  },
@@ -147,6 +183,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_s_s_like",
   "text": "...like in sit, sun and bus."
+ },
+ {
+  "id": "tg_ss_s_way",
+  "text": "This is the way we spell it in dress."
  },
  {
   "id": "tg_ss_s_in",
@@ -169,6 +209,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Leg, doll and lid."
  },
  {
+  "id": "tg_l_l_way",
+  "text": "This is the way we spell it in leg."
+ },
+ {
   "id": "tg_l_l_in",
   "text": "...in leg."
  },
@@ -179,6 +223,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_l_l_like",
   "text": "...like in leg, lid and log."
+ },
+ {
+  "id": "tg_ll_l_way",
+  "text": "This is the way we spell it in doll."
  },
  {
   "id": "tg_ll_l_in",
@@ -201,6 +249,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Fan, off and fox."
  },
  {
+  "id": "tg_f_f_way",
+  "text": "This is the way we spell it in fan."
+ },
+ {
   "id": "tg_f_f_in",
   "text": "...in fan."
  },
@@ -211,6 +263,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_f_f_like",
   "text": "...like in fan, fox and elf."
+ },
+ {
+  "id": "tg_ff_f_way",
+  "text": "This is the way we spell it in off."
  },
  {
   "id": "tg_ff_f_in",
@@ -233,6 +289,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Den, bed and peg."
  },
  {
+  "id": "tg_e_e_way",
+  "text": "This is the way we spell it in den."
+ },
+ {
   "id": "tg_e_e_in",
   "text": "...in den."
  },
@@ -251,6 +311,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_u_list",
   "text": "Run, rug and cup."
+ },
+ {
+  "id": "tg_u_u_way",
+  "text": "This is the way we spell it in run."
  },
  {
   "id": "tg_u_u_in",
@@ -273,6 +337,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Pot, top and mop."
  },
  {
+  "id": "tg_o_o_way",
+  "text": "This is the way we spell it in pot."
+ },
+ {
   "id": "tg_o_o_in",
   "text": "...in pot."
  },
@@ -291,6 +359,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_d_list",
   "text": "Dog, den and doll."
+ },
+ {
+  "id": "tg_d_d_way",
+  "text": "This is the way we spell it in dog."
  },
  {
   "id": "tg_d_d_in",
@@ -313,6 +385,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Sit, pin and tin."
  },
  {
+  "id": "tg_i_i_way",
+  "text": "This is the way we spell it in sit."
+ },
+ {
   "id": "tg_i_i_in",
   "text": "...in sit."
  },
@@ -331,6 +407,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_n_list",
   "text": "Net, nut and nest."
+ },
+ {
+  "id": "tg_n_n_way",
+  "text": "This is the way we spell it in man."
  },
  {
   "id": "tg_n_n_in",
@@ -353,6 +433,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Vet, have and van."
  },
  {
+  "id": "tg_v_v_way",
+  "text": "This is the way we spell it in vet."
+ },
+ {
   "id": "tg_v_v_in",
   "text": "...in vet."
  },
@@ -363,6 +447,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_v_v_like",
   "text": "...like in vet, van and vest."
+ },
+ {
+  "id": "tg_ve_v_way",
+  "text": "This is the way we spell it in have."
  },
  {
   "id": "tg_ve_v_in",
@@ -385,6 +473,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Jam, jug and jump."
  },
  {
+  "id": "tg_j_j_way",
+  "text": "This is the way we spell it in jam."
+ },
+ {
   "id": "tg_j_j_in",
   "text": "...in jam."
  },
@@ -403,6 +495,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_g_list",
   "text": "Goat, bag and pig."
+ },
+ {
+  "id": "tg_g_g_way",
+  "text": "This is the way we spell it in bag."
  },
  {
   "id": "tg_g_g_in",
@@ -425,6 +521,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Mat, man and map."
  },
  {
+  "id": "tg_m_m_way",
+  "text": "This is the way we spell it in mat."
+ },
+ {
   "id": "tg_m_m_in",
   "text": "...in mat."
  },
@@ -443,6 +543,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_h_list",
   "text": "Hat, hut and hutch."
+ },
+ {
+  "id": "tg_h_h_way",
+  "text": "This is the way we spell it in hat."
  },
  {
   "id": "tg_h_h_in",
@@ -465,6 +569,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Cat, king and duck."
  },
  {
+  "id": "tg_c_k_way",
+  "text": "This is the way we spell it in cat."
+ },
+ {
   "id": "tg_c_k_in",
   "text": "...in cat."
  },
@@ -475,6 +583,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_c_k_like",
   "text": "...like in cat, cap and cot."
+ },
+ {
+  "id": "tg_k_k_way",
+  "text": "This is the way we spell it in yak."
  },
  {
   "id": "tg_k_k_in",
@@ -489,6 +601,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "...like in yak, king and milk."
  },
  {
+  "id": "tg_ck_k_way",
+  "text": "This is the way we spell it in duck."
+ },
+ {
   "id": "tg_ck_k_in",
   "text": "...in duck."
  },
@@ -499,6 +615,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_ck_k_like",
   "text": "...like in duck, sock and rock."
+ },
+ {
+  "id": "tg_q_k_way",
+  "text": "This is the way we spell it in queen."
  },
  {
   "id": "tg_q_k_in",
@@ -521,6 +641,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Rat, rod and run."
  },
  {
+  "id": "tg_r_r_way",
+  "text": "This is the way we spell it in rat."
+ },
+ {
   "id": "tg_r_r_in",
   "text": "...in rat."
  },
@@ -541,16 +665,20 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Tap, tin and top."
  },
  {
+  "id": "tg_t_t_way",
+  "text": "This is the way we spell it in tap."
+ },
+ {
   "id": "tg_t_t_in",
-  "text": "...in mat."
+  "text": "...in tap."
  },
  {
   "id": "tg_t_t_see",
-  "text": "We see this spelling in sit and tap."
+  "text": "We see this spelling in mat and sit."
  },
  {
   "id": "tg_t_t_like",
-  "text": "...like in mat, sit and tap."
+  "text": "...like in tap, mat and sit."
  },
  {
   "id": "tp_z_hear",
@@ -559,6 +687,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_z_list",
   "text": "Zip, buzz and zap."
+ },
+ {
+  "id": "tg_z_z_way",
+  "text": "This is the way we spell it in zip."
  },
  {
   "id": "tg_z_z_in",
@@ -571,6 +703,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_z_z_like",
   "text": "...like in zip, zap and quiz."
+ },
+ {
+  "id": "tg_zz_z_way",
+  "text": "This is the way we spell it in buzz."
  },
  {
   "id": "tg_zz_z_in",
@@ -593,6 +729,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Mat, man and pan."
  },
  {
+  "id": "tg_a_a_way",
+  "text": "This is the way we spell it in mat."
+ },
+ {
   "id": "tg_a_a_in",
   "text": "...in mat."
  },
@@ -611,6 +751,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_p_list",
   "text": "Pan, pin and pot."
+ },
+ {
+  "id": "tg_p_p_way",
+  "text": "This is the way we spell it in pan."
  },
  {
   "id": "tg_p_p_in",
@@ -633,6 +777,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Bat, bag and bin."
  },
  {
+  "id": "tg_b_b_way",
+  "text": "This is the way we spell it in bat."
+ },
+ {
   "id": "tg_b_b_in",
   "text": "...in bat."
  },
@@ -653,6 +801,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Web, whisk and quick."
  },
  {
+  "id": "tg_w_w_way",
+  "text": "This is the way we spell it in web."
+ },
+ {
   "id": "tg_w_w_in",
   "text": "...in web."
  },
@@ -665,6 +817,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "...like in web, wig and well."
  },
  {
+  "id": "tg_wh_w_way",
+  "text": "This is the way we spell it in whisk."
+ },
+ {
   "id": "tg_wh_w_in",
   "text": "...in whisk."
  },
@@ -675,6 +831,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_wh_w_like",
   "text": "...like in whisk, when and which."
+ },
+ {
+  "id": "tg_u_w_way",
+  "text": "This is the way we spell it in queen."
  },
  {
   "id": "tg_u_w_in",
@@ -697,6 +857,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Yak, yes and yum."
  },
  {
+  "id": "tg_y_y_way",
+  "text": "This is the way we spell it in yak."
+ },
+ {
   "id": "tg_y_y_in",
   "text": "...in yak."
  },
@@ -715,6 +879,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_sh_list",
   "text": "Shop, shed and shell."
+ },
+ {
+  "id": "tg_sh_sh_way",
+  "text": "This is the way we spell it in shop."
  },
  {
   "id": "tg_sh_sh_in",
@@ -737,6 +905,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Chick, match and chest."
  },
  {
+  "id": "tg_ch_ch_way",
+  "text": "This is the way we spell it in chick."
+ },
+ {
   "id": "tg_ch_ch_in",
   "text": "...in chick."
  },
@@ -747,6 +919,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tg_ch_ch_like",
   "text": "...like in chick, chest and bench."
+ },
+ {
+  "id": "tg_tch_ch_way",
+  "text": "This is the way we spell it in match."
  },
  {
   "id": "tg_tch_ch_in",
@@ -769,6 +945,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "Moth, thin and thick."
  },
  {
+  "id": "tg_th_th_way",
+  "text": "This is the way we spell it in moth."
+ },
+ {
   "id": "tg_th_th_in",
   "text": "...in moth."
  },
@@ -789,6 +969,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
   "text": "This, that and them."
  },
  {
+  "id": "tg_th_dh_way",
+  "text": "This is the way we spell it in this."
+ },
+ {
   "id": "tg_th_dh_in",
   "text": "...in this."
  },
@@ -807,6 +991,10 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_ng_list",
   "text": "Ring, king and wing."
+ },
+ {
+  "id": "tg_ng_ng_way",
+  "text": "This is the way we spell it in ring."
  },
  {
   "id": "tg_ng_ng_in",
@@ -1083,9 +1271,9 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
   "top"
  ],
  "gem:t>t": [
+  "tap",
   "mat",
-  "sit",
-  "tap"
+  "sit"
  ],
  "petal:z": [
   "zip",

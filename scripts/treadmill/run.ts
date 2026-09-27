@@ -7,11 +7,15 @@
 //   bun scripts/treadmill/run.ts --pics          also blind-name every word picture (after art changes)
 //   bun scripts/treadmill/run.ts --joins         also "one take, or joined?": the first minutes' spliced speech, judged
 //                                                 by ear (transcript.ts, then joins.ts; ~3 min)
+//   bun scripts/treadmill/run.ts --soak          also the soak check: 8 levels in one page on desktop, judged against the
+//                                                 perf budgets (soak.ts --check; its own probe build; ~12 min)
+//   bun scripts/treadmill/run.ts --soak-phone    the same on the phone profile (CPU 4× slower), 12 levels (~25 min)
 //   bun scripts/treadmill/run.ts --watch         quick run on every change under src/ (debounced)
 // Plays a frozen build of the current source (safe to keep editing); --live / --watch use the dev server on :5173.
 // Secrets come from Doppler per stage.
 import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, watch } from "node:fs";
+import { frozen } from "./frozen";
 import { mergeRun } from "./inbox";
 
 const has = (f: string) => process.argv.includes(`--${f}`);
@@ -23,15 +27,15 @@ const arg = (k: string, d?: string) => {
 // pages under them. --live plays the dev server instead (what --watch uses).
 let BASE = arg("base", "http://localhost:5173")!;
 async function snapshot(): Promise<() => void> {
-  const out = "playtest/.build";
-  sh("snapshot build", ["bunx", "vite", "build", "--outDir", out, "--emptyOutDir", "--logLevel", "warn"]);
-  const srv = Bun.spawn(["bunx", "vite", "preview", "--outDir", out, "--port", "4180", "--strictPort"], { stdout: "ignore", stderr: "ignore" });
-  for (let i = 0; i < 50; i++) {
-    if (await fetch("http://localhost:4180/play/").then((r) => r.ok).catch(() => false)) break;
-    await new Promise((r) => setTimeout(r, 200));
+  process.stdout.write("▶ snapshot build\n");
+  try {
+    const f = await frozen({ port: 4180, out: "playtest/.build", retry: 1, log: (s) => console.log(`  ${s}`) });
+    BASE = f.base;
+    return f.stop;
+  } catch (e) {
+    console.error(`  ${(e as Error).message}`);
+    process.exit(1);
   }
-  BASE = "http://localhost:4180";
-  return () => srv.kill();
 }
 const QUICK = ["w1-wu1", "w1-wu2", "w1-2", "w1-4", "w1-6", "w1-7", "w1-8", "w1-9", "w1-14", "w1-15", "w6-br1", "training", "map"];
 const GEMINI = ["doppler", "run", "-p", "os-legacy-2026-04", "-c", "dev", "--"];
@@ -66,8 +70,17 @@ async function once(quick: boolean) {
   }
   if (has("personas")) sh("personas", ["bun", "scripts/treadmill/personas.ts", runDir, "--base", BASE]);
   stop();
+  // the soak check plays its own frozen build with the module probes (soak.vite.config.ts), on its own port
+  if (has("soak") || has("soak-phone")) {
+    const profile = has("soak-phone") ? ["--mobile", "--cpu", "4", "--levels", "12", "--idle", "60", "--stress", "150", "--port", "4191"] : ["--levels", "8", "--idle", "30", "--stress", "60", "--port", "4190"];
+    sh(`soak check (${has("soak-phone") ? "phone ×4" : "desktop"})`, ["bun", "scripts/treadmill/soak.ts", ...profile, "--fast", "2", "--check", "--out", `${runDir}/soak`, "--findings", `${runDir}/soak.json`]);
+  }
   const s = mergeRun(runDir);
   console.log(`\n📥 playtest/INBOX.md — ${s.blockers} blockers, ${s.major} major, ${s.total} total (${s.new} new)`);
+  if (existsSync(`${runDir}/soak.json`)) {
+    const fails: { title: string }[] = JSON.parse(readFileSync(`${runDir}/soak.json`, "utf8"));
+    console.log(fails.length ? `⚠️  soak: ${fails.length} budgets failed (${runDir}/soak/summary.md)\n${fails.map((f) => `   - ${f.title}`).join("\n")}` : `✅ soak: every budget passed (${runDir}/soak/summary.md)`);
+  }
 }
 
 if (has("watch")) {

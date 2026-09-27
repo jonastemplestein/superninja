@@ -48,7 +48,8 @@ export function Sticker({ w, kind, size = 110, onTap, className = "", style, lab
         <span className="st-gloss" aria-hidden="true" />
         {kind === "shiny" && <span className="st-holo" aria-hidden="true" />}
       </span>
-      {kind === "word" && pic && <span className="stk-word">{w}</span>}
+      {/* (data-w: its shimmer is a brighter copy of it, stickers.css .stk-word::after) */}
+      {kind === "word" && pic && <span className="stk-word" data-w={w}>{w}</span>}
     </>
   );
   const cls = `sticker ${kind} ${className}`;
@@ -138,6 +139,8 @@ export function StickerReward(p: StickerRewardProps) {
   const [flash, setFlash] = useState(false);
   const [raysAt, setRaysAt] = useState<{ x: number; y: number } | null>(null);
   const [plus, setPlus] = useState<number | null>(null);
+  // the "+N" flight has ended: the flown stickers (invisible now) go, and their shimmer and holo sweep with them
+  const [flown, setFlown] = useState(false);
   // Reward 1: "show" (the book's show), "turn" (Tap a sticker!), "end" (held on Next). Reward 2 and later: "end".
   const [stage, setStage] = useState<"show" | "turn" | "end">(p.mode === "intro" ? "show" : "end");
   const [replaying, setReplaying] = useState(false); // Show me again is playing the book's show (the turn waits)
@@ -309,7 +312,7 @@ export function StickerReward(p: StickerRewardProps) {
   if (p.mode === "short") {
     steps.push({
       key: "plus",
-      enter: () => setPlus(null),
+      enter: () => (setPlus(null), setFlown(false)),
       run: async (live) => {
         const again = replayed("plus");
         // later rewards: the new stickers fly into the book icon in the corner, "+N"
@@ -591,8 +594,15 @@ export function StickerReward(p: StickerRewardProps) {
       )}
       {/* later rewards: +N into the Sticker Book icon */}
       {plus != null && (
-        <div className="st-mini" key={`mini${plus}`}>
-          {p.words.slice(0, 5).map((w, i) => <Sticker key={w} w={w} kind={stickerKind(w)} size={96} className="st-mini-fly" style={{ "--i": i } as CSSProperties} />)}
+        <div
+          className="st-mini"
+          key={`mini${plus}`}
+          onAnimationEnd={(e) => {
+            // the last sticker to fly in (it leaves last) has faded out
+            if (e.animationName === "st-mini" && (e.target as HTMLElement).dataset.sticker === p.words.slice(0, 5).at(-1)) setFlown(true);
+          }}
+        >
+          {!flown && p.words.slice(0, 5).map((w, i) => <Sticker key={w} w={w} kind={stickerKind(w)} size={96} className="st-mini-fly" style={{ "--i": i } as CSSProperties} />)}
           <div className="st-mini-book"><img src={img("item_sticker_book")} alt="" /><span className="st-plus">+{plus}</span></div>
         </div>
       )}

@@ -2311,8 +2311,13 @@
  },
  "public/a/l/chose.mp3": {
   "score": 10,
-  "heard": "ɡreɪt tʃɔɪs lɪts rɛskjuː ðəʊz saʊndz",
-  "text": "Great choice! Let's rescue those sounds!"
+  "heard": "ɡɹeɪt tʃɔɪs",
+  "text": "Great choice!",
+  "takes": 1,
+  "wps": 2.24,
+  "seconds": 0.89,
+  "lufs": -19,
+  "target": -19
  },
  "public/a/l/world_1.mp3": {
   "score": 10,
@@ -2372,7 +2377,12 @@
  "public/a/l/yay_4.mp3": {
   "score": 10,
   "heard": "wɛl dʌn",
-  "text": "Well done!"
+  "text": "Well done.",
+  "takes": 1,
+  "wps": 1.56,
+  "seconds": 1.28,
+  "lufs": -15.9,
+  "target": -16
  },
  "public/a/l/yay_8.mp3": {
   "score": 10,
@@ -2577,7 +2587,12 @@
  "public/a/l/run_read.mp3": {
   "score": 10,
   "heard": "riːd ðə wɜːd ænd kætʃ ðə mætʃɪŋ pɪktʃə",
-  "text": "Read the word, and catch the matching picture!"
+  "text": "Read the word, and catch the matching picture.",
+  "takes": 1,
+  "wps": 2.81,
+  "seconds": 2.84,
+  "lufs": -16.2,
+  "target": -16
  },
  "public/a/l/swap_which.mp3": {
   "score": 10,
@@ -2611,8 +2626,13 @@
  },
  "public/a/l/story_your_turn.mp3": {
   "score": 10,
-  "heard": "jɔː tɜːn tə riːd tæp ə wɜːd ɪf juː niːd hɛlp",
-  "text": "Your turn to read! Tap a word if you need help."
+  "heard": "jɔː tɜːn tə ɹiːd",
+  "text": "Your turn to read.",
+  "takes": 6,
+  "wps": 3.01,
+  "seconds": 1.33,
+  "lufs": -16.4,
+  "target": -16
  },
  "public/a/l/story_question.mp3": {
   "score": 10,
@@ -3220,9 +3240,14 @@
   "text": "Do you know some sounds already? Tap the little seed if you're just starting. Tap the star to show me what you know!"
  },
  "public/a/l/trial_fail.mp3": {
-  "score": 20,
+  "score": 10,
   "heard": "səʊ kləʊs kiːp pleɪɪŋ ænd tɹaɪ əɡɛn suːn",
-  "text": "So close! Keep playing, and try again soon!"
+  "text": "So close! Keep playing, and try again soon.",
+  "takes": 1,
+  "wps": 2.26,
+  "seconds": 3.55,
+  "lufs": -16,
+  "target": -16
  },
  "public/a/l/place_done.mp3": {
   "score": 20,
@@ -3245,9 +3270,51 @@
   "text": "Tap the big green button to start!"
  },
  "public/a/l/help_look.mp3": {
-  "score": 20,
-  "heard": "lʊk aɪl ʃəʊ juː",
-  "text": "Look! I'll show you."
+  "score": 10,
+  "heard": "lɛt miː ʃəʊ juː",
+  "text": "Let me show you...",
+  "takes": 31,
+  "judged": 8,
+  "wps": 3.15,
+  "seconds": 1.27,
+  "lufs": -15.9,
+  "target": -16,
+  "fall": 0.3,
+  "fall_gate": 0.3,
+  "fall_low": -0.32,
+  "falls": [
+   6.8,
+   3.47,
+   14.88,
+   3,
+   3.81,
+   5.42,
+   17.62,
+   2.46,
+   3,
+   4.66,
+   1.28,
+   4.61,
+   2.03,
+   3.53,
+   1.6,
+   4.39,
+   8.93,
+   6.7,
+   -1.39,
+   7.82,
+   1.78,
+   0.87,
+   14.82,
+   2.17,
+   3.37,
+   9.74,
+   3.18,
+   1.67,
+   11.55,
+   1.13,
+   0.3
+  ]
  },
  "public/a/l/help_sort.mp3": {
   "score": 20,
@@ -3260,9 +3327,14 @@
   "text": "Tap the green arrow to carry on!"
  },
  "public/a/l/help_run.mp3": {
-  "score": 20,
+  "score": 10,
   "heard": "tæp ɛniwɛə tə dʒʌmp tæp ə læntən tə kætʃ ɪt",
-  "text": "Tap anywhere to jump. Tap a lantern to catch it!"
+  "text": "Tap anywhere to jump. Tap a lantern to catch it.",
+  "takes": 1,
+  "wps": 2.89,
+  "seconds": 3.46,
+  "lufs": -15.9,
+  "target": -16
  },
  "public/a/l/help_swap_new.mp3": {
   "score": 20,
@@ -3435,9 +3507,14 @@
   "text": "How far shall we jump? Ask a grown-up to help you choose."
  },
  "public/a/l/flower_i1.mp3": {
-  "score": 20,
-  "heard": "ðɪs ɪz ðə wɜːld flaʊə bærən mʌdəl bluː ɔːl ɪts pɛtəlz əweɪ",
-  "text": "This is the World Flower. Baron Muddle blew all its petals away!"
+  "score": 10,
+  "heard": "ðɪs ɪz ðə wɜːld flaʊə ˈbærən ˈmʌdəl bluː ɔːl ɪts ˈpɛtlz əˈweɪ",
+  "text": "This is the World Flower. Baron Muddle blew all its petals away.",
+  "takes": 1,
+  "wps": 2.75,
+  "seconds": 4.36,
+  "lufs": -16,
+  "target": -16
  },
  "public/a/l/flower_i5.mp3": {
   "score": 20,
@@ -3610,14 +3687,24 @@
   "text": "Now I find each sound, one at a time."
  },
  "public/a/l/its_this_one.mp3": {
-  "score": 20,
-  "heard": "ɪts ðɪs wʌn seɪ ɪt æz ju pʊt ɪt hɪə",
-  "text": "It's this one! Say it as you put it here."
+  "score": 10,
+  "heard": "ɪts ðɪs wʌn seɪ ðə saʊnd æz juː pʊt ɪt ɒn ðə laɪn",
+  "text": "It's this one. Say the sound as you put it on the line.",
+  "takes": 6,
+  "wps": 3.04,
+  "seconds": 4.28,
+  "lufs": -16.1,
+  "target": -16
  },
  "public/a/l/say_sounds_read.mp3": {
-  "score": 20,
-  "heard": "seɪ ðə saʊndz ænd riːd ðə wɜːd",
-  "text": "Say the sounds... and read the word!"
+  "score": 10,
+  "heard": "seɪ ðə saʊndz ænd ɹiːd ðə wɜːd",
+  "text": "Say the sounds, and read the word.",
+  "takes": 1,
+  "wps": 2.8,
+  "seconds": 2.5,
+  "lufs": -16.3,
+  "target": -16
  },
  "public/a/l/three_sounds.mp3": {
   "score": 20,
@@ -3770,10 +3857,14 @@
   "note": "picked from 6 takes to match this_is_a (0.65 s, 242 Hz)"
  },
  "public/a/l/streak_lost.mp3": {
-  "score": 20,
-  "heard": "kʰiːp ˈɡəʊɪŋ ˈnɪndʒə",
-  "text": "Keep going, ninja!",
-  "note": "best of 4 (Gemini ranking: brightest, never disappointed)"
+  "score": 10,
+  "heard": "kʰiːp ɡəʊɪŋ nɪndʒə",
+  "text": "Keep going, ninja.",
+  "takes": 1,
+  "wps": 2.11,
+  "seconds": 1.42,
+  "lufs": -16.2,
+  "target": -16
  },
  "public/a/l/streak_6.mp3": {
   "score": 20,
@@ -4001,9 +4092,14 @@
   "text": "In this word, this is..."
  },
  "public/a/l/t_if_you_say_sounds.mp3": {
-  "score": 20,
-  "heard": "ɪf ju seɪ ðə saʊndz ju kən hɪə ðə wɜːd",
-  "text": "If you say the sounds, you can hear the word!"
+  "score": 10,
+  "heard": "ɪf juː seɪ ðə saʊndz juː kən hɪə ðə wɜːd",
+  "text": "If you say the sounds, you can hear the word.",
+  "takes": 4,
+  "wps": 3.18,
+  "seconds": 3.15,
+  "lufs": -16.1,
+  "target": -16
  },
  "public/a/l/t_visit.mp3": {
   "score": 19,
@@ -4726,14 +4822,24 @@
   "text": "You can hear it in tap, tin and top."
  },
  "public/a/l/tg_t_t_in.mp3": {
-  "score": 20,
-  "heard": "ɪn mæt",
-  "text": "...in mat."
+  "score": 10,
+  "heard": "ɪn tæp",
+  "text": "...in tap.",
+  "takes": 1,
+  "wps": 1.96,
+  "seconds": 1.02,
+  "lufs": -19.3,
+  "target": -19
  },
  "public/a/l/tg_t_t_see.mp3": {
-  "score": 20,
-  "heard": "wiː siː ðɪs ˈspɛlɪŋ ɪn sɪt ənd tæp",
-  "text": "We see this spelling in sit and tap."
+  "score": 10,
+  "heard": "wiː siː ðɪs spɛlɪŋ ɪn mæt ænd sɪt",
+  "text": "We see this spelling in mat and sit.",
+  "takes": 1,
+  "wps": 2.18,
+  "seconds": 3.67,
+  "lufs": -16,
+  "target": -16
  },
  "public/a/l/tp_z_list.mp3": {
   "score": 20,
@@ -4741,9 +4847,14 @@
   "text": "Zip, buzz and zap."
  },
  "public/a/l/tg_t_t_like.mp3": {
-  "score": 20,
-  "heard": "laɪk ɪn mæt sɪt ænd tæp",
-  "text": "...like in mat, sit and tap."
+  "score": 10,
+  "heard": "laɪk ɪn tæp mæt ən sɪt",
+  "text": "...like in tap, mat and sit.",
+  "takes": 1,
+  "wps": 2.05,
+  "seconds": 2.92,
+  "lufs": -16.1,
+  "target": -16
  },
  "public/a/l/tg_z_z_in.mp3": {
   "score": 20,
@@ -5126,9 +5237,14 @@
   "text": "Big school!"
  },
  "public/a/l/fm_opt_q2.mp3": {
-  "score": 20,
-  "heard": "wɪtʃ klɑːs ɑː juː ɪn",
-  "text": "Which class are you in?"
+  "score": 10,
+  "heard": "wɪtʃ klɑːs ɑː juː ɪn? tæp jɔː klɑːs.",
+  "text": "Which class are you in? Tap your class.",
+  "takes": 3,
+  "wps": 3.07,
+  "seconds": 2.61,
+  "lufs": -16.2,
+  "target": -16
  },
  "public/a/l/fm_opt_echo_notyet.mp3": {
   "score": 20,
@@ -5156,14 +5272,24 @@
   "text": "Teddy, or school? Tap one!"
  },
  "public/a/l/fm_opt_q2_again.mp3": {
-  "score": 20,
-  "heard": "tʰæp jɔː klɑːs",
-  "text": "Tap your class!"
+  "score": 10,
+  "heard": "tæp jɔː klɑːs ɔː ðə klaʊd",
+  "text": "Tap your class, or the cloud.",
+  "takes": 1,
+  "wps": 2.71,
+  "seconds": 2.21,
+  "lufs": -16.1,
+  "target": -16
  },
  "public/a/l/fm_opt_unsure.mp3": {
-  "score": 20,
+  "score": 10,
   "heard": "nɒt ʃɔː tæp ðə klaʊd",
-  "text": "Not sure? Tap the cloud!"
+  "text": "Not sure? Tap the cloud.",
+  "takes": 1,
+  "wps": 2.29,
+  "seconds": 2.18,
+  "lufs": -16,
+  "target": -16
  },
  "public/a/l/fm_opt_ok_notyet.mp3": {
   "score": 20,
@@ -5231,9 +5357,14 @@
   "text": "It's this one!"
  },
  "public/a/l/fm_last_one.mp3": {
-  "score": 20,
+  "score": 10,
   "heard": "hɪəz ðə lɑːst wʌn",
-  "text": "Here's the last one!"
+  "text": "Here's the last one.",
+  "takes": 7,
+  "wps": 3.17,
+  "seconds": 1.26,
+  "lufs": -16.3,
+  "target": -16
  },
  "public/a/l/fm_help_ok.mp3": {
   "score": 20,
@@ -5276,9 +5407,14 @@
   "text": "Listen to my slow word..."
  },
  "public/a/l/fm_tap_tortoise.mp3": {
-  "score": 20,
-  "heard": "jɔː tɜːn! tæp ðə tɔːtəs, ən seɪ ɪt sləʊli wɪð miː. [re-taken for pace, 26 Sep]",
-  "text": "Your turn! Tap the tortoise, and say it slowly with me."
+  "score": 10,
+  "heard": "naʊ juː tæp ðə ˈtɔːtəs ænd seɪ ɪt ˈsləʊli wɪð miː",
+  "text": "Now you tap the tortoise, and say it slowly with me.",
+  "takes": 1,
+  "wps": 3.23,
+  "seconds": 3.4,
+  "lufs": -16.1,
+  "target": -16
  },
  "public/a/l/fm_which_pic.mp3": {
   "score": 20,
@@ -5286,9 +5422,14 @@
   "text": "Which picture is it?"
  },
  "public/a/l/fm_tap_rabbit.mp3": {
-  "score": 20,
-  "heard": "naʊ tæp ðə ˈræbɪt ænd seɪ ɪt fɑːst",
-  "text": "Now tap the rabbit, and say it fast!"
+  "score": 10,
+  "heard": "naʊ tæp ðə ˈɹæbɪt ənd seɪ ɪt fɑːst",
+  "text": "Now tap the rabbit, and say it fast.",
+  "takes": 1,
+  "wps": 3,
+  "seconds": 2.67,
+  "lufs": -16.8,
+  "target": -16
  },
  "public/a/l/fm_same_word.mp3": {
   "score": 20,
@@ -5342,8 +5483,21 @@
  },
  "public/a/l/fm_notice_sun_sock.mp3": {
   "score": 10,
-  "heard": "dɪd juː nəʊtɪs sʌn ænd sɒk stɑːt wɪð ðə seɪm saʊnd [re-taken for pace, 26 Sep]",
-  "text": "Did you notice? Sun and sock start with the same sound..."
+  "heard": "sʌn ænd sɒk stɑːt wɪð ðə seɪm saʊnd",
+  "text": "Sun and sock start with the same sound...",
+  "takes": 2,
+  "judged": 1,
+  "wps": 2.72,
+  "seconds": 2.94,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": -0.84,
+  "fall_gate": -6.67,
+  "fall_low": -0.84,
+  "falls": [
+   6.67,
+   -0.84
+  ]
  },
  "public/a/l/fm_diff_cat.mp3": {
   "score": 20,
@@ -5476,9 +5630,14 @@
   "text": "Starfish!"
  },
  "public/a/l/fm_starfish_q.mp3": {
-  "score": 20,
-  "heard": "stɑː... fɪʃ. tæp ðə ˈræbɪt tə seɪ ðəm fɑːst!",
-  "text": "Star... fish. Tap the rabbit to say them fast!"
+  "score": 10,
+  "heard": "stɑː fɪʃ tæp ðə ræbɪt ən seɪ ðəm fɑːst",
+  "text": "Star... fish. Tap the rabbit, and say them fast.",
+  "takes": 1,
+  "wps": 1.93,
+  "seconds": 4.66,
+  "lufs": -16.3,
+  "target": -16
  },
  "public/a/l/fm_diff_dog.mp3": {
   "score": 20,
@@ -5786,9 +5945,14 @@
   "text": "Back to the dojo! Let's learn some new sounds."
  },
  "public/a/l/audit_listen_next.mp3": {
-  "score": 20,
-  "heard": "hm lɪsn̩ əɡɛn wɒt saʊnd kʌmz nɛkst",
-  "text": "Hmm, listen again. What sound comes next?"
+  "score": 10,
+  "heard": "lɛts lɪsən əɡɛn wɒt saʊnd kʌmz nɛkst",
+  "text": "Let's listen again. What sound comes next?",
+  "takes": 1,
+  "wps": 2.27,
+  "seconds": 3.08,
+  "lufs": -16,
+  "target": -16
  },
  "public/a/l/audit_neighbours_plain.mp3": {
   "score": 20,
@@ -6171,14 +6335,24 @@
   "text": "This is a bow."
  },
  "public/a/l/fm_rainbow_q.mp3": {
-  "score": 20,
-  "heard": "reɪn bəʊ tæp ðə ræbɪt tə seɪ ðəm fɑːst",
-  "text": "Rain... bow. Tap the rabbit to say them fast!"
+  "score": 10,
+  "heard": "reɪn bəʊ tæp ðə ˈræbɪt ənd seɪ ðəm fɑːst",
+  "text": "Rain... bow. Tap the rabbit, and say them fast.",
+  "takes": 1,
+  "wps": 1.73,
+  "seconds": 5.19,
+  "lufs": -16.2,
+  "target": -16
  },
  "public/a/l/fm_snowman_q.mp3": {
-  "score": 20,
-  "heard": "snəʊ ... mæn . tæp ðə ræbɪt tə seɪ ðəm fɑːst !",
-  "text": "Snow... man. Tap the rabbit to say them fast!"
+  "score": 10,
+  "heard": "snəʊ... mæn. tæp ðə ˈræbɪt, ənd seɪ ðəm fɑːst.",
+  "text": "Snow... man. Tap the rabbit, and say them fast.",
+  "takes": 1,
+  "wps": 2.13,
+  "seconds": 4.22,
+  "lufs": -16.4,
+  "target": -16
  },
  "public/a/w/snowman.mp3": {
   "score": 10,
@@ -6416,8 +6590,4879 @@
   "text": "Look, these gems have filled a little more."
  },
  "public/a/l/nav_ready.mp3": {
-  "score": 20,
-  "heard": "tæp ðiː ˈæɹəʊ wɛn jɔː ˈɹɛdi",
-  "text": "Tap the arrow when you're ready!"
+  "score": 10,
+  "heard": "tæp ðə ɡɹiːn ˈæɹəʊ wɛn jɔː ˈɹɛdi",
+  "text": "Tap the green arrow when you're ready.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.15,
+  "lufs": -16.2,
+  "target": -16,
+  "lengthened": 1.044
+ },
+ "public/a/l/tv_lets_check.mp3": {
+  "score": 10,
+  "heard": "lɛts tʃɛk seɪ ðə saʊndz wɪð miː",
+  "text": "Let's check. Say the sounds with me...",
+  "takes": 7,
+  "judged": 1,
+  "wps": 2.74,
+  "seconds": 2.55,
+  "lufs": -16,
+  "target": -16,
+  "fall": -0.01,
+  "fall_gate": -0.08,
+  "fall_low": -0.01,
+  "falls": [
+   3.53,
+   2.14,
+   4.89,
+   4.76,
+   8.21,
+   2.39,
+   -0.01
+  ]
+ },
+ "public/a/l/tv_here_it_comes.mp3": {
+  "score": 10,
+  "heard": "hɪər ɪt kʌmz",
+  "text": "Here it comes...",
+  "takes": 1,
+  "judged": 1,
+  "wps": 2.43,
+  "seconds": 1.24,
+  "lufs": -16,
+  "target": -16,
+  "fall": 1.38,
+  "falls": [
+   1.38
+  ]
+ },
+ "public/a/l/tv_last_first.mp3": {
+  "score": 10,
+  "heard": "naʊ ðə lɑːst saʊnd lɪsən raɪt tə ðiː ɛnd",
+  "text": "Now the last sound. Listen right to the end...",
+  "takes": 2,
+  "judged": 1,
+  "wps": 2.34,
+  "seconds": 3.85,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": 0.34,
+  "fall_gate": -0.18,
+  "fall_low": 0.34,
+  "falls": [
+   8.87,
+   0.34
+  ]
+ },
+ "public/a/l/tv_yay_lovely.mp3": {
+  "score": 9,
+  "heard": "ˈlʌvli",
+  "text": "Lovely!",
+  "takes": 1,
+  "wps": 0,
+  "seconds": 1.14,
+  "lufs": -19.5,
+  "target": -19
+ },
+ "public/a/l/tv_ready_paw.mp3": {
+  "score": 10,
+  "heard": "duː jʊ wɒnt tə hæv ə ɡəʊ naʊ? tæp ðə ɡriːn ærəʊ. ɔː tæp maɪ pɔː tə siː ɪt əɡɛn.",
+  "text": "Do you want to have a go now? Tap the green arrow. Or tap my paw to see it again.",
+  "takes": 3,
+  "wps": 3.22,
+  "seconds": 6.21,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_learn_how.mp3": {
+  "score": 10,
+  "heard": "aɪl seɪ iːtʃ saʊnd ænd ʃəʊ juː haʊ wiː raɪt ɪt ðɛn juː seɪ ɪt wɪð miː",
+  "text": "I'll say each sound, and show you how we write it. Then you say it with me.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 5.23,
+  "lufs": -16.1,
+  "target": -16,
+  "widened": 0.137
+ },
+ "public/a/l/st_know_this_sound.mp3": {
+  "score": 10,
+  "heard": "uː juː ɔːlˈrɛdi nəʊ ðɪs saʊnd",
+  "text": "Ooh, you already know this sound!",
+  "takes": 1,
+  "wps": 2.63,
+  "seconds": 2.28,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/st_first_changes.mp3": {
+  "score": 10,
+  "heard": "jɛs ðə fɜːst saʊnd tʃeɪndʒɪz",
+  "text": "Yes, the first sound changes!",
+  "takes": 1,
+  "wps": 2.15,
+  "seconds": 2.32,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/st_middle_changes.mp3": {
+  "score": 10,
+  "heard": "jɛs ðə ˈmɪdəl saʊnd ˈtʃeɪndʒɪz",
+  "text": "Yes, the middle sound changes!",
+  "takes": 1,
+  "wps": 1.99,
+  "seconds": 2.51,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/st_last_changes.mp3": {
+  "score": 10,
+  "heard": "jɛs ðə lɑːst saʊnd tʃeɪndʒɪz",
+  "text": "Yes, the last sound changes!",
+  "takes": 1,
+  "wps": 1.8,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/st_hear_two.mp3": {
+  "score": 10,
+  "heard": "aɪ kən hɪə tuː saʊndz",
+  "text": "I can hear two sounds.",
+  "takes": 1,
+  "wps": 3.22,
+  "seconds": 1.55,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/st_two_letters_too.mp3": {
+  "score": 10,
+  "heard": "ðɪs wʌnz tuː lɛtəz tuː bət ɪts dʒʌst wʌn saʊnd",
+  "text": "This one's two letters too, but it's just one sound.",
+  "takes": 3,
+  "wps": 2.85,
+  "seconds": 3.51,
+  "lufs": -15.8,
+  "target": -16
+ },
+ "public/a/l/st_first_q3.mp3": {
+  "score": 10,
+  "heard": "faɪnd ðə wʌn ðæt stɑːts wɪð",
+  "text": "Find the one that starts with...",
+  "takes": 1,
+  "wps": 2.96,
+  "seconds": 2.03,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": 0.05
+ },
+ "public/a/l/tv_ready_first.mp3": {
+  "score": 10,
+  "heard": "lʊk jɔː nɪndʒə ɪz ɹɛdi ɑː juː ɹɛdi tuː tæp ðə ɡɹiːn æɹəʊ",
+  "text": "Look, your ninja is ready. Are you ready too? Tap the green arrow.",
+  "takes": 1,
+  "wps": 3.06,
+  "seconds": 4.25,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/st_found_new_sounds.mp3": {
+  "score": 10,
+  "heard": "juː faʊnd sʌm njuː saʊndz lʊk hɪəɹ ɑː ðeə ˈpɛtl̩z ˈʃaɪnɪŋ θruː ðə mɪst",
+  "text": "You found some new sounds! Look, here are their petals, shining through the mist.",
+  "takes": 1,
+  "wps": 2.88,
+  "seconds": 4.85,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_show_again.mp3": {
+  "score": 10,
+  "heard": "əv kɔːs. wɒtʃ maɪ pɔːr əɡɛn.",
+  "text": "Of course. Watch my paw again.",
+  "takes": 1,
+  "wps": 2.2,
+  "seconds": 2.73,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/st_what_change.mp3": {
+  "score": 10,
+  "heard": "wɒt də wiː niːd tə tʃeɪndʒ",
+  "text": "What do we need to change?",
+  "takes": 6,
+  "wps": 3.27,
+  "seconds": 1.84,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_offer_show.mp3": {
+  "score": 10,
+  "heard": "ɔː aɪ kən ʃəʊ juː əˈɡɛn dʒʌst tæp maɪ pɔː",
+  "text": "Or I can show you again. Just tap my paw.",
+  "takes": 1,
+  "wps": 2.78,
+  "seconds": 3.6,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_ready_to_watch.mp3": {
+  "score": 10,
+  "heard": "aɪl ʃəʊ juː fɜːst æ juː ɹɛdi tə wɒtʃ tæp ðə ɡɹiːn æɹəʊ",
+  "text": "I'll show you first. Are you ready to watch? Tap the green arrow.",
+  "takes": 2,
+  "wps": 3.14,
+  "seconds": 4.14,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_ready_help.mp3": {
+  "score": 10,
+  "heard": "wɛn jɔː ˈrɛdi tæp ðə ɡriːn ˈærəʊ tə siː ɪt əˈɡɛn tæp maɪ pɔː",
+  "text": "When you're ready, tap the green arrow. To see it again, tap my paw.",
+  "takes": 1,
+  "wps": 2.81,
+  "seconds": 4.98,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_choose_hello.mp3": {
+  "score": 10,
+  "heard": "həˈləʊ aɪm ˈsɛnseɪ ˈmeɪpəl ənd aɪm ˈɡəʊɪŋ tə bi jɔː ˈtiːtʃə",
+  "text": "Hello! I'm Sensei Maple, and I'm going to be your teacher.",
+  "takes": 1,
+  "wps": 2.79,
+  "seconds": 3.95,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_film_arrow.mp3": {
+  "score": 10,
+  "heard": "wɛn jɔː ˈɹɛdi tə siː wɒt ˈhæpənz nɛkst tæp ðə ɡɹiːn ˈæɹəʊ",
+  "text": "When you're ready to see what happens next, tap the green arrow.",
+  "takes": 2,
+  "wps": 3.26,
+  "seconds": 3.68,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_choose_why.mp3": {
+  "score": 10,
+  "heard": "ˈbærən ˈmʌdl̩ tʊk ðə saʊndz əˈweɪ wɪl wɪn ðəm bæk baɪ ˈpleɪɪŋ ɡeɪmz təˈɡɛðə",
+  "text": "Baron Muddle took the sounds away. We'll win them back by playing games together.",
+  "takes": 1,
+  "wps": 2.99,
+  "seconds": 4.68,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_choose_q.mp3": {
+  "score": 10,
+  "heard": "fɜːst tʃuːz jɔː ˈnɪndʒə wɪl ɪt biː kaɪ ɔː ˈsuːki",
+  "text": "First, choose your ninja. Will it be Kai, or Suki?",
+  "takes": 1,
+  "wps": 2.49,
+  "seconds": 4.02,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_choose_ninja.mp3": {
+  "score": 10,
+  "heard": "jɔː ˈnɪndʒə wɪl pleɪ ˈɛvri ɡeɪm wɪð juː",
+  "text": "Your ninja will play every game with you.",
+  "takes": 1,
+  "wps": 3.27,
+  "seconds": 2.44,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/st_first_q2.mp3": {
+  "score": 10,
+  "heard": "wɪtʃ ˈpɪktʃə stɑːts wɪð",
+  "text": "Which picture starts with...",
+  "takes": 1,
+  "judged": 1,
+  "wps": 1.99,
+  "seconds": 2.01,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": -1.36,
+  "fall_gate": -1.89,
+  "fall_low": -1.36,
+  "falls": [
+   -1.36
+  ]
+ },
+ "public/a/l/tv_opt_yes.mp3": {
+  "score": 10,
+  "heard": "ɪf juː duː tæp ðə skuːl",
+  "text": "If you do, tap the school.",
+  "takes": 1,
+  "wps": 2.95,
+  "seconds": 2.04,
+  "lufs": -16.7,
+  "target": -16
+ },
+ "public/a/l/tv_opt_why.mp3": {
+  "score": 10,
+  "heard": "fɜːst ləts faɪnd ðə raɪt ɡeɪmz fə juː",
+  "text": "First, let's find the right games for you.",
+  "takes": 1,
+  "wps": 3.07,
+  "seconds": 2.61,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_opt_notyet.mp3": {
+  "score": 10,
+  "heard": "ɪf juː dəʊnt ɡəʊ jɛt tæp ðə tɛdi",
+  "text": "If you don't go yet, tap the teddy.",
+  "takes": 2,
+  "wps": 2.99,
+  "seconds": 2.68,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_opt_again.mp3": {
+  "score": 10,
+  "heard": "ɪf juː dəʊnt ɡəʊ jɛt tæp ðə tɛdi ɪf juː duː tæp ðə skuːl",
+  "text": "If you don't go yet, tap the teddy. If you do, tap the school.",
+  "takes": 1,
+  "wps": 3.23,
+  "seconds": 4.33,
+  "lufs": -16.5,
+  "target": -16
+ },
+ "public/a/l/tv_ready_now.mp3": {
+  "score": 10,
+  "heard": "ɑː juː ˈrɛdi tə həv ə ɡəʊ naʊ",
+  "text": "Are you ready to have a go now?",
+  "takes": 8,
+  "wps": 3.28,
+  "seconds": 2.44,
+  "lufs": -16.1,
+  "target": -16,
+  "lengthened": 1.402
+ },
+ "public/a/l/tv_ready_go.mp3": {
+  "score": 10,
+  "heard": "duː juː wɒnt tə hæv ə ɡəʊ naʊ",
+  "text": "Do you want to have a go now?",
+  "takes": 8,
+  "wps": 3.28,
+  "seconds": 2.44,
+  "lufs": -16.3,
+  "target": -16,
+  "lengthened": 1.461
+ },
+ "public/a/l/tv_turn_again.mp3": {
+  "score": 10,
+  "heard": "naʊ ɪts jɔː tɜːn əˈɡɛn",
+  "text": "Now it's your turn again.",
+  "takes": 8,
+  "wps": 3.27,
+  "seconds": 1.53,
+  "lufs": -16.3,
+  "target": -16,
+  "lengthened": 1.164
+ },
+ "public/a/l/tv_opt_echo_school.mp3": {
+  "score": 10,
+  "heard": "juː ɡəʊ tə bɪɡ skuːl",
+  "text": "You go to big school.",
+  "takes": 3,
+  "wps": 3.24,
+  "seconds": 1.54,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_opt_grownups.mp3": {
+  "score": 10,
+  "heard": "ɡɹəʊn ʌps juː kən tʃeɪndʒ ðɪs leɪtə ɪn ðə sɛtɪŋz",
+  "text": "Grown-ups, you can change this later in the settings.",
+  "takes": 1,
+  "wps": 2.9,
+  "seconds": 3.1,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_opt_to_dojo.mp3": {
+  "score": 10,
+  "heard": "naʊ kʌm wɪð miː tə ðə ˈdəʊdʒəʊ. tæp ðə ɡriːn ˈærəʊ.",
+  "text": "Now come with me to the dojo. Tap the green arrow.",
+  "takes": 1,
+  "wps": 3.03,
+  "seconds": 3.62,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_ready_yours.mp3": {
+  "score": 10,
+  "heard": "naʊ juː duː wʌn ɑː juː ɹɛdi",
+  "text": "Now you do one. Are you ready?",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.15,
+  "lufs": -16.1,
+  "target": -16,
+  "widened": 0.098
+ },
+ "public/a/l/tv_opt_echo_notyet.mp3": {
+  "score": 10,
+  "heard": "nɒt jɛt ðæts faɪn",
+  "text": "Not yet. That's fine.",
+  "takes": 4,
+  "wps": 3.03,
+  "seconds": 1.32,
+  "lufs": -16.5,
+  "target": -16
+ },
+ "public/a/l/tv_train_help.mp3": {
+  "score": 10,
+  "heard": "hɪəz trɪk tuː ɪf jɔːr ɛvə stʌk tæp miː daʊn hɪər ɪn ðə kɔːnə",
+  "text": "Here's trick two. If you're ever stuck, tap me, down here in the corner.",
+  "takes": 1,
+  "wps": 2.56,
+  "seconds": 5.46,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_ready_together.mp3": {
+  "score": 10,
+  "heard": "lɛts duː ðə nɛkst wʌn təˈɡɛðə. ɑː juː ˈrɛdi?",
+  "text": "Let's do the next one together. Are you ready?",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16.1,
+  "target": -16,
+  "widened": 0.187
+ },
+ "public/a/l/tv_train_hello.mp3": {
+  "score": 10,
+  "heard": "ˈwɛlkəm tə maɪ ˈdəʊdʒəʊ. ə ˈdəʊdʒəʊ ɪz ə skuːl fə ˈnɪndʒəz.",
+  "text": "Welcome to my dojo. A dojo is a school for ninjas.",
+  "takes": 1,
+  "wps": 2.85,
+  "seconds": 3.86,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_opt_ask.mp3": {
+  "score": 10,
+  "heard": "ɑːsk ə ˈɡrəʊnʌp tə hɛlp juː tʃuːz",
+  "text": "Ask a grown-up to help you choose.",
+  "takes": 12,
+  "judged": 12,
+  "wps": 2.81,
+  "seconds": 2.49,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.155
+ },
+ "public/a/l/tv_train_speaker.mp3": {
+  "score": 10,
+  "heard": "hɪəz trɪk θriː ðə spiːkə fɜːst lɪsn̩ tə maɪ lɪtl̩ nɪndʒə raɪm",
+  "text": "Here's trick three, the speaker. First, listen to my little ninja rhyme.",
+  "takes": 1,
+  "wps": 2.37,
+  "seconds": 5.05,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_train_gong_ok.mp3": {
+  "score": 10,
+  "heard": "bɒŋ ðæts jɔː fɜːst stɑː",
+  "text": "Bong! That's your first star.",
+  "takes": 1,
+  "wps": 2.05,
+  "seconds": 2.44,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_train_gong.mp3": {
+  "score": 10,
+  "heard": "tɹɪk wʌn ɪz ðə ɡɒŋ tæp ɪt ænd jɔː nɪndʒə wɪl kɪk ɪt",
+  "text": "Trick one is the gong. Tap it, and your ninja will kick it.",
+  "takes": 1,
+  "wps": 2.91,
+  "seconds": 4.47,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_train_tricks.mp3": {
+  "score": 10,
+  "heard": "aɪl tiːtʃ juː θriː ˈnɪndʒə trɪks. iːtʃ wʌn wɪnz ə stɑː.",
+  "text": "I'll teach you three ninja tricks. Each one wins a star.",
+  "takes": 2,
+  "wps": 3.07,
+  "seconds": 3.59,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_rhyme.mp3": {
+  "score": 10,
+  "heard": "tɪp tæp tɪptəʊ kwaɪət əz ə maʊs",
+  "text": "Tip, tap, tiptoe, quiet as a mouse.",
+  "takes": 1,
+  "wps": 1.92,
+  "seconds": 3.65,
+  "lufs": -16.5,
+  "target": -16
+ },
+ "public/a/l/tv_opt_ok_notyet.mp3": {
+  "score": 10,
+  "heard": "ðɛn wɪl stɑːt wɪð sʌm lɪsnɪŋ ɡeɪmz dʒʌst fə juː",
+  "text": "Then we'll start with some listening games, just for you.",
+  "takes": 3,
+  "wps": 3.23,
+  "seconds": 3.1,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_train_speaker_ok.mp3": {
+  "score": 10,
+  "heard": "ðæts ɪt ðə spiːkər ɔːlweɪz sɛz ɪt əɡɛn",
+  "text": "That's it! The speaker always says it again.",
+  "takes": 1,
+  "wps": 2.92,
+  "seconds": 2.74,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_train_done.mp3": {
+  "score": 10,
+  "heard": "θɹiː tɹɪks θɹiː stɑːz naʊ jɔː ɹɛdi fɔː jɔː fɜːst ɡeɪm",
+  "text": "Three tricks, three stars. Now you're ready for your first game.",
+  "takes": 1,
+  "wps": 2.53,
+  "seconds": 4.34,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_first_game.mp3": {
+  "score": 10,
+  "heard": "ɪts ə lɪsnɪŋ ɡeɪm kɔːld nɪndʒə ɪəz tæp ðə ɡriːn ærəʊ wɛn jɔː rɛdi",
+  "text": "It's a listening game, called Ninja Ears. Tap the green arrow when you're ready.",
+  "takes": 1,
+  "wps": 2.96,
+  "seconds": 4.72,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_ts_meet.mp3": {
+  "score": 10,
+  "heard": "hɪər ɑː maɪ frɛndz ðə ræbɪt ænd ðə tɔːtəs",
+  "text": "Here are my friends, the rabbit and the tortoise.",
+  "takes": 1,
+  "wps": 2.63,
+  "seconds": 3.42,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_ts_slow.mp3": {
+  "score": 10,
+  "heard": "ðə ˈtɔːtəs sɛz ðəm ˈsləʊli",
+  "text": "The tortoise says them slowly...",
+  "takes": 4,
+  "wps": 2.17,
+  "seconds": 2.31,
+  "lufs": -16,
+  "target": -16,
+  "fall": 1.01
+ },
+ "public/a/l/tv_ts_fast.mp3": {
+  "score": 10,
+  "heard": "ðə ˈræbɪt sɛz wɜːdz fɑːst",
+  "text": "The rabbit says words fast...",
+  "takes": 2,
+  "judged": 1,
+  "wps": 3.24,
+  "seconds": 1.54,
+  "lufs": -16.3,
+  "target": -16,
+  "fall": -0.69,
+  "fall_gate": -1.08,
+  "fall_low": -0.69,
+  "falls": [
+   7.44,
+   -0.69
+  ]
+ },
+ "public/a/l/tv_pocket_ready_two.mp3": {
+  "score": 10,
+  "heard": "naʊ juː faɪnd ðiː ˈʌðə tuː ɑː juː ˈrɛdi",
+  "text": "Now you find the other two. Are you ready?",
+  "takes": 2,
+  "wps": 2.92,
+  "seconds": 3.08,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_ears_on.mp3": {
+  "score": 10,
+  "heard": "Look, your ninja has its ninja ears on. That means listening really carefully.",
+  "text": "Look, your ninja has its ninja ears on. That means listening really carefully.",
+  "takes": 1,
+  "wps": 2.18,
+  "seconds": 5.95,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_pocket_frame.mp3": {
+  "score": 10,
+  "heard": "ɪn pɒkɪt hʌnt wiː faɪnd pɪktʃəz ðæt stɑːt wɪð ðɪs saʊnd",
+  "text": "In Pocket Hunt, we find pictures that start with this sound.",
+  "takes": 1,
+  "wps": 2.72,
+  "seconds": 4.04,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_petal_first.mp3": {
+  "score": 10,
+  "heard": "ðæt saʊnd hæz ɪts veri əʊn petl̩. tæp ðə petl̩, ənd seɪ ðə saʊnd wɪð miː.",
+  "text": "That sound has its very own petal. Tap the petal, and say the sound with me.",
+  "takes": 1,
+  "wps": 3.22,
+  "seconds": 4.98,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_so_pocket.mp3": {
+  "score": 10,
+  "heard": "səʊ ˈɪntə ðə ˈpɒkɪt ɪt ɡəʊz",
+  "text": "So into the pocket it goes!",
+  "takes": 1,
+  "wps": 2.99,
+  "seconds": 2.01,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_ears_demo.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst maɪ wɜːd ɪz sʌn ðeər ɪt ɪz",
+  "text": "I'll go first. My word is sun... There it is!",
+  "takes": 1,
+  "wps": 2.02,
+  "seconds": 4.95,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_find_again_sock.mp3": {
+  "score": 10,
+  "heard": "kæn juː faɪnd ðə sɒk",
+  "text": "Can you find the sock?",
+  "takes": 1,
+  "wps": 3.22,
+  "seconds": 1.55,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_idle_look_sock.mp3": {
+  "score": 10,
+  "heard": "hæv ə lʊk ət iːtʃ ˈpɪktʃə. weəz ðə sɒk?",
+  "text": "Have a look at each picture. Where's the sock?",
+  "takes": 1,
+  "wps": 3.17,
+  "seconds": 2.84,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_your_word_sock.mp3": {
+  "score": 10,
+  "heard": "jɔː wɜːd ɪz sɒk kæn juː faɪnd ðə sɒk",
+  "text": "Your word is sock. Can you find the sock?",
+  "takes": 1,
+  "wps": 2.57,
+  "seconds": 3.51,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_train_hear_again.mp3": {
+  "score": 10,
+  "heard": "tæp ðə ˈspiːkə ənd aɪl seɪ ɪt əˈɡɛn",
+  "text": "Tap the speaker, and I'll say it again.",
+  "takes": 4,
+  "wps": 3.24,
+  "seconds": 2.47,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_same_word.mp3": {
+  "score": 10,
+  "heard": "fɑːst ɔː sləʊ ɪts ðə seɪm wɜːd wɛn aɪ seɪ ɪt sləʊli aɪ kən hɪər ɪts saʊndz",
+  "text": "Fast or slow, it's the same word. When I say it slowly, I can hear its sounds.",
+  "takes": 1,
+  "wps": 2.88,
+  "seconds": 5.91,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_ts_wrong_rabbit.mp3": {
+  "score": 10,
+  "heard": "ðæts maɪ ˈræbɪt ɪt sɛz wɜːdz fɑːst naʊ tæp ðə ˈtɔːtəs tə seɪ ɪt ˈsləʊli",
+  "text": "That's my rabbit. It says words fast. Now tap the tortoise to say it slowly.",
+  "takes": 1,
+  "wps": 2.73,
+  "seconds": 5.48,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_ts_wrong_tortoise.mp3": {
+  "score": 10,
+  "heard": "ðæts maɪ ˈtɔːtəs ɪt sɛz wɜːdz ˈsləʊli naʊ tæp ðə ˈræbɪt tə seɪ ɪt fɑːst",
+  "text": "That's my tortoise. It says words slowly. Now tap the rabbit to say it fast.",
+  "takes": 1,
+  "wps": 2.72,
+  "seconds": 5.52,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_notice_frame.mp3": {
+  "score": 10,
+  "heard": "naʊ lɪts lɪsən fə ðə vɛri fɜːst saʊnd",
+  "text": "Now let's listen for the very first sound.",
+  "takes": 1,
+  "wps": 2.78,
+  "seconds": 2.88,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_fix_together.mp3": {
+  "score": 10,
+  "heard": "lɛts duː ɪt təˈɡɛðə ɪts ðɪs wʌn naʊ juː tæp ɪt",
+  "text": "Let's do it together. It's this one. Now you tap it.",
+  "takes": 2,
+  "wps": 2.77,
+  "seconds": 3.97,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_pocket_ido.mp3": {
+  "score": 10,
+  "heard": "aɪl faɪnd wʌn fɜːst",
+  "text": "I'll find one first.",
+  "takes": 1,
+  "wps": 3.14,
+  "seconds": 1.27,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_now_tap_hear_sock.mp3": {
+  "score": 10,
+  "heard": "naʊ tæp ðə sɒk ænd lɪsn̩ tə haʊ ɪt stɑːts",
+  "text": "Now tap the sock, and listen to how it starts.",
+  "takes": 1,
+  "wps": 2.92,
+  "seconds": 3.43,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_fix_start.mp3": {
+  "score": 10,
+  "heard": "ˈlɪsən fə ðə ˈstɑːt",
+  "text": "Listen for the start...",
+  "takes": 20,
+  "judged": 2,
+  "wps": 3,
+  "seconds": 1.33,
+  "lufs": -16.3,
+  "target": -16,
+  "fall": -3.01,
+  "fall_gate": -3.01,
+  "fall_low": -4.95,
+  "falls": [
+   6.08,
+   10.56,
+   3.83,
+   5.13,
+   6.22,
+   9.45,
+   6.29,
+   5.42,
+   11.4,
+   10.35,
+   5.75,
+   5.16,
+   6.03,
+   6.57,
+   6.08,
+   6.85,
+   5.74,
+   7.88,
+   1.6,
+   -3.01
+  ]
+ },
+ "public/a/l/tv_train_try_help.mp3": {
+  "score": 10,
+  "heard": "kən juː tæp miː naʊ",
+  "text": "Can you tap me now?",
+  "takes": 8,
+  "wps": 3.27,
+  "seconds": 1.53,
+  "lufs": -16.4,
+  "target": -16,
+  "lengthened": 1.175
+ },
+ "public/a/l/tv_tap_hear_sun.mp3": {
+  "score": 10,
+  "heard": "tæp ðə sʌn ænd lɪsn̩ tə haʊ ɪt stɑːts",
+  "text": "Tap the sun, and listen to how it starts.",
+  "takes": 2,
+  "wps": 3.29,
+  "seconds": 2.74,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_rw_book.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz jɔː stɪkə bʊk tæp ɪt tə əʊpən ɪt",
+  "text": "This is your Sticker Book! Tap it to open it.",
+  "takes": 1,
+  "wps": 2.86,
+  "seconds": 3.49,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_pocket_ready_three.mp3": {
+  "score": 10,
+  "heard": "naʊ juː faɪnd ðiː ʌðə θriː ɑː juː ɹɛdi",
+  "text": "Now you find the other three. Are you ready?",
+  "takes": 7,
+  "wps": 3.04,
+  "seconds": 2.97,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_rw_every.mp3": {
+  "score": 10,
+  "heard": "ˈevri ˈpɪktʃə juː ˈpleɪ wɪð bɪˈkʌmz ə ˈstɪkə",
+  "text": "Every picture you play with becomes a sticker.",
+  "takes": 1,
+  "wps": 2.98,
+  "seconds": 2.68,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_rw_fast_slow.mp3": {
+  "score": 10,
+  "heard": "fɑːst ðɛn sləʊ laɪk ðə ˈræbɪt ən ðə ˈtɔːtəs",
+  "text": "Fast, then slow, like the rabbit and the tortoise!",
+  "takes": 1,
+  "wps": 2.4,
+  "seconds": 3.75,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_rw_next.mp3": {
+  "score": 10,
+  "heard": "nɛkst wɪə ɡəʊɪŋ tə ɹiːd sʌm pɪktʃəz ðə nɪndʒə weɪ tæp ðə ɡɹiːn æɹəʊ wɛn jɔː ɹɛdi",
+  "text": "Next, we're going to read some pictures, the ninja way. Tap the green arrow when you're ready.",
+  "takes": 1,
+  "wps": 2.86,
+  "seconds": 5.95,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_show_offer.mp3": {
+  "score": 10,
+  "heard": "nɒt ʃɔː? tæp̚ maɪ pʰɔː ənd aɪl ʃəʊ juː əˈɡɛn.",
+  "text": "Not sure? Tap my paw, and I'll show you again.",
+  "takes": 5,
+  "wps": 3.13,
+  "seconds": 3.19,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_squish_ready.mp3": {
+  "score": 10,
+  "heard": "tʰuː ˈlɪtəl wɜːdz meɪk wʌn bɪɡ wɜːd | naʊ juː meɪk wʌn | ɑː juː ˈɹɛdi",
+  "text": "Two little words make one big word. Now you make one. Are you ready?",
+  "takes": 1,
+  "wps": 2.82,
+  "seconds": 4.97,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_rail_frame.mp3": {
+  "score": 10,
+  "heard": "lɛts pleɪ nɪndʒə riːdɪŋ nɪndʒəz ɔːlweɪz stɑːt ɒn ðɪs saɪd ənd ɡəʊ ðɪs weɪ",
+  "text": "Let's play Ninja Reading. Ninjas always start on this side, and go this way.",
+  "takes": 1,
+  "wps": 2.64,
+  "seconds": 5.3,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_rw_tap.mp3": {
+  "score": 10,
+  "heard": "tæp ə stɪkə ənd ɪt wɪl seɪ ɪts wɜːd",
+  "text": "Tap a sticker, and it will say its word.",
+  "takes": 3,
+  "wps": 3.03,
+  "seconds": 2.97,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_rail_turn.mp3": {
+  "score": 10,
+  "heard": "tæp iːtʃ ˈpɪktʃə ˈstɑːtɪŋ ɒn ðɪs saɪd",
+  "text": "Tap each picture, starting on this side.",
+  "takes": 1,
+  "wps": 2.59,
+  "seconds": 2.7,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_ears_frame.mp3": {
+  "score": 10,
+  "heard": "aɪl seɪ ə wɜːd ðen juː faɪnd ɪts pɪktʃə",
+  "text": "I'll say a word. Then you find its picture.",
+  "takes": 7,
+  "wps": 3.14,
+  "seconds": 2.87,
+  "lufs": -16.6,
+  "target": -16
+ },
+ "public/a/l/tv_silly.mp3": {
+  "score": 10,
+  "heard": "wɒt ə ˈsɪli ˈænɪməl",
+  "text": "What a silly animal!",
+  "takes": 1,
+  "wps": 2.29,
+  "seconds": 1.75,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_which_frame.mp3": {
+  "score": 10,
+  "heard": "hɪər ə tuː rəʊz əv pɪktʃəz aɪl riːd wʌn ənd juː tæp ɪt",
+  "text": "Here are two rows of pictures. I'll read one, and you tap it.",
+  "takes": 2,
+  "wps": 3.23,
+  "seconds": 4.02,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_idle_point.mp3": {
+  "score": 10,
+  "heard": "hɪər ɪt ɪz tæp ɪt wɛn jɔː ˈrɛdi",
+  "text": "Here it is. Tap it when you're ready.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.46,
+  "lufs": -16.9,
+  "target": -16,
+  "widened": 0.1
+ },
+ "public/a/l/tv_rail_start.mp3": {
+  "score": 10,
+  "heard": "ˈnɪndʒəz stɑːt ɒn ðɪs saɪd tæp ðɪs wʌn fɜːst",
+  "text": "Ninjas start on this side. Tap this one first.",
+  "takes": 1,
+  "wps": 2.72,
+  "seconds": 3.31,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_which_demo.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst fɪʃ dɒɡ",
+  "text": "I'll go first. Fish... dog.",
+  "takes": 1,
+  "wps": 1.48,
+  "seconds": 3.37,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_which_so.mp3": {
+  "score": 10,
+  "heard": "fɪʃ keɪm fɜːst səʊ aɪ tæp ðɪs rəʊ",
+  "text": "Fish came first. So I tap this row.",
+  "takes": 1,
+  "wps": 3.12,
+  "seconds": 2.57,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_which_q_cat_dog.mp3": {
+  "score": 10,
+  "heard": "hɪər aɪ ɡəʊ kæt dɒɡ wɪtʃ rəʊ dɪd aɪ riːd",
+  "text": "Here I go. Cat... dog. Which row did I read?",
+  "takes": 1,
+  "wps": 1.95,
+  "seconds": 5.12,
+  "lufs": -16.6,
+  "target": -16
+ },
+ "public/a/l/tv_squish_frame.mp3": {
+  "score": 10,
+  "heard": "hɪəz ə njuː ɡeɪm kɔːld wɜːd skwɪʃ",
+  "text": "Here's a new game, called Word Squish.",
+  "takes": 1,
+  "wps": 2.45,
+  "seconds": 2.86,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_praise_squish.mp3": {
+  "score": 10,
+  "heard": "juː skwɪʃt ðəm ˈɪntə wʌn bɪɡ wɜːd",
+  "text": "You squished them into one big word!",
+  "takes": 2,
+  "wps": 2.98,
+  "seconds": 2.35,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_which_fix_cat_dog.mp3": {
+  "score": 10,
+  "heard": "lɛts lɪsən əɡɛn kʰæt dɒɡ wɪtʃ ɹəʊ hæz ðə kʰæt fɜːst",
+  "text": "Let's listen again. Cat... dog. Which row has the cat first?",
+  "takes": 1,
+  "wps": 1.75,
+  "seconds": 6.28,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_squish_fast.mp3": {
+  "score": 10,
+  "heard": "ðɛn aɪ tæp ðə ˈɹæbɪt ənd skwɪʃ ðɛm. ˈsʌnˌflaʊə!",
+  "text": "Then I tap the rabbit, and squish them. Sunflower!",
+  "takes": 1,
+  "wps": 2.27,
+  "seconds": 3.96,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_squish_slow.mp3": {
+  "score": 10,
+  "heard": "aɪ tæp ðə ˈtɔːtəs ənd seɪ ðəm ˈsləʊli sʌn flaʊə",
+  "text": "I tap the tortoise, and say them slowly. Sun... flower.",
+  "takes": 1,
+  "wps": 1.84,
+  "seconds": 5.43,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_pocket_more_s.mp3": {
+  "score": 10,
+  "heard": "wʌn mɔː pɒkɪt hʌnt faɪnd ðə pɪktʃəz ðæt stɑːt wɪð",
+  "text": "One more Pocket Hunt. Find the pictures that start with...",
+  "takes": 1,
+  "wps": 1.93,
+  "seconds": 5.19,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": -4.16
+ },
+ "public/a/l/tv_map_intro.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə mæp əv bæmˈbuː ˈvɪlɪdʒ. ˈɛvri stəʊn ɪz ə ɡeɪm.",
+  "text": "This is the map of Bamboo Village. Every stone is a game.",
+  "takes": 1,
+  "wps": 2.86,
+  "seconds": 4.2,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_rw_link_book.mp3": {
+  "score": 10,
+  "heard": "lɛts pʊt jɔː njuː ˈpɪktʃəz ɪn jɔː ˈstɪkə bʊk",
+  "text": "Let's put your new pictures in your Sticker Book.",
+  "takes": 2,
+  "wps": 3.07,
+  "seconds": 2.94,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_praise_slowly.mp3": {
+  "score": 10,
+  "heard": "juː sɛd ɪt sləʊli dʒʌst laɪk ðə tɔːtəs",
+  "text": "You said it slowly, just like the tortoise.",
+  "takes": 1,
+  "wps": 2.45,
+  "seconds": 3.27,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_map_flower.mp3": {
+  "score": 10,
+  "heard": "ænd jɔː wɜːld flaʊə lɪvz hɪə",
+  "text": "And your World Flower lives here.",
+  "takes": 2,
+  "wps": 2.93,
+  "seconds": 2.05,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_petal_hint.mp3": {
+  "score": 10,
+  "heard": "tæp ðə pɛtəl ɪf juː wɒnt tə hɪə ðə saʊnd əɡɛn",
+  "text": "Tap the petal if you want to hear the sound again.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 3.38,
+  "lufs": -16.5,
+  "target": -16,
+  "lengthened": 1.157
+ },
+ "public/a/l/tv_rail_ido.mp3": {
+  "score": 10,
+  "heard": "aɪl ɹiːd ðəm fɜːst ðɛn juː ɹiːd ðəm",
+  "text": "I'll read them first. Then you read them.",
+  "takes": 6,
+  "wps": 3.24,
+  "seconds": 2.47,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_watch_write.mp3": {
+  "score": 10,
+  "heard": "naʊ wɒtʃ maɪ ˈnɪndʒə raɪt ɪt",
+  "text": "Now watch my ninja write it.",
+  "takes": 2,
+  "wps": 3.1,
+  "seconds": 1.94,
+  "lufs": -16.5,
+  "target": -16
+ },
+ "public/a/l/tv_praise_start.mp3": {
+  "score": 10,
+  "heard": "juː ˈlɪsnd ɹaɪt tə ðə ˈvɛɹi stɑːt",
+  "text": "You listened right to the very start.",
+  "takes": 1,
+  "wps": 3.13,
+  "seconds": 2.23,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_rail_ready.mp3": {
+  "score": 10,
+  "heard": "naʊ juː riːd ðəm duː juː wɒnt tə hæv ə ɡəʊ",
+  "text": "Now you read them. Do you want to have a go?",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 3.38,
+  "lufs": -15.9,
+  "target": -16,
+  "widened": 0.25,
+  "lengthened": 1.183
+ },
+ "public/a/l/tv_pocket_more_m.mp3": {
+  "score": 10,
+  "heard": "wʌn mɔː. pɒkɪt hʌnt. faɪnd ðə pɪktʃəz ðæt stɑːt wɪð...",
+  "text": "One more Pocket Hunt. Find the pictures that start with...",
+  "takes": 3,
+  "wps": 2.23,
+  "seconds": 4.48,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": -0.22
+ },
+ "public/a/l/tv_find_write.mp3": {
+  "score": 10,
+  "heard": "faɪnd haʊ wi ɹaɪt",
+  "text": "Find how we write...",
+  "takes": 1,
+  "judged": 1,
+  "wps": 2.33,
+  "seconds": 1.72,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": 0.24,
+  "falls": [
+   0.24
+  ]
+ },
+ "public/a/l/tv_next_game.mp3": {
+  "score": 10,
+  "heard": "wɛn jə ˈɹɛdi fə ðə nɛkst ɡeɪm tæp ðə ɡɹiːn ˈæɹəʊ",
+  "text": "When you're ready for the next game, tap the green arrow.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 3.38,
+  "lufs": -16.2,
+  "target": -16,
+  "widened": 0.199
+ },
+ "public/a/l/tv_your_word.mp3": {
+  "score": 10,
+  "heard": "jɔː wɜːd ɪz",
+  "text": "Your word is...",
+  "takes": 1,
+  "wps": 1.93,
+  "seconds": 1.55,
+  "lufs": -15.9,
+  "target": -16,
+  "fall": -7.93
+ },
+ "public/a/l/tv_map_hint.mp3": {
+  "score": 10,
+  "heard": "ðə ɡləʊɪŋ stəʊn ɪz jɔː nɛkst ɡeɪm. tæp ɪt wɛn jə ˈrɛdi.",
+  "text": "The glowing stone is your next game. Tap it when you're ready.",
+  "takes": 1,
+  "wps": 3.28,
+  "seconds": 3.66,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_praise_built.mp3": {
+  "score": 10,
+  "heard": "juː bɪlt ðæt həʊl wɜːd baɪ jɔːsɛlf",
+  "text": "You built that whole word by yourself!",
+  "takes": 1,
+  "wps": 2.55,
+  "seconds": 2.74,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_now_find.mp3": {
+  "score": 10,
+  "heard": "naʊ faɪnd haʊ wiː ɹaɪt",
+  "text": "Now find how we write...",
+  "takes": 2,
+  "judged": 1,
+  "wps": 2.36,
+  "seconds": 2.12,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": 0.23,
+  "fall_gate": 0.21,
+  "fall_low": 0.23,
+  "falls": [
+   4.95,
+   0.23
+  ]
+ },
+ "public/a/l/tv_praise_swap.mp3": {
+  "score": 10,
+  "heard": "juː tʃeɪndʒd dʒʌst wʌn saʊnd",
+  "text": "You changed just one sound.",
+  "takes": 1,
+  "wps": 2.16,
+  "seconds": 2.31,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_learn_frame_two.mp3": {
+  "score": 10,
+  "heard": "təˈdeɪ ɪn ðə ˈdəʊdʒəʊ aɪm ˈɡəʊɪŋ tə ˈtiːtʃ juː ˈtuː ˈnjuː ˈsaʊndz",
+  "text": "Today in the dojo, I'm going to teach you two new sounds.",
+  "takes": 1,
+  "wps": 2.66,
+  "seconds": 4.51,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_learn_frame_three.mp3": {
+  "score": 10,
+  "heard": "təˈdeɪ ɪn ðə ˈdəʊdʒəʊ aɪm ˈɡəʊɪŋ tə tiːtʃ juː θriː njuː saʊndz",
+  "text": "Today in the dojo, I'm going to teach you three new sounds.",
+  "takes": 1,
+  "wps": 2.57,
+  "seconds": 4.66,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_and_how_we_write.mp3": {
+  "score": 10,
+  "heard": "ən ðɪs ɪz haʊ wi ɹaɪt",
+  "text": "And this is how we write...",
+  "takes": 4,
+  "wps": 3.02,
+  "seconds": 1.99,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_learn_frame_four.mp3": {
+  "score": 10,
+  "heard": "təˈdeɪ ɪn ðə ˈdəʊdʒəʊ aɪm ɡəʊɪŋ tə tiːtʃ juː fɔː njuː saʊndz",
+  "text": "Today in the dojo, I'm going to teach you four new sounds.",
+  "takes": 1,
+  "wps": 3.15,
+  "seconds": 3.82,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_learn_first.mp3": {
+  "score": 10,
+  "heard": "hɪəz ðə fɜːst njuː saʊnd gɛt jɔː nɪndʒə ɪəz rɛdi",
+  "text": "Here's the first new sound. Get your ninja ears ready.",
+  "takes": 1,
+  "wps": 2.51,
+  "seconds": 3.98,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_said_well.mp3": {
+  "score": 10,
+  "heard": "ɡʊd ju sɛd ðæt saʊnd ˈrɪəli wɛl",
+  "text": "Good, you said that sound really well.",
+  "takes": 1,
+  "wps": 2.62,
+  "seconds": 2.67,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_thats_write.mp3": {
+  "score": 10,
+  "heard": "ðæts haʊ wiː ɹaɪt",
+  "text": "That's how we write...",
+  "takes": 1,
+  "wps": 2.56,
+  "seconds": 1.56,
+  "lufs": -16.4,
+  "target": -16,
+  "fall": -5.47
+ },
+ "public/a/l/tv_once_more.mp3": {
+  "score": 10,
+  "heard": "tæp ɪt wʌns mɔː ænd seɪ ɪt əɡɛn",
+  "text": "Tap it once more, and say it again.",
+  "takes": 2,
+  "wps": 3.19,
+  "seconds": 2.51,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_petal_say_short.mp3": {
+  "score": 10,
+  "heard": "tæp ɪts ˈpɛtl̩ ænd seɪ ɪt",
+  "text": "Tap its petal, and say it.",
+  "takes": 1,
+  "wps": 3.2,
+  "seconds": 1.87,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_learn_next.mp3": {
+  "score": 10,
+  "heard": "hɪəz ðə nɛkst njuː saʊnd",
+  "text": "Here's the next new sound...",
+  "takes": 2,
+  "judged": 1,
+  "wps": 3.2,
+  "seconds": 1.56,
+  "lufs": -16,
+  "target": -16,
+  "fall": -3.22,
+  "fall_gate": -3.22,
+  "fall_low": -10.46,
+  "falls": [
+   8.08,
+   -3.22
+  ]
+ },
+ "public/a/l/tv_learn_another.mp3": {
+  "score": 10,
+  "heard": "hɪəz əˈnʌðə njuː saʊnd",
+  "text": "Here's another new sound...",
+  "takes": 1,
+  "wps": 2.8,
+  "seconds": 1.43,
+  "lufs": -16.3,
+  "target": -16,
+  "fall": -11.63
+ },
+ "public/a/l/tv_tap_letter_say.mp3": {
+  "score": 10,
+  "heard": "Now you tap it, and say the sound.",
+  "text": "Now you tap it, and say the sound.",
+  "takes": 3,
+  "wps": 3.21,
+  "seconds": 2.49,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_learn_last.mp3": {
+  "score": 10,
+  "heard": "hɪəz ðə lɑːst njuː saʊnd",
+  "text": "Here's the last new sound...",
+  "takes": 1,
+  "wps": 2.67,
+  "seconds": 1.87,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_petal_say.mp3": {
+  "score": 10,
+  "heard": "tæp ðə ˈpɛtl̩ ænd seɪ ɪt wɪð miː",
+  "text": "Tap the petal, and say it with me.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.46,
+  "lufs": -16.1,
+  "target": -16,
+  "widened": 0.041
+ },
+ "public/a/l/tv_learn_all_two.mp3": {
+  "score": 10,
+  "heard": "tʰuː njuː saʊndz juː sɛd ɛvɹi wʌn",
+  "text": "Two new sounds! You said every one.",
+  "takes": 1,
+  "wps": 2.55,
+  "seconds": 2.74,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_how_we_write.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz haʊ wiː ɹaɪt",
+  "text": "This is how we write...",
+  "takes": 3,
+  "judged": 1,
+  "wps": 2.92,
+  "seconds": 1.71,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": -1.45,
+  "falls": [
+   7.74,
+   2.84,
+   -1.45
+  ]
+ },
+ "public/a/l/tv_learn_all_three.mp3": {
+  "score": 10,
+  "heard": "θɹiː njuː saʊndz juː sɛd ˈɛvɹi wʌn",
+  "text": "Three new sounds! You said every one.",
+  "takes": 1,
+  "wps": 2.57,
+  "seconds": 2.72,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_learn_all_four.mp3": {
+  "score": 10,
+  "heard": "fɔː njuː saʊndz juː sɛd ˈɛvri wʌn",
+  "text": "Four new sounds! You said every one.",
+  "takes": 1,
+  "wps": 1.94,
+  "seconds": 3.6,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_tap_it_say_short.mp3": {
+  "score": 10,
+  "heard": "naʊ juː tæp ɪt ən seɪ ɪt",
+  "text": "Now you tap it, and say it.",
+  "takes": 3,
+  "wps": 3.06,
+  "seconds": 2.29,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_which_write.mp3": {
+  "score": 10,
+  "heard": "wɪtʃ əv ðiːz ɪz ðə weɪ wiː ɹaɪt",
+  "text": "Which of these is the way we write...",
+  "takes": 1,
+  "judged": 1,
+  "wps": 3.02,
+  "seconds": 2.65,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": -1.61,
+  "falls": [
+   -1.61
+  ]
+ },
+ "public/a/l/tv_praise_middle.mp3": {
+  "score": 10,
+  "heard": "juː hɜːd ɪt ɹaɪt ɪn ðə ˈmɪdl̩",
+  "text": "You heard it, right in the middle.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.15,
+  "lufs": -16,
+  "target": -16,
+  "widened": 0.077
+ },
+ "public/a/l/tv_ne_new_sounds.mp3": {
+  "score": 10,
+  "heard": "naʊ lets pleɪ ˈnɪndʒə aɪz wɪð jɔː njuː saʊndz",
+  "text": "Now let's play Ninja Eyes, with your new sounds.",
+  "takes": 1,
+  "wps": 2.66,
+  "seconds": 3.39,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_learn_done.mp3": {
+  "score": 10,
+  "heard": "juː lɜːnt fɔː njuː saʊndz tədeɪ ænd juː bɪlt wɜːdz wɪð ðəm",
+  "text": "You learnt four new sounds today, and you built words with them.",
+  "takes": 1,
+  "wps": 3.08,
+  "seconds": 3.9,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_offer_show_miss.mp3": {
+  "score": 10,
+  "heard": "ʃæl aɪ ʃəʊ juː əˈɡɛn tæp maɪ pɔː",
+  "text": "Shall I show you again? Tap my paw.",
+  "takes": 1,
+  "wps": 2.67,
+  "seconds": 3,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_praise_found.mp3": {
+  "score": 10,
+  "heard": "juː faʊnd ɪt",
+  "text": "You found it!",
+  "takes": 1,
+  "wps": 3.15,
+  "seconds": 0.95,
+  "lufs": -19,
+  "target": -19
+ },
+ "public/a/l/tv_praise_order.mp3": {
+  "score": 10,
+  "heard": "juː ɹiːd ðəm ðə ˈnɪndʒə weɪ",
+  "text": "You read them the ninja way.",
+  "takes": 1,
+  "wps": 3.05,
+  "seconds": 1.97,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_dojo_idle_say.mp3": {
+  "score": 10,
+  "heard": "tæp ðə ˈletə ənd seɪ ðə saʊnd wɪð miː",
+  "text": "Tap the letter, and say the sound with me...",
+  "takes": 3,
+  "judged": 1,
+  "wps": 3.02,
+  "seconds": 2.98,
+  "lufs": -16,
+  "target": -16,
+  "fall": -1.24,
+  "falls": [
+   2.09,
+   3.77,
+   -1.24
+  ]
+ },
+ "public/a/l/tv_praise_row.mp3": {
+  "score": 10,
+  "heard": "juː rɪˈmɛmbəd wɪtʃ keɪm fɜːst",
+  "text": "You remembered which came first.",
+  "takes": 1,
+  "wps": 2.59,
+  "seconds": 1.93,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_build_dojo.mp3": {
+  "score": 10,
+  "heard": "naʊ lɛts bɪld səm wɜːdz wɪð jɔː njuː saʊndz",
+  "text": "Now let's build some words with your new sounds.",
+  "takes": 2,
+  "wps": 3.04,
+  "seconds": 2.96,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_learn_ready.mp3": {
+  "score": 10,
+  "heard": "ɑː juː ˈrɛdi fə ðə fɜːst wʌn? tæp ðə ɡriːn ˈærəʊ.",
+  "text": "Are you ready for the first one? Tap the green arrow.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 3.38,
+  "lufs": -16,
+  "target": -16,
+  "widened": 0.246
+ },
+ "public/a/l/tv_praise_read.mp3": {
+  "score": 10,
+  "heard": "ˈlʌvli ˈɹiːdɪŋ",
+  "text": "Lovely reading!",
+  "takes": 1,
+  "wps": 1.68,
+  "seconds": 1.19,
+  "lufs": -19,
+  "target": -19
+ },
+ "public/a/l/tv_yay_thats_it.mp3": {
+  "score": 10,
+  "heard": "ðæts ɪt",
+  "text": "That's it!",
+  "takes": 1,
+  "wps": 2.4,
+  "seconds": 0.83,
+  "lufs": -19.5,
+  "target": -19
+ },
+ "public/a/l/tv_praise_judge.mp3": {
+  "score": 10,
+  "heard": "juː tʃɛkt ðɛə ˈriːdɪŋ laɪk ə rɪəl ˈtiːtʃə",
+  "text": "You checked their reading, like a real teacher!",
+  "takes": 1,
+  "wps": 2.57,
+  "seconds": 3.11,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_listen_here.mp3": {
+  "score": 10,
+  "heard": "lɛts lɪsən əɡɛn wɒt kən juː hɪə hɪə",
+  "text": "Let's listen again. What can you hear here?",
+  "takes": 1,
+  "wps": 2.95,
+  "seconds": 2.71,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_praise_heard_word.mp3": {
+  "score": 10,
+  "heard": "juː hɜːd ðə wɜːd ɪn ðə saʊndz",
+  "text": "You heard the word in the sounds.",
+  "takes": 3,
+  "wps": 3.2,
+  "seconds": 2.19,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_which_starts_it.mp3": {
+  "score": 10,
+  "heard": "wɪtʃ ˈpɪktʃə stɑːts wɪð ɪt",
+  "text": "Which picture starts with it?",
+  "takes": 1,
+  "wps": 2.29,
+  "seconds": 2.19,
+  "lufs": -16.4,
+  "target": -16
+ },
+ "public/a/l/tv_which_changes.mp3": {
+  "score": 10,
+  "heard": "wɪtʃ saʊnd tʃeɪndʒɪz",
+  "text": "Which sound changes?",
+  "takes": 1,
+  "wps": 1.61,
+  "seconds": 1.86,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_both_again.mp3": {
+  "score": 10,
+  "heard": "ˈlɪsən tə ðəm bəʊθ əˈɡɛn",
+  "text": "Listen to them both again...",
+  "takes": 11,
+  "judged": 2,
+  "wps": 3.26,
+  "seconds": 1.53,
+  "lufs": -16,
+  "target": -16,
+  "fall": 1.39,
+  "fall_gate": 1.39,
+  "fall_low": 0.5,
+  "falls": [
+   5.11,
+   -1.93,
+   4.87,
+   11.62,
+   4.31,
+   4.53,
+   3.13,
+   6.5,
+   6.8,
+   5.23,
+   1.39
+  ]
+ },
+ "public/a/l/tv_take_time.mp3": {
+  "score": 10,
+  "heard": "teɪk jɔː taɪm nɪndʒə",
+  "text": "Take your time, ninja.",
+  "takes": 1,
+  "wps": 2.45,
+  "seconds": 1.63,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_praise_helped.mp3": {
+  "score": 10,
+  "heard": "naʊ juːv ɡɒt ɪt",
+  "text": "Now you've got it.",
+  "takes": 4,
+  "wps": 3.05,
+  "seconds": 1.31,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_praise_sorted.mp3": {
+  "score": 10,
+  "heard": "ðæts ðə ɹaɪt tʃɛst",
+  "text": "That's the right chest.",
+  "takes": 5,
+  "wps": 2.79,
+  "seconds": 1.43,
+  "lufs": -16.6,
+  "target": -16
+ },
+ "public/a/l/tv_praise_kept_going.mp3": {
+  "score": 10,
+  "heard": "ðæt wəz ə trɪki wʌn ænd juː kɛpt ɡəʊɪŋ",
+  "text": "That was a tricky one, and you kept going.",
+  "takes": 6,
+  "wps": 3.29,
+  "seconds": 2.74,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_dojo_help_sound.mp3": {
+  "score": 10,
+  "heard": "hɪəz ðə saʊnd əɡɛn",
+  "text": "Here's the sound again...",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 1.23,
+  "lufs": -16.2,
+  "target": -16,
+  "lengthened": 1.046,
+  "fall": -6.56
+ },
+ "public/a/l/tv_praise_write.mp3": {
+  "score": 10,
+  "heard": "juː nəʊ haʊ wiː raɪt ðæt saʊnd",
+  "text": "You know how we write that sound.",
+  "takes": 7,
+  "wps": 3.27,
+  "seconds": 2.14,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_which_way_write_it.mp3": {
+  "score": 10,
+  "heard": "wɪtʃ wʌn ɪz ðə weɪ wiː ɹaɪt ɪt",
+  "text": "Which one is the way we write it?",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.46,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.034
+ },
+ "public/a/l/tv_listen_sound_again.mp3": {
+  "score": 10,
+  "heard": "ˈlɪsn̩ tə maɪ saʊnd əˈɡɛn",
+  "text": "Listen to my sound again...",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 1.53,
+  "lufs": -16.2,
+  "target": -16,
+  "lengthened": 1.104,
+  "fall": -13.73
+ },
+ "public/a/l/st_hear_three.mp3": {
+  "score": 10,
+  "heard": "aɪ kən hɪə θriː saʊndz",
+  "text": "I can hear three sounds.",
+  "takes": 1,
+  "wps": 2.69,
+  "seconds": 1.86,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/st_find_q3.mp3": {
+  "score": 10,
+  "heard": "naʊ faɪnd",
+  "text": "Now find...",
+  "takes": 1,
+  "wps": 1.72,
+  "seconds": 1.16,
+  "lufs": -19,
+  "target": -19,
+  "fall": 1.19
+ },
+ "public/a/l/st_find_q2.mp3": {
+  "score": 10,
+  "heard": "wɛːz",
+  "text": "Where's...",
+  "takes": 1,
+  "wps": 0,
+  "seconds": 0.91,
+  "lufs": -19.1,
+  "target": -19,
+  "fall": -0.78
+ },
+ "public/a/l/st_another_new_sound.mp3": {
+  "score": 10,
+  "heard": "ænd hɪəz ənʌðə njuː saʊnd",
+  "text": "And here's another new sound!",
+  "takes": 1,
+  "wps": 2.86,
+  "seconds": 1.75,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/st_last_one.mp3": {
+  "score": 10,
+  "heard": "hɪəz ðə lɑːst wʌn",
+  "text": "Here's the last one.",
+  "takes": 1,
+  "wps": 3.21,
+  "seconds": 1.25,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_w1_end.mp3": {
+  "score": 10,
+  "heard": "ðæts ðiː ɛnd əv nɪndʒə ɪəz naʊ wɒtʃ wɒt hæpənz tə jɔː pɪktʃəz",
+  "text": "That's the end of Ninja Ears. Now watch what happens to your pictures.",
+  "takes": 2,
+  "wps": 3.2,
+  "seconds": 4.06,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/st_th_moth_sometimes.mp3": {
+  "score": 10,
+  "heard": "ɪn mɒθ ænd sʌmtaɪmz",
+  "text": "...in moth, and sometimes...",
+  "takes": 4,
+  "wps": 1.95,
+  "seconds": 2.05,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": -0.03
+ },
+ "public/a/l/tv_rw2_flower.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə wɜːld flaʊə jɔː saʊndz meɪk ɪt ʃaɪn",
+  "text": "This is the World Flower. Your sounds make it shine.",
+  "takes": 1,
+  "wps": 2.53,
+  "seconds": 3.95,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_rw2_tap_petal.mp3": {
+  "score": 10,
+  "heard": "tæp jɔː ˈpɛtəl ænd hɪər ɪts saʊnd",
+  "text": "Tap your petal, and hear its sound.",
+  "takes": 1,
+  "wps": 2.63,
+  "seconds": 2.66,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_ts_again.mp3": {
+  "score": 10,
+  "heard": "hɪə kʌm ðə ˈræbɪt ənd ðə ˈtɔːtəs əˈɡen",
+  "text": "Here come the rabbit and the tortoise again.",
+  "takes": 1,
+  "wps": 3.3,
+  "seconds": 2.43,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_slow_frame.mp3": {
+  "score": 10,
+  "heard": "lɛts pleɪ sləʊ wɜːdz aɪ seɪ ə wɜːd sləʊli juː faɪnd ɪts pɪktʃə",
+  "text": "Let's play Slow Words. I say a word slowly. You find its picture.",
+  "takes": 1,
+  "wps": 2.2,
+  "seconds": 5.9,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_ts_slow_one.mp3": {
+  "score": 10,
+  "heard": "ðə ˈtɔːtəs sɛz ɪt ˈsləʊli",
+  "text": "The tortoise says it slowly...",
+  "takes": 2,
+  "wps": 2.65,
+  "seconds": 1.89,
+  "lufs": -16,
+  "target": -16,
+  "fall": -8.19
+ },
+ "public/a/l/tv_i_hear_sun.mp3": {
+  "score": 10,
+  "heard": "aɪ kən hɪə sʌn",
+  "text": "I can hear sun!",
+  "takes": 1,
+  "wps": 3.23,
+  "seconds": 1.24,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_i_hear_mug.mp3": {
+  "score": 10,
+  "heard": "aɪ kən hɪə mʌɡ",
+  "text": "I can hear mug!",
+  "takes": 1,
+  "wps": 3.14,
+  "seconds": 1.27,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_slow_yours.mp3": {
+  "score": 10,
+  "heard": "hɪəz jɔː sləʊ wɜːd",
+  "text": "Here's your slow word...",
+  "takes": 1,
+  "wps": 1.7,
+  "seconds": 2.35,
+  "lufs": -16,
+  "target": -16,
+  "fall": -4.93
+ },
+ "public/a/l/tv_pocket_middle.mp3": {
+  "score": 10,
+  "heard": "ɪts pɒkɪt hʌnt əɡɛn ðɪs taɪm ðə saʊnd ɪz haɪdɪŋ ɪn ðə mɪdəl əv ðə wɜːdz",
+  "text": "It's Pocket Hunt again. This time, the sound is hiding in the middle of the words.",
+  "takes": 1,
+  "wps": 2.95,
+  "seconds": 5.42,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_new_petal_say.mp3": {
+  "score": 10,
+  "heard": "ɪts ə njuː saʊnd tæp ɪts ˈpɛtl̩ ən seɪ ɪt wɪð miː",
+  "text": "It's a new sound. Tap its petal, and say it with me.",
+  "takes": 1,
+  "wps": 3.17,
+  "seconds": 3.78,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_w3_done.mp3": {
+  "score": 10,
+  "heard": "juː hɜːd saʊndz ət ðə stɑːt əv wɜːdz ænd ɪn ðə mɪdl̩ suːpə lɪsnɪŋ",
+  "text": "You heard sounds at the start of words, and in the middle. Super listening!",
+  "takes": 1,
+  "wps": 2.78,
+  "seconds": 5.03,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_rail_again.mp3": {
+  "score": 10,
+  "heard": "ɪts nɪndʒə riːdɪŋ əɡɛn ðɪs taɪm ðɛər ɑː θriː pɪktʃəz",
+  "text": "It's Ninja Reading again. This time, there are three pictures.",
+  "takes": 1,
+  "wps": 2.17,
+  "seconds": 4.61,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_fix_middle.mp3": {
+  "score": 10,
+  "heard": "ˈlɪsn̩ fə ðə ˈmɪdl̩",
+  "text": "Listen for the middle...",
+  "takes": 2,
+  "wps": 2.9,
+  "seconds": 1.38,
+  "lufs": -16,
+  "target": -16,
+  "fall": -3.36
+ },
+ "public/a/l/tv_which_again.mp3": {
+  "score": 10,
+  "heard": "hɪər ə tuː rəʊz əɡɛn aɪl riːd wʌn ænd juː tæp ɪt",
+  "text": "Here are two rows again. I'll read one, and you tap it.",
+  "takes": 1,
+  "wps": 3.12,
+  "seconds": 3.85,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_which_q_fish_dog_cat.mp3": {
+  "score": 10,
+  "heard": "hɪər aɪ ɡəʊ fɪʃ dɒɡ kæt wɪtʃ rəʊ dɪd aɪ riːd",
+  "text": "Here I go. Fish... dog... cat. Which row did I read?",
+  "takes": 1,
+  "wps": 1.8,
+  "seconds": 6.12,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_which_fix_fish_dog_cat.mp3": {
+  "score": 10,
+  "heard": "lɛts lɪsən əɡɛn fɪʃ dɒɡ kæt wɪtʃ rəʊ hæz ðə fɪʃ fɜːst",
+  "text": "Let's listen again. Fish... dog... cat. Which row has the fish first?",
+  "takes": 1,
+  "wps": 1.53,
+  "seconds": 7.86,
+  "lufs": -16.4,
+  "target": -16
+ },
+ "public/a/l/tv_squish_again.mp3": {
+  "score": 10,
+  "heard": "ɪts wɜːd skwɪʃ əˈɡɛn tuː ˈlɪtl̩ wɜːdz meɪk wʌn bɪɡ wɜːd",
+  "text": "It's Word Squish again. Two little words make one big word.",
+  "takes": 1,
+  "wps": 2.22,
+  "seconds": 4.95,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_w4_done.mp3": {
+  "score": 10,
+  "heard": "juː rɛd θriː ˈpɪktʃəz ɪn ə rəʊ ðə ˈnɪndʒə weɪ",
+  "text": "You read three pictures in a row, the ninja way.",
+  "takes": 1,
+  "wps": 2.68,
+  "seconds": 3.73,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_guess_so_sun.mp3": {
+  "score": 10,
+  "heard": "aɪ kən hɪə sʌn səʊ aɪ tæp ðə sʌn",
+  "text": "I can hear sun. So I tap the sun.",
+  "takes": 1,
+  "wps": 3.11,
+  "seconds": 2.9,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_practise_again.mp3": {
+  "score": 10,
+  "heard": "ðæt ɡeɪm wəz ə bɪt trɪki lɪts pleɪ ɪt wʌns mɔː",
+  "text": "That game was a bit tricky. Let's play it once more.",
+  "takes": 3,
+  "wps": 3.21,
+  "seconds": 3.43,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_guess_together.mp3": {
+  "score": 10,
+  "heard": "lɛts seɪ ɪt təˈɡɛðə",
+  "text": "Let's say it together.",
+  "takes": 2,
+  "wps": 3.3,
+  "seconds": 1.21,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_my_sounds.mp3": {
+  "score": 10,
+  "heard": "maɪ saʊndz ɑː",
+  "text": "My sounds are...",
+  "takes": 3,
+  "wps": 2.8,
+  "seconds": 1.07,
+  "lufs": -18.9,
+  "target": -19,
+  "fall": -4.99
+ },
+ "public/a/l/tv_rail_yours.mp3": {
+  "score": 10,
+  "heard": "naʊ juː ɹiːd ðəm",
+  "text": "Now you read them.",
+  "takes": 6,
+  "wps": 2.46,
+  "seconds": 1.63,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_here_sound.mp3": {
+  "score": 10,
+  "heard": "hɪəz ðə saʊnd",
+  "text": "Here's the sound...",
+  "takes": 7,
+  "wps": 2.26,
+  "seconds": 1.33,
+  "lufs": -16.3,
+  "target": -16,
+  "fall": -0.42
+ },
+ "public/a/l/tv_w5_done.mp3": {
+  "score": 10,
+  "heard": "juː lɪsənd tə ðə saʊndz ænd juː hɜːd ðə wɜːdz",
+  "text": "You listened to the sounds, and you heard the words.",
+  "takes": 1,
+  "wps": 3.07,
+  "seconds": 3.25,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_dots_ready.mp3": {
+  "score": 10,
+  "heard": "naʊ juː tæp ðə dɒts ænd seɪ ðə saʊndz wɪð miː ɑː juː ˈrɛdi",
+  "text": "Now you tap the dots, and say the sounds with me. Are you ready?",
+  "takes": 1,
+  "wps": 3.29,
+  "seconds": 4.25,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_dots_frame.mp3": {
+  "score": 10,
+  "heard": "ɛvri dɒt ɪz wʌn saʊnd ɪn ðə wɜːd",
+  "text": "Every dot is one sound in the word.",
+  "takes": 1,
+  "wps": 2.69,
+  "seconds": 2.98,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_dots_word_ido.mp3": {
+  "score": 10,
+  "heard": "ðɛn aɪ seɪ ðə wɜːd",
+  "text": "Then I say the word...",
+  "takes": 25,
+  "judged": 17,
+  "wps": 3.01,
+  "seconds": 1.66,
+  "lufs": -16,
+  "target": -16,
+  "fall": 0.94,
+  "falls": [
+   1.92,
+   -5.22,
+   6.51,
+   -4.47,
+   0.98,
+   1.06,
+   2.09,
+   1.33,
+   1.2,
+   4.5,
+   0.7,
+   1.7,
+   4.27,
+   5.34,
+   3.28,
+   -0.27,
+   3.75,
+   2.63,
+   0.01,
+   -3.16,
+   -0.23,
+   -5.26,
+   -0.94,
+   1.37,
+   0.94
+  ]
+ },
+ "public/a/l/tv_dots_ido.mp3": {
+  "score": 10,
+  "heard": "aɪ stɑːt hɪə ænd gəʊ ðɪs weɪ",
+  "text": "I start here, and go this way.",
+  "takes": 1,
+  "wps": 2.82,
+  "seconds": 2.48,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_guess_q.mp3": {
+  "score": 10,
+  "heard": "ˈlɪs.n̩ fə ðə wɜːd",
+  "text": "Listen for the word...",
+  "takes": 5,
+  "wps": 3.09,
+  "seconds": 1.3,
+  "lufs": -16,
+  "target": -16,
+  "fall": 0.21
+ },
+ "public/a/l/tv_slow_demo.mp3": {
+  "score": 10,
+  "heard": "hɪəz maɪ sləʊ wɜːd",
+  "text": "Here's my slow word...",
+  "takes": 1,
+  "wps": 1.4,
+  "seconds": 2.85,
+  "lufs": -16,
+  "target": -16,
+  "fall": -0.76
+ },
+ "public/a/l/tv_hear_middle.mp3": {
+  "score": 10,
+  "heard": "aɪ kən hɪər ɪt ɪn ðə mɪdəl",
+  "text": "I can hear it in the middle.",
+  "takes": 8,
+  "wps": 3.16,
+  "seconds": 2.21,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_slow_again.mp3": {
+  "score": 10,
+  "heard": "lɛts ˈlɪsn̩ əˈɡɛn",
+  "text": "Let's listen again...",
+  "takes": 26,
+  "judged": 3,
+  "wps": 2.73,
+  "seconds": 1.1,
+  "lufs": -18.9,
+  "target": -19,
+  "fall": 0.6,
+  "falls": [
+   7.6,
+   5.8,
+   2.18,
+   6.81,
+   6.63,
+   5.26,
+   10.48,
+   5.53,
+   6,
+   3.67,
+   8.99,
+   5.03,
+   6.14,
+   10.3,
+   5.62,
+   6.43,
+   6.39,
+   2.42,
+   1.79,
+   7.42,
+   7.97,
+   1.98,
+   6.6,
+   5.2,
+   7.54,
+   0.6
+  ]
+ },
+ "public/a/l/tv_ido_pair_bed_sock.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst hɪəz ə bɛd ænd ə sɒk",
+  "text": "I'll go first. Here's a bed and a sock.",
+  "takes": 1,
+  "wps": 2.71,
+  "seconds": 3.32,
+  "lufs": -16.4,
+  "target": -16
+ },
+ "public/a/l/tv_ido_pair_cat_ant.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst hɪəz ə kæt ænd ən ænt",
+  "text": "I'll go first. Here's a cat and an ant.",
+  "takes": 1,
+  "wps": 2.36,
+  "seconds": 3.81,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_ido_pair_jam_tent.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst hɪəz səm dʒæm ænd ə tɛnt",
+  "text": "I'll go first. Here's some jam and a tent.",
+  "takes": 1,
+  "wps": 2.21,
+  "seconds": 4.08,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_ido_pair_map_hat.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst hɪəz ə mæp ənd ə hæt",
+  "text": "I'll go first. Here's a map and a hat.",
+  "takes": 2,
+  "wps": 2.63,
+  "seconds": 3.42,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_first_frame.mp3": {
+  "score": 10,
+  "heard": "ɪn fɜːst saʊndz aɪ seɪ ə saʊnd ænd juː faɪnd ðə pɪktʃə ðæt stɑːts wɪð ɪt",
+  "text": "In First Sounds, I say a sound, and you find the picture that starts with it.",
+  "takes": 2,
+  "wps": 3.08,
+  "seconds": 5.19,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_ido_pair_nut_hat.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst hɪəz ə nʌt ənd ə hæt",
+  "text": "I'll go first. Here's a nut and a hat.",
+  "takes": 1,
+  "wps": 2,
+  "seconds": 4.5,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_first_sound.mp3": {
+  "score": 10,
+  "heard": "aʊə fɜːst saʊnd ɪz",
+  "text": "Our first sound is...",
+  "takes": 2,
+  "wps": 2.7,
+  "seconds": 1.48,
+  "lufs": -16.3,
+  "target": -16,
+  "fall": -4.79
+ },
+ "public/a/l/tv_ido_pair_bus_pig.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst hɪəz ə bʌs ənd ə pɪɡ",
+  "text": "I'll go first. Here's a bus and a pig.",
+  "takes": 1,
+  "wps": 2.14,
+  "seconds": 4.2,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_guess_frame.mp3": {
+  "score": 10,
+  "heard": "aɪl seɪ ðə saʊndz ænd juː lɪsn̩ fə ðə wɜːd",
+  "text": "I'll say the sounds, and you listen for the word.",
+  "takes": 8,
+  "wps": 3.3,
+  "seconds": 3.03,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_let_me_listen.mp3": {
+  "score": 10,
+  "heard": "hm̩ lɛt miː ˈlɪsən",
+  "text": "Hmm, let me listen.",
+  "takes": 1,
+  "wps": 3.07,
+  "seconds": 1.3,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_now_say_word.mp3": {
+  "score": 10,
+  "heard": "naʊ seɪ ðə həʊl wɜːd",
+  "text": "Now say the whole word...",
+  "takes": 14,
+  "judged": 2,
+  "wps": 3.12,
+  "seconds": 1.6,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": 0.66,
+  "fall_gate": -1.23,
+  "fall_low": 0.66,
+  "falls": [
+   8.54,
+   6.57,
+   5.93,
+   9.58,
+   14.23,
+   10.21,
+   6.62,
+   8.69,
+   2.7,
+   5.11,
+   -0.67,
+   6.75,
+   2.87,
+   0.66
+  ]
+ },
+ "public/a/l/tv_next_sound_known.mp3": {
+  "score": 10,
+  "heard": "aʊə nɛkst saʊnd ɪz wʌn juː nəʊ",
+  "text": "Our next sound is one you know...",
+  "takes": 1,
+  "wps": 3.14,
+  "seconds": 2.23,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": -4.91
+ },
+ "public/a/l/tv_so_i_tap.mp3": {
+  "score": 10,
+  "heard": "səʊ aɪl tæp ɪt",
+  "text": "So I'll tap it.",
+  "takes": 2,
+  "wps": 2.52,
+  "seconds": 1.59,
+  "lufs": -16.6,
+  "target": -16
+ },
+ "public/a/l/tv_ido_pair_map_mop.mp3": {
+  "score": 10,
+  "heard": "aɪl ɡəʊ fɜːst hɪəz ə mæp ænd ə mɒp",
+  "text": "I'll go first. Here's a map and a mop.",
+  "takes": 2,
+  "wps": 3.2,
+  "seconds": 2.81,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_mix_up.mp3": {
+  "score": 10,
+  "heard": "naʊ ɪt kəd biː aɪðə saʊnd lɪsən keəfəli tə maɪ saʊnd",
+  "text": "Now it could be either sound. Listen carefully to my sound.",
+  "takes": 1,
+  "wps": 2.37,
+  "seconds": 4.64,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_to_reward.mp3": {
+  "score": 10,
+  "heard": "lɛts siː wɒt juː wʌn bæk frɒm ˈbærən ˈmʌdəl",
+  "text": "Let's see what you won back from Baron Muddle.",
+  "takes": 1,
+  "wps": 3.28,
+  "seconds": 2.74,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_ne_frame.mp3": {
+  "score": 10,
+  "heard": "nɛkst ə ɡeɪm kɔːld nɪndʒə aɪz aɪ seɪ ə saʊnd ænd juː faɪnd haʊ wiː raɪt ɪt",
+  "text": "Next, a game called Ninja Eyes. I say a sound, and you find how we write it.",
+  "takes": 1,
+  "wps": 3.25,
+  "seconds": 5.23,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_guess_again.mp3": {
+  "score": 10,
+  "heard": "lɛts ˈlɪsn̩ əˈɡɛn",
+  "text": "Let's listen again...",
+  "takes": 7,
+  "judged": 1,
+  "wps": 2.76,
+  "seconds": 1.09,
+  "lufs": -18.9,
+  "target": -19,
+  "fall": 0.36,
+  "falls": [
+   3.84,
+   6.33,
+   3.95,
+   7.32,
+   9.11,
+   6.26,
+   0.36
+  ]
+ },
+ "public/a/l/tv_ido_pair_pan_pin.mp3": {
+  "score": 10,
+  "heard": "I'll go first. Here's a pan and a pin.",
+  "text": "I'll go first. Here's a pan and a pin.",
+  "takes": 4,
+  "wps": 2.97,
+  "seconds": 3.03,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_to_flower_first.mp3": {
+  "score": 10,
+  "heard": "naʊ lɪts ɡəʊ ən siː weə jɔː saʊndz lɪv tæp ðə ɡriːn ærəʊ",
+  "text": "Now let's go and see where your sounds live. Tap the green arrow.",
+  "takes": 1,
+  "wps": 2.9,
+  "seconds": 4.48,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_won_four.mp3": {
+  "score": 10,
+  "heard": "juː wʌn bæk fɔː saʊndz",
+  "text": "You won back four sounds...",
+  "takes": 1,
+  "wps": 2.45,
+  "seconds": 2.04,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": -16.04
+ },
+ "public/a/l/tv_won_two.mp3": {
+  "score": 10,
+  "heard": "juː wʌn bæk tuː saʊndz",
+  "text": "You won back two sounds...",
+  "takes": 3,
+  "judged": 1,
+  "wps": 2.59,
+  "seconds": 1.93,
+  "lufs": -16.5,
+  "target": -16,
+  "fall": -4.2,
+  "fall_gate": -4.74,
+  "fall_low": -4.2,
+  "falls": [
+   14.68,
+   2.6,
+   -4.2
+  ]
+ },
+ "public/a/l/tv_first_done.mp3": {
+  "score": 10,
+  "heard": "juː ˈlɪsənd fə ðə fɜːst saʊnd ɪn ˈɛvri wɜːd ænd juː faʊnd haʊ wiː ˈraɪt ɪt",
+  "text": "You listened for the first sound in every word, and you found how we write it.",
+  "takes": 3,
+  "wps": 3.2,
+  "seconds": 5,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_flower_tap.mp3": {
+  "score": 10,
+  "heard": "tæp ɪt ənd hɪər ɪts saʊnd",
+  "text": "Tap it, and hear its sound.",
+  "takes": 1,
+  "wps": 2.44,
+  "seconds": 2.46,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_next_sound.mp3": {
+  "score": 10,
+  "heard": "aʊə nɛkst saʊnd ɪz",
+  "text": "Our next sound is...",
+  "takes": 1,
+  "wps": 2.49,
+  "seconds": 1.61,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": 0.73
+ },
+ "public/a/l/tv_flower_bye.mp3": {
+  "score": 10,
+  "heard": "jɔː wɜːld flaʊər ɪz weɪtɪŋ fɔː mɔː saʊndz lets ɡəʊ ænd faɪnd ðəm",
+  "text": "Your World Flower is waiting for more sounds. Let's go and find them!",
+  "takes": 1,
+  "wps": 3.04,
+  "seconds": 4.27,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_first_again_new.mp3": {
+  "score": 10,
+  "heard": "ɪts fɜːst saʊndz əɡɛn wɪð tuː njuː saʊndz",
+  "text": "It's First Sounds again, with two new sounds.",
+  "takes": 1,
+  "wps": 2.56,
+  "seconds": 3.12,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_ne_again.mp3": {
+  "score": 10,
+  "heard": "naʊ lts pleɪ nɪndʒə aɪz",
+  "text": "Now let's play Ninja Eyes.",
+  "takes": 1,
+  "wps": 2.36,
+  "seconds": 2.12,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_build_lines.mp3": {
+  "score": 10,
+  "heard": "iːtʃ laɪn ɪz fə wʌn saʊnd",
+  "text": "Each line is for one sound.",
+  "takes": 1,
+  "wps": 3.04,
+  "seconds": 1.97,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_by_yourself.mp3": {
+  "score": 10,
+  "heard": "naʊ juː duː wʌn ɔːl baɪ jɔːsɛlf",
+  "text": "Now you do one all by yourself.",
+  "takes": 2,
+  "wps": 3.26,
+  "seconds": 2.15,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_tap_it_say.mp3": {
+  "score": 10,
+  "heard": "naʊ juː tæp ɪt ənd seɪ ðə saʊnd",
+  "text": "Now you tap it, and say the sound.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.46,
+  "lufs": -16.1,
+  "target": -16,
+  "widened": 0.097
+ },
+ "public/a/l/tv_word_card.mp3": {
+  "score": 10,
+  "heard": "ðɪs kɑːd ɪz maɪ wɜːd. tæp ɪt, ænd hɪə ðə wɜːd.",
+  "text": "This card is my word. Tap it, and hear the word.",
+  "takes": 1,
+  "wps": 3.04,
+  "seconds": 3.62,
+  "lufs": -16.4,
+  "target": -16
+ },
+ "public/a/l/tv_together.mp3": {
+  "score": 10,
+  "heard": "lɛts duː ðɪs wʌn təɡɛðə",
+  "text": "Let's do this one together.",
+  "takes": 8,
+  "wps": 3.28,
+  "seconds": 1.53,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_first_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts fɜːst saʊndz əɡɛn aɪ seɪ ə saʊnd ænd juː faɪnd ðə pɪktʃə ðæt stɑːts wɪð ɪt",
+  "text": "It's First Sounds again. I say a sound, and you find the picture that starts with it.",
+  "takes": 2,
+  "wps": 3.06,
+  "seconds": 5.55,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_another_sound.mp3": {
+  "score": 10,
+  "heard": "ænd hɪəz əˈnʌðə njuː saʊnd",
+  "text": "And here's another new sound...",
+  "takes": 1,
+  "wps": 2.86,
+  "seconds": 1.75,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": -8.29
+ },
+ "public/a/l/tv_readers_meet.mp3": {
+  "score": 10,
+  "heard": "lʊk ɪts kaɪ ənd suːki ðeə lɜːnɪŋ tə riːd laɪk juː",
+  "text": "Look, it's Kai and Suki. They're learning to read, like you.",
+  "takes": 1,
+  "wps": 2.42,
+  "seconds": 4.55,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_i_say_slowly.mp3": {
+  "score": 10,
+  "heard": "aɪ seɪ ɪt sləʊli",
+  "text": "I say it slowly...",
+  "takes": 1,
+  "wps": 2.34,
+  "seconds": 1.71,
+  "lufs": -16,
+  "target": -16,
+  "fall": -9.16
+ },
+ "public/a/l/tv_build_frame.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɡeɪm ɪz kɔːld wɜːd bɪldɪŋ aɪ seɪ ə wɜːd ænd wiː bɪld ɪt wɪð ɪts saʊndz",
+  "text": "This game is called Word Building. I say a word, and we build it with its sounds.",
+  "takes": 1,
+  "wps": 3.18,
+  "seconds": 5.35,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_flower_petal.mp3": {
+  "score": 10,
+  "heard": "ˈɛvri ˈpɛtəl ɪz wʌn saʊnd ðɪs ɪz ðə ˈpɛtəl fɔː",
+  "text": "Every petal is one sound. This is the petal for...",
+  "takes": 3,
+  "wps": 2.52,
+  "seconds": 3.98,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": 1.13
+ },
+ "public/a/l/tv_lets_say_read.mp3": {
+  "score": 10,
+  "heard": "naʊ lts seɪ ðə saʊndz ænd riːd ðə wɜːd",
+  "text": "Now let's say the sounds... and read the word.",
+  "takes": 1,
+  "wps": 2.88,
+  "seconds": 3.13,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_by_yourself_build.mp3": {
+  "score": 10,
+  "heard": "naʊ juː bɪld wʌn ɔːl baɪ jɔːˈsɛlf",
+  "text": "Now you build one all by yourself.",
+  "takes": 1,
+  "wps": 3.2,
+  "seconds": 2.18,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_our_word.mp3": {
+  "score": 10,
+  "heard": "hɪəz aʊə wɜːd",
+  "text": "Here's our word...",
+  "takes": 1,
+  "wps": 2.82,
+  "seconds": 1.06,
+  "lufs": -18.9,
+  "target": -19,
+  "fall": -8.02
+ },
+ "public/a/l/tv_first_is.mp3": {
+  "score": 10,
+  "heard": "ðə fɜːst saʊnd ɪz",
+  "text": "The first sound is...",
+  "takes": 2,
+  "wps": 2.82,
+  "seconds": 1.42,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": 1.07
+ },
+ "public/a/l/tv_you_read_first.mp3": {
+  "score": 10,
+  "heard": "First, you read it. Tap each sound, and say it with me.",
+  "text": "First, you read it. Tap each sound, and say it with me.",
+  "takes": 1,
+  "wps": 3.2,
+  "seconds": 3.75,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_rc_q.mp3": {
+  "score": 10,
+  "heard": "huː rɛd ɪt raɪt tæp kaɪ ɔː tæp suːki",
+  "text": "Who read it right? Tap Kai, or tap Suki.",
+  "takes": 1,
+  "wps": 2.91,
+  "seconds": 3.09,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_won_three.mp3": {
+  "score": 10,
+  "heard": "juː wʌn bæk θriː saʊndz",
+  "text": "You won back three sounds...",
+  "takes": 6,
+  "wps": 2.42,
+  "seconds": 2.07,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": -16.03
+ },
+ "public/a/l/tv_yes_kai.mp3": {
+  "score": 10,
+  "heard": "jɛs kaɪ rɛd ɪt ɹaɪt",
+  "text": "Yes! Kai read it right.",
+  "takes": 1,
+  "wps": 2.19,
+  "seconds": 2.29,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_yes_suki.mp3": {
+  "score": 10,
+  "heard": "jɛs ˈsuːki ɹɛd ɪt ɹaɪt",
+  "text": "Yes! Suki read it right.",
+  "takes": 1,
+  "wps": 2.24,
+  "seconds": 2.23,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_now_readers.mp3": {
+  "score": 10,
+  "heard": "naʊ lɪsn̩ tə kaɪ ən suːkiː riːd ɪt",
+  "text": "Now listen to Kai and Suki read it.",
+  "takes": 2,
+  "wps": 2.92,
+  "seconds": 2.74,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_right_kai.mp3": {
+  "score": 10,
+  "heard": "kʰaɪ ɹɛd ɪt ɹaɪt",
+  "text": "Kai read it right.",
+  "takes": 1,
+  "wps": 2.87,
+  "seconds": 1.39,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_rc_how.mp3": {
+  "score": 10,
+  "heard": "ðeɪl bəʊθ riːd ðɪs wɜːd ˈəʊnli wʌn əv ðəm riːdz ɪt raɪt",
+  "text": "They'll both read this word. Only one of them reads it right.",
+  "takes": 2,
+  "wps": 3.04,
+  "seconds": 3.95,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_build_again_3.mp3": {
+  "score": 10,
+  "heard": "ɪts wɜːd bɪldɪŋ əɡɛn ðɪs wɜːd hæz θriː saʊndz səʊ ðeər ə θriː laɪnz",
+  "text": "It's Word Building again. This word has three sounds, so there are three lines.",
+  "takes": 1,
+  "wps": 2.82,
+  "seconds": 4.97,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_build_ready.mp3": {
+  "score": 10,
+  "heard": "naʊ lɪts bɪld wʌn təɡɛðə ɑː juː ɹɛdi",
+  "text": "Now let's build one together. Are you ready?",
+  "takes": 3,
+  "wps": 3.26,
+  "seconds": 2.45,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_readers_back.mp3": {
+  "score": 10,
+  "heard": "Kai and Suki are back. You read it first, then they read it.",
+  "text": "Kai and Suki are back. You read it first, then they read it.",
+  "takes": 1,
+  "wps": 2.93,
+  "seconds": 4.44,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_bar_down.mp3": {
+  "score": 10,
+  "heard": "zæp lʊk ɪts bɑː wɛnt daʊn",
+  "text": "Zap! Look, its bar went down.",
+  "takes": 1,
+  "wps": 2.93,
+  "seconds": 2.04,
+  "lufs": -16.8,
+  "target": -16
+ },
+ "public/a/l/tv_build_done.mp3": {
+  "score": 10,
+  "heard": "juː bɪlt wɜːdz wɪð ðɛə saʊndz ænd juː rɛd ðəm",
+  "text": "You built words with their sounds, and you read them.",
+  "takes": 2,
+  "wps": 3.09,
+  "seconds": 3.23,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_right_suki.mp3": {
+  "score": 10,
+  "heard": "ˈsuːki ˈrɛd ɪt ˈraɪt",
+  "text": "Suki read it right.",
+  "takes": 2,
+  "wps": 3.13,
+  "seconds": 1.28,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_battle_frame.mp3": {
+  "score": 10,
+  "heard": "wiː zæp ɪt wɪð wɜːdz dʒʌst laɪk wɜːd bɪldɪŋ",
+  "text": "We zap it with words, just like Word Building.",
+  "takes": 1,
+  "wps": 3.09,
+  "seconds": 2.91,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_battle_oh_no.mp3": {
+  "score": 10,
+  "heard": "əʊ nəʊ wʌn əv bæɹən mʌdəɫz mɒnstəz ɪz ɪn ðə weɪ",
+  "text": "Oh no! One of Baron Muddle's monsters is in the way!",
+  "takes": 1,
+  "wps": 3.04,
+  "seconds": 3.61,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_battle_card.mp3": {
+  "score": 10,
+  "heard": "aɪl zæp ðə fɜːst wʌn tæp maɪ wɜːd kɑːd ænd hɪə ðə wɜːd",
+  "text": "I'll zap the first one. Tap my word card, and hear the word.",
+  "takes": 1,
+  "wps": 3.25,
+  "seconds": 4,
+  "lufs": -16.4,
+  "target": -16
+ },
+ "public/a/l/tv_battle_why.mp3": {
+  "score": 10,
+  "heard": "ˈɛvri ˈmɒnstə juː biːt hɛlps ʌs wɪn bæk ðə saʊndz",
+  "text": "Every monster you beat helps us win back the sounds.",
+  "takes": 1,
+  "wps": 2.65,
+  "seconds": 3.77,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_next_build.mp3": {
+  "score": 10,
+  "heard": "nɛkst wɪə ɡəʊɪŋ tə bɪld sʌm wɜːdz wɪð ðɪs saʊnd",
+  "text": "Next, we're going to build some words with this sound...",
+  "takes": 6,
+  "wps": 3.02,
+  "seconds": 3.31,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": 0.93
+ },
+ "public/a/l/tv_hunt_frame.mp3": {
+  "score": 10,
+  "heard": "In Sound Hunt, the sound is hiding in the middle of the word.",
+  "text": "In Sound Hunt, the sound is hiding in the middle of the word.",
+  "takes": 1,
+  "wps": 3.13,
+  "seconds": 4.15,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_hunt_q.mp3": {
+  "score": 10,
+  "heard": "wɪtʃ wʌn hæz ðɪs saʊnd ɪn ðə mɪdəl",
+  "text": "Which one has this sound in the middle...",
+  "takes": 5,
+  "judged": 3,
+  "wps": 3.23,
+  "seconds": 2.47,
+  "lufs": -15.9,
+  "target": -16,
+  "fall": 0.71,
+  "falls": [
+   0.47,
+   -1.3,
+   4.66,
+   2.4,
+   0.71
+  ]
+ },
+ "public/a/l/tv_next_word.mp3": {
+  "score": 9,
+  "heard": "hɪəz jə nɛkst wɜːd",
+  "text": "Here's your next word...",
+  "takes": 2,
+  "wps": 3.03,
+  "seconds": 1.32,
+  "lufs": -16.3,
+  "target": -16,
+  "fall": 1.25
+ },
+ "public/a/l/tv_battle_ready.mp3": {
+  "score": 10,
+  "heard": "ðæts haʊ wiː spɛl ə wɜːd naʊ juː spɛl wʌn ɑː juː ɹɛdi tə zæp ɪt",
+  "text": "That's how we spell a word. Now you spell one. Are you ready to zap it?",
+  "takes": 3,
+  "wps": 3.15,
+  "seconds": 5.08,
+  "lufs": -15.7,
+  "target": -16
+ },
+ "public/a/l/tv_hunt_done.mp3": {
+  "score": 10,
+  "heard": "juː hɜːd ə saʊnd raɪt ɪn ðə mɪdəl əv wɜːdz ðæts trɪki ænd juː dɪd ɪt",
+  "text": "You heard a sound right in the middle of words. That's tricky, and you did it!",
+  "takes": 1,
+  "wps": 3.15,
+  "seconds": 5.08,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_swap_oh_dear.mp3": {
+  "score": 10,
+  "heard": "əʊ dɪə ˈbærən ˈmʌdəl həz biːn ˈmʌdlɪŋ ʌp wɜːdz",
+  "text": "Oh dear. Baron Muddle has been muddling up words.",
+  "takes": 1,
+  "wps": 2.14,
+  "seconds": 4.21,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_swap_read_first.mp3": {
+  "score": 10,
+  "heard": "fɜːst ləts riːd ðɪs wɜːd tæp iːtʃ saʊnd ənd seɪ ɪt wɪð miː",
+  "text": "First, let's read this word. Tap each sound, and say it with me.",
+  "takes": 1,
+  "wps": 2.97,
+  "seconds": 4.38,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_next_middle.mp3": {
+  "score": 10,
+  "heard": "naʊ ðə nɛkst saʊnd ɪts ɪn ðə mɪdəl",
+  "text": "Now the next sound. It's in the middle...",
+  "takes": 1,
+  "wps": 3.02,
+  "seconds": 2.65,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": -1.5
+ },
+ "public/a/l/tv_swap_frame.mp3": {
+  "score": 10,
+  "heard": "ɪn saʊnd swɒp wiː tʃeɪndʒ dʒʌst wʌn saʊnd tə meɪk ə njuː wɜːd",
+  "text": "In Sound Swap, we change just one sound, to make a new word.",
+  "takes": 1,
+  "wps": 3.01,
+  "seconds": 4.32,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_you_find_last.mp3": {
+  "score": 10,
+  "heard": "kən juː faɪnd ðə lɑːst wʌn",
+  "text": "Can you find the last one?",
+  "takes": 8,
+  "wps": 3.27,
+  "seconds": 1.84,
+  "lufs": -15.9,
+  "target": -16,
+  "lengthened": 1.177
+ },
+ "public/a/l/tv_swap_in.mp3": {
+  "score": 10,
+  "heard": "ænd ɪn ɡəʊz",
+  "text": "And in goes...",
+  "takes": 1,
+  "wps": 2.51,
+  "seconds": 1.2,
+  "lufs": -19,
+  "target": -19,
+  "fall": -18.11
+ },
+ "public/a/l/tv_swap_kick.mp3": {
+  "score": 10,
+  "heard": "ðə fɜːst saʊnd tʃeɪndʒɪz kæn juː tæp ɪt ænd kɪk ɪt aʊt",
+  "text": "The first sound changes. Can you tap it, and kick it out?",
+  "takes": 1,
+  "wps": 3.17,
+  "seconds": 3.78,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_swap_done.mp3": {
+  "score": 10,
+  "heard": "juː fɪkst ɔːl əv ˈbærənz ˈmʌdəld wɜːdz",
+  "text": "You fixed all of Baron's muddled words!",
+  "takes": 1,
+  "wps": 2.64,
+  "seconds": 2.65,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_run_lanterns.mp3": {
+  "score": 10,
+  "heard": "hɪə kʌm ðə ˈlæntənz aɪl seɪ ðə saʊndz əv ə wɜːd",
+  "text": "Here come the lanterns. I'll say the sounds of a word.",
+  "takes": 1,
+  "wps": 3.18,
+  "seconds": 3.46,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_swap_now_change.mp3": {
+  "score": 10,
+  "heard": "naʊ lɪts tʃeɪndʒ ɪt tʰuː",
+  "text": "Now let's change it to...",
+  "takes": 2,
+  "wps": 2.98,
+  "seconds": 1.68,
+  "lufs": -16,
+  "target": -16,
+  "fall": 0.22
+ },
+ "public/a/l/tv_run_ready.mp3": {
+  "score": 10,
+  "heard": "ɑː jə ˈɹɛdi? tæp ðə ɡɹiːn ˈæɹəʊ, ənd ɒf wiː ɡəʊ!",
+  "text": "Are you ready? Tap the green arrow, and off we go!",
+  "takes": 1,
+  "wps": 3.06,
+  "seconds": 3.59,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_swap_both.mp3": {
+  "score": 10,
+  "heard": "ˈlɪsn̩ tə ðəm bəʊθ",
+  "text": "Listen to them both...",
+  "takes": 3,
+  "judged": 1,
+  "wps": 3.21,
+  "seconds": 1.25,
+  "lufs": -16.3,
+  "target": -16,
+  "fall": -3.26,
+  "falls": [
+   8.14,
+   12.14,
+   -3.26
+  ]
+ },
+ "public/a/l/tv_run_frame.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɡeɪm ɪz kɔːld nɪndʒə rʌn jɔː nɪndʒə rʌnz ɔːl baɪ ɪtsɛlf",
+  "text": "This game is called Ninja Run. Your ninja runs all by itself.",
+  "takes": 1,
+  "wps": 3.07,
+  "seconds": 3.91,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_run_jump_ok.mp3": {
+  "score": 10,
+  "heard": "ɡʊd ˈdʒʌmpɪŋ",
+  "text": "Good jumping!",
+  "takes": 1,
+  "wps": 1.75,
+  "seconds": 1.14,
+  "lufs": -19.3,
+  "target": -19
+ },
+ "public/a/l/tv_swap_pick.mp3": {
+  "score": 10,
+  "heard": "naʊ tæp ðə njuː wʌn",
+  "text": "Now tap the new one.",
+  "takes": 3,
+  "wps": 3.2,
+  "seconds": 1.56,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_run_which.mp3": {
+  "score": 10,
+  "heard": "tæp ðə ˈlæntən wɪð maɪ wɜːd",
+  "text": "Tap the lantern with my word.",
+  "takes": 1,
+  "wps": 3.25,
+  "seconds": 1.85,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_run_lanterns_how.mp3": {
+  "score": 10,
+  "heard": "wen ðə ˈlæntənz kʌm aɪl seɪ sʌm saʊndz ænd juː kætʃ ðə wɜːd",
+  "text": "When the lanterns come, I'll say some sounds, and you catch the word.",
+  "takes": 1,
+  "wps": 2.98,
+  "seconds": 4.37,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_next_build_plain.mp3": {
+  "score": 10,
+  "heard": "nɛkst wɪə ɡəʊɪŋ tə bɪld səm wɜːdz",
+  "text": "Next, we're going to build some words.",
+  "takes": 1,
+  "wps": 3.06,
+  "seconds": 2.29,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_hunt_again.mp3": {
+  "score": 10,
+  "heard": "ɪts saʊnd hʌnt əɡɛn wɪð ə njuː saʊnd",
+  "text": "It's Sound Hunt again, with a new sound.",
+  "takes": 1,
+  "wps": 2.36,
+  "seconds": 3.39,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_battle_again.mp3": {
+  "score": 10,
+  "heard": "ənʌðə mɒnstə lɪts zæp ɪt wɪð wɜːdz",
+  "text": "Another monster! Let's zap it with words.",
+  "takes": 1,
+  "wps": 2.39,
+  "seconds": 2.93,
+  "lufs": -15.8,
+  "target": -16
+ },
+ "public/a/l/tv_not_in_middle.mp3": {
+  "score": 10,
+  "heard": "ðæt wʌn hæz ə ˈdɪfrənt saʊnd ɪn ðə ˈmɪdl̩",
+  "text": "That one has a different sound in the middle.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.072
+ },
+ "public/a/l/tv_swap_again.mp3": {
+  "score": 10,
+  "heard": "ɪts saʊnd swɒp əɡɛn wiː tʃeɪndʒ wʌn saʊnd tə meɪk ə njuː wɜːd",
+  "text": "It's Sound Swap again. We change one sound to make a new word.",
+  "takes": 2,
+  "wps": 3.02,
+  "seconds": 4.3,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_swap_change_to.mp3": {
+  "score": 10,
+  "heard": "aɪl tʃeɪndʒ ɪt tuː",
+  "text": "I'll change it to...",
+  "takes": 6,
+  "wps": 2.72,
+  "seconds": 1.47,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": 0.26
+ },
+ "public/a/l/tv_story_frame.mp3": {
+  "score": 10,
+  "heard": "ˈstɔːri taɪm! aɪl riːd sʌm ˈpeɪdʒɪz tə juː, ænd jʊl riːd sʌm ˈpeɪdʒɪz tə miː.",
+  "text": "Story time! I'll read some pages to you, and you'll read some pages to me.",
+  "takes": 2,
+  "wps": 3.13,
+  "seconds": 4.79,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_story_begin.mp3": {
+  "score": 10,
+  "heard": "tæp ðə ɡɹiːn ˈæɹəʊ ænd lɛts bɪˈɡɪn",
+  "text": "Tap the green arrow, and let's begin.",
+  "takes": 1,
+  "wps": 2.84,
+  "seconds": 2.46,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_story_yours.mp3": {
+  "score": 10,
+  "heard": "ðɪs peɪdʒ ɪz jɔːz seɪ ðə saʊndz ænd riːd iːtʃ wɜːd",
+  "text": "This page is yours. Say the sounds, and read each word.",
+  "takes": 1,
+  "wps": 3.18,
+  "seconds": 3.46,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_story_title.mp3": {
+  "score": 10,
+  "heard": "ðɪs stɔːri ɪz kɔːld",
+  "text": "This story is called...",
+  "takes": 2,
+  "judged": 2,
+  "wps": 2.29,
+  "seconds": 1.75,
+  "lufs": -16.5,
+  "target": -16,
+  "fall": 1.34,
+  "falls": [
+   1.93,
+   1.34
+  ]
+ },
+ "public/a/l/tv_run_jump.mp3": {
+  "score": 10,
+  "heard": "tæp ɛniwɛə tə meɪk jɔː nɪndʒə dʒʌmp kən juː traɪ ɪt naʊ",
+  "text": "Tap anywhere to make your ninja jump. Can you try it now?",
+  "takes": 5,
+  "wps": 2.98,
+  "seconds": 4.02,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_swap_ready.mp3": {
+  "score": 10,
+  "heard": "naʊ juː swɒp wʌn dʒuː wɒnt tə hæv ə ɡəʊ",
+  "text": "Now you swap one. Do you want to have a go?",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 3.38,
+  "lufs": -16,
+  "target": -16,
+  "widened": 0.25,
+  "lengthened": 1.12
+ },
+ "public/a/l/tv_story_choice.mp3": {
+  "score": 10,
+  "heard": "naʊ juː tʃuːz wɒt hæpənz riːd ðə tuː wɜːdz ænd tæp wʌn",
+  "text": "Now you choose what happens. Read the two words, and tap one.",
+  "takes": 1,
+  "wps": 3.14,
+  "seconds": 3.82,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_boss_frame.mp3": {
+  "score": 10,
+  "heard": "ə bɒs teɪks lɒts əv wɜːdz tə biːt",
+  "text": "A boss takes lots of words to beat.",
+  "takes": 1,
+  "wps": 3.2,
+  "seconds": 2.5,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_story_tick.mp3": {
+  "score": 10,
+  "heard": "wɛn juːv rɛd ɪt ɔːl tæp ðə ɡriːn tɪk",
+  "text": "When you've read it all, tap the green tick.",
+  "takes": 6,
+  "wps": 3.29,
+  "seconds": 2.74,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_sounds.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə njuː ɡeɪm kɔːld ɡɛs maɪ wɜːd tæp ðə ɡləʊɪŋ stəʊn tə pleɪ",
+  "text": "Next is a new game, called Guess My Word. Tap the glowing stone to play.",
+  "takes": 1,
+  "wps": 3.13,
+  "seconds": 4.8,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_dots.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə njuː ɡeɪm kɔːld saʊnd dɒts tæp ðə ɡləʊɪŋ stəʊn tə pleɪ",
+  "text": "Next is a new game, called Sound Dots. Tap the glowing stone to play.",
+  "takes": 1,
+  "wps": 2.85,
+  "seconds": 4.91,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_firstsound.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə njuː ɡeɪm kɔːld fɜːst saʊndz tæp ðə ɡləʊɪŋ stəʊn tə pleɪ",
+  "text": "Next is a new game, called First Sounds. Tap the glowing stone to play.",
+  "takes": 1,
+  "wps": 2.72,
+  "seconds": 5.14,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_story_tick_idle.mp3": {
+  "score": 10,
+  "heard": "wɛn juːv ɹɛd ɪt tæp ðə ɡɹiːn tɪk",
+  "text": "When you've read it, tap the green tick.",
+  "takes": 5,
+  "wps": 3.29,
+  "seconds": 2.43,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_run_fix.mp3": {
+  "score": 10,
+  "heard": "ðæts ə ˈdɪfrənt wɜːd lɪsən əˈɡɛn",
+  "text": "That's a different word. Listen again...",
+  "takes": 3,
+  "judged": 1,
+  "wps": 2.74,
+  "seconds": 2.19,
+  "lufs": -16,
+  "target": -16,
+  "fall": -2,
+  "fall_gate": -2,
+  "fall_low": -3.47,
+  "falls": [
+   12.96,
+   16.65,
+   -2
+  ]
+ },
+ "public/a/l/tv_show_offer_short.mp3": {
+  "score": 10,
+  "heard": "ɪf jʊd laɪk tə siː miː duː wʌn fɜːst tæp maɪ pɔː",
+  "text": "If you'd like to see me do one first, tap my paw.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 3.69,
+  "lufs": -16,
+  "target": -16,
+  "widened": 0.25,
+  "lengthened": 1.061
+ },
+ "public/a/l/tv_map_next_build.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə njuː ɡeɪm kɔːld wɜːd bɪldɪŋ tæp ðə ɡləʊɪŋ stəʊn tə pleɪ",
+  "text": "Next is a new game, called Word Building. Tap the glowing stone to play.",
+  "takes": 1,
+  "wps": 2.94,
+  "seconds": 4.77,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_battle.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə mɒnstə bætəl bærən mʌdəlz mɒnstəz ɑː ɡɑːdɪŋ ðə saʊndz tæp ðə ɡləʊɪŋ stəʊn ɪf jɔː breɪv",
+  "text": "Next is a Monster Battle. Baron Muddle's monsters are guarding the sounds. Tap the glowing stone, if you're brave.",
+  "takes": 1,
+  "wps": 2.07,
+  "seconds": 9.16,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_soundhunt.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə njuː ɡeɪm kɔːld saʊnd hʌnt tæp ðə ɡləʊɪŋ stəʊn tə pleɪ",
+  "text": "Next is a new game, called Sound Hunt. Tap the glowing stone to play.",
+  "takes": 1,
+  "wps": 2.79,
+  "seconds": 5.01,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_story_together.mp3": {
+  "score": 10,
+  "heard": "lɛts ɹiːd ɪt təˈɡɛðə",
+  "text": "Let's read it together.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 1.23,
+  "lufs": -16.3,
+  "target": -16,
+  "lengthened": 1.065
+ },
+ "public/a/l/tv_map_next_swap.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə njuː ɡeɪm kʰɔːld saʊnd swɒp bæɹən mʌdəl həz mɪkst ʌp səm wɜːdz tæp ðə ɡləʊɪŋ stəʊn tə fɪks ðəm",
+  "text": "Next is a new game, called Sound Swap. Baron Muddle has mixed up some words! Tap the glowing stone to fix them.",
+  "takes": 1,
+  "wps": 2.45,
+  "seconds": 8.97,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_run.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə njuː ɡeɪm, kɔːld nɪndʒə rʌn. tæp ðə ɡləʊɪŋ stəʊn tə pleɪ.",
+  "text": "Next is a new game, called Ninja Run. Tap the glowing stone to play.",
+  "takes": 1,
+  "wps": 2.66,
+  "seconds": 5.27,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_story.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ˈstɔːri taɪm | tæp ðə ˈɡləʊɪŋ stəʊn tu ˈəʊpən ðə bʊk",
+  "text": "Next is Story Time. Tap the glowing stone to open the book.",
+  "takes": 1,
+  "wps": 2.9,
+  "seconds": 4.13,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_boss.mp3": {
+  "score": 10,
+  "heard": "Next is the boss of Bamboo Village. Tap the glowing stone, if you're ready.",
+  "text": "Next is the boss of Bamboo Village. Tap the glowing stone, if you're ready.",
+  "takes": 1,
+  "wps": 3.07,
+  "seconds": 4.56,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_story_q.mp3": {
+  "score": 10,
+  "heard": "naʊ ə kwɛstʃən əbaʊt ðə stɔːri",
+  "text": "Now a question about the story.",
+  "takes": 8,
+  "wps": 2.86,
+  "seconds": 2.09,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_story_help.mp3": {
+  "score": 10,
+  "heard": "ɪf ju ɡɛt stʌk tæp ə wɜːd ənd aɪl hɛlp",
+  "text": "If you get stuck, tap a word, and I'll help.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 3.08,
+  "lufs": -16,
+  "target": -16,
+  "widened": 0.252
+ },
+ "public/a/l/tv_map_next_learn.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ðə dəʊdʒəʊ jʊəl lɜːn sʌm njuː saʊndz ðɛə tæp ðə ɡləʊɪŋ stəʊn tə ɡəʊ",
+  "text": "Next is the dojo. You'll learn some new sounds there. Tap the glowing stone to go.",
+  "takes": 1,
+  "wps": 2.86,
+  "seconds": 5.59,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_map_next_sort.mp3": {
+  "score": 10,
+  "heard": "nɛkst ɪz ə njuː ɡeɪm kɔːld sɔːtɪŋ tæp ðə ɡləʊɪŋ stəʊn tə pleɪ",
+  "text": "Next is a new game, called Sorting. Tap the glowing stone to play.",
+  "takes": 1,
+  "wps": 2.85,
+  "seconds": 4.57,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_boss_ready.mp3": {
+  "score": 10,
+  "heard": "ɑː juː ˈrɛdi tə biːt ðə bɒs? tæp ðə ɡriːn ˈærəʊ.",
+  "text": "Are you ready to beat the boss? Tap the green arrow.",
+  "takes": 7,
+  "wps": 3.28,
+  "seconds": 3.35,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_x_two_sounds.mp3": {
+  "score": 10,
+  "heard": "ðɪs ˈspɛlɪŋ ɪz ˈtuː saʊndz təˈɡɛðə",
+  "text": "This spelling is two sounds together.",
+  "takes": 1,
+  "wps": 2.23,
+  "seconds": 2.69,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_streak_10.mp3": {
+  "score": 10,
+  "heard": "tɛn ɪn ə rəʊ lʊk haʊ jɔː nɪndʒə ɪz ɡləʊɪŋ",
+  "text": "Ten in a row! Look how your ninja is glowing!",
+  "takes": 1,
+  "wps": 2.88,
+  "seconds": 3.48,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_boss_calm.mp3": {
+  "score": 10,
+  "heard": "dəʊnt wʌri nɪndʒə juː nəʊ wɒt tə duː",
+  "text": "Don't worry, ninja. You know what to do.",
+  "takes": 8,
+  "wps": 3.21,
+  "seconds": 2.49,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_dojo_review_done.mp3": {
+  "score": 10,
+  "heard": "juː bɪlt lɒts əv wɜːdz jɔː ˈnɪndʒə ɪz ˈɡɛtɪŋ ˈstrɒŋɡə",
+  "text": "You built lots of words. Your ninja is getting stronger.",
+  "takes": 1,
+  "wps": 2.58,
+  "seconds": 3.87,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_rest.mp3": {
+  "score": 10,
+  "heard": "juːv ˈpræktɪst səʊ mʌtʃ təˈdeɪ! ˈnɪndʒəz niːd rɛst tuː. juː kən stɒp hɪə, ænd jɔː ˈnɪndʒə wɪl weɪt fə juː.",
+  "text": "You've practised so much today! Ninjas need rest too. You can stop here, and your ninja will wait for you.",
+  "takes": 1,
+  "wps": 2.85,
+  "seconds": 7.02,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_won_one.mp3": {
+  "score": 10,
+  "heard": "juː wʌn bæk ə saʊnd",
+  "text": "You won back a sound...",
+  "takes": 3,
+  "judged": 1,
+  "wps": 3.2,
+  "seconds": 1.56,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": 0.07,
+  "fall_gate": -1.08,
+  "fall_low": 0.07,
+  "falls": [
+   5.29,
+   9.33,
+   0.07
+  ]
+ },
+ "public/a/l/tv_jump_offer.mp3": {
+  "score": 10,
+  "heard": "waʊ juː ɡɒt ˈɛvrɪθɪŋ raɪt ˈɡrəʊnʌps ɪf ðɪs ɪz tuː ˈiːzi juː kən dʒʌmp əˈhɛd",
+  "text": "Wow, you got everything right! Grown-ups, if this is too easy, you can jump ahead.",
+  "takes": 1,
+  "wps": 2.5,
+  "seconds": 6,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_welcome_back.mp3": {
+  "score": 10,
+  "heard": "ˈwɛlkəm bæk ˈnɪndʒə aɪm səʊ ˈhæpi tə siː juː",
+  "text": "Welcome back, ninja! I'm so happy to see you.",
+  "takes": 1,
+  "wps": 2.56,
+  "seconds": 3.52,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tv_to_flower.mp3": {
+  "score": 10,
+  "heard": "lɛts teɪk jə njuː saʊndz tə ðə wɜːld flaʊə tæp ðə ɡriːn ærəʊ",
+  "text": "Let's take your new sounds to the World Flower. Tap the green arrow.",
+  "takes": 2,
+  "wps": 2.86,
+  "seconds": 4.54,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_flower_recap.mp3": {
+  "score": 10,
+  "heard": "hɪəz ə saʊnd juː lɜːnt",
+  "text": "Here's a sound you learnt...",
+  "takes": 1,
+  "judged": 1,
+  "wps": 3.1,
+  "seconds": 1.61,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": -3.85,
+  "falls": [
+   -3.85
+  ]
+ },
+ "public/a/l/tg_ie_ie_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn paɪ",
+  "text": "This is the way we spell it in pie.",
+  "takes": 2,
+  "wps": 2.99,
+  "seconds": 3.01,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tg_ai_ae_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn reɪn",
+  "text": "This is the way we spell it in rain.",
+  "takes": 3,
+  "wps": 3.27,
+  "seconds": 2.75,
+  "lufs": -15.8,
+  "target": -16
+ },
+ "public/a/l/tg_ee_ee_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wi spɛl ɪt ɪn biː",
+  "text": "This is the way we spell it in bee.",
+  "takes": 3,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tg_ea_ee_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn liːf",
+  "text": "This is the way we spell it in leaf.",
+  "takes": 3,
+  "wps": 3.27,
+  "seconds": 2.75,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_look_glow.mp3": {
+  "score": 10,
+  "heard": "lʊk fə ðə ɡləʊ",
+  "text": "Look for the glow.",
+  "takes": 7,
+  "wps": 3.21,
+  "seconds": 1.25,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tg_l_l_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wi spɛl ɪt ɪn lɛɡ",
+  "text": "This is the way we spell it in leg.",
+  "takes": 2,
+  "wps": 2.85,
+  "seconds": 3.16,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tg_s_s_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn sɪt",
+  "text": "This is the way we spell it in sit.",
+  "takes": 3,
+  "wps": 2.71,
+  "seconds": 3.32,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tg_oa_oe_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn bəʊt",
+  "text": "This is the way we spell it in boat.",
+  "takes": 5,
+  "wps": 3.27,
+  "seconds": 2.75,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tg_ay_ae_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn treɪ",
+  "text": "This is the way we spell it in tray.",
+  "takes": 8,
+  "wps": 2.98,
+  "seconds": 3.02,
+  "lufs": -16.3,
+  "target": -16
+ },
+ "public/a/l/tg_igh_ie_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn laɪt",
+  "text": "This is the way we spell it in light.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -15.9,
+  "target": -16,
+  "lengthened": 1.132
+ },
+ "public/a/l/tg_ow_oe_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn snəʊ",
+  "text": "This is the way we spell it in snow.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16.1,
+  "target": -16,
+  "lengthened": 1.049
+ },
+ "public/a/l/tg_ll_l_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn dɒl",
+  "text": "This is the way we spell it in doll.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16.1,
+  "target": -16,
+  "lengthened": 1.104
+ },
+ "public/a/l/tg_ss_s_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn drɛs",
+  "text": "This is the way we spell it in dress.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.039
+ },
+ "public/a/l/tg_ff_f_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn ɒf",
+  "text": "This is the way we spell it in off.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16.3,
+  "target": -16,
+  "lengthened": 1.052
+ },
+ "public/a/l/tg_i_i_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn sɪt",
+  "text": "This is the way we spell it in sit.",
+  "takes": 5,
+  "wps": 3.17,
+  "seconds": 2.84,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tg_o_o_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn pɒt",
+  "text": "This is the way we spell it in pot.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.093
+ },
+ "public/a/l/tg_f_f_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn fæn",
+  "text": "This is the way we spell it in fan.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.025
+ },
+ "public/a/l/tg_e_e_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn dɛn",
+  "text": "This is the way we spell it in den.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.098
+ },
+ "public/a/l/tg_u_u_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn rʌn",
+  "text": "This is the way we spell it in run.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.028
+ },
+ "public/a/l/tg_d_d_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn dɒɡ",
+  "text": "This is the way we spell it in dog.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16.1,
+  "target": -16,
+  "lengthened": 1.041
+ },
+ "public/a/l/tg_g_g_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn bæɡ",
+  "text": "This is the way we spell it in bag.",
+  "takes": 2,
+  "wps": 3.16,
+  "seconds": 2.85,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tg_n_n_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn mæn",
+  "text": "This is the way we spell it in man.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.196
+ },
+ "public/a/l/tg_ve_v_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn hæv",
+  "text": "This is the way we spell it in have.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16.2,
+  "target": -16,
+  "lengthened": 1.073
+ },
+ "public/a/l/tg_t_t_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn tæp",
+  "text": "This is the way we spell it in tap.",
+  "takes": 1,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tg_j_j_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wi spɛl ɪt ɪn dʒæm",
+  "text": "This is the way we spell it in jam.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.098
+ },
+ "public/a/l/tg_m_m_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn mæt",
+  "text": "This is the way we spell it in mat.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.184
+ },
+ "public/a/l/tg_v_v_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn vɛt",
+  "text": "This is the way we spell it in vet.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -15.9,
+  "target": -16,
+  "lengthened": 1.068
+ },
+ "public/a/l/tg_c_k_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn kæt",
+  "text": "This is the way we spell it in cat.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.081
+ },
+ "public/a/l/tg_h_h_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn hæt",
+  "text": "This is the way we spell it in hat.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16.1,
+  "target": -16,
+  "lengthened": 1.082
+ },
+ "public/a/l/tg_k_k_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn jæk",
+  "text": "This is the way we spell it in yak.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.089
+ },
+ "public/a/l/tg_ck_k_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn dʌk",
+  "text": "This is the way we spell it in duck.",
+  "takes": 5,
+  "wps": 2.98,
+  "seconds": 3.02,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tg_q_k_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn kwiːn",
+  "text": "This is the way we spell it in queen.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.12
+ },
+ "public/a/l/tg_r_r_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn ræt",
+  "text": "This is the way we spell it in rat.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16.2,
+  "target": -16,
+  "lengthened": 1.031
+ },
+ "public/a/l/tg_zz_z_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn bʌz",
+  "text": "This is the way we spell it in buzz.",
+  "takes": 6,
+  "wps": 3.22,
+  "seconds": 2.8,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tg_z_z_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn zɪp",
+  "text": "This is the way we spell it in zip.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.09
+ },
+ "public/a/l/tg_w_w_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wi spɛl ɪt ɪn wɛb",
+  "text": "This is the way we spell it in web.",
+  "takes": 8,
+  "wps": 3.27,
+  "seconds": 2.76,
+  "lufs": -16.6,
+  "target": -16,
+  "lengthened": 1.256
+ },
+ "public/a/l/tg_a_a_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn mæt",
+  "text": "This is the way we spell it in mat.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.069
+ },
+ "public/a/l/tg_p_p_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wi spɛl ɪt ɪn pæn",
+  "text": "This is the way we spell it in pan.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16.2,
+  "target": -16,
+  "lengthened": 1.17
+ },
+ "public/a/l/tg_wh_w_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn wɪsk",
+  "text": "This is the way we spell it in whisk.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.081
+ },
+ "public/a/l/tg_u_w_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn kwiːn",
+  "text": "This is the way we spell it in queen.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.025
+ },
+ "public/a/l/tg_b_b_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn bæt",
+  "text": "This is the way we spell it in bat.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16.1,
+  "target": -16,
+  "lengthened": 1.081
+ },
+ "public/a/l/tg_ng_ng_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn rɪŋ",
+  "text": "This is the way we spell it in ring.",
+  "takes": 3,
+  "wps": 3.15,
+  "seconds": 2.85,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tg_y_y_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn jæk",
+  "text": "This is the way we spell it in yak.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.066
+ },
+ "public/a/l/tg_sh_sh_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn ʃɒp",
+  "text": "This is the way we spell it in shop.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tg_ch_ch_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn tʃɪk",
+  "text": "This is the way we spell it in chick.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16.1,
+  "target": -16,
+  "lengthened": 1.171
+ },
+ "public/a/l/tg_th_th_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn mɒθ",
+  "text": "This is the way we spell it in moth.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.061
+ },
+ "public/a/l/tg_tch_ch_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn mætʃ",
+  "text": "This is the way we spell it in match.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 2.76,
+  "lufs": -16.2,
+  "target": -16,
+  "lengthened": 1.118
+ },
+ "public/a/l/tg_th_dh_way.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə weɪ wiː spɛl ɪt ɪn ðɪs",
+  "text": "This is the way we spell it in this.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.77,
+  "lufs": -15.9,
+  "target": -16,
+  "lengthened": 1.08
+ },
+ "public/a/l/tv_slow_short.mp3": {
+  "score": 10,
+  "heard": "lɛts pleɪ sləʊ wɜːdz əˈɡɛn",
+  "text": "Let's play Slow Words again.",
+  "takes": 1,
+  "wps": 2.61,
+  "seconds": 1.92,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_slow_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts sləʊ wɜːdz əɡɛn aɪ seɪ ə wɜːd sləʊli ænd juː faɪnd ɪts pɪktʃə",
+  "text": "It's Slow Words again. I say a word slowly, and you find its picture.",
+  "takes": 1,
+  "wps": 2.65,
+  "seconds": 5.28,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_pocket_middle_more_o.mp3": {
+  "score": 10,
+  "heard": "wʌn mɔː ˈpɒkɪt hʌnt faɪnd ðə ˈpɪktʃəz wɪð ðɪs saʊnd ɪn ðə ˈmɪd.l̩",
+  "text": "One more Pocket Hunt. Find the pictures with this sound in the middle...",
+  "takes": 5,
+  "wps": 3.04,
+  "seconds": 4.27,
+  "lufs": -16,
+  "target": -16,
+  "fall": -11.79
+ },
+ "public/a/l/tv_pocket_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts pɒkɪt hʌnt əɡɛn wiː faɪnd pɪktʃəz ðæt stɑːt wɪð ðɪs saʊnd",
+  "text": "It's Pocket Hunt again. We find pictures that start with this sound.",
+  "takes": 1,
+  "wps": 2.25,
+  "seconds": 5.33,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_guess_short.mp3": {
+  "score": 10,
+  "heard": "lɛts pleɪ ɡɛs maɪ wɜːd əˈɡɛn",
+  "text": "Let's play Guess My Word again.",
+  "takes": 1,
+  "wps": 2.73,
+  "seconds": 2.2,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_dots_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts saʊnd dɒts əɡɛn ɛvri dɒt ɪz wʌn saʊnd ɪn ðə wɜːd",
+  "text": "It's Sound Dots again. Every dot is one sound in the word.",
+  "takes": 1,
+  "wps": 2.78,
+  "seconds": 4.31,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_dots_short.mp3": {
+  "score": 10,
+  "heard": "ɪts saʊnd dɒts əɡɛn tæp ðə dɒts ænd seɪ ðə saʊndz wɪð miː",
+  "text": "It's Sound Dots again. Tap the dots, and say the sounds with me.",
+  "takes": 1,
+  "wps": 3.23,
+  "seconds": 4.03,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_first_again_known.mp3": {
+  "score": 10,
+  "heard": "ɪts fɜːst saʊndz əˈɡɛn lɛts siː wɪtʃ saʊndz juː nəʊ",
+  "text": "It's First Sounds again. Let's see which sounds you know.",
+  "takes": 1,
+  "wps": 2.64,
+  "seconds": 3.78,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_guess_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts ɡɛs maɪ wɜːd əɡɛn aɪl seɪ ðə saʊndz ənd juː lɪsn̩ fə ðə wɜːd",
+  "text": "It's Guess My Word again. I'll say the sounds, and you listen for the word.",
+  "takes": 1,
+  "wps": 3.06,
+  "seconds": 4.91,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_hunt_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts saʊnd hʌnt əɡɛn ðə saʊnd ɪz haɪdɪŋ ɪn ðə mɪdəl əv ðə wɜːd",
+  "text": "It's Sound Hunt again. The sound is hiding in the middle of the word.",
+  "takes": 1,
+  "wps": 3.24,
+  "seconds": 4.32,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_ne_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts ˈnɪndʒə aɪz əˈɡɛn aɪ seɪ ə saʊnd ənd juː faɪnd haʊ wiː ˈraɪt ɪt",
+  "text": "It's Ninja Eyes again. I say a sound, and you find how we write it.",
+  "takes": 1,
+  "wps": 2.94,
+  "seconds": 5.1,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_build_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts wɜːd bɪldɪŋ əɡɛn aɪ seɪ ə wɜːd ænd wiː bɪld ɪt wɪð ɪts saʊndz",
+  "text": "It's Word Building again. I say a word, and we build it with its sounds.",
+  "takes": 1,
+  "wps": 3.13,
+  "seconds": 4.79,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_build_again_short.mp3": {
+  "score": 10,
+  "heard": "lɛts bɪld səm mɔː wɜːdz",
+  "text": "Let's build some more words.",
+  "takes": 1,
+  "wps": 2.8,
+  "seconds": 1.78,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_story_short.mp3": {
+  "score": 10,
+  "heard": "ˈstɔːri taɪm",
+  "text": "Story time!",
+  "takes": 1,
+  "wps": 2.05,
+  "seconds": 0.98,
+  "lufs": -19,
+  "target": -19
+ },
+ "public/a/l/tv_boss_again.mp3": {
+  "score": 10,
+  "heard": "əʊ nəʊ, ənʌðə bɒs! dəʊnt wʌri. juː nəʊ dʒʌst wɒt tə duː.",
+  "text": "Oh no, another boss! Don't worry. You know just what to do.",
+  "takes": 1,
+  "wps": 3.18,
+  "seconds": 3.78,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_battle_recap.mp3": {
+  "score": 10,
+  "heard": "ənʌðər əv bæɹənz mɒnstəz juː nəʊ haʊ tə zæp ɪt faɪnd ðə saʊndz ɪn iːtʃ wɜːd",
+  "text": "Another of Baron's monsters! You know how to zap it. Find the sounds in each word.",
+  "takes": 1,
+  "wps": 2.74,
+  "seconds": 5.84,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_story_recap.mp3": {
+  "score": 10,
+  "heard": "ˈstɔːɹi taɪm! aɪl ɹiːd sʌm ˈpeɪdʒɪz, ænd juːl ɹiːd sʌm tuː.",
+  "text": "Story time! I'll read some pages, and you'll read some too.",
+  "takes": 1,
+  "wps": 2.91,
+  "seconds": 3.77,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_learn_recap_two.mp3": {
+  "score": 10,
+  "heard": "bæk tə ðə dəʊdʒəʊ fə tuː njuː saʊndz juː nəʊ haʊ ðɪs ɡəʊz",
+  "text": "Back to the dojo, for two new sounds. You know how this goes.",
+  "takes": 1,
+  "wps": 3.18,
+  "seconds": 4.08,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_learn_recap_three.mp3": {
+  "score": 10,
+  "heard": "bæk tə ðə dəʊdʒəʊ fə θriː njuː saʊndz juː nəʊ haʊ ðɪs ɡəʊz",
+  "text": "Back to the dojo, for three new sounds. You know how this goes.",
+  "takes": 1,
+  "wps": 2.71,
+  "seconds": 4.8,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_learn_short_two.mp3": {
+  "score": 10,
+  "heard": "bæk tə ðə ˈdəʊdʒəʊ təˈdeɪ ðəɹ ɑː tuː njuː saʊndz",
+  "text": "Back to the dojo. Today there are two new sounds.",
+  "takes": 1,
+  "wps": 2.76,
+  "seconds": 3.62,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_learn_short_three.mp3": {
+  "score": 10,
+  "heard": "bæk tə ðə dəʊdʒəʊ tədeɪ ðər ɑː θriː njuː saʊndz",
+  "text": "Back to the dojo. Today there are three new sounds.",
+  "takes": 1,
+  "wps": 2.51,
+  "seconds": 3.99,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_learn_first_short.mp3": {
+  "score": 10,
+  "heard": "hɪəz ðə fɜːst njuː saʊnd",
+  "text": "Here's the first new sound...",
+  "takes": 1,
+  "wps": 2.67,
+  "seconds": 1.87,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_learn_short_four.mp3": {
+  "score": 10,
+  "heard": "bæk tə ðə dəʊdʒəʊ tədeɪ ðər ɑː fɔː njuː saʊndz",
+  "text": "Back to the dojo. Today there are four new sounds.",
+  "takes": 1,
+  "wps": 2.7,
+  "seconds": 3.71,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_run_again.mp3": {
+  "score": 10,
+  "heard": "ɪts nɪndʒə rʌn əɡɛn ɑː juː rɛdi tæp ðə ɡriːn ærəʊ ənd ɒf wiː ɡəʊ",
+  "text": "It's Ninja Run again! Are you ready? Tap the green arrow, and off we go!",
+  "takes": 2,
+  "wps": 3.11,
+  "seconds": 4.83,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_learn_recap_four.mp3": {
+  "score": 10,
+  "heard": "bæk tə ðə dəʊdʒəʊ fɔː fɔː njuː saʊndz juː nəʊ haʊ ðɪs ɡəʊz",
+  "text": "Back to the dojo, for four new sounds. You know how this goes.",
+  "takes": 2,
+  "wps": 2.75,
+  "seconds": 4.72,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_trial_frame.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ə dʒɛm ˈbætəl wɪn ɪt ən ðə dʒɛm ɪz jɔːz",
+  "text": "This is a gem battle. Win it, and the gem is yours.",
+  "takes": 1,
+  "wps": 3.05,
+  "seconds": 3.94,
+  "lufs": -16.4,
+  "target": -16
+ },
+ "public/a/l/tv_trial_bar.mp3": {
+  "score": 10,
+  "heard": "spɛl iːtʃ wɜːd bɪˈfɔː ðɪs ˈpɜːpəl bɑːr ɪz fʊl",
+  "text": "Spell each word before this purple bar is full.",
+  "takes": 1,
+  "wps": 2.66,
+  "seconds": 3.38,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_trial_ready.mp3": {
+  "score": 10,
+  "heard": "ðə bɑː stɑːts wɛn jə ˈrɛdi tæp ðə ɡriːn ˈærəʊ",
+  "text": "The bar starts when you're ready. Tap the green arrow.",
+  "takes": 2,
+  "wps": 3.05,
+  "seconds": 3.28,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_sort_recap.mp3": {
+  "score": 10,
+  "heard": "ɪts sɔːtɪŋ əɡɛn ɛvri wɜːd ɡəʊz ɪn ðə tʃɛst wɪð ðə seɪm spɛlɪŋ",
+  "text": "It's Sorting again. Every word goes in the chest with the same spelling.",
+  "takes": 1,
+  "wps": 2.93,
+  "seconds": 4.44,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_sort_frame.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɡeɪm ɪz kɔːld sɔːtɪŋ. ɛvri wɜːd ɡəʊz ɪn ðə tʃɛst wɪð ðə seɪm spɛlɪŋ.",
+  "text": "This game is called Sorting. Every word goes in the chest with the same spelling.",
+  "takes": 1,
+  "wps": 2.95,
+  "seconds": 5.08,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_sort_open.mp3": {
+  "score": 10,
+  "heard": "ðɪs saʊnd kən bi spɛlt ɪn θriː weɪz tæp iːtʃ tʃɛst tuː əʊpən ɪt",
+  "text": "This sound can be spelt in three ways. Tap each chest to open it.",
+  "takes": 1,
+  "wps": 3.04,
+  "seconds": 4.61,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_kit.mp3": {
+  "score": 10,
+  "heard": "ɪn kɪt ɪts spɛlt laɪk ðɪs",
+  "text": "In kit, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.63,
+  "seconds": 2.28,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_cat.mp3": {
+  "score": 10,
+  "heard": "ɪn kæt ɪts spɛlt laɪk ðɪs",
+  "text": "In cat, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.66,
+  "seconds": 2.25,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_now_your_turn.mp3": {
+  "score": 10,
+  "heard": "naʊ ɪts jɔː tɜːn",
+  "text": "Now it's your turn.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 1.23,
+  "lufs": -16.3,
+  "target": -16,
+  "lengthened": 1.069
+ },
+ "public/a/l/tv_spelt_like_this_yak.mp3": {
+  "score": 10,
+  "heard": "ɪn jæk ɪts spɛlt laɪk ðɪs",
+  "text": "In yak, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.83,
+  "seconds": 2.12,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_duck.mp3": {
+  "score": 10,
+  "heard": "ɪn dʌk ɪts spɛlt laɪk ðɪs",
+  "text": "In duck, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.94,
+  "seconds": 2.04,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_trial_short.mp3": {
+  "score": 10,
+  "heard": "ɪts ə dʒɛm bætəl spɛl iːtʃ wɜːd bɪfɔː ðə bɑːr ɪz fʊl tæp ðə ɡriːn ærəʊ wɛn jɔː rɛdi",
+  "text": "It's a gem battle! Spell each word before the bar is full. Tap the green arrow when you're ready.",
+  "takes": 2,
+  "wps": 3.2,
+  "seconds": 5.94,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_chick.mp3": {
+  "score": 10,
+  "heard": "ɪn tʃɪk ɪts spɛlt laɪk ðɪs",
+  "text": "In chick, it's spelt like this.",
+  "takes": 1,
+  "wps": 3,
+  "seconds": 2,
+  "lufs": -15.9,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_match.mp3": {
+  "score": 10,
+  "heard": "ɪn mætʃ ɪts spɛlt laɪk ðɪs",
+  "text": "In match, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.43,
+  "seconds": 2.47,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_battle_go.mp3": {
+  "score": 10,
+  "heard": "ɑː juː ˈrɛdi tə ˈzæp ɪt? tæp ðə ɡriːn ˈærəʊ.",
+  "text": "Are you ready to zap it? Tap the green arrow.",
+  "takes": 5,
+  "wps": 3.21,
+  "seconds": 3.11,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_bee.mp3": {
+  "score": 10,
+  "heard": "ɪn biː ɪts spɛlt laɪk ðɪs",
+  "text": "In bee, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.36,
+  "seconds": 2.54,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_tray.mp3": {
+  "score": 10,
+  "heard": "ɪn treɪ, ɪts spɛlt laɪk ðɪs.",
+  "text": "In tray, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.51,
+  "seconds": 2.39,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_leaf.mp3": {
+  "score": 10,
+  "heard": "ɪn liːf ɪts spɛlt laɪk ðɪs",
+  "text": "In leaf, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.92,
+  "seconds": 2.06,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_boat.mp3": {
+  "score": 10,
+  "heard": "ɪn bəʊt ɪts spɛlt laɪk ðɪs",
+  "text": "In boat, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.26,
+  "seconds": 2.65,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_snow.mp3": {
+  "score": 10,
+  "heard": "ɪn snəʊ ɪts spɛlt laɪk ðɪs",
+  "text": "In snow, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.79,
+  "seconds": 2.15,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_light.mp3": {
+  "score": 10,
+  "heard": "ɪn laɪt ɪts spɛlt laɪk ðɪs",
+  "text": "In light, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.81,
+  "seconds": 2.13,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_pie.mp3": {
+  "score": 10,
+  "heard": "ɪn paɪ ɪts spɛlt laɪk ðɪs",
+  "text": "In pie, it's spelt like this.",
+  "takes": 1,
+  "wps": 2.79,
+  "seconds": 2.15,
+  "lufs": -15.7,
+  "target": -16
+ },
+ "public/a/l/tv_spelt_like_this_rain.mp3": {
+  "score": 10,
+  "heard": "ɪn reɪn ɪts spɛlt laɪk ðɪs",
+  "text": "In rain, it's spelt like this.",
+  "takes": 2,
+  "wps": 2.3,
+  "seconds": 2.61,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_sort_fix.mp3": {
+  "score": 10,
+  "heard": "lɛts lʊk əɡɛn wɪtʃ tʃɛst hæz ðə seɪm spɛlɪŋ",
+  "text": "Let's look again. Which chest has the same spelling?",
+  "takes": 1,
+  "wps": 2.47,
+  "seconds": 3.64,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_sort_done.mp3": {
+  "score": 10,
+  "heard": "seɪm saʊnd dɪfrənt spɛlɪŋz juː sɔːtɪd ðəm ɔːl",
+  "text": "Same sound, different spellings. You sorted them all.",
+  "takes": 1,
+  "wps": 2.17,
+  "seconds": 3.69,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_review_short.mp3": {
+  "score": 10,
+  "heard": "ɪts sɛnseɪz tʃælɪndʒ ɑː jʊ ɹɛdi tæp ðə ɡɹiːn æɹəʊ",
+  "text": "It's Sensei's Challenge! Are you ready? Tap the green arrow.",
+  "takes": 1,
+  "wps": 2.37,
+  "seconds": 4.22,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_review_done.mp3": {
+  "score": 10,
+  "heard": "juː zæpt səʊ mɛni wɜːdz ðæt wɒz ə rɪəl ʧælɪnʤ",
+  "text": "You zapped so many words! That was a real challenge.",
+  "takes": 1,
+  "wps": 2.71,
+  "seconds": 3.68,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_sort_so.mp3": {
+  "score": 10,
+  "heard": "səʊ ɪt ɡəʊz ɪn ðɪs tʃɛst",
+  "text": "So it goes in this chest.",
+  "takes": 2,
+  "wps": 3.16,
+  "seconds": 1.9,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_dj_room.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz ðə dəʊdʒəʊ ə skuːl fə nɪndʒəz hɪə juː lɜːn njuː saʊndz",
+  "text": "This is the dojo, a school for ninjas. Here, you learn new sounds.",
+  "takes": 1,
+  "wps": 2.2,
+  "seconds": 5.92,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_review_frame.mp3": {
+  "score": 10,
+  "heard": "ðɪs ɪz sɛnseɪz tʃælɪndʒ ɪt hæz wɜːdz frɒm ɔːl ðə ɡeɪmz juːv pleɪd",
+  "text": "This is Sensei's Challenge. It has words from all the games you've played.",
+  "takes": 2,
+  "wps": 3.13,
+  "seconds": 4.15,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_sort_ido.mp3": {
+  "score": 10,
+  "heard": "aɪl sɔːt ðə fɜːst wʌn maɪ wɜːd ɪz",
+  "text": "I'll sort the first one. My word is...",
+  "takes": 1,
+  "wps": 2.79,
+  "seconds": 2.87,
+  "lufs": -15.8,
+  "target": -16,
+  "fall": -6.9
+ },
+ "public/a/l/tv_learn_frame_ways.mp3": {
+  "score": 10,
+  "heard": "tədeɪ ɪn ðə dəʊdʒəʊ aɪm ɡəʊɪŋ tə tiːtʃ juː njuː weɪz tə raɪt ə saʊnd juː nəʊ",
+  "text": "Today in the dojo, I'm going to teach you new ways to write a sound you know.",
+  "takes": 2,
+  "wps": 3.13,
+  "seconds": 5.43,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_trial_heart.mp3": {
+  "score": 10,
+  "heard": "ðə bɑː fɪld ʌp səʊ juː lɒst ə hɑːt ðæts faɪn kiːp ɡəʊɪŋ",
+  "text": "The bar filled up, so you lost a heart. That's fine. Keep going.",
+  "takes": 6,
+  "wps": 3.12,
+  "seconds": 4.17,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_run_read_first.mp3": {
+  "score": 10,
+  "heard": "naʊ ɪts jɔː tɜːn tə riːd ɹiːd ðə wɜːd ət ðə tɒp ənd kætʃ ɪts pɪktʃə",
+  "text": "Now it's your turn to read. Read the word at the top, and catch its picture.",
+  "takes": 3,
+  "wps": 3.1,
+  "seconds": 5.16,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_place_ok.mp3": {
+  "score": 10,
+  "heard": "sʌm maɪt bi trɪki ðæts faɪn dʒəst hæv ə ɡəʊ",
+  "text": "Some might be tricky. That's fine. Just have a go.",
+  "takes": 1,
+  "wps": 3.1,
+  "seconds": 3.23,
+  "lufs": -16.2,
+  "target": -16
+ },
+ "public/a/l/tv_and_another_way.mp3": {
+  "score": 10,
+  "heard": "ænd hɪəz ənʌðə weɪ tə spɛl ɪt",
+  "text": "And here's another way to spell it...",
+  "takes": 3,
+  "wps": 3.29,
+  "seconds": 2.12,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": -5.91
+ },
+ "public/a/l/tv_find_words_in.mp3": {
+  "score": 10,
+  "heard": "faɪnd ˈevri wɜːd wɪð ðɪs saʊnd ɪn ɪt",
+  "text": "Find every word with this sound in it...",
+  "takes": 2,
+  "wps": 3.04,
+  "seconds": 2.63,
+  "lufs": -16.2,
+  "target": -16,
+  "fall": 1.02
+ },
+ "public/a/l/tv_review_how.mp3": {
+  "score": 10,
+  "heard": "faɪnd ðə saʊndz ɪn iːtʃ wɜːd tə zæp ɪt. lɛts siː haʊ mɛni juː kən duː!",
+  "text": "Find the sounds in each word to zap it. Let's see how many you can do!",
+  "takes": 5,
+  "wps": 3.16,
+  "seconds": 5.06,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_place_findall_round.mp3": {
+  "score": 10,
+  "heard": "faɪnd ˈɛvri ˈpɪktʃə wɪð ðɪs saʊnd ɪn ɪt",
+  "text": "Find every picture with this sound in it...",
+  "takes": 6,
+  "judged": 1,
+  "wps": 3.22,
+  "seconds": 2.49,
+  "lufs": -16.1,
+  "target": -16,
+  "fall": 1.14,
+  "fall_gate": 1.06,
+  "fall_low": 1.14,
+  "falls": [
+   5.51,
+   4.5,
+   5.8,
+   5.94,
+   9.01,
+   1.14
+  ]
+ },
+ "public/a/l/tv_place_done.mp3": {
+  "score": 10,
+  "heard": "θæŋk juː nɪndʒə naʊ aɪ nəʊ dʒʌst weə tə stɑːt",
+  "text": "Thank you, ninja. Now I know just where to start.",
+  "takes": 2,
+  "wps": 3.12,
+  "seconds": 3.21,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_sort_see.mp3": {
+  "score": 10,
+  "heard": "aɪ kæn siː ðɪs ˈspɛlɪŋ ət ði ɛnd",
+  "text": "I can see this spelling at the end.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 2.46,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.078
+ },
+ "public/a/l/tv_hear_in_rain.mp3": {
+  "score": 10,
+  "heard": "aɪ kæn hɪər ɪt ɪn reɪn",
+  "text": "I can hear it in rain.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 1.84,
+  "lufs": -16.1,
+  "target": -16,
+  "lengthened": 1.052
+ },
+ "public/a/l/tv_word_hunt_frame.mp3": {
+  "score": 10,
+  "heard": "ɪts ə wɜːd hʌnt ɛvri wɜːd wɪð aʊə saʊnd ɪn ɪt ɡəʊz ɪn ə pɒkɪt",
+  "text": "It's a word hunt. Every word with our sound in it goes in a pocket.",
+  "takes": 6,
+  "wps": 3.14,
+  "seconds": 4.77,
+  "lufs": -16,
+  "target": -16
+ },
+ "public/a/l/tv_practise_gem.mp3": {
+  "score": 10,
+  "heard": "lɛts pɹæktɪs ðɪs dʒɛm aɪ seɪ ə wɜːd ænd juː bɪld ɪt",
+  "text": "Let's practise this gem. I say a word, and you build it.",
+  "takes": 2,
+  "wps": 3.2,
+  "seconds": 3.75,
+  "lufs": -16.1,
+  "target": -16
+ },
+ "public/a/l/tv_place_frame.mp3": {
+  "score": 10,
+  "heard": "lɛts pleɪ ə kwɪk ɡeɪm səʊ aɪ kən siː wɒt jʉː nəʊ ɔːlˈɹɛdi",
+  "text": "Let's play a quick game, so I can see what you know already.",
+  "takes": 8,
+  "wps": 3.26,
+  "seconds": 3.99,
+  "lufs": -16,
+  "target": -16,
+  "lengthened": 1.229
+ },
+ "public/a/l/tv_place_sound_round.mp3": {
+  "score": 10,
+  "heard": "aɪ seɪ ə saʊnd ænd juː faɪnd haʊ wiː ɹaɪt ɪt",
+  "text": "I say a sound, and you find how we write it.",
+  "takes": 8,
+  "wps": 3.25,
+  "seconds": 3.38,
+  "lufs": -16,
+  "target": -16,
+  "widened": 0.196
  }
 }

@@ -1,0 +1,10 @@
+425c425
+< | `fast-line` new sentence lines faster than 3.3 words a second | 0 (or re-taken) | 1 of 370 | **FAIL** |
+---
+> | `fast-line` new sentence lines faster than 3.3 words a second | 0 (or re-taken) | 0 of 370 | pass |
+427d426
+< - ‹tv_opt_ask› 3.7 w/s "Ask a grown-up to help you choose."
+430c429
+< 29 metrics failed: letters-60s, same-sound-after-reveal, world-welcomes, did-it-after-praise, speaker-tip, map-hint-cut, over-map, swap-place-heard, praise-rate, praise-stacks, line-60s, cut-explanations, unframed-turn, over-framed, bare-command, bare-listen, turn-median, rhetorical-question, shouted-instruction, fast-line, letters-echo, talk-before-action, jump-offers, how-we-spell, demo-command, first-dojo-opening, letters-twice, letters-lines, split-correction
+---
+> 28 metrics failed: letters-60s, same-sound-after-reveal, world-welcomes, did-it-after-praise, speaker-tip, map-hint-cut, over-map, swap-place-heard, praise-rate, praise-stacks, line-60s, cut-explanations, unframed-turn, over-framed, bare-command, bare-listen, turn-median, rhetorical-question, shouted-instruction, letters-echo, talk-before-action, jump-offers, how-we-spell, demo-command, first-dojo-opening, letters-twice, letters-lines, split-correction

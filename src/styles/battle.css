@@ -25,8 +25,9 @@
   0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 60, 40, 0.9)) drop-shadow(0 0 14px rgba(226, 65, 47, 0.7)); }
   50% { filter: drop-shadow(0 0 7px rgba(255, 60, 40, 1)) drop-shadow(0 0 30px rgba(255, 60, 40, 1)) brightness(1.06); }
 }
-/* the cartoon "cross" mark by its head */
+/* the cartoon "cross" mark by its head (the throb is on the HTML wrapper, not the SVG: it stays on the compositor) */
 .bt-vein { position: absolute; left: 60%; top: -2%; width: 64px; height: 64px; animation: bt-vein 0.55s ease-in-out infinite alternate; }
+.bt-vein svg { display: block; width: 100%; height: 100%; }
 @keyframes bt-vein { from { scale: 0.8; rotate: -8deg; } to { scale: 1.15; rotate: 8deg; } }
 .bt-rage { position: absolute; inset: 0; pointer-events: none; z-index: 2; background: radial-gradient(ellipse 520px 420px at var(--mx) 62%, rgba(226, 65, 47, 0.28), transparent 70%); animation: bt-rage 1.1s ease-in-out infinite; }
 @keyframes bt-rage { 50% { opacity: 0.6; } }
@@ -40,11 +41,13 @@
 }
 .bt-dizzy i:nth-child(2) { animation-delay: -0.25s; }
 .bt-dizzy i:nth-child(3) { animation-delay: -0.5s; }
+/* (transform only, so the compositor runs it: the near-and-far comes from the scale. The stars leave with .bt-dizzy
+   when its life ends: Battle.tsx unmounts it) */
 @keyframes bt-orbit {
-  0% { transform: translate(-70px, 0) scale(0.75); z-index: 0; }
-  25% { transform: translate(0, 20px) scale(1.1); z-index: 2; }
-  50% { transform: translate(70px, 0) scale(0.75); z-index: 0; }
-  75% { transform: translate(0, -18px) scale(0.6); z-index: 0; }
+  0% { transform: translate(-70px, 0) scale(0.75); }
+  25% { transform: translate(0, 20px) scale(1.1); }
+  50% { transform: translate(70px, 0) scale(0.75); }
+  75% { transform: translate(0, -18px) scale(0.6); }
   100% { transform: translate(-70px, 0) scale(0.75); }
 }
 @keyframes bt-dizzy-life { 0% { opacity: 0; scale: 0.4; } 12% { opacity: 1; scale: 1; } 75% { opacity: 1; } 100% { opacity: 0; scale: 0.8; } }
@@ -61,16 +64,16 @@
 .bt-hp-face img { position: absolute; left: -12%; top: -4%; width: 124%; height: 124%; object-fit: cover; object-position: 50% 0; }
 .bt-hp-col { display: flex; flex-direction: column; gap: 8px; }
 .bt-pips { display: flex; gap: 6px; }
-.bt-pip {
-  position: relative; width: 36px; height: 36px; border-radius: 11px; overflow: hidden;
-  border: 4px solid var(--ink); background: rgba(20, 12, 8, 0.6); box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.3);
-  transition: transform 0.25s, opacity 0.3s;
-}
+/* a pip: the outer box scales and glows (unclipped), the inner one is the rounded window its red fill sits in */
+.bt-pip { position: relative; width: 36px; height: 36px; border-radius: 11px; transition: transform 0.25s, opacity 0.3s; }
+.bt-pip > span { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; border: 4px solid var(--ink); background: rgba(20, 12, 8, 0.6); }
+.bt-pip > span::before { content: ""; position: absolute; inset: 0; box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.3); pointer-events: none; }
 /* a long fight (bosses: 7-9 words) keeps the bar right of the "hear the word" button (x 768-860): 9 pips end at x 889 */
 .bt-hp.many .bt-pips { gap: 4px; }
 .bt-hp.many .bt-pip { width: 26px; height: 32px; border-radius: 9px; }
 .bt-hp.lots .bt-pips { gap: 3px; }
-.bt-hp.lots .bt-pip { width: 21px; height: 30px; border-radius: 8px; border-width: 3px; }
+.bt-hp.lots .bt-pip { width: 21px; height: 30px; border-radius: 8px; }
+.bt-hp.lots .bt-pip > span { border-width: 3px; }
 .bt-pip i {
   position: absolute; left: 0; top: 0; bottom: 0; width: 100%;
   background: linear-gradient(180deg, #ffc2b8 0%, #ff7a64 35%, #e2412f 100%);
@@ -80,12 +83,25 @@
 .bt-pip.gone { transform: scale(0.8); opacity: 0.55; }
 .bt-pip.gone i { width: 0; }
 .bt-pip.cur { animation: bt-pip 1s ease-in-out infinite; }
-@keyframes bt-pip { 50% { transform: scale(1.12); box-shadow: 0 0 0 4px rgba(255, 229, 150, 0.9), 0 0 14px 4px rgba(255, 197, 61, 0.7); } }
+@keyframes bt-pip { 50% { transform: scale(1.12); } }
+/* the current pip's gold glow, on while it swells (the middle half of each beat, as the old box-shadow keyframes switched
+   it: an inset shadow can't blend into an outer one), and the pip's inner shadow off meanwhile; opacity only */
+.bt-pip::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; box-shadow: 0 0 0 4px rgba(255, 229, 150, 0.9), 0 0 14px 4px rgba(255, 197, 61, 0.7); }
+.bt-pip.cur::after { animation: bt-pip-glow 1s linear infinite; }
+.bt-pip.cur > span::before { animation: bt-pip-inset 1s linear infinite; }
+@keyframes bt-pip-glow { 0%, 24.99% { opacity: 0; } 25%, 74.99% { opacity: 1; } 75%, 100% { opacity: 0; } }
+@keyframes bt-pip-inset { 0%, 24.99% { opacity: 1; } 25%, 74.99% { opacity: 0; } 75%, 100% { opacity: 1; } }
 /* the monster's charge (Gem Trials): when it fills, the monster attacks */
 .bt-meter { position: relative; height: 20px; border-radius: 12px; border: 4px solid var(--ink); background: rgba(20, 12, 8, 0.6); overflow: hidden; }
-.bt-meter b { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #b692ff, #7a4fe0); transition: background 0.3s; }
-.bt-meter.hot b { background: linear-gradient(90deg, #ff8a3d, #e2412f); animation: bt-hot 0.4s ease-in-out infinite alternate; }
-@keyframes bt-hot { to { filter: brightness(1.35); } }
+/* the fill is full width, scaled from the left (Battle.tsx grows it on the compositor: no re-render per frame); its
+   gradient scales with it, as it did when its width changed */
+.bt-meter b { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; transform-origin: 0 50%; transform: scaleX(0); will-change: transform; background: linear-gradient(90deg, #b692ff, #7a4fe0); transition: background 0.3s; }
+.bt-meter.hot b { background: linear-gradient(90deg, #ff8a3d, #e2412f); }
+/* hot: it throbs brighter. The same gradient 1.35× brighter (the old brightness(1.35) filter, channel by channel), faded
+   in and out over it: opacity only */
+.bt-meter b::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #ffba52, #ff583f); opacity: 0; }
+.bt-meter.hot b::after { animation: bt-hot 0.4s ease-in-out infinite alternate; }
+@keyframes bt-hot { to { opacity: 1; } }
 .bt-meter.explain { animation: pulse 1.3s ease-in-out infinite; box-shadow: 0 0 0 8px rgba(255, 197, 61, 0.9); overflow: hidden; }
 
 /* the prize gem in a Gem Trial */

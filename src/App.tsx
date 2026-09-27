@@ -354,7 +354,13 @@ function Title({ onStart }: { onStart: () => void }) {
   });
   (window as any).__snState = { scene: "title" };
   useEffect(() => {
-    preload([urls.line("tap_start"), urls.music("title")]);
+    preload([urls.line("tap_start")]);
+    // the title music streams through an <audio> element once Start is tapped (engine/audio.ts playMusic), so it is never
+    // decoded: decoding it here held 167 s of stereo PCM (61 MB) for nothing (docs/PERF.md fix 5). Fetching it warms
+    // the HTTP cache instead, so the music starts as soon as the child taps Start; the body is thrown away as it arrives
+    void fetch(urls.music("title"), { priority: "low" } as RequestInit)
+      .then((r) => r.body?.pipeTo(new WritableStream()))
+      .catch(() => {});
     const t = setTimeout(() => setReady(true), 300);
     return () => clearTimeout(t);
   }, []);

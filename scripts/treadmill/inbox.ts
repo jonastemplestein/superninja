@@ -27,7 +27,7 @@ export function mergeRun(runDir: string) {
       return [];
     }
   };
-  const files = readdirSync(runDir).filter((f) => /^(sweep|critic|pics|joins|persona-.*|jev-.*)\.json$/.test(f));
+  const files = readdirSync(runDir).filter((f) => /^(sweep|critic|pics|joins|script|sound|soak|persona-.*|jev-.*)\.json$/.test(f));
   const bySig = new Map<string, Finding>();
   for (const f of files) for (const x of read(f)) if (x?.sig && !bySig.has(x.sig)) bySig.set(x.sig, x);
   const findings = [...bySig.values()];

@@ -10,13 +10,14 @@
 .so-scene.n3 .bubble { max-width: 212px; }
 
 /* ---------- the falling word */
-.so-word { position: absolute; left: var(--so-cx); top: 112px; z-index: 14; translate: -50% 0; transform-origin: 50% 50%; will-change: transform, top; }
+.so-word { position: absolute; left: var(--so-cx); top: 112px; z-index: 14; translate: -50% 0; transform-origin: 50% 50%; will-change: transform; }
+/* (it falls by its translate, which Sort.tsx animates on the compositor; the flight into a chest is its transform) */
 .so-word.gone { visibility: hidden; }
 /* each word pops in where it will fall from (a short drop, so it never passes over the top bar) */
 .so-word .drop-in { animation: so-drop 0.5s cubic-bezier(0.3, 1.5, 0.6, 1) both; }
 @keyframes so-drop { from { transform: translateY(-34px) scale(0.55); opacity: 0; } 55% { opacity: 1; } to { transform: none; opacity: 1; } }
 .so-panel {
-  padding: 8px 40px 16px; display: flex; align-items: center; gap: 20px;
+  position: relative; padding: 8px 40px 16px; display: flex; align-items: center; gap: 20px;
   background: var(--paper); border: 5px solid var(--ink); border-radius: 28px;
   box-shadow: 0 8px 0 var(--ink), 0 18px 30px rgba(0, 0, 0, 0.25);
   transition: background 0.2s, box-shadow 0.3s;
@@ -36,13 +37,41 @@
 /* the word hums with the ninja's streak power (never on a chest: a glowing chest is Sensei's hint) */
 .so-scene.tier-1 .so-panel:not(.yes):not(.no) { box-shadow: 0 8px 0 var(--ink), 0 0 0 5px rgba(255, 197, 61, 0.9), 0 0 28px 8px rgba(255, 210, 110, 0.55); }
 .so-scene.tier-2 .so-panel:not(.yes):not(.no) { box-shadow: 0 8px 0 var(--ink), 0 0 0 5px #ff9ac4, 0 0 30px 10px rgba(180, 140, 255, 0.55); }
-.so-scene.tier-3 .so-panel:not(.yes):not(.no) { animation: so-rainbow 1.6s linear infinite; }
-@keyframes so-rainbow {
-  0%, 100% { box-shadow: 0 8px 0 var(--ink), 0 0 0 5px #ff5a5a, 0 0 30px 10px rgba(255, 90, 90, 0.5); }
-  25% { box-shadow: 0 8px 0 var(--ink), 0 0 0 5px #ffe94a, 0 0 30px 10px rgba(255, 233, 74, 0.5); }
-  50% { box-shadow: 0 8px 0 var(--ink), 0 0 0 5px #5fd35f, 0 0 30px 10px rgba(95, 211, 95, 0.5); }
-  75% { box-shadow: 0 8px 0 var(--ink), 0 0 0 5px #4ab8ff, 0 0 30px 10px rgba(74, 184, 255, 0.5); }
-}
+/* tier 3: a ring and glow that run through the rainbow (red, yellow, green, blue) every 1.6 s. It used to be box-shadow
+   keyframes, restyled on the main thread every frame; now it is still layers under the panel whose opacity the
+   compositor fades (Sort.tsx .so-rb: five spans, two layers each).
+   - the ring: a still red ring at the bottom and one ring per colour fading in over it in its quarter, each staying
+     until the cycle ends; an opaque colour faded in over another is exactly the colour blend the keyframes made.
+   - the glow (half transparent): one per colour, cross-faded so the glow is always as strong as one (the one fading out
+     below the one fading in keeps (1 − w) / (1 − w / 2) of its opacity, w being the one fading in).
+   Each layer is a pseudo-element of its span; the ring layers paint over all of the glows, and the panel (with its ink
+   shadow) over both, as the three shadows stacked before. */
+.so-scene.tier-3 .so-panel:not(.yes):not(.no) { box-shadow: 0 8px 0 var(--ink); }
+.so-rb { display: none; position: absolute; inset: -5px; z-index: -1; border-radius: 28px; pointer-events: none; }
+.so-scene.tier-3 .so-word:not(.gone) .so-panel:not(.yes):not(.no) > .so-rb { display: block; }
+.so-rb i, .so-rb i::before, .so-rb i::after { position: absolute; inset: 0; border-radius: inherit; }
+.so-rb i::before, .so-rb i::after { content: ""; animation-duration: 1.6s; animation-timing-function: linear; animation-iteration-count: infinite; } /* (longhands: a nameless shorthand is minified to "none") */
+/* the glows: red, yellow | green, blue | red again ... */
+.so-rb i:nth-child(1)::before { box-shadow: 0 0 30px 10px rgba(255, 90, 90, 0.5); animation-name: so-rb-glow-r; }
+.so-rb i:nth-child(1)::after { box-shadow: 0 0 30px 10px rgba(255, 233, 74, 0.5); animation-name: so-rb-glow-y; }
+.so-rb i:nth-child(2)::before { box-shadow: 0 0 30px 10px rgba(95, 211, 95, 0.5); animation-name: so-rb-glow-g; }
+.so-rb i:nth-child(2)::after { box-shadow: 0 0 30px 10px rgba(74, 184, 255, 0.5); animation-name: so-rb-glow-b; }
+.so-rb i:nth-child(3)::before { box-shadow: 0 0 30px 10px rgba(255, 90, 90, 0.5); animation-name: so-rb-glow-r2; }
+/* ... then the rings: the still red one, then yellow, green, blue and red fading in over it */
+.so-rb i:nth-child(3)::after { box-shadow: 0 0 0 5px #ff5a5a; animation: none; }
+.so-rb i:nth-child(4)::before { box-shadow: 0 0 0 5px #ffe94a; animation-name: so-rb-ring-y; }
+.so-rb i:nth-child(4)::after { box-shadow: 0 0 0 5px #5fd35f; animation-name: so-rb-ring-g; }
+.so-rb i:nth-child(5)::before { box-shadow: 0 0 0 5px #4ab8ff; animation-name: so-rb-ring-b; }
+.so-rb i:nth-child(5)::after { box-shadow: 0 0 0 5px #ff5a5a; animation-name: so-rb-ring-r; }
+@keyframes so-rb-ring-y { 0% { opacity: 0; } 25%, 100% { opacity: 1; } }
+@keyframes so-rb-ring-g { 0%, 25% { opacity: 0; } 50%, 100% { opacity: 1; } }
+@keyframes so-rb-ring-b { 0%, 50% { opacity: 0; } 75%, 100% { opacity: 1; } }
+@keyframes so-rb-ring-r { 0%, 75% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes so-rb-glow-r { 0% { opacity: 1; } 6.25% { opacity: 0.857; } 12.5% { opacity: 0.667; } 18.75% { opacity: 0.4; } 25%, 100% { opacity: 0; } }
+@keyframes so-rb-glow-y { 0% { opacity: 0; } 25% { opacity: 1; } 31.25% { opacity: 0.857; } 37.5% { opacity: 0.667; } 43.75% { opacity: 0.4; } 50%, 100% { opacity: 0; } }
+@keyframes so-rb-glow-g { 0%, 25% { opacity: 0; } 50% { opacity: 1; } 56.25% { opacity: 0.857; } 62.5% { opacity: 0.667; } 68.75% { opacity: 0.4; } 75%, 100% { opacity: 0; } }
+@keyframes so-rb-glow-b { 0%, 50% { opacity: 0; } 75% { opacity: 1; } 81.25% { opacity: 0.857; } 87.5% { opacity: 0.667; } 93.75% { opacity: 0.4; } 100% { opacity: 0; } }
+@keyframes so-rb-glow-r2 { 0%, 75% { opacity: 0; } 100% { opacity: 1; } }
 
 /* ---------- the chests */
 .so-chests { position: absolute; left: 340px; width: 700px; bottom: 12px; z-index: 10; display: flex; justify-content: center; align-items: flex-end; gap: 72px; }
@@ -73,15 +102,24 @@
 .so-chests.n3 .so-label .tile { --size: 90px; }
 
 /* the chest's face (over the painted eyes): a blink now and then, "> <" on a head-shake, "^ ^" on a gulp */
-.so-eyes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-.so-eyes .lid { fill: url(#so-lid); transform-box: fill-box; transform-origin: 50% 0; scale: 1 0; }
+.so-eyes { position: absolute; inset: 0; pointer-events: none; }
+.so-eyes svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .so-eyes path { fill: none; stroke: #3a150c; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; opacity: 0; }
-.so-eyes .lid { animation: so-blink 5.6s linear infinite; animation-delay: calc(1.4s + var(--k) * 1.9s); }
-.so-eyes .shut { animation: so-lash 5.6s linear infinite; animation-delay: calc(1.4s + var(--k) * 1.9s); }
-@keyframes so-blink { 0%, 95.4%, 99.2%, 100% { scale: 1 0; } 96.4%, 97.6% { scale: 1 1; } }
-@keyframes so-lash { 0%, 96%, 98.2%, 100% { opacity: 0; } 96.3%, 97.9% { opacity: 1; } }
+/* the eyelids (wood, darker under the brow), over the painted eyes: the SVG ellipses they were, in the chest art's
+   320×312 box (175,198 r 22×21; 242,191 r 20×22), shut from the top */
+.so-eyes .lid { position: absolute; border-radius: 50%; background: linear-gradient(180deg, #7e3a22 0%, #a15d36 35%, #b8703d 100%); transform-origin: 50% 0; scale: 1 0; }
+.so-eyes .lid.l { left: 47.8125%; top: 56.7308%; width: 13.75%; height: 13.4615%; }
+.so-eyes .lid.r { left: 69.375%; top: 54.1667%; width: 12.5%; height: 14.1026%; }
+.so-eyes .lash { position: absolute; inset: 0; opacity: 0; }
+.so-eyes .lash path { opacity: 1; }
+/* a blink: Sort.tsx adds "blink" every 5.6 s for one blink (213 ms, the 95.4-99.2 % window of the old 5.6 s endless
+   cycle, which kept the SVG shapes repainting every frame with the eyes open); scale and opacity, on the compositor */
+.so-eyes.blink .lid { animation: so-blink 0.2128s linear; }
+.so-eyes.blink .lash { animation: so-lash 0.2128s linear; }
+@keyframes so-blink { 0%, 100% { scale: 1 0; } 26.32%, 57.89% { scale: 1 1; } }
+@keyframes so-lash { 0%, 15.79%, 73.68%, 100% { opacity: 0; } 23.68%, 65.79% { opacity: 1; } }
 .so-eyes.yum .lid, .so-eyes.no .lid { animation: none; scale: 1 1; }
-.so-eyes.yum .shut, .so-eyes.no .shut { animation: none; opacity: 0; }
+.so-eyes.yum .lash, .so-eyes.no .lash { animation: none; opacity: 0; }
 .so-eyes.yum .yum, .so-eyes.no .nope { opacity: 1; }
 
 /* the words already sorted, standing up in the chest: the newest in front, older ones a row further back, a step higher
@@ -120,9 +158,10 @@
 @keyframes so-crackle { to { rotate: 360deg; } }
 .so-fist.t2 { background: radial-gradient(circle, #fff 0 15%, #ffe0f0 24%, rgba(255, 122, 170, 0.9) 38%, rgba(150, 120, 255, 0.45) 54%, transparent 70%); filter: drop-shadow(0 0 10px rgba(255, 150, 210, 0.95)); }
 .so-fist.t3 { background: radial-gradient(circle, #fff 0 16%, transparent 34%), conic-gradient(from 0deg, #ff5a5a, #ffb03d, #ffe94a, #5fd35f, #4ab8ff, #b48cff, #ff5a5a); -webkit-mask-image: radial-gradient(circle, #000 34%, transparent 70%); mask-image: radial-gradient(circle, #000 34%, transparent 70%); }
-.so-spark { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+.so-spark { width: 44px; height: 44px; margin: -22px 0 0 -22px; animation: so-crackle 0.45s linear infinite; }
+/* (the spark turns as a whole, glow and all, which is round: an animation on the SVG would be repainted every frame) */
 .so-spark::before { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: radial-gradient(circle, #fff 0 25%, rgba(255, 214, 90, 0.9) 45%, transparent 72%); scale: 2; }
-.so-spark svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; animation: so-crackle 0.45s linear infinite; }
+.so-spark svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .so-spark path { fill: #ffe066; stroke: #2b1d14; stroke-width: 3.2; stroke-linejoin: round; }
 .so-power {
   position: absolute; left: -15px; bottom: -50px; width: 360px; height: 500px; z-index: 11; pointer-events: none;

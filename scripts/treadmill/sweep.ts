@@ -5,6 +5,12 @@
 // Usage: bun scripts/treadmill/sweep.ts [--run dir] [--only w1-4,map] [--base http://localhost:5173] [--fast 3] [--par 6] [--monkey] [--nav]
 // --nav (slower): in each new waiting position the bot first taps Hear it again (and Show me again, where there is one)
 // and checks what it plays (docs/NAVIGATION.md §6.2: replay-silent, replay-stale, show-again-broken).
+// --petals: the sound display invariants (docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §4.4 F4.2), minor until integration makes
+// the first three blockers (I.2): sound-without-petal (a "petal" sound clip starts and no petal of that sound is visible,
+// with 50 ms grace; < x > needs /k/ and /s/), petal-for-hidden (a "hidden" sound's petal is visible while it plays),
+// petal-giveaway (a visible answer card is the picture of a visible petal: the apple card beside /a/), petal-too-small
+// (the picture of a visible non-mini badge under 38 CSS px on the 844×390 phone) and sound-unclassified (a lone sound
+// with no job, §3.1).
 import { chromium, type Browser, type Page } from "playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { LEVELS, WORLDS } from "../../src/content/worlds";
@@ -23,6 +29,9 @@ const FAST = Number(arg("fast", "3"));
 const PAR = Number(arg("par", "6"));
 const MONKEY = process.argv.includes("--monkey");
 const NAV = process.argv.includes("--nav");
+const PETALS = process.argv.includes("--petals");
+/** --petals: each sound's petal picture word (src/content/flower.ts CHART_PETALS), for petal-giveaway */
+const ICON: Record<string, string> = PETALS ? Object.fromEntries((await import("../../src/content/flower")).CHART_PETALS.map((c) => [c.p, c.iconWord])) : {};
 const RUN = arg("run", `playtest/runs/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}`)!;
 const ONLY = arg("only")?.split(",");
 const VIEW = { width: 844, height: 390 }; // iPhone 13-ish, landscape: what children actually hold
@@ -283,6 +292,37 @@ function pageChecks(opts: { level?: boolean } = {}): Issue[] {
   return out;
 }
 
+// ---------------------------------------------------------------- --petals: in-page checks on what is on screen
+type PetalIssue = { kind: string; sel: string; detail: string };
+/** Answer cards that are the picture of a visible petal, and badge pictures too small to read. */
+function petalChecks(icon: Record<string, string>): PetalIssue[] {
+  const out: PetalIssue[] = [];
+  const vis = (el: Element) => {
+    const r = el.getBoundingClientRect();
+    if (r.width < 6 || r.height < 6 || r.right < 0 || r.bottom < 0 || r.left > innerWidth || r.top > innerHeight) return false;
+    for (let e: Element | null = el; e; e = e.parentElement) {
+      const s = getComputedStyle(e);
+      if (s.display === "none" || s.visibility === "hidden" || Number(s.opacity) < 0.25) return false;
+    }
+    return true;
+  };
+  const petals = [...document.querySelectorAll(".sound-badge[data-p], [data-petal]")].filter(vis).map((e) => ({ el: e, p: e.getAttribute("data-p") ?? e.getAttribute("data-petal") ?? "" }));
+  const cards = [...document.querySelectorAll(".pick-row [aria-label], .wu .wu-slot:not(.out) [aria-label], [data-pic]")].filter(vis).map((e) => (e.getAttribute("data-pic") ?? e.getAttribute("aria-label") ?? "").toLowerCase());
+  for (const { p } of petals) {
+    const w = icon[p];
+    if (w && cards.includes(w)) out.push({ kind: "petal-giveaway", sel: `/${p}/ beside a ${w} card`, detail: `The /${p}/ petal (its picture is a ${w}) is on screen with an answer card "${w}": the petal gives the answer away (SOUND_DISPLAY A12). Cards: ${[...new Set(cards)].join(", ")}.` });
+  }
+  for (const { el, p } of petals) {
+    if (el.classList.contains("still") || el.classList.contains("mini") || el.getAttribute("data-tier") === "mini") continue;
+    const img = el.querySelector("img");
+    if (!img) continue;
+    const r = img.getBoundingClientRect();
+    const px = Math.min(r.width, r.height);
+    if (px > 0 && px < 38) out.push({ kind: "petal-too-small", sel: `/${p}/ badge`, detail: `The /${p}/ petal's picture is ${Math.round(px)} CSS px on the 844×390 phone (want ≥ 38; the badge is ${Math.round(el.getBoundingClientRect().width)} px wide).` });
+  }
+  return out;
+}
+
 const SEV: Record<string, Finding["severity"]> = {
   "crash-screen": "blocker", pageerror: "blocker", stuck: "blocker", "did-not-finish": "major", "covered-target": "major", offscreen: "major", "zone-conflict": "major",
   "broken-image": "major", "junk-text": "major", "overlapping-targets": "major", "clipped-target": "minor", "tiny-target": "minor",
@@ -292,6 +332,8 @@ const SEV: Record<string, Finding["severity"]> = {
   "home-missing": "major", "home-covered": "major", "home-misplaced": "major", "home-duplicate": "major",
   "no-replay-for-instruction": "major", "auto-advance": "major", "auto-answer": "major",
   "replay-silent": "major", "replay-stale": "major", "show-again-broken": "major", "idle-nudge": "minor",
+  // --petals (minor until integration, FIX_PLAN I.2)
+  "sound-without-petal": "minor", "petal-for-hidden": "minor", "petal-giveaway": "minor", "petal-too-small": "minor", "sound-unclassified": "minor",
 };
 /** The first session (the opt-in, the welcome, Lessons 1 and 2, the film): a child's first minutes, where a missing Home or
  *  a screen that moves on by itself is a blocker. */
@@ -317,10 +359,51 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
   page.on("console", (m) => m.type() === "error" && !/favicon|404|net::ERR/.test(m.text()) && add(/two children with the same key/.test(m.text()) ? "duplicate-key" : "console-error", m.text().slice(0, 80), m.text().slice(0, 400)));
   await page.goto(BASE + "/play/");
   await page.evaluate((s) => localStorage.setItem("superninja.save.v1", JSON.stringify(s)), { ...(c.save ?? save()), settings: { relaxed: false, music: 0, captions: true, unlockAll: true } });
-  await page.addInitScript((o) => {
+  await page.addInitScript(([o, petals]) => {
     const w = window as any;
     w.__audioLog = [];
     w.__botOptIn = o;
+    // --petals: as each sound clip starts, is its petal on screen (for "petal"), or hidden (for "hidden")?
+    if (petals) {
+      const issues: any[] = (w.__petalIssues = []);
+      const vis = (el: Element) => {
+        const r = el.getBoundingClientRect();
+        if (r.width < 6 || r.height < 6 || r.right < 0 || r.bottom < 0 || r.left > innerWidth || r.top > innerHeight) return false;
+        for (let e: Element | null = el; e; e = e.parentElement) {
+          const s = getComputedStyle(e);
+          if (s.display === "none" || s.visibility === "hidden" || Number(s.opacity) < 0.25) return false;
+        }
+        return true;
+      };
+      const on = () => {
+        const ps: string[] = [];
+        document.querySelectorAll(".sound-badge[data-p], [data-petal]").forEach((e) => vis(e) && ps.push(e.getAttribute("data-p") ?? e.getAttribute("data-petal") ?? ""));
+        document.querySelectorAll('[role="button"][data-p]').forEach((e) => vis(e) && e.querySelector("img") && ps.push(e.getAttribute("data-p")!));
+        document.querySelectorAll("svg path[data-p]").forEach((e) => e.parentElement?.querySelector("image") && vis(e) && ps.push(e.getAttribute("data-p")!));
+        return ps;
+      };
+      const seen = (p: string) => { const ps = on(); return ps.includes(p) || (p === "ks" && ps.includes("k") && ps.includes("s")); };
+      let prev: string | null = null;
+      const log: any[] = w.__audioLog;
+      log.push = function (...items: any[]) {
+        for (const it of items) {
+          const m = String(it?.url ?? "").match(/\/a\/p\/([^/]+)\.mp3/);
+          if (m) {
+            const p = m[1], show = it.show, sel = `after ${prev ?? "(nothing)"}`, scene = w.__snState?.scene ?? "?";
+            if (show === "petal" && !seen(p)) setTimeout(() => void (!seen(p) && issues.push({ kind: "sound-without-petal", sel: `/${p}/ ${sel}`, detail: `A "petal" sound /${p}/ started (${scene}, after ${prev ?? "nothing"}) with no /${p}/ petal visible, and none 50 ms later.` })), 50);
+            if (show === "hidden") {
+              const look = () => void (seen(p) && issues.push({ kind: "petal-for-hidden", sel: `/${p}/ ${sel}`, detail: `A "hidden" sound /${p}/ (the question: ${scene}, after ${prev ?? "nothing"}) played with its petal visible.` }));
+              look();
+              setTimeout(look, 150);
+            }
+            if (show === undefined || show === "unclassified") issues.push({ kind: "sound-unclassified", sel, detail: `A lone sound /${p}/ (${scene}, after ${prev ?? "nothing"}) has no job (show: petal, tile or hidden).` });
+          }
+          const l = String(it?.url ?? "").match(/\/a\/l\/([^/]+)\.mp3/);
+          if (l) prev = l[1];
+        }
+        return Array.prototype.push.apply(this, items);
+      };
+    }
     // navigation invariants (docs/NAVIGATION.md §6): every child input (bot taps are dispatched pointer events, real
     // taps are trusted ones), and every change of route, turn (__snState's scene, next, busy) and step (__snNav.pres),
     // all on performance.now()
@@ -358,7 +441,7 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
       const label = l?.getAttribute("aria-label") ?? null;
       w.__snInput.push({ t: performance.now(), nav: n?.getAttribute("data-nav") ?? null, label, grown: !!el?.closest("[data-grownups]") || /^Grown-ups/.test(label ?? ""), dialog: !!el?.closest('[role="dialog"], [data-modal]') });
     }, true);
-  }, c.optin ?? "none");
+  }, [c.optin ?? "none", PETALS && !monkey] as const);
   await page.goto(`${BASE}${c.url}${c.url.includes("?") ? "&" : "?"}fast=${FAST}`);
   await page.mouse.click(VIEW.width / 2, 4);
   const pending = [...(monkey ? [] : c.taps ?? [])];
@@ -385,6 +468,13 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
   };
   const t0 = Date.now();
   let lastSig = "", lastChange = Date.now(), lastFrame = -1e9, ok = false, ticks = 0;
+  /** --petals: the page's sound-clip issues since the last read */
+  let petalAt = 0;
+  const petalLog = async (): Promise<Issue[]> => {
+    const xs: Issue[] = await page.evaluate((from) => ((window as any).__petalIssues ?? []).slice(from), petalAt).catch(() => []);
+    petalAt += xs.length;
+    return xs;
+  };
   const frame = async (why = "") => {
     const t = Date.now() - t0;
     if (t < 500 && !why) return ""; // the screen is still fading in
@@ -696,6 +786,7 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
       if (meta.frames.length < 40 || ticks % 4 === 0) await frame(); // long levels: thin the filmstrip out
       // monkeys wander into other screens: only crash-type signals count there (layout is the deterministic bot's job)
       const issues = (await page.evaluate(pageChecks, { level: IS_LEVEL.has(c.name) }).catch(() => [] as Issue[])).filter((i) => !monkey || ["crash-screen", "junk-text", "broken-image"].includes(i.kind));
+      if (PETALS && !monkey) issues.push(...(await page.evaluate(petalChecks, ICON).catch(() => [] as Issue[])), ...(await petalLog()));
       const stacked = await stackedScenes();
       if (stacked) issues.push({ kind: "stacked-scenes", sel: ".stage > .scene", detail: `${stacked} scenes on the stage for over a second (an old screen is still mounted under or over the new one); snState=${JSON.stringify(await page.evaluate(() => (window as any).__snState ?? null).catch(() => null))}` });
       for (const i of issues) {
@@ -748,6 +839,7 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
     for (const i of await page.evaluate(pageChecks, {}).catch(() => [] as Issue[])) add(i.kind, `${i.sel} (after ${c.after.tap})`, i.detail, [`cases/${tag}/${f}`]);
   }
   if (!monkey) await navTick(false);
+  if (PETALS && !monkey) for (const i of await petalLog()) add(i.kind, i.sel, i.detail);
   // evidence for a navigation finding: every input and every change the checks saw (performance.now() ms)
   if ([...findings.values()].some((f) => /^(auto-|replay-|show-again|idle-)/.test(f.title)))
     writeFileSync(`${dir}/navtrack.json`, JSON.stringify({ inputs, track: trackLog, speech: speech.map((e) => ({ ...e, url: e.url.replace(/^.*\/a\//, "") })) }, null, 1));

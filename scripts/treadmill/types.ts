@@ -1,6 +1,6 @@
 // Shared shape for everything the playtest treadmill reports (bots, invariant checks, visual critic, personas).
 export type Severity = "blocker" | "major" | "minor" | "polish";
-export type Source = "bot" | "invariant" | "critic" | "persona" | "jev";
+export type Source = "bot" | "invariant" | "critic" | "persona" | "jev" | "script" | "sound";
 export interface Finding {
   /** stable signature for de-duplication across runs: source + case + kind (+ selector) */
   sig: string;

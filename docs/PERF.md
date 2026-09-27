@@ -10,6 +10,84 @@ Jonas, 26 Sep: *"after I play for a while, my phone melts, basically, and nothin
 - **Some screens are simply heavy.** On the throttled phone the runner (w1-9) redraws a 1280×720 canvas every frame and saturates the main thread (fps 29–36). The World Flower has 1,900 DOM nodes and a `box-shadow` pulse, and hits long tasks of up to 257 ms.
 - **The fixes are small, and a preview of them measurably helps.** The six main fixes were applied at build time to a snapshot, with no game code touched, and played side by side with the unfixed build. On the still map, the phone's main thread went from 10.2 % to 3.5 % and frame requests from 120/s to 0. The ninja standing still at streak 0 went from 16 % to 4 %. Web Audio nodes and `<audio>` elements stopped growing, and decoded audio stayed within a budget (details in §4).
 
+## Fixed (27 Sep)
+
+**Live on 27 Sep 2026.** Production version `10052f02-6381-48c6-9ed6-e0859ffaff50`, preview `49bd67dd-3847-4e78-8841-91106cea0ec8`, shipped with `scripts/preview.sh`. Fixes 1–9 and the minor items below are in the game code now, not the patch preview of §4. The final check played one frozen build of the shipped source (`playtest/runs/perf/.build-verify-r2`, port 4411) against the unfixed one (`.build-before`, 4400). The source didn't change between that build and the deploy. Results:
+
+- The phone soak (`--mobile --cpu 4 --fast 2 --levels 12 --idle 60 --stress 150 --check`) passed all 29 budgets.
+- The desktop soak (`--fast 2 --levels 20 --check`) passed all 22.
+- The sweep ran 113/113 cases with 0 findings.
+- `tsc` passed, and `bun test src/core src/content src/engine` gave 151 pass, 0 fail.
+- The look is unchanged: 39 before/after frames were compared, plus live checks of the motion.
+
+Evidence is in `playtest/runs/perf/after-r2/`.
+
+**Phone ×4, 12 levels in one page** (`after-r2/phone/summary.md`). The phone soak ran alongside the desktop soak and the frame retakes, so its percentages lean high.
+
+| | before | after | budget |
+|---|---|---|---|
+| still map: main thread | 7.5 % | **1.3 %** | ≤ 5 % |
+| still map: rAF requests | 120 /s | **0 /s** | ≤ 5 |
+| the ninja standing still, streak 0 / 10 | 13.2 % / 18.4 % | **2.5 % / 5.1 %** | ≤ 6 % / ≤ 14 % |
+| a held Next with its idle nudge: main thread / rAF | not measured on the phone (desktop 4.2 %, 120 /s) | 3.5 % / 4.4 /s (max 13.9) | ≤ 6 % / ≤ 5 |
+| playing: main thread, first / second half | 25.1 % / 36.5 % | 20.6 % / 29.9 % | – |
+| lowest screen fps (median) | 39.7 (the runner) | **60.3** (the runner 61.0) | ≥ 50 |
+| the runner: main thread | 99.8 % | 77.3 % | – |
+| the World Flower: main thread / longest task | 52.4 % / 87 ms | **29.7 % / 62 ms** | ≤ 30 % / ≤ 120 ms |
+| endless animations the compositor can't run / on hidden elements (max) | 30 / 26 | **0 / 0** | ≤ 2 |
+| Web Audio nodes / `<audio>` alive | 9 → 63 / 1 → 28 | **11 / 2, flat** | start + 8 / + 2 |
+| live decoded audio | 63.8 MB and climbing | **levels off at 40 MB** | ≤ 64 MB |
+| the title, 5 s untouched: decoded audio | 61.3 MB | **0.1 MB** | ≤ 2 MB |
+| stress: particle peak / 10 s after | 255 / 0 | 272 / 0 | ≤ 350 / 0 |
+| DOM nodes after 12 levels (detached) | 426 (146) | 352 (74) | ≤ start + 600 |
+| canvas memory kept after the runner | 15.7 MB | 3.8 MB | – |
+| renderer memory footprint (not judged) | 543 MB | 360 MB | – |
+
+**Two minutes on one screen, phone ×4, both builds at once** (`after-r2/play.ts`, `play-*-4400` and `play-*-4411`):
+
+| screen | before: fps median (min) / main thread median | after |
+|---|---|---|
+| the runner at streak 10+ | 35 (31.6) / 99.7 %, 26 long tasks | **58 (49.6) / 76.8 %**, 4 long tasks |
+| a battle at streak 10 | 60 (49.3) / 26.7 % | 60 (49.8) / 23.4 % |
+| swiping the World Flower's petal chart | 60 (52.2) / 46.7 %, 2,820 style recalcs/s | 60 (52.7) / **18.1 %, 63 recalcs/s** |
+
+**Desktop, 20 levels in one page** (`after-r2/desktop/summary.md`):
+
+| | before | after |
+|---|---|---|
+| decoded audio | 97.3 MB | 40 MB |
+| Web Audio nodes / `<audio>` | 93 / 43 | 11 / 2 |
+| still map: rAF requests / main thread | 120 /s / 4 % | 0 /s / 0.7 % |
+| endless non-compositable / hidden animations | 30 / 27 | 0 / 1 |
+| playing: main thread, first / second half | 9.7 % / 11 % | 5.6 % / 7.2 % |
+| stress: particle peak | 279 | 304 |
+| memory footprint | 629 MB | 358 MB |
+
+**What changed** (the fixes of §3; how to reverse each is in docs/DECISIONS.md, 27 Sep):
+
+- **Fix 1**: the particle canvas sleeps when it's empty, and there are at most 350 particles.
+- **Fix 2**: the lip-sync loop runs only while speech plays. Sensei's mouth still moves (7 viseme changes in `yay_7`), then rAF drops to 0/s within 3 s.
+- **Fixes 3–4**: the aura's decorations exist only at their tiers. Its loops are Web Animations of transform and opacity. The flames flicker on HTML wrappers. The SVG and `box-shadow` loops in `styles.css` (help waves, gem liquid, the gem glows, hints) are HTML layers now.
+- **One more cause, found while fixing**: React registers an `animationiteration` listener at its root. While that listener exists, Chrome wakes the main thread at every iteration of every CSS loop. `ui.tsx` now drops it: on the ninja at streak 10, style passes went from 60 a second to 0.
+- **Fix 5**: a 40 MB decoded-audio LRU, and the title music is never decoded.
+- **Fix 6**: music plays on two reused decks.
+- **Fix 7**: the flash uses normal blending, `will-change` is set only while `fly()` moves something, and trails drop glows by distance (at most 60 a second).
+- **Fix 8**: the runner's scenery is baked once and slid by the compositor, drawn on two canvases with the aura as DOM layers.
+- **Fix 9**: the World Flower's SVG never animates, and the chart's petals out of view pause their loops, then skip rendering.
+- **Minor**:
+  - `adjustLog` is capped at 200 entries and `__snNavLog` at 500.
+  - The Gem Trials charge bar is driven by a ref.
+  - Sort's word falls with `translate`.
+  - The flames are placed with a transform.
+  - The Next arrow's idle nudge sleeps on one timeout instead of polling.
+
+**Left:**
+
+- `.tut-arrow-wrap` (`shell.css`) is ready, but `Training.tsx` doesn't wrap the tutorial arrow in it yet, so that full-stage SVG still sways on the main thread while it shows.
+- `soak-fixes.ts` and `soak.ts --patched` are still there. Retire them (fix plan Dec10), since the patches no longer apply.
+- The soak isn't a preview gate (12–25 min). Run `run.ts --soak-phone` nightly.
+- The strike stress peaks a little higher (272 vs 255 particles on the phone), within the 350 cap.
+
 ## 1. How it was measured
 
 `scripts/treadmill/soak.ts` is new and reusable. The bot plays level after level in **one page with no reloads**, going through the map the way a child does: level → reward → Next → the World Flower trip if one is due → map → the next stone. It samples every 10 s using:

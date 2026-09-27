@@ -3,6 +3,7 @@ import { GEMS, PETALS, neededGems, gemByKey, petalsOfGem, type Gem, type Petal }
 import { WORDS, UNITS, dictationSafe, teachEntry, type PhonemeId, type Word } from "../content/phonics";
 import { LEVELS, WORLDS, knownSpellings, setTrialLevel, MILESTONES, startLevelAfter, type Level } from "../content/worlds";
 import { store, ENERGY_FULL, type Save } from "./store";
+import { jumpOfferDue, told, type Exposure } from "../content/narrative";
 
 export type GemState = "future" | "hidden" | "charging" | "ready" | "won";
 /** Has the child met this spelling (it has been taught, so its gem shows its letters)? */
@@ -224,9 +225,31 @@ export function placeAtUnit(unit: number) {
     for (const gem of GEMS) if (gem.inPlay && gem.unit <= unit) s.energy[gem.key] = Math.max(s.energy[gem.key] ?? 0, ENERGY_FULL / 2);
   });
 }
-/** Offer "jump ahead" when the last 3 levels played were all perfect (3 stars) and there is somewhere to jump. */
+/** The narrative ledger's key for the jump-ahead offer (src/scenes/narrate.tsx keeps the same per-save `narr` map). */
+export const JUMP_OFFER = "jump-offer";
+/** The last offer made, so asking again for the same reward (a re-render) gives the same answer. */
+let lastOffer: { session: number; level: string } | null = null;
+/**
+ * Offer "jump ahead" when the last 3 levels played were all perfect (3 stars) and there is somewhere to jump, and the
+ * offer is due (SCRIPT_FIXES A8, Dec9): never in a child's first two sessions, then at most once a session with two
+ * sessions' rest after each offer. The offer counts as made when this returns true (it is a button on screen even if
+ * its line is cut off), so it is recorded with the session there and then. Ask once per reward.
+ */
 export function shouldOfferJump(s: Save = store.get()): boolean {
   const done = LEVELS.filter((l) => (s.stars[l.id] ?? 0) > 0);
   const last3 = done.slice(-3);
-  return last3.length === 3 && last3.every((l) => s.stars[l.id] === 3) && MILESTONES.some((m) => startLevelAfter(m.unit).id !== frontier(s).id && LEVELS.indexOf(startLevelAfter(m.unit)) > LEVELS.indexOf(frontier(s)));
+  const perfect = last3.length === 3 && last3.every((l) => s.stars[l.id] === 3) && MILESTONES.some((m) => startLevelAfter(m.unit).id !== frontier(s).id && LEVELS.indexOf(startLevelAfter(m.unit)) > LEVELS.indexOf(frontier(s)));
+  if (!perfect) return false;
+  const session = s.sessions ?? 0;
+  const level = last3[2].id;
+  if (lastOffer && lastOffer.session === session && lastOffer.level === level) return true;
+  const narr = (s as Save & { narr?: Record<string, Exposure> }).narr;
+  if (!jumpOfferDue(narr?.[JUMP_OFFER], session)) return false;
+  lastOffer = { session, level };
+  const at = LEVELS.indexOf(frontier(s));
+  store.set((x) => {
+    const l = ((x as Save & { narr?: Record<string, Exposure> }).narr ??= {});
+    l[JUMP_OFFER] = told(l[JUMP_OFFER], at, session);
+  });
+  return true;
 }

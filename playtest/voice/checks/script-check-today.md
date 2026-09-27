@@ -1,0 +1,430 @@
+## Checks (FIX_PLAN §11.2: the SCRIPT_FIXES rows, then the teacher's voice rows)
+
+### C-P: playtest/runs/voice/baseline/transcripts/continuous-perfect.json
+
+perfect, a brand-new child, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 0 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 0 | pass |
+| `letters-twice` no spelling's full letters line twice in a session | 0 | 0 sounds | pass |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 0 | pass |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_1 ×14, world_2 ×4 | **FAIL** |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 15 | **FAIL** |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 0 (day one) | 15 | **FAIL** |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 0 (0 cut) | pass |
+| `map-hint-cut` map hint cut by the next level | 0 | 15 of 19 | **FAIL** |
+| `over-map` level lines started over the map | 0 | 7 | **FAIL** |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 16 (7 repeats) | **FAIL** |
+| `swap-place-heard` swap place lines heard to the end | all | 1 of 6 | **FAIL** |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 2.48 | **FAIL** |
+| `praise-stacks` praise stacks within 5 s | 0 | 19 | **FAIL** |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 14 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 20 | **FAIL** |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` "You're a ninja master!" before 7 whole answers (proxy) | 0 | 0 of 0 | n/a |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | 21 of 21 games | **FAIL** |
+| `over-framed` a replay that plays a full frame again | 0 | 14 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 39 said (12 lines) | **FAIL** |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 4 (4 in w2-1); 1 after quiet or before the level's first tap | **FAIL** |
+| `talk-before-action` talk before a child action, first meetings | ≤ 12 s (named runs 12.5 s) | max 29.9 s (build w1-4); 8 over | **FAIL** |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 9 words (median line 4 words; 167 turns) | pass |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 45 said (6 lines) | **FAIL** |
+| `shouted-instruction` instructions that end in "!" | 0 | 57 said (29 lines) | **FAIL** |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 14 | **FAIL** |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | no | **FAIL** |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | n/a | n/a |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+
+- **world-welcomes**: world_1 "Welcome to Bamboo Village!" said 14 times; world_2 "Welcome to Blossom Hills!" said 4 times
+- **did-it-after-praise**: sticker book @7:32.8; reward @9:28.1; reward @12:10.3; reward @14:41.5; reward @17:02.0
+- **jump-offers**: reward @14:49.4; reward @17:10.5; reward @18:13.3; reward @20:41.5; reward @22:43.5
+- **map-hint-cut**: map @7:37.9 ‹map_hint› "Tap the glowing stone to start your next adventure." cut; map @10:39.4 ‹map_hint› "Tap the glowing stone to start your next adventure." cut; map @12:42.5 ‹map_hint› "Tap the glowing stone to start your next adventure." cut; map @14:57.4 ‹map_hint› "Tap the glowing stone to start your next adventure." cut; map @17:18.7 ‹map_hint› "Tap the glowing stone to start your next adventure." cut
+- **over-map**: w1-wu3 @5:13.1 ‹fm_l1_hello› "Ninja ears on! Let's listen to some words."; w1-2 @7:39.9 ‹first_intro› "Every word starts with a sound. Let's listen for the very first sound!"; w1-4 @12:44.6 ‹audit_dojo_first› "This is our dojo. Here we listen to sounds, make words, and read them."; w1-8 @21:08.4 ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so"; w1-10 @25:31.7 ‹first_intro› "Every word starts with a sound. Let's listen for the very first sound!"
+- **how-we-spell**: w1-2 /s/: 2×; w1-3 /a/: 2×; w1-3 /t/: 2×; w1-7 /i/: 2×; w1-10 /n/: 2×; w1-10 /p/: 2×
+- **swap-place-heard**: w1-8 @21:25.4 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut; w1-8 @21:38.1 ‹audit_swap_middle› "Yes, the middle sound changes! Now pick the new sound." cut; w1-8 @22:20.5 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut; w1-12 @34:07.6 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut; w1-12 @34:19.9 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut
+- **praise-rate**: 124 praise lines in 50.0 min
+- **praise-stacks**: w1-wu1 @2:56.3: "You found them both! They both start with..." → "You can hear the sounds in words. Brilliant listening!"; w1-wu3 @6:31.1: "You found them all!" → "You can hear the sounds in words. Brilliant listening!"; w1-2 @9:20.1: "Ace!" → "Well done."; reward @9:28.1: "You did it!" → "You won back some sounds!"; w1-3 @12:03.4: "Smashing!" → "Ace!"
+- **line-60s**: ‹first_q› "Which one starts with..." from w1-2 @7:49.2; ‹how_we_spell› "This is how we spell..." from w1-2 @8:10.3; ‹hunt_q› "Which one has this sound in it?" from w1-7 @18:36.8; ‹swap_make› "Change it to make..." from w1-8 @21:16.2; ‹what_changed› "What changed? Listen here." from w1-8 @21:21.9; ‹swap_pick› "Now pick the new sound." from w1-8 @21:51.4
+- **cut-explanations**: map @7:37.9 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @10:39.4 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @12:42.5 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @14:57.4 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @17:18.7 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @18:21.5 ‹map_hint› "Tap the glowing stone to start your next adventure."
+- **unframed-turn**: tap (w1-wu1 1:48.6): no frame line (tv_ears_frame), no narrated demo, no Ready hold, no hand-over. Opens: "Ninja ears on! Let's listen to some words." · "This is the sun."; fastslow (w1-wu1 1:55.1): no frame line (tv_ts_meet), no narrated demo, no Ready hold. Opens: "Watch me first!" · "I can say a word fast. Sun!"; notice (w1-wu1 2:23.5): no frame line (tv_notice_frame/tv_ears_on), no hand-over. Opens: "Listen to the very first sound." · "Sun and sock start with the same sound..."; tapall (w1-wu1 2:39.0): no frame line (tv_pocket_frame), no narrated demo, no Ready hold, no hand-over. Opens: "This is a sausage." · "This is the moon."; rail (w1-wu2 3:25.7): no frame line (tv_rail_frame), no narrated demo, no Ready hold, no hand-over. Opens: "Ready for the next game? Tap the big arrow!" · "Ninjas read this way!"; which (w1-wu2 3:50.8): no frame line (tv_which_frame), no narrated demo, no Ready hold, no hand-over. Opens: "Fish dog!" · "Watch me first!"
+- **over-framed**: ‹fm_l1_hello› "Ninja ears on! Let's listen to some words." at w1-wu3 @5:13.1, again after w1-wu1 @1:40.5; ‹fm_tap_all_start› "Tap all the pictures that start with..." at w1-wu3 @6:16.8, again after w1-wu1 @2:43.6; ‹first_intro› "Every word starts with a sound. Let's listen for the very first sound!" at w1-3 @10:41.4, again after w1-2 @7:39.9; ‹fm_l2_way› "Ninjas read this way!" at w1-4 @12:59.8, again after w1-wu2 @3:25.9; ‹read_intro› "Who read it right? Listen to Kai and Suki!" at w1-5 @16:40.6, again after w1-4 @14:21.7; ‹read_intro› "Who read it right? Listen to Kai and Suki!" at w1-7 @20:10.5, again after w1-5 @16:40.6
+- **bare-command**: ‹ido› "Watch me first!" ×13; ‹find_q› "Find this sound..." ×6; ‹listen› "Listen..." ×4; ‹fm_you_try› "Now you try!" ×3; ‹fm_show_me_2› "Watch me first!" ×3; ‹battle_spell› "Spell..." ×3
+- **bare-listen**: w2-1 @43:56.8 after dojo_hello: "Listen…" /b/ /b/; w2-1 @44:06.6 after yay_2: "Listen…" /k/ /k/; w2-1 @44:16.2 after yay_10: "Listen…" /g/ /g/; w2-1 @44:26.3 after yay_5: "Listen…" /h/ /h/
+- **talk-before-action**: build (w1-4) 29.9 s from ‹two_sounds› "This word has two sounds!" to ‹first_sound_q› "What's the first sound?"; soundhunt (w1-7) 26.3 s from ‹audit_middle_place› "The middle sound comes after the first sound, and before the last soun" to ‹hunt_q› "Which one has this sound in it?"; firstsound (w1-2) 23.4 s from ‹fs_mug› "Mug starts with..." to ‹first_q› "Which one starts with..."; firstsound (w1-2) 20.5 s from ‹ido› "Watch me first!" to ‹first_q› "Which one starts with..."; fastslow (w1-wu1) 15.5 s from ‹fm_show_me_2› "Watch me first!" to ‹fm_tap_tortoise› "Now you tap the tortoise, and say it slowly with me."; compound (w1-wu2) 15.3 s from ‹fm_pair_cat_dog› "Cat dog!" to ‹fm_starfish_q› "Star... fish. Tap the rabbit, and say them fast."
+- **rhetorical-question**: ‹what_changed› "What changed? Listen here." ×19; ‹jump_offer› "Wow! You got everything right. Is this too easy? You can jump ahead!" ×15; ‹read_intro› "Who read it right? Listen to Kai and Suki!" ×4; ‹read_who› "Who read it right?" ×4; ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time." ×2; ‹t_remember_this› "Do you remember this one?" ×1
+- **shouted-instruction**: ‹ido› "Watch me first!" ×13; ‹read_intro› "Who read it right? Listen to Kai and Suki!" ×4; ‹dojo_tap_say› "Tap it, and say it with me!" ×4; ‹fm_you_try› "Now you try!" ×3; ‹fm_show_me_2› "Watch me first!" ×3; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!" ×3
+- **demo-command**: w1-wu1 @1:49.2 ‹fm_tap_sun› "Tap the sun!" during ‹fm_show_me› "Let me show you!"; w1-wu1 @2:43.6 ‹fm_tap_all_start› "Tap all the pictures that start with..." during ‹fm_show_me› "Let me show you!"; w1-wu3 @5:35.5 ‹fm_slow_listen› "Listen to my slow word..." during ‹fm_show_me_2› "Watch me first!"; w1-wu3 @5:39.7 ‹fm_which_pic› "Which picture is it?" during ‹fm_show_me_2› "Watch me first!"; w1-wu3 @5:58.2 ‹fm_tap_all_in› "Tap all the pictures with this sound in them..." during ‹fm_show_me› "Let me show you!"; w1-2 @7:49.2 ‹first_q› "Which one starts with..." during ‹ido› "Watch me first!"
+- **first-dojo-opening**: w2-1 opens: ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds." · ‹listen› "Listen..." · /b/ · /b/ · ‹audit_spell_it› "And this is how we spell it."
+
+### C-L: playtest/runs/voice/baseline/transcripts/continuous-learner.json
+
+learner, a brand-new child, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 0 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 0 | pass |
+| `letters-twice` no spelling's full letters line twice in a session | 0 (perfect runs only; info here) | 0 sounds | n/a |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 0 | pass |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_1 ×17, world_2 ×2 | **FAIL** |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 13 | **FAIL** |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 0 (day one) | 1 | **FAIL** |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 4 (4 cut) | **FAIL** |
+| `map-hint-cut` map hint cut by the next level | 0 | 17 of 20 | **FAIL** |
+| `over-map` level lines started over the map | 0 | 9 | **FAIL** |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 16 (7 repeats) | **FAIL** |
+| `swap-place-heard` swap place lines heard to the end | all | 1 of 6 | **FAIL** |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 2.45 | **FAIL** |
+| `praise-stacks` praise stacks within 5 s | 0 | 22 | **FAIL** |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 18 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 26 | **FAIL** |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` "You're a ninja master!" before 7 whole answers (proxy) | 0 | 0 of 4 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | 22 of 22 games | **FAIL** |
+| `over-framed` a replay that plays a full frame again | 0 | 17 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 53 said (13 lines) | **FAIL** |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 4 (4 in w2-1); 1 after quiet or before the level's first tap | **FAIL** |
+| `talk-before-action` talk before a child action, first meetings | ≤ 12 s (named runs 12.5 s) | max 29.9 s (build w1-4); 11 over | **FAIL** |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 10 words (median line 4 words; 210 turns) | pass |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 33 said (6 lines) | **FAIL** |
+| `shouted-instruction` instructions that end in "!" | 0 | 58 said (30 lines) | **FAIL** |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 15 | **FAIL** |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | no | **FAIL** |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | n/a | n/a |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+
+- **world-welcomes**: world_1 "Welcome to Bamboo Village!" said 17 times; world_2 "Welcome to Blossom Hills!" said 2 times
+- **did-it-after-praise**: sticker book @13:41.8; reward @15:44.8; reward @18:56.6; reward @21:41.2; reward @24:10.2
+- **jump-offers**: reward @35:10.0
+- **speaker-tip**: w2-1 @54:38.2 cut; w2-1 @54:45.7 cut; w2-1 @54:49.6 cut; w2-1 @54:53.7 cut
+- **map-hint-cut**: map @7:50.7 ‹map_hint› "Tap the glowing stone to start your next adventure." cut; map @10:37.9 ‹map_hint› "Tap the glowing stone to start your next adventure." cut; map @12:31.4 ‹map_hint› "Tap the glowing stone to start your next adventure." cut; map @13:48.3 ‹map_hint› "Tap the glowing stone to start your next adventure." cut; map @17:11.7 ‹map_hint› "Tap the glowing stone to start your next adventure." cut
+- **over-map**: w1-wu3 @5:59.8 ‹fm_l1_hello› "Ninja ears on! Let's listen to some words."; w1-wu5 @10:40.3 ‹fm_l1_hello› "Ninja ears on! Let's listen to some words."; w1-4 @19:37.4 ‹audit_dojo_first› "This is our dojo. Here we listen to sounds, make words, and read them."; w1-5 @21:56.6 ‹three_sounds› "This word has three sounds!"; w1-7 @25:49.8 ‹hunt_intro› "Now let's listen for a sound in the middle of a word!"
+- **how-we-spell**: w1-2 /s/: 2×; w1-3 /a/: 2×; w1-3 /t/: 2×; w1-7 /i/: 2×; w1-10 /n/: 2×; w1-10 /p/: 2×
+- **swap-place-heard**: w1-8 @31:14.0 ‹audit_swap_middle› "Yes, the middle sound changes! Now pick the new sound." cut; w1-8 @31:55.7 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut; w1-12 @44:27.9 ‹audit_swap_middle› "Yes, the middle sound changes! Now pick the new sound." cut; w1-12 @44:42.7 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut; w1-12 @44:55.6 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut
+- **praise-rate**: 140 praise lines in 57.2 min
+- **praise-stacks**: w1-wu1 @3:32.8: "You found them both! They both start with..." → "You can hear the sounds in words. Brilliant listening!"; w1-2 @15:32.6: "Keep going, ninja." → "Amazing!"; w1-2 @15:36.2: "Amazing!" → "Fantastic!"; reward @15:44.8: "You did it!" → "You won back some sounds!"; w1-3 @18:48.5: "Well done." → "Super!"
+- **line-60s**: ‹fm_which_pic› "Which picture is it?" from w1-wu5 @11:01.5; ‹first_q› "Which one starts with..." from w1-2 @13:59.8; ‹how_we_spell› "This is how we spell..." from w1-2 @14:20.4; ‹hunt_q› "Which one has this sound in it?" from w1-7 @26:03.1; ‹swap_make› "Change it to make..." from w1-8 @31:05.5; ‹what_changed› "What changed? Listen here." from w1-8 @31:10.2
+- **cut-explanations**: map @7:50.7 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @10:37.9 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @12:31.4 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @13:48.3 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @17:11.7 ‹map_hint› "Tap the glowing stone to start your next adventure."; map @19:35.3 ‹map_hint› "Tap the glowing stone to start your next adventure."
+- **unframed-turn**: tap (w1-wu1 2:09.8): no frame line (tv_ears_frame), no narrated demo, no Ready hold, no hand-over. Opens: "Ninja ears on! Let's listen to some words." · "This is the sun."; fastslow (w1-wu1 2:21.3): no frame line (tv_ts_meet), no narrated demo, no Ready hold. Opens: "Watch me first!" · "I can say a word fast. Sun!"; notice (w1-wu1 2:46.6): no frame line (tv_notice_frame/tv_ears_on), no hand-over. Opens: "Listen to the very first sound." · "Sun and sock start with the same sound..."; tapall (w1-wu1 3:03.4): no frame line (tv_pocket_frame), no narrated demo, no Ready hold, no hand-over. Opens: "This is a sausage." · "This is the moon."; rail (w1-wu2 4:04.8): no frame line (tv_rail_frame), no narrated demo, no Ready hold, no hand-over. Opens: "Ninjas read this way!" · "This is a fish."; which (w1-wu2 4:35.8): no frame line (tv_which_frame), no narrated demo, no Ready hold, no hand-over. Opens: "Fish dog!" · "Listen. Cat... dog. Which one did I read?"
+- **over-framed**: ‹fm_tap_all_start› "Tap all the pictures that start with..." at w1-wu1 @3:26.5, again after w1-wu1 @3:08.0; ‹fm_l1_hello› "Ninja ears on! Let's listen to some words." at w1-wu3 @5:59.8, again after w1-wu1 @2:01.7; ‹fm_tap_all_in› "Tap all the pictures with this sound in them..." at w1-wu3 @7:08.5, again after w1-wu3 @6:52.2; ‹fm_tap_all_start› "Tap all the pictures that start with..." at w1-wu3 @7:22.6, again after w1-wu1 @3:26.5; ‹fm_l2_way› "Ninjas read this way!" at w1-wu4 @7:53.5, again after w1-wu2 @4:05.0; ‹fm_l2_way› "Ninjas read this way!" at w1-wu4 @9:20.4, again after w1-wu4 @7:53.5
+- **bare-command**: ‹ido› "Watch me first!" ×13; ‹listen_again› "Listen again." ×9; ‹find_q› "Find this sound..." ×8; ‹listen› "Listen..." ×7; ‹fm_you_try› "Now you try!" ×3; ‹fm_tap_sock› "Tap the sock!" ×2
+- **bare-listen**: w2-1 @53:57.6 after dojo_hello: "Listen…" /b/ /b/; w2-1 @54:07.7 after yay_1: "Listen…" /k/ /k/; w2-1 @54:16.1 after yay_10: "Listen…" /g/ /g/; w2-1 @54:25.6 after yay_9: "Listen…" /h/ /h/
+- **talk-before-action**: build (w1-4) 29.9 s from ‹two_sounds› "This word has two sounds!" to ‹first_sound_q› "What's the first sound?"; soundhunt (w1-7) 26.4 s from ‹audit_middle_place› "The middle sound comes after the first sound, and before the last soun" to ‹hunt_q› "Which one has this sound in it?"; firstsound (w1-2) 22.6 s from ‹fs_mop› "Mop starts with..." to ‹first_q› "Which one starts with..."; firstsound (w1-2) 20.6 s from ‹ido› "Watch me first!" to ‹first_q› "Which one starts with..."; fastslow (w1-wu1) 16.2 s from ‹word:sock› "sock" to ‹fm_tap_tortoise› "Now you tap the tortoise, and say it slowly with me."; compound (w1-wu2) 15.2 s from ‹fm_pair_cat_dog› "Cat dog!" to ‹fm_starfish_q› "Star... fish. Tap the rabbit, and say them fast."
+- **rhetorical-question**: ‹what_changed› "What changed? Listen here." ×19; ‹read_who› "Who read it right?" ×6; ‹read_intro› "Who read it right? Listen to Kai and Suki!" ×4; ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time." ×2; ‹audit_made_of_sounds› "Remember? Words are made of sounds!" ×1; ‹jump_offer› "Wow! You got everything right. Is this too easy? You can jump ahead!" ×1
+- **shouted-instruction**: ‹ido› "Watch me first!" ×13; ‹read_intro› "Who read it right? Listen to Kai and Suki!" ×4; ‹dojo_tap_say› "Tap it, and say it with me!" ×4; ‹fm_you_try› "Now you try!" ×3; ‹fm_l2_turn› "Your turn! Tap them the ninja way." ×3; ‹fm_tap_sock› "Tap the sock!" ×2
+- **demo-command**: w1-wu1 @2:10.4 ‹fm_tap_sun› "Tap the sun!" during ‹fm_show_me› "Let me show you!"; w1-wu1 @3:08.0 ‹fm_tap_all_start› "Tap all the pictures that start with..." during ‹fm_show_me› "Let me show you!"; w1-wu3 @6:28.0 ‹fm_slow_listen› "Listen to my slow word..." during ‹fm_show_me_2› "Watch me first!"; w1-wu3 @6:32.3 ‹fm_which_pic› "Which picture is it?" during ‹fm_show_me_2› "Watch me first!"; w1-wu3 @6:52.2 ‹fm_tap_all_in› "Tap all the pictures with this sound in them..." during ‹fm_show_me› "Let me show you!"; w1-2 @13:59.8 ‹first_q› "Which one starts with..." during ‹ido› "Watch me first!"
+- **first-dojo-opening**: w2-1 opens: ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds." · ‹listen› "Listen..." · /b/ · /b/ · ‹audit_spell_it› "And this is how we spell it."
+
+### C5-P: playtest/runs/voice/baseline/transcripts/continuous-perfect-from-w5-1.json
+
+perfect, from w5-1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 23 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 11 | **FAIL** |
+| `letters-twice` no spelling's full letters line twice in a session | 0 | 4 sounds | **FAIL** |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 2 | **FAIL** |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_5 ×10, world_6 ×2 | **FAIL** |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 10 | **FAIL** |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 12 | **FAIL** |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 0 (0 cut) | pass |
+| `map-hint-cut` map hint cut by the next level | 0 | 1 of 2 | **FAIL** |
+| `over-map` level lines started over the map | 0 | 5 | **FAIL** |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 0 of 4 | **FAIL** |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 3.80 | **FAIL** |
+| `praise-stacks` praise stacks within 5 s | 0 | 20 | **FAIL** |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 15 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 5 | **FAIL** |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` "You're a ninja master!" before 7 whole answers (proxy) | 0 | 0 of 1 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | 1 of 1 games | **FAIL** |
+| `over-framed` a replay that plays a full frame again | 0 | 4 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 14 said (2 lines) | **FAIL** |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 11; 3 after quiet or before the level's first tap | **FAIL** |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s (named runs 15 s) | max 14.4 s (sort w6-br1); 0 over | pass |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 7 words (median line 4 words; 134 turns) | **FAIL** |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 14 said (2 lines) | **FAIL** |
+| `shouted-instruction` instructions that end in "!" | 0 | 19 said (6 lines) | **FAIL** |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | n/a | n/a |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+
+- **letters-60s**: w5-1 @0:32.3 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-1 @0:45.4 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-2 @3:52.7 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-3 @5:37.7 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-3 @5:54.5 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-3 @6:46.4 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s
+- **letters-twice**: /sh/: 4× (w5-1 0:19.8, world flower 3:03.9, w5-2 3:52.7, w5-7 16:52.6); /ch/: 5× (w5-1 0:32.3, w5-5 10:14.2, w5-6 13:37.5, w5-7 16:38.7, w5-9 19:32.2); /ng/: 4× (w5-3 5:37.7, w5-6 14:54.9, w5-8 18:08.2, w5-8 18:22.4); /k/: 3× (world flower 7:45.6, w5-4 8:39.7, w5-11 23:07.3)
+- **same-sound-after-reveal**: w5-3 @5:18.2 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w5-6 @12:46.6 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"
+- **world-welcomes**: world_5 "Welcome to Shadow Castle. Don't worry, I'm right beside you." said 10 times; world_6 "Welcome to the Sky Temple! Baron Muddle is hiding up here somewhere!" said 2 times
+- **did-it-after-praise**: reward @2:38.3; reward @4:52.5; reward @7:18.3; reward @9:34.1; reward @15:02.8
+- **jump-offers**: reward @2:46.7; reward @4:57.0; reward @7:27.3; reward @9:42.4; reward @12:27.8
+- **map-hint-cut**: map @0:04.3 ‹map_hint› "Tap the glowing stone to start your next adventure." cut
+- **over-map**: w5-1 @0:05.0 ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some"; w5-4 @8:22.7 ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so"; w5-6 @12:37.8 ‹audit_dojo_back› "Back to the dojo! Let's learn some new sounds."; w5-8 @17:50.2 ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so"; w5-10 @20:46.1 ‹story_start› "Story time! I'll read, and you read too."
+- **swap-place-heard**: w5-4 @8:36.1 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut; w5-4 @8:48.8 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut; w5-8 @18:03.6 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut; w5-8 @18:18.0 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut
+- **praise-rate**: 101 praise lines in 26.6 min
+- **praise-stacks**: w5-1 @1:10.7: "Ace!" → "Brilliant!"; w5-1 @1:13.7: "Brilliant!" → "Ninja power!"; w5-1 @1:17.6: "Ninja power!" → "Smashing!"; w5-1 @1:21.3: "Smashing!" → "Well done."; w5-1 @2:33.1: "Amazing!" → "Well done! You practised so hard!"
+- **line-60s**: ‹listen› "Listen..." from w5-1 @0:10.6; ‹t_two_letters› "It's two letters, but it's one sound." from w5-1 @0:19.8; ‹dojo_tap_say› "Tap it, and say it with me!" from w5-1 @0:23.0; ‹audit_spell_it› "And this is how we spell it." from w5-1 @0:29.9; ‹dojo_find› "Can you find..." from w5-1 @1:11.5; ‹t_way_we_spell› "This is the way we spell..." from world flower @3:00.4
+- **cut-explanations**: map @0:04.3 ‹map_hint› "Tap the glowing stone to start your next adventure."; w5-4 @8:36.1 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound."; w5-4 @8:48.8 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound."; w5-8 @18:03.6 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound."; w5-8 @18:18.0 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound."
+- **unframed-turn**: sort (w6-br1 25:11.4): no narrated demo, no Ready hold. Opens: "You know this sound! Now let's look at the differe" · "Sorting time! These words have the same sound, but"
+- **over-framed**: ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some" at w5-3 @5:07.1, again after w5-1 @0:05.0; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words t" at w5-7 @16:23.5, again after w5-2 @3:36.7; ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so" at w5-8 @17:50.2, again after w5-4 @8:22.7; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words t" at w5-9 @19:17.0, again after w5-7 @16:23.5
+- **bare-command**: ‹listen› "Listen..." ×11; ‹battle_spell› "Spell..." ×3
+- **bare-listen**: w5-1 @0:10.6 after dojo_hello: "Listen…" /sh/; w5-1 @0:26.7 after yay_2: "Listen…" /ch/ /ch/; w5-1 @0:39.0 after yay_10: "Listen…" /th/ /th/; w5-1 @0:53.6 after yay_3: "Listen…" /dh/ /dh/; w5-3 @5:12.7 after dojo_hello: "Listen…" /k/ /k/; w5-3 @5:31.3 after yay_9: "Listen…" /ng/ /ng/
+- **turn-median**: turns under 8 words: 77 of 134
+- **rhetorical-question**: ‹jump_offer› "Wow! You got everything right. Is this too easy? You can jump ahead!" ×12; ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time." ×2
+- **shouted-instruction**: ‹dojo_tap_say› "Tap it, and say it with me!" ×11; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!" ×3; ‹audit_sounds_again› "Listen to the sounds, and catch the word they make!" ×2; ‹audit_gem_first› "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up." ×1; ‹run_start› "Ninja Run! Tap to jump, and catch the right word!" ×1; ‹battle_boss› "A big boss monster! Listen carefully, and spell your best!" ×1
+
+### C5-L: playtest/runs/voice/baseline/transcripts/continuous-learner-from-w5-1.json
+
+learner, from w5-1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 22 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 9 | **FAIL** |
+| `letters-twice` no spelling's full letters line twice in a session | 0 (perfect runs only; info here) | 6 sounds | n/a |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 2 | **FAIL** |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_5 ×10, world_6 ×2 | **FAIL** |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 10 | **FAIL** |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 0 | pass |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 10 (10 cut) | **FAIL** |
+| `map-hint-cut` map hint cut by the next level | 0 | 1 of 2 | **FAIL** |
+| `over-map` level lines started over the map | 0 | 4 | **FAIL** |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 0 of 6 | **FAIL** |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 3.41 | **FAIL** |
+| `praise-stacks` praise stacks within 5 s | 0 | 20 | **FAIL** |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 13 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 17 | **FAIL** |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` "You're a ninja master!" before 7 whole answers (proxy) | 0 | 0 of 2 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | 1 of 1 games | **FAIL** |
+| `over-framed` a replay that plays a full frame again | 0 | 4 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 22 said (2 lines) | **FAIL** |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 12; 4 after quiet or before the level's first tap | **FAIL** |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s (named runs 15 s) | max 14.5 s (sort w6-br1); 0 over | pass |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 7 words (median line 5 words; 155 turns) | **FAIL** |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 2 said (1 lines) | **FAIL** |
+| `shouted-instruction` instructions that end in "!" | 0 | 19 said (6 lines) | **FAIL** |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | n/a | n/a |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+
+- **letters-60s**: w5-1 @0:32.9 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-1 @0:46.0 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-3 @7:07.9 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-3 @7:24.3 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-4 @11:31.6 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-5 @13:36.9 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s
+- **same-sound-after-reveal**: w5-3 @6:46.3 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w5-6 @15:17.2 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"
+- **world-welcomes**: world_5 "Welcome to Shadow Castle. Don't worry, I'm right beside you." said 10 times; world_6 "Welcome to the Sky Temple! Baron Muddle is hiding up here somewhere!" said 2 times
+- **did-it-after-praise**: reward @3:33.0; reward @6:24.2; reward @9:53.1; reward @12:17.6; reward @18:34.7
+- **speaker-tip**: w5-1 @1:14.8 cut; w5-1 @1:18.9 cut; w5-1 @1:24.4 cut; w5-3 @7:33.6 cut; w5-3 @7:42.0 cut
+- **map-hint-cut**: map @0:04.4 ‹map_hint› "Tap the glowing stone to start your next adventure." cut
+- **over-map**: w5-1 @0:05.0 ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some"; w5-4 @11:00.6 ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so"; w5-8 @22:20.1 ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so"; w5-10 @25:54.5 ‹story_start› "Story time! I'll read, and you read too."
+- **swap-place-heard**: w5-4 @11:13.2 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut; w5-4 @11:27.0 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut; w5-4 @11:43.8 ‹audit_swap_middle› "Yes, the middle sound changes! Now pick the new sound." cut; w5-8 @22:34.3 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut; w5-8 @22:47.7 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut
+- **praise-rate**: 112 praise lines in 32.8 min
+- **praise-stacks**: w5-1 @1:16.1: "Super!" → "Ninja power!"; w5-1 @1:21.0: "Ninja power!" → "Keep going, ninja."; w5-1 @1:25.1: "Keep going, ninja." → "Amazing!"; w5-1 @1:29.3: "Amazing!" → "Smashing!"; w5-1 @3:27.9: "Brilliant!" → "Well done! You practised so hard!"
+- **line-60s**: ‹listen› "Listen..." from w5-1 @0:10.6; ‹t_two_letters› "It's two letters, but it's one sound." from w5-1 @0:19.8; ‹dojo_tap_say› "Tap it, and say it with me!" from w5-1 @0:23.0; ‹audit_spell_it› "And this is how we spell it." from w5-1 @0:30.5; ‹dojo_find› "Can you find..." from w5-1 @1:12.3; ‹tut_speaker› "Tap the speaker to hear the sound again." from w5-1 @1:14.8
+- **cut-explanations**: map @0:04.4 ‹map_hint› "Tap the glowing stone to start your next adventure."; w5-1 @1:14.8 ‹tut_speaker› "Tap the speaker to hear the sound again."; w5-1 @1:18.9 ‹tut_speaker› "Tap the speaker to hear the sound again."; w5-1 @1:24.4 ‹tut_speaker› "Tap the speaker to hear the sound again."; w5-3 @7:33.6 ‹tut_speaker› "Tap the speaker to hear the sound again."; w5-3 @7:42.0 ‹tut_speaker› "Tap the speaker to hear the sound again."
+- **unframed-turn**: sort (w6-br1 31:21.9): no narrated demo, no Ready hold. Opens: "You know this sound! Now let's look at the differe" · "Sorting time! These words have the same sound, but"
+- **over-framed**: ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some" at w5-3 @6:35.2, again after w5-1 @0:05.0; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words t" at w5-7 @19:59.9, again after w5-2 @4:34.1; ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so" at w5-8 @22:20.1, again after w5-4 @11:00.6; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words t" at w5-9 @23:53.1, again after w5-7 @19:59.9
+- **bare-command**: ‹listen› "Listen..." ×19; ‹battle_spell› "Spell..." ×3
+- **bare-listen**: w5-1 @0:10.6 after dojo_hello: "Listen…" /sh/; w5-1 @0:27.3 after yay_3: "Listen…" /ch/ /ch/; w5-1 @0:39.6 after yay_1: "Listen…" /th/ /th/; w5-1 @0:53.0 after yay_10: "Listen…" /dh/ /dh/; w5-3 @6:40.8 after dojo_hello: "Listen…" /k/ /k/; w5-3 @7:01.4 after streak_3: "Listen…" /ng/ /ng/
+- **turn-median**: turns under 8 words: 84 of 155
+- **rhetorical-question**: ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time." ×2
+- **shouted-instruction**: ‹dojo_tap_say› "Tap it, and say it with me!" ×11; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!" ×3; ‹audit_sounds_again› "Listen to the sounds, and catch the word they make!" ×2; ‹audit_gem_first› "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up." ×1; ‹run_start› "Ninja Run! Tap to jump, and catch the right word!" ×1; ‹battle_boss› "A big boss monster! Listen carefully, and spell your best!" ×1
+
+### C6-P: playtest/runs/voice/baseline/transcripts/continuous-perfect-from-w6-br1.json
+
+perfect, from w6-br1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 | 35 | **FAIL** |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 22 | **FAIL** |
+| `letters-twice` no spelling's full letters line twice in a session | 0 | 7 sounds | **FAIL** |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 3 | **FAIL** |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 4 | **FAIL** |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_6 ×13 | **FAIL** |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 12 | **FAIL** |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 1 | pass |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 0 (0 cut) | pass |
+| `map-hint-cut` map hint cut by the next level | 0 | 1 of 2 | **FAIL** |
+| `over-map` level lines started over the map | 0 | 6 | **FAIL** |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 0 said | n/a |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 3.34 | **FAIL** |
+| `praise-stacks` praise stacks within 5 s | 0 | 17 | **FAIL** |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 4 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 1 | **FAIL** |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` "You're a ninja master!" before 7 whole answers (proxy) | 0 | 0 of 1 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | 1 of 1 games | **FAIL** |
+| `over-framed` a replay that plays a full frame again | 0 | 1 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 9 said (2 lines) | **FAIL** |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 8; 4 after quiet or before the level's first tap | **FAIL** |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s (named runs 15 s) | max 17.5 s (sort w6-br1); 1 over | **FAIL** |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 7 words (median line 6 words; 106 turns) | **FAIL** |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 2 said (2 lines) | **FAIL** |
+| `shouted-instruction` instructions that end in "!" | 0 | 13 said (6 lines) | **FAIL** |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | n/a | n/a |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+
+- **letters-lines**: w6-br1 @0:20.0 ‹t_two_letters› "It's two letters, but it's one sound."; w6-br2 @1:51.2 ‹t_two_letters› "It's two letters, but it's one sound."; w6-br2 @1:55.2 ‹t_three_letters› "It's three letters, but it's just one sound."; w6-1 @3:13.4 ‹t_two_letters› "It's two letters, but it's one sound."; w6-1 @3:33.8 ‹t_two_letters› "It's two letters, but it's one sound."; world flower @4:59.8 ‹t_two_letters› "It's two letters, but it's one sound."
+- **letters-60s**: w6-1 @3:33.8 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; world flower @5:19.2 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w6-2 @5:45.4 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w6-2 @5:49.6 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w6-3 @7:33.3 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w6-3 @8:08.7 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s
+- **letters-twice**: /k/: 3× (w6-br1 0:20.0, w6-3 8:08.7, w6-6 13:43.0); /ch/: 3× (w6-br2 1:51.2, w6-br2 1:55.2, w6-6 14:17.2); /ae/: 6× (w6-1 3:13.4, world flower 4:59.8, world flower 5:19.2, w6-2 5:45.4, w6-2 5:49.6, w6-ec11 18:24.6); ?/: 4× (w6-1 3:33.8, w6-3 7:33.3, w6-6 13:10.5, w6-ec11 17:16.1); /ee/: 6× (w6-3 7:12.7, world flower 9:09.4, world flower 9:28.9, w6-4 9:55.2, w6-4 9:59.6, w6-ec11 17:49.2); /oe/: 5× (w6-6 12:50.0, world flower 14:42.4, world flower 15:03.0, w6-8 15:29.7, w6-8 15:34.0)
+- **letters-echo**: level w6-2 @5:41.6 (one breath): This sound can be spelt in two ways. /ae/ It's two letters, but it's one sound. /ae/ It's two letters, but it's one sound. Tap the chest with the same spelling as the word. "day"; level w6-4 @9:47.5 (one breath): Sorting time! Same sound, different spellings. This sound can be spelt in two ways. /ee/ It's two letters, but it's one sound. /ee/ It's two letters, but it's one sound. Tap the chest wit; level w6-8 @15:25.8 (one breath): This sound can be spelt in two ways. /oe/ It's two letters, but it's one sound. /oe/ It's two letters, but it's one sound. Tap the chest with the same spelling as the word. "soap"
+- **same-sound-after-reveal**: w6-1 @3:27.0 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w6-3 @7:26.4 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w6-6 @13:03.7 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w6-ec11 @17:09.2 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"
+- **world-welcomes**: world_6 "Welcome to the Sky Temple! Baron Muddle is hiding up here somewhere!" said 13 times
+- **did-it-after-praise**: reward @1:25.0; reward @2:48.3; reward @4:42.6; reward @6:45.3; reward @8:48.6
+- **map-hint-cut**: map @0:04.4 ‹map_hint› "Tap the glowing stone to start your next adventure." cut
+- **over-map**: w6-1 @2:58.9 ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some"; w6-2 @5:37.8 ‹audit_sort_again› "Sorting time! Same sound, different spellings."; w6-6 @12:39.8 ‹audit_dojo_back› "Back to the dojo! Let's learn some new sounds."; w6-8 @15:22.0 ‹audit_sort_again› "Sorting time! Same sound, different spellings."; w6-7 @19:34.5 ‹audit_sort_again› "Sorting time! Same sound, different spellings."
+- **praise-rate**: 83 praise lines in 24.8 min
+- **praise-stacks**: w6-1 @3:39.6: "Amazing!" → "Brilliant!"; w6-1 @3:43.1: "Brilliant!" → "Ace!"; w6-1 @4:37.4: "Amazing!" → "Well done! You practised so hard!"; reward @4:42.6: "You did it!" → "You won back some sounds!"; w6-3 @7:40.4: "Super!" → "Ace!"
+- **line-60s**: ‹yay_5› "Amazing!" from w6-1 @3:39.6; ‹t_two_letters› "It's two letters, but it's one sound." from world flower @4:59.8; ‹story_your_turn› "Your turn to read." from w6-10 @23:39.3; ‹well_read› "Well read!" from w6-10 @23:39.9
+- **cut-explanations**: map @0:04.4 ‹map_hint› "Tap the glowing stone to start your next adventure."
+- **unframed-turn**: sort (w6-br1 0:05.6): no narrated demo, no Ready hold. Opens: "Tap the glowing stone to start your next adventure" · "You know this sound! Now let's look at the differe"
+- **over-framed**: ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some" at w6-3 @7:00.1, again after w6-1 @2:58.9
+- **bare-command**: ‹listen› "Listen..." ×8; ‹battle_spell› "Spell..." ×1
+- **bare-listen**: w6-1 @3:04.6 after dojo_hello: "Listen…" /ae/ /ae/; w6-1 @3:20.5 after yay_4: "Listen…" /ae/ /ae/; w6-3 @7:05.7 after dojo_hello: "Listen…" /ee/; w6-3 @7:19.4 after yay_10: "Listen…" /ee/; w6-6 @12:43.2 after audit_dojo_back: "Listen…" /oe/; w6-6 @12:57.0 after yay_10: "Listen…" /oe/
+- **talk-before-action**: sort (w6-br1) 17.5 s from ‹audit_bridging_first› "You know this sound! Now let's look at the different ways we spell it." to ‹help_sort› "Tap the chest with the same spelling as the word."
+- **turn-median**: turns under 8 words: 59 of 106
+- **rhetorical-question**: ‹jump_offer› "Wow! You got everything right. Is this too easy? You can jump ahead!" ×1; ‹story:s6_3› "Why are you so grumpy, Baron? asked Super Ninja. The Baron sniffed. Nobody ever reads ME a story..." ×1
+- **shouted-instruction**: ‹dojo_tap_say› "Tap it, and say it with me!" ×8; ‹audit_gem_first› "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up." ×1; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!" ×1; ‹t_everyone_say› "Say that sound with me!" ×1; ‹run_start› "Ninja Run! Tap to jump, and catch the right word!" ×1; ‹audit_sounds_again› "Listen to the sounds, and catch the word they make!" ×1
+
+### C6-L: playtest/runs/voice/baseline/transcripts/continuous-learner-from-w6-br1.json
+
+learner, from w6-br1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 33 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 18 | **FAIL** |
+| `letters-twice` no spelling's full letters line twice in a session | 0 (perfect runs only; info here) | 7 sounds | n/a |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 2 | **FAIL** |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 4 | **FAIL** |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_6 ×13 | **FAIL** |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 12 | **FAIL** |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 1 | pass |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 8 (8 cut) | **FAIL** |
+| `map-hint-cut` map hint cut by the next level | 0 | 1 of 2 | **FAIL** |
+| `over-map` level lines started over the map | 0 | 7 | **FAIL** |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 0 said | n/a |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 3.26 | **FAIL** |
+| `praise-stacks` praise stacks within 5 s | 0 | 20 | **FAIL** |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 3 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 9 | **FAIL** |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` "You're a ninja master!" before 7 whole answers (proxy) | 0 | 0 of 5 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | 1 of 1 games | **FAIL** |
+| `over-framed` a replay that plays a full frame again | 0 | 1 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 12 said (2 lines) | **FAIL** |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 8; 4 after quiet or before the level's first tap | **FAIL** |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s (named runs 15 s) | max 17.6 s (sort w6-br1); 1 over | **FAIL** |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 7 words (median line 7 words; 121 turns) | **FAIL** |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 2 said (2 lines) | **FAIL** |
+| `shouted-instruction` instructions that end in "!" | 0 | 13 said (6 lines) | **FAIL** |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | n/a | n/a |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+
+- **letters-60s**: w6-1 @3:58.8 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; world flower @6:43.5 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w6-2 @7:14.3 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w6-2 @7:18.5 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w6-3 @9:12.4 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; world flower @11:50.6 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s
+- **letters-echo**: level w6-2 @7:10.5 (one breath): This sound can be spelt in two ways. /ae/ It's two letters, but it's one sound. /ae/ It's two letters, but it's one sound. Tap the chest with the same spelling as the word. "nail"; level w6-4 @12:13.6 (one breath): Sorting time! Same sound, different spellings. This sound can be spelt in two ways. /ee/ It's two letters, but it's one sound. /ee/ It's two letters, but it's one sound. Tap the chest wi
+- **same-sound-after-reveal**: w6-1 @3:52.0 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w6-3 @9:05.5 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w6-6 @16:39.8 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w6-ec11 @21:55.7 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"
+- **world-welcomes**: world_6 "Welcome to the Sky Temple! Baron Muddle is hiding up here somewhere!" said 13 times
+- **did-it-after-praise**: reward @1:37.1; reward @3:12.0; reward @6:03.1; reward @8:23.8; reward @11:09.2
+- **speaker-tip**: w6-1 @4:08.2 cut; w6-1 @4:13.1 cut; w6-3 @9:22.3 cut; w6-3 @9:27.7 cut; w6-6 @16:57.0 cut
+- **map-hint-cut**: map @0:04.3 ‹map_hint› "Tap the glowing stone to start your next adventure." cut
+- **over-map**: w6-1 @3:23.7 ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some"; w6-2 @7:06.7 ‹audit_sort_again› "Sorting time! Same sound, different spellings."; w6-3 @8:35.7 ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some"; w6-5 @13:52.3 ‹audit_baron_first› "Baron Muddle hid the sounds. Let's win them back from his monsters."; w6-6 @16:15.0 ‹audit_dojo_back› "Back to the dojo! Let's learn some new sounds."
+- **praise-rate**: 99 praise lines in 30.3 min
+- **praise-stacks**: w6-br2 @3:06.0: "Amazing! You're a ninja master!" → "Sorted! What a clever ninja."; w6-1 @4:04.8: "Fantastic!" → "Amazing!"; w6-1 @4:09.6: "Amazing!" → "Super!"; w6-1 @4:14.2: "Super!" → "Keep going, ninja."; w6-1 @5:58.5: "Super!" → "Well done! You practised so hard!"
+- **line-60s**: ‹t_two_letters› "It's two letters, but it's one sound." from world flower @6:20.7; ‹story_your_turn› "Your turn to read." from w6-10 @29:07.2; ‹well_read› "Well read!" from w6-10 @29:07.8
+- **cut-explanations**: map @0:04.3 ‹map_hint› "Tap the glowing stone to start your next adventure."; w6-1 @4:08.2 ‹tut_speaker› "Tap the speaker to hear the sound again."; w6-1 @4:13.1 ‹tut_speaker› "Tap the speaker to hear the sound again."; w6-3 @9:22.3 ‹tut_speaker› "Tap the speaker to hear the sound again."; w6-3 @9:27.7 ‹tut_speaker› "Tap the speaker to hear the sound again."; w6-6 @16:57.0 ‹tut_speaker› "Tap the speaker to hear the sound again."
+- **unframed-turn**: sort (w6-br1 0:05.6): no narrated demo, no Ready hold. Opens: "Tap the glowing stone to start your next adventure" · "You know this sound! Now let's look at the differe"
+- **over-framed**: ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some" at w6-3 @8:35.7, again after w6-1 @3:23.7
+- **bare-command**: ‹listen› "Listen..." ×11; ‹battle_spell› "Spell..." ×1
+- **bare-listen**: w6-1 @3:29.3 after dojo_hello: "Listen…" /ae/ /ae/; w6-1 @3:45.5 after yay_1: "Listen…" /ae/ /ae/; w6-3 @8:41.3 after dojo_hello: "Listen…" /ee/; w6-3 @8:58.6 after streak_10: "Listen…" /ee/; w6-6 @16:18.4 after audit_dojo_back: "Listen…" /oe/; w6-6 @16:33.0 after yay_10: "Listen…" /oe/
+- **talk-before-action**: sort (w6-br1) 17.6 s from ‹audit_bridging_first› "You know this sound! Now let's look at the different ways we spell it." to ‹help_sort› "Tap the chest with the same spelling as the word."
+- **turn-median**: turns under 8 words: 70 of 121
+- **rhetorical-question**: ‹jump_offer› "Wow! You got everything right. Is this too easy? You can jump ahead!" ×1; ‹story:s6_3› "Why are you so grumpy, Baron? asked Super Ninja. The Baron sniffed. Nobody ever reads ME a story..." ×1
+- **shouted-instruction**: ‹dojo_tap_say› "Tap it, and say it with me!" ×8; ‹audit_gem_first› "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up." ×1; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!" ×1; ‹t_everyone_say› "Say that sound with me!" ×1; ‹run_start› "Ninja Run! Tap to jump, and catch the right word!" ×1; ‹audit_sounds_again› "Listen to the sounds, and catch the word they make!" ×1
+
+### C5-S: playtest/runs/voice/baseline/transcripts/continuous-splitter-from-w5-1.json
+
+splitter, from w5-1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 20 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 8 | **FAIL** |
+| `letters-twice` no spelling's full letters line twice in a session | 0 (perfect runs only; info here) | 6 sounds | n/a |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 2 | **FAIL** |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_5 ×8 | **FAIL** |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 7 | **FAIL** |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 4 | **FAIL** |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 10 (10 cut) | **FAIL** |
+| `map-hint-cut` map hint cut by the next level | 0 | 1 of 2 | **FAIL** |
+| `over-map` level lines started over the map | 0 | 4 | **FAIL** |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 0 of 6 | **FAIL** |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 3.96 | **FAIL** |
+| `praise-stacks` praise stacks within 5 s | 0 | 18 | **FAIL** |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 12 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 17 | **FAIL** |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | 0 of 4 (0%) | **FAIL** |
+| `master-early` "You're a ninja master!" before 7 whole answers (proxy) | 0 | 0 of 1 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | n/a | n/a |
+| `over-framed` a replay that plays a full frame again | 0 | 3 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 13 said (2 lines) | **FAIL** |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 11; 3 after quiet or before the level's first tap | **FAIL** |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s | n/a | n/a |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 8 words (median line 4 words; 105 turns) | pass |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 6 said (2 lines) | **FAIL** |
+| `shouted-instruction` instructions that end in "!" | 0 | 17 said (5 lines) | **FAIL** |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | n/a | n/a |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+
+- **letters-60s**: w5-1 @0:33.1 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-1 @0:46.2 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-2 @5:27.5 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-3 @6:57.0 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-3 @7:13.7 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-4 @11:04.0 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s
+- **same-sound-after-reveal**: w5-3 @6:33.6 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"; w5-6 @14:26.3 ‹same_sound_new› "Ooh! You already know this sound. Here's another way to spell it! Same"
+- **world-welcomes**: world_5 "Welcome to Shadow Castle. Don't worry, I'm right beside you." said 8 times
+- **did-it-after-praise**: level w5-1 @3:18.1; reward @6:11.3; reward @9:06.8; reward @11:20.6; reward @17:08.5
+- **jump-offers**: reward @14:05.9; reward @17:17.3; reward @20:22.6; reward @21:46.6
+- **speaker-tip**: w5-1 @1:14.3 cut; w5-1 @1:19.3 cut; w5-1 @1:24.9 cut; w5-3 @7:23.3 cut; w5-3 @7:27.8 cut
+- **map-hint-cut**: map @0:04.3 ‹map_hint› "Tap the glowing stone to start your next adventure." cut
+- **over-map**: w5-1 @0:05.0 ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some"; w5-4 @10:12.5 ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so"; w5-6 @14:17.4 ‹audit_dojo_back› "Back to the dojo! Let's learn some new sounds."; w5-8 @20:34.5 ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so"
+- **swap-place-heard**: w5-4 @10:25.3 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut; w5-4 @10:39.4 ‹audit_swap_middle› "Yes, the middle sound changes! Now pick the new sound." cut; w5-4 @10:59.9 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut; w5-8 @20:47.2 ‹audit_swap_first› "Yes, the first sound changes! Now pick the new sound." cut; w5-8 @21:01.2 ‹audit_swap_last› "Yes, the last sound changes! Now pick the new sound." cut
+- **praise-rate**: 87 praise lines in 22.0 min
+- **praise-stacks**: w5-1 @1:21.5: "Ninja power!" → "Smashing!"; w5-1 @1:26.2: "Smashing!" → "Super!"; w5-1 @2:31.1: "Ninja power!" → "Brilliant!"; w5-1 @3:08.6: "Ninja power!" → "Brilliant!"; w5-1 @3:12.9: "Brilliant!" → "Well done! You practised so hard!"
+- **line-60s**: ‹listen› "Listen..." from w5-1 @0:10.6; ‹t_two_letters› "It's two letters, but it's one sound." from w5-1 @0:19.9; ‹dojo_tap_say› "Tap it, and say it with me!" from w5-1 @0:23.1; ‹audit_spell_it› "And this is how we spell it." from w5-1 @0:30.7; ‹dojo_find› "Can you find..." from w5-1 @1:11.8; ‹tut_speaker› "Tap the speaker to hear the sound again." from w5-1 @1:14.3
+- **cut-explanations**: map @0:04.3 ‹map_hint› "Tap the glowing stone to start your next adventure."; w5-1 @1:14.3 ‹tut_speaker› "Tap the speaker to hear the sound again."; w5-1 @1:19.3 ‹tut_speaker› "Tap the speaker to hear the sound again."; w5-1 @1:24.9 ‹tut_speaker› "Tap the speaker to hear the sound again."; w5-3 @7:23.3 ‹tut_speaker› "Tap the speaker to hear the sound again."; w5-3 @7:27.8 ‹tut_speaker› "Tap the speaker to hear the sound again."
+- **split-correction**: w5-1 @2:09.1 tapped < s > for < sh >: then "Listen again... What do you hear here?"; w5-1 @2:46.0 tapped < s > for < sh >: then "Let's listen again. What sound comes next?"; w5-2 @4:27.8 tapped < h > for < ch >: then "Keep going, ninja." · "Listen again... What do you hear here?"; w5-2 @5:08.4 tapped < s > for < sh >: then "Keep going, ninja." · "Let's listen again. What sound comes next?"
+- **over-framed**: ‹dojo_hello› "This is the dojo. A dojo is where ninjas practise! Let's practise some" at w5-3 @6:22.5, again after w5-1 @0:05.0; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words t" at w5-7 @18:44.8, again after w5-2 @4:20.5; ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one so" at w5-8 @20:34.5, again after w5-4 @10:12.5
+- **bare-command**: ‹listen› "Listen..." ×11; ‹battle_spell› "Spell..." ×2
+- **bare-listen**: w5-1 @0:10.6 after dojo_hello: "Listen…" /sh/; w5-1 @0:27.5 after yay_5: "Listen…" /ch/ /ch/; w5-1 @0:39.7 after yay_2: "Listen…" /th/ /th/; w5-1 @0:53.6 after yay_4: "Listen…" /dh/ /dh/; w5-3 @6:28.2 after dojo_hello: "Listen…" /k/ /k/; w5-3 @6:50.6 after streak_10: "Listen…" /ng/
+- **rhetorical-question**: ‹jump_offer› "Wow! You got everything right. Is this too easy? You can jump ahead!" ×4; ‹swap_start› "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time." ×2
+- **shouted-instruction**: ‹dojo_tap_say› "Tap it, and say it with me!" ×11; ‹battle_start› "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!" ×2; ‹audit_sounds_again› "Listen to the sounds, and catch the word they make!" ×2; ‹audit_gem_first› "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up." ×1; ‹run_start› "Ninja Run! Tap to jump, and catch the right word!" ×1
+
+### Recordings
+
+| `fast-line` new sentence lines faster than 3.3 words a second | 0 | n/a | n/a |
+
+- 385 tv_ lines in lines.ts, none recorded yet (no durations)
+
+
+28 metrics failed: world-welcomes, did-it-after-praise, jump-offers, map-hint-cut, over-map, how-we-spell, swap-place-heard, praise-rate, praise-stacks, line-60s, cut-explanations, unframed-turn, over-framed, bare-command, bare-listen, talk-before-action, rhetorical-question, shouted-instruction, demo-command, first-dojo-opening, speaker-tip, letters-60s, letters-twice, same-sound-after-reveal, turn-median, letters-lines, letters-echo, split-correction

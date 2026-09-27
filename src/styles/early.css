@@ -168,7 +168,9 @@
 .early .reader-window img.pose-cheer { top: 11%; width: 124%; }
 .early .reader-window img.pose-think { top: 5%; }
 .early .reader[data-who="kai"] .reader-window img.pose-think { translate: -46% 0; }
-.early .reader-book { position: absolute; z-index: 2; left: 50%; bottom: 0; width: 176px; translate: -50% 0; overflow: visible; filter: drop-shadow(0 5px 0 var(--ink)); }
+.early .reader-book { position: absolute; z-index: 2; left: 50%; bottom: 0; width: 176px; translate: -50% 0; }
+/* (the book bobs on its HTML wrapper, which the compositor moves; the SVG and its shadow stay still inside it) */
+.early .reader-book svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 5px 0 var(--ink)); }
 .reader-book .cover { fill: #d94a3a; stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; }
 .early .reader[data-who="suki"] .reader-book .cover { fill: #2ea89c; }
 .reader-book .page { fill: #fffaf0; stroke: var(--ink); stroke-width: 4; stroke-linejoin: round; }
@@ -181,13 +183,16 @@
 @keyframes early-book { from { rotate: -3deg; } to { rotate: 3deg; translate: -50% -4px; } }
 /* the waves come off the outer side of each window (left reader: to the left), never into the gap between them */
 .early .reader-waves {
-  position: absolute; z-index: 3; left: calc(100% + 6px); top: 40px; width: 64px; height: 88px; overflow: visible;
-  fill: none; stroke: #ffc53d; stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 2px 0 #2b1d14);
+  position: absolute; z-index: 3; left: calc(100% + 6px); top: 40px; width: 64px; height: 88px;
+  fill: none; stroke: #ffc53d; stroke-width: 7; stroke-linecap: round;
 }
 .early .readers .reader:first-child .reader-waves { left: auto; right: calc(100% + 6px); scale: -1 1; }
-.early .reader-waves path { animation: wave 0.9s ease-out infinite; opacity: 0; }
-.early .reader-waves path:nth-child(2) { animation-delay: 0.15s; }
-.early .reader-waves path:nth-child(3) { animation-delay: 0.3s; }
+/* each arc fades in and out on its own HTML wrapper (Early.tsx ReaderWaves): the compositor runs it */
+.early .reader-waves i { position: absolute; inset: 0; opacity: 0; animation: early-wave 0.9s ease-out infinite; }
+.early .reader-waves i:nth-child(2) { animation-delay: 0.15s; }
+.early .reader-waves i:nth-child(3) { animation-delay: 0.3s; }
+.early .reader-waves svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 2px 0 #2b1d14); }
+@keyframes early-wave { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
 
 /* the right reader: green glow and a happy bounce; the wrong one: a shake */
 .early .reader.right { animation: early-right 0.6s cubic-bezier(0.3, 1.6, 0.5, 1); }

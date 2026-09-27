@@ -149,6 +149,29 @@ function cached(key: string, make: () => HTMLCanvasElement) {
   if (!c) tex.set(key, (c = make()));
   return c;
 }
+/** Let go of every baked texture (the run is over): about 12 MB of canvases would otherwise stay for the session. */
+function dropTextures() {
+  for (const c of tex.values()) c.width = c.height = 0; // (frees the backing store now, not at the next GC)
+  tex.clear();
+}
+/** Only a soft glow, baked once: the shape drawn far off the canvas with its shadow thrown back onto it (a live
+ *  shadowBlur every frame is slow on phones). `draw` fills the shape in local units, centred on (0, 0) within ±r. The
+ *  caller draws the shape itself over it, as the canvas draws a shadow under its shape. `k` = local units → texture px. */
+function glowOnly(key: string, r: { w: number; h: number }, blur: number, colour: string, k: number, draw: (g: CanvasRenderingContext2D) => void) {
+  return cached(`glow|${key}`, () => {
+    const pad = blur * 1.6;
+    const c = mkCanvas((r.w + pad * 2) * k, (r.h + pad * 2) * k);
+    const g = c.getContext("2d")!;
+    const far = c.width + 100;
+    g.shadowColor = colour;
+    g.shadowBlur = blur * k;
+    g.shadowOffsetX = far;
+    g.translate(c.width / 2 - far, c.height / 2);
+    g.scale(k, k);
+    draw(g);
+    return c;
+  });
+}
 /** The aura behind the ninja: warm gold (tier 1), a swirl of colours (2), a rainbow (3). */
 function auraTex(tier: Tier) {
   return cached(`aura${tier}`, () => {
@@ -444,6 +467,12 @@ export function Run({ level, onDone }: LevelProps) {
   const EVENTS = eventsFor(level.world);
   const hero = useHero();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const farRef = useRef<HTMLCanvasElement>(null); // the painted background, sliding behind the canvas
+  const landRef = useRef<HTMLCanvasElement>(null); // the ground, sliding behind the canvas
+  const underRef = useRef<HTMLCanvasElement>(null); // the lower canvas: what stands under the ninja's aura
+  const raysRef = useRef<HTMLCanvasElement>(null); // the aura's light rays
+  const auraRef = useRef<HTMLCanvasElement>(null); // the aura
+  const haloRef = useRef<HTMLDivElement>(null); // the caught word's warm glow
   const [progress, setProgress] = useState(0);
   const [banner, setBanner] = useState<{ text: string; mode: "read" | "blend" } | null>(null);
   const [petals, setPetals] = useState(0);
@@ -456,8 +485,14 @@ export function Run({ level, onDone }: LevelProps) {
     const pool = levelWords(level);
     const targets = chooseWords(level, EVENTS, "read");
     preload(targets.map((w) => urls.word(w.text)));
+    // Two canvases (docs/PERF.md fix 8): what stands under the ninja's aura (crates, spikes, petals, the lanterns it
+    // has done with, the gong, the power circle and speed lines) on `under`, and the rest on `c`, the top one, which
+    // takes the taps. The aura and the light rays between them are DOM layers the compositor turns and scales (placeAura).
+    // `g` is whichever canvas is being drawn: every drawing helper below draws on it.
     const c = canvasRef.current!;
-    const g = c.getContext("2d")!;
+    const under = underRef.current!;
+    const gTop = c.getContext("2d")!, gUnder = under.getContext("2d")!;
+    let g = gTop;
     const im = (id: string) => {
       const i = new Image();
       i.src = img(id);
@@ -1017,12 +1052,21 @@ export function Run({ level, onDone }: LevelProps) {
       api.current.jump();
     };
 
-    // ---------------------------------------------------------------- drawing helpers
-    // the background, baked once at its drawn size with its colour grade and stitched into a loop (loopTile): a canvas
-    // filter every frame is slow on phones
-    let bgBake: HTMLCanvasElement | null = null;
-    const bgTile = () => {
-      if (bgBake || !ok(I.bg)) return bgBake;
+    // ---------------------------------------------------------------- the scenery (docs/PERF.md fix 8)
+    // The painted background and the ground never change as the world runs, they only slide. So each is baked once
+    // into a wide strip behind the canvas (one loop longer than the stage), and the compositor slides it along with a
+    // transform: no full-stage redraw of static art every frame. The canvas above only draws what moves on them.
+    const far = farRef.current!, land = landRef.current!;
+    const place = (el: HTMLCanvasElement, w: number, h: number, top: number) => {
+      el.width = Math.ceil(w);
+      el.height = Math.ceil(h);
+      Object.assign(el.style, { width: `${el.width}px`, height: `${el.height}px`, top: `${top}px` });
+    };
+    // the background, baked at its drawn size with its colour grade and stitched into a loop (loopTile), then laid
+    // end to end across the strip; it slides at a quarter of the running speed
+    let farLoop = 0;
+    const bakeFar = () => {
+      if (farLoop || !ok(I.bg)) return;
       const floor = BG_FLOOR[world.key];
       const k = floor ? (GROUND + 14) / floor : (GROUND + 60) / I.bg.naturalHeight;
       const h = Math.round(I.bg.naturalHeight * k);
@@ -1031,53 +1075,85 @@ export function Run({ level, onDone }: LevelProps) {
       const b = c.getContext("2d")!;
       b.filter = "saturate(0.9) brightness(1.03)";
       b.drawImage(I.bg, 0, 0, w, h);
+      let tile = c;
       try {
-        bgBake = loopTile(c);
+        tile = loopTile(c);
       } catch {
-        bgBake = c; // a plain repeat rather than no background
+        // a plain repeat rather than no background
       }
-      return bgBake;
+      farLoop = tile.width;
+      place(far, W + farLoop, tile.height, 0);
+      const fg = far.getContext("2d")!;
+      for (let x = 0; x < far.width; x += farLoop) fg.drawImage(tile, x, 0);
+      c.width = tile.width = 0; // (only the strip is kept)
     };
-    const drawBg = (offset: number) => {
-      const bg = bgTile();
-      if (!bg) return;
-      for (let x = -(offset % bg.width); x < W; x += bg.width) g.drawImage(bg, x, 0);
-    };
-    const drawGround = (off: number) => {
-      // earth
-      const grd = g.createLinearGradient(0, GROUND, 0, H);
+    // the ground: earth, the grass lip with its ink outline (a scallop every 40 px) and the pale stones (a stone every
+    // 173 px, repeating every 1480 px, a whole number of scallops), exactly as they were drawn at each moment
+    const LAND_TOP = GROUND - 16;
+    const LAND_LOOP = W + 200;
+    const bakeLand = () => {
+      place(land, W + LAND_LOOP, H - LAND_TOP, LAND_TOP);
+      const b = land.getContext("2d")!;
+      const RW = land.width;
+      b.translate(0, -LAND_TOP);
+      const grd = b.createLinearGradient(0, GROUND, 0, H);
       grd.addColorStop(0, "#8b5a3c");
       grd.addColorStop(1, "#5a3624");
-      g.fillStyle = grd;
-      g.fillRect(0, GROUND + 10, W, H - GROUND);
-      // grass lip with ink outline
-      g.fillStyle = world.colour;
-      g.strokeStyle = INK;
-      g.lineWidth = 6;
-      g.beginPath();
-      g.moveTo(-10, H);
-      g.lineTo(-10, GROUND);
-      for (let x = -10; x <= W + 40; x += 40) {
-        const wx = x + (off % 40);
-        g.quadraticCurveTo(x - (off % 40) + 20, GROUND - 10, x - (off % 40) + 40, GROUND + 2 + Math.sin((wx + off) / 90) * 2);
-      }
-      g.lineTo(W + 40, GROUND + 26);
-      g.lineTo(-10, GROUND + 26);
-      g.closePath();
-      g.fill();
-      g.beginPath();
-      g.moveTo(-10, GROUND);
-      for (let x = -10; x <= W + 40; x += 40) g.quadraticCurveTo(x - (off % 40) + 20, GROUND - 10, x - (off % 40) + 40, GROUND + 2);
-      g.stroke();
-      // stones
-      g.fillStyle = "rgba(255,244,220,.25)";
-      for (let i = 0; i < 12; i++) {
-        const x = ((i * 173 - off) % (W + 200)) + (i * 173 - off < 0 ? W + 200 : 0) - 100;
-        g.beginPath();
-        g.ellipse(x, GROUND + 50 + (i % 3) * 22, 18 + (i % 4) * 6, 8, 0, 0, TAU);
-        g.fill();
+      b.fillStyle = grd;
+      b.fillRect(0, GROUND + 10, RW, H - GROUND);
+      const lip = () => {
+        b.moveTo(-10, GROUND + 2);
+        for (let x = -10; x <= RW + 40; x += 40) b.quadraticCurveTo(x + 20, GROUND - 10, x + 40, GROUND + 2);
+      };
+      b.fillStyle = world.colour;
+      b.strokeStyle = INK;
+      b.lineWidth = 6;
+      b.beginPath();
+      lip();
+      b.lineTo(RW + 80, GROUND + 26);
+      b.lineTo(-10, GROUND + 26);
+      b.closePath();
+      b.fill();
+      b.beginPath();
+      lip();
+      b.stroke();
+      b.fillStyle = "rgba(255,244,220,.25)";
+      for (let i = 0; i < 12; i++)
+        for (let k = -1; k <= 2; k++) {
+          const x = ((((i * 173 - 100) % LAND_LOOP) + LAND_LOOP) % LAND_LOOP) + k * LAND_LOOP;
+          b.beginPath();
+          b.ellipse(x, GROUND + 50 + (i % 3) * 22, 18 + (i % 4) * 6, 8, 0, 0, TAU);
+          b.fill();
+        }
+    };
+    bakeLand();
+    let farAt = NaN, landAt = NaN;
+    const slide = (el: HTMLCanvasElement, x: number, was: number) => {
+      if (Math.abs(x - was) > 0.005) el.style.transform = `translate3d(${x}px, 0, 0)`;
+      return x;
+    };
+    const drawScenery = () => {
+      bakeFar();
+      if (farLoop) farAt = slide(far, -((dist * 0.25) % farLoop), farAt);
+      landAt = slide(land, -(dist % LAND_LOOP), landAt);
+    };
+    // The canvas is drawn at the stage's 1280×720, or at the screen's own size where that is smaller (a small, low
+    // density window): never more pixels than the screen shows.
+    let ck = 1;
+    const fitCanvas = () => {
+      const r = c.getBoundingClientRect();
+      const k = r.width ? Math.min(1, Math.round(((r.width * (window.devicePixelRatio || 1)) / W) * 20) / 20) : 1;
+      if (k === ck && c.width === Math.round(W * k)) return;
+      ck = k;
+      for (const el of [c, under]) {
+        el.width = Math.round(W * k);
+        el.height = Math.round(H * k);
       }
     };
+    fitCanvas();
+    window.addEventListener("resize", fitCanvas);
+
+    // ---------------------------------------------------------------- drawing helpers
     const drawSprite = (image: HTMLImageElement, cx: number, bottom: number, w: number, rot = 0, sx = 1, sy = 1) => {
       if (!ok(image)) return;
       const h = (image.naturalHeight / image.naturalWidth) * w;
@@ -1115,8 +1191,14 @@ export function Run({ level, onDone }: LevelProps) {
       const w = tw + 48, h = 84;
       g.save();
       if (all) {
-        g.shadowColor = "rgba(255,190,60,0.95)";
-        g.shadowBlur = 28;
+        // its warm glow, baked (the plate is drawn at about 1.25×: the blur is in plate units, so it looks as it did)
+        const rw = Math.round(w);
+        const gl = glowOnly(`plate${rw}`, { w: rw, h }, 28 / 1.25, "rgba(255,190,60,0.95)", 1, (b) => {
+          b.beginPath();
+          b.roundRect(-rw / 2, -h / 2, rw, h, 18);
+          b.fill();
+        });
+        g.drawImage(gl, cx - gl.width / 2, cy - gl.height / 2);
       }
       g.fillStyle = all ? "#fff1b8" : "#fff4dc";
       g.strokeStyle = INK;
@@ -1124,7 +1206,6 @@ export function Run({ level, onDone }: LevelProps) {
       g.beginPath();
       g.roundRect(cx - w / 2, cy - h / 2, w, h, 18);
       g.fill();
-      g.shadowBlur = 0;
       g.stroke();
       g.restore();
       let x = cx - tw / 2;
@@ -1480,31 +1561,59 @@ export function Run({ level, onDone }: LevelProps) {
     };
 
     // ---- drawing the ninja and its streak
-    const drawAura = (cx: number, cy: number) => {
+    // The aura and the light rays behind the ninja: its two textures (auraTex, raysTex) on two DOM layers between the
+    // canvases, turned, scaled and faded by the compositor. Drawn on the canvas they were the biggest part of a streak
+    // frame (two large rotated images, every frame).
+    const raysEl = raysRef.current!, auraEl = auraRef.current!;
+    let auraShown = false, auraTier = -1;
+    const placeAura = () => {
       const vt = visTier;
+      if (aura <= 0.02) {
+        if (auraShown) raysEl.style.visibility = auraEl.style.visibility = "hidden";
+        auraShown = false;
+        return;
+      }
+      if (auraTier !== vt) {
+        auraTier = vt;
+        for (const [el, tx] of [[raysEl, raysTex(vt)], [auraEl, auraTex(vt)]] as const) {
+          el.width = el.height = tx.width;
+          el.style.width = el.style.height = `${tx.width}px`;
+          el.getContext("2d")!.drawImage(tx, 0, 0);
+        }
+      }
+      const cx = heroX, cy = heroFeet - 108 * S;
       const be = t - bloomAt;
       const bloom = be >= 0 && be < 0.9 ? (be < 0.3 ? 0.3 + 1.15 * easeOut(be / 0.3) : 1.45 - 0.45 * easeOut((be - 0.3) / 0.6)) : 1;
       const beat = 0.5 + 0.5 * Math.sin((t * TAU) / 1.4);
       // light rays
-      const rays = raysTex(vt);
       const rs = 500 * S * (0.96 + 0.08 * beat) * bloom;
-      g.save();
-      g.globalAlpha = aura * (vt === 1 ? 0.75 : 0.7);
-      g.translate(cx, cy);
-      g.rotate((t * TAU) / (vt === 3 ? 6 : vt === 2 ? 9 : 14));
-      g.drawImage(rays, -rs / 2, -rs / 2, rs, rs);
-      g.restore();
+      const rr = raysEl.width / 2;
+      raysEl.style.opacity = `${aura * (vt === 1 ? 0.75 : 0.7)}`;
+      raysEl.style.transform = `translate(${cx - rr}px, ${cy - rr}px) rotate(${(t * TAU) / (vt === 3 ? 6 : vt === 2 ? 9 : 14)}rad) scale(${rs / raysEl.width})`;
       // the aura
-      const a = auraTex(vt);
       const pulse = vt === 1 ? 0.94 + 0.12 * beat : 1;
-      const aw = 300 * S * pulse * bloom;
-      g.save();
-      g.globalAlpha = aura * (vt === 1 ? 0.8 + 0.2 * beat : 0.95);
-      g.translate(cx, cy);
-      g.scale(1, 1.12);
-      if (vt >= 2) g.rotate((t * TAU) / (vt === 3 ? 1.6 : 3));
-      g.drawImage(a, -aw / 2, -aw / 2, aw, aw);
-      g.restore();
+      const k = (300 * S * pulse * bloom) / auraEl.width;
+      const ar = auraEl.width / 2;
+      auraEl.style.opacity = `${aura * (vt === 1 ? 0.8 + 0.2 * beat : 0.95)}`;
+      auraEl.style.transform = `translate(${cx - ar}px, ${cy - ar}px) scale(${k}, ${1.12 * k})${vt >= 2 ? ` rotate(${(t * TAU) / (vt === 3 ? 1.6 : 3)}rad)` : ""}`;
+      if (!auraShown) raysEl.style.visibility = auraEl.style.visibility = "visible";
+      auraShown = true;
+    };
+    // The caught word's warm glow is added onto everything under it (canvas "lighter"), the painting included, which
+    // is a DOM layer now: so the glow is one too, summed the same way (mix-blend-mode: plus-lighter), only while the
+    // word is up.
+    const haloEl = haloRef.current!;
+    let haloOn = false;
+    const placeHalo = (h: { x: number; y: number; rx: number; ry: number; a: number } | null) => {
+      if (!h) {
+        if (haloOn) haloEl.classList.remove("on");
+        haloOn = false;
+        return;
+      }
+      haloEl.style.opacity = `${h.a}`;
+      haloEl.style.transform = `translate(${h.x - 100}px, ${h.y - 100}px) scale(${h.rx / 100}, ${h.ry / 100})`;
+      if (!haloOn) haloEl.classList.add("on");
+      haloOn = true;
     };
     const drawPowerCircle = () => {
       const vt = visTier;
@@ -1686,12 +1795,15 @@ export function Run({ level, onDone }: LevelProps) {
       g.fillText("?", 0, 4);
       g.restore();
     };
-    /** What glows behind the ninja: the power circle, speed lines, aura, ribbon, afterimages, the back of the ring. */
-    const drawNinjaBack = () => {
+    /** What glows behind the ninja, under its aura (on the lower canvas): the power circle and the speed lines. */
+    const drawNinjaUnder = () => {
       const lit = aura > 0.02;
       if (lit) drawPowerCircle();
       if (lit && visTier >= 2) drawSpeedLines();
-      if (lit) drawAura(heroX, heroFeet - 108 * S);
+    };
+    /** ...and over the aura (placeAura), behind the ninja: the ribbon, afterimages, the back of the ring, its shadow. */
+    const drawNinjaBack = () => {
+      const lit = aura > 0.02;
       if (lit && visTier >= 2) {
         drawRibbon();
         drawGhosts();
@@ -1937,20 +2049,17 @@ export function Run({ level, onDone }: LevelProps) {
           fx.twinkle(640, 40, COLS[Math.max(1, glow) as Tier], 12, 6);
           sfx.twinkle();
           trophy = null;
+          placeHalo(null);
           return;
         }
       }
+      // a warm glow behind it (added onto the painting: a DOM layer, as the painting is no longer on the canvas)
+      const gr = 150 + (tr.all ? 40 : 0) + Math.sin(t * 6) * 8;
+      placeHalo({ x, y, rx: gr * s * (tr.mode === "read" ? 1.5 : 1), ry: gr * s, a: a * (tr.all ? 0.55 : 0.35) });
       g.save();
       g.globalAlpha = a;
       g.translate(x, y);
       g.scale(s, s);
-      // a warm glow behind it
-      const gr = 150 + (tr.all ? 40 : 0) + Math.sin(t * 6) * 8;
-      g.save();
-      g.globalCompositeOperation = "lighter";
-      g.globalAlpha = a * (tr.all ? 0.55 : 0.35);
-      g.drawImage(glowDot("rgba(255,200,80,0.7)"), -gr * (tr.mode === "read" ? 1.5 : 1), -gr, gr * (tr.mode === "read" ? 3 : 2), gr * 2);
-      g.restore();
       // "read": the picture the child caught, beside the word it goes with
       const p = tr.mode === "read" ? I.pics[tr.w.text] : undefined;
       let wx = 0;
@@ -2012,13 +2121,14 @@ export function Run({ level, onDone }: LevelProps) {
       g.scale(k, k);
       g.translate(-31, -7);
       g.lineJoin = "round";
-      // a soft light behind it so it reads on any sky
-      g.shadowColor = "rgba(255,250,225,0.95)";
-      g.shadowBlur = 14;
+      // a soft light behind it so it reads on any sky (baked: 14 px of blur at the hand's usual 2.3×)
+      const gl = glowOnly("hand", { w: 64, h: 64 }, 14 / 2.3, "rgba(255,250,225,0.95)", 2.3, (b) => {
+        b.translate(-32, -32);
+        b.fill(handPath());
+      });
+      g.drawImage(gl, 32 - gl.width / 4.6, 32 - gl.height / 4.6, gl.width / 2.3, gl.height / 2.3);
       g.fillStyle = "#ffffff";
       g.fill(handPath());
-      g.shadowBlur = 0;
-      g.shadowColor = "transparent";
       g.strokeStyle = INK;
       g.lineWidth = 3.4;
       g.stroke(handPath());
@@ -2073,9 +2183,11 @@ export function Run({ level, onDone }: LevelProps) {
       g.restore();
     };
     const draw = () => {
+      drawScenery();
+      // the lower canvas: what stands under the aura
+      g = gUnder;
+      g.setTransform(ck, 0, 0, ck, 0, 0);
       g.clearRect(0, 0, W, H);
-      drawBg(dist * 0.25);
-      drawGround(dist);
       for (const th of things) {
         const sx = th.x - dist;
         if (sx < -120 || sx > W + 120 || th.kicked || (th.got && th.kind === "petal")) continue;
@@ -2095,12 +2207,19 @@ export function Run({ level, onDone }: LevelProps) {
         const swell = ge >= 0 && ge < 0.35 ? 1 + 0.1 * Math.sin((ge / 0.35) * Math.PI) : 1;
         drawSprite(I.gong, gongC(), GROUND + 8, 220 * swell, shudder);
       }
+      drawNinjaUnder();
+      placeAura();
+      // the top canvas: the ninja and everything over it
+      g = gTop;
+      g.setTransform(ck, 0, 0, ck, 0, 0);
+      g.clearRect(0, 0, W, H);
       drawNinjaBack();
       if (!hs.homing) drawNinjaFront();
       for (const l of lanterns) if (!behind(l)) drawLantern(l);
       if (hs.homing) drawNinjaFront();
       drawCfx();
       if (trophy) drawTrophy();
+      else placeHalo(null);
       drawHint();
     };
 
@@ -2115,7 +2234,11 @@ export function Run({ level, onDone }: LevelProps) {
         else update(real);
       }
       draw();
-      if (perf?.flush) g.getImageData(0, 0, 1, 1); // include the raster work, not only the JS
+      if (perf?.flush) {
+        // include the raster work, not only the JS
+        gUnder.getImageData(0, 0, 1, 1);
+        gTop.getImageData(0, 0, 1, 1);
+      }
       if (perf) {
         const d = performance.now() - p0;
         perf.ms += d;
@@ -2141,7 +2264,11 @@ export function Run({ level, onDone }: LevelProps) {
       offStreak();
       cancelAnimationFrame(raf);
       window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", fitCanvas);
       hush();
+      // the run's canvases go now, not at some later GC (PERF 8.3: they kept about 12 MB for the rest of the session)
+      dropTextures();
+      for (const el of [far, land, under, c, raysEl, auraEl]) el.width = el.height = 0;
     };
   }, []);
 
@@ -2157,7 +2284,17 @@ export function Run({ level, onDone }: LevelProps) {
 
   return (
     <div className="scene run-scene">
-      <canvas ref={canvasRef} width={W} height={H} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} onPointerDown={onPointer} />
+      <div className="run-scenery" aria-hidden="true">
+        <canvas ref={farRef} className="run-far" width={0} height={0} />
+        <canvas ref={landRef} className="run-land" width={0} height={0} />
+      </div>
+      <canvas ref={underRef} className="run-under" aria-hidden="true" />
+      <div className="run-aura" aria-hidden="true">
+        <canvas ref={raysRef} width={0} height={0} />
+        <canvas ref={auraRef} width={0} height={0} />
+        <div ref={haloRef} className="run-halo" />
+      </div>
+      <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} onPointerDown={onPointer} />
       <TopBar>
         <div className="spacer" />
         <Progress value={progress} />

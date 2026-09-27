@@ -52,6 +52,8 @@
   background: radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, .28), transparent 45%), radial-gradient(ellipse at 70% 65%, rgba(255, 255, 255, .22), transparent 50%), #3b3450;
 }
 .bp-mist span { font: 130px/1 "Luckiest Guy", sans-serif; color: #cdbfe8; -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; margin-top: -30%; animation: pulse 1.6s ease-in-out infinite; }
+/* (the "?" rests where it is once the mist has cleared: an endless animation on something no one can see) */
+.bp-mist:not(.on) span { animation-play-state: paused; }
 .bp-bloom { animation: bpbloom 1.1s cubic-bezier(.3, 1.7, .5, 1) both; transform-origin: 50% 70%; }
 @keyframes bpbloom { 0% { transform: scale(1); filter: brightness(1); } 18% { transform: scale(1.18, 1.12); filter: brightness(1.7); } 45% { transform: scale(.96, 1.02); } 100% { transform: none; filter: none; } }
 
@@ -72,12 +74,22 @@
 @keyframes gvturn { to { rotate: 360deg; } }
 .gv-glow {
   position: absolute; left: 450px; top: 80px; width: 500px; height: 500px; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle, rgba(255, 246, 200, .95), rgba(255, 217, 112, .5) 35%, rgba(255, 197, 61, 0) 68%);
-  opacity: .35; transform: scale(.6); transition: opacity .8s, transform .8s; animation: gvbreathe 1.2s ease-in-out infinite alternate;
+  opacity: .35; transform: scale(.6); transition: opacity .8s, transform .8s;
 }
-.gv-glow[data-heat="1"] { opacity: .5; transform: scale(.75); } .gv-glow[data-heat="2"] { opacity: .7; transform: scale(.9); animation-duration: .6s; } .gv-glow[data-heat="3"] { opacity: .95; transform: scale(1.05); animation-duration: .3s; }
-.gv-bloom .gv-glow, .gv-talk .gv-glow, .gv-home .gv-glow { opacity: .6; transform: scale(1.25); animation-duration: 2s; }
-@keyframes gvbreathe { from { filter: brightness(.9); } to { filter: brightness(1.25); } }
+/* the glow breathes (brightness .9 → 1.25 and back) as a cross-fade the compositor runs (docs/PERF.md fix 9, no filter
+   animation): the glow at brightness .9, and over it the same glow at 1.25 fading in and out. The bright layer's alpha
+   is what it takes for the two together to match the 1.25 glow's colours, so the halo keeps its size as it brightens */
+.gv-glow::before, .gv-glow::after { content: ""; position: absolute; inset: 0; border-radius: 50%; }
+.gv-glow::before { background: radial-gradient(circle, rgba(230, 221, 180, .95), rgba(230, 195, 101, .5) 35%, rgba(230, 177, 55, 0) 68%); }
+.gv-glow::after {
+  background: radial-gradient(circle, rgba(255, 255, 250, .75), rgba(255, 255, 140, .2) 35%, rgba(255, 246, 76, 0) 68%);
+  opacity: 0; animation: gvbreathe 1.2s ease-in-out infinite alternate;
+}
+.gv-glow[data-heat="1"] { opacity: .5; transform: scale(.75); } .gv-glow[data-heat="2"] { opacity: .7; transform: scale(.9); } .gv-glow[data-heat="3"] { opacity: .95; transform: scale(1.05); }
+.gv-glow[data-heat="2"]::after { animation-duration: .6s; } .gv-glow[data-heat="3"]::after { animation-duration: .3s; }
+.gv-bloom .gv-glow, .gv-talk .gv-glow, .gv-home .gv-glow { opacity: .6; transform: scale(1.25); }
+.gv-bloom .gv-glow::after, .gv-talk .gv-glow::after, .gv-home .gv-glow::after { animation-duration: 2s; }
+@keyframes gvbreathe { from { opacity: 0; } to { opacity: 1; } }
 .gv-petal { position: absolute; z-index: 2; transition: opacity 1s ease, transform 1.1s cubic-bezier(.3, 1.4, .5, 1); }
 .gv-build .gv-petal { opacity: 0; transform: scale(.7) translateY(40px); }
 /* the homecoming (Tree.tsx GemVictory homecoming()): the petal flies (by script) into its place on the big flower,
@@ -128,3 +140,49 @@
 
 /* ---------------------------------------------------------------- after a trip: carry on */
 .tree-carry { position: absolute; left: 950px; top: 560px; z-index: 16; }
+
+/* ---------------------------------------------------------------- the World Flower, cheap to keep on screen
+   (docs/PERF.md fix 9). Nothing animates inside an SVG any more (Chrome and Safari repaint an animated SVG on the main
+   thread every frame, and the chart had 180 to 220 such animations): what moves is an HTML layer whose transform or
+   opacity the compositor animates, drawn at the same place in the drawing order. */
+.wf-layer { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+/* the rays behind the petals turn once every 90 s */
+.wf-rays { animation: wf-turn 90s linear infinite; }
+@keyframes wf-turn { to { rotate: 360deg; } }
+/* a ready gem's petal: a gold outline pulsing; a sound hiding in this land: a white shimmer (Tree.tsx WorldFlower) */
+.wf-pulse.ready { animation: wf-ready 1.3s linear infinite; }
+.wf-pulse.hint { animation: wf-hint 1.6s linear infinite; }
+@keyframes wf-ready { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+@keyframes wf-hint { 0%, 100% { opacity: .15; } 50% { opacity: 1; } }
+
+/* the chart's petals (Tree.tsx ScrollPetal) rest out of view. Out of view (no data-live), their endless animations
+   pause (and resume where they stopped); over half a scroll-width away (no data-on), the browser skips their content
+   (their box keeps its size, so the scroll doesn't move). The pause comes first: skipped content isn't restyled, and an
+   animation in content the browser isn't drawing would otherwise still run on the main thread. (Not
+   content-visibility: auto, whose paint containment would clip each petal's picture where it stands out of its box.) */
+.sp-cv:not([data-on]) { content-visibility: hidden; }
+.sp-cv:not([data-live]) :is(.sp-blob, .sp-rune, .sp-focus, .dc-glint, .gem-won, .gem-ready, .gem-sparkle),
+.sp-cv:not([data-live]) :is(.wf-focus, .gem-ready)::after, .sp-cv:not([data-live]) .gem-ready::before { animation-play-state: paused; }
+/* a sound not met yet: ink mist drifting to and fro, and a "?" that shimmers */
+.sp-mist { position: absolute; inset: 0; background: #3b3450; }
+.sp-blob { position: absolute; background: radial-gradient(closest-side, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0)); animation: sp-drift-a 5s linear infinite; }
+.sp-blob.b { animation-name: sp-drift-b; }
+@keyframes sp-drift-a { 50% { translate: 26px -8px; } }
+@keyframes sp-drift-b { 50% { translate: -26px 8px; } }
+.sp-rune { position: absolute; inset: 0; animation: sp-rune 2.4s linear infinite; }
+@keyframes sp-rune { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+/* the petal of the gem the scroll is focused on: a thick gold outline pulsing */
+.sp-focus { position: absolute; inset: 0; pointer-events: none; animation: sp-focus 1.1s linear infinite; }
+@keyframes sp-focus { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+/* the focused gem chip: its glow pulses (a shadow that is drawn once, its opacity animated) */
+.wf-focus { position: relative; display: inline-flex; border-radius: 9px; }
+.wf-focus::after { content: ""; position: absolute; inset: 0; border-radius: 9px; pointer-events: none; box-shadow: 0 0 18px #ffc53d; opacity: 0; animation: wf-focus 1s ease-in-out infinite; }
+@keyframes wf-focus { 50% { opacity: 1; } }
+/* a gem not found yet (Tree.tsx DarkCrystal): its glint comes and goes */
+.dark-crystal { position: relative; display: inline-block; flex: none; }
+.dark-crystal svg { position: absolute; left: 0; top: 0; overflow: visible; }
+.dc-glint { position: absolute; inset: 0; opacity: .5; pointer-events: none; animation: dc-glint 2.6s linear infinite; }
+@keyframes dc-glint { 0%, 100% { opacity: .1; } 50% { opacity: .8; } }
+/* under a trip (a show over the flower, through a dark veil) the flower's endless animations rest */
+.tree-base[inert] :is(.wf-rays, .wf-pulse, .sp-blob, .sp-rune, .sp-focus, .dc-glint, .gem-won, .gem-ready, .gem-sparkle, .pulse),
+.tree-base[inert] :is(.wf-focus, .gem-ready)::after, .tree-base[inert] .gem-ready::before { animation-play-state: paused; }

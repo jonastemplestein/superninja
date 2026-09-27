@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<title>Sticker Album</title>
+<!-- Designer 3, "sticker-album": the World Flower's petal chart as a page-turning album of the school chart's sheets.
+     A working mockup, not game code. Uses the game's own assets by relative path (../../../public/a/). -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Luckiest+Guy&display=block" rel="stylesheet" />
+<style>
+:root {
+  --ink: #2b1d14; --gold: #ffc53d; --gold-deep: #c98a00; --good: #3fbf6a; --good-deep: #1f7a41;
+  --blossom: #ff7aa2; --blossom-deep: #d9477a; --desk: #f6e9da;
+  --letters: "Andika", "Comic Sans MS", system-ui, sans-serif;
+  --ui: "Baloo 2", "Andika", system-ui, sans-serif;
+  --sat: env(safe-area-inset-top); --sab: env(safe-area-inset-bottom); --sal: env(safe-area-inset-left); --sar: env(safe-area-inset-right);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body { background: var(--desk); font-family: var(--ui); color: var(--ink); user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+button { font: inherit; color: inherit; border: 0; padding: 0; margin: 0; background: none; cursor: pointer; touch-action: manipulation; }
+img { -webkit-user-drag: none; user-select: none; }
+
+/* the viewport takes the desk colour, so there are no purple bars beside the stage */
+.viewport { position: fixed; inset: 0; background: var(--desk); }
+.stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: 0 0; overflow: hidden; background: var(--desk); }
+.vscrim { position: absolute; inset: 0; background: rgba(60, 38, 20, 0.34); opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+.vscrim.on { opacity: 1; }
+
+/* ---------- the album: a native horizontal scroller, one chart sheet per page, snapping page by page */
+.album { position: absolute; inset: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain; scrollbar-width: none; z-index: 1; }
+.album::-webkit-scrollbar { display: none; }
+.page { flex: 0 0 1280px; height: 720px; position: relative; scroll-snap-align: start; scroll-snap-stop: always; }
+.sheet { position: absolute; left: 282px; top: 126px; width: 840px; height: 584px; background: #fff; border-radius: 18px;
+  box-shadow: 0 2px 0 rgba(120, 80, 40, 0.10), 0 10px 24px rgba(120, 80, 40, 0.14); contain: layout paint style; }
+/* the page under it: one plain sheet edge, so it reads as an album (static) */
+.under { position: absolute; left: 290px; top: 134px; width: 840px; height: 584px; border-radius: 18px; background: #fbf7f1; border: 2px solid #eadfd1; }
+.pno { position: absolute; right: 22px; bottom: 10px; font: 700 26px/1 var(--ui); color: #d5c8b8; }
+
+/* ---------- a petal: the chart's slim teardrop, thin outline in the sound's colour, spellings in a column,
+   the picture on the top-right shoulder. The outline is a background image (no SVG nodes). */
+.petal { position: absolute; isolation: isolate; }
+.petal::before, .petal::after { content: ""; position: absolute; left: var(--ox); top: var(--oy); width: var(--w); height: var(--h);
+  background-repeat: no-repeat; background-size: 100% 100%; z-index: 0; pointer-events: none; }
+.petal::before { background-image: var(--o); }
+.petal::after { background-image: var(--m); opacity: 0; }
+.petal.myst::before { opacity: 0; }
+.petal.myst::after { opacity: 1; }
+.pic { position: absolute; width: 60px; height: 60px; object-fit: contain; left: calc(var(--ox) + var(--w) - 40px); top: calc(var(--oy) - 31px);
+  z-index: 3; pointer-events: none; }
+.key { position: absolute; width: 46px; height: 46px; left: calc(var(--ox) + var(--w) / 2 - 23px); top: calc(var(--oy) + var(--w) / 2 - 18px);
+  background: var(--k) center / 100% 100% no-repeat; z-index: 2; pointer-events: none; }
+
+/* a spelling line. States (engine/gems.ts gemState), told apart by shape as well as colour:
+   won = a highlighter band in the petal's tint; ready = a gold band with a sparkle, bouncing when the page arrives;
+   charging = a "sound line" under the letters that fills up; hidden = ghost letters in a dashed slot;
+   future (not in the game yet) = ghost print, as on the chart */
+.sp { position: absolute; left: calc(var(--ox) + var(--w) / 2); translate: -50% 0; white-space: nowrap; text-align: center;
+  font-family: var(--letters); font-weight: 700; color: var(--ink); z-index: 1; padding: 0 0.16em; border-radius: 0.24em; pointer-events: none; }
+.sp.won { background: var(--t); }
+.sp.ready { background: #ffd54f; }
+.sp.ready::after { content: "✦"; position: absolute; right: -0.34em; top: -0.34em; font-size: 0.5em; line-height: 1; color: #e0a000; }
+.sp.charging { background:
+  linear-gradient(var(--d), var(--d)) left 0.16em bottom 0 / calc((100% - 0.32em) * var(--e)) 0.12em no-repeat,
+  linear-gradient(#e9e1d7, #e9e1d7) left 0.16em bottom 0 / calc(100% - 0.32em) 0.12em no-repeat; }
+.sp.hidden { color: rgba(43, 29, 20, 0.34); font-weight: 400; border: 2px dashed rgba(43, 29, 20, 0.3); }
+.sp.future { color: rgba(43, 29, 20, 0.26); font-weight: 400; }
+.petal.done .sp.won { background: none; }
+/* the ready gems bounce a few times when their page arrives, then rest (nothing runs forever) */
+.page.live .sp.ready { animation: bob 0.8s ease-in-out 0.3s 3; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px) scale(1.06); } 70% { transform: translateY(1px); } }
+
+/* ---------- the frame: Home top-left, Hear it again top-right, page arrows either side, Help bottom-right */
+.btn-round { position: absolute; width: 100px; height: 100px; border-radius: 50%; display: grid; place-items: center; z-index: 20;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--gold) 45%, var(--gold-deep) 100%); border: 5px solid var(--ink);
+  box-shadow: 0 6px 0 var(--ink); transition: transform 0.08s; }
+.btn-round:active { transform: translateY(4px); }
+.btn-round svg { width: 54%; height: 54%; overflow: visible; }
+.btn-round.go { background: radial-gradient(circle at 35% 30%, #d9ffe4 0%, var(--good) 50%, var(--good-deep) 100%); }
+.btn-round.pink { background: radial-gradient(circle at 35% 30%, #ffe3ee 0%, var(--blossom) 50%, var(--blossom-deep) 100%); }
+.home { left: 18px; top: 16px; }
+.again { right: 14px; top: 16px; }
+.turn { width: 120px; height: 120px; top: 240px; }
+.turn svg { width: 60%; height: 60%; }
+.turn.prev { left: 152px; }
+.turn.next { left: 1135px; }
+.turn[disabled] { opacity: 0.3; pointer-events: none; }
+.help-btn { position: absolute; right: 14px; bottom: 14px; z-index: 30; width: 124px; height: 124px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff8e6, #ffd98a 70%, #e0a53a); border: 6px solid var(--ink);
+  box-shadow: 0 7px 0 var(--ink), 0 0 0 6px rgba(255, 244, 220, 0.8); }
+.help-btn img { position: absolute; inset: 5px; width: calc(100% - 10px); height: calc(100% - 10px); border-radius: 50%; object-fit: cover; }
+.help-q { position: absolute; left: -10px; top: -10px; width: 46px; height: 46px; border-radius: 50%; background: var(--good); border: 5px solid var(--ink);
+  color: #fff; font: 30px/38px "Luckiest Guy", var(--ui); text-align: center; text-shadow: 0 2px 0 var(--ink); }
+
+/* the child's ninja, bottom-left, never takes taps */
+.ninja { position: absolute; left: 30px; bottom: 12px; width: 212px; pointer-events: none; z-index: 5; transform-origin: 50% 100%; }
+.ninja-shadow { position: absolute; left: 44px; bottom: 4px; width: 184px; height: 30px; border-radius: 50%; z-index: 4; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(110, 70, 30, 0.32), rgba(110, 70, 30, 0)); }
+
+/* ---------- the page strip (top centre): the World Flower, then one small flower per page that colours in */
+.strip { position: absolute; left: 300px; top: 8px; width: 800px; height: 112px; display: flex; align-items: center; justify-content: center; gap: 18px;
+  z-index: 15; pointer-events: none; }
+.strip > * { pointer-events: auto; }
+.strip .btn-round { position: relative; flex: 0 0 auto; width: 96px; height: 96px; margin-right: 22px; }
+.strip .btn-round svg { width: 78%; height: 78%; }
+.tab { position: relative; width: 150px; height: 100px; border-radius: 20px; background: #fffdf9; border: 3px solid #e4d7c8; display: grid; place-items: center; }
+.tab svg { width: 96px; height: 96px; }
+.tab.on { border: 5px solid var(--ink); box-shadow: 0 5px 0 var(--ink); }
+.tab.on::after { content: ""; position: absolute; left: 50%; bottom: -17px; translate: -50% 0; border: 11px solid transparent; border-top: 11px solid var(--ink); border-bottom: 0; }
+
+/* ---------- Sensei's caption (the grown-ups' captions setting) */
+.caption { position: absolute; right: 150px; bottom: 96px; max-width: 460px; padding: 12px 20px; border-radius: 22px; background: #fffaf0; border: 4px solid var(--ink);
+  font: 600 27px/1.25 var(--ui); z-index: 40; opacity: 0; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+.caption.on { opacity: 1; transform: none; }
+.caption::after { content: ""; position: absolute; right: -16px; bottom: 16px; border: 12px solid transparent; border-left: 16px solid var(--ink); border-right: 0; }
+
+/* ---------- the petal card */
+.scrim { position: absolute; inset: 0; background: rgba(60, 38, 20, 0.34); z-index: 50; opacity: 0; transition: opacity 0.2s; }
+.scrim.on { opacity: 1; }
+.card { position: absolute; left: 282px; top: 16px; width: 840px; height: 696px; background: #fff; border-radius: 28px; z-index: 51;
+  box-shadow: 0 3px 0 rgba(120, 80, 40, 0.14), 0 18px 40px rgba(60, 38, 20, 0.28); }
+.card .close { right: 12px; top: 12px; width: 92px; height: 92px; }
+.bigpetal { position: absolute; left: 44px; top: 96px; width: 196px; height: 300px; }
+.bigpetal .bp { position: absolute; inset: 0; background: var(--o) center / 100% 100% no-repeat; }
+.bigpetal .bpic { position: absolute; width: 138px; height: 138px; object-fit: contain; left: 29px; top: 26px; pointer-events: none; }
+.bigpetal .spk { position: absolute; left: 50%; top: 178px; width: 64px; height: 64px; margin-left: -32px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--gold) 45%, var(--gold-deep) 100%); border: 4px solid var(--ink); box-shadow: 0 4px 0 var(--ink); }
+.bigpetal .spk svg { width: 58%; height: 58%; }
+.card .gate { left: 82px; top: 452px; width: 120px; height: 120px; }
+.card .gate svg { width: 66%; height: 66%; }
+.slots { position: absolute; left: 312px; top: 30px; width: 420px; }
+.slot { position: absolute; display: grid; place-items: center; border-radius: 20px; font-family: var(--letters); font-weight: 700; color: var(--ink); line-height: 1; }
+.slot.won { background: var(--t); border: 4px solid var(--c); }
+.slot.ready { background: radial-gradient(circle at 40% 30%, #fff3bf, #ffd54f 70%); border: 4px solid #d99a00; box-shadow: 0 0 0 7px rgba(255, 213, 79, 0.35); }
+.slot.charging { background: #fff; border: 4px solid #e2d8cc; }
+.slot.hidden { border: 3px dashed #cdbfad; color: rgba(43, 29, 20, 0.34); font-weight: 400; }
+.slot.future { color: rgba(43, 29, 20, 0.26); font-weight: 400; }
+.slot .bar { position: absolute; left: 12px; right: 12px; bottom: 9px; height: 11px; border-radius: 6px; background: #eee6dc; overflow: hidden; }
+.slot .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--e) * 100%); background: var(--d); border-radius: 6px; }
+.slot .gem { position: absolute; right: -10px; top: -12px; width: 34px; height: 34px; }
+.slot .play { position: absolute; right: -20px; bottom: -20px; width: 44px; height: 44px; border-radius: 50%; background: var(--good); border: 4px solid var(--ink); display: grid; place-items: center; }
+.slot .play svg { width: 55%; height: 55%; }
+.slot.ready.bounce { animation: bob 0.8s ease-in-out 0.4s 3; }
+.words { position: absolute; left: 312px; top: 282px; width: 510px; height: 400px; }
+.whead { position: absolute; left: 0; top: 0; height: 92px; display: flex; align-items: center; gap: 16px; }
+.whead .who { width: 84px; height: 84px; border-radius: 50%; border: 4px solid var(--ink); background: #ffe9b8 var(--img) 49% 13% / 240% auto no-repeat; }
+.whead .who.sensei { background-size: cover; background-position: center; }
+.whead .btn-round { position: relative; width: 92px; height: 92px; border-width: 5px; }
+.wlist { position: absolute; left: 0; top: 106px; width: 510px; display: flex; flex-wrap: wrap; gap: 14px; }
+.word { display: flex; align-items: center; gap: 6px; height: 96px; padding: 0 16px 0 8px; border-radius: 18px; background: #fffdf8; border: 3px solid #e4d8ca;
+  font: 700 42px/1 var(--letters); }
+.word img { width: 76px; height: 76px; object-fit: contain; }
+.word b { color: var(--d); font-weight: 700; text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 6px; }
+.word.dim { opacity: 0.35; }
+
+/* ---------- mockup-only controls (outside the stage; hidden with ?clean) */
+.dev { position: fixed; left: 6px; bottom: 6px; z-index: 100; display: flex; flex-wrap: wrap; gap: 4px; max-width: 96px; font: 600 11px/1.1 system-ui, sans-serif; }
+.dev button { background: rgba(43, 29, 20, 0.78); color: #fff; border-radius: 6px; padding: 5px 6px; }
+.dev button.on { background: #d9477a; }
+.clean .dev { display: none; }
+.toast { position: absolute; left: 50%; top: 300px; translate: -50% 0; padding: 18px 30px; border-radius: 24px; background: var(--ink); color: #fff;
+  font: 700 34px/1 var(--ui); z-index: 90; pointer-events: none; }
+.fx { position: absolute; inset: 0; z-index: 60; pointer-events: none; }
+.spark { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; background: var(--sc, #ffc53d);
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
+.ring { position: absolute; width: 160px; height: 160px; margin: -80px 0 0 -80px; border-radius: 50%; border: 8px solid var(--sc, #ffc53d); }
+</style>
+</head>
+<body>
+<div class="viewport">
+  <div class="vscrim" id="vscrim"></div>
+  <div class="stage" id="stage">
+    <div class="album" id="album" aria-label="Petal chart"></div>
+    <div class="ninja-shadow"></div>
+    <img class="ninja" id="ninja" src="../../../public/a/i/hero_kai_idle.webp" alt="" />
+    <nav class="strip" id="strip"></nav>
+    <button class="btn-round home" data-nav="home" aria-label="Home"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 30 32 11l22 19v23H40V39H24v14H10z"/></svg></button>
+    <button class="btn-round again" data-nav="again" aria-label="Hear it again"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 25h10l13-11v36L20 39H10z"/><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34"/></svg></button>
+    <button class="btn-round turn prev" id="prev" aria-label="Previous page"><svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M38 14 20 32l18 18"/></svg></button>
+    <button class="btn-round turn next" id="next" aria-label="Next page"><svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M26 14l18 18-18 18"/></svg></button>
+    <button class="help-btn" aria-label="Help"><img src="../../../public/a/i/sensei_face_idle.webp" alt="" /><span class="help-q">?</span></button>
+    <div class="caption" id="caption"></div>
+    <div class="fx" id="fx"></div>
+  </div>
+</div>
+<div class="dev" id="dev"></div>
+
+<script id="data" type="application/json">{"petals":[{"p":"ae","page":1,"colour":"#e8312f","iconWord":"train","spellings":[{"g":"ai","key":"ai>ae","inPlay":true},{"g":"ay","key":"ay>ae","inPlay":true},{"g":"a-e","key":"a-e>ae","inPlay":false},{"g":"ea","key":"ea>ae","inPlay":false},{"g":"ei","key":"ei>ae","inPlay":false},{"g":"ey","key":"ey>ae","inPlay":false},{"g":"eigh","key":"eigh>ae","inPlay":false}]},{"p":"ee","page":1,"colour":"#f5821f","iconWord":"tree","spellings":[{"g":"ee","key":"ee>ee","inPlay":true},{"g":"ea","key":"ea>ee","inPlay":true},{"g":"e","key":"e>ee","inPlay":false},{"g":"y","key":"y>ee","inPlay":false},{"g":"ey","key":"ey>ee","inPlay":false},{"g":"ie","key":"ie>ee","inPlay":false},{"g":"i","key":"i>ee","inPlay":false}]},{"p":"oy","page":1,"colour":"#f59ac0","iconWord":"toy","spellings":[{"g":"oi","key":"oi>oy","inPlay":false},{"g":"oy","key":"oy>oy","inPlay":false}]},{"p":"ie","page":1,"colour":"#f3c74a","iconWord":"kite","spellings":[{"g":"ie","key":"ie>ie","inPlay":true},{"g":"igh","key":"igh>ie","inPlay":true},{"g":"i","key":"i>ie","inPlay":false},{"g":"i-e","key":"i-e>ie","inPlay":false},{"g":"y","key":"y>ie","inPlay":false}]},{"p":"oe","page":1,"colour":"#f7a23b","iconWord":"boat","spellings":[{"g":"oa","key":"oa>oe","inPlay":true},{"g":"ow","key":"ow>oe","inPlay":true},{"g":"o-e","key":"o-e>oe","inPlay":false},{"g":"o","key":"o>oe","inPlay":false},{"g":"oe","key":"oe>oe","inPlay":false},{"g":"ou","key":"ou>oe","inPlay":false},{"g":"ough","key":"ough>oe","inPlay":false}]},{"p":"uu","page":1,"colour":"#f1e45c","iconWord":"book","spellings":[{"g":"oo","key":"oo>uu","inPlay":false},{"g":"u","key":"u>uu","inPlay":false},{"g":"oul","key":"oul>uu","inPlay":false}]},{"p":"er","page":1,"colour":"#2fa65a","iconWord":"bird","spellings":[{"g":"er","key":"er>er","inPlay":false},{"g":"ir","key":"ir>er","inPlay":false},{"g":"ur","key":"ur>er","inPlay":false},{"g":"or","key":"or>er","inPlay":false},{"g":"ar","key":"ar>er","inPlay":false},{"g":"ear","key":"ear>er","inPlay":false},{"g":"our","key":"our>er","inPlay":false}]},{"p":"ar","page":1,"colour":"#9ae29a","iconWord":"car","spellings":[{"g":"ar","key":"ar>ar","inPlay":false},{"g":"a","key":"a>ar","inPlay":false},{"g":"al","key":"al>ar","inPlay":false},{"g":"au","key":"au>ar","inPlay":false}]},{"p":"ou","page":1,"colour":"#c42fd1","iconWord":"mouse","spellings":[{"g":"ow","key":"ow>ou","inPlay":false},{"g":"ou","key":"ou>ou","inPlay":false}]},{"p":"oo","page":1,"colour":"#8a3be0","iconWord":"moon","spellings":[{"g":"oo","key":"oo>oo","inPlay":false},{"g":"ew","key":"ew>oo","inPlay":false},{"g":"u-e","key":"u-e>oo","inPlay":false},{"g":"o","key":"o>oo","inPlay":false},{"g":"ue","key":"ue>oo","inPlay":false},{"g":"ough","key":"ough>oo","inPlay":false},{"g":"u","key":"u>oo","inPlay":false},{"g":"ui","key":"ui>oo","inPlay":false},{"g":"ou","key":"ou>oo","inPlay":false}]},{"p":"ue","page":1,"colour":"#c77de8","iconWord":"news","spellings":[{"g":"u","key":"u>ue","inPlay":false},{"g":"ew","key":"ew>ue","inPlay":false},{"g":"u-e","key":"u-e>ue","inPlay":false},{"g":"ue","key":"ue>ue","inPlay":false}]},{"p":"or","page":1,"colour":"#7a4a24","iconWord":"corn","spellings":[{"g":"or","key":"or>or","inPlay":false},{"g":"aw","key":"aw>or","inPlay":false},{"g":"ar","key":"ar>or","inPlay":false},{"g":"al","key":"al>or","inPlay":false},{"g":"au","key":"au>or","inPlay":false},{"g":"a","key":"a>or","inPlay":false},{"g":"oar","key":"oar>or","inPlay":false},{"g":"augh","key":"augh>or","inPlay":false},{"g":"ough","key":"ough>or","inPlay":false},{"g":"ore","key":"ore>or","inPlay":false},{"g":"our","key":"our>or","inPlay":false}]},{"p":"air","page":1,"colour":"#6ec9f2","iconWord":"chair","spellings":[{"g":"air","key":"air>air","inPlay":false},{"g":"are","key":"are>air","inPlay":false},{"g":"ear","key":"ear>air","inPlay":false},{"g":"ere","key":"ere>air","inPlay":false},{"g":"eir","key":"eir>air","inPlay":false}]},{"p":"s","page":1,"colour":"#ee2e63","iconWord":"circle","spellings":[{"g":"s","key":"s>s","inPlay":true},{"g":"ss","key":"ss>s","inPlay":true},{"g":"st","key":"st>s","inPlay":false},{"g":"c","key":"c>s","inPlay":false},{"g":"ce","key":"ce>s","inPlay":false},{"g":"se","key":"se>s","inPlay":false},{"g":"sc","key":"sc>s","inPlay":false},{"g":"x","key":"x>ks","inPlay":true}]},{"p":"l","page":1,"colour":"#6b1d73","iconWord":"castle","spellings":[{"g":"l","key":"l>l","inPlay":true},{"g":"ll","key":"ll>l","inPlay":true},{"g":"le","key":"le>l","inPlay":false},{"g":"al","key":"al>l","inPlay":false},{"g":"el","key":"el>l","inPlay":false},{"g":"il","key":"il>l","inPlay":false},{"g":"ol","key":"ol>l","inPlay":false}]},{"p":"f","page":1,"colour":"#1e5f2e","iconWord":"dolphin","spellings":[{"g":"f","key":"f>f","inPlay":true},{"g":"ff","key":"ff>f","inPlay":true},{"g":"ph","key":"ph>f","inPlay":false},{"g":"gh","key":"gh>f","inPlay":false}]},{"p":"e","page":2,"colour":"#23208f","iconWord":"bread","spellings":[{"g":"e","key":"e>e","inPlay":true},{"g":"ea","key":"ea>e","inPlay":false},{"g":"ai","key":"ai>e","inPlay":false}]},{"p":"u","page":2,"colour":"#d9482b","iconWord":"love","spellings":[{"g":"u","key":"u>u","inPlay":true},{"g":"ou","key":"ou>u","inPlay":false},{"g":"o","key":"o>u","inPlay":false}]},{"p":"o","page":2,"colour":"#e0356f","iconWord":"wasp","spellings":[{"g":"o","key":"o>o","inPlay":true},{"g":"a","key":"a>o","inPlay":false}]},{"p":"d","page":2,"colour":"#e8312f","iconWord":"dog","spellings":[{"g":"d","key":"d>d","inPlay":true},{"g":"dd","key":"dd>d","inPlay":false},{"g":"ed","key":"ed>d","inPlay":false}]},{"p":"i","page":2,"colour":"#f7a23b","iconWord":"build","spellings":[{"g":"i","key":"i>i","inPlay":true},{"g":"ui","key":"ui>i","inPlay":false},{"g":"e","key":"e>i","inPlay":false},{"g":"y","key":"y>i","inPlay":false}]},{"p":"n","page":2,"colour":"#ece22a","iconWord":"knight","spellings":[{"g":"n","key":"n>n","inPlay":true},{"g":"nn","key":"nn>n","inPlay":false},{"g":"ne","key":"ne>n","inPlay":false},{"g":"gn","key":"gn>n","inPlay":false},{"g":"kn","key":"kn>n","inPlay":false}]},{"p":"v","page":2,"colour":"#1f8a33","iconWord":"dove","spellings":[{"g":"v","key":"v>v","inPlay":true},{"g":"ve","key":"ve>v","inPlay":true},{"g":"vv","key":"vv>v","inPlay":false}]},{"p":"j","page":2,"colour":"#4fe34f","iconWord":"giraffe","spellings":[{"g":"j","key":"j>j","inPlay":true},{"g":"g","key":"g>j","inPlay":false},{"g":"ge","key":"ge>j","inPlay":false},{"g":"dge","key":"dge>j","inPlay":false}]},{"p":"g","page":2,"colour":"#3a37b8","iconWord":"ghost","spellings":[{"g":"g","key":"g>g","inPlay":true},{"g":"gg","key":"gg>g","inPlay":false},{"g":"gh","key":"gh>g","inPlay":false},{"g":"gu","key":"gu>g","inPlay":false}]},{"p":"m","page":2,"colour":"#7cc3f0","iconWord":"thumb","spellings":[{"g":"m","key":"m>m","inPlay":true},{"g":"mm","key":"mm>m","inPlay":false},{"g":"mb","key":"mb>m","inPlay":false},{"g":"mn","key":"mn>m","inPlay":false}]},{"p":"h","page":2,"colour":"#8c1fa8","iconWord":"who","spellings":[{"g":"h","key":"h>h","inPlay":true},{"g":"wh","key":"wh>h","inPlay":false}]},{"p":"k","page":2,"colour":"#c77de8","iconWord":"anchor","spellings":[{"g":"c","key":"c>k","inPlay":true},{"g":"k","key":"k>k","inPlay":true},{"g":"ck","key":"ck>k","inPlay":true},{"g":"ch","key":"ch>k","inPlay":false},{"g":"cc","key":"cc>k","inPlay":false},{"g":"q","key":"q>k","inPlay":true},{"g":"x","key":"x>ks","inPlay":true}]},{"p":"r","page":2,"colour":"#f0226b","iconWord":"rhino","spellings":[{"g":"r","key":"r>r","inPlay":true},{"g":"rr","key":"rr>r","inPlay":false},{"g":"rh","key":"rh>r","inPlay":false},{"g":"wr","key":"wr>r","inPlay":false}]},{"p":"t","page":2,"colour":"#c4671f","iconWord":"tiger","spellings":[{"g":"t","key":"t>t","inPlay":true},{"g":"tt","key":"tt>t","inPlay":false},{"g":"bt","key":"bt>t","inPlay":false},{"g":"te","key":"te>t","inPlay":false}]},{"p":"z","page":2,"colour":"#c9ec5a","iconWord":"zebra","spellings":[{"g":"z","key":"z>z","inPlay":true},{"g":"zz","key":"zz>z","inPlay":true},{"g":"ze","key":"ze>z","inPlay":false},{"g":"s","key":"s>z","inPlay":false},{"g":"se","key":"se>z","inPlay":false},{"g":"ss","key":"ss>z","inPlay":false}]},{"p":"eer","page":2,"colour":"#1f9a9c","iconWord":"ear","spellings":[{"g":"ear","key":"ear>eer","inPlay":false},{"g":"eer","key":"eer>eer","inPlay":false},{"g":"ere","key":"ere>eer","inPlay":false}]},{"p":"a","page":3,"colour":"#ff6b5b","iconWord":"apple","spellings":[{"g":"a","key":"a>a","inPlay":true}]},{"p":"p","page":3,"colour":"#ff8fb8","iconWord":"pig","spellings":[{"g":"p","key":"p>p","inPlay":true},{"g":"pp","key":"pp>p","inPlay":false}]},{"p":"b","page":3,"colour":"#4a7dff","iconWord":"ball","spellings":[{"g":"b","key":"b>b","inPlay":true},{"g":"bb","key":"bb>b","inPlay":false}]},{"p":"w","page":3,"colour":"#2ec4b6","iconWord":"whale","spellings":[{"g":"w","key":"w>w","inPlay":true},{"g":"wh","key":"wh>w","inPlay":true},{"g":"u","key":"u>w","inPlay":true}]},{"p":"y","page":3,"colour":"#ffc53d","iconWord":"yo-yo","spellings":[{"g":"y","key":"y>y","inPlay":true}]},{"p":"sh","page":3,"colour":"#5ec8f2","iconWord":"ship","spellings":[{"g":"sh","key":"sh>sh","inPlay":true},{"g":"ch","key":"ch>sh","inPlay":false},{"g":"ti","key":"ti>sh","inPlay":false},{"g":"ci","key":"ci>sh","inPlay":false},{"g":"ssi","key":"ssi>sh","inPlay":false},{"g":"s","key":"s>sh","inPlay":false}]},{"p":"ch","page":3,"colour":"#f59b2b","iconWord":"chick","spellings":[{"g":"ch","key":"ch>ch","inPlay":true},{"g":"tch","key":"tch>ch","inPlay":true}]},{"p":"th","page":3,"colour":"#9b6cf0","iconWord":"three","spellings":[{"g":"th","key":"th>th","inPlay":true}]},{"p":"dh","page":3,"colour":"#6d4fd8","iconWord":"feather","spellings":[{"g":"th","key":"th>dh","inPlay":true}]},{"p":"ng","page":3,"colour":"#e56bd1","iconWord":"ring","spellings":[{"g":"ng","key":"ng>ng","inPlay":true},{"g":"n","key":"n>ng","inPlay":false}]},{"p":"zh","page":3,"colour":"#c98a00","iconWord":"treasure","spellings":[{"g":"s","key":"s>zh","inPlay":false},{"g":"si","key":"si>zh","inPlay":false},{"g":"ge","key":"ge>zh","inPlay":false}]},{"p":"schwa","page":3,"colour":"#a08a74","iconWord":"banana","spellings":[{"g":"a","key":"a>schwa","inPlay":false},{"g":"e","key":"e>schwa","inPlay":false},{"g":"o","key":"o>schwa","inPlay":false},{"g":"u","key":"u>schwa","inPlay":false},{"g":"er","key":"er>schwa","inPlay":false},{"g":"our","key":"our>schwa","inPlay":false}]}],"children":{"new":{"ae":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ee":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"oy":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ie":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"oe":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"uu":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"er":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ar":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ou":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"oo":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ue":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"or":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"air":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"s":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.38},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"hidden","e":0}],"words":[{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true}]},"l":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"f":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"e":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"u":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"o":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0}],"words":[]},"d":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"i":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"n":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"v":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0}],"words":[]},"j":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"g":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"m":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"h":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0}],"words":[]},"k":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"hidden","e":0},{"st":"hidden","e":0}],"words":[]},"r":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"t":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.13},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true},{"t":"at","segs":[["a","a"],["t","t"]],"pic":false,"audio":true}]},"z":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"eer":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"a":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.25}],"words":[{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true},{"t":"at","segs":[["a","a"],["t","t"]],"pic":false,"audio":true}]},"p":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0}],"words":[]},"b":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0}],"words":[]},"w":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"hidden","e":0}],"words":[]},"y":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0}],"words":[]},"sh":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ch":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0}],"words":[]},"th":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0}],"words":[]},"dh":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0}],"words":[]},"ng":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0}],"words":[]},"zh":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"schwa":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]}},"reception":{"ae":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ee":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"oy":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ie":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"oe":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"uu":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"er":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ar":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ou":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"oo":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ue":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"or":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"air":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"s":{"met":true,"complete":false,"gems":[{"st":"won","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"hidden","e":0}],"words":[{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true},{"t":"sun","segs":[["s","s"],["u","u"],["n","n"]],"pic":true,"audio":true}]},"l":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.88},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"leg","segs":[["l","l"],["e","e"],["g","g"]],"pic":true,"audio":true}]},"f":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.13},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"e":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.5},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"red","segs":[["r","r"],["e","e"],["d","d"]],"pic":false,"audio":true},{"t":"bed","segs":[["b","b"],["e","e"],["d","d"]],"pic":true,"audio":true},{"t":"leg","segs":[["l","l"],["e","e"],["g","g"]],"pic":true,"audio":true}]},"u":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.38},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"sun","segs":[["s","s"],["u","u"],["n","n"]],"pic":true,"audio":true},{"t":"run","segs":[["r","r"],["u","u"],["n","n"]],"pic":true,"audio":true}]},"o":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.63},{"st":"future","e":0}],"words":[{"t":"dog","segs":[["d","d"],["o","o"],["g","g"]],"pic":true,"audio":true}]},"d":{"met":true,"complete":false,"gems":[{"st":"ready","e":1},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"dog","segs":[["d","d"],["o","o"],["g","g"]],"pic":true,"audio":true},{"t":"red","segs":[["r","r"],["e","e"],["d","d"]],"pic":false,"audio":true},{"t":"bed","segs":[["b","b"],["e","e"],["d","d"]],"pic":true,"audio":true}]},"i":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"pin","segs":[["p","p"],["i","i"],["n","n"]],"pic":true,"audio":true},{"t":"big","segs":[["b","b"],["i","i"],["g","g"]],"pic":false,"audio":true}]},"n":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"pin","segs":[["p","p"],["i","i"],["n","n"]],"pic":true,"audio":true},{"t":"sun","segs":[["s","s"],["u","u"],["n","n"]],"pic":true,"audio":true},{"t":"run","segs":[["r","r"],["u","u"],["n","n"]],"pic":true,"audio":true}]},"v":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.13},{"st":"hidden","e":0},{"st":"future","e":0}],"words":[]},"j":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.13},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"g":{"met":true,"complete":false,"gems":[{"st":"ready","e":1},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"dog","segs":[["d","d"],["o","o"],["g","g"]],"pic":true,"audio":true},{"t":"leg","segs":[["l","l"],["e","e"],["g","g"]],"pic":true,"audio":true},{"t":"big","segs":[["b","b"],["i","i"],["g","g"]],"pic":false,"audio":true}]},"m":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"map","segs":[["m","m"],["a","a"],["p","p"]],"pic":true,"audio":true}]},"h":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.25},{"st":"future","e":0}],"words":[{"t":"hat","segs":[["h","h"],["a","a"],["t","t"]],"pic":true,"audio":true}]},"k":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.38},{"st":"charging","e":0.25},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"hidden","e":0},{"st":"hidden","e":0}],"words":[{"t":"cat","segs":[["c","k"],["a","a"],["t","t"]],"pic":true,"audio":true}]},"r":{"met":true,"complete":false,"gems":[{"st":"ready","e":1},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"red","segs":[["r","r"],["e","e"],["d","d"]],"pic":false,"audio":true},{"t":"run","segs":[["r","r"],["u","u"],["n","n"]],"pic":true,"audio":true}]},"t":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true},{"t":"cat","segs":[["c","k"],["a","a"],["t","t"]],"pic":true,"audio":true},{"t":"hat","segs":[["h","h"],["a","a"],["t","t"]],"pic":true,"audio":true}]},"z":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"eer":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"a":{"met":true,"complete":true,"gems":[{"st":"won","e":0}],"words":[{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true},{"t":"cat","segs":[["c","k"],["a","a"],["t","t"]],"pic":true,"audio":true},{"t":"map","segs":[["m","m"],["a","a"],["p","p"]],"pic":true,"audio":true},{"t":"hat","segs":[["h","h"],["a","a"],["t","t"]],"pic":true,"audio":true}]},"p":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0}],"words":[{"t":"pin","segs":[["p","p"],["i","i"],["n","n"]],"pic":true,"audio":true},{"t":"map","segs":[["m","m"],["a","a"],["p","p"]],"pic":true,"audio":true}]},"b":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.75},{"st":"future","e":0}],"words":[{"t":"bed","segs":[["b","b"],["e","e"],["d","d"]],"pic":true,"audio":true},{"t":"big","segs":[["b","b"],["i","i"],["g","g"]],"pic":false,"audio":true}]},"w":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0},{"st":"hidden","e":0}],"words":[]},"y":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0}],"words":[]},"sh":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ch":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"hidden","e":0}],"words":[]},"th":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0}],"words":[]},"dh":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0}],"words":[]},"ng":{"met":false,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"future","e":0}],"words":[]},"zh":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"schwa":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]}},"year1":{"ae":{"met":true,"complete":false,"gems":[{"st":"ready","e":1},{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"rain","segs":[["r","r"],["ai","ae"],["n","n"]],"pic":true,"audio":true},{"t":"tail","segs":[["t","t"],["ai","ae"],["l","l"]],"pic":true,"audio":true},{"t":"day","segs":[["d","d"],["ay","ae"]],"pic":false,"audio":true},{"t":"play","segs":[["p","p"],["l","l"],["ay","ae"]],"pic":false,"audio":true}]},"ee":{"met":true,"complete":false,"gems":[{"st":"won","e":0},{"st":"ready","e":1},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"tree","segs":[["t","t"],["r","r"],["ee","ee"]],"pic":true,"audio":true},{"t":"sea","segs":[["s","s"],["ea","ee"]],"pic":true,"audio":true}]},"oy":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ie":{"met":true,"complete":false,"gems":[{"st":"hidden","e":0},{"st":"ready","e":1},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"night","segs":[["n","n"],["igh","ie"],["t","t"]],"pic":true,"audio":true},{"t":"high","segs":[["h","h"],["igh","ie"]],"pic":false,"audio":true}]},"oe":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.63},{"st":"hidden","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"boat","segs":[["b","b"],["oa","oe"],["t","t"]],"pic":true,"audio":true}]},"uu":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"er":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ar":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ou":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"oo":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"ue":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"or":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"air":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"s":{"met":true,"complete":false,"gems":[{"st":"won","e":0},{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"charging","e":0.5}],"words":[{"t":"sea","segs":[["s","s"],["ea","ee"]],"pic":true,"audio":true},{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true},{"t":"yes","segs":[["y","y"],["e","e"],["s","s"]],"pic":false,"audio":true}]},"l":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"tail","segs":[["t","t"],["ai","ae"],["l","l"]],"pic":true,"audio":true},{"t":"play","segs":[["p","p"],["l","l"],["ay","ae"]],"pic":false,"audio":true},{"t":"bell","segs":[["b","b"],["e","e"],["ll","l"]],"pic":true,"audio":true}]},"f":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"fox","segs":[["f","f"],["o","o"],["x","ks"]],"pic":true,"audio":true}]},"e":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"bell","segs":[["b","b"],["e","e"],["ll","l"]],"pic":true,"audio":true},{"t":"yes","segs":[["y","y"],["e","e"],["s","s"]],"pic":false,"audio":true},{"t":"wet","segs":[["w","w"],["e","e"],["t","t"]],"pic":false,"audio":true}]},"u":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"o":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0}],"words":[{"t":"moth","segs":[["m","m"],["o","o"],["th","th"]],"pic":true,"audio":true},{"t":"dog","segs":[["d","d"],["o","o"],["g","g"]],"pic":true,"audio":true},{"t":"shop","segs":[["sh","sh"],["o","o"],["p","p"]],"pic":true,"audio":true},{"t":"fox","segs":[["f","f"],["o","o"],["x","ks"]],"pic":true,"audio":true}]},"d":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"day","segs":[["d","d"],["ay","ae"]],"pic":false,"audio":true},{"t":"dog","segs":[["d","d"],["o","o"],["g","g"]],"pic":true,"audio":true}]},"i":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"ship","segs":[["sh","sh"],["i","i"],["p","p"]],"pic":true,"audio":true},{"t":"chip","segs":[["ch","ch"],["i","i"],["p","p"]],"pic":false,"audio":true},{"t":"ring","segs":[["r","r"],["i","i"],["ng","ng"]],"pic":true,"audio":true},{"t":"zip","segs":[["z","z"],["i","i"],["p","p"]],"pic":true,"audio":true}]},"n":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"rain","segs":[["r","r"],["ai","ae"],["n","n"]],"pic":true,"audio":true},{"t":"night","segs":[["n","n"],["igh","ie"],["t","t"]],"pic":true,"audio":true},{"t":"van","segs":[["v","v"],["a","a"],["n","n"]],"pic":true,"audio":true}]},"v":{"met":true,"complete":false,"gems":[{"st":"ready","e":1},{"st":"charging","e":0.25},{"st":"future","e":0}],"words":[{"t":"van","segs":[["v","v"],["a","a"],["n","n"]],"pic":true,"audio":true}]},"j":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.5},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"jam","segs":[["j","j"],["a","a"],["m","m"]],"pic":true,"audio":true}]},"g":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"dog","segs":[["d","d"],["o","o"],["g","g"]],"pic":true,"audio":true}]},"m":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"moth","segs":[["m","m"],["o","o"],["th","th"]],"pic":true,"audio":true},{"t":"jam","segs":[["j","j"],["a","a"],["m","m"]],"pic":true,"audio":true}]},"h":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0}],"words":[{"t":"high","segs":[["h","h"],["igh","ie"]],"pic":false,"audio":true}]},"k":{"met":true,"complete":false,"gems":[{"st":"won","e":0},{"st":"won","e":0},{"st":"charging","e":0.88},{"st":"future","e":0},{"st":"future","e":0},{"st":"charging","e":0.38},{"st":"charging","e":0.5}],"words":[]},"r":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"rain","segs":[["r","r"],["ai","ae"],["n","n"]],"pic":true,"audio":true},{"t":"tree","segs":[["t","t"],["r","r"],["ee","ee"]],"pic":true,"audio":true},{"t":"ring","segs":[["r","r"],["i","i"],["ng","ng"]],"pic":true,"audio":true}]},"t":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"tail","segs":[["t","t"],["ai","ae"],["l","l"]],"pic":true,"audio":true},{"t":"tree","segs":[["t","t"],["r","r"],["ee","ee"]],"pic":true,"audio":true},{"t":"night","segs":[["n","n"],["igh","ie"],["t","t"]],"pic":true,"audio":true},{"t":"boat","segs":[["b","b"],["oa","oe"],["t","t"]],"pic":true,"audio":true},{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true},{"t":"wet","segs":[["w","w"],["e","e"],["t","t"]],"pic":false,"audio":true}]},"z":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.38},{"st":"charging","e":0.25},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"zip","segs":[["z","z"],["i","i"],["p","p"]],"pic":true,"audio":true}]},"eer":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"a":{"met":true,"complete":true,"gems":[{"st":"won","e":0}],"words":[{"t":"sat","segs":[["s","s"],["a","a"],["t","t"]],"pic":false,"audio":true},{"t":"jam","segs":[["j","j"],["a","a"],["m","m"]],"pic":true,"audio":true},{"t":"van","segs":[["v","v"],["a","a"],["n","n"]],"pic":true,"audio":true}]},"p":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0}],"words":[{"t":"play","segs":[["p","p"],["l","l"],["ay","ae"]],"pic":false,"audio":true},{"t":"ship","segs":[["sh","sh"],["i","i"],["p","p"]],"pic":true,"audio":true},{"t":"chip","segs":[["ch","ch"],["i","i"],["p","p"]],"pic":false,"audio":true},{"t":"shop","segs":[["sh","sh"],["o","o"],["p","p"]],"pic":true,"audio":true},{"t":"zip","segs":[["z","z"],["i","i"],["p","p"]],"pic":true,"audio":true}]},"b":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0}],"words":[{"t":"boat","segs":[["b","b"],["oa","oe"],["t","t"]],"pic":true,"audio":true},{"t":"bell","segs":[["b","b"],["e","e"],["ll","l"]],"pic":true,"audio":true}]},"w":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.75},{"st":"charging","e":0.25},{"st":"charging","e":0.13}],"words":[{"t":"wet","segs":[["w","w"],["e","e"],["t","t"]],"pic":false,"audio":true}]},"y":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.63}],"words":[{"t":"yes","segs":[["y","y"],["e","e"],["s","s"]],"pic":false,"audio":true}]},"sh":{"met":true,"complete":true,"gems":[{"st":"won","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[{"t":"ship","segs":[["sh","sh"],["i","i"],["p","p"]],"pic":true,"audio":true},{"t":"shop","segs":[["sh","sh"],["o","o"],["p","p"]],"pic":true,"audio":true}]},"ch":{"met":true,"complete":false,"gems":[{"st":"won","e":0},{"st":"charging","e":0.13}],"words":[{"t":"chip","segs":[["ch","ch"],["i","i"],["p","p"]],"pic":false,"audio":true}]},"th":{"met":true,"complete":false,"gems":[{"st":"ready","e":1}],"words":[{"t":"moth","segs":[["m","m"],["o","o"],["th","th"]],"pic":true,"audio":true}]},"dh":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.63}],"words":[]},"ng":{"met":true,"complete":false,"gems":[{"st":"charging","e":0.75},{"st":"future","e":0}],"words":[{"t":"ring","segs":[["r","r"],["i","i"],["ng","ng"]],"pic":true,"audio":true}]},"zh":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]},"schwa":{"met":false,"complete":false,"gems":[{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0},{"st":"future","e":0}],"words":[]}}},"examples":{"ai>ae":[{"t":"rain","segs":[["r","r"],["ai","ae"],["n","n"]],"pic":true},{"t":"tail","segs":[["t","t"],["ai","ae"],["l","l"]],"pic":true},{"t":"nail","segs":[["n","n"],["ai","ae"],["l","l"]],"pic":true}],"ay>ae":[{"t":"tray","segs":[["t","t"],["r","r"],["ay","ae"]],"pic":true},{"t":"day","segs":[["d","d"],["ay","ae"]],"pic":false},{"t":"say","segs":[["s","s"],["ay","ae"]],"pic":false}],"ee>ee":[{"t":"bee","segs":[["b","b"],["ee","ee"]],"pic":true},{"t":"tree","segs":[["t","t"],["r","r"],["ee","ee"]],"pic":true},{"t":"feet","segs":[["f","f"],["ee","ee"],["t","t"]],"pic":true}],"ea>ee":[{"t":"sea","segs":[["s","s"],["ea","ee"]],"pic":true},{"t":"tea","segs":[["t","t"],["ea","ee"]],"pic":true},{"t":"leaf","segs":[["l","l"],["ea","ee"],["f","f"]],"pic":true}],"ie>ie":[{"t":"pie","segs":[["p","p"],["ie","ie"]],"pic":true},{"t":"tie","segs":[["t","t"],["ie","ie"]],"pic":true},{"t":"lie","segs":[["l","l"],["ie","ie"]],"pic":false}],"igh>ie":[{"t":"night","segs":[["n","n"],["igh","ie"],["t","t"]],"pic":true},{"t":"light","segs":[["l","l"],["igh","ie"],["t","t"]],"pic":true},{"t":"high","segs":[["h","h"],["igh","ie"]],"pic":false}],"oa>oe":[{"t":"boat","segs":[["b","b"],["oa","oe"],["t","t"]],"pic":true},{"t":"goat","segs":[["g","g"],["oa","oe"],["t","t"]],"pic":true},{"t":"coat","segs":[["c","k"],["oa","oe"],["t","t"]],"pic":true}],"ow>oe":[{"t":"snow","segs":[["s","s"],["n","n"],["ow","oe"]],"pic":true},{"t":"crow","segs":[["c","k"],["r","r"],["ow","oe"]],"pic":true},{"t":"grow","segs":[["g","g"],["r","r"],["ow","oe"]],"pic":false}],"s>s":[{"t":"sea","segs":[["s","s"],["ea","ee"]],"pic":true},{"t":"sit","segs":[["s","s"],["i","i"],["t","t"]],"pic":true},{"t":"sun","segs":[["s","s"],["u","u"],["n","n"]],"pic":true}],"ss>s":[{"t":"dress","segs":[["d","d"],["r","r"],["e","e"],["ss","s"]],"pic":true},{"t":"kiss","segs":[["k","k"],["i","i"],["ss","s"]],"pic":false},{"t":"mess","segs":[["m","m"],["e","e"],["ss","s"]],"pic":false}],"x>ks":[{"t":"box","segs":[["b","b"],["o","o"],["x","ks"]],"pic":true},{"t":"fox","segs":[["f","f"],["o","o"],["x","ks"]],"pic":true},{"t":"six","segs":[["s","s"],["i","i"],["x","ks"]],"pic":false}],"l>l":[{"t":"leg","segs":[["l","l"],["e","e"],["g","g"]],"pic":true},{"t":"lid","segs":[["l","l"],["i","i"],["d","d"]],"pic":true},{"t":"log","segs":[["l","l"],["o","o"],["g","g"]],"pic":true}],"ll>l":[{"t":"doll","segs":[["d","d"],["o","o"],["ll","l"]],"pic":true},{"t":"bell","segs":[["b","b"],["e","e"],["ll","l"]],"pic":true},{"t":"hill","segs":[["h","h"],["i","i"],["ll","l"]],"pic":true}],"f>f":[{"t":"fan","segs":[["f","f"],["a","a"],["n","n"]],"pic":true},{"t":"fig","segs":[["f","f"],["i","i"],["g","g"]],"pic":true},{"t":"fog","segs":[["f","f"],["o","o"],["g","g"]],"pic":true}],"ff>f":[{"t":"off","segs":[["o","o"],["ff","f"]],"pic":false},{"t":"puff","segs":[["p","p"],["u","u"],["ff","f"]],"pic":false},{"t":"huff","segs":[["h","h"],["u","u"],["ff","f"]],"pic":false}],"e>e":[{"t":"den","segs":[["d","d"],["e","e"],["n","n"]],"pic":true},{"t":"bed","segs":[["b","b"],["e","e"],["d","d"]],"pic":true},{"t":"peg","segs":[["p","p"],["e","e"],["g","g"]],"pic":true}],"u>u":[{"t":"run","segs":[["r","r"],["u","u"],["n","n"]],"pic":true},{"t":"rug","segs":[["r","r"],["u","u"],["g","g"]],"pic":true},{"t":"cup","segs":[["c","k"],["u","u"],["p","p"]],"pic":true}],"o>o":[{"t":"pot","segs":[["p","p"],["o","o"],["t","t"]],"pic":true},{"t":"top","segs":[["t","t"],["o","o"],["p","p"]],"pic":true},{"t":"mop","segs":[["m","m"],["o","o"],["p","p"]],"pic":true}],"d>d":[{"t":"dog","segs":[["d","d"],["o","o"],["g","g"]],"pic":true},{"t":"dot","segs":[["d","d"],["o","o"],["t","t"]],"pic":true},{"t":"den","segs":[["d","d"],["e","e"],["n","n"]],"pic":true}],"i>i":[{"t":"sit","segs":[["s","s"],["i","i"],["t","t"]],"pic":true},{"t":"pin","segs":[["p","p"],["i","i"],["n","n"]],"pic":true},{"t":"tin","segs":[["t","t"],["i","i"],["n","n"]],"pic":true}],"n>n":[{"t":"man","segs":[["m","m"],["a","a"],["n","n"]],"pic":true},{"t":"pan","segs":[["p","p"],["a","a"],["n","n"]],"pic":true},{"t":"nap","segs":[["n","n"],["a","a"],["p","p"]],"pic":true}],"v>v":[{"t":"vet","segs":[["v","v"],["e","e"],["t","t"]],"pic":true},{"t":"van","segs":[["v","v"],["a","a"],["n","n"]],"pic":true},{"t":"vest","segs":[["v","v"],["e","e"],["s","s"],["t","t"]],"pic":true}],"ve>v":[{"t":"have","segs":[["h","h"],["a","a"],["ve","v"]],"pic":false},{"t":"give","segs":[["g","g"],["i","i"],["ve","v"]],"pic":false}],"j>j":[{"t":"jam","segs":[["j","j"],["a","a"],["m","m"]],"pic":true},{"t":"jet","segs":[["j","j"],["e","e"],["t","t"]],"pic":true},{"t":"jug","segs":[["j","j"],["u","u"],["g","g"]],"pic":true}],"g>g":[{"t":"bag","segs":[["b","b"],["a","a"],["g","g"]],"pic":true},{"t":"pig","segs":[["p","p"],["i","i"],["g","g"]],"pic":true},{"t":"dog","segs":[["d","d"],["o","o"],["g","g"]],"pic":true}],"m>m":[{"t":"mat","segs":[["m","m"],["a","a"],["t","t"]],"pic":true},{"t":"man","segs":[["m","m"],["a","a"],["n","n"]],"pic":true},{"t":"map","segs":[["m","m"],["a","a"],["p","p"]],"pic":true}],"h>h":[{"t":"hat","segs":[["h","h"],["a","a"],["t","t"]],"pic":true},{"t":"hop","segs":[["h","h"],["o","o"],["p","p"]],"pic":true},{"t":"hot","segs":[["h","h"],["o","o"],["t","t"]],"pic":true}],"c>k":[{"t":"cat","segs":[["c","k"],["a","a"],["t","t"]],"pic":true},{"t":"cap","segs":[["c","k"],["a","a"],["p","p"]],"pic":true},{"t":"cot","segs":[["c","k"],["o","o"],["t","t"]],"pic":true}],"k>k":[{"t":"yak","segs":[["y","y"],["a","a"],["k","k"]],"pic":true},{"t":"king","segs":[["k","k"],["i","i"],["ng","ng"]],"pic":true},{"t":"milk","segs":[["m","m"],["i","i"],["l","l"],["k","k"]],"pic":true}],"ck>k":[{"t":"duck","segs":[["d","d"],["u","u"],["ck","k"]],"pic":true},{"t":"sock","segs":[["s","s"],["o","o"],["ck","k"]],"pic":true},{"t":"rock","segs":[["r","r"],["o","o"],["ck","k"]],"pic":true}],"q>k":[{"t":"queen","segs":[["q","k"],["u","w"],["ee","ee"],["n","n"]],"pic":true},{"t":"quilt","segs":[["q","k"],["u","w"],["i","i"],["l","l"],["t","t"]],"pic":true},{"t":"squid","segs":[["s","s"],["q","k"],["u","w"],["i","i"],["d","d"]],"pic":true}],"r>r":[{"t":"rat","segs":[["r","r"],["a","a"],["t","t"]],"pic":true},{"t":"rod","segs":[["r","r"],["o","o"],["d","d"]],"pic":true},{"t":"run","segs":[["r","r"],["u","u"],["n","n"]],"pic":true}],"t>t":[{"t":"tea","segs":[["t","t"],["ea","ee"]],"pic":true},{"t":"tie","segs":[["t","t"],["ie","ie"]],"pic":true},{"t":"mat","segs":[["m","m"],["a","a"],["t","t"]],"pic":true}],"z>z":[{"t":"zip","segs":[["z","z"],["i","i"],["p","p"]],"pic":true},{"t":"zap","segs":[["z","z"],["a","a"],["p","p"]],"pic":false},{"t":"quiz","segs":[["q","k"],["u","w"],["i","i"],["z","z"]],"pic":false}],"zz>z":[{"t":"buzz","segs":[["b","b"],["u","u"],["zz","z"]],"pic":false},{"t":"fizz","segs":[["f","f"],["i","i"],["zz","z"]],"pic":false},{"t":"jazz","segs":[["j","j"],["a","a"],["zz","z"]],"pic":false}],"a>a":[{"t":"mat","segs":[["m","m"],["a","a"],["t","t"]],"pic":true},{"t":"man","segs":[["m","m"],["a","a"],["n","n"]],"pic":true},{"t":"pan","segs":[["p","p"],["a","a"],["n","n"]],"pic":true}],"p>p":[{"t":"pie","segs":[["p","p"],["ie","ie"]],"pic":true},{"t":"pan","segs":[["p","p"],["a","a"],["n","n"]],"pic":true},{"t":"nap","segs":[["n","n"],["a","a"],["p","p"]],"pic":true}],"b>b":[{"t":"bee","segs":[["b","b"],["ee","ee"]],"pic":true},{"t":"bat","segs":[["b","b"],["a","a"],["t","t"]],"pic":true},{"t":"bag","segs":[["b","b"],["a","a"],["g","g"]],"pic":true}],"w>w":[{"t":"web","segs":[["w","w"],["e","e"],["b","b"]],"pic":true},{"t":"wig","segs":[["w","w"],["i","i"],["g","g"]],"pic":true},{"t":"well","segs":[["w","w"],["e","e"],["ll","l"]],"pic":true}],"wh>w":[{"t":"whisk","segs":[["wh","w"],["i","i"],["s","s"],["k","k"]],"pic":true},{"t":"when","segs":[["wh","w"],["e","e"],["n","n"]],"pic":false},{"t":"which","segs":[["wh","w"],["i","i"],["ch","ch"]],"pic":false}],"u>w":[{"t":"queen","segs":[["q","k"],["u","w"],["ee","ee"],["n","n"]],"pic":true},{"t":"quilt","segs":[["q","k"],["u","w"],["i","i"],["l","l"],["t","t"]],"pic":true},{"t":"squid","segs":[["s","s"],["q","k"],["u","w"],["i","i"],["d","d"]],"pic":true}],"y>y":[{"t":"yak","segs":[["y","y"],["a","a"],["k","k"]],"pic":true},{"t":"yes","segs":[["y","y"],["e","e"],["s","s"]],"pic":false},{"t":"yum","segs":[["y","y"],["u","u"],["m","m"]],"pic":false}],"sh>sh":[{"t":"ship","segs":[["sh","sh"],["i","i"],["p","p"]],"pic":true},{"t":"shop","segs":[["sh","sh"],["o","o"],["p","p"]],"pic":true},{"t":"shed","segs":[["sh","sh"],["e","e"],["d","d"]],"pic":true}],"ch>ch":[{"t":"chick","segs":[["ch","ch"],["i","i"],["ck","k"]],"pic":true},{"t":"beach","segs":[["b","b"],["ea","ee"],["ch","ch"]],"pic":true},{"t":"chest","segs":[["ch","ch"],["e","e"],["s","s"],["t","t"]],"pic":true}],"tch>ch":[{"t":"match","segs":[["m","m"],["a","a"],["tch","ch"]],"pic":true},{"t":"witch","segs":[["w","w"],["i","i"],["tch","ch"]],"pic":true},{"t":"hutch","segs":[["h","h"],["u","u"],["tch","ch"]],"pic":true}],"th>th":[{"t":"moth","segs":[["m","m"],["o","o"],["th","th"]],"pic":true},{"t":"thin","segs":[["th","th"],["i","i"],["n","n"]],"pic":false},{"t":"thick","segs":[["th","th"],["i","i"],["ck","k"]],"pic":false}],"th>dh":[{"t":"this","segs":[["th","dh"],["i","i"],["s","s"]],"pic":false},{"t":"that","segs":[["th","dh"],["a","a"],["t","t"]],"pic":false},{"t":"them","segs":[["th","dh"],["e","e"],["m","m"]],"pic":false}],"ng>ng":[{"t":"ring","segs":[["r","r"],["i","i"],["ng","ng"]],"pic":true},{"t":"king","segs":[["k","k"],["i","i"],["ng","ng"]],"pic":true},{"t":"wing","segs":[["w","w"],["i","i"],["ng","ng"]],"pic":true}]}}</script>
+<script>
+"use strict";
+const A = "../../../public/a/";
+const DATA = JSON.parse(document.getElementById("data").textContent);
+const Q = new URLSearchParams(location.search);
+if (Q.has("clean")) document.body.classList.add("clean");
+const W_STAGE = 1280, H_STAGE = 720, PAGE_W = 1280;
+const SLOW = Math.max(1, +(Q.get("slow") || 1)), ms = (t) => t * SLOW;   // ?slow=6: the unlock and the win in slow motion
+const stage = document.getElementById("stage"), album = document.getElementById("album"), strip = document.getElementById("strip");
+const fxLayer = document.getElementById("fx"), capEl = document.getElementById("caption"), vscrim = document.getElementById("vscrim");
+
+// ------------------------------------------------------------------ the stage, fitted the way ui.tsx Stage does it
+let scale = 1;
+function fit() {
+  const cs = getComputedStyle(document.documentElement);
+  const inset = (v) => parseFloat(cs.getPropertyValue(v)) || 0;
+  const touch = matchMedia("(pointer: coarse)").matches;
+  const top = Math.max(inset("--sat"), touch ? 10 : 0), bottom = Math.max(inset("--sab"), touch ? 26 : 0);
+  const left = Math.max(inset("--sal"), touch ? 8 : 0), right = Math.max(inset("--sar"), touch ? 8 : 0);
+  const aw = innerWidth - left - right, ah = innerHeight - top - bottom;
+  scale = Math.min(aw / W_STAGE, ah / H_STAGE);
+  stage.style.left = `${left + aw / 2}px`;
+  stage.style.top = `${top + ah / 2}px`;
+  stage.style.transform = `scale(${scale}) translate(-50%, -50%)`;
+}
+fit();
+addEventListener("resize", fit);
+
+// ------------------------------------------------------------------ colours
+const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const hex = (c) => "#" + c.map((v) => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, "0")).join("");
+const mix = (a, b, t) => hex(rgb(a).map((v, i) => v + (rgb(b)[i] - v) * t));
+const lum = (h) => { const [r, g, b] = rgb(h).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+/** the sound's colour, darkened just enough to read on white (3:1): for energy lines and coloured letters */
+const deep = (c) => { let t = 0; while (contrast(mix(c, "#2b1d14", t), "#ffffff") < 3.2 && t < 0.9) t += 0.05; return mix(c, "#2b1d14", t); };
+const tint = (c) => mix(c, "#ffffff", 0.7);
+
+// ------------------------------------------------------------------ the teardrop (src/ui/petal.ts teardropAt, top-left origin)
+function tearPath(w, h, sw) {
+  const W = w - sw, H = h - sw, r = W / 2, x0 = w / 2, y0 = sw / 2;
+  const P = (x, y) => `${+(x0 + x).toFixed(1)},${+(y0 + y).toFixed(1)}`;
+  return `M${P(0, H)} C${P(-W * 0.12, H * 0.78)} ${P(-r, H * 0.56)} ${P(-r, r)} A${r},${r} 0 0 1 ${P(r, r)} C${P(r, H * 0.56)} ${P(W * 0.12, H * 0.78)} ${P(0, H)} Z`;
+}
+// single-quoted and fully escaped, because these URLs go into style="…" attributes
+const svgUrl = (s) => `url('data:image/svg+xml,${encodeURIComponent(s).replace(/'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29")}')`;
+const tearUrl = (w, h, fill, stroke, sw, dash) => svgUrl(`<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' viewBox='0 0 ${w} ${h}'><path d='${tearPath(w, h, sw)}' fill='${fill}' stroke='${stroke}' stroke-width='${sw}' stroke-linejoin='round'${dash ? ` stroke-dasharray='${dash}'` : ""}/></svg>`);
+/** the keyhole on a sound not met yet, in that sound's faded colour */
+const keyUrl = (c) => svgUrl(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'><circle cx='25' cy='25' r='21' fill='${mix(c, "#ffffff", 0.9)}' stroke='${mix(c, "#ffffff", 0.5)}' stroke-width='3'/><path d='M25 13a6.4 6.4 0 0 0-3.5 11.8L19.6 36h10.8l-1.9-11.2A6.4 6.4 0 0 0 25 13z' fill='${mix(deep(c), "#ffffff", 0.3)}'/></svg>`);
+/** half the petal's width at height y (its own coordinates): the round top, then the bezier sides into the point */
+function halfWidthFn(W, H) {
+  const r = W / 2, pts = [];
+  for (let i = 0; i <= 80; i++) {
+    const t = i / 80, u = 1 - t;
+    const x = u * u * u * r + 3 * u * u * t * r + 3 * u * t * t * (0.12 * W) + t * t * t * 0;
+    const y = u * u * u * r + 3 * u * u * t * (0.56 * H) + 3 * u * t * t * (0.78 * H) + t * t * t * H;
+    pts.push([y, x]);
+  }
+  return (y) => {
+    if (y <= r) return Math.sqrt(Math.max(0, r * r - (r - y) * (r - y)));
+    for (let i = 1; i < pts.length; i++) if (pts[i][0] >= y) { const [y0, x0] = pts[i - 1], [y1, x1] = pts[i]; return x0 + ((y - y0) / Math.max(1e-6, y1 - y0)) * (x1 - x0); }
+    return 0;
+  };
+}
+const cv = document.createElement("canvas").getContext("2d");
+const textW = (s, px, weight) => { cv.font = `${weight} ${px}px Andika`; return cv.measureText(s).width; };
+
+/** The spellings of one petal as a column, the chart's way: every spelling, in the chart's order. Met spellings are big;
+ *  the ones still to find (hidden) and the ones the game can't teach yet (future) are smaller ghost print. */
+function layoutColumn(items, W, H) {
+  const wt = (st) => (st === "future" ? 0.36 : st === "hidden" ? 0.6 : 1);
+  const hw = halfWidthFn(W, H);
+  const t0 = H * 0.035, t1 = H * 0.82;
+  const sum = items.reduce((a, x) => a + wt(x.st), 0);
+  const u = Math.min(70, (t1 - t0) / sum);
+  const T = u * sum;
+  let y = Math.max(t0, Math.min(W * 0.56 - T / 2, t1 - T));
+  return items.map((x) => {
+    const h = u * wt(x.st);
+    const cy = y + h / 2;
+    let f = h * (x.st === "future" ? 0.9 : 0.78);
+    const weight = x.st === "future" || x.st === "hidden" ? 400 : 700;
+    const avail = 2 * Math.min(hw(cy - f * 0.3), hw(cy + f * 0.3)) - 6;
+    const need = textW(x.g, f, weight) + f * 0.32;
+    if (need > avail) f = Math.max(9, f * (avail / need));
+    y += h;
+    return { ...x, cy, f };
+  });
+}
+
+// ------------------------------------------------------------------ state
+const PETALS = DATA.petals;
+const byP = Object.fromEntries(PETALS.map((p) => [p.p, p]));
+const PAGES = [1, 2, 3].map((pg) => PETALS.filter((p) => p.page === pg));
+const NEWEST = { new: "t", reception: "j", year1: "oe" };
+let childName = Q.get("child") && DATA.children[Q.get("child")] ? Q.get("child") : "year1";
+let ST = structuredClone(DATA.children[childName]);
+let cur = 0;
+
+// petal geometry on the sheet: 8 across (6 on the third page), 2 rows; the chart's rows of four run left to right
+const PW = 92, PH = 242, OY = 32;
+function cellOf(pageIdx, i) {
+  const perRow = PAGES[pageIdx].length > 12 ? 8 : 6;
+  const cw = 812 / perRow, col = i % perRow, row = Math.floor(i / perRow);
+  return { x: 14 + col * cw, y: row * 290, w: cw, h: 284, ox: (cw - PW) / 2 };
+}
+
+function petalHTML(pt, pageIdx, i) {
+  const s = ST[pt.p], c = cellOf(pageIdx, i), col = pt.colour;
+  const done = s.complete, myst = !s.met;
+  const o = tearUrl(PW, PH, done ? mix(col, "#ffffff", 0.84) : "#ffffff", col, done ? 5.5 : 4.5);
+  // not met yet: the chart's own outline, faded, waiting to be coloured in, with a keyhole
+  const m = tearUrl(PW, PH, "#ffffff", mix(col, "#ffffff", 0.62), 3.5);
+  const style = `left:${c.x}px;top:${c.y}px;width:${c.w}px;height:${c.h}px;--ox:${c.ox}px;--oy:${OY}px;--w:${PW}px;--h:${PH}px;--o:${o};--m:${m};--k:${myst ? keyUrl(col) : "none"};--t:${tint(col)};--d:${deep(col)}`;
+  let inner = "";
+  if (myst) inner += `<span class="key"></span>`;
+  else {
+    const items = pt.spellings.map((sp, k) => ({ g: sp.g, st: s.gems[k].st, e: s.gems[k].e }));
+    for (const ln of layoutColumn(items, PW, PH)) {
+      const hgt = ln.f * 1.16;
+      inner += `<span class="sp ${ln.st}" style="top:${(OY + ln.cy - hgt / 2).toFixed(1)}px;font-size:${ln.f.toFixed(1)}px;line-height:${hgt.toFixed(1)}px;height:${hgt.toFixed(1)}px;--e:${ln.e}">${ln.g}</span>`;
+    }
+    inner += `<img class="pic" src="${A}i/petal_${pt.p}.webp" alt="" decoding="async" />`;
+  }
+  return `<button class="petal${myst ? " myst" : ""}${done ? " done" : ""}" data-p="${pt.p}" aria-label="petal ${pt.p}" style="${style}">${inner}</button>`;
+}
+
+function renderAlbum() {
+  album.innerHTML = PAGES.map((pts, pi) => `<section class="page" data-page="${pi + 1}">${pi < PAGES.length - 1 ? `<div class="under"></div>` : ""}<div class="sheet">${pts.map((pt, i) => petalHTML(pt, pi, i)).join("")}<span class="pno">${pi + 1}</span></div></section>`).join("");
+}
+
+// the strip: one small flower per page, a petal per sound, coloured in once met (filled darker once complete)
+function rosette(pts) {
+  const n = pts.length, R0 = 15, R1 = 47, c = R1 - 0, L = R1 - R0;
+  const w = Math.min(15, ((2 * Math.PI * ((R0 + R1) / 2)) / n) * 0.9);
+  const cc = R1 - w / 2;
+  const d = `M0,${-R0} C${-w * 0.14},${-R0 - L * 0.3} ${-w / 2},${-cc + L * 0.28} ${-w / 2},${-cc} A${w / 2},${w / 2} 0 0 1 ${w / 2},${-cc} C${w / 2},${-cc + L * 0.28} ${w * 0.14},${-R0 - L * 0.3} 0,${-R0} Z`;
+  let met = 0, done = 0;
+  const paths = pts.map((pt, i) => {
+    const s = ST[pt.p];
+    if (s.met) met++;
+    if (s.complete) done++;
+    const fill = s.complete ? pt.colour : s.met ? mix(pt.colour, "#ffffff", 0.45) : "#ffffff";
+    const stroke = s.met ? deep(pt.colour) : mix(pt.colour, "#ffffff", 0.55);
+    return `<path d="${d}" fill="${fill}" stroke="${stroke}" stroke-width="1.6" transform="rotate(${((i + 0.5) * 360) / n})"/>`;
+  }).join("");
+  const all = done === n;
+  return `<svg viewBox="-50 -50 100 100">${paths}<circle r="${R0 - 3}" fill="${all ? "#ffc53d" : met ? "#fff1c9" : "#fff"}" stroke="#2b1d14" stroke-width="2.5"/></svg>`;
+}
+const FLOWER_ICON = `<svg viewBox="-60 -60 120 120">${["#e8312f", "#f7a23b", "#f3c74a", "#2fa65a", "#2ec4b6", "#4a7dff", "#8a3be0", "#f0226b"].map((c, i) => `<path d="M0,20 C-2.88,11.2 -12,2.4 -12,-8 A12,12 0 0 1 12,-8 C12,2.4 2.88,11.2 0,20 Z" transform="rotate(${i * 45}) translate(0 -34)" fill="${c}" stroke="#2b1d14" stroke-width="4"/>`).join("")}<circle r="17" fill="#ffc53d" stroke="#2b1d14" stroke-width="5"/></svg>`;
+function renderStrip() {
+  strip.innerHTML = `<button class="btn-round pink" aria-label="World Flower">${FLOWER_ICON}</button>` +
+    PAGES.map((pts, i) => `<button class="tab${i === cur ? " on" : ""}" data-go="${i}" aria-label="Page ${i + 1}">${rosette(pts)}</button>`).join("");
+}
+
+// ------------------------------------------------------------------ paging
+const prevB = document.getElementById("prev"), nextB = document.getElementById("next");
+function setCur(i) {
+  if (i === cur) return;
+  cur = i;
+  strip.querySelectorAll(".tab").forEach((t, k) => t.classList.toggle("on", k === cur));
+  prevB.disabled = cur === 0;
+  nextB.disabled = cur === PAGES.length - 1;
+}
+function goPage(i, smooth = true) {
+  i = Math.max(0, Math.min(PAGES.length - 1, i));
+  album.scrollTo({ left: i * PAGE_W, behavior: smooth ? "smooth" : "instant" });
+}
+let rafPending = false, settleT = 0, liveIdx = -1;
+album.addEventListener("scroll", () => {
+  if (!rafPending) { rafPending = true; requestAnimationFrame(() => { rafPending = false; setCur(Math.round(album.scrollLeft / PAGE_W)); }); }
+  clearTimeout(settleT);
+  settleT = setTimeout(settled, 140);
+}, { passive: true });
+if ("onscrollend" in window) album.addEventListener("scrollend", () => { clearTimeout(settleT); settled(); });
+function settled() {
+  const i = Math.round(album.scrollLeft / PAGE_W);
+  if (i === liveIdx) return;
+  const turned = liveIdx !== -1;   // nothing moves by itself when the album opens: no flip, no hop
+  liveIdx = i;
+  album.querySelectorAll(".page").forEach((p, k) => p.classList.toggle("live", k === i));
+  if (turned) { sfx.flip(); hop(); }
+}
+prevB.addEventListener("click", () => { sfx.tap(); goPage(cur - 1); });
+nextB.addEventListener("click", () => { sfx.tap(); goPage(cur + 1); });
+strip.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-go]");
+  if (t) { sfx.tap(); goPage(+t.dataset.go); }
+  else if (e.target.closest(".pink")) { sfx.tap(); toast("→ the World Flower"); }
+});
+document.querySelector(".home").addEventListener("click", () => { sfx.tap(); toast("→ the map"); });
+document.querySelector(".again").addEventListener("click", () => { sfx.tap(); say(lastLine); });
+document.querySelector(".help-btn").addEventListener("click", () => { sfx.tap(); say("help_flower"); });
+const ninjaEl = document.getElementById("ninja");
+function hop() { ninjaEl.animate([{ transform: "none" }, { transform: "translateY(-26px) scale(0.97, 1.03)", offset: 0.4 }, { transform: "translateY(0) scale(1.04, 0.96)", offset: 0.75 }, { transform: "none" }], { duration: 520, easing: "ease-out" }); }
+
+// ------------------------------------------------------------------ sound and Sensei
+const LINES = {
+  flower_tap: "Tap a petal to see its gems.",
+  help_flower: "Tap a petal to see its gems. A bouncing gem is ready for a gem battle!",
+  petal_secret: "This sound is still a secret. You'll find it on your adventure!",
+  gem_hidden: "This gem is still a secret. You'll find it later!",
+  gem_future: "This gem is far, far away. We'll find it one day!",
+  gem_ready: "A gem is glowing! It's ready for a gem battle.",
+  gem_charging: "This gem is filling up. Keep playing to fill it!",
+  t_practise_invite: "Shall we practise this in the dojo?",
+  petal_complete: "All the gems are in! The petal flies back onto the World Flower!",
+};
+let voice = null, lastLine = "flower_tap", capT = 0;
+function play(src) { try { voice?.pause(); voice = new Audio(src); voice.play().catch(() => {}); } catch {} return voice; }
+function say(id) {
+  lastLine = id;
+  const a = play(`${A}l/${id}.mp3`);
+  capEl.textContent = LINES[id] || "";
+  capEl.classList.add("on");
+  clearTimeout(capT);
+  const off = () => { clearTimeout(capT); capT = setTimeout(() => capEl.classList.remove("on"), 1200); };
+  capT = setTimeout(() => capEl.classList.remove("on"), 5000);
+  a?.addEventListener("ended", off, { once: true });
+}
+const soundOf = (p) => play(`${A}p/${p}.mp3`);
+const wordOf = (w) => play(`${A}w/${w}.mp3`);
+let ac = null;
+const sfx = {
+  ctx() { try { ac ??= new (window.AudioContext || window.webkitAudioContext)(); } catch {} return ac; },
+  blip(f0, f1, dur, vol = 0.12, type = "sine") { const c = this.ctx(); if (!c) return; const o = c.createOscillator(), g = c.createGain(); o.type = type; o.frequency.setValueAtTime(f0, c.currentTime); o.frequency.exponentialRampToValueAtTime(f1, c.currentTime + dur); g.gain.setValueAtTime(vol, c.currentTime); g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + dur); o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime + dur); },
+  tap() { this.blip(700, 420, 0.07, 0.1); },
+  flip() { const c = this.ctx(); if (!c || c.state !== "running") return; const n = c.createBufferSource(), b = c.createBuffer(1, c.sampleRate * 0.12, c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) ** 2; n.buffer = b; const f = c.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 2400; const g = c.createGain(); g.gain.value = 0.18; n.connect(f).connect(g).connect(c.destination); n.start(); },
+  sparkle() { [1320, 1760, 2090, 2640].forEach((f, i) => setTimeout(() => this.blip(f, f * 1.02, 0.18, 0.06, "triangle"), i * 70)); },
+  clunk() { this.blip(180, 90, 0.16, 0.18, "square"); },
+};
+function toast(t) { const el = document.createElement("div"); el.className = "toast"; el.textContent = t; stage.appendChild(el); el.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none", offset: 0.15 }, { opacity: 1, offset: 0.8 }, { opacity: 0 }], { duration: 1400 }).onfinish = () => el.remove(); }
+function sparks(x, y, colours, n = 10, dist = 120) {
+  const ring = document.createElement("i"); ring.className = "ring"; ring.style.left = x + "px"; ring.style.top = y + "px"; ring.style.setProperty("--sc", colours[0]);
+  fxLayer.appendChild(ring);
+  ring.animate([{ transform: "scale(0.2)", opacity: 0.9 }, { transform: "scale(1.3)", opacity: 0 }], { duration: ms(700), easing: "ease-out" }).onfinish = () => ring.remove();
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement("i"); s.className = "spark"; s.style.left = x + "px"; s.style.top = y + "px"; s.style.setProperty("--sc", colours[i % colours.length]);
+    fxLayer.appendChild(s);
+    const a = (i / n) * Math.PI * 2 + Math.random() * 0.4, r = dist * (0.7 + Math.random() * 0.5);
+    s.animate([{ transform: "scale(0.2)", opacity: 1 }, { transform: `translate(${Math.cos(a) * r}px, ${Math.sin(a) * r}px) scale(1) rotate(90deg)`, opacity: 1, offset: 0.6 }, { transform: `translate(${Math.cos(a) * r * 1.15}px, ${Math.sin(a) * r * 1.15 + 20}px) scale(0.3) rotate(160deg)`, opacity: 0 }], { duration: ms(900), easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => s.remove();
+  }
+}
+/** a rect in stage coordinates */
+function stageRect(el) { const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect(); return { x: (r.left - s.left) / scale, y: (r.top - s.top) / scale, w: r.width / scale, h: r.height / scale }; }
+
+// ------------------------------------------------------------------ taps on petals (click, so a swipe that starts on a petal never opens it)
+album.addEventListener("click", (e) => {
+  const b = e.target.closest(".petal");
+  if (!b) return;
+  const p = b.dataset.p;
+  if (!ST[p].met) {
+    sfx.clunk();
+    b.querySelector(".key")?.animate([{ transform: "rotate(0)" }, { transform: "rotate(-16deg)" }, { transform: "rotate(12deg)" }, { transform: "rotate(-6deg)" }, { transform: "rotate(0)" }], { duration: 480 });
+    say("petal_secret");
+    return;
+  }
+  sfx.tap();
+  soundOf(p);
+  openCard(p, b);
+});
+
+// ------------------------------------------------------------------ the unlock: the keyhole turns, the colour comes in, the picture sticks on
+function unlock(p) {
+  const pt = byP[p];
+  const b = album.querySelector(`.petal[data-p="${p}"]`);
+  if (!b) return;
+  const s = ST[p];
+  s.met = true;
+  s.gems = s.gems.map((g, k) => (pt.spellings[k].inPlay && g.st === "hidden" && !s.gems.some((x) => x.st !== "hidden" && x.st !== "future") && k === pt.spellings.findIndex((x) => x.inPlay) ? { st: "charging", e: 0.12 } : g));
+  const pageIdx = PAGES.findIndex((ps) => ps.includes(pt)), i = PAGES[pageIdx].indexOf(pt);
+  const tmp = document.createElement("div");
+  tmp.innerHTML = petalHTML(pt, pageIdx, i);
+  const nb = tmp.firstChild;
+  const key = document.createElement("span"); key.className = "key"; key.style.setProperty("--k", keyUrl(pt.colour)); nb.appendChild(key);
+  b.replaceWith(nb);
+  nb.classList.add("myst");
+  const pic = nb.querySelector(".pic"), lines = [...nb.querySelectorAll(".sp")];
+  pic.style.opacity = 0; lines.forEach((l) => (l.style.opacity = 0));
+  const r = stageRect(nb);
+  sfx.clunk();
+  key.animate([{ transform: "rotate(0)" }, { transform: "rotate(-30deg)", offset: 0.25 }, { transform: "rotate(90deg) scale(1.1)", offset: 0.6 }, { transform: "rotate(90deg) scale(1.9)", opacity: 0 }], { duration: ms(900), easing: "ease-in-out", fill: "forwards" });
+  setTimeout(() => {
+    nb.classList.remove("myst");
+    nb.animate([{ transform: "scale(1)" }, { transform: "scale(1.08)", offset: 0.4 }, { transform: "scale(1)" }], { duration: ms(500), easing: "ease-out" });
+    sparks(r.x + r.w / 2, r.y + OY + PW * 0.5, [pt.colour, "#ffc53d", deep(pt.colour)], 12, 120);
+    sfx.sparkle();
+  }, ms(650));
+  setTimeout(() => {
+    pic.style.opacity = "";
+    pic.animate([{ transform: "translate(-30px, -70px) scale(1.9) rotate(-18deg)", opacity: 0 }, { transform: "translate(0, 6px) scale(0.92) rotate(4deg)", opacity: 1, offset: 0.7 }, { transform: "none", opacity: 1 }], { duration: ms(520), easing: "cubic-bezier(.3,.9,.4,1)" });
+    soundOf(p);
+  }, ms(950));
+  lines.forEach((l, k) => setTimeout(() => { l.style.opacity = ""; l.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: ms(320), easing: "ease-out" }); }, ms(1250 + k * 90)));
+  setTimeout(() => { key.remove(); renderStrip(); }, ms(1500));
+}
+
+// a gem won: its spelling sticks into the petal with a highlighter swipe and a burst
+function winGem(p, k) {
+  const s = ST[p], pt = byP[p];
+  s.gems[k] = { st: "won", e: 1 };
+  const need = pt.spellings.map((x, j) => [x, j]).filter(([x]) => x.inPlay);
+  const nowDone = need.every(([, j]) => s.gems[j].st === "won");
+  const b = album.querySelector(`.petal[data-p="${p}"]`);
+  const pageIdx = PAGES.findIndex((ps) => ps.includes(pt)), i = PAGES[pageIdx].indexOf(pt);
+  const tmp = document.createElement("div"); tmp.innerHTML = petalHTML(pt, pageIdx, i);
+  const nb = tmp.firstChild; b.replaceWith(nb);
+  const line = nb.querySelectorAll(".sp")[k];
+  const r = stageRect(line);
+  line.animate([{ transform: "scale(1.6)", opacity: 0.4 }, { transform: "scale(0.94)", opacity: 1, offset: 0.6 }, { transform: "none" }], { duration: 520, easing: "cubic-bezier(.3,.9,.4,1)" });
+  sparks(r.x + r.w / 2, r.y + r.h / 2, [pt.colour, "#ffc53d", deep(pt.colour)], 10, 90);
+  sfx.sparkle();
+  if (nowDone) {
+    s.complete = true;
+    setTimeout(() => { const t = document.createElement("div"); t.innerHTML = petalHTML(pt, pageIdx, i); const done = t.firstChild; nb.replaceWith(done);
+      done.animate([{ transform: "scale(1)" }, { transform: "scale(1.1) rotate(-2deg)", offset: 0.35 }, { transform: "scale(0.98)", offset: 0.7 }, { transform: "none" }], { duration: 700 });
+      const rr = stageRect(done); sparks(rr.x + rr.w / 2, rr.y + rr.h / 2, [pt.colour, "#ffc53d", deep(pt.colour)], 16, 170); say("petal_complete"); renderStrip(); }, 700);
+  } else renderStrip();
+}
+
+// ------------------------------------------------------------------ the petal card
+let cardEls = null;
+function openCard(p, fromEl) {
+  closeCard(true);
+  const pt = byP[p], s = ST[p], col = pt.colour;
+  const scrim = document.createElement("div"); scrim.className = "scrim";
+  const card = document.createElement("div"); card.className = "card";
+  card.style.cssText = `--c:${col};--t:${tint(col)};--d:${deep(col)};--o:${tearUrl(196, 300, s.complete ? mix(col, "#ffffff", 0.84) : "#ffffff", col, 7)}`;
+  const n = pt.spellings.length, perRow = n <= 3 ? 3 : n === 4 ? 4 : n <= 6 ? 3 : 4;
+  const gap = 12, sw = (408 - gap * (perRow - 1)) / perRow, sh = n <= 3 ? 116 : 100;
+  const slots = pt.spellings.map((sp, k) => {
+    const g = s.gems[k], row = Math.floor(k / perRow), c = k % perRow;
+    let f = n <= 3 ? 66 : 56;
+    const weight = g.st === "future" || g.st === "hidden" ? 400 : 700;
+    if (g.st === "future") f *= 0.82;
+    const need = textW(sp.g, f, weight) + 24;
+    if (need > sw) f *= sw / need;
+    const extra = g.st === "won" ? `<svg class="gem" viewBox="0 0 34 34"><path d="M17 2 30 9.5v15L17 32 4 24.5v-15z" fill="${col}" stroke="#2b1d14" stroke-width="3" stroke-linejoin="round"/><path d="M11 10l6-3.5" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/></svg>`
+      : g.st === "ready" ? `<span class="play"><svg viewBox="0 0 64 64"><path fill="#fff" stroke="#2b1d14" stroke-width="7" stroke-linejoin="round" d="M22 12l30 20-30 20z"/></svg></span>`
+      : g.st === "charging" ? `<span class="bar" style="--e:${Math.max(0.06, g.e)}"><i></i></span>` : "";
+    return `<button class="slot ${g.st}${g.st === "ready" ? " bounce" : ""}" data-k="${k}" aria-label="gem ${sp.g}" style="left:${c * (sw + gap)}px;top:${row * (sh + gap)}px;width:${sw}px;height:${sh}px;font-size:${f.toFixed(1)}px;padding-bottom:${g.st === "charging" ? 14 : 0}px">${sp.g}${extra}</button>`;
+  }).join("");
+  const found = s.words;
+  const words = found.length ? found : [...new Set(pt.spellings.map((sp) => sp.g))].flatMap((g, k) => (s.gems[k] && ["won", "charging", "ready"].includes(s.gems[k].st) ? DATA.examples[pt.spellings[k].key] || [] : [])).slice(0, 4);
+  const wordHTML = words.slice(0, 6).map((w) => {
+    const txt = w.segs.map(([g, ph]) => (ph === p ? `<b>${g}</b>` : g)).join("");
+    return `<button class="word" data-w="${w.t}" data-g="${w.segs.filter(([, ph]) => ph === p).map(([g]) => g).join(" ")}">${w.pic ? `<img src="${A}i/pic_${w.t}.webp" alt="" />` : ""}<span>${txt}</span></button>`;
+  }).join("");
+  // who the words come from: the child's ninja (words you found) or Sensei (her examples, when none are found yet)
+  const who = found.length ? `<span class="who" style="--img:url('${A}i/hero_kai_idle.webp')"></span>` : `<span class="who sensei" style="--img:url('${A}i/sensei_face_idle.webp')"></span>`;
+  card.innerHTML = `
+    <button class="bigpetal" aria-label="Hear the sound"><span class="bp"></span><img class="bpic" src="${A}i/petal_${p}.webp" alt="" /><span class="spk"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 25h10l13-11v36L20 39H10z"/><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34"/></svg></span></button>
+    <button class="btn-round go gate" aria-label="Practise"><svg viewBox="0 0 64 64"><path d="M6 14c14 4 38 4 52 0l-2 8c-13 3-35 3-48 0z" fill="#e8312f" stroke="#2b1d14" stroke-width="4" stroke-linejoin="round"/><rect x="10" y="26" width="44" height="7" rx="2" fill="#e8312f" stroke="#2b1d14" stroke-width="4"/><path d="M17 22v34M47 22v34" stroke="#2b1d14" stroke-width="11" stroke-linecap="round"/><path d="M17 22v34M47 22v34" stroke="#e8312f" stroke-width="5" stroke-linecap="round"/><rect x="28" y="22" width="8" height="11" fill="#fff4dc" stroke="#2b1d14" stroke-width="3"/></svg></button>
+    <div class="slots">${slots}</div>
+    <div class="words" style="top:${30 + Math.ceil(n / perRow) * (sh + gap) + 6}px"><div class="whead">${who}<button class="btn-round hearall" aria-label="Hear the words"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 25h10l13-11v36L20 39H10z"/><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34"/></svg></button></div><div class="wlist">${wordHTML}</div></div>
+    <button class="btn-round close" aria-label="Close"><svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M12 34l13 13 27-30"/></svg></button>`;
+  stage.append(scrim, card);
+  // only the words that fit on the card (the newest first would be the game's choice; here, the save's order)
+  const wordsEl = card.querySelector(".words"), room = 696 - wordsEl.offsetTop - 16 - 106;
+  card.querySelectorAll(".word").forEach((w) => { if (w.offsetTop + w.offsetHeight > room) w.remove(); });
+  requestAnimationFrame(() => { scrim.classList.add("on"); vscrim.classList.add("on"); });
+  if (fromEl) {
+    const r = stageRect(fromEl);
+    const dx = r.x + r.w / 2 - (282 + 420), dy = r.y + r.h / 2 - (16 + 348);
+    card.animate([{ transform: `translate(${dx}px, ${dy}px) scale(0.16)`, opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 300, easing: "cubic-bezier(.2,.9,.3,1.08)" });
+  }
+  cardEls = { scrim, card, p };
+  scrim.addEventListener("click", () => closeCard());
+  card.querySelector(".close").addEventListener("click", () => { sfx.tap(); closeCard(); });
+  const bp = card.querySelector(".bigpetal");
+  bp.addEventListener("click", () => { soundOf(p); bp.animate([{ transform: "scale(1)" }, { transform: "scale(1.07)" }, { transform: "scale(1)" }], { duration: 420, easing: "ease-out" }); });
+  card.querySelector(".gate").addEventListener("click", () => { sfx.tap(); toast("→ the dojo: practise this sound"); });
+  card.querySelector(".hearall").addEventListener("click", () => { sfx.tap(); const ws = [...card.querySelectorAll(".word")]; ws.forEach((w, i) => setTimeout(() => { wordOf(w.dataset.w); w.animate([{ transform: "scale(1)" }, { transform: "scale(1.08)" }, { transform: "scale(1)" }], { duration: 380 }); }, i * 1100)); });
+  card.querySelector(".wlist").addEventListener("click", (e) => { const w = e.target.closest(".word"); if (w) { wordOf(w.dataset.w); w.animate([{ transform: "scale(1)" }, { transform: "scale(1.08)" }, { transform: "scale(1)" }], { duration: 380 }); } });
+  card.querySelector(".slots").addEventListener("click", (e) => {
+    const b = e.target.closest(".slot"); if (!b) return;
+    const k = +b.dataset.k, g = s.gems[k], sp = pt.spellings[k];
+    b.animate([{ transform: "scale(1)" }, { transform: "scale(1.1)" }, { transform: "scale(1)" }], { duration: 360, easing: "ease-out" });
+    if (g.st === "hidden") return say("gem_hidden");
+    if (g.st === "future") return say("gem_future");
+    if (g.st === "ready") { say("gem_ready"); toast("→ a gem battle for this gem"); return; }
+    soundOf(p);
+    card.querySelectorAll(".word").forEach((w) => w.classList.toggle("dim", !w.dataset.g.split(" ").includes(sp.g)));
+  });
+}
+function closeCard(now) {
+  if (!cardEls) return;
+  const { scrim, card } = cardEls; cardEls = null;
+  vscrim.classList.remove("on");
+  if (now) { scrim.remove(); card.remove(); return; }
+  scrim.classList.remove("on");
+  card.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "scale(0.94)" }], { duration: 160 }).onfinish = () => { scrim.remove(); card.remove(); };
+}
+
+// ------------------------------------------------------------------ mockup-only controls
+function renderDev() {
+  const dev = document.getElementById("dev");
+  dev.innerHTML = ["new", "reception", "year1"].map((c) => `<button data-child="${c}" class="${c === childName ? "on" : ""}">${c === "year1" ? "Year 1" : c === "new" ? "New" : "Reception"}</button>`).join("") +
+    `<button data-act="unlock">Unlock one</button><button data-act="win">Win a gem</button>`;
+  dev.onclick = (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.child) { childName = b.dataset.child; ST = structuredClone(DATA.children[childName]); boot(); return; }
+    if (b.dataset.act === "unlock") {
+      const pts = PAGES[cur];
+      const m = pts.find((pt) => !ST[pt.p].met && pt.spellings.some((x) => x.inPlay)) || pts.find((pt) => !ST[pt.p].met);
+      if (m) unlock(m.p); else toast("every sound on this page is met");
+    }
+    if (b.dataset.act === "win") {
+      for (const pt of PAGES[cur]) { const k = ST[pt.p].gems.findIndex((g) => g.st === "ready"); if (k >= 0) return winGem(pt.p, k); }
+      for (const pt of PAGES[cur]) { const k = ST[pt.p].gems.findIndex((g) => g.st === "charging"); if (k >= 0) return winGem(pt.p, k); }
+      toast("no gem to win on this page");
+    }
+  };
+}
+
+// ------------------------------------------------------------------ boot
+function startPage() {
+  if (Q.has("page")) return Math.max(0, Math.min(2, +Q.get("page") - 1));
+  const p = NEWEST[childName];
+  return PAGES.findIndex((ps) => ps.some((x) => x.p === p));
+}
+function boot() {
+  closeCard(true);
+  const unl = Q.get("unlock");
+  if (unl && ST[unl]) { ST[unl] = { ...ST[unl], met: false, complete: false, gems: ST[unl].gems.map((g) => (g.st === "future" ? g : { st: "hidden", e: 0 })) }; }
+  renderAlbum();
+  cur = -1;
+  const sp = startPage();
+  album.scrollLeft = sp * PAGE_W;      // opens where the child's newest sound is, with no nudge
+  setCur(sp);
+  renderStrip();
+  liveIdx = -1;
+  requestAnimationFrame(() => settled());
+  renderDev();
+  window.__album = { count: () => ({ page: document.querySelectorAll("*").length, album: album.querySelectorAll("*").length, strip: strip.querySelectorAll("*").length }), scale: () => scale, cur: () => cur };
+  if (unl) setTimeout(() => unlock(unl), +(Q.get("unlockAt") || 700));
+  if (Q.get("open")) setTimeout(() => { const b = album.querySelector(`.petal[data-p="${Q.get("open")}"]`); if (b) openCard(Q.get("open"), Q.has("instant") ? null : b); }, 50);
+}
+document.fonts.load("700 40px Andika").then(() => document.fonts.load("400 40px Andika")).then(() => document.fonts.ready).then(boot, boot);
+</script>
+</body>
+</html>

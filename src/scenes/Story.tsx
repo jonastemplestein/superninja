@@ -757,7 +757,10 @@ function ReadPage({ story, page, maxUnit, counted, onNext, onBack }: { story: st
       </div>
       {/* the green tick where Next stands on the pages Sensei reads (Back and Hear it again are the nav layer's, above it) */}
       <div ref={sideRef} className="st-side">
-        <RoundButton label="I read it!" className={`go st-go ${phase === "read" ? "ready" : "done"}`} onClick={readIt}><Icon.check /></RoundButton>
+        {/* (the wrapper beats and ripples on the compositor: story.css) */}
+        <span className={`st-go-wrap ${phase === "read" ? "ready" : ""}`}>
+          <RoundButton label="I read it!" className={`go st-go ${phase === "read" ? "ready" : "done"}`} onClick={readIt}><Icon.check /></RoundButton>
+        </span>
       </div>
     </>
   );

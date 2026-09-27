@@ -23,7 +23,7 @@ export const toEvidence:LearnerApi['toEvidence'] = (a,t,env) => {
   if(!activity || activity.gameOnly || a.choices===1 || a.phase!=='you-do' || 'origin' in a && a.origin==='shadow') return [];
   const refs=a.evidence.filter(x=>x.role==='target' && x.kc.startsWith('gpc:'));
   return refs.map(r=>{ const gpc=r.kc.slice(4).replace(/:(read|spell)$/,'') as GpcKey;
-    return { t, activity:a.activity as Evidence['activity'],skill:activity.skill,direction:activity.direction,gpc,gpcs:a.target.segs?.map(s=>`${s.g}>${s.p}` as GpcKey),word:a.target.word,structure:a.target.structure,unit:((a.target.unit==='IC8'||a.target.unit==='IC9'||a.target.unit==='IC10')?a.target.unit:env.curriculum.firstTaught(gpc)??a.target.unit),correct:a.correct,firstTry:a.attemptNo===1&&a.correct,helped:a.support.level>=2,errors:a.errors,phase:a.phase,ms:a.timing.latencyMs };
+    return { t, activity:a.activity as Evidence['activity'],skill:activity.skill,direction:activity.direction,gpc,gpcs:a.target.segs?.map(s=>`${s.g}>${s.p}` as GpcKey),word:a.target.word,structure:a.target.structure,unit:((a.target.unit==='IC8'||a.target.unit==='IC9'||a.target.unit==='IC10')?a.target.unit:env.curriculum.firstTaught(gpc)??a.target.unit),correct:a.correct,firstTry:a.attemptNo===1&&a.correct,helped:a.support.level>=2,errors:a.errors?.filter((e):e is Exclude<typeof e,'split-spelling'>=>e!=='split-spelling'),phase:a.phase,ms:a.timing.latencyMs };
   });
 };
 function weight(a:Attempt,s:LearnerState,env:LearnerEnv):number {

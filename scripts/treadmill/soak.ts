@@ -8,30 +8,42 @@
 //   probe per sample), live intervals and pending timeouts, long tasks, <audio>/<video> elements alive, Web Audio nodes
 //   created, live decoded audio bytes, global (window/document) listeners, and module state (listener sets, caches) via
 //   the probes in soak.vite.config.ts. At each level boundary also a memory-infra dump (footprint by allocator).
-// After each level, on the map, it forces a GC and takes a "boundary" sample: the soak invariant compares those with
-// the first one (docs/PERF.md). Then: --idle s on the map, and --stress N: N streak-10 strikes fired at 7 a second on
-// the ninja demo (the "particles pile up on a streak" hypothesis), then 10 s to settle, then the aura's standing cost.
+// Before the levels it opens the title untouched for 5 s (what the title decodes). After each level, on the map, it
+// forces a GC and takes a "boundary" sample: the soak invariant compares those with the first one (docs/PERF.md). Then:
+// --idle s on the still map; --idle-next s on a reward left alone with Next ready (NextArrow's idle nudge: the glow at
+// 8 s, the pointing hand and the ninja's leap at 16 s, the line again at 40 s, in game time); the ninja demo standing
+// still at streak 0 and 10 (the aura's standing cost); and --stress N: N streak-10 strikes fired at 7 a second (the
+// "particles pile up on a streak" hypothesis), then 10 s to settle.
+// The bot is bot.ts's step(): it taps Next through held steps and presentations (docs/NAVIGATION.md), as a child does.
 //
-// The game is served from a frozen snapshot of the working tree (soak.vite.config.ts: no HMR, no watcher), so edits
-// made elsewhere mid-soak can't reload the page: --serve prod (default: a production build + vite preview, what phones
-// run), --serve dev (vite dev server), or --serve none --base URL (an existing server; module probes only if it uses
-// the soak config).
+// The game is served from a frozen snapshot of the working tree (frozen.ts --probes, soak.vite.config.ts: no HMR, no
+// watcher), so edits made elsewhere mid-soak can't reload the page: --serve prod (default: a production build + vite
+// preview, what phones run), --serve dev (vite dev server), or --serve none --base URL (an existing server, e.g.
+// `frozen.ts --port N --probes --detach`; module probes only if it was built with the soak config).
 //
 // Usage: bun scripts/treadmill/soak.ts [--levels 16] [--from w1-2] [--fast 2] [--mobile] [--cpu 4] [--every 10]
-//          [--minutes 60] [--idle 60] [--stress 150] [--wrong 0.05] [--serve prod|dev|none] [--base URL] [--port N]
+//          [--minutes 60] [--idle 60] [--idle-next 40] [--stress 150] [--wrong 0.05] [--serve prod|dev|none] [--base URL] [--port N]
 //          [--out playtest/soak/<run>] [--headed] [--check] [--findings file] [--heap] [--patched] [--no-memdump]
+//          [--no-title] [--no-aura]
 //   --mobile: phone emulation (844×390 landscape, DPR 3, touch, mobile UA); --cpu 4: CDP CPU throttling (4× slower).
-//   --check: exit 1 if the soak invariant fails (for the treadmill). --heap: V8/Blink heap snapshots at the start and after
-//   the levels, diffed by constructor into heap-diff.md (what the growth is made of). --patched: see soak-fixes.ts.
-//   --analyse <dir>: re-run the analysis on a finished soak (e.g. after a budget changes), with the same flags.
-//   --findings <file>: also write the invariant's failures as treadmill findings (types.ts), e.g. <runDir>/soak.json.
-// Output: <out>/samples.json, samples.csv, levels.json, summary.md (tables + the invariant), report.html (charts).
+//   --check: judge the run against the budgets (docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §11.1 and PERF.md §5; BOUNDARY and
+//   judge() below), print the table, and exit 1 if any budget fails. The phone rows (fps, main thread %) are judged only
+//   with --cpu > 1; on desktop they are shown, not judged. Without --check the table is printed and the exit is 0.
+//   --heap: V8/Blink heap snapshots at the start and after the levels, diffed by constructor into heap-diff.md (what
+//   the growth is made of). --patched: see soak-fixes.ts.
+//   --analyse <dir>: re-judge a finished soak (e.g. after a budget changes); the run's own flags are read from its
+//   levels.json (older runs: pass the same --mobile/--cpu flags).
+//   --findings <file>: also write the failed budgets as treadmill findings (types.ts), e.g. <runDir>/soak.json.
+// Output: <out>/samples.json, samples.csv, levels.json, checks.json, summary.md (the budget table and the metrics),
+// report.html (charts). Exit 0 pass, 1 a budget failed (--check), 2 the soak itself crashed.
 import { chromium, type Page, type CDPSession } from "playwright";
 import { spawn, execFileSync, type ChildProcess } from "node:child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
+import { resolve } from "node:path";
 import { LEVELS } from "../../src/content/worlds";
 import { save, step } from "./bot";
+import { frozen } from "./frozen";
 import type { Finding } from "./types";
 
 const arg = (k: string, d?: string) => {
@@ -42,11 +54,13 @@ const flag = (k: string) => process.argv.includes(`--${k}`);
 const N_LEVELS = Number(arg("levels", "16"));
 const FROM = arg("from", "w1-2")!;
 const FAST = Number(arg("fast", "2"));
-const MOBILE = flag("mobile");
-const CPU = Number(arg("cpu", "1"));
+// (let: --analyse reads them back from the finished run's levels.json)
+let MOBILE = flag("mobile");
+let CPU = Number(arg("cpu", "1"));
 const EVERY = Number(arg("every", "10")) * 1000;
 const MINUTES = Number(arg("minutes", "60"));
 const IDLE_S = Number(arg("idle", "60"));
+const IDLE_NEXT = Number(arg("idle-next", "40")); // s on a reward left alone with Next ready (the idle nudge); 0 skips it
 const STRESS = Number(arg("stress", "150"));
 const WRONG = Number(arg("wrong", "0.05"));
 const SERVE = arg("serve", "prod")!;
@@ -55,25 +69,25 @@ const MEMDUMP = !flag("no-memdump");
 const HEAP = flag("heap"); // heap snapshots at the start and after the levels, diffed by constructor (heap-diff.md)
 const OUT = arg("analyse") ?? arg("out", `playtest/soak/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}${MOBILE ? "-mobile" : ""}${CPU > 1 ? `-cpu${CPU}` : ""}${flag("patched") ? "-patched" : ""}`)!;
 const CHECK = flag("check");
-const PATCHED = flag("patched"); // a preview of docs/PERF.md's fixes, patched into the snapshot (soak-fixes.ts)
+let PATCHED = flag("patched"); // a preview of docs/PERF.md's fixes, patched into the snapshot (soak-fixes.ts)
+const TITLE = !flag("no-title");
+const AURA = !flag("no-aura");
 const LEVEL_MAX_MS = 7 * 60_000; // real time per level before the soak gives up on it and moves on
 const STUCK_MS = 45_000;
+const ROOT = resolve(import.meta.dirname, "../..");
 mkdirSync(OUT, { recursive: true });
 
 // ---------------------------------------------------------------- the snapshot server
 async function startServer(): Promise<{ base: string; stop: () => void; built?: string }> {
   if (SERVE === "none") return { base: arg("base", "http://localhost:5173")!, stop: () => {} };
-  const cfg = "scripts/treadmill/soak.vite.config.ts";
-  const vite = "node_modules/.bin/vite";
-  let proc: ChildProcess;
-  const built = new Date().toISOString();
-  const env = { ...process.env, SOAK_FIXES: PATCHED ? "1" : "0", SOAK_FIXES_REPORT: `${OUT}/fixes.json` };
+  const env = { SOAK_FIXES: PATCHED ? "1" : "0", SOAK_FIXES_REPORT: `${OUT}/fixes.json` };
   if (SERVE === "prod") {
-    const dist = `${tmpdir()}/superninja-soak-${PORT}`;
-    console.log(`building a production snapshot → ${dist}`);
-    execFileSync(vite, ["build", "--config", cfg, "--outDir", dist, "--logLevel", "warn"], { stdio: "inherit", env });
-    proc = spawn(vite, ["preview", "--config", cfg, "--outDir", dist, "--port", String(PORT), "--strictPort"], { stdio: "ignore", env });
-  } else proc = spawn(vite, ["--config", cfg, "--port", String(PORT), "--strictPort"], { stdio: "ignore", env });
+    const f = await frozen({ port: PORT, out: `${tmpdir()}/superninja-soak-${PORT}`, probes: true, patched: PATCHED, env, retry: 2, log: (s) => console.log(s) });
+    return { base: f.base, stop: f.stop, built: f.built ?? undefined };
+  }
+  const cfg = "scripts/treadmill/soak.vite.config.ts";
+  const built = new Date().toISOString();
+  const proc: ChildProcess = spawn("node_modules/.bin/vite", ["--config", cfg, "--port", String(PORT), "--strictPort"], { stdio: "ignore", env: { ...process.env, ...env } });
   const base = `http://127.0.0.1:${PORT}`;
   for (let i = 0; i < 120; i++) {
     const ok = await fetch(`${base}/play/`).then((r) => r.ok, () => false);
@@ -91,7 +105,7 @@ function instrument() {
     raf: 0,
     long: { n: 0, ms: 0, max: 0 }, loaf: { n: 0, ms: 0, blocking: 0 },
     canvas: { cur: 0, last: 0, max: 0 },
-    audio: { decoded: 0, decodedBytes: 0, liveBytes: 0, live: 0, sources: 0, osc: 0, gains: 0, filters: 0, mediaSources: 0, analysers: 0, buffers: 0 },
+    audio: { decoded: 0, decodedBytes: 0, liveBytes: 0, live: 0, pending: 0, sources: 0, osc: 0, gains: 0, filters: 0, mediaSources: 0, analysers: 0, buffers: 0 },
     media: [] as WeakRef<HTMLMediaElement>[], mediaCreated: 0,
     intervals: new Map<number, { ms: number; at: string }>(), pending: new Set<number>(),
   });
@@ -173,16 +187,25 @@ function instrument() {
     // decoded bytes ever (decodedBytes) and still alive (liveBytes: a FinalizationRegistry takes them off once the
     // buffer is garbage collected, so an LRU that drops clips shows up here)
     const gone = new FinalizationRegistry<number>((bytes) => ((P.audio.liveBytes -= bytes), P.audio.live--));
+    // (pending: decodes still running, so a phase can wait for a slow one instead of measuring before it lands)
     AC.decodeAudioData = function (this: AudioContext, ...a: any[]) {
-      return dec.apply(this, a).then((b: AudioBuffer) => {
-        const bytes = b.length * b.numberOfChannels * 4;
-        P.audio.decoded++;
-        P.audio.decodedBytes += bytes;
-        P.audio.liveBytes += bytes;
-        P.audio.live++;
-        gone.register(b, bytes);
-        return b;
-      });
+      P.audio.pending++;
+      return dec.apply(this, a).then(
+        (b: AudioBuffer) => {
+          P.audio.pending--;
+          const bytes = b.length * b.numberOfChannels * 4;
+          P.audio.decoded++;
+          P.audio.decodedBytes += bytes;
+          P.audio.liveBytes += bytes;
+          P.audio.live++;
+          gone.register(b, bytes);
+          return b;
+        },
+        (e: unknown) => {
+          P.audio.pending--;
+          throw e;
+        },
+      );
     };
   }
   // media elements, in the page or not (new Audio() for music)
@@ -306,6 +329,17 @@ function instrument() {
     out.snScene = w.__snState?.scene ?? null;
     out.navLog = w.__snNavLog?.length ?? 0;
     out.audioLog = w.__audioLog?.length ?? 0;
+    // the store's adjustLog without the module probe (a build without the soak config): the longest in any saved profile
+    out.adjustLogSaved = null;
+    if (!mods["engine/store.ts"])
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i) ?? "";
+          if (!k.startsWith("superninja.save")) continue;
+          const n = JSON.parse(localStorage.getItem(k) ?? "{}")?.adjustLog?.length;
+          if (typeof n === "number") out.adjustLogSaved = Math.max(out.adjustLogSaved ?? 0, n);
+        }
+      } catch {}
     return out;
   };
 }
@@ -360,7 +394,7 @@ async function memDump(bcdp: CDPSession | null) {
   const names = new Map<number, string>(chunks.filter((e) => e.ph === "M" && e.name === "process_name").map((e) => [e.pid, String(e.args?.name ?? "")]));
   const procs = new Map<number, { pid: number; name: string; footprint: number; top: Record<string, number>; detail: Record<string, number> }>();
   for (const e of chunks.filter((x) => x.ph === "v")) {
-    const p = procs.get(e.pid) ?? { pid: e.pid, name: names.get(e.pid) ?? "?", footprint: 0, top: {}, detail: {} };
+    const p = procs.get(e.pid) ?? { pid: e.pid, name: names.get(e.pid) ?? "?", footprint: 0, top: {} as Record<string, number>, detail: {} as Record<string, number> };
     const tot = e.args?.dumps?.process_totals;
     if (tot?.private_footprint_bytes) p.footprint = MB(tot.private_footprint_bytes);
     for (const [k, v] of Object.entries<any>(e.args?.dumps?.allocators ?? {})) {
@@ -379,7 +413,7 @@ async function memDump(bcdp: CDPSession | null) {
 
 async function sample(page: Page, cdp: CDPSession, bcdp: CDPSession | null, tag: string, extra: Record<string, unknown> = {}): Promise<Sample | null> {
   let mem: Awaited<ReturnType<typeof memDump>> = null;
-  if (tag === "boundary" || tag === "baseline" || tag === "settled") {
+  if (tag === "boundary" || tag === "baseline" || tag === "settled" || tag === "title") {
     // a boundary is measured after a full GC, so garbage isn't mistaken for a leak; the rates (fps, CPU) are then
     // taken over a fresh 2 s window, so the GC itself isn't counted in them
     await cdp.send("HeapProfiler.collectGarbage").catch(() => {});
@@ -472,11 +506,13 @@ async function sample(page: Page, cdp: CDPSession, bcdp: CDPSession | null, tag:
     decodedClips: inPage.audio.live,
     decodedMB: inPage.audio.decodedMB,
     decodedTotalMB: inPage.audio.decodedTotalMB,
+    decodesPending: inPage.audio.pending,
     audioSourcesCreated: inPage.audio.sources,
     audioBuffersCreated: inPage.audio.buffers,
     mediaSourceNodes: inPage.audio.mediaSources,
     globalListeners: inPage.globalListeners.total,
     navLog: inPage.navLog,
+    adjustLog: inPage.mods.adjustLog ?? inPage.adjustLogSaved,
     route: inPage.route,
     snScene: inPage.snScene,
     imagesFetched: inPage.res.images,
@@ -555,8 +591,11 @@ async function tap(page: Page, sel: string) {
   return true;
 }
 
+let stopServer = () => {}; // (so a crash or Ctrl-C doesn't leave the snapshot server running)
 async function main() {
   const server = await startServer();
+  stopServer = server.stop;
+  process.on("SIGINT", () => (stopServer(), process.exit(130)));
   const BASE = server.base;
   console.log(`soak: ${N_LEVELS} levels from ${FROM} at fast=${FAST}${MOBILE ? ", phone emulation" : ""}${CPU > 1 ? `, CPU ${CPU}× slower` : ""}, served ${SERVE} from ${BASE} → ${OUT}`);
   const browser = await chromium.launch({ headless: !flag("headed"), args: ["--autoplay-policy=no-user-gesture-required"] });
@@ -580,6 +619,15 @@ async function main() {
   // one save for the whole session: a child who has done the intro and training, with everything unlocked
   await page.goto(`${BASE}/play/`);
   await page.evaluate((s) => localStorage.setItem("superninja.save.v1", JSON.stringify(s)), { ...save(), settings: { relaxed: false, music: 0.32, captions: false, unlockAll: true } });
+  // ---- the title, untouched for 5 s: what does it decode before anyone taps? (music streams through <audio>, so the
+  // title should decode no more than its own lines; PERF 5 / B1.1). A decode still running at 5 s is waited for.
+  if (TITLE) {
+    await page.goto(`${BASE}/play/?scene=title&fast=${FAST}`);
+    if (CPU > 1) await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU });
+    await page.waitForTimeout(5000);
+    for (let i = 0; i < 40 && Number(await ev(page, () => (window as any).__snPerf?.audio?.pending ?? 0)) > 0; i++) await page.waitForTimeout(500);
+    await sample(page, cdp, bcdp, "title", { level: null, levelIndex: 0, phase: "the title, 5 s, untouched" });
+  }
   await page.goto(`${BASE}/play/?scene=map&fast=${FAST}`);
   await page.mouse.click(422, 4); // the first gesture unlocks audio
   reloads = 0;
@@ -689,11 +737,29 @@ async function main() {
   }
   await sample(page, cdp, bcdp, "settled", { level: null, levelIndex: levels.length, phase: "after soak" });
 
-  // ---- the streak hypothesis: a tier-3 ninja striking fast, over and over (the ninja demo scene)
-  if (STRESS > 0) {
+  // ---- a held Next, left alone: the last level's reward, untouched once Next is ready. The idle nudge (the glow, the
+  // hand, the ninja's leap and Sensei's line) must cost no more than a still screen: no rAF loop between its moments
+  if (IDLE_NEXT > 0) {
+    const lastId = levels[levels.length - 1]?.id ?? FROM;
+    await page.evaluate(() => (window as any).__streak?.set(0)).catch(() => {});
+    await page.evaluate((id) => (window as any).__sn?.go({ name: "reward", id, stars: 3 }), lastId).catch(() => {});
+    for (let i = 0; i < 60 && (await ev(page, () => (window as any).__snNav?.next ?? null)) !== "ready"; i++) await page.waitForTimeout(500);
+    await sample(page, cdp, bcdp, "settled", { level: null, levelIndex: levels.length, phase: `the reward (${lastId}), Next ready` });
+    for (let s = 0; s < IDLE_NEXT; s += EVERY / 1000) {
+      await page.waitForTimeout(EVERY);
+      await sample(page, cdp, bcdp, "idle-next", { level: null, levelIndex: levels.length, phase: `the reward (${lastId}), a held Next, untouched` });
+    }
+    await page.evaluate(() => (window as any).__sn?.go({ name: "map" })).catch(() => {});
+    await page.waitForTimeout(3000);
+  }
+
+  // ---- the ninja standing still (the ninja demo scene): the aura's standing cost at streak 0 and at streak 10
+  if (AURA || STRESS > 0) {
     await page.evaluate(() => (window as any).__sn?.go({ name: "ninja-demo" })).catch(() => {});
     await page.waitForTimeout(2500);
     await page.evaluate(() => (window as any).__streak?.set(0)).catch(() => {});
+  }
+  if (AURA) {
     await page.waitForTimeout(EVERY);
     await sample(page, cdp, bcdp, "aura-t0", { phase: "ninja demo, streak 0, idle" });
     await page.waitForTimeout(EVERY);
@@ -703,6 +769,10 @@ async function main() {
     await sample(page, cdp, bcdp, "aura-t3", { phase: "ninja demo, streak 10, idle" });
     await page.waitForTimeout(EVERY);
     await sample(page, cdp, bcdp, "aura-t3", { phase: "ninja demo, streak 10, idle" });
+  }
+  // ---- the streak hypothesis: a tier-3 ninja striking fast, over and over
+  if (STRESS > 0) {
+    await page.evaluate(() => (window as any).__streak?.set(10)).catch(() => {});
     await sample(page, cdp, bcdp, "settled", { phase: "before stress" });
     const ts = Date.now();
     let fired = 0;
@@ -715,7 +785,7 @@ async function main() {
         void w.__ninja?.strike(t);
       }).catch(() => {});
       fired++;
-      if (fired % 15 === 0) {
+      if (fired % 5 === 0) {
         const p: any = await ev(page, () => ({ particles: (window as any).__snPerfMods?.["ui/ui.tsx"]?.().particles ?? 0, fx: document.querySelector(".fx-dom")?.getElementsByTagName("*").length ?? 0, anims: document.getAnimations().length }));
         if (p) peak = { particles: Math.max(peak.particles, p.particles), fx: Math.max(peak.fx, p.fx), anims: Math.max(peak.anims, p.anims) };
       }
@@ -729,6 +799,8 @@ async function main() {
     await sample(page, cdp, bcdp, "stress", { phase: "last strike", peak });
     await page.waitForTimeout(10_000);
     await sample(page, cdp, bcdp, "settled", { phase: "10 s after the stress" });
+  }
+  if (AURA || STRESS > 0) {
     // back to the map: the ninja unmounts, everything it owned should go
     await page.evaluate(() => (window as any).__streak?.set(0)).catch(() => {});
     await page.evaluate(() => (window as any).__sn?.go({ name: "map" })).catch(() => {});
@@ -739,42 +811,225 @@ async function main() {
   await browser.close();
   server.stop();
   // ---------------------------------------------------------------- report
-  const bounds = samples.filter((s) => s.tag === "baseline" || s.tag === "boundary");
-  const report = analyse(bounds, levels, errors, reloads, maxStreak, server.built);
+  const meta: Meta = { mobile: MOBILE, cpu: CPU, fast: FAST, from: FROM, levels: N_LEVELS, patched: PATCHED, serve: SERVE, base: BASE, built: server.built ?? null, idle: IDLE_S, idleNext: IDLE_NEXT, stress: STRESS };
   writeFileSync(`${OUT}/samples.json`, JSON.stringify(samples, null, 1));
-  writeFileSync(`${OUT}/levels.json`, JSON.stringify({ levels, errors, reloads }, null, 1));
+  writeFileSync(`${OUT}/levels.json`, JSON.stringify({ levels, errors, reloads, meta }, null, 1));
   const cols = [...new Set(samples.flatMap((s) => Object.keys(s)))].filter((k) => !["mods", "detail", "peak", "mem"].includes(k));
   writeFileSync(`${OUT}/samples.csv`, [cols.join(","), ...samples.map((s) => cols.map((c) => JSON.stringify(s[c] ?? "")).join(","))].join("\n"));
-  writeFileSync(`${OUT}/summary.md`, report.md);
-  writeFileSync(`${OUT}/report.html`, html(report.md));
-  if (arg("findings")) writeFileSync(arg("findings")!, JSON.stringify(toFindings(report.fails), null, 1));
-  console.log(`\n${report.md}\n→ ${OUT}`);
-  if (CHECK && !report.pass) process.exit(1);
+  finish(OUT, meta, levels, errors, reloads, maxStreak);
 }
 
-// ---------------------------------------------------------------- analysis: the soak invariant (docs/PERF.md)
-/** The soak invariant (docs/PERF.md). After each level, back on the map after a forced GC, every metric here must be
- *  ≤ baseline × slack + abs: a level leaves nothing behind, and a still screen asks for no frames. */
-const BUDGET: Record<string, { slack: number; abs: number }> = {
-  nodes: { slack: 1, abs: 600 }, // CDP Nodes: attached and detached DOM nodes
-  heapMB: { slack: 1, abs: 8 },
-  listeners: { slack: 1, abs: 40 },
-  animations: { slack: 1, abs: 5 }, // nothing left animating from the level
-  particles: { slack: 0, abs: 5 },
-  fxDomNodes: { slack: 0, abs: 0 },
-  intervals: { slack: 1, abs: 1 },
-  rafPerSec: { slack: 0, abs: 5 }, // no always-on rAF loops: an idle screen lets the main thread sleep
-  decodedMB: { slack: 0, abs: 64 }, // decoded audio stays within a budget
-  audioHandlers: { slack: 1, abs: 8 }, // Web Audio nodes don't pile up
-  mediaAlive: { slack: 1, abs: 2 }, // nor <audio> elements
-  // (no budget on footprintMB/rendererRssMB: under Playwright they include DevTools' own copies of every response
-  // body, since Playwright always enables the Network domain, and Chrome's decoded-image cache; see docs/PERF.md)
-};
-/** While playing (every periodic sample): at most this many endless animations the compositor can't run, or on hidden
- *  elements. */
-const PLAYING_MAX = { animMainThreadInfinite: 2, animHiddenInfinite: 2 };
-const FPS_MIN = 50; // every screen's median fps while playing (the phone profile: --mobile --cpu 4)
-const IDLE_MAIN_MAX = 5; // % main thread on the still map, when throttled (--cpu > 1): a still screen lets the phone rest
+// ---------------------------------------------------------------- analysis: the budgets (docs/PERF.md §5, FIX_PLAN §11.1)
+/** How the run was made (levels.json), so --analyse judges it the same way. */
+interface Meta { mobile: boolean; cpu: number; fast: number; from: string; levels: number; patched: boolean; serve: string; base: string; built: string | null; idle: number; idleNext?: number; stress: number }
+
+/** One budget judged on one run. ok: null when this run doesn't judge it (the phone rows on desktop, no World Flower
+ *  visit, an older run without that sample); `measured` is still filled in when there is something to show. */
+interface Check { id: string; when: string; what: string; budget: string; measured: string; ok: boolean | null; owner: string; detail?: string }
+
+/** After each level, back on the map after a forced GC (and the first sample, on the map before any level), every metric
+ *  here must be ≤ start × slack + abs: a level leaves nothing behind, and a still screen asks for no frames.
+ *  (No budget on footprintMB/rendererRssMB: under Playwright they include DevTools' own copies of every response body,
+ *  since Playwright always enables the Network domain, and Chrome's decoded-image cache; see docs/PERF.md §2.2.) */
+const BOUNDARY: { k: string; what: string; slack: number; abs: number; owner: string }[] = [
+  { k: "nodes", what: "DOM nodes (CDP, attached + detached)", slack: 1, abs: 600, owner: "all" },
+  { k: "heapMB", what: "JS heap, MB", slack: 1, abs: 8, owner: "all" },
+  { k: "listeners", what: "event listeners", slack: 1, abs: 40, owner: "all" },
+  { k: "animations", what: "animations on the map", slack: 1, abs: 5, owner: "all" },
+  { k: "intervals", what: "live intervals", slack: 1, abs: 1, owner: "all" },
+  { k: "particles", what: "particles on the canvas", slack: 0, abs: 5, owner: "F1" },
+  { k: "fxDomNodes", what: "nodes in the fx layer", slack: 0, abs: 0, owner: "F1" },
+  { k: "rafPerSec", what: "rAF requests/s on the still map", slack: 0, abs: 5, owner: "F1" },
+  { k: "decodedMB", what: "live decoded audio, MB", slack: 0, abs: 64, owner: "F1, B1" },
+  { k: "audioHandlers", what: "Web Audio nodes (AudioHandlers)", slack: 1, abs: 8, owner: "F1" },
+  { k: "mediaAlive", what: "<audio> elements alive", slack: 1, abs: 2, owner: "F1" },
+  { k: "navLog", what: "window.__snNavLog entries", slack: 0, abs: 500, owner: "F3" },
+  { k: "adjustLog", what: "the save's adjustLog entries", slack: 0, abs: 200, owner: "F1" },
+];
+const ANIM_MAX = 2; // endless non-compositable animations, and endless ones on hidden elements, in any sample
+const IDLE_RAF_MAX = 5; // rAF requests/s (median) on the still map through --idle, and on a held Next through --idle-next
+const TITLE_MB = 2; // live decoded audio on the untouched title after 5 s
+const FPS_MIN = 50; // phone ×4: every screen's median fps while playing
+const IDLE_MAIN_MAX = 5; // phone ×4: % main thread on the still map (median over --idle)
+const AURA_MAX: Record<string, number> = { "aura-t0": 6, "aura-t3": 14 }; // phone ×4: % main thread, the ninja standing still
+const IDLE_NEXT_MAIN_MAX = 6; // phone ×4: % main thread (median) on a held Next: a still screen with the ninja at streak 0
+const FLOWER = { main: 30, longTask: 120 }; // phone ×4: the World Flower's median main thread %, its longest task (ms)
+const STRESS_PEAK = 350; // particles at the peak of 150 streak-10 strikes (MAX_PARTICLES)
+
+const r1 = (v: number) => Math.round(v * 10) / 10;
+const nums = (a: unknown[]) => a.map(Number).filter((v) => Number.isFinite(v));
+function median(a: number[]) {
+  if (!a.length) return null;
+  const s = [...a].sort((x, y) => x - y), m = Math.floor(s.length / 2);
+  return r1(s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2);
+}
+const mean = (a: number[]) => (a.length ? r1(a.reduce((x, y) => x + y, 0) / a.length) : null);
+
+let keyframesAt: Map<string, Set<string>> | null = null;
+/** Where an animation is defined: the files under src/ (the current tree) with `@keyframes <name>`, i.e. its owner. */
+function definedIn(name: string): string {
+  if (!keyframesAt) {
+    const at = (keyframesAt = new Map<string, Set<string>>());
+    const walk = (dir: string) => {
+      for (const e of readdirSync(dir, { withFileTypes: true })) {
+        const p = `${dir}/${e.name}`;
+        if (e.isDirectory()) walk(p);
+        else if (/\.(css|tsx?)$/.test(e.name)) for (const m of readFileSync(p, "utf8").matchAll(/@keyframes\s+([\w-]+)/g)) (at.get(m[1]) ?? at.set(m[1], new Set()).get(m[1])!).add(p.slice(ROOT.length + 1));
+      }
+    };
+    try {
+      walk(`${ROOT}/src`);
+    } catch {}
+  }
+  return [...(keyframesAt.get(name.replace(/^@/, "")) ?? [])].join(", ");
+}
+/** The offending animations across samples: each name at the most instances seen at once, with where it's defined. */
+function offenders(list: Sample[], key: "mainThread" | "hidden"): string {
+  const most: Record<string, number> = {};
+  for (const s of list) for (const [n, c] of Object.entries<number>(s.detail?.anims?.[key] ?? {})) most[n] = Math.max(most[n] ?? 0, Number(c));
+  const names = Object.entries(most)
+    .sort((a, b) => b[1] - a[1])
+    .map(([n, c]) => {
+      const at = n.startsWith("@") ? definedIn(n) || "not in src/ now" : "";
+      return `${n.replace(/^@/, "")} ×${c}${at ? ` (${at})` : ""}`;
+    });
+  const screens = [...new Set(list.map((s) => String(s.route ?? "?")))];
+  return `${names.join(", ")}. On ${screens.slice(0, 8).join(", ")}${screens.length > 8 ? ` and ${screens.length - 8} more` : ""}`;
+}
+
+/** Judge a finished run (the module-level `samples`) against every budget. */
+function judge(meta: Meta, levels: any[], reloads: number): Check[] {
+  const C: Check[] = [];
+  const phone = meta.cpu > 1;
+  const onPhone = (ok: boolean | null) => (phone ? ok : null);
+  const bounds = samples.filter((s) => s.tag === "baseline" || s.tag === "boundary");
+  const base = bounds[0];
+  const where = (s: Sample) => s.level ?? "start";
+
+  for (const b of BOUNDARY) {
+    const pts = bounds.filter((s) => s[b.k] != null && Number.isFinite(Number(s[b.k])));
+    const budget = b.slack ? `≤ start + ${b.abs}` : `≤ ${b.abs}`;
+    if (!pts.length || !base) {
+      C.push({ id: b.k, when: "after each level, back on the map (GC'd)", what: b.what, budget, measured: "not measured (a build without the soak probes, or an older run)", ok: null, owner: b.owner });
+      continue;
+    }
+    const b0 = Number(pts[0][b.k]);
+    const limit = r1(b0 * b.slack + b.abs);
+    const worst = pts.reduce((w, s) => (Number(s[b.k]) > Number(w[b.k]) ? s : w));
+    const over = pts.filter((s) => Number(s[b.k]) > limit);
+    C.push({
+      id: b.k,
+      when: "after each level, back on the map (GC'd)",
+      what: b.what,
+      budget: b.slack ? `${budget} (${limit})` : budget,
+      measured: `start ${r1(b0)}, worst ${r1(Number(worst[b.k]))} (after ${where(worst)})${over.length ? `; over after ${over.length} of ${pts.length} boundaries, from ${where(over[0])}` : ""}`,
+      ok: !over.length,
+      owner: b.owner,
+    });
+  }
+
+  const title = samples.find((s) => s.tag === "title");
+  C.push({
+    id: "titleDecodedMB",
+    when: "on the title, untouched for 5 s",
+    what: "live decoded audio, MB",
+    budget: `≤ ${TITLE_MB}`,
+    measured: title ? `${title.decodedMB} MB in ${title.decodedClips} clip${title.decodedClips === 1 ? "" : "s"}${title.decodesPending ? ` (${title.decodesPending} still decoding)` : ""}` : "not measured (--no-title, or an older run)",
+    ok: title ? Number(title.decodedMB) <= TITLE_MB : null,
+    owner: "B1",
+  });
+
+  const play = samples.filter((s) => ["periodic", "idle-map", "idle-next", "title"].includes(s.tag));
+  for (const [k, key, what, owner] of [
+    ["animMainThreadInfinite", "mainThread", "endless animations the compositor can't run", "F1, B, C, D (by file)"],
+    ["animHiddenInfinite", "hidden", "endless animations running on hidden elements", "F1, D2 (by file)"],
+  ] as const) {
+    const over = play.filter((s) => Number(s[k] ?? 0) > ANIM_MAX);
+    const max = Math.max(0, ...nums(play.map((s) => s[k])));
+    C.push({ id: k, when: "while playing, and on still screens (title, map, a held Next), every sample", what, budget: `≤ ${ANIM_MAX}`, measured: play.length ? `max ${max}; over in ${over.length} of ${play.length} samples` : "not measured", ok: play.length ? !over.length : null, owner, detail: over.length ? offenders(over, key) : undefined });
+  }
+
+  const idle = samples.filter((s) => s.tag === "idle-map");
+  for (const [id, tag, when, off, owner] of [
+    ["idleRaf", "idle-map", `the still map, ${meta.idle} s untouched`, "--idle 0", "F1, B1"],
+    ["idleNextRaf", "idle-next", `a held Next (a reward), ${meta.idleNext ?? 0} s untouched, the idle nudge included`, "--idle-next 0, or an older run", "F1, F3 (nav.tsx), B1"],
+  ] as const) {
+    const pts = samples.filter((s) => s.tag === tag);
+    const raf = nums(pts.map((s) => s.rafPerSec)), main = nums(pts.map((s) => s.mainThreadPct));
+    C.push({
+      id,
+      when,
+      what: "rAF requests/s, median",
+      budget: `≤ ${IDLE_RAF_MAX}`,
+      measured: raf.length ? `${median(raf)} (max ${Math.max(...raf)}); main thread ${median(main)} %${meta.cpu > 1 ? "" : " (desktop)"}` : `not measured (${off})`,
+      ok: raf.length ? median(raf)! <= IDLE_RAF_MAX : null,
+      owner,
+    });
+  }
+
+  // ---- the phone profile (--cpu > 1): measured on desktop too, judged only when throttled
+  const nj = phone ? "" : " (not judged: desktop)";
+  const byRoute = new Map<string, number[]>();
+  for (const s of samples.filter((x) => x.tag === "periodic" && x.fps != null)) (byRoute.get(String(s.route)) ?? byRoute.set(String(s.route), []).get(String(s.route))!).push(Number(s.fps));
+  const screens = [...byRoute].map(([r, v]) => [r, median(v)!] as const).sort((a, b) => a[1] - b[1]);
+  const slow = screens.filter(([, m]) => m < FPS_MIN);
+  C.push({
+    id: "fps",
+    when: "phone ×4, while playing",
+    what: "every screen's median fps",
+    budget: `≥ ${FPS_MIN}`,
+    measured: screens.length ? (slow.length ? `under on ${slow.map(([r, m]) => `${r} (${m})`).join(", ")}` : `lowest ${screens[0][0]} (${screens[0][1]})`) + nj : "not measured",
+    ok: screens.length ? onPhone(!slow.length) : null,
+    owner: "D5 (the runner); otherwise the screen's owner",
+  });
+  const idleMain = nums(idle.map((s) => s.mainThreadPct));
+  C.push({ id: "idleMain", when: "phone ×4, the still map", what: "main thread %, median", budget: `≤ ${IDLE_MAIN_MAX} %`, measured: idleMain.length ? `${median(idleMain)} %${nj}` : "not measured (--idle 0)", ok: idleMain.length ? onPhone(median(idleMain)! <= IDLE_MAIN_MAX) : null, owner: "F1" });
+  const nextMain = nums(samples.filter((s) => s.tag === "idle-next").map((s) => s.mainThreadPct));
+  C.push({ id: "idleNextMain", when: "phone ×4, a held Next (a reward), the idle nudge included", what: "main thread %, median", budget: `≤ ${IDLE_NEXT_MAIN_MAX} %`, measured: nextMain.length ? `${median(nextMain)} % (${nextMain.join(", ")})${nj}` : "not measured (--idle-next 0, or an older run)", ok: nextMain.length ? onPhone(median(nextMain)! <= IDLE_NEXT_MAIN_MAX) : null, owner: "F1 (the ninja), F3 (the nudge), B1 (the reward)" });
+  for (const [tag, max] of Object.entries(AURA_MAX)) {
+    const v = nums(samples.filter((s) => s.tag === tag).map((s) => s.mainThreadPct));
+    C.push({ id: tag === "aura-t0" ? "auraT0" : "auraT3", when: "phone ×4, the ninja standing still", what: `main thread % at streak ${tag === "aura-t0" ? 0 : 10}, mean`, budget: `≤ ${max} %`, measured: v.length ? `${mean(v)} % (${v.join(", ")})${nj}` : "not measured (--no-aura)", ok: v.length ? onPhone(mean(v)! <= max) : null, owner: "F1" });
+  }
+  const tree = samples.filter((s) => s.tag === "periodic" && (String(s.route ?? "").startsWith("tree") || s.snScene === "tree"));
+  const treeMain = nums(tree.map((s) => s.mainThreadPct)), treeTask = nums(tree.map((s) => s.longTaskMax));
+  const noTree = "not measured (no World Flower visit in this run)";
+  C.push({ id: "flowerMain", when: "phone ×4, the World Flower", what: "main thread %, median", budget: `≤ ${FLOWER.main} %`, measured: treeMain.length ? `${median(treeMain)} % over ${treeMain.length} sample${treeMain.length === 1 ? "" : "s"} (${treeMain.join(", ")})${nj}` : noTree, ok: treeMain.length ? onPhone(median(treeMain)! <= FLOWER.main) : null, owner: "B2" });
+  C.push({ id: "flowerTask", when: "phone ×4, the World Flower", what: "longest task, ms", budget: `≤ ${FLOWER.longTask} ms`, measured: treeTask.length ? `${Math.max(...treeTask)} ms${nj}` : noTree, ok: treeTask.length ? onPhone(Math.max(...treeTask) <= FLOWER.longTask) : null, owner: "B2" });
+
+  // ---- the strike stress
+  const stress = samples.filter((s) => s.tag === "stress");
+  const peak = Math.max(0, ...nums(stress.flatMap((s) => [s.peak?.particles, s.mods?.particles ?? s.particles])));
+  const fxPeak = Math.max(0, ...nums(stress.flatMap((s) => [s.peak?.fx, s.fxDomNodes])));
+  C.push({ id: "stressPeak", when: `the strike stress (${meta.stress ? `${meta.stress} ` : ""}streak-10 strikes, 7 a second)`, what: "particles at the peak", budget: `≤ ${STRESS_PEAK}`, measured: stress.length ? `${peak} (fx nodes ${fxPeak})` : "not measured (--stress 0)", ok: stress.length ? peak <= STRESS_PEAK : null, owner: "F1" });
+  const after = samples.find((s) => s.tag === "settled" && s.phase === "10 s after the stress");
+  C.push({ id: "stressAfter", when: "10 s after the stress", what: "particles / fx nodes left", budget: "0 / 0", measured: after ? `${after.particles} / ${after.fxDomNodes}` : "not measured (--stress 0)", ok: after ? Number(after.particles) === 0 && Number(after.fxDomNodes) === 0 : null, owner: "F1" });
+
+  // ---- the soak itself
+  C.push({ id: "reloaded", when: "the whole soak", what: "page reloads", budget: "0", measured: String(reloads), ok: reloads === 0, owner: "all" });
+  const unfinished = levels.filter((l) => !l.ok);
+  C.push({ id: "levels", when: "the whole soak", what: "levels the bot finished", budget: "all", measured: `${levels.length - unfinished.length} of ${levels.length}${unfinished.length ? `; not: ${unfinished.map((l) => `${l.id}${l.stuck ? ` (${l.stuck.slice(0, 80)})` : ""}`).join(", ")}` : ""}`, ok: levels.length ? !unfinished.length : null, owner: "the scene's owner (or bot.ts)" });
+  return C;
+}
+
+const cell = (s: string) => s.replace(/\|/g, "\\|").replace(/</g, "&lt;");
+const verdict = (c: Check) => (c.ok === false ? "**FAIL**" : c.ok ? "pass" : "n/a");
+function checkTable(checks: Check[]): string {
+  return ["| result | when | check | budget | measured | owner |", "|---|---|---|---|---|---|", ...checks.map((c) => `| ${verdict(c)} | ${cell(c.when)} | ${cell(c.what)} | ${cell(c.budget)} | ${cell(c.measured)}${c.detail ? `<br>${cell(c.detail)}` : ""} | ${cell(c.owner)} |`)].join("\n");
+}
+/** The same table for the terminal: grouped by when it's measured, one line a budget, offenders indented below. */
+function checkText(checks: Check[]): string {
+  const w1 = Math.max(...checks.map((c) => c.what.length)), w2 = Math.max(...checks.map((c) => c.budget.length));
+  const lines: string[] = [];
+  let when = "";
+  for (const c of checks) {
+    if (c.when !== when) lines.push(`${(when = c.when)}`);
+    lines.push(`  ${c.ok === false ? "FAIL" : c.ok ? "pass" : "n/a "}  ${c.what.padEnd(w1)}  ${c.budget.padEnd(w2)}  ${c.measured}  [${c.owner}]`);
+    if (c.detail) lines.push(`        ↳ ${c.detail}`);
+  }
+  const judged = checks.filter((c) => c.ok != null).length, fails = checks.filter((c) => c.ok === false);
+  lines.push("", fails.length ? `soak --check: ${fails.length} of ${judged} budgets FAIL: ${fails.map((c) => c.id).join(", ")}` : `soak --check: all ${judged} budgets pass (${checks.length - judged} n/a)`);
+  return lines.join("\n");
+}
 
 function slope(xs: number[], ys: number[]) {
   const n = xs.length;
@@ -785,63 +1040,44 @@ function slope(xs: number[], ys: number[]) {
   return den ? num / den : 0;
 }
 
-function analyse(bounds: Sample[], levels: any[], errors: string[], reloads: number, maxStreak: number, built?: string) {
+function analyse(meta: Meta, checks: Check[], levels: any[], errors: string[], reloads: number, maxStreak: number) {
+  const bounds = samples.filter((s) => s.tag === "baseline" || s.tag === "boundary");
   const base = bounds[0];
   const last = bounds[bounds.length - 1];
-  const metrics = ["heapMB", "nodes", "detachedNodes", "attachedNodes", "listeners", "globalListeners", "animations", "animInfinite", "animHiddenInfinite", "animMainThreadInfinite", "fxDomNodes", "particles", "rafPerSec", "intervals", "pendingTimeouts", "mediaAlive", "decodedMB", "decodedTotalMB", "decodedClips", "audioHandlers", "arrayBuffers", "layoutObjects", "navLog", "imagesFetched", "audioFetched", "imgInDomMB", "rendererRssMB", "gpuRssMB", "footprintMB", "gpuFootprintMB", ...[...new Set(bounds.flatMap((s) => Object.keys(s).filter((k) => k.startsWith("mem_"))))].sort()];
+  const metrics = ["heapMB", "nodes", "detachedNodes", "attachedNodes", "listeners", "globalListeners", "animations", "animInfinite", "animHiddenInfinite", "animMainThreadInfinite", "fxDomNodes", "particles", "rafPerSec", "intervals", "pendingTimeouts", "mediaAlive", "decodedMB", "decodedTotalMB", "decodedClips", "audioHandlers", "arrayBuffers", "layoutObjects", "navLog", "adjustLog", "imagesFetched", "audioFetched", "imgInDomMB", "rendererRssMB", "gpuRssMB", "footprintMB", "gpuFootprintMB", ...[...new Set(bounds.flatMap((s) => Object.keys(s).filter((k) => k.startsWith("mem_"))))].sort()];
+  const byK = new Map(checks.map((c) => [c.id, c]));
   const rows: string[] = [];
-  const fails: string[] = [];
   for (const k of metrics) {
-    const ys = bounds.map((s) => Number(s[k] ?? NaN)).filter((v) => !Number.isNaN(v));
-    if (!ys.length) continue;
-    const xs = bounds.filter((s) => !Number.isNaN(Number(s[k] ?? NaN))).map((s) => s.levelIndex ?? 0);
-    const sl = slope(xs, ys);
-    const b = (BUDGET as any)[k];
-    let verdict = "";
-    if (b && base) {
-      const limit = Number(base[k] ?? 0) * b.slack + b.abs;
-      const over = bounds.filter((s) => Number(s[k] ?? 0) > limit);
-      verdict = over.length ? `FAIL (> ${Math.round(limit * 10) / 10} after ${over.map((s) => s.level ?? "start").slice(0, 4).join(", ")}${over.length > 4 ? "…" : ""})` : `ok (≤ ${Math.round(limit * 10) / 10})`;
-      if (over.length) fails.push(`${k}: ${verdict}`);
-    }
-    rows.push(`| ${k} | ${base?.[k] ?? "-"} | ${ys.map((v) => Math.round(v * 10) / 10).join(" ")} | ${last?.[k] ?? "-"} | ${Math.round(sl * 100) / 100} | ${verdict} |`);
+    const pts = bounds.filter((s) => s[k] != null && Number.isFinite(Number(s[k])));
+    if (!pts.length) continue;
+    const ys = pts.map((s) => Number(s[k]));
+    const sl = slope(pts.map((s) => s.levelIndex ?? 0), ys);
+    const c = BOUNDARY.some((b) => b.k === k) ? byK.get(k) : undefined;
+    rows.push(`| ${k} | ${base?.[k] ?? "-"} | ${ys.map(r1).join(" ")} | ${last?.[k] ?? "-"} | ${Math.round(sl * 100) / 100} | ${c ? `${c.ok === false ? "FAIL" : "ok"} (${c.budget})` : ""} |`);
   }
   const play = samples.filter((s) => s.tag === "periodic");
-  const med = (a: number[]) => (a.length ? [...a].sort((x, y) => x - y)[Math.floor((a.length - 1) / 2)] : null);
-  // fps per screen (level, reward, World Flower...): its median over the play windows
-  const byRoute = new Map<string, number[]>();
-  for (const s of play) if (s.fps != null) (byRoute.get(String(s.route)) ?? byRoute.set(String(s.route), []).get(String(s.route))!).push(s.fps);
-  const slowScreens = [...byRoute].map(([r, v]) => [r, med(v)!] as const).filter(([, m]) => m < FPS_MIN);
-  if (slowScreens.length) fails.push(`fps: median under ${FPS_MIN} on ${slowScreens.map(([r, m]) => `${r} (${m})`).join(", ")}`);
-  const idle = samples.filter((s) => s.tag === "idle-map" && s.mainThreadPct != null);
-  const idleMain = med(idle.map((s) => s.mainThreadPct));
-  if (CPU > 1 && idleMain != null && idleMain > IDLE_MAIN_MAX) fails.push(`idle: the still map keeps the main thread ${idleMain}% busy (> ${IDLE_MAIN_MAX}%, CPU ×${CPU})`);
-  for (const [k, max] of Object.entries(PLAYING_MAX)) {
-    const over = play.filter((s) => Number(s[k] ?? 0) > max);
-    if (over.length) fails.push(`${k} while playing: > ${max} in ${over.length}/${play.length} samples (max ${Math.max(...over.map((s) => Number(s[k])))}, e.g. ${JSON.stringify((k === "animHiddenInfinite" ? over[0].detail?.anims?.hidden : over[0].detail?.anims?.mainThread) ?? {})})`);
-  }
-  if (reloads) fails.push(`the page reloaded ${reloads}× during the soak`);
   const firstHalf = play.slice(0, Math.floor(play.length / 2)), secondHalf = play.slice(Math.floor(play.length / 2));
-  const avg = (a: Sample[], k: string) => {
-    const v = a.map((s) => s[k]).filter((x) => x != null) as number[];
-    return v.length ? Math.round((v.reduce((x, y) => x + y, 0) / v.length) * 10) / 10 : null;
-  };
-  const perf = ["fps", "slowFramePct", "mainThreadPct", "scriptPct", "stylePct", "layoutPct", "recalcPerSec", "rendererPct", "gpuPct", "longTaskMs", "rafPerSec", "rafPerFrame", "animHiddenInfinite", "animMainThreadInfinite", "animations", "animInfinite", "particles", "particlesPeak"];
+  const avg = (a: Sample[], k: string) => mean(nums(a.map((s) => s[k]).filter((x) => x != null)));
+  const perf = ["fps", "slowFramePct", "mainThreadPct", "scriptPct", "stylePct", "layoutPct", "recalcPerSec", "layoutPerSec", "rendererPct", "gpuPct", "longTaskMs", "rafPerSec", "rafPerFrame", "animHiddenInfinite", "animMainThreadInfinite", "animations", "animInfinite", "particles", "particlesPeak"];
   const perfRows = perf.map((k) => `| ${k} | ${avg(firstHalf, k)} | ${avg(secondHalf, k)} |`);
   const phases = samples.filter((s) => !["periodic", "boundary", "baseline"].includes(s.tag));
-  const phaseRows = phases.map((s) => `| ${s.tag} | ${s.phase ?? s.route ?? ""} | ${s.fps} | ${s.mainThreadPct} | ${s.stylePct} | ${s.recalcPerSec} | ${s.rendererPct ?? "-"} | ${s.gpuPct ?? "-"} | ${s.particles} / ${s.particlesPeak} | ${s.fxDomNodes} | ${s.animations} (${s.animInfinite} inf, ${s.animMainThreadInfinite} main) | ${s.nodes} | ${s.heapMB} |`);
+  const phaseRows = phases.map((s) => `| ${s.tag} | ${s.phase ?? s.route ?? ""} | ${s.fps} | ${s.mainThreadPct} | ${s.stylePct} | ${s.recalcPerSec} | ${s.rafPerSec} | ${s.rendererPct ?? "-"} | ${s.gpuPct ?? "-"} | ${s.particles} / ${s.particlesPeak} | ${s.fxDomNodes} | ${s.animations} (${s.animInfinite} inf, ${s.animMainThreadInfinite} main) | ${s.decodedMB} | ${s.nodes} | ${s.heapMB} |`);
   const lvRows = levels.map((l) => `| ${l.id} | ${l.kind} | ${l.secs} | ${l.ok ? "yes" : "NO"} | ${l.maxStreak} | ${l.streakEnd ?? ""} | ${l.stuck ?? ""} |`);
-  const lastDetail = last?.detail;
+  const fails = checks.filter((c) => c.ok === false);
   const md = [
     `# Soak ${OUT.split("/").pop()}`,
     "",
-    `${levels.length} levels in one page (no reloads: ${reloads === 0 ? "none" : reloads}), fast=${FAST}${MOBILE ? ", phone emulation (844×390, DPR 3)" : ", desktop 844×390"}${CPU > 1 ? `, CPU throttled ${CPU}×` : ""}, served ${SERVE}${built ? ` (snapshot built ${built})` : ""}${PATCHED ? ", **with the docs/PERF.md fixes patched in (preview)**" : ""}. Longest streak: ${maxStreak}. Page errors: ${errors.length}.`,
+    `${levels.length} levels in one page (reloads: ${reloads === 0 ? "none" : reloads}), fast=${meta.fast}${meta.mobile ? ", phone emulation (844×390, DPR 3)" : ", desktop 844×390"}${meta.cpu > 1 ? `, CPU throttled ${meta.cpu}×` : ""}, served ${meta.serve}${meta.base && meta.base !== "?" ? ` from ${meta.base}` : ""}${meta.built ? ` (snapshot built ${meta.built})` : ""}${meta.patched ? ", **with the docs/PERF.md fixes patched in (preview)**" : ""}. Longest streak: ${maxStreak}. Page errors: ${errors.length}.`,
     "",
-    `**Soak invariant: ${fails.length ? "FAIL" : "pass"}**${fails.length ? "\n\n" + fails.map((f) => `- ${f}`).join("\n") : ""}`,
+    `## Budgets: ${fails.length ? `**FAIL** (${fails.length}: ${fails.map((c) => c.id).join(", ")})` : "pass"}`,
+    "",
+    `docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §11.1 and docs/PERF.md §5. "n/a": not judged on this run${meta.cpu > 1 ? "" : " (the phone rows are judged only with --mobile --cpu 4; their desktop values are shown)"}. Owners are the fix plan's lanes; an offending animation names the file that defines it.`,
+    "",
+    checkTable(checks),
     "",
     "## After each level (on the map, after a forced GC)",
     "",
-    "| metric | baseline | per level → | last | slope / level | budget |",
+    "| metric | start | per level → | last | slope / level | budget |",
     "|---|---|---|---|---|---|",
     ...rows,
     "",
@@ -851,10 +1087,10 @@ function analyse(bounds: Sample[], levels: any[], errors: string[], reloads: num
     "|---|---|---|",
     ...perfRows,
     "",
-    "## Phases (idle, the ninja's aura, the strike stress)",
+    "## Phases (the title, the still map, a held Next, the ninja's aura, the strike stress)",
     "",
-    "| phase | what | fps | main % | style % | recalcs/s | renderer CPU % | GPU CPU % | particles (now / peak) | fx nodes | animations | Nodes | heap MB |",
-    "|---|---|---|---|---|---|---|---|---|---|---|---|---|",
+    "| phase | what | fps | main % | style % | recalcs/s | rAF/s | renderer CPU % | GPU CPU % | particles (now / peak) | fx nodes | animations | decoded MB | Nodes | heap MB |",
+    "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|",
     ...phaseRows,
     "",
     "## Levels",
@@ -866,19 +1102,23 @@ function analyse(bounds: Sample[], levels: any[], errors: string[], reloads: num
     "## Last boundary: what is still running",
     "",
     "```",
-    JSON.stringify({ animations: lastDetail?.anims, globalListeners: lastDetail?.globalListeners, intervals: lastDetail?.intervals, mods: last?.mods }, null, 1),
+    JSON.stringify({ animations: last?.detail?.anims, globalListeners: last?.detail?.globalListeners, intervals: last?.detail?.intervals, mods: last?.mods }, null, 1),
     "```",
     "",
     errors.length ? `## Errors\n\n${errors.slice(0, 30).map((e) => `- ${e}`).join("\n")}\n` : "",
   ].join("\n");
-  return { md, pass: !fails.length, fails };
+  return md;
 }
 
 const LABEL: Record<string, string> = {
   rafPerSec: "a still screen keeps asking for frames (an always-on rAF loop)",
-  idle: "the still map keeps a slow phone's main thread busy",
+  idleRaf: "the still map keeps asking for frames while nobody touches it",
+  idleNextRaf: "a held Next keeps asking for frames while it waits (the idle nudge included)",
+  idleNextMain: "a held Next keeps a slow phone's main thread busy while it waits",
+  idleMain: "the still map keeps a slow phone's main thread busy",
   fps: "a screen runs under 50 fps on a slow phone",
   decodedMB: "decoded audio keeps growing",
+  titleDecodedMB: "the title decodes audio it never plays",
   audioHandlers: "Web Audio nodes pile up",
   mediaAlive: "<audio> elements pile up",
   nodes: "DOM nodes pile up",
@@ -888,18 +1128,39 @@ const LABEL: Record<string, string> = {
   particles: "particles left after a level",
   fxDomNodes: "effect nodes left after a level",
   intervals: "intervals left running after a level",
+  navLog: "the nav log grows without a cap",
+  adjustLog: "the save's adjustLog grows without a cap",
   animMainThreadInfinite: "endless animations the compositor can't run (repainted every frame)",
   animHiddenInfinite: "endless animations running on hidden elements",
+  auraT0: "the ninja standing still at streak 0 keeps a slow phone busy",
+  auraT3: "the ninja standing still at streak 10 keeps a slow phone busy",
+  flowerMain: "the World Flower keeps a slow phone's main thread busy",
+  flowerTask: "the World Flower freezes on a slow phone (a long task)",
+  stressPeak: "a fast streak piles up too many particles",
+  stressAfter: "a fast streak leaves particles or effect nodes behind",
   reloaded: "the page reloaded during the soak",
+  levels: "the soak's bot couldn't finish a level",
 };
-/** The invariant's failures as treadmill findings (types.ts), for playtest/INBOX.md: --findings <file>. */
-function toFindings(fails: string[]): Finding[] {
-  const SEV: Record<string, Finding["severity"]> = { reloaded: "blocker", animMainThreadInfinite: "minor", animHiddenInfinite: "minor" };
+/** The failed budgets as treadmill findings (types.ts), for playtest/INBOX.md: --findings <file>. */
+function toFindings(checks: Check[]): Finding[] {
+  const SEV: Record<string, Finding["severity"]> = { reloaded: "blocker", animMainThreadInfinite: "minor", animHiddenInfinite: "minor", navLog: "minor", adjustLog: "minor" };
   const cmd = `bun scripts/treadmill/soak.ts ${process.argv.slice(2).filter((a, i, all) => !["--findings", "--out", "--analyse"].includes(all[i - 1] ?? "") && !["--findings", "--out", "--analyse"].includes(a)).join(" ")}`.trim();
-  return fails.map((f) => {
-    const key = f.startsWith("the page reloaded") ? "reloaded" : f.split(/[: ]/)[0];
-    return { sig: `soak:${key}`, source: "invariant", severity: SEV[key] ?? "major", case: "soak", title: `soak: ${LABEL[key] ?? key}`, detail: f, evidence: [`${OUT}/summary.md`, `${OUT}/report.html`], repro: cmd };
-  });
+  return checks
+    .filter((c) => c.ok === false)
+    .map((c) => ({ sig: `soak:${c.id}`, source: "invariant", severity: SEV[c.id] ?? "major", case: "soak", title: `soak: ${LABEL[c.id] ?? c.what}`, detail: `${c.when}, ${c.what}: ${c.measured} (budget ${c.budget}; owner ${c.owner})${c.detail ? `. ${c.detail}` : ""}`, evidence: [`${OUT}/summary.md`, `${OUT}/report.html`], repro: cmd }));
+}
+
+/** Judge the run in `samples`, write checks.json, summary.md and report.html (and --findings), print the budget table,
+ *  and exit 1 on a failed budget with --check. */
+function finish(dir: string, meta: Meta, levels: any[], errors: string[], reloads: number, maxStreak: number) {
+  const checks = judge(meta, levels, reloads);
+  const md = analyse(meta, checks, levels, errors, reloads, maxStreak);
+  writeFileSync(`${dir}/checks.json`, JSON.stringify({ pass: !checks.some((c) => c.ok === false), meta, checks }, null, 1));
+  writeFileSync(`${dir}/summary.md`, md);
+  writeFileSync(`${dir}/report.html`, html(md));
+  if (arg("findings")) writeFileSync(arg("findings")!, JSON.stringify(toFindings(checks), null, 1));
+  console.log(`\n${checkText(checks)}\n→ ${dir}/summary.md`);
+  if (CHECK && checks.some((c) => c.ok === false)) process.exit(1);
 }
 
 function html(md: string) {
@@ -924,25 +1185,25 @@ pre{white-space:pre-wrap;overflow-x:auto;font-size:12px}</style>
 <h1>Soak report</h1><p>Dots: green = after a level (GC'd, on the map), red = strike stress, dark = other phases.</p><div class="grid">${keys.map(chart).join("")}</div><pre>${esc(md)}</pre>`;
 }
 
-/** --analyse <dir>: re-run the analysis (the invariant, summary.md, report.html) on a finished soak's samples.json, e.g.
- *  after the budgets change. Pass the same --mobile/--cpu/--patched flags the soak ran with. */
+/** --analyse <dir>: re-judge a finished soak from its samples.json (checks.json, summary.md, report.html), e.g. after a
+ *  budget changes. The run's flags come from its levels.json; for older runs, pass the same --mobile/--cpu/--patched. */
 function reanalyse(dir: string) {
-  const got = JSON.parse(readFileSync(`${dir}/samples.json`, "utf8")) as Sample[];
-  samples.push(...got);
-  const { levels, errors, reloads } = JSON.parse(readFileSync(`${dir}/levels.json`, "utf8"));
-  const bounds = samples.filter((s) => s.tag === "baseline" || s.tag === "boundary");
+  samples.push(...(JSON.parse(readFileSync(`${dir}/samples.json`, "utf8")) as Sample[]));
+  const { levels, errors, reloads, meta: saved } = JSON.parse(readFileSync(`${dir}/levels.json`, "utf8"));
+  if (!saved) console.log(`(${dir}/levels.json has no meta, an older run: judging it as ${CPU > 1 ? `a phone run, CPU ${CPU}×` : "a desktop run"} from the flags; a phone run needs --mobile --cpu 4)`);
+  const struck = Math.max(0, ...samples.map((s) => Number(/strike \d+\/(\d+)/.exec(String(s.phase ?? ""))?.[1] ?? 0)));
+  const meta: Meta = saved ?? { mobile: MOBILE, cpu: CPU, fast: FAST, from: levels[0]?.id ?? FROM, levels: levels.length, patched: PATCHED, serve: "?", base: "?", built: null, idle: (samples.filter((s) => s.tag === "idle-map").length * EVERY) / 1000, idleNext: (samples.filter((s) => s.tag === "idle-next").length * EVERY) / 1000, stress: struck };
+  MOBILE = meta.mobile;
+  CPU = meta.cpu;
+  PATCHED = meta.patched;
   const maxStreak = Math.max(0, ...levels.map((l: any) => l.maxStreak ?? 0));
-  const report = analyse(bounds, levels, errors, reloads, maxStreak);
-  writeFileSync(`${dir}/summary.md`, report.md);
-  writeFileSync(`${dir}/report.html`, html(report.md));
-  if (arg("findings")) writeFileSync(arg("findings")!, JSON.stringify(toFindings(report.fails), null, 1));
-  console.log(report.md.split("\n## ")[0]);
-  if (CHECK && !report.pass) process.exit(1);
+  finish(dir, meta, levels, errors ?? [], reloads ?? 0, maxStreak);
 }
 
 if (arg("analyse")) reanalyse(arg("analyse")!);
 else
   main().catch((e) => {
     console.error(e);
+    stopServer();
     process.exit(2);
   });

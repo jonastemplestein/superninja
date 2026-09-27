@@ -365,6 +365,7 @@ async function deliver(el: HTMLElement, slot: HTMLElement, move: Deliver, alive:
   const ctrl = { x: (up.x + b.x) / 2, y: Math.min(up.y, b.y) - 70 };
   const r = rot;
   const ms = Math.max(230, Math.min(330, Math.hypot(b.x - up.x, b.y - up.y) / 1.7));
+  let glowAt = -Infinity; // the trail: at most 60 glows a second, every frame at 60 Hz as before (docs/PERF.md fix 7)
   await tween(ms, (t) => {
     const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     pos = bez(up, ctrl, b, e);
@@ -374,7 +375,10 @@ async function deliver(el: HTMLElement, slot: HTMLElement, move: Deliver, alive:
     sx = 1 + 0.12 * s;
     sy = 1 - 0.08 * s;
     put();
-    if (t < 0.92) fx.glow(pos.x, pos.y, COLS[tier], 1, 36, 0.6, 14);
+    if (t < 0.92 && performance.now() - glowAt >= 15) {
+      glowAt = performance.now();
+      fx.glow(pos.x, pos.y, COLS[tier], 1, 36, 0.6, 14);
+    }
   }, alive);
   box.remove();
   if (alive.current) landing(b, tier);

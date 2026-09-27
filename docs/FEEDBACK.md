@@ -166,7 +166,14 @@ Every piece of feedback from Jonas, in the order received, with its status. ✅ 
 
 ## Round 14 (Jonas, 26 Sep evening: performance, transcript, petals, and playtesting the preschool levels with his 3- and 4-year-old)
 
-- 🔨 "there are huge performance issues … after I play for a while, my phone melts". Diagnosed in docs/PERF.md: it isn't a particle leak. Two rAF loops never stop, the ninja's endless animations run even when hidden, and decoded audio and music elements only grow. The fixes are in docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md (lane F1).
+- ✅ "there are huge performance issues … after I play for a while, my phone melts". Diagnosed in docs/PERF.md: it isn't a particle leak. Two rAF loops never stop, the ninja's endless animations run even when hidden, and decoded audio and music elements only grow. Fixed and live on 27 Sep (production `10052f02`; docs/PERF.md "Fixed (27 Sep)"). On a phone-speed CPU (Chrome, CPU 4× slower), with the look unchanged:
+  - the still map: 7.5 % → 1.3 % of the main thread, and 120 → 0 frame requests a second;
+  - the ninja standing still: 13–18 % → 3–5 %;
+  - the runner: 35 → 58 fps;
+  - the World Flower: 52 % → 30 %, longest task 87 → 62 ms, and the petal chart 47 % → 18 %;
+  - decoded audio levels off at 40 MB (it was 64 MB after 12 levels and climbing);
+  - Web Audio nodes stay at 11 (they grew 9 → 63 over 12 levels);
+  - the title screen holds 0.1 MB of audio instead of 61 MB.
 - 🔨 "if you just look at the transcript … It just says, A, two letters, one sound, A, two letters, one sound". Confirmed: said 34 times in 25 minutes. Fixes: docs/SCRIPT_STYLE.md and SCRIPT_FIXES.md (lane F2 and the scene lanes).
 - 🔨 "when showing the student a sound as opposed to a spelling, you always have to show it in the petal shape in all games with the image at the top of the petal or next to it". Audit and spec: docs/SOUND_DISPLAY.md (lane F3 and the scene lanes).
 - ⏳ Playtest of the preschool levels with the 3- and 4-year-old: "this extremely abbreviated way of talking, it doesn't help at all … teachers … do way better explanations … 'So first, I'm going to show you how to do it. Are you ready? And this is how this game goes. I will show you this, and you will do that. Do you want to give it a go now?' … Or this weird shouted 'Listen!' … super weird in the first dojo level where it just starts with this, and this ear appears. Teachers explain what they're doing." So Sensei talks like a real Reception teacher:
@@ -175,3 +182,11 @@ Every piece of feedback from Jonas, in the order received, with its status. ✅ 
   - check readiness ("Are you ready? Do you want to have a go?"), with a tap answer
   - explain what's happening and why, and never bark bare commands like "Listen!"
   The full framing comes the first time a game is met, then a short "Remember this one?" on later plays. The teacher-voice design workflow writes docs/TEACHER_SCRIPT.md, and the fix plan implements it.
+
+## Round 15 (Jonas, 27 Sep)
+
+- 🔨 "The 'd' sound sounds like 'duh' now; the previous version was better." The original /d/ is back in public/a/p/d.mp3 (the rebuilt one is in .trash/phonemes-2026-09-27/). recipes.json marks it kept-original, and it goes live with the next ship. Lesson: the acoustic gate isn't the judge of a pure sound; Jonas's ear is.
+- 🔨 Found while fixing /d/: the service worker cached every /a/ file forever (cache-first, "they never change at a given URL"), so phones never got re-recorded sounds or redrawn pictures. Now the asset cache is versioned by a hash of public/a (src/pwa/sw.template.js, vite.config.ts `swVersion`), and old caches are dropped when anything changes.
+- 🔨 "The purple monster faces the wrong way still." Four monsters faced away from the ninja: Gloop (the purple one), the bamboo bandit, the frog (kappa) and the sumo panda. worlds.ts MONSTER_INFO is corrected, checked by eye and by five-vote vision checks of pupils, nose and leading hand (playtest/runs/facing2.ts). Goes live with the next ship.
+- ⏳ "The scroll is ugly as fuck and barely usable. Review that and make it more similar to what the kids are used to from the image I shared." That's the school's Extended Code chart (Yr1/Yr2 parents' presentation, p23): a white sheet, outlined downward petals, spellings stacked inside, a corner picture. Design workflow: an audit, three mockup directions, judges, then docs/SCROLL_DESIGN.md. Implementation follows in the fix workflow's World Flower lane.
+- ⏳ "Make me some normal clips of each of the games / level types. Maybe 3 of each so I can decide which to use." Plus "one that shows a supercut of all the enemies." These are recorded from production once the monster-facing fix is live, then go on an R2 page like the tweet kit.

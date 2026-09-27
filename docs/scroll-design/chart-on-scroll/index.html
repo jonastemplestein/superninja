@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<meta name="theme-color" content="#1d1230" />
+<title>Petal Chart Scroll</title>
+<meta name="description" content="Super Ninja design mockup: the school's petal chart printed on a ninja scroll (Designer 2, chart-on-scroll)." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@500;600;700;800&display=block" rel="stylesheet" />
+<style>
+/* ---------------------------------------------------------------- tokens (as src/styles.css) */
+:root {
+  --ink: #2b1d14; --ink-soft: #5a4636;
+  --gold: #ffc53d; --gold-deep: #c98a00;
+  --good: #3fbf6a; --good-deep: #1f7a41;
+  --blossom: #ff7aa2; --blossom-deep: #d9477a;
+  --world: #6cc04a;
+  --paper: #fffdf7;
+  --ink-hidden: rgba(43, 29, 20, .30);   /* invisible ink: the game teaches it, not met yet */
+  --ink-future: rgba(43, 29, 20, .17);   /* invisible ink, fainter: the game can't teach it yet */
+  --ink-mystery: rgba(120, 88, 48, .17); /* a sound not met yet: the whole petal, lemon-juice ink */
+  --font-letters: "Andika", "Comic Sans MS", system-ui, sans-serif;
+  --font-ui: "Baloo 2", "Andika", system-ui, sans-serif;
+  color-scheme: light;
+}
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body { background: #1d1230; font-family: var(--font-ui); color: var(--ink); user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation; overscroll-behavior: none; -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+/* ---------------------------------------------------------------- the stage: 1280×720, scaled to fit like ui.tsx Stage */
+.viewport { position: fixed; inset: 0; background: radial-gradient(ellipse at center, color-mix(in srgb, var(--world) 45%, #1d1230) 0%, #1d1230 75%); }
+.stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: 0 0; overflow: hidden; contain: layout paint; touch-action: none; background: #cfe3b0; }
+.backdrop { position: absolute; inset: 0; background: linear-gradient(rgba(255, 250, 238, .38), rgba(255, 250, 238, .38)), url(../../../public/a/i/world_flower_bg.webp) center / cover; }
+
+/* ---------------------------------------------------------------- the scroll: paper window, rollers, ribbon */
+.paper-shadow { position: absolute; left: 344px; top: 54px; width: 756px; height: 652px; box-shadow: 0 10px 0 rgba(43, 29, 20, .18), 0 18px 30px rgba(43, 29, 20, .25); border-radius: 2px; }
+.petal-scroll {
+  position: absolute; left: 344px; top: 54px; width: 756px; height: 652px;
+  overflow-x: auto; overflow-y: hidden; touch-action: pan-x; overscroll-behavior-x: contain;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  background: var(--paper);
+  scroll-timeline: --paper x;
+}
+.petal-scroll::-webkit-scrollbar { display: none; }
+.paper { position: relative; height: 652px; background-color: var(--paper); background-image: var(--washi); background-size: 300px 300px; }
+/* where one sheet of the chart is pasted to the next: a faint seam in the paper */
+.seam { position: absolute; top: 0; bottom: 0; width: 14px; background: linear-gradient(90deg, rgba(120, 90, 50, 0) 0, rgba(120, 90, 50, .07) 45%, rgba(120, 90, 50, .16) 50%, rgba(255, 255, 255, .9) 54%, rgba(120, 90, 50, 0) 100%); pointer-events: none; }
+
+/* the paper curls round the rollers: static shading over the window edges */
+.curl { position: absolute; left: 344px; top: 54px; width: 756px; height: 652px; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(90, 55, 25, .30), rgba(90, 55, 25, 0) 34px),
+    linear-gradient(270deg, rgba(90, 55, 25, .30), rgba(90, 55, 25, 0) 34px),
+    linear-gradient(rgba(90, 55, 25, .16), rgba(90, 55, 25, 0) 8px),
+    linear-gradient(0deg, rgba(90, 55, 25, .16), rgba(90, 55, 25, 0) 8px);
+  border-top: 2px solid rgba(120, 85, 45, .35); border-bottom: 2px solid rgba(120, 85, 45, .35); box-sizing: border-box; }
+
+.roller { position: absolute; top: 44px; width: 46px; height: 672px; border-radius: 12px; overflow: hidden;
+  background: linear-gradient(90deg, #4a2810 0%, #8a5226 22%, #c98c55 42%, #a8693a 60%, #6b3c1a 82%, #3e200c 100%);
+  box-shadow: 0 0 0 3px var(--ink); }
+.roller.l { left: 300px; } .roller.r { left: 1100px; }
+.roller .grain { position: absolute; top: 0; bottom: 0; left: -24px; width: 94px;
+  background: repeating-linear-gradient(90deg, rgba(40, 18, 4, .20) 0 3px, rgba(40, 18, 4, 0) 3px 11px, rgba(255, 220, 170, .10) 11px 13px, rgba(40, 18, 4, 0) 13px 24px); }
+.roller::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, 0) 30%, rgba(255, 240, 210, .30) 44%, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, .40)); }
+/* the roller's ends: a turned knob with a gold shuriken inlaid in its top face; it turns as the paper moves */
+.knob { position: absolute; width: 64px; height: 40px; }
+.knob.t { top: 20px; } .knob.b { top: 690px; height: 30px; }
+.knob.l { left: 291px; } .knob.r { left: 1091px; }
+.knob::before { content: ""; position: absolute; left: 0; right: 0; top: 10px; bottom: 0; border-radius: 0 0 16px 16px; background: linear-gradient(90deg, #7a1c12, #d8452f 40%, #f06a4d 50%, #b8321f 70%, #5e140c); box-shadow: 0 0 0 3px var(--ink); }
+.knob .face { position: absolute; left: 0; top: 0; width: 64px; height: 24px; border-radius: 50%; background: radial-gradient(ellipse at 45% 40%, #ff8a6a, #d8452f 60%, #9a2a18); box-shadow: 0 0 0 3px var(--ink); overflow: hidden; }
+.knob .face i { position: absolute; left: 12px; top: -8px; width: 40px; height: 40px; transform: scaleY(.38) rotate(var(--turn, 0deg)); }
+.knob .face i::before { content: ""; position: absolute; inset: 0; background: var(--shuriken) center / contain no-repeat; }
+.knob.b .face { display: none; }
+.knob.b::before { top: 0; border-radius: 6px 6px 16px 16px; }
+
+/* the progress ribbon: a minimap of the whole scroll, each petal a cell in its colour; the frame is where you are */
+.ribbon { position: absolute; left: 350px; top: 12px; width: 744px; height: 36px; border-radius: 10px; box-sizing: border-box;
+  border: 3px solid var(--ink); background: #fff8e8 var(--ribbon) center / 738px 30px no-repeat; box-shadow: 0 4px 0 rgba(43, 29, 20, .25); }
+.ribbon::before { content: ""; position: absolute; inset: -14px 0; } /* taller hit area */
+.rb-win { position: absolute; left: 0; top: -7px; height: 44px; width: var(--rbw, 130px); box-sizing: border-box; border: 4px solid var(--ink); border-radius: 10px; background: rgba(255, 255, 255, .28); box-shadow: 0 0 0 3px #fff8e8; pointer-events: none; transform: translateX(var(--rbx, 0px)); }
+
+/* ---------------------------------------------------------------- one petal, chart-exact */
+.pt { position: absolute; width: 184px; height: 334px; background-repeat: no-repeat; background-size: 184px 334px; cursor: pointer; }
+.pt .pic { position: absolute; width: 74px; height: 74px; object-fit: contain; pointer-events: none; }
+.sp { position: absolute; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-letters); font-weight: 700; line-height: 1; white-space: nowrap; color: var(--ink); }
+/* invisible ink */
+.sp.hidden { color: var(--ink-hidden); }
+.sp.future { color: var(--ink-future); }
+.pt.mys .sp { color: var(--ink-mystery); }
+.pt.mys .pic { opacity: .17; }
+/* charging: an energy line under the letters fills with gold */
+.sp.charging::after { content: ""; position: absolute; left: -.06em; right: -.06em; bottom: -.2em; height: max(9px, .16em); border-radius: 9px;
+  background: linear-gradient(90deg, #f6b400 0 calc(var(--e) * 100%), rgba(43, 29, 20, .13) calc(var(--e) * 100%)); box-shadow: inset 0 0 0 1.5px rgba(43, 29, 20, .35); }
+/* ready for a gem battle: a gold highlighter swash behind the letters, and a hop when you arrive */
+.sp.ready::before { content: ""; position: absolute; z-index: -1; left: -.2em; right: -.2em; top: .06em; bottom: -.08em; border-radius: .5em; background: radial-gradient(ellipse at 50% 45%, #fff3b0 0%, #ffd84a 58%, rgba(255, 197, 61, .0) 100%); }
+.sp.ready::after { content: ""; position: absolute; left: -.12em; right: -.12em; bottom: -.2em; height: max(9px, .16em); border-radius: 9px; background: #f6b400; box-shadow: inset 0 0 0 1.5px rgba(43, 29, 20, .35); }
+.sp.ready { isolation: isolate; }
+.sp.ready.hop { animation: hop .55s cubic-bezier(.3, 1.8, .5, 1) 2; }
+@keyframes hop { 0%, 100% { transform: translate(-50%, -50%); } 40% { transform: translate(-50%, -78%); } }
+/* won: a jewel in the petal's colour beside the letters */
+.sp.won::after { content: ""; position: absolute; left: calc(100% + .08em); top: .3em; width: .5em; height: .6em; background: var(--gem) center / contain no-repeat; }
+.sp.won.jl::after { left: auto; right: calc(100% + .08em); }
+
+/* the invisible ink glints as the paper moves past (scroll-linked; nothing runs at rest) */
+.pt.mys::after { content: ""; position: absolute; left: 47px; top: 34px; width: 90px; height: 270px; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, .9) 0%, rgba(255, 222, 140, .5) 38%, rgba(170, 210, 255, .32) 62%, rgba(170, 210, 255, 0) 100%);
+  transform: rotate(16deg); transition: opacity .35s; }
+.moving .pt.mys::after { opacity: 1; transition-duration: .12s; }
+@supports (animation-timeline: view()) {
+  .pt.mys::after { animation: glint linear both; animation-timeline: view(inline); }
+  @keyframes glint { from { translate: 95px 0; } to { translate: -95px 0; } }
+}
+@supports not (animation-timeline: view()) {
+  .moving .pt.mys::after { animation: glint-t .9s ease-out; }
+  @keyframes glint-t { from { translate: 95px 0; } to { translate: -95px 0; } }
+}
+/* tapping a sound not met yet: the ink stirs */
+.pt.mys.stir { animation: stir .6s ease-out; }
+.pt.mys.stir::after { opacity: 1; animation: glint-t .6s ease-out; }
+@keyframes stir { 0%, 100% { transform: none; } 25% { transform: rotate(-2.5deg); } 60% { transform: rotate(2deg); } }
+.pt.press { transform: scale(.96); }
+
+/* ---------------------------------------------------------------- scroll-driven rollers and ribbon */
+@supports (animation-timeline: scroll()) {
+  .stage { timeline-scope: --paper; }
+  .sda .knob .face i { animation: turn linear both; animation-timeline: --paper; animation-iteration-count: var(--turns, 12); }
+  .sda .roller .grain { animation: grain linear both; animation-timeline: --paper; animation-iteration-count: var(--grains, 100); }
+  .sda .rb-win { animation: rbwin linear both; animation-timeline: --paper; }
+  @keyframes turn { from { transform: scaleY(.38) rotate(0deg); } to { transform: scaleY(.38) rotate(360deg); } }
+  @keyframes grain { from { transform: translateX(0); } to { transform: translateX(-24px); } }
+  @keyframes rbwin { from { transform: translateX(0); } to { transform: translateX(var(--rbmax)); } }
+}
+
+/* ---------------------------------------------------------------- the frame: Home, Hear it again, the flower, the ninja, Help */
+.btn-round { position: absolute; width: 100px; height: 100px; border-radius: 50%; display: grid; place-items: center; z-index: 84;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--gold) 45%, var(--gold-deep) 100%); border: 5px solid var(--ink); box-shadow: 0 6px 0 var(--ink); box-sizing: border-box; transition: transform .08s, box-shadow .08s; }
+.btn-round:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--ink); }
+.btn-round svg { width: 56%; height: 56%; }
+.btn-round.go { background: radial-gradient(circle at 35% 30%, #d9ffe4 0%, var(--good) 50%, var(--good-deep) 100%); }
+.btn-round.pink { background: radial-gradient(circle at 35% 30%, #ffe3ee 0%, var(--blossom) 50%, var(--blossom-deep) 100%); }
+.home { left: 18px; top: 16px; }
+.again { right: 18px; top: 16px; width: 116px; height: 116px; }
+.flower { right: 26px; top: 290px; }
+.ninja { position: absolute; left: 34px; bottom: 6px; height: 336px; pointer-events: none; z-index: 5; filter: drop-shadow(0 8px 0 rgba(43, 29, 20, .18)); }
+.help-btn { position: absolute; right: 14px; bottom: 14px; z-index: 85; width: 124px; height: 124px; border-radius: 50%; box-sizing: border-box;
+  background: radial-gradient(circle at 40% 35%, #fff8e6, #ffd98a 70%, #e0a53a); border: 6px solid var(--ink); box-shadow: 0 7px 0 var(--ink), 0 0 0 6px rgba(255, 244, 220, .8); }
+.help-face { position: absolute; inset: 5px; width: calc(100% - 10px); height: calc(100% - 10px); border-radius: 50%; object-fit: cover; }
+.help-q { position: absolute; left: -10px; top: -10px; width: 46px; height: 46px; border-radius: 50%; box-sizing: border-box; background: var(--good); border: 5px solid var(--ink); color: #fff; font: 800 30px/36px var(--font-ui); text-align: center; text-shadow: 0 2px 0 var(--ink); }
+.help-btn.talking { animation: helptalk .5s ease-in-out infinite alternate; }
+@keyframes helptalk { from { scale: 1; } to { scale: 1.07; } }
+.caption { position: absolute; right: 150px; bottom: 96px; max-width: 470px; z-index: 86; padding: 12px 20px 14px; border-radius: 22px; background: #fffdf6; border: 4px solid var(--ink); box-shadow: 0 5px 0 var(--ink);
+  font: 700 27px/1.25 var(--font-ui); color: var(--ink); opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s; pointer-events: none; }
+.caption.on { opacity: 1; transform: none; }
+.caption::after { content: ""; position: absolute; right: -22px; bottom: 16px; border: 12px solid transparent; border-left: 18px solid var(--ink); }
+
+/* ---------------------------------------------------------------- the petal's card */
+.veil { position: absolute; inset: 0; z-index: 60; background: rgba(29, 18, 48, .32); opacity: 0; pointer-events: none; transition: opacity .22s; }
+.veil.on { opacity: 1; pointer-events: auto; }
+.card { position: absolute; left: 336px; top: 50px; width: 772px; height: 660px; z-index: 61; box-sizing: border-box; border-radius: 18px;
+  background-color: var(--paper); background-image: var(--washi); background-size: 300px 300px; border: 5px solid var(--ink); box-shadow: 0 8px 0 var(--ink);
+  opacity: 0; transform: scale(.4); pointer-events: none; transition: opacity .2s, transform .28s cubic-bezier(.3, 1.35, .5, 1); }
+.card.on { opacity: 1; transform: none; pointer-events: auto; }
+.card .big { position: absolute; left: 14px; top: 0; width: 310px; height: 650px; background-repeat: no-repeat; background-size: 310px 650px; }
+.card .big .pic { position: absolute; width: 132px; height: 132px; object-fit: contain; cursor: pointer; }
+.card .big .sp { cursor: pointer; }
+.card .big .sp.hidden, .card .big .sp.future { min-width: 2.4em; text-align: center; padding: .2em 0; }
+.card .big .sp.sel { text-decoration: underline; text-decoration-thickness: .08em; text-underline-offset: .12em; text-decoration-color: var(--c); }
+.card .sound { left: 348px; top: 58px; width: 104px; height: 104px; }
+.card .close { right: 18px; top: 16px; }
+.card .practise { right: 24px; bottom: 22px; width: 132px; height: 132px; }
+.card .practise svg { width: 62%; height: 62%; }
+.card .practise.pulse { animation: pulse 1.3s ease-in-out 3; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+.card .lead { left: 348px; bottom: 30px; width: 104px; height: 104px; overflow: hidden; padding: 0; }
+.card .lead img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.card .lead .spk { position: absolute; right: -4px; bottom: -4px; width: 42px; height: 42px; border-radius: 50%; background: var(--gold); border: 4px solid var(--ink); display: grid; place-items: center; }
+.card .lead .spk svg { width: 70%; height: 70%; }
+.words { position: absolute; left: 346px; top: 180px; width: 404px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 16px; }
+.wcard { position: relative; height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px 8px 8px; overflow: hidden; box-sizing: border-box; border-radius: 20px; background: #fffdf6; border: 4px solid var(--ink); box-shadow: 0 5px 0 var(--ink); font: 700 44px/1 var(--font-letters); }
+.wcard:not(:has(img)) { font-size: 52px; }
+.wcard img { width: 84px; height: 84px; object-fit: contain; flex: none; }
+.wcard b { font-weight: 700; color: var(--c2); -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; }
+.wcard.ghost { background: transparent; border: 3px dashed #d6cab8; box-shadow: none; color: var(--ink-hidden); }
+.wcard.ghost img { opacity: .22; }
+.wcard.ghost b { color: var(--ink-hidden); -webkit-text-stroke: 0; }
+.wcard:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.words-empty { position: absolute; left: 346px; top: 186px; }
+
+/* grown-ups: which child (not for the child; only with ?grownups) */
+.gu { position: fixed; left: 8px; bottom: 6px; z-index: 999; font: 600 12px/1 system-ui; color: #fff; opacity: .6; }
+.gu a { color: #fff; margin-right: 8px; }
+</style>
+</head>
+<body>
+<div class="viewport">
+  <div class="stage" id="stage">
+    <div class="backdrop"></div>
+    <div class="paper-shadow"></div>
+    <div class="petal-scroll" id="scroll" aria-label="Petal chart" role="region"><div class="paper" id="paper"></div></div>
+    <div class="curl"></div>
+    <div class="roller l"><i class="grain"></i></div>
+    <div class="roller r"><i class="grain"></i></div>
+    <div class="knob t l"><span class="face"><i></i></span></div>
+    <div class="knob t r"><span class="face"><i></i></span></div>
+    <div class="knob b l"></div>
+    <div class="knob b r"></div>
+    <div class="ribbon" id="ribbon" role="button" aria-label="Petal map"><i class="rb-win" id="rbwin"></i></div>
+
+    <button class="btn-round home" aria-label="Home" data-nav="home"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 30 32 11l22 19v23H40V39H24v14H10z"/></svg></button>
+    <button class="btn-round again" aria-label="Hear it again" data-nav="again"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 25h10l13-11v36L20 39H10z"/><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34"/></svg></button>
+    <button class="btn-round pink flower" aria-label="The World Flower"><svg viewBox="-60 -60 120 120" id="flowerIcon"></svg></button>
+    <img class="ninja" src="../../../public/a/i/hero_kai_idle.webp" alt="" />
+    <button class="help-btn" id="help" aria-label="Help"><img class="help-face" src="../../../public/a/i/sensei_face_idle.webp" alt="" /><span class="help-q">?</span></button>
+    <div class="caption" id="caption"></div>
+
+    <div class="veil" id="veil"></div>
+    <div class="card" id="card" role="dialog" aria-label="petal card">
+      <div class="big" id="big"></div>
+      <button class="btn-round sound" id="cardSound" aria-label="Hear the sound"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 25h10l13-11v36L20 39H10z"/><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34"/></svg></button>
+      <div class="words" id="words"></div>
+      <button class="btn-round lead" id="lead" aria-label="Hear about these words"><img src="../../../public/a/i/sensei_face_talk.webp" alt="" /><i class="spk"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 25h10l13-11v36L20 39H10z"/><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M42 22c5 5 5 15 0 20"/></svg></i></button>
+      <button class="btn-round go practise" id="practise" aria-label="Practise in the dojo"><svg viewBox="0 0 64 64"><path d="M6 14c14 4 38 4 52 0l-2 8c-13 3-35 3-48 0z" fill="#e8312f" stroke="#2b1d14" stroke-width="4" stroke-linejoin="round"/><rect x="10" y="26" width="44" height="7" rx="2" fill="#e8312f" stroke="#2b1d14" stroke-width="4"/><path d="M17 22v34M47 22v34" stroke="#2b1d14" stroke-width="11" stroke-linecap="round"/><path d="M17 22v34M47 22v34" stroke="#e8312f" stroke-width="5" stroke-linecap="round"/><rect x="28" y="22" width="8" height="11" fill="#fff4dc" stroke="#2b1d14" stroke-width="3"/></svg></button>
+      <button class="btn-round close" id="close" aria-label="close"><svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M12 34l13 13 27-30"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script id="data" type="application/json">{"petals":[["ae",1,"#e8312f","train"],["ee",1,"#f5821f","tree"],["oy",1,"#f59ac0","toy"],["ie",1,"#f3c74a","kite"],["oe",1,"#f7a23b","boat"],["uu",1,"#f1e45c","book"],["er",1,"#2fa65a","bird"],["ar",1,"#9ae29a","car"],["ou",1,"#c42fd1","mouse"],["oo",1,"#8a3be0","moon"],["ue",1,"#c77de8","news"],["or",1,"#2b1d14","corn"],["air",1,"#6ec9f2","chair"],["s",1,"#ee2e63","circle"],["l",1,"#6b1d73","castle"],["f",1,"#1e5f2e","dolphin"],["e",2,"#23208f","bread"],["u",2,"#d9482b","love"],["o",2,"#e0356f","wasp"],["d",2,"#e8312f","dog"],["i",2,"#f7a23b","build"],["n",2,"#ece22a","knight"],["v",2,"#1f8a33","dove"],["j",2,"#4fe34f","giraffe"],["g",2,"#3a37b8","ghost"],["m",2,"#7cc3f0","thumb"],["h",2,"#8c1fa8","who"],["k",2,"#c77de8","anchor"],["r",2,"#f0226b","rhino"],["t",2,"#c4671f","tiger"],["z",2,"#c9ec5a","zebra"],["eer",2,"#1f9a9c","ear"],["a",3,"#ff6b5b","apple"],["p",3,"#ff8fb8","pig"],["b",3,"#4a7dff","ball"],["w",3,"#2ec4b6","whale"],["y",3,"#ffc53d","yo-yo"],["sh",3,"#5ec8f2","ship"],["ch",3,"#f59b2b","chick"],["th",3,"#9b6cf0","three"],["dh",3,"#6d4fd8","feather"],["ng",3,"#e56bd1","ring"],["zh",3,"#c98a00","treasure"],["schwa",3,"#a08a74","banana"]],"kids":{"new":{"ae":{"m":0,"c":0,"g":[["ai","ai>ae","hidden",0],["ay","ay>ae","hidden",0],["a-e","a-e>ae","future",0],["ea","ea>ae","future",0],["ei","ei>ae","future",0],["ey","ey>ae","future",0],["eigh","eigh>ae","future",0]],"f":[],"x":[{"t":"rain","pic":1,"au":1,"s":"r>r ai>ae n>n"},{"t":"tray","pic":1,"au":1,"s":"t>t r>r ay>ae"},{"t":"tail","pic":1,"au":1,"s":"t>t ai>ae l>l"}]},"ee":{"m":0,"c":0,"g":[["ee","ee>ee","hidden",0],["ea","ea>ee","hidden",0],["e","e>ee","future",0],["y","y>ee","future",0],["ey","ey>ee","future",0],["ie","ie>ee","future",0],["i","i>ee","future",0]],"f":[],"x":[{"t":"bee","pic":1,"au":1,"s":"b>b ee>ee"},{"t":"leaf","pic":1,"au":1,"s":"l>l ea>ee f>f"},{"t":"tree","pic":1,"au":1,"s":"t>t r>r ee>ee"}]},"oy":{"m":0,"c":0,"g":[["oi","oi>oy","future",0],["oy","oy>oy","future",0]],"f":[],"x":[]},"ie":{"m":0,"c":0,"g":[["ie","ie>ie","hidden",0],["igh","igh>ie","hidden",0],["i","i>ie","future",0],["i-e","i-e>ie","future",0],["y","y>ie","future",0]],"f":[],"x":[{"t":"pie","pic":1,"au":1,"s":"p>p ie>ie"},{"t":"light","pic":1,"au":1,"s":"l>l igh>ie t>t"},{"t":"tie","pic":1,"au":1,"s":"t>t ie>ie"}]},"oe":{"m":0,"c":0,"g":[["oa","oa>oe","hidden",0],["ow","ow>oe","hidden",0],["o-e","o-e>oe","future",0],["o","o>oe","future",0],["oe","oe>oe","future",0],["ou","ou>oe","future",0],["ough","ough>oe","future",0]],"f":[],"x":[{"t":"boat","pic":1,"au":1,"s":"b>b oa>oe t>t"},{"t":"snow","pic":1,"au":1,"s":"s>s n>n ow>oe"},{"t":"goat","pic":1,"au":1,"s":"g>g oa>oe t>t"}]},"uu":{"m":0,"c":0,"g":[["oo","oo>uu","future",0],["u","u>uu","future",0],["oul","oul>uu","future",0]],"f":[],"x":[]},"er":{"m":0,"c":0,"g":[["er","er>er","future",0],["ir","ir>er","future",0],["ur","ur>er","future",0],["or","or>er","future",0],["ar","ar>er","future",0],["ear","ear>er","future",0],["our","our>er","future",0]],"f":[],"x":[]},"ar":{"m":0,"c":0,"g":[["ar","ar>ar","future",0],["a","a>ar","future",0],["al","al>ar","future",0],["au","au>ar","future",0]],"f":[],"x":[]},"ou":{"m":0,"c":0,"g":[["ow","ow>ou","future",0],["ou","ou>ou","future",0]],"f":[],"x":[]},"oo":{"m":0,"c":0,"g":[["oo","oo>oo","future",0],["ew","ew>oo","future",0],["u-e","u-e>oo","future",0],["o","o>oo","future",0],["ue","ue>oo","future",0],["ough","ough>oo","future",0],["u","u>oo","future",0],["ui","ui>oo","future",0],["ou","ou>oo","future",0]],"f":[],"x":[]},"ue":{"m":0,"c":0,"g":[["u","u>ue","future",0],["ew","ew>ue","future",0],["u-e","u-e>ue","future",0],["ue","ue>ue","future",0]],"f":[],"x":[]},"or":{"m":0,"c":0,"g":[["or","or>or","future",0],["aw","aw>or","future",0],["ar","ar>or","future",0],["al","al>or","future",0],["au","au>or","future",0],["a","a>or","future",0],["oar","oar>or","future",0],["augh","augh>or","future",0],["ough","ough>or","future",0],["ore","ore>or","future",0],["our","our>or","future",0]],"f":[],"x":[]},"air":{"m":0,"c":0,"g":[["air","air>air","future",0],["are","are>air","future",0],["ear","ear>air","future",0],["ere","ere>air","future",0],["eir","eir>air","future",0]],"f":[],"x":[]},"s":{"m":1,"c":0,"g":[["s","s>s","charging",0.38],["ss","ss>s","hidden",0],["st","st>s","future",0],["c","c>s","future",0],["ce","ce>s","future",0],["se","se>s","future",0],["sc","sc>s","future",0],["x","x>ks","hidden",0]],"f":[{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"}],"x":[{"t":"sit","pic":1,"au":1,"s":"s>s i>i t>t"},{"t":"dress","pic":1,"au":1,"s":"d>d r>r e>e ss>s"},{"t":"sun","pic":1,"au":1,"s":"s>s u>u n>n"}]},"l":{"m":0,"c":0,"g":[["l","l>l","hidden",0],["ll","ll>l","hidden",0],["le","le>l","future",0],["al","al>l","future",0],["el","el>l","future",0],["il","il>l","future",0],["ol","ol>l","future",0]],"f":[],"x":[{"t":"leg","pic":1,"au":1,"s":"l>l e>e g>g"},{"t":"doll","pic":1,"au":1,"s":"d>d o>o ll>l"},{"t":"lid","pic":1,"au":1,"s":"l>l i>i d>d"}]},"f":{"m":0,"c":0,"g":[["f","f>f","hidden",0],["ff","ff>f","hidden",0],["ph","ph>f","future",0],["gh","gh>f","future",0]],"f":[],"x":[{"t":"fan","pic":1,"au":1,"s":"f>f a>a n>n"},{"t":"off","pic":0,"au":1,"s":"o>o ff>f"},{"t":"fox","pic":1,"au":1,"s":"f>f o>o x>ks"}]},"e":{"m":0,"c":0,"g":[["e","e>e","hidden",0],["ea","ea>e","future",0],["ai","ai>e","future",0]],"f":[],"x":[{"t":"den","pic":1,"au":1,"s":"d>d e>e n>n"},{"t":"bed","pic":1,"au":1,"s":"b>b e>e d>d"},{"t":"peg","pic":1,"au":1,"s":"p>p e>e g>g"}]},"u":{"m":0,"c":0,"g":[["u","u>u","hidden",0],["ou","ou>u","future",0],["o","o>u","future",0]],"f":[],"x":[{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"},{"t":"rug","pic":1,"au":1,"s":"r>r u>u g>g"},{"t":"cup","pic":1,"au":1,"s":"c>k u>u p>p"}]},"o":{"m":0,"c":0,"g":[["o","o>o","hidden",0],["a","a>o","future",0]],"f":[],"x":[{"t":"pot","pic":1,"au":1,"s":"p>p o>o t>t"},{"t":"top","pic":1,"au":1,"s":"t>t o>o p>p"},{"t":"mop","pic":1,"au":1,"s":"m>m o>o p>p"}]},"d":{"m":0,"c":0,"g":[["d","d>d","hidden",0],["dd","dd>d","future",0],["ed","ed>d","future",0]],"f":[],"x":[{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"},{"t":"den","pic":1,"au":1,"s":"d>d e>e n>n"},{"t":"doll","pic":1,"au":1,"s":"d>d o>o ll>l"}]},"i":{"m":0,"c":0,"g":[["i","i>i","hidden",0],["ui","ui>i","future",0],["e","e>i","future",0],["y","y>i","future",0]],"f":[],"x":[{"t":"sit","pic":1,"au":1,"s":"s>s i>i t>t"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"},{"t":"tin","pic":1,"au":1,"s":"t>t i>i n>n"}]},"n":{"m":0,"c":0,"g":[["n","n>n","hidden",0],["nn","nn>n","future",0],["ne","ne>n","future",0],["gn","gn>n","future",0],["kn","kn>n","future",0]],"f":[],"x":[{"t":"net","pic":1,"au":1,"s":"n>n e>e t>t"},{"t":"nut","pic":1,"au":1,"s":"n>n u>u t>t"},{"t":"nest","pic":1,"au":1,"s":"n>n e>e s>s t>t"}]},"v":{"m":0,"c":0,"g":[["v","v>v","hidden",0],["ve","ve>v","hidden",0],["vv","vv>v","future",0]],"f":[],"x":[{"t":"vet","pic":1,"au":1,"s":"v>v e>e t>t"},{"t":"have","pic":0,"au":1,"s":"h>h a>a ve>v"},{"t":"van","pic":1,"au":1,"s":"v>v a>a n>n"}]},"j":{"m":0,"c":0,"g":[["j","j>j","hidden",0],["g","g>j","future",0],["ge","ge>j","future",0],["dge","dge>j","future",0]],"f":[],"x":[{"t":"jam","pic":1,"au":1,"s":"j>j a>a m>m"},{"t":"jug","pic":1,"au":1,"s":"j>j u>u g>g"},{"t":"jump","pic":1,"au":1,"s":"j>j u>u m>m p>p"}]},"g":{"m":0,"c":0,"g":[["g","g>g","hidden",0],["gg","gg>g","future",0],["gh","gh>g","future",0],["gu","gu>g","future",0]],"f":[],"x":[{"t":"goat","pic":1,"au":1,"s":"g>g oa>oe t>t"},{"t":"bag","pic":1,"au":1,"s":"b>b a>a g>g"},{"t":"pig","pic":1,"au":1,"s":"p>p i>i g>g"}]},"m":{"m":0,"c":0,"g":[["m","m>m","hidden",0],["mm","mm>m","future",0],["mb","mb>m","future",0],["mn","mn>m","future",0]],"f":[],"x":[{"t":"mat","pic":1,"au":1,"s":"m>m a>a t>t"},{"t":"man","pic":1,"au":1,"s":"m>m a>a n>n"},{"t":"map","pic":1,"au":1,"s":"m>m a>a p>p"}]},"h":{"m":0,"c":0,"g":[["h","h>h","hidden",0],["wh","wh>h","future",0]],"f":[],"x":[{"t":"hat","pic":1,"au":1,"s":"h>h a>a t>t"},{"t":"hut","pic":1,"au":1,"s":"h>h u>u t>t"},{"t":"hutch","pic":1,"au":1,"s":"h>h u>u tch>ch"}]},"k":{"m":0,"c":0,"g":[["c","c>k","hidden",0],["k","k>k","hidden",0],["ck","ck>k","hidden",0],["ch","ch>k","future",0],["cc","cc>k","future",0],["q","q>k","hidden",0],["x","x>ks","hidden",0]],"f":[],"x":[{"t":"cat","pic":1,"au":1,"s":"c>k a>a t>t"},{"t":"king","pic":1,"au":1,"s":"k>k i>i ng>ng"},{"t":"duck","pic":1,"au":1,"s":"d>d u>u ck>k"}]},"r":{"m":0,"c":0,"g":[["r","r>r","hidden",0],["rr","rr>r","future",0],["rh","rh>r","future",0],["wr","wr>r","future",0]],"f":[],"x":[{"t":"rat","pic":1,"au":1,"s":"r>r a>a t>t"},{"t":"rod","pic":1,"au":1,"s":"r>r o>o d>d"},{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"}]},"t":{"m":1,"c":0,"g":[["t","t>t","charging",0.13],["tt","tt>t","future",0],["bt","bt>t","future",0],["te","te>t","future",0]],"f":[{"t":"at","pic":0,"au":1,"s":"a>a t>t"},{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"}],"x":[{"t":"tap","pic":1,"au":1,"s":"t>t a>a p>p"},{"t":"tin","pic":1,"au":1,"s":"t>t i>i n>n"},{"t":"top","pic":1,"au":1,"s":"t>t o>o p>p"}]},"z":{"m":0,"c":0,"g":[["z","z>z","hidden",0],["zz","zz>z","hidden",0],["ze","ze>z","future",0],["s","s>z","future",0],["se","se>z","future",0],["ss","ss>z","future",0]],"f":[],"x":[{"t":"zip","pic":1,"au":1,"s":"z>z i>i p>p"},{"t":"buzz","pic":0,"au":1,"s":"b>b u>u zz>z"},{"t":"zap","pic":0,"au":1,"s":"z>z a>a p>p"}]},"eer":{"m":0,"c":0,"g":[["ear","ear>eer","future",0],["eer","eer>eer","future",0],["ere","ere>eer","future",0]],"f":[],"x":[]},"a":{"m":1,"c":0,"g":[["a","a>a","charging",0.25]],"f":[{"t":"at","pic":0,"au":1,"s":"a>a t>t"},{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"}],"x":[{"t":"mat","pic":1,"au":1,"s":"m>m a>a t>t"},{"t":"man","pic":1,"au":1,"s":"m>m a>a n>n"},{"t":"pan","pic":1,"au":1,"s":"p>p a>a n>n"}]},"p":{"m":0,"c":0,"g":[["p","p>p","hidden",0],["pp","pp>p","future",0]],"f":[],"x":[{"t":"pan","pic":1,"au":1,"s":"p>p a>a n>n"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"},{"t":"pot","pic":1,"au":1,"s":"p>p o>o t>t"}]},"b":{"m":0,"c":0,"g":[["b","b>b","hidden",0],["bb","bb>b","future",0]],"f":[],"x":[{"t":"bat","pic":1,"au":1,"s":"b>b a>a t>t"},{"t":"bag","pic":1,"au":1,"s":"b>b a>a g>g"},{"t":"bin","pic":1,"au":1,"s":"b>b i>i n>n"}]},"w":{"m":0,"c":0,"g":[["w","w>w","hidden",0],["wh","wh>w","hidden",0],["u","u>w","hidden",0]],"f":[],"x":[{"t":"web","pic":1,"au":1,"s":"w>w e>e b>b"},{"t":"whisk","pic":1,"au":1,"s":"wh>w i>i s>s k>k"},{"t":"quick","pic":0,"au":1,"s":"q>k u>w i>i ck>k"}]},"y":{"m":0,"c":0,"g":[["y","y>y","hidden",0]],"f":[],"x":[{"t":"yak","pic":1,"au":1,"s":"y>y a>a k>k"},{"t":"yes","pic":0,"au":1,"s":"y>y e>e s>s"},{"t":"yum","pic":0,"au":1,"s":"y>y u>u m>m"}]},"sh":{"m":0,"c":0,"g":[["sh","sh>sh","hidden",0],["ch","ch>sh","future",0],["ti","ti>sh","future",0],["ci","ci>sh","future",0],["ssi","ssi>sh","future",0],["s","s>sh","future",0]],"f":[],"x":[{"t":"shop","pic":1,"au":1,"s":"sh>sh o>o p>p"},{"t":"shed","pic":1,"au":1,"s":"sh>sh e>e d>d"},{"t":"shell","pic":1,"au":1,"s":"sh>sh e>e ll>l"}]},"ch":{"m":0,"c":0,"g":[["ch","ch>ch","hidden",0],["tch","tch>ch","hidden",0]],"f":[],"x":[{"t":"chick","pic":1,"au":1,"s":"ch>ch i>i ck>k"},{"t":"match","pic":1,"au":1,"s":"m>m a>a tch>ch"},{"t":"chest","pic":1,"au":1,"s":"ch>ch e>e s>s t>t"}]},"th":{"m":0,"c":0,"g":[["th","th>th","hidden",0]],"f":[],"x":[{"t":"moth","pic":1,"au":1,"s":"m>m o>o th>th"},{"t":"thin","pic":0,"au":1,"s":"th>th i>i n>n"},{"t":"thick","pic":0,"au":1,"s":"th>th i>i ck>k"}]},"dh":{"m":0,"c":0,"g":[["th","th>dh","hidden",0]],"f":[],"x":[{"t":"this","pic":0,"au":1,"s":"th>dh i>i s>s"},{"t":"that","pic":0,"au":1,"s":"th>dh a>a t>t"},{"t":"them","pic":0,"au":1,"s":"th>dh e>e m>m"}]},"ng":{"m":0,"c":0,"g":[["ng","ng>ng","hidden",0],["n","n>ng","future",0]],"f":[],"x":[{"t":"ring","pic":1,"au":1,"s":"r>r i>i ng>ng"},{"t":"king","pic":1,"au":1,"s":"k>k i>i ng>ng"},{"t":"wing","pic":1,"au":1,"s":"w>w i>i ng>ng"}]},"zh":{"m":0,"c":0,"g":[["s","s>zh","future",0],["si","si>zh","future",0],["ge","ge>zh","future",0]],"f":[],"x":[]},"schwa":{"m":0,"c":0,"g":[["a","a>schwa","future",0],["e","e>schwa","future",0],["o","o>schwa","future",0],["u","u>schwa","future",0],["er","er>schwa","future",0],["our","our>schwa","future",0]],"f":[],"x":[]}},"reception":{"ae":{"m":0,"c":0,"g":[["ai","ai>ae","hidden",0],["ay","ay>ae","hidden",0],["a-e","a-e>ae","future",0],["ea","ea>ae","future",0],["ei","ei>ae","future",0],["ey","ey>ae","future",0],["eigh","eigh>ae","future",0]],"f":[],"x":[{"t":"rain","pic":1,"au":1,"s":"r>r ai>ae n>n"},{"t":"tray","pic":1,"au":1,"s":"t>t r>r ay>ae"},{"t":"tail","pic":1,"au":1,"s":"t>t ai>ae l>l"}]},"ee":{"m":0,"c":0,"g":[["ee","ee>ee","hidden",0],["ea","ea>ee","hidden",0],["e","e>ee","future",0],["y","y>ee","future",0],["ey","ey>ee","future",0],["ie","ie>ee","future",0],["i","i>ee","future",0]],"f":[],"x":[{"t":"bee","pic":1,"au":1,"s":"b>b ee>ee"},{"t":"leaf","pic":1,"au":1,"s":"l>l ea>ee f>f"},{"t":"tree","pic":1,"au":1,"s":"t>t r>r ee>ee"}]},"oy":{"m":0,"c":0,"g":[["oi","oi>oy","future",0],["oy","oy>oy","future",0]],"f":[],"x":[]},"ie":{"m":0,"c":0,"g":[["ie","ie>ie","hidden",0],["igh","igh>ie","hidden",0],["i","i>ie","future",0],["i-e","i-e>ie","future",0],["y","y>ie","future",0]],"f":[],"x":[{"t":"pie","pic":1,"au":1,"s":"p>p ie>ie"},{"t":"light","pic":1,"au":1,"s":"l>l igh>ie t>t"},{"t":"tie","pic":1,"au":1,"s":"t>t ie>ie"}]},"oe":{"m":0,"c":0,"g":[["oa","oa>oe","hidden",0],["ow","ow>oe","hidden",0],["o-e","o-e>oe","future",0],["o","o>oe","future",0],["oe","oe>oe","future",0],["ou","ou>oe","future",0],["ough","ough>oe","future",0]],"f":[],"x":[{"t":"boat","pic":1,"au":1,"s":"b>b oa>oe t>t"},{"t":"snow","pic":1,"au":1,"s":"s>s n>n ow>oe"},{"t":"goat","pic":1,"au":1,"s":"g>g oa>oe t>t"}]},"uu":{"m":0,"c":0,"g":[["oo","oo>uu","future",0],["u","u>uu","future",0],["oul","oul>uu","future",0]],"f":[],"x":[]},"er":{"m":0,"c":0,"g":[["er","er>er","future",0],["ir","ir>er","future",0],["ur","ur>er","future",0],["or","or>er","future",0],["ar","ar>er","future",0],["ear","ear>er","future",0],["our","our>er","future",0]],"f":[],"x":[]},"ar":{"m":0,"c":0,"g":[["ar","ar>ar","future",0],["a","a>ar","future",0],["al","al>ar","future",0],["au","au>ar","future",0]],"f":[],"x":[]},"ou":{"m":0,"c":0,"g":[["ow","ow>ou","future",0],["ou","ou>ou","future",0]],"f":[],"x":[]},"oo":{"m":0,"c":0,"g":[["oo","oo>oo","future",0],["ew","ew>oo","future",0],["u-e","u-e>oo","future",0],["o","o>oo","future",0],["ue","ue>oo","future",0],["ough","ough>oo","future",0],["u","u>oo","future",0],["ui","ui>oo","future",0],["ou","ou>oo","future",0]],"f":[],"x":[]},"ue":{"m":0,"c":0,"g":[["u","u>ue","future",0],["ew","ew>ue","future",0],["u-e","u-e>ue","future",0],["ue","ue>ue","future",0]],"f":[],"x":[]},"or":{"m":0,"c":0,"g":[["or","or>or","future",0],["aw","aw>or","future",0],["ar","ar>or","future",0],["al","al>or","future",0],["au","au>or","future",0],["a","a>or","future",0],["oar","oar>or","future",0],["augh","augh>or","future",0],["ough","ough>or","future",0],["ore","ore>or","future",0],["our","our>or","future",0]],"f":[],"x":[]},"air":{"m":0,"c":0,"g":[["air","air>air","future",0],["are","are>air","future",0],["ear","ear>air","future",0],["ere","ere>air","future",0],["eir","eir>air","future",0]],"f":[],"x":[]},"s":{"m":1,"c":0,"g":[["s","s>s","won",0],["ss","ss>s","hidden",0],["st","st>s","future",0],["c","c>s","future",0],["ce","ce>s","future",0],["se","se>s","future",0],["sc","sc>s","future",0],["x","x>ks","hidden",0]],"f":[{"t":"sun","pic":1,"au":1,"s":"s>s u>u n>n"},{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"}],"x":[{"t":"sit","pic":1,"au":1,"s":"s>s i>i t>t"},{"t":"dress","pic":1,"au":1,"s":"d>d r>r e>e ss>s"},{"t":"sun","pic":1,"au":1,"s":"s>s u>u n>n"}]},"l":{"m":1,"c":0,"g":[["l","l>l","charging",0.88],["ll","ll>l","hidden",0],["le","le>l","future",0],["al","al>l","future",0],["el","el>l","future",0],["il","il>l","future",0],["ol","ol>l","future",0]],"f":[{"t":"leg","pic":1,"au":1,"s":"l>l e>e g>g"}],"x":[{"t":"leg","pic":1,"au":1,"s":"l>l e>e g>g"},{"t":"doll","pic":1,"au":1,"s":"d>d o>o ll>l"},{"t":"lid","pic":1,"au":1,"s":"l>l i>i d>d"}]},"f":{"m":1,"c":0,"g":[["f","f>f","charging",0.13],["ff","ff>f","hidden",0],["ph","ph>f","future",0],["gh","gh>f","future",0]],"f":[],"x":[{"t":"fan","pic":1,"au":1,"s":"f>f a>a n>n"},{"t":"off","pic":0,"au":1,"s":"o>o ff>f"},{"t":"fox","pic":1,"au":1,"s":"f>f o>o x>ks"}]},"e":{"m":1,"c":0,"g":[["e","e>e","charging",0.5],["ea","ea>e","future",0],["ai","ai>e","future",0]],"f":[{"t":"leg","pic":1,"au":1,"s":"l>l e>e g>g"},{"t":"bed","pic":1,"au":1,"s":"b>b e>e d>d"},{"t":"red","pic":0,"au":1,"s":"r>r e>e d>d"}],"x":[{"t":"den","pic":1,"au":1,"s":"d>d e>e n>n"},{"t":"bed","pic":1,"au":1,"s":"b>b e>e d>d"},{"t":"peg","pic":1,"au":1,"s":"p>p e>e g>g"}]},"u":{"m":1,"c":0,"g":[["u","u>u","charging",0.38],["ou","ou>u","future",0],["o","o>u","future",0]],"f":[{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"},{"t":"sun","pic":1,"au":1,"s":"s>s u>u n>n"}],"x":[{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"},{"t":"rug","pic":1,"au":1,"s":"r>r u>u g>g"},{"t":"cup","pic":1,"au":1,"s":"c>k u>u p>p"}]},"o":{"m":1,"c":0,"g":[["o","o>o","charging",0.63],["a","a>o","future",0]],"f":[{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"}],"x":[{"t":"pot","pic":1,"au":1,"s":"p>p o>o t>t"},{"t":"top","pic":1,"au":1,"s":"t>t o>o p>p"},{"t":"mop","pic":1,"au":1,"s":"m>m o>o p>p"}]},"d":{"m":1,"c":0,"g":[["d","d>d","ready",1],["dd","dd>d","future",0],["ed","ed>d","future",0]],"f":[{"t":"bed","pic":1,"au":1,"s":"b>b e>e d>d"},{"t":"red","pic":0,"au":1,"s":"r>r e>e d>d"},{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"}],"x":[{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"},{"t":"den","pic":1,"au":1,"s":"d>d e>e n>n"},{"t":"doll","pic":1,"au":1,"s":"d>d o>o ll>l"}]},"i":{"m":1,"c":1,"g":[["i","i>i","won",0],["ui","ui>i","future",0],["e","e>i","future",0],["y","y>i","future",0]],"f":[{"t":"big","pic":0,"au":1,"s":"b>b i>i g>g"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"}],"x":[{"t":"sit","pic":1,"au":1,"s":"s>s i>i t>t"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"},{"t":"tin","pic":1,"au":1,"s":"t>t i>i n>n"}]},"n":{"m":1,"c":1,"g":[["n","n>n","won",0],["nn","nn>n","future",0],["ne","ne>n","future",0],["gn","gn>n","future",0],["kn","kn>n","future",0]],"f":[{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"},{"t":"sun","pic":1,"au":1,"s":"s>s u>u n>n"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"}],"x":[{"t":"net","pic":1,"au":1,"s":"n>n e>e t>t"},{"t":"nut","pic":1,"au":1,"s":"n>n u>u t>t"},{"t":"nest","pic":1,"au":1,"s":"n>n e>e s>s t>t"}]},"v":{"m":1,"c":0,"g":[["v","v>v","charging",0.13],["ve","ve>v","hidden",0],["vv","vv>v","future",0]],"f":[],"x":[{"t":"vet","pic":1,"au":1,"s":"v>v e>e t>t"},{"t":"have","pic":0,"au":1,"s":"h>h a>a ve>v"},{"t":"van","pic":1,"au":1,"s":"v>v a>a n>n"}]},"j":{"m":1,"c":0,"g":[["j","j>j","charging",0.13],["g","g>j","future",0],["ge","ge>j","future",0],["dge","dge>j","future",0]],"f":[],"x":[{"t":"jam","pic":1,"au":1,"s":"j>j a>a m>m"},{"t":"jug","pic":1,"au":1,"s":"j>j u>u g>g"},{"t":"jump","pic":1,"au":1,"s":"j>j u>u m>m p>p"}]},"g":{"m":1,"c":0,"g":[["g","g>g","ready",1],["gg","gg>g","future",0],["gh","gh>g","future",0],["gu","gu>g","future",0]],"f":[{"t":"big","pic":0,"au":1,"s":"b>b i>i g>g"},{"t":"leg","pic":1,"au":1,"s":"l>l e>e g>g"},{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"}],"x":[{"t":"goat","pic":1,"au":1,"s":"g>g oa>oe t>t"},{"t":"bag","pic":1,"au":1,"s":"b>b a>a g>g"},{"t":"pig","pic":1,"au":1,"s":"p>p i>i g>g"}]},"m":{"m":1,"c":1,"g":[["m","m>m","won",0],["mm","mm>m","future",0],["mb","mb>m","future",0],["mn","mn>m","future",0]],"f":[{"t":"map","pic":1,"au":1,"s":"m>m a>a p>p"}],"x":[{"t":"mat","pic":1,"au":1,"s":"m>m a>a t>t"},{"t":"man","pic":1,"au":1,"s":"m>m a>a n>n"},{"t":"map","pic":1,"au":1,"s":"m>m a>a p>p"}]},"h":{"m":1,"c":0,"g":[["h","h>h","charging",0.25],["wh","wh>h","future",0]],"f":[{"t":"hat","pic":1,"au":1,"s":"h>h a>a t>t"}],"x":[{"t":"hat","pic":1,"au":1,"s":"h>h a>a t>t"},{"t":"hut","pic":1,"au":1,"s":"h>h u>u t>t"},{"t":"hutch","pic":1,"au":1,"s":"h>h u>u tch>ch"}]},"k":{"m":1,"c":0,"g":[["c","c>k","charging",0.38],["k","k>k","charging",0.25],["ck","ck>k","hidden",0],["ch","ch>k","future",0],["cc","cc>k","future",0],["q","q>k","hidden",0],["x","x>ks","hidden",0]],"f":[{"t":"cat","pic":1,"au":1,"s":"c>k a>a t>t"}],"x":[{"t":"cat","pic":1,"au":1,"s":"c>k a>a t>t"},{"t":"king","pic":1,"au":1,"s":"k>k i>i ng>ng"},{"t":"duck","pic":1,"au":1,"s":"d>d u>u ck>k"}]},"r":{"m":1,"c":0,"g":[["r","r>r","ready",1],["rr","rr>r","future",0],["rh","rh>r","future",0],["wr","wr>r","future",0]],"f":[{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"},{"t":"red","pic":0,"au":1,"s":"r>r e>e d>d"}],"x":[{"t":"rat","pic":1,"au":1,"s":"r>r a>a t>t"},{"t":"rod","pic":1,"au":1,"s":"r>r o>o d>d"},{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"}]},"t":{"m":1,"c":1,"g":[["t","t>t","won",0],["tt","tt>t","future",0],["bt","bt>t","future",0],["te","te>t","future",0]],"f":[{"t":"hat","pic":1,"au":1,"s":"h>h a>a t>t"},{"t":"cat","pic":1,"au":1,"s":"c>k a>a t>t"},{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"}],"x":[{"t":"tap","pic":1,"au":1,"s":"t>t a>a p>p"},{"t":"tin","pic":1,"au":1,"s":"t>t i>i n>n"},{"t":"top","pic":1,"au":1,"s":"t>t o>o p>p"}]},"z":{"m":0,"c":0,"g":[["z","z>z","hidden",0],["zz","zz>z","hidden",0],["ze","ze>z","future",0],["s","s>z","future",0],["se","se>z","future",0],["ss","ss>z","future",0]],"f":[],"x":[{"t":"zip","pic":1,"au":1,"s":"z>z i>i p>p"},{"t":"buzz","pic":0,"au":1,"s":"b>b u>u zz>z"},{"t":"zap","pic":0,"au":1,"s":"z>z a>a p>p"}]},"eer":{"m":0,"c":0,"g":[["ear","ear>eer","future",0],["eer","eer>eer","future",0],["ere","ere>eer","future",0]],"f":[],"x":[]},"a":{"m":1,"c":1,"g":[["a","a>a","won",0]],"f":[{"t":"hat","pic":1,"au":1,"s":"h>h a>a t>t"},{"t":"map","pic":1,"au":1,"s":"m>m a>a p>p"},{"t":"cat","pic":1,"au":1,"s":"c>k a>a t>t"},{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"}],"x":[{"t":"mat","pic":1,"au":1,"s":"m>m a>a t>t"},{"t":"man","pic":1,"au":1,"s":"m>m a>a n>n"},{"t":"pan","pic":1,"au":1,"s":"p>p a>a n>n"}]},"p":{"m":1,"c":1,"g":[["p","p>p","won",0],["pp","pp>p","future",0]],"f":[{"t":"map","pic":1,"au":1,"s":"m>m a>a p>p"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"}],"x":[{"t":"pan","pic":1,"au":1,"s":"p>p a>a n>n"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"},{"t":"pot","pic":1,"au":1,"s":"p>p o>o t>t"}]},"b":{"m":1,"c":0,"g":[["b","b>b","charging",0.75],["bb","bb>b","future",0]],"f":[{"t":"big","pic":0,"au":1,"s":"b>b i>i g>g"},{"t":"bed","pic":1,"au":1,"s":"b>b e>e d>d"}],"x":[{"t":"bat","pic":1,"au":1,"s":"b>b a>a t>t"},{"t":"bag","pic":1,"au":1,"s":"b>b a>a g>g"},{"t":"bin","pic":1,"au":1,"s":"b>b i>i n>n"}]},"w":{"m":0,"c":0,"g":[["w","w>w","hidden",0],["wh","wh>w","hidden",0],["u","u>w","hidden",0]],"f":[],"x":[{"t":"web","pic":1,"au":1,"s":"w>w e>e b>b"},{"t":"whisk","pic":1,"au":1,"s":"wh>w i>i s>s k>k"},{"t":"quick","pic":0,"au":1,"s":"q>k u>w i>i ck>k"}]},"y":{"m":0,"c":0,"g":[["y","y>y","hidden",0]],"f":[],"x":[{"t":"yak","pic":1,"au":1,"s":"y>y a>a k>k"},{"t":"yes","pic":0,"au":1,"s":"y>y e>e s>s"},{"t":"yum","pic":0,"au":1,"s":"y>y u>u m>m"}]},"sh":{"m":0,"c":0,"g":[["sh","sh>sh","hidden",0],["ch","ch>sh","future",0],["ti","ti>sh","future",0],["ci","ci>sh","future",0],["ssi","ssi>sh","future",0],["s","s>sh","future",0]],"f":[],"x":[{"t":"shop","pic":1,"au":1,"s":"sh>sh o>o p>p"},{"t":"shed","pic":1,"au":1,"s":"sh>sh e>e d>d"},{"t":"shell","pic":1,"au":1,"s":"sh>sh e>e ll>l"}]},"ch":{"m":0,"c":0,"g":[["ch","ch>ch","hidden",0],["tch","tch>ch","hidden",0]],"f":[],"x":[{"t":"chick","pic":1,"au":1,"s":"ch>ch i>i ck>k"},{"t":"match","pic":1,"au":1,"s":"m>m a>a tch>ch"},{"t":"chest","pic":1,"au":1,"s":"ch>ch e>e s>s t>t"}]},"th":{"m":0,"c":0,"g":[["th","th>th","hidden",0]],"f":[],"x":[{"t":"moth","pic":1,"au":1,"s":"m>m o>o th>th"},{"t":"thin","pic":0,"au":1,"s":"th>th i>i n>n"},{"t":"thick","pic":0,"au":1,"s":"th>th i>i ck>k"}]},"dh":{"m":0,"c":0,"g":[["th","th>dh","hidden",0]],"f":[],"x":[{"t":"this","pic":0,"au":1,"s":"th>dh i>i s>s"},{"t":"that","pic":0,"au":1,"s":"th>dh a>a t>t"},{"t":"them","pic":0,"au":1,"s":"th>dh e>e m>m"}]},"ng":{"m":0,"c":0,"g":[["ng","ng>ng","hidden",0],["n","n>ng","future",0]],"f":[],"x":[{"t":"ring","pic":1,"au":1,"s":"r>r i>i ng>ng"},{"t":"king","pic":1,"au":1,"s":"k>k i>i ng>ng"},{"t":"wing","pic":1,"au":1,"s":"w>w i>i ng>ng"}]},"zh":{"m":0,"c":0,"g":[["s","s>zh","future",0],["si","si>zh","future",0],["ge","ge>zh","future",0]],"f":[],"x":[]},"schwa":{"m":0,"c":0,"g":[["a","a>schwa","future",0],["e","e>schwa","future",0],["o","o>schwa","future",0],["u","u>schwa","future",0],["er","er>schwa","future",0],["our","our>schwa","future",0]],"f":[],"x":[]}},"year1":{"ae":{"m":1,"c":0,"g":[["ai","ai>ae","ready",1],["ay","ay>ae","won",0],["a-e","a-e>ae","future",0],["ea","ea>ae","future",0],["ei","ei>ae","future",0],["ey","ey>ae","future",0],["eigh","eigh>ae","future",0]],"f":[{"t":"play","pic":0,"au":1,"s":"p>p l>l ay>ae"},{"t":"day","pic":0,"au":1,"s":"d>d ay>ae"},{"t":"tail","pic":1,"au":1,"s":"t>t ai>ae l>l"},{"t":"rain","pic":1,"au":1,"s":"r>r ai>ae n>n"}],"x":[{"t":"rain","pic":1,"au":1,"s":"r>r ai>ae n>n"},{"t":"tray","pic":1,"au":1,"s":"t>t r>r ay>ae"},{"t":"tail","pic":1,"au":1,"s":"t>t ai>ae l>l"}]},"ee":{"m":1,"c":0,"g":[["ee","ee>ee","won",0],["ea","ea>ee","ready",1],["e","e>ee","future",0],["y","y>ee","future",0],["ey","ey>ee","future",0],["ie","ie>ee","future",0],["i","i>ee","future",0]],"f":[{"t":"sea","pic":1,"au":1,"s":"s>s ea>ee"},{"t":"tree","pic":1,"au":1,"s":"t>t r>r ee>ee"}],"x":[{"t":"bee","pic":1,"au":1,"s":"b>b ee>ee"},{"t":"leaf","pic":1,"au":1,"s":"l>l ea>ee f>f"},{"t":"tree","pic":1,"au":1,"s":"t>t r>r ee>ee"}]},"oy":{"m":0,"c":0,"g":[["oi","oi>oy","future",0],["oy","oy>oy","future",0]],"f":[],"x":[]},"ie":{"m":1,"c":0,"g":[["ie","ie>ie","charging",0.25],["igh","igh>ie","ready",1],["i","i>ie","future",0],["i-e","i-e>ie","future",0],["y","y>ie","future",0]],"f":[{"t":"high","pic":0,"au":1,"s":"h>h igh>ie"},{"t":"night","pic":1,"au":1,"s":"n>n igh>ie t>t"}],"x":[{"t":"pie","pic":1,"au":1,"s":"p>p ie>ie"},{"t":"light","pic":1,"au":1,"s":"l>l igh>ie t>t"},{"t":"tie","pic":1,"au":1,"s":"t>t ie>ie"}]},"oe":{"m":1,"c":0,"g":[["oa","oa>oe","charging",0.63],["ow","ow>oe","charging",0.38],["o-e","o-e>oe","future",0],["o","o>oe","future",0],["oe","oe>oe","future",0],["ou","ou>oe","future",0],["ough","ough>oe","future",0]],"f":[{"t":"snow","pic":1,"au":1,"s":"s>s n>n ow>oe"},{"t":"boat","pic":1,"au":1,"s":"b>b oa>oe t>t"}],"x":[{"t":"boat","pic":1,"au":1,"s":"b>b oa>oe t>t"},{"t":"snow","pic":1,"au":1,"s":"s>s n>n ow>oe"},{"t":"goat","pic":1,"au":1,"s":"g>g oa>oe t>t"}]},"uu":{"m":0,"c":0,"g":[["oo","oo>uu","future",0],["u","u>uu","future",0],["oul","oul>uu","future",0]],"f":[],"x":[]},"er":{"m":0,"c":0,"g":[["er","er>er","future",0],["ir","ir>er","future",0],["ur","ur>er","future",0],["or","or>er","future",0],["ar","ar>er","future",0],["ear","ear>er","future",0],["our","our>er","future",0]],"f":[],"x":[]},"ar":{"m":0,"c":0,"g":[["ar","ar>ar","future",0],["a","a>ar","future",0],["al","al>ar","future",0],["au","au>ar","future",0]],"f":[],"x":[]},"ou":{"m":0,"c":0,"g":[["ow","ow>ou","future",0],["ou","ou>ou","future",0]],"f":[],"x":[]},"oo":{"m":0,"c":0,"g":[["oo","oo>oo","future",0],["ew","ew>oo","future",0],["u-e","u-e>oo","future",0],["o","o>oo","future",0],["ue","ue>oo","future",0],["ough","ough>oo","future",0],["u","u>oo","future",0],["ui","ui>oo","future",0],["ou","ou>oo","future",0]],"f":[],"x":[]},"ue":{"m":0,"c":0,"g":[["u","u>ue","future",0],["ew","ew>ue","future",0],["u-e","u-e>ue","future",0],["ue","ue>ue","future",0]],"f":[],"x":[]},"or":{"m":0,"c":0,"g":[["or","or>or","future",0],["aw","aw>or","future",0],["ar","ar>or","future",0],["al","al>or","future",0],["au","au>or","future",0],["a","a>or","future",0],["oar","oar>or","future",0],["augh","augh>or","future",0],["ough","ough>or","future",0],["ore","ore>or","future",0],["our","our>or","future",0]],"f":[],"x":[]},"air":{"m":0,"c":0,"g":[["air","air>air","future",0],["are","are>air","future",0],["ear","ear>air","future",0],["ere","ere>air","future",0],["eir","eir>air","future",0]],"f":[],"x":[]},"s":{"m":1,"c":0,"g":[["s","s>s","won",0],["ss","ss>s","won",0],["st","st>s","future",0],["c","c>s","future",0],["ce","ce>s","future",0],["se","se>s","future",0],["sc","sc>s","future",0],["x","x>ks","charging",0.5]],"f":[{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"},{"t":"snow","pic":1,"au":1,"s":"s>s n>n ow>oe"},{"t":"sea","pic":1,"au":1,"s":"s>s ea>ee"}],"x":[{"t":"sit","pic":1,"au":1,"s":"s>s i>i t>t"},{"t":"dress","pic":1,"au":1,"s":"d>d r>r e>e ss>s"},{"t":"sun","pic":1,"au":1,"s":"s>s u>u n>n"}]},"l":{"m":1,"c":1,"g":[["l","l>l","won",0],["ll","ll>l","won",0],["le","le>l","future",0],["al","al>l","future",0],["el","el>l","future",0],["il","il>l","future",0],["ol","ol>l","future",0]],"f":[{"t":"play","pic":0,"au":1,"s":"p>p l>l ay>ae"},{"t":"tail","pic":1,"au":1,"s":"t>t ai>ae l>l"}],"x":[{"t":"leg","pic":1,"au":1,"s":"l>l e>e g>g"},{"t":"doll","pic":1,"au":1,"s":"d>d o>o ll>l"},{"t":"lid","pic":1,"au":1,"s":"l>l i>i d>d"}]},"f":{"m":1,"c":1,"g":[["f","f>f","won",0],["ff","ff>f","won",0],["ph","ph>f","future",0],["gh","gh>f","future",0]],"f":[],"x":[{"t":"fan","pic":1,"au":1,"s":"f>f a>a n>n"},{"t":"off","pic":0,"au":1,"s":"o>o ff>f"},{"t":"fox","pic":1,"au":1,"s":"f>f o>o x>ks"}]},"e":{"m":1,"c":1,"g":[["e","e>e","won",0],["ea","ea>e","future",0],["ai","ai>e","future",0]],"f":[],"x":[{"t":"den","pic":1,"au":1,"s":"d>d e>e n>n"},{"t":"bed","pic":1,"au":1,"s":"b>b e>e d>d"},{"t":"peg","pic":1,"au":1,"s":"p>p e>e g>g"}]},"u":{"m":1,"c":1,"g":[["u","u>u","won",0],["ou","ou>u","future",0],["o","o>u","future",0]],"f":[],"x":[{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"},{"t":"rug","pic":1,"au":1,"s":"r>r u>u g>g"},{"t":"cup","pic":1,"au":1,"s":"c>k u>u p>p"}]},"o":{"m":1,"c":1,"g":[["o","o>o","won",0],["a","a>o","future",0]],"f":[{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"},{"t":"moth","pic":1,"au":1,"s":"m>m o>o th>th"}],"x":[{"t":"pot","pic":1,"au":1,"s":"p>p o>o t>t"},{"t":"top","pic":1,"au":1,"s":"t>t o>o p>p"},{"t":"mop","pic":1,"au":1,"s":"m>m o>o p>p"}]},"d":{"m":1,"c":1,"g":[["d","d>d","won",0],["dd","dd>d","future",0],["ed","ed>d","future",0]],"f":[{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"},{"t":"day","pic":0,"au":1,"s":"d>d ay>ae"}],"x":[{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"},{"t":"den","pic":1,"au":1,"s":"d>d e>e n>n"},{"t":"doll","pic":1,"au":1,"s":"d>d o>o ll>l"}]},"i":{"m":1,"c":1,"g":[["i","i>i","won",0],["ui","ui>i","future",0],["e","e>i","future",0],["y","y>i","future",0]],"f":[{"t":"ring","pic":1,"au":1,"s":"r>r i>i ng>ng"},{"t":"chip","pic":0,"au":1,"s":"ch>ch i>i p>p"},{"t":"ship","pic":1,"au":1,"s":"sh>sh i>i p>p"}],"x":[{"t":"sit","pic":1,"au":1,"s":"s>s i>i t>t"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"},{"t":"tin","pic":1,"au":1,"s":"t>t i>i n>n"}]},"n":{"m":1,"c":1,"g":[["n","n>n","won",0],["nn","nn>n","future",0],["ne","ne>n","future",0],["gn","gn>n","future",0],["kn","kn>n","future",0]],"f":[{"t":"snow","pic":1,"au":1,"s":"s>s n>n ow>oe"},{"t":"night","pic":1,"au":1,"s":"n>n igh>ie t>t"},{"t":"rain","pic":1,"au":1,"s":"r>r ai>ae n>n"}],"x":[{"t":"net","pic":1,"au":1,"s":"n>n e>e t>t"},{"t":"nut","pic":1,"au":1,"s":"n>n u>u t>t"},{"t":"nest","pic":1,"au":1,"s":"n>n e>e s>s t>t"}]},"v":{"m":1,"c":0,"g":[["v","v>v","ready",1],["ve","ve>v","charging",0.25],["vv","vv>v","future",0]],"f":[],"x":[{"t":"vet","pic":1,"au":1,"s":"v>v e>e t>t"},{"t":"have","pic":0,"au":1,"s":"h>h a>a ve>v"},{"t":"van","pic":1,"au":1,"s":"v>v a>a n>n"}]},"j":{"m":1,"c":0,"g":[["j","j>j","charging",0.5],["g","g>j","future",0],["ge","ge>j","future",0],["dge","dge>j","future",0]],"f":[],"x":[{"t":"jam","pic":1,"au":1,"s":"j>j a>a m>m"},{"t":"jug","pic":1,"au":1,"s":"j>j u>u g>g"},{"t":"jump","pic":1,"au":1,"s":"j>j u>u m>m p>p"}]},"g":{"m":1,"c":1,"g":[["g","g>g","won",0],["gg","gg>g","future",0],["gh","gh>g","future",0],["gu","gu>g","future",0]],"f":[{"t":"dog","pic":1,"au":1,"s":"d>d o>o g>g"}],"x":[{"t":"goat","pic":1,"au":1,"s":"g>g oa>oe t>t"},{"t":"bag","pic":1,"au":1,"s":"b>b a>a g>g"},{"t":"pig","pic":1,"au":1,"s":"p>p i>i g>g"}]},"m":{"m":1,"c":1,"g":[["m","m>m","won",0],["mm","mm>m","future",0],["mb","mb>m","future",0],["mn","mn>m","future",0]],"f":[{"t":"moth","pic":1,"au":1,"s":"m>m o>o th>th"}],"x":[{"t":"mat","pic":1,"au":1,"s":"m>m a>a t>t"},{"t":"man","pic":1,"au":1,"s":"m>m a>a n>n"},{"t":"map","pic":1,"au":1,"s":"m>m a>a p>p"}]},"h":{"m":1,"c":1,"g":[["h","h>h","won",0],["wh","wh>h","future",0]],"f":[{"t":"high","pic":0,"au":1,"s":"h>h igh>ie"}],"x":[{"t":"hat","pic":1,"au":1,"s":"h>h a>a t>t"},{"t":"hut","pic":1,"au":1,"s":"h>h u>u t>t"},{"t":"hutch","pic":1,"au":1,"s":"h>h u>u tch>ch"}]},"k":{"m":1,"c":0,"g":[["c","c>k","won",0],["k","k>k","won",0],["ck","ck>k","charging",0.88],["ch","ch>k","future",0],["cc","cc>k","future",0],["q","q>k","charging",0.38],["x","x>ks","charging",0.5]],"f":[],"x":[{"t":"cat","pic":1,"au":1,"s":"c>k a>a t>t"},{"t":"king","pic":1,"au":1,"s":"k>k i>i ng>ng"},{"t":"duck","pic":1,"au":1,"s":"d>d u>u ck>k"}]},"r":{"m":1,"c":1,"g":[["r","r>r","won",0],["rr","rr>r","future",0],["rh","rh>r","future",0],["wr","wr>r","future",0]],"f":[{"t":"ring","pic":1,"au":1,"s":"r>r i>i ng>ng"},{"t":"tree","pic":1,"au":1,"s":"t>t r>r ee>ee"},{"t":"rain","pic":1,"au":1,"s":"r>r ai>ae n>n"}],"x":[{"t":"rat","pic":1,"au":1,"s":"r>r a>a t>t"},{"t":"rod","pic":1,"au":1,"s":"r>r o>o d>d"},{"t":"run","pic":1,"au":1,"s":"r>r u>u n>n"}]},"t":{"m":1,"c":1,"g":[["t","t>t","won",0],["tt","tt>t","future",0],["bt","bt>t","future",0],["te","te>t","future",0]],"f":[{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"},{"t":"boat","pic":1,"au":1,"s":"b>b oa>oe t>t"},{"t":"night","pic":1,"au":1,"s":"n>n igh>ie t>t"},{"t":"tree","pic":1,"au":1,"s":"t>t r>r ee>ee"},{"t":"tail","pic":1,"au":1,"s":"t>t ai>ae l>l"}],"x":[{"t":"tap","pic":1,"au":1,"s":"t>t a>a p>p"},{"t":"tin","pic":1,"au":1,"s":"t>t i>i n>n"},{"t":"top","pic":1,"au":1,"s":"t>t o>o p>p"}]},"z":{"m":1,"c":0,"g":[["z","z>z","charging",0.38],["zz","zz>z","charging",0.25],["ze","ze>z","future",0],["s","s>z","future",0],["se","se>z","future",0],["ss","ss>z","future",0]],"f":[],"x":[{"t":"zip","pic":1,"au":1,"s":"z>z i>i p>p"},{"t":"buzz","pic":0,"au":1,"s":"b>b u>u zz>z"},{"t":"zap","pic":0,"au":1,"s":"z>z a>a p>p"}]},"eer":{"m":0,"c":0,"g":[["ear","ear>eer","future",0],["eer","eer>eer","future",0],["ere","ere>eer","future",0]],"f":[],"x":[]},"a":{"m":1,"c":1,"g":[["a","a>a","won",0]],"f":[{"t":"sat","pic":0,"au":1,"s":"s>s a>a t>t"}],"x":[{"t":"mat","pic":1,"au":1,"s":"m>m a>a t>t"},{"t":"man","pic":1,"au":1,"s":"m>m a>a n>n"},{"t":"pan","pic":1,"au":1,"s":"p>p a>a n>n"}]},"p":{"m":1,"c":1,"g":[["p","p>p","won",0],["pp","pp>p","future",0]],"f":[{"t":"chip","pic":0,"au":1,"s":"ch>ch i>i p>p"},{"t":"ship","pic":1,"au":1,"s":"sh>sh i>i p>p"},{"t":"play","pic":0,"au":1,"s":"p>p l>l ay>ae"}],"x":[{"t":"pan","pic":1,"au":1,"s":"p>p a>a n>n"},{"t":"pin","pic":1,"au":1,"s":"p>p i>i n>n"},{"t":"pot","pic":1,"au":1,"s":"p>p o>o t>t"}]},"b":{"m":1,"c":1,"g":[["b","b>b","won",0],["bb","bb>b","future",0]],"f":[{"t":"boat","pic":1,"au":1,"s":"b>b oa>oe t>t"}],"x":[{"t":"bat","pic":1,"au":1,"s":"b>b a>a t>t"},{"t":"bag","pic":1,"au":1,"s":"b>b a>a g>g"},{"t":"bin","pic":1,"au":1,"s":"b>b i>i n>n"}]},"w":{"m":1,"c":0,"g":[["w","w>w","charging",0.75],["wh","wh>w","charging",0.25],["u","u>w","charging",0.13]],"f":[],"x":[{"t":"web","pic":1,"au":1,"s":"w>w e>e b>b"},{"t":"whisk","pic":1,"au":1,"s":"wh>w i>i s>s k>k"},{"t":"quick","pic":0,"au":1,"s":"q>k u>w i>i ck>k"}]},"y":{"m":1,"c":0,"g":[["y","y>y","charging",0.63]],"f":[],"x":[{"t":"yak","pic":1,"au":1,"s":"y>y a>a k>k"},{"t":"yes","pic":0,"au":1,"s":"y>y e>e s>s"},{"t":"yum","pic":0,"au":1,"s":"y>y u>u m>m"}]},"sh":{"m":1,"c":1,"g":[["sh","sh>sh","won",0],["ch","ch>sh","future",0],["ti","ti>sh","future",0],["ci","ci>sh","future",0],["ssi","ssi>sh","future",0],["s","s>sh","future",0]],"f":[{"t":"ship","pic":1,"au":1,"s":"sh>sh i>i p>p"}],"x":[{"t":"shop","pic":1,"au":1,"s":"sh>sh o>o p>p"},{"t":"shed","pic":1,"au":1,"s":"sh>sh e>e d>d"},{"t":"shell","pic":1,"au":1,"s":"sh>sh e>e ll>l"}]},"ch":{"m":1,"c":0,"g":[["ch","ch>ch","won",0],["tch","tch>ch","charging",0.13]],"f":[{"t":"chip","pic":0,"au":1,"s":"ch>ch i>i p>p"}],"x":[{"t":"chick","pic":1,"au":1,"s":"ch>ch i>i ck>k"},{"t":"match","pic":1,"au":1,"s":"m>m a>a tch>ch"},{"t":"chest","pic":1,"au":1,"s":"ch>ch e>e s>s t>t"}]},"th":{"m":1,"c":0,"g":[["th","th>th","ready",1]],"f":[{"t":"moth","pic":1,"au":1,"s":"m>m o>o th>th"}],"x":[{"t":"moth","pic":1,"au":1,"s":"m>m o>o th>th"},{"t":"thin","pic":0,"au":1,"s":"th>th i>i n>n"},{"t":"thick","pic":0,"au":1,"s":"th>th i>i ck>k"}]},"dh":{"m":1,"c":0,"g":[["th","th>dh","charging",0.63]],"f":[],"x":[{"t":"this","pic":0,"au":1,"s":"th>dh i>i s>s"},{"t":"that","pic":0,"au":1,"s":"th>dh a>a t>t"},{"t":"them","pic":0,"au":1,"s":"th>dh e>e m>m"}]},"ng":{"m":1,"c":0,"g":[["ng","ng>ng","charging",0.75],["n","n>ng","future",0]],"f":[{"t":"ring","pic":1,"au":1,"s":"r>r i>i ng>ng"}],"x":[{"t":"ring","pic":1,"au":1,"s":"r>r i>i ng>ng"},{"t":"king","pic":1,"au":1,"s":"k>k i>i ng>ng"},{"t":"wing","pic":1,"au":1,"s":"w>w i>i ng>ng"}]},"zh":{"m":0,"c":0,"g":[["s","s>zh","future",0],["si","si>zh","future",0],["ge","ge>zh","future",0]],"f":[],"x":[]},"schwa":{"m":0,"c":0,"g":[["a","a>schwa","future",0],["e","e>schwa","future",0],["o","o>schwa","future",0],["u","u>schwa","future",0],["er","er>schwa","future",0],["our","our>schwa","future",0]],"f":[],"x":[]}}}}</script>
+<script>
+"use strict";
+// ================================================================ data (computed from src/ by playtest/runs/scroll-design/chart-on-scroll/extract.ts)
+const DATA = JSON.parse(document.getElementById("data").textContent);
+const A = "../../../public/a/";
+const Q = new URLSearchParams(location.search);
+const CHILD = DATA.kids[Q.get("child")] ? Q.get("child") : "year1";
+const KID = DATA.kids[CHILD];
+const CHART = Object.fromEntries(DATA.petals.map(([p, page, colour, word]) => [p, { p, page, colour, word }]));
+const NEWEST = { new: "t", reception: "j", year1: "oe" }[CHILD]; // the petal of the child's newest spelling (save.petals, last)
+
+// ================================================================ colour helpers (as src/ui/petal.ts)
+const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const hex = (c) => "#" + c.map((v) => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, "0")).join("");
+const mix = (a, b, t) => hex(rgb(a).map((v, i) => v + (rgb(b)[i] - v) * t));
+const svgUrl = (s) => `url("data:image/svg+xml,${encodeURIComponent(s)}")`;
+const washColour = (c) => mix(c === "#2b1d14" ? "#7a4a24" : c, "#ffffff", 0.8);
+
+// ================================================================ the chart teardrop: round top, convex sides, sharp point
+// half-width at y (0 = top, h = point), from the school's sheet: widest at w/2 below the top, ~85% at half height,
+// ~55% at three quarters, ~25% at nine tenths.
+function halfW(y, w, h) {
+  const r = w / 2;
+  if (y <= 0 || y >= h) return 0;
+  if (y < r) return Math.sqrt(Math.max(0, r * r - (r - y) * (r - y)));
+  const t = (y - r) / (h - r);
+  return r * Math.pow(Math.cos((t * Math.PI) / 2), 0.9);
+}
+function petalPath(x, y, w, h) {
+  const r = w / 2, cx = x + r, N = 28, pts = [];
+  for (let i = 0; i <= N; i++) { const yy = r + ((h - r) * i) / N; pts.push([cx + halfW(yy, w, h), y + yy]); }
+  pts[N] = [cx, y + h];
+  // right side down to the point (smoothed through midpoints), then mirrored up the left side, then the round top
+  const f = (n) => +n.toFixed(2);
+  let d = `M${f(cx - r)},${f(y + r)} A${r},${r} 0 0 1 ${f(cx + r)},${f(y + r)}`;
+  for (let i = 1; i < N; i++) { const [x1, y1] = pts[i], [x2, y2] = pts[i + 1]; d += ` Q${f(x1)},${f(y1)} ${f((x1 + x2) / 2)},${f((y1 + y2) / 2)}`; }
+  d += ` L${f(cx)},${f(y + h)}`;
+  for (let i = N - 1; i >= 1; i--) { const [x1, y1] = pts[i], [x0, y0] = pts[i - 1]; const mx = 2 * cx - x1, mx0 = 2 * cx - x0; d += ` Q${f(mx)},${f(y1)} ${f((mx + mx0) / 2)},${f((y1 + y0) / 2)}`; }
+  d += ` L${f(cx - r)},${f(y + r)} Z`;
+  return d;
+}
+/** The petal as a background image: outline in the sound's colour, and its colour rising from the point as gems are won. */
+function petalSVG({ cw, ch, x, y, w, h, colour, fill = 0, mystery = false, complete = false, stroke = 5 }) {
+  const d = petalPath(x, y, w, h);
+  const line = mystery ? mix(colour === "#2b1d14" ? "#7a4a24" : colour, "#fffdf7", 0.62) : colour;
+  let body = "";
+  if (!mystery && fill > 0) {
+    const lvl = y + h - (h - 6) * Math.min(1, fill);
+    const wash = washColour(colour);
+    body += `<clipPath id='k'><path d='${d}'/></clipPath><g clip-path='url(#k)'><rect x='0' y='${lvl.toFixed(1)}' width='${cw}' height='${ch}' fill='${wash}'/>`;
+    if (fill < 1) body += `<rect x='0' y='${(lvl - 1).toFixed(1)}' width='${cw}' height='${(stroke * 0.6).toFixed(1)}' fill='${mix(colour, "#ffffff", 0.45)}'/>`;
+    body += `</g>`;
+  }
+  if (mystery) {
+    const spark = (sx, sy, s) => `<path d='M${sx},${sy - s} Q${sx + s * 0.18},${sy - s * 0.18} ${sx + s},${sy} Q${sx + s * 0.18},${sy + s * 0.18} ${sx},${sy + s} Q${sx - s * 0.18},${sy + s * 0.18} ${sx - s},${sy} Q${sx - s * 0.18},${sy - s * 0.18} ${sx},${sy - s} Z' fill='#f2cf6e' opacity='.75'/>`;
+    body += spark(x + w * 0.24, y + h * 0.2, w * 0.05) + spark(x + w * 0.74, y + h * 0.46, w * 0.04);
+  }
+  if (complete) {
+    // a complete petal shines: a soft glow in the round top and a gold star near the point
+    const sx = x + w / 2, sy = y + h * 0.925, s = w * 0.085;
+    const star = Array.from({ length: 10 }, (_, i) => { const a = (Math.PI / 5) * i - Math.PI / 2, rr = i % 2 ? s * 0.45 : s; return `${(sx + rr * Math.cos(a)).toFixed(1)},${(sy + rr * Math.sin(a)).toFixed(1)}`; }).join(" ");
+    body += `<polygon points='${star}' fill='#ffc53d' stroke='#2b1d14' stroke-width='${(stroke * 0.5).toFixed(1)}' stroke-linejoin='round'/>`;
+  }
+  return `<svg xmlns='http://www.w3.org/2000/svg' width='${cw}' height='${ch}' viewBox='0 0 ${cw} ${ch}'>${body}<path d='${d}' fill='none' stroke='${line}' stroke-width='${complete ? stroke * 1.25 : stroke}' stroke-linejoin='round'/></svg>`;
+}
+/** A won gem: a small cut jewel in the petal's colour. */
+function gemSVG(colour) {
+  const c0 = mix(colour, "#ffffff", 0.45), c1 = mix(colour, "#2b1d14", 0.2);
+  return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 48'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c0}'/><stop offset='1' stop-color='${c1}'/></linearGradient></defs><polygon points='20,3 37,15 37,33 20,45 3,33 3,15' fill='url(#g)' stroke='#2b1d14' stroke-width='4.5' stroke-linejoin='round'/><polygon points='20,3 37,15 20,21 3,15' fill='#fff' opacity='.35'/><polygon points='9,14 16,9 13,20' fill='#fff' opacity='.85'/></svg>`;
+}
+
+// ================================================================ fitting the spellings into the petal (one size per petal, as on the chart)
+const measureCtx = document.createElement("canvas").getContext("2d");
+const w100 = (s) => { measureCtx.font = `700 100px Andika`; return measureCtx.measureText(s).width; };
+/** Lays out a petal's column of spellings. Returns { fs, ys, fz }: the base size, each line's centre (from the petal's
+ *  top) and each line's own size. `wt`: a line's size relative to the base (met spellings 1, invisible ink smaller, so
+ *  what the child knows is the biggest thing on the petal). A long spelling near the point may shrink by up to a fifth.
+ *  `pic`: the picture's left edge (from the centre) and bottom (from the top), which the first lines keep clear of.
+ *  `marks`: lines with a jewel on their right. */
+function fit(spellings, w, h, { pic, marks, maxFs, stroke, wt }) {
+  const n = spellings.length, W = spellings.map(w100);
+  wt = wt || spellings.map(() => 1);
+  const k = n > 6 ? 1.05 : 1.1;
+  const top = h * 0.05, bot = h * (n > 6 ? 0.885 : 0.85);
+  const side = [];
+  // a won spelling's jewel sits left of its letters, like a tick on a list (the picture has the right-hand shoulder)
+  const fitsAt = (i, f, yc) => {
+    const half = (W[i] * f) / 200, jew = marks[i] ? f * 0.64 : 0, pad = f * 0.06;
+    const avail = Math.min(halfW(yc + f * 0.3, w, h), halfW(yc - f * 0.32, w, h)) - stroke * 1.4;
+    const availR = yc - f * 0.45 < pic.bottom ? Math.min(avail, pic.left - 3) : avail;
+    if (half + jew + pad <= avail && half + pad <= availR) return (side[i] = "l");
+    return false;
+  };
+  const starts = n <= 2 ? [0.3, 0.45, 0.15, 0.6, 0] : n <= 4 ? [0.18, 0.3, 0.08, 0.45, 0] : [0.12, 0.25, 0, 0.4];
+  for (let fs = maxFs; fs > 8; fs -= 0.5) {
+    const f0 = wt.map((x) => fs * x);
+    const col = f0.reduce((a, f) => a + f * k, 0);
+    if (col > bot - top) continue;
+    const slack = bot - top - col;
+    for (const give of [1, 0.8]) for (const st of starts) {
+      let y = top + slack * st, ok = true;
+      const ys = [], fz = [];
+      for (let i = 0; i < n && ok; i++) {
+        const pitch = f0[i] * k, yc = y + pitch / 2;
+        let f = f0[i];
+        while (f >= f0[i] * give && !fitsAt(i, f, yc)) f -= 0.5;
+        if (f < f0[i] * give) ok = false;
+        ys.push(yc); fz.push(f); y += pitch;
+      }
+      if (ok) return { fs, ys, fz, side: side.slice() };
+    }
+  }
+  return { fs: 10, ys: spellings.map((_, i) => h * 0.1 + i * 11), fz: spellings.map(() => 10), side: [] };
+}
+const WT = { won: 1, ready: 1, charging: 1, hidden: 0.8, future: 0.74 };
+
+// ================================================================ the layout: the chart's two sheets as half-sheets, two rows
+// Each sheet of the chart is 4×4. On the scroll, a sheet's rows 1–2 sit side by side with its rows 3–4 (two half-sheets,
+// four columns each), so every petal keeps its neighbours from the sheet. The sounds the sheet doesn't show come last.
+const SHEETS = [
+  { rows: [["ae", "ee", "oy", "ie", "ou", "oo", "ue", "or"], ["oe", "uu", "er", "ar", "air", "s", "l", "f"]] },
+  { rows: [["e", "u", "o", "d", "g", "m", "h", "k"], ["i", "n", "v", "j", "r", "t", "z", "eer"]] },
+  { rows: [["a", "p", "b", "w", "y", "sh"], ["ch", "th", "dh", "ng", "zh", "schwa"]] },
+];
+const PITCH = 184, CW = 184, CH = 334, PW = 148, PH = 304, PX = 18, PY = 30, ROW2 = 314, HALF_GAP = 26, SEAM = 70, PAD = 30;
+const PIC = 74; // stage px (36 CSS px on a phone): SOUND_DISPLAY's 70 minimum
+const cols = []; // { x, top, bottom }
+const seams = [];
+let x = PAD;
+SHEETS.forEach((sh, si) => {
+  const n = sh.rows[0].length;
+  for (let c = 0; c < n; c++) {
+    if (c === 4) x += HALF_GAP;
+    cols.push({ x, top: sh.rows[0][c], bottom: sh.rows[1][c], sheet: si });
+    x += PITCH;
+  }
+  if (si < SHEETS.length - 1) { seams.push(x + SEAM / 2 - 7); x += SEAM; }
+});
+const TOTAL = x + PAD;
+
+// ================================================================ build the scroll
+const paper = document.getElementById("paper");
+const scroller = document.getElementById("scroll");
+const stage = document.getElementById("stage");
+paper.style.width = TOTAL + "px";
+const WASHI = svgUrl(`<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='a'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .4  0 0 0 0 .25  0 0 0 .05 0'/></filter><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='.006 .09' numOctaves='2' seed='8' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .42  0 0 0 0 .25  0 0 0 .11 -.035'/></filter><rect width='300' height='300' filter='url(#a)'/><rect width='300' height='300' filter='url(#b)'/></svg>`);
+document.documentElement.style.setProperty("--washi", WASHI);
+const SHURIKEN = svgUrl(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -20 40 40'><path d='M0,-18 L4,-4 L18,0 L4,4 L0,18 L-4,4 L-18,0 L-4,-4 Z' fill='#ffc53d' stroke='#2b1d14' stroke-width='2.5' stroke-linejoin='round'/><circle r='3.5' fill='#7a1c12' stroke='#2b1d14' stroke-width='2'/></svg>`);
+document.documentElement.style.setProperty("--shuriken", SHURIKEN);
+for (const s of seams) { const el = document.createElement("i"); el.className = "seam"; el.style.left = s + "px"; paper.appendChild(el); }
+
+const petalEls = {};
+function stateOf(p) { return KID[p]; }
+function petalFill(st) {
+  const need = st.g.filter((g) => g[2] !== "future");
+  if (!need.length) return 0;
+  return need.filter((g) => g[2] === "won").length / need.length;
+}
+function spellClass(state) { return state; } // future | hidden | charging | ready | won
+
+function buildPetal(p, left, top) {
+  const c = CHART[p], st = stateOf(p);
+  const el = document.createElement("div");
+  const mystery = !st.m;
+  el.className = "pt" + (mystery ? " mys" : " met") + (st.c ? " complete" : "");
+  el.setAttribute("role", "button");
+  el.setAttribute("aria-label", `petal ${p}`);
+  el.dataset.p = p;
+  el.style.left = left + "px";
+  el.style.top = top + "px";
+  el.style.setProperty("--c", c.colour);
+  el.style.setProperty("--gem", svgUrl(gemSVG(c.colour)));
+  el.style.backgroundImage = svgUrl(petalSVG({ cw: CW, ch: CH, x: PX, y: PY, w: PW, h: PH, colour: c.colour, fill: petalFill(st), mystery, complete: !!st.c }));
+  const img = document.createElement("img");
+  img.className = "pic"; img.alt = ""; img.decoding = "async"; img.loading = "lazy";
+  img.src = `${A}i/petal_${p}.webp`;
+  // on the top-right shoulder, over the outline, as on the sheet
+  const pcx = PX + PW / 2 + 64, pcy = PY + 8;
+  img.style.left = pcx - PIC / 2 + "px"; img.style.top = pcy - PIC / 2 + "px";
+  el.appendChild(img);
+  const spellings = st.g.map((g) => g[0]);
+  const marks = st.g.map((g) => !mystery && g[2] === "won");
+  const wt = st.g.map((g) => (mystery ? 1 : WT[g[2]]));
+  const { fs, ys, fz, side } = fit(spellings, PW, PH, { pic: { left: pcx - PIC / 2 - (PX + PW / 2) + 6, bottom: pcy + PIC / 2 - PY - 8 }, marks, maxFs: mystery ? 44 : 66, stroke: 5, wt });
+  st.g.forEach(([g, key, state, e], i) => {
+    const s = document.createElement("span");
+    s.className = "sp " + (mystery ? "" : spellClass(state)) + (side[i] === "l" && !mystery && state === "won" ? " jl" : "");
+    s.textContent = g;
+    s.style.top = PY + ys[i] + "px";
+    s.style.fontSize = fz[i] + "px";
+    if (!mystery && (state === "charging")) s.style.setProperty("--e", Math.max(0.06, e));
+    if (!mystery && state !== "future" && state !== "hidden") s.dataset.gemChip = key;
+    el.appendChild(s);
+  });
+  el.dataset.fs = Math.max(...fz.filter((_, i) => mystery || wt[i] === 1), 0) || fs;
+  paper.appendChild(el);
+  petalEls[p] = el;
+  return el;
+}
+cols.forEach((col) => { buildPetal(col.top, col.x, 0); buildPetal(col.bottom, col.x, ROW2); });
+
+// ================================================================ the ribbon (a minimap in each petal's colour)
+const RB_W = 738, RB_H = 30, RB_S = RB_W / TOTAL;
+(function ribbon() {
+  let cells = "";
+  const cw = PITCH * RB_S - 5, chh = 11;
+  cols.forEach((col) => {
+    [[col.top, 3.5], [col.bottom, 15.5]].forEach(([p, y]) => {
+      const st = stateOf(p), c = CHART[p].colour, cx = (col.x + PX) * RB_S + 1;
+      if (!st.m) cells += `<rect x='${cx.toFixed(1)}' y='${y}' width='${cw.toFixed(1)}' height='${chh}' rx='4' fill='none' stroke='${mix(c === "#2b1d14" ? "#7a4a24" : c, "#fff8e8", 0.55)}' stroke-width='1.6' stroke-dasharray='2.5 2'/>`;
+      else {
+        const f = petalFill(st);
+        cells += `<rect x='${cx.toFixed(1)}' y='${y}' width='${cw.toFixed(1)}' height='${chh}' rx='4' fill='${mix(c, "#ffffff", 0.62)}' stroke='${c}' stroke-width='1.6'/>`;
+        if (f > 0) cells += `<rect x='${cx.toFixed(1)}' y='${y}' width='${(cw * f).toFixed(1)}' height='${chh}' rx='4' fill='${c}'/>`;
+        if (st.c) cells += `<circle cx='${(cx + cw / 2).toFixed(1)}' cy='${y + chh / 2}' r='2.6' fill='#fff'/>`;
+      }
+    });
+  });
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${RB_W}' height='${RB_H}' viewBox='0 0 ${RB_W} ${RB_H}'>${cells}</svg>`;
+  const rb = document.getElementById("ribbon");
+  rb.style.setProperty("--ribbon", svgUrl(svg));
+  rb.style.setProperty("--rbw", Math.round(756 * RB_S + 6) + "px");
+  rb.addEventListener("click", (e) => {
+    const r = rb.getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width;
+    scroller.scrollTo({ left: fx * TOTAL - 756 / 2, behavior: "smooth" });
+    sfx.tap();
+  });
+})();
+
+// ================================================================ the rollers turn and the ribbon's frame follows the paper
+const RANGE = () => scroller.scrollWidth - scroller.clientWidth;
+const ROLL_R = 34; // the roller's apparent radius (stage px): one turn per 214 px of paper
+function setupMotion() {
+  const range = RANGE();
+  const rbmax = RB_W - (756 * RB_S + 6);
+  stage.style.setProperty("--turns", Math.max(1, range / (2 * Math.PI * ROLL_R)).toFixed(3));
+  stage.style.setProperty("--grains", Math.max(1, range / 24).toFixed(3));
+  stage.style.setProperty("--rbmax", rbmax.toFixed(1) + "px");
+  if (CSS.supports("animation-timeline: scroll()")) { stage.classList.add("sda"); return; }
+  // fallback (no scroll-driven animations): one rAF per scroll frame writes three transforms
+  const faces = document.querySelectorAll(".knob .face i"), grains = document.querySelectorAll(".roller .grain"), win = document.getElementById("rbwin");
+  let raf = 0;
+  const upd = () => {
+    raf = 0;
+    const sl = scroller.scrollLeft;
+    const turn = ((sl / ROLL_R) * 180) / Math.PI;
+    faces.forEach((f) => (f.style.transform = `scaleY(.38) rotate(${turn}deg)`));
+    grains.forEach((g) => (g.style.transform = `translateX(${-(sl % 24)}px)`));
+    win.style.transform = `translateX(${((sl / Math.max(1, range)) * rbmax).toFixed(1)}px)`;
+  };
+  scroller.addEventListener("scroll", () => raf || (raf = requestAnimationFrame(upd)), { passive: true });
+  upd();
+}
+// while the paper moves, the invisible ink glints (the class is set once per gesture, not per frame)
+let moveT = 0;
+scroller.addEventListener("scroll", () => {
+  if (!scroller.classList.contains("moving")) scroller.classList.add("moving");
+  clearTimeout(moveT);
+  moveT = setTimeout(() => { scroller.classList.remove("moving"); hopReady(); }, 220);
+}, { passive: true });
+
+// ready gems hop twice when you arrive at them (never an endless animation)
+function hopReady() {
+  const sl = scroller.scrollLeft;
+  document.querySelectorAll(".paper .sp.ready").forEach((s) => {
+    const pt = s.closest(".pt");
+    const x0 = parseFloat(pt.style.left);
+    if (x0 + CW < sl || x0 > sl + 756) return;
+    s.classList.remove("hop"); void s.offsetWidth; s.classList.add("hop");
+  });
+}
+
+// ================================================================ sound: Sensei's recorded lines, the pure sounds, the words, little tones
+const LINES = {
+  flower_tap: "Tap a petal to see its gems.",
+  help_flower: "Tap a petal to see its gems. A bouncing gem is ready for a gem battle!",
+  petal_secret: "This sound is still a secret. You'll find it on your adventure!",
+  gem_hidden: "This gem is still a secret. You'll find it later!",
+  gem_future: "This gem is far, far away. We'll find it one day!",
+  gem_ready: "A gem is glowing! It's ready for a gem battle.",
+  gem_charging: "This gem is filling up. Keep playing to fill it!",
+  t_words_you_found: "Here are the words you found with this sound. Tap one to hear it!",
+  t_practise_invite: "Shall we practise this in the dojo?",
+};
+let cur = null, capT = 0;
+const cap = document.getElementById("caption"), helpBtn = document.getElementById("help");
+function play(url, line) {
+  try { if (cur) { cur.pause(); cur = null; } } catch {}
+  const a = new Audio(url);
+  cur = a;
+  if (line) { cap.textContent = LINES[line]; cap.classList.add("on"); helpBtn.classList.add("talking"); }
+  const done = () => { if (cur === a) { cap.classList.remove("on"); helpBtn.classList.remove("talking"); } };
+  a.addEventListener("ended", done);
+  clearTimeout(capT);
+  if (line) capT = setTimeout(done, 6000);
+  a.play().catch(() => {});
+}
+const sayLine = (id) => play(`${A}l/${id}.mp3`, id);
+const saySound = (p) => play(`${A}p/${p}.mp3`);
+const sayWord = (w) => play(`${A}w/${w}.mp3`);
+let actx = null;
+function tone(f, d, { type = "sine", vol = 0.15, delay = 0, slide = 1 } = {}) {
+  try {
+    actx ||= new (window.AudioContext || window.webkitAudioContext)();
+    const t = actx.currentTime + delay, o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * slide, t + d);
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + d);
+    o.connect(g).connect(actx.destination); o.start(t); o.stop(t + d);
+  } catch {}
+}
+const sfx = { tap: () => tone(660, 0.08, { type: "triangle", vol: 0.25, slide: 1.5 }), petal: () => [1047, 1319, 1568, 2093].forEach((f, i) => tone(f, 0.4, { vol: 0.12, delay: i * 0.06 })) };
+
+// ================================================================ taps on the scroll (a click never fires after a swipe)
+paper.addEventListener("click", (e) => {
+  const pt = e.target.closest(".pt");
+  if (!pt) return;
+  const p = pt.dataset.p;
+  if (pt.classList.contains("mys")) {
+    pt.classList.remove("stir"); void pt.offsetWidth; pt.classList.add("stir");
+    sayLine("petal_secret");
+    return;
+  }
+  sfx.petal();
+  saySound(p);
+  openCard(p, pt);
+});
+paper.addEventListener("pointerdown", (e) => { const pt = e.target.closest(".pt"); if (pt) { pt.classList.add("press"); const up = () => { pt.classList.remove("press"); removeEventListener("pointerup", up); removeEventListener("pointercancel", up); }; addEventListener("pointerup", up); addEventListener("pointercancel", up); } });
+scroller.addEventListener("scroll", () => document.querySelectorAll(".pt.press").forEach((x) => x.classList.remove("press")), { passive: true });
+
+// ================================================================ the petal's card
+const card = document.getElementById("card"), veil = document.getElementById("veil"), big = document.getElementById("big"), wordsEl = document.getElementById("words");
+const BW = 310, BH = 650, BPW = 252, BPH = 548, BPX = 26, BPY = 74, BPIC = 132;
+let openP = null;
+function openCard(p, fromEl) {
+  openP = p;
+  const c = CHART[p], st = stateOf(p);
+  card.style.setProperty("--c", c.colour);
+  card.style.setProperty("--c2", c.colour === "#2b1d14" ? "#7a4a24" : c.colour);
+  big.innerHTML = "";
+  big.style.setProperty("--gem", svgUrl(gemSVG(c.colour)));
+  big.style.backgroundImage = svgUrl(petalSVG({ cw: BW, ch: BH, x: BPX, y: BPY, w: BPW, h: BPH, colour: c.colour, fill: petalFill(st), complete: !!st.c, stroke: 8 }));
+  const img = document.createElement("img");
+  img.className = "pic"; img.alt = ""; img.src = `${A}i/petal_${p}.webp`;
+  const pcx = BPX + BPW / 2 + 104, pcy = BPY + 4;
+  img.style.left = pcx - BPIC / 2 + "px"; img.style.top = pcy - BPIC / 2 + "px";
+  img.addEventListener("click", () => saySound(p));
+  big.appendChild(img);
+  const marks = st.g.map((g) => g[2] === "won");
+  const { fs, ys, fz, side } = fit(st.g.map((g) => g[0]), BPW, BPH, { pic: { left: pcx - BPIC / 2 - (BPX + BPW / 2) + 10, bottom: pcy + BPIC / 2 - BPY - 12 }, marks, maxFs: 108, stroke: 8, wt: st.g.map((g) => (WT[g[2]] < 1 ? 0.62 : 1)) });
+  st.g.forEach(([g, key, state, e], i) => {
+    const s = document.createElement("span");
+    s.className = "sp " + state + (side[i] === "l" && state === "won" ? " jl" : "");
+    s.textContent = g;
+    s.style.top = BPY + ys[i] + "px";
+    s.style.fontSize = fz[i] + "px";
+    s.setAttribute("role", "button");
+    s.setAttribute("aria-label", `gem ${g} ${state}`);
+    if (state === "charging") s.style.setProperty("--e", Math.max(0.06, e));
+    s.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      big.querySelectorAll(".sel").forEach((x) => x.classList.remove("sel"));
+      if (state === "hidden") return sayLine("gem_hidden");
+      if (state === "future") return sayLine("gem_future");
+      s.classList.add("sel");
+      if (state === "ready") { s.classList.remove("hop"); void s.offsetWidth; s.classList.add("hop"); return sayLine("gem_ready"); }
+      if (state === "charging") return sayLine("gem_charging");
+      sfx.petal(); saySound(p);
+    });
+    big.appendChild(s);
+  });
+  // the words the child has found with this sound; if fewer than four, the rest of Sensei's example words in invisible ink
+  wordsEl.innerHTML = "";
+  const seen = new Set();
+  const list = [...st.f.map((w) => ({ ...w, found: true })), ...st.x.map((w) => ({ ...w, found: false }))].filter((w) => !seen.has(w.t) && seen.add(w.t)).slice(0, 6);
+  const shown = list.filter((w) => w.found).length >= 4 ? list.filter((w) => w.found).slice(0, 6) : list.slice(0, 4);
+  for (const w of shown) {
+    const b = document.createElement("button");
+    b.className = "wcard" + (w.found ? "" : " ghost");
+    b.setAttribute("aria-label", `word ${w.t}`);
+    if (w.pic) { const im = document.createElement("img"); im.src = `${A}i/pic_${w.t}.webp`; im.alt = ""; b.appendChild(im); }
+    const span = document.createElement("span");
+    for (const seg of w.s.split(" ")) {
+      const [g, sp] = seg.split(">");
+      const txt = g.replace("-", "");
+      if (sp === p) { const bb = document.createElement("b"); bb.textContent = txt; span.appendChild(bb); } else span.appendChild(document.createTextNode(txt));
+    }
+    b.appendChild(span);
+    b.addEventListener("click", (ev) => { ev.stopPropagation(); if (w.au) sayWord(w.t); });
+    wordsEl.appendChild(b);
+  }
+  const canPractise = st.g.some((g) => g[2] === "charging" || g[2] === "ready" || g[2] === "won");
+  document.getElementById("practise").style.display = canPractise ? "" : "none";
+  // the card grows out of the petal that was tapped
+  if (fromEl) {
+    const r = fromEl.getBoundingClientRect(), cr = stage.getBoundingClientRect(), s = cr.width / 1280;
+    const px = (r.left + r.width / 2 - cr.left) / s - 336, py = (r.top + r.height / 2 - cr.top) / s - 50;
+    card.style.transformOrigin = `${px}px ${py}px`;
+  }
+  card.classList.add("on"); veil.classList.add("on");
+}
+function closeCard() { card.classList.remove("on"); veil.classList.remove("on"); openP = null; sfx.tap(); }
+document.getElementById("close").addEventListener("click", closeCard);
+veil.addEventListener("click", closeCard);
+document.getElementById("cardSound").addEventListener("click", () => openP && saySound(openP));
+document.getElementById("lead").addEventListener("click", () => sayLine("t_words_you_found"));
+document.getElementById("practise").addEventListener("click", (e) => { const b = e.currentTarget; b.classList.remove("pulse"); void b.offsetWidth; b.classList.add("pulse"); sayLine("t_practise_invite"); });
+
+// ================================================================ the frame
+document.querySelector(".again").addEventListener("click", () => sayLine("flower_tap"));
+helpBtn.addEventListener("click", () => { sayLine("help_flower"); hopReady(); });
+document.querySelector(".home").addEventListener("click", () => sfx.tap());
+document.querySelector(".flower").addEventListener("click", () => sfx.tap());
+document.getElementById("flowerIcon").innerHTML = ["#e8312f", "#f7a23b", "#f3c74a", "#2fa65a", "#2ec4b6", "#4a7dff", "#8a3be0", "#f0226b"].map((c, i) => `<path d="M0,20 C-2.88,11.2 -12,2.4 -12,-8 A12,12 0 0 1 12,-8 C12,2.4 2.88,11.2 0,20 Z" transform="rotate(${i * 45}) translate(0 -34)" fill="${c}" stroke="#2b1d14" stroke-width="4"/>`).join("") + `<circle r="17" fill="#ffc53d" stroke="#2b1d14" stroke-width="5"/>`;
+
+// ================================================================ fit the stage like ui.tsx Stage
+function fitStage() {
+  const touch = matchMedia("(pointer: coarse)").matches;
+  const top = touch ? 10 : 0, bottom = touch ? 26 : 0, left = touch ? 8 : 0, right = touch ? 8 : 0;
+  const aw = innerWidth - left - right, ah = innerHeight - top - bottom;
+  const s = Math.min(aw / 1280, ah / 720);
+  stage.style.left = `${left + aw / 2}px`;
+  stage.style.top = `${top + ah / 2}px`;
+  stage.style.transform = `scale(${s}) translate(-50%, -50%)`;
+  window.__stageScale = s;
+}
+fitStage();
+addEventListener("resize", fitStage);
+
+// ================================================================ open where the child's own newest sound is (no animation, nothing moves by itself)
+function colOf(p) { return cols.findIndex((c) => c.top === p || c.bottom === p); }
+function startAt(p) {
+  const ci = colOf(p);
+  // show the half-sheet (four columns) that holds it, centred in the window
+  const first = cols.findIndex((c, i) => i <= ci && cols[ci].sheet === c.sheet && Math.floor((ci - cols.findIndex((d) => d.sheet === c.sheet)) / 4) === Math.floor((i - cols.findIndex((d) => d.sheet === c.sheet)) / 4));
+  const x0 = cols[first].x, x1 = cols[Math.min(cols.length - 1, first + 3)].x + CW;
+  return (x0 + x1) / 2 - 756 / 2;
+}
+document.fonts.ready.then(() => {
+  // re-fit the letters now that Andika has loaded (the first pass may have measured a fallback font)
+  paper.querySelectorAll(".pt").forEach((el) => el.remove());
+  cols.forEach((col) => { buildPetal(col.top, col.x, 0); buildPetal(col.bottom, col.x, ROW2); });
+  const at = Q.get("x") != null ? +Q.get("x") : startAt(Q.get("at") || NEWEST);
+  scroller.scrollLeft = Math.max(0, at);
+  setupMotion();
+  if (Q.get("open")) { const el = petalEls[Q.get("open")]; openCard(Q.get("open"), el); }
+  document.body.dataset.ready = "1";
+  window.__mock = { cols, TOTAL, child: CHILD };
+});
+if (Q.has("grownups")) { const g = document.createElement("div"); g.className = "gu"; g.innerHTML = ["new", "reception", "year1"].map((k) => `<a href="?child=${k}&grownups">${k}</a>`).join(""); document.body.appendChild(g); }
+</script>
+</body>
+</html>

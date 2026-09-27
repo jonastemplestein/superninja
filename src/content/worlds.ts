@@ -211,17 +211,19 @@ export function levelWords(l: Level): Word[] {
   return WORDS.filter((w) => l.units.includes(w.unit) && w.segs.every((s) => known.has(s.g)) && dictationSafe(w));
 }
 
+/** `facing`: which way the SPRITE ART faces (a "right" sprite is mirrored so every monster faces the ninja on the left).
+ *  Checked 27 Sep by eye and by five-vote vision checks of pupils, nose and leading hand (playtest/runs/facing2.ts). */
 export const MONSTER_INFO: Record<string, { hp: number; facing: "left" | "right"; scale?: number; float?: boolean }> = {
-  gloop: { hp: 4, facing: "left" },
-  bamboo_bandit: { hp: 4, facing: "right" },
-  boss_panda: { hp: 7, facing: "left", scale: 1.5 },
+  gloop: { hp: 4, facing: "right" },
+  bamboo_bandit: { hp: 4, facing: "left" },
+  boss_panda: { hp: 7, facing: "right", scale: 1.5 },
   crabble: { hp: 4, facing: "left" },
   petal_imp: { hp: 4, facing: "left", float: true },
   boss_oni: { hp: 7, facing: "right", scale: 1.5 },
   snow_puff: { hp: 4, facing: "left" },
   rock_golem: { hp: 5, facing: "left" },
   boss_yeti: { hp: 7, facing: "right", scale: 1.5 },
-  kappa: { hp: 5, facing: "right" },
+  kappa: { hp: 5, facing: "left" },
   puffer: { hp: 5, facing: "left", float: true },
   boss_serpent: { hp: 8, facing: "left", scale: 1.5 },
   lantern_ghost: { hp: 5, facing: "left", float: true },

@@ -6,6 +6,11 @@
 .tut-arrow path:first-child, .tut-arrow path:nth-child(2) { stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: tut-draw 0.7s cubic-bezier(.3, .8, .4, 1) forwards; }
 .tut-arrow path:nth-child(3) { transform-box: fill-box; transform-origin: 50% 50%; animation: tut-head 0.85s cubic-bezier(.3, 1.6, .5, 1) both; }
 @keyframes tut-arrow { 0%, 100% { translate: 0 0; } 50% { translate: 16px 2px; } }
+/* (docs/PERF.md fix 4: an endless animation on an <svg> is repainted on the main thread every frame, here a full-stage
+   arrow with a drop shadow. Once Training.tsx wraps the arrow in <div class="tut-arrow-wrap">, the wrapper sways on the
+   compositor instead, with the shadow drawn once; until then the arrow sways as before) */
+.tut-arrow-wrap { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; z-index: 40; pointer-events: none; filter: drop-shadow(0 6px 0 rgba(43, 29, 20, 0.35)); animation: tut-arrow 1.1s ease-in-out infinite; }
+.tut-arrow-wrap > .tut-arrow { filter: none; animation: none; }
 @keyframes tut-draw { to { stroke-dashoffset: 0; } }
 @keyframes tut-head { 0%, 60% { scale: 0; } 100% { scale: 1; } }
 .tut-help-ring {

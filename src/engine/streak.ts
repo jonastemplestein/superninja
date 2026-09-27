@@ -4,6 +4,12 @@
 // The ninja listens and does the rest (auras, flame icons, tier-up celebrations, the gentle "think" on a miss).
 // A streak carries over from a level the child finished into the next one (streak.bank(), called by the level host),
 // so short levels can still reach the top tiers; quitting a level or a long break starts afresh.
+//
+// Dec2 (FIX_PLAN §1): the flames still light per letter, but a tier's spoken line needs real answers. A scene that counts
+// parts of an answer (a word's letters, an errorless "say it with me" tap) passes `part: true`, and calls
+// streak.answer() once the whole answer (the word, the item) is done. A tier line is said only once the streak holds
+// LINE_AFTER[tier] whole answers and at least one of them came in this level; before that the tier-up is a silent
+// power-up. A plain hit() (no `part`) still counts as one answer, so scenes that haven't moved over keep working.
 import { useSyncExternalStore } from "react";
 import { LINES } from "../content/lines";
 import { store } from "./store";
@@ -34,12 +40,18 @@ export interface HitOpts {
   line?: boolean;
   /** true: hold a tier-up's power-up and line until the scene calls ninja.streakLine() (e.g. at the end of a word) */
   defer?: boolean;
+  /** Dec2: part of an answer (a letter of a word; an errorless "say it with me" tap): it counts for the flames and
+   *  `n`, not as an answer. Call streak.answer() when the whole answer is done. */
+  part?: boolean;
 }
 type Listener = (e: StreakEvent) => void;
 
 let n = 0;
+/** whole answers in the current streak, and in this level (Dec2) */
+let answers = 0;
+let levelAnswers = 0;
 let snap = { n: 0, tier: 0 as Tier };
-let banked: { n: number; at: number } | null = null;
+let banked: { n: number; answers: number; at: number } | null = null;
 const CARRY_MS = 20 * 60_000;
 const listeners = new Set<Listener>();
 const subs = new Set<() => void>();
@@ -61,29 +73,51 @@ export const streak = {
   get tier(): Tier {
     return tierOf(n);
   },
-  /** First-try correct answer(s). */
+  /** Whole answers in the current streak (Dec2). */
+  get answers() {
+    return answers;
+  },
+  /** Whole answers since this level started. */
+  get levelAnswers() {
+    return levelAnswers;
+  },
+  /** First-try correct answer(s). Without `part`, the call is one whole answer (whatever its `count`). */
   hit(opts: HitOpts = {}): StreakEvent {
     const p = n;
     n += Math.max(1, opts.count ?? 1);
+    if (!opts.part) {
+      answers += 1;
+      levelAnswers += 1;
+    }
     return emit("hit", p, opts);
+  },
+  /** A whole answer is done (a word built with no miss, after its `part` hits): it counts towards the spoken tier
+   *  lines. Call it whether or not a tier was crossed, and before the deferred ninja.streakLine(). */
+  answer(): void {
+    answers += 1;
+    levelAnswers += 1;
   },
   /** A wrong answer: the streak is gently lost (the ninja thinks; "Keep going, ninja!" if it was 3 or more, unless
    *  `line: false`, for a scene that says streak_lost itself, e.g. before its correction). */
   miss(opts: { line?: boolean } = {}): StreakEvent {
     const p = n;
     n = 0;
+    answers = 0;
     return emit("miss", p, opts);
   },
   /** Level start, silently: back to zero, or to the streak banked by the level finished just before. */
   reset(): StreakEvent {
     const p = n;
-    n = banked && performance.now() - banked.at < CARRY_MS ? banked.n : 0;
+    const carry = banked && performance.now() - banked.at < CARRY_MS ? banked : null;
+    n = carry?.n ?? 0;
+    answers = carry?.answers ?? 0;
+    levelAnswers = 0;
     banked = null;
     return emit("reset", p);
   },
   /** A level was finished: its streak carries over into the next level's reset(). */
   bank(): void {
-    banked = n > 0 ? { n, at: performance.now() } : null;
+    banked = n > 0 ? { n, answers, at: performance.now() } : null;
   },
   /** Forget any banked streak (the child left the level early). */
   drop(): void {
@@ -93,6 +127,7 @@ export const streak = {
   set(to: number): StreakEvent {
     const p = n;
     n = Math.max(0, to);
+    answers = levelAnswers = n;
     return emit(n >= p ? "hit" : "reset", p);
   },
   /** Subscribe to streak events. Returns an unsubscribe function. */
@@ -102,14 +137,22 @@ export const streak = {
   },
 };
 
-const hasLine = (id: string) => LINES.some((l) => l.id === id);
+const HAS = new Set(LINES.map((l) => l.id));
+const hasLine = (id: string) => HAS.has(id);
 /** The first time a child's streak reaches the first tier (once per save), the tier-up explains itself instead of
  *  "Ninja power!" (NARRATIVE_AUDIT F17: streaks were named but never explained). */
 export const FIRST_STREAK = "audit_streak_first";
-/** The line for crossing into a tier: streak_3/6/10, or the first-streak explanation (once per save). */
+/** Dec2: the whole answers a streak must hold before a tier's line is said (tiers 0–3). */
+export const LINE_AFTER = [0, 0, 4, 7] as const;
+/** Is a tier's line earned yet (Dec2): LINE_AFTER[tier] whole answers in the streak, one of them in this level. */
+export const tierLineEarned = (tier: Tier, o: { answers: number; levelAnswers: number } = { answers, levelAnswers }) => o.levelAnswers >= 1 && o.answers >= LINE_AFTER[tier];
+/** The line for crossing into a tier: streak_3/6, "Ten in a row! Look how your ninja is glowing!" (tv_streak_10, in
+ *  place of streak_10's "ninja master"), or the first-streak explanation (once per save); null while the line isn't
+ *  earned (a silent power-up, Dec2). */
 export function tierLineId(tier: Tier): string | null {
+  if (!tierLineEarned(tier)) return null;
   if (tier === 1 && !store.get().seenStreak && hasLine(FIRST_STREAK)) return FIRST_STREAK;
-  const id = `streak_${TIER_AT[tier]}`;
+  const id = tier === 3 && hasLine("tv_streak_10") ? "tv_streak_10" : `streak_${TIER_AT[tier]}`;
   return hasLine(id) ? id : null;
 }
 /** Call when a tier line has been said: the first-streak explanation is then never said again for this child. */

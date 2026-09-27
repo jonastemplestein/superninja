@@ -1,4 +1,5 @@
 import type { Dosage, Key, NotionInfo, NotionKind, NotionRegistry, Provider } from '../types';
+import { LINES } from '../../content/lines';
 const defaults: Record<NotionKind,Dosage> = {
   idea:{beforeUse:1,full:3,spacing:[{after:'beats',n:2},{after:'sessions',n:1}],minSessions:2,reminders:'short',retireAfter:8,refreshAfterDays:14,maxPerSession:2},
   concept:{beforeUse:1,full:3,spacing:[{after:'sessions',n:1},{after:'sessions',n:1}],minSessions:3,reminders:'short',retireAfter:10,refreshAfterDays:14,maxPerSession:2},
@@ -12,6 +13,12 @@ const defaults: Record<NotionKind,Dosage> = {
 export const dosageFor = (kind: NotionKind): Dosage => defaults[kind];
 const line = (key:Key,id:string,form:'full'|'short'='full'):Provider => ({id:`${key}:${form}:${id}`,key,form,exposition:{kind:'lines',lines:[id]},estMs:1000,needs:[]});
 const demo = (key:Key,activity:Provider['exposition'] extends never?never:string,mechanic:string):Provider => ({id:`${key}:demo`,key,form:'full',exposition:{kind:'demo',activity:activity as never,mechanic:mechanic as never},estMs:2000,needs:[]});
+/** a provider whose line is recorded (a line still waiting for its audio block isn't a provider yet) */
+const recorded = new Set(LINES.map(l=>l.id));
+const lineIf = (key:Key,id:string,form:'full'|'short'='full'):Provider[] => recorded.has(id)?[line(key,id,form)]:[];
+/** "Two letters, one sound" (SCRIPT_FIXES Part E): its teach moment and the first word with the spelling in each of the
+ *  next two sessions; after that, a reminder only on an error that splits a two-letter spelling (< s > for < sh >). */
+const twoLettersDosage:Dosage = {beforeUse:1,full:3,spacing:[{after:'sessions',n:1},{after:'sessions',n:1}],minSessions:3,reminders:'error',retireAfter:6,maxPerSession:2};
 const entries: NotionInfo[] = [
   {key:'char:sensei',kind:'char',label:'Sensei Maple',dependsOn:[],providers:[line('char:sensei','intro_8')],dosage:defaults.char},
   {key:'char:baron',kind:'char',label:'Baron Muddle',dependsOn:[],providers:[line('char:baron','film_4')],dosage:defaults.char},
@@ -41,7 +48,7 @@ const entries: NotionInfo[] = [
   {key:'obj:petal',kind:'obj',label:'sound petal',dependsOn:['obj:world-flower'],providers:[line('obj:petal','fm_rw2_petal')],dosage:defaults.obj},
   {key:'obj:gem',kind:'obj',label:'gem',dependsOn:['obj:world-flower'],providers:[line('obj:gem','wf_i3')],dosage:defaults.obj},
   {key:'idea:gems-fill-with-practice',kind:'idea',label:'gems fill with practice',dependsOn:['obj:world-flower'],providers:[line('idea:gems-fill-with-practice','flower_i4'),line('idea:gems-fill-with-practice','wf_practised','short')],dosage:defaults.idea},
-  {key:'idea:two-letters-one-sound',kind:'idea',label:'two letters, one sound',dependsOn:['term:spelling'],providers:[line('idea:two-letters-one-sound','t_two_letters'),line('idea:two-letters-one-sound','two_letters_one_sound','short')],dosage:defaults.idea,notBefore:'IC7'},
-  {key:'idea:same-sound-different-spellings',kind:'idea',label:'same sound, different spellings',dependsOn:['idea:two-letters-one-sound'],providers:[line('idea:same-sound-different-spellings','t_same_sound'),line('idea:same-sound-different-spellings','same_sound_diff','short')],dosage:defaults.idea,notBefore:'BR'},
+  {key:'idea:two-letters-one-sound',kind:'idea',label:'two letters, one sound',dependsOn:['term:spelling'],providers:[line('idea:two-letters-one-sound','t_two_letters'),line('idea:two-letters-one-sound','two_letters_one_sound','short'),...lineIf('idea:two-letters-one-sound','st_two_letters_too','short')],dosage:twoLettersDosage,remindOn:['split-spelling'],notBefore:'IC7'},
+  {key:'idea:same-sound-different-spellings',kind:'idea',label:'same sound, different spellings',dependsOn:['idea:two-letters-one-sound'],providers:[line('idea:same-sound-different-spellings','t_same_sound'),line('idea:same-sound-different-spellings','same_sound_diff','short'),...lineIf('idea:same-sound-different-spellings','st_know_this_sound'),line('idea:same-sound-different-spellings','t_another_way')],dosage:defaults.idea,notBefore:'BR'},
 ];
 export const notions: NotionRegistry = Object.fromEntries(entries.map(n=>[n.key,n]));

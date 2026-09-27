@@ -8,6 +8,69 @@ Sources: the Sounds~Write teacher language ([teacher-language.md](../assets-src/
 
 ---
 
+## T. Teacher's voice (Jonas, 26 Sep)
+
+**Added 27 September 2026. This section comes first, and it wins.** It supersedes any rule below that pushes towards telegraphic brevity. Those rules are marked *(TV fix)* where they have been changed. The script that applies it, game by game, is [TEACHER_SCRIPT.md](TEACHER_SCRIPT.md).
+
+Jonas, after playtesting the preschool levels with his 3- and 4-year-old: *"I find that this extremely abbreviated way of talking, it doesn't help at all. Like teachers give, do like way better explanations, right? They say, so first, I'm going to show you how to do it. Are you ready? And this is how this game goes. I will show you this, and you will do that. Do you want to give it a go now? … Teachers explain what they're doing."* And Round 13's brake: the first game was "too long and boring" for the 3-year-old. So the answer is not more talk. It is **real teacher talk in short, whole, warm sentences, with a turn for the child every few seconds.**
+
+### T.1 The anatomy of a first meeting
+
+Every game type, the first time a child meets it, has these six parts, in this order:
+
+| Part | What Sensei does | Example |
+|---|---|---|
+| **1. Frame** | says what the game is and who does what, as the board arrives, in one or two whole sentences | "I'll say a word. Then you find its picture." · "In Pocket Hunt, we find pictures that start with this sound." |
+| **2. Demo, narrated** | does one herself, in the first person, thinking aloud, with a reason. Never the child's instruction said during her own demo; never a question that the paw then answers | "I'll go first. My word is sun… There it is!" · "Fish came first. So I tap this row." · "Hmm, let me listen… Map starts with /m/. So I'll tap it." |
+| **3. Readiness** | asks a whole question the child answers with a tap: ▶ is "I'm ready", the paw is "show me again" (TEACHER_SCRIPT §2.3) | "Do you want to have a go now?" · "Now you find the other two. Are you ready?" |
+| **4. Hand-over** | gives the child the same task in the same words, as theirs | "Your word is sock. Can you find the sock?" |
+| **5. Specific praise** | the model answer first; then, at most every second right answer, a line about the work | "Mop starts with… /m/" · "You listened right to the very start." |
+| **6. Wrap-up** | says the game has ended, and what comes next | "That's the end of Ninja Ears. Now watch what happens to your pictures." · "Next, we're going to build some words." |
+
+Jonas's "Are you ready?" *before* the demo is spoken as a statement ("I'll go first."), because a question the child can't answer teaches them that questions don't need answers. His "Do you want to give it a go now?" is the tap after the demo.
+
+### T.2 The first time, and every time after
+
+- **Full** (the first meeting): all six parts.
+- **Recap** (the first play on a later day, before two tellings; after 21 days away; after a struggle): one line that is a statement, not "Remember X?" ("It's Sound Swap again. We change one sound to make a new word."), the demo, and the hand-over. The readiness tap only after 21 days or a struggle.
+- **Short** (the game is known): one line that names the game ("It's First Sounds again, with two new sounds."), then the turn.
+- **None** (a later play inside the same level): the question only. A level never opens on "none".
+
+The game's state is one ledger entry per game type, `game:<id>`. A telling counts once the child answers the readiness tap (or, on a recap, gives their first answer). TEACHER_SCRIPT §2.2 has the rule.
+
+### T.3 About 12 seconds before a turn
+
+No stretch of Sensei's talk runs more than about 12 s (at age 3; 15 s at 4) before the child can do something the game registers: a tap on ▶, a card, a petal, the word card or a tile. "Say it with me" is good practice, but it doesn't count as a break, because the game can't hear it. Where a frame and a demo would run longer, the child joins in part-way with a tap that means something:
+- the petal: "Tap the petal, and say it with me.";
+- the word card: "Tap it, and hear the word.";
+- "I'll start, and you finish": "Can you find the last one?".
+
+### T.4 Never a bare command
+
+- **No line under four words is an instruction.** "Watch." → "Now watch my ninja write it." · "Your turn." → "Now you tap it, and say it." · "Listen…" → "Listen for the word…" · "Tap the sun." → "Tap the sun, and listen to how it starts." · "Last one." → "Here's the last one." · "Spell…" → "Your word is…". Praise and celebrations may be short ("Brilliant!", "Starfish!").
+- **Punctuation carries the voice.** Full stops for frames, instructions and demos; "?" only where the child can answer now; "!" only for surprises and celebrations. Today's "!" on instructions is what Jonas heard as shouting.
+- **"Listen" always has its object,** and the one-word `listen` clip never opens a game, a beat or a level.
+- **A pure sound only ever ends a sentence or stands alone.**
+- **A game's name is said inside a sentence** ("This game is called Word Building."), never shouted alone ("Word Building!").
+- **Every symbol is explained once, where it is first used:** the green arrow, the speaker, the rabbit and tortoise, the petal, the pockets, the paw, letters, Kai and Suki, the monster's bar, the story's tick (TEACHER_SCRIPT §2.5).
+
+### T.5 What this section changes below
+
+| Where | Was | Now |
+|---|---|---|
+| §0 "says less each time the routine is familiar" | could be read as "say little" | the first meeting is the full introduction (§T.1); less on each replay (§T.2) |
+| §3 rule 5, §5 "Fade" | "by the fourth, the child's taps and the pictures carry it"; "give only the stimulus" | fading applies to repeated items and replays, never to a first meeting's frame, and never produces a bare command |
+| §5 "Series announce their shape" | "Your turn!" in place of "Tap it, and say it with me!" | "Now you tap it, and say it." |
+| §5.1 routine phrases | "Say the sounds… and read the word!"; "Listen…" before a stretched word, always | "Say the sounds, and read the word."; a lead-in that says what to listen for |
+| §6 "Name, then pause, then ask" | separated by "Listen…" and a beat | separated by a lead-in with its object ("Listen for the word…") |
+| §7 sentence shapes | the three-clip "This is the way we spell…" /X/ "…in rain." | the sound ends its sentence: "Here's the sound…" /X/ · "This is the way we spell it in rain." |
+| §8 praise | "Sorted! What a clever ninja." as a closing line | "Same sound, different spellings. You sorted them all." (no trait praise) |
+| §10 corrections | "Listen again… What do you hear here?" · "Keep going, ninja!" | "Let's listen again. What can you hear here?" · "Keep going, ninja." |
+| §11 target transcripts | "Listen… /b/ /b/", "Your turn!", "Watch me first!", "Change it to make…" | superseded where marked: TEACHER_SCRIPT has the target for each moment |
+| §12 checks | no teacher-voice targets | the TV targets in FIX_PLAN §11.2 |
+
+---
+
 ## 0. The one test
 
 Read the transcript aloud, as the child hears it. Would a brilliant Reception teacher, sitting beside this one child, say exactly this, now, about the thing on the screen? If a sentence would make her sound like a machine, a lecturer or a cheerleader, rewrite it.
@@ -15,7 +78,7 @@ Read the transcript aloud, as the child hears it. Would a brilliant Reception te
 A good teacher:
 - says a thing once, at the moment the child needs it, while pointing at it;
 - says it again later, on another day, when the child meets it again;
-- says less each time the routine is familiar, and lets the child's taps carry the lesson;
+- says less each time the routine is familiar, and lets the child's taps carry the lesson; *(TV fix: but the first meeting is the full teacher's introduction: frame, narrated demo, readiness, hand-over, §T.1)*
 - praises the work, not the child, and not every time;
 - when the child errs, says exactly what went wrong and ends on the right answer.
 
@@ -81,7 +144,7 @@ A good teacher:
 2. **Every fact has a reason the child can see.** If the child can't use it in the next minute, don't say it yet. (§6)
 3. **Say what the child is looking at; show what you say.** The thing named is on screen, lit, before or as it is named. A sound is shown as its petal; a spelling as its letters. (§6)
 4. **Whole sentences.** Splice only a pure sound or one word into the slot of a whole sentence. (§7)
-5. **Fade.** The second time is shorter than the first; by the fourth, the child's taps and the pictures carry it. (§5)
+5. **Fade.** The second time is shorter than the first; by the fourth, the child's taps and the pictures carry it. (§5) *(TV fix: fading applies to repeated items and replays, never to a game's first meeting, and never produces a bare command. §T.2, §T.4)*
 6. **Praise is rare, specific and never stacked.** (§8)
 7. **Never talk over, never get cut off.** Explanations are protected; the child can always answer a question early. (§9)
 8. **Correct the error, end on the target.** The last thing the child hears before trying again is the right sound or word. (§10)
@@ -108,13 +171,13 @@ An explanation has a **full form** (the teaching sentence), a **short form** (a 
 | **Two letters, one sound** (per spelling: `letters:sh`; the idea is `idea:two-letters-one-sound`) | "It's two letters, but it's one sound." (`t_two_letters`); three and four letters: `t_three_letters`, `t_four_letters` | at the spelling's **teach moment** (the Dojo's Learn, or the first word containing it for a child who skipped its teach moment); again at the **first word containing it in each of the next two sessions** (the read-back reminder, with the spelling lit) | only on an **error** that splits it or uses one of its letters: "That's /s/. We need /sh/. It's two letters, but it's one sound." | in a sort's chest list; on a World Flower trip right after its teach moment; twice in one level; for the second spelling of a series within two minutes (that one gets the short "too" form: "This one's two letters too, but it's just one sound.") |
 | **Same sound, different spellings** (concept 3) | the Learn of a new spelling of a known sound: "Ooh, you already know this sound!" (as the petal plays, **before** the spell) then "This is another way to spell the sound… /ae/" (SW, official) | first new spelling of each known sound | the sort's lead once per sort: "Sorting time! Same sound, different spellings."; the trip counts the ways ("Now you know two ways to spell… /ae/") | after the new spelling is already shown; again on the trip a minute later |
 | **One spelling, two sounds** (concept 4) | "The same spelling can sometimes be /th/, in moth, and sometimes /dh/, in this." (one whole recording per pair) | teach moment of the second sound | read-back reminder in the next two sessions: "This can be /th/, but in this word, it's /dh/." | a seven-clip splice |
-| **A new spelling** (`gpc:`) | "This is the way we spell /m/ in mat." | teach moment | first-sound games: say "This is how we spell /m/" at the **first** reveal of each spelling in a level; later reveals are silent (the letters appear with the spell) | on every I do and we do item |
+| **A new spelling** (`gpc:`) | "Here's the sound…" /m/ · "This is the way we spell it in mat." *(TV fix: the sound ends its sentence)* | teach moment | first-sound games: say "This is how we write… /m/" (the Early Years wording; *TV fix: was "spell"*) at the **first** reveal of each spelling in a level; later reveals are silent (the letters appear with the spell) | on every I do and we do item |
 | **The Hear it again speaker** | "Tap the speaker to hear the sound again." | once, **before** the first question it helps with, while the speaker pulses | Help's second press | after a question the child is already answering |
 | **Gem energy** | "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up." | the first time a gem fills (once per save) | "Look, this gem has filled a little more." when a gem crosses half full; "A gem is glowing!…" when one is ready | in the first World Flower visit before any gem has filled |
 | **Gem battles** | "When a gem is full, it glows. Then you can win it in a gem battle!" (`flower_i5`) | the first time a gem is ready (in place of `gem_ready`) | `gem_ready` | at the first flower visit |
-| **Reading left to right** | "Ninjas read this way!" with the arrow | W2, W4, and the first read-back in lands 1 and 2 | nothing (from land 3 the child reads fluently) | in every land |
+| **Reading left to right** | "Ninjas always start on this side, and go this way." with the arrow *(TV fix: was the slogan "Ninjas read this way!")* | W2, W4, and the first read-back in lands 1 and 2 | nothing (from land 3 the child reads fluently) | in every land |
 | **World welcome** | "Welcome to the Sky Temple!…" | the first map arrival in a land | nothing, or a new land's line when the child moves on | after every level |
-| **Tap the glowing stone** | `map_hint` | the first two map arrivals of a save | as the map's idle nudge (8 s without a tap) | cut off by the next level's introduction |
+| **Tap the glowing stone** | `tv_map_hint` "The glowing stone is your next game. Tap it when you're ready." *(TV fix: `map_hint`'s "adventure" was abstract)* | the first two map arrivals of a save | as the map's idle nudge (8 s without a tap) | cut off by the next level's introduction |
 | **Jump ahead** | `jump_offer` | at most once per session, never in the first two sessions, and not again for two sessions after the child goes on without jumping | nothing | after every perfect level |
 
 ---
@@ -124,8 +187,8 @@ An explanation has a **full form** (the teaching sentence), a **short form** (a 
 - **Any line at most twice in 60 seconds**, except a Sounds~Write routine phrase (§5.1).
 - **A per-item composition must have a "first" and a "next" form.** Anything said once per tile, chest, gem, picture or word needs a shorter second form, or it becomes "/ae/, two letters one sound, /ae/, two letters one sound". The pure helpers in SCRIPT_FIXES §A decide which.
 - **Question stems rotate or drop.** The same stem at most three times running; after that rotate through recorded variants ("Which one starts with…", "Which picture starts with…", "Find the one that starts with…"), or drop the stem and let the petal pulse with its sound.
-- **Instructions fade with success.** Say the full instruction for the first item; after two first-try successes on the same kind of item, give only the stimulus (the word, the sounds); bring the full instruction back after a miss.
-- **Series announce their shape.** When the Dojo teaches four sounds, the first is taught in full; the next ones are shorter ("Your turn!" in place of "Tap it, and say it with me!").
+- **Instructions fade with success.** Say the full instruction for the first item; after two first-try successes on the same kind of item, give only the stimulus (the word, the sounds); bring the full instruction back after a miss. *(TV fix: the faded form is the stimulus alone or a whole sentence, never a clipped order such as "Spell…" or "Your turn!". §T.4)*
+- **Series announce their shape.** When the Dojo teaches four sounds, the first is taught in full; the next ones are shorter. *(TV fix: "Now you tap it, and say it." in place of "Tap it, and say it with me!", never a bare "Your turn!"; the series is "Here's the first new sound…", "Here's the next new sound…", "Here's the last new sound…". TEACHER_SCRIPT §3.26)*
 - **Closing lines vary by what happened**, not by a random pick: a level that taught a new sound closes on the sound; a battle on the monster; a sort on the chests.
 
 ### 5.1 Routine phrases that may repeat
@@ -134,9 +197,9 @@ Sounds~Write relies on a few routines said exactly the same way every time. Thes
 
 | Phrase | Keep saying | Fade to |
 |---|---|---|
-| "Say the sounds… and read the word!" | the first two read-backs of a level, and after any miss | the sound buttons lighting in turn while Sensei says the sounds and the word |
+| "Say the sounds, and read the word." *(TV fix: a full stop, and a comma for the pause)* | the first two read-backs of a level, and after any miss | the sound buttons lighting in turn while Sensei says the sounds and the word |
 | "What's the first sound?" / next / last | "we do" items and the first "you do" word | the stretched word with the slot lit, no stem |
-| "Listen…" before a stretched word | always (it is short and it points the ear) | – |
+| ~~"Listen…" before a stretched word~~ *(TV fix: a lead-in that says what to listen for: "Listen for the word…", "Here's my slow word…", "Listen to them both…", "Now the last sound. Listen right to the end…" (TEACHER_SCRIPT §5.9). The one-word `listen` clip never opens anything.)* | always | – |
 
 ---
 
@@ -146,7 +209,7 @@ Sounds~Write relies on a few routines said exactly the same way every time. Thes
 - **A sound is a petal.** Whenever Sensei says a sound *as a sound* (the thing to listen for, find or remember: "Which one starts with… /m/", "They all have the sound… /a/", "That's /s/"), that sound's petal is on screen in its chart colour with its chart picture (kite for /k/, and so on), and it swells as the sound plays (`SoundBadge`). A sound is never shown as letters. Spellings (tiles, gems, chests, word cards) are letters. "This sound" always points at a petal; "this spelling" always points at letters. (Jonas, 26 Sep.)
 - **Use what the child knows.** Examples come from the child's own petals and met words: the first flower visit shows the child's first petal, not /a/.
 - **One example word per spelling, never the same word for two spellings in one breath** ("/a/ in mat… /t/ in mat").
-- **Name, then pause, then ask.** Picture naming and the question about a different word are separated by "Listen…" and a beat.
+- **Name, then pause, then ask.** Picture naming and the question about a different word are separated by a lead-in and a beat. *(TV fix: the lead-in says what to listen for, "Listen for the word…", not a bare "Listen…")*
 - **Don't greet a child where they already are.** "Welcome to Bamboo Village!" is for arriving.
 - **Speak when the screen is there.** A level's first line starts after the level is on screen (after the fade), not over the map.
 
@@ -157,8 +220,8 @@ Sounds~Write relies on a few routines said exactly the same way every time. Thes
 | Shape | When | Example |
 |---|---|---|
 | **Whole recorded sentence** | the default; any sentence with a word in it (Round 13) | "This is a mop." "Mop starts with…" |
-| **Lead-in + one slot** | a pure sound or one word, stretched word or held onset, at the end of a sentence | "Which one starts with…" /m/ · "Build the word…" "mat" |
-| **Lead-in + slot + tail** (3 clips at most) | the Sounds~Write "the way we spell /X/ in *word*" pattern, where the tail is a whole-sentence clip | "This is the way we spell…" /ae/ "…in rain." |
+| **Lead-in + one slot** | a pure sound or one word, stretched word or held onset, at the end of a sentence | "Which one starts with…" /m/ · "Your word is…" "mat" *(TV fix: was "Build the word…")* |
+| ~~**Lead-in + slot + tail**~~ *(TV fix: retired; a pure sound only ends a sentence or stands alone)* | the Sounds~Write "the way we spell /X/ in *word*" pattern | now "Here's the sound…" /ae/ · "This is the way we spell it in rain." (a new family `tg_<g>_<p>_way`; the `…in rain.` tails retire) |
 | **Never** | four or more clips with two or more fragments; a sentence starting "Or", "And" or "…but" without its first half right before it; two independent sentences about different things glued within 400 ms | "The same spelling can sometimes be… /th/ …in… moth …and sometimes… /dh/ …in… this" · "mug" "Or I can say it slowly…" |
 
 - **Questions go last**, after the thing they ask about: "Listen: mmmat… sssat. What do we need to change?" not "…What changed? Listen here." after the words.
@@ -170,7 +233,7 @@ Sounds~Write relies on a few routines said exactly the same way every time. Thes
 ## 8. Praise
 
 - **After a right answer, the model is the feedback.** "Mop starts with /m/." "/s/ /a/ /t/, sat." A praise word is added at most every second right answer (warm-ups: every third, as now).
-- **Never stack.** One celebratory line per moment. A level's closing line ("Well done! You practised so hard!", "Sorted! What a clever ninja.", "Hooray! The monster ran away!") *is* the level's praise: the reward then leads with its news (a new sound, new stickers, a gem), not "You did it!". The last item's praise is dropped when the closing line follows it.
+- **Never stack.** One celebratory line per moment. A level's closing line ("You learnt four new sounds today, and you built words with them.", "Same sound, different spellings. You sorted them all.", "Hooray! The monster ran away!" *(TV fix: the closing lines now say what the child did; "What a clever ninja" is trait praise and goes)*) *is* the level's praise: the reward then leads with its news (a new sound, new stickers, a gem), not "You did it!". The last item's praise is dropped when the closing line follows it.
 - **A streak tier-up is the praise** for that answer (already so), and a gem's first-fill explanation replaces praise too.
 - **Specific beats generic.** Sounds~Write praise is short and about the sound ("Good, you said that sound really well."). Prefer the modelled sound or word to another "Amazing!".
 - **Big praise stays big.** "You're a ninja master!" should mean ten independent right answers, not ten letter taps (about three words), some of them errorless "say it with me" taps.
@@ -190,11 +253,11 @@ Sounds~Write relies on a few routines said exactly the same way every time. Thes
 
 ## 10. Corrections
 
-- **First miss: back to listening.** The stretched word, with the slot lit ("Listen again… What do you hear here?" and its rotating leads). Never segment a word the child is spelling.
+- **First miss: back to listening.** The stretched word, with the slot lit ("Let's listen again. What can you hear here?" and its rotating leads; *TV fix: was "Listen again… What do you hear here?"*). Never segment a word the child is spelling.
 - **Second miss: show.** "That's /s/. We need /m/." with the right tile glowing; end on the target.
 - **Two-letter errors** get the two-letter explanation (this is the "then only on error" of §4): the child picks < s > or < h > for /sh/, or < a > for /ae/ spelt < ai >: "That's /s/. We need /sh/. It's two letters, but it's one sound." A reading error that splits a two-letter spelling: "This is /sh/. It's two letters, but it's one sound. Say /sh/ here." (SW).
 - **The same spelling, another sound's word**: "Yes, that's a spelling of that sound too! But in this word, we spell it like this…" (as now).
-- **"Keep going, ninja!"** only when a streak of three or more is lost (as now), and before the correction so the correction ends on the target.
+- **"Keep going, ninja."** *(TV fix: a full stop)* only when a streak of three or more is lost (as now), and before the correction so the correction ends on the target.
 
 ---
 
@@ -202,7 +265,9 @@ Sounds~Write relies on a few routines said exactly the same way every time. Thes
 
 Each moment below: what the child sees, the current transcript (bad), and the target (good). The fix list gives the code for each.
 
-### 11.1 A new sound and its spelling (Dojo, Learn), one spelling
+*(TV fix, 27 Sep: the "Good" transcripts below fixed repetition, and they still stand for that. But several of them keep the clipped openers Jonas has since rejected: "Listen… /b/ /b/", "Your turn!", "Last one!", "Watch me first!", "Let's do it together!", "Change it to make…", "Tap it, and say it with me!". Where a moment is marked **superseded**, its words come from TEACHER_SCRIPT; keep its repetition and dosage rules.)*
+
+### 11.1 A new sound and its spelling (Dojo, Learn), one spelling *(superseded by TEACHER_SCRIPT §3.26: the lesson's frame and Ready, "Here's the first new sound…", "Now watch my ninja write it.", "Now you tap it, and say it.")*
 
 Sees: the petal for /b/ in the middle; then the spell, and the letters appear beside it.
 
@@ -214,7 +279,7 @@ Good (first of the level in full, later ones shorter):
 > **/k/**: Listen… /k/ /k/ · *(the spell)* And this is how we spell it. /k/ · Your turn! · /k/ /k/ · Brilliant!
 > **/h/** (last): Last one! Listen… /h/ /h/ · *(the spell)* And this is how we spell it. /h/ · Your turn! · /h/ /h/
 
-### 11.2 A series of two-letter spellings (Dojo, Learn)
+### 11.2 A series of two-letter spellings (Dojo, Learn) *(the letters dosage stands; the openers are TEACHER_SCRIPT §3.26's)*
 
 Sees: the petal, then two letters appear.
 
@@ -229,7 +294,7 @@ Good:
 > Listen… /th/ /th/ · *(the spell)* And this is how we spell it. /th/ · Your turn! · /th/ /th/
 > *(/th/ gets no letters line: the idea was said twice in the last 40 s, and the two letters are there to see.)*
 
-### 11.3 A new spelling of a sound the child knows (Dojo, Learn)
+### 11.3 A new spelling of a sound the child knows (Dojo, Learn) *(the order stands; the openers are TEACHER_SCRIPT §4.6's)*
 
 Bad (C6-P w6-1 3:16–3:33): the news comes after the reveal, and the fact is said again as if new.
 > Listen… /ae/ /ae/ · And this is how we spell it. /ae/ · Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling. · It's two letters, but it's one sound. · Tap it, and say it with me!
@@ -249,7 +314,7 @@ Good (each chest lights and hops as it is named; the petal swells on /ae/):
 
 For the Bridging sort, when the < ck > fact is due (the child hasn't had it in two earlier sessions), it is said once, on its chest: "…and like this, in duck. It's two letters, but it's one sound." (< ck > chest lit.)
 
-### 11.5 The first-sound reveal (first-sound game)
+### 11.5 The first-sound reveal (first-sound game) *(superseded by TEACHER_SCRIPT §3.13: "Watch me first!", "Let's do it together!" and "Now it's your turn!" become the narrated I do, "Let's do the next one together. Are you ready?" and "Now you do one all by yourself."; "This is how we write…" /m/ in the early games)*
 
 Sees: two pictures; the right one is tapped; its first spelling is written under it by the ninja's spell.
 
@@ -284,7 +349,7 @@ Bad (C-P 12:00–12:11): two sounds, one example word.
 Good:
 > You found two new sounds! … · This is the way we spell… /a/ …in mat. We see this spelling in man and pan. · **And here's another new sound!** · This is the way we spell… /t/ …in tap. We see this spelling in sit and tent.
 
-### 11.8 The first World Flower visit
+### 11.8 The first World Flower visit *(superseded by TEACHER_SCRIPT §3.14: no "Listen!"; the child taps their first petal)*
 
 Bad (C-P 9:22–9:53): six facts in 31 s, about /a/.
 
@@ -300,7 +365,7 @@ Bad (C6-P 1:22–1:37, after w6-br1):
 Good:
 > Sorted! What a clever ninja. · *(stickers fly into the book)* More stickers for your Sticker Book! · *(the < ck > gem lifts)* Look, this gem has filled a little more. · *(the map; the ninja walks to the next stone; no line)*
 
-### 11.10 Sound Swap
+### 11.10 Sound Swap *(superseded by TEACHER_SCRIPT §3.20: the child reads the start word, a narrated demo, then "Now let's change it to…" in place of "Change it to make…"; SF C11's protected place line stands)*
 
 Bad (C-P w1-8 20:44–20:57):
 > Change it to make… "sat" · "mat" (slowly) "sat" (slowly) · What changed? Listen here. · Yes, the first sound changes! Now pick…✂ /s/
@@ -309,13 +374,13 @@ Good:
 > Change it to make… "sat" · Listen… "mmmat"… "sssat". **What do we need to change?** · *(child taps m)* **Yes, the first sound changes!** · Now pick the new sound. · *(child taps s)* /s/ /a/ /t/ "sat"
 > *(Third step on, after two first tries:)* Change it to make… "sit" · *(the stretched pair only after a miss)*
 
-### 11.11 Listening for the word (W5)
+### 11.11 Listening for the word (W5) *(TV fix: "Listen for the word…", Sounds~Write's instruction, in place of "Listen…"; TEACHER_SCRIPT §3.11)*
 
 Bad (C-L 10:58): "This is a mop. /m/ /a/ /p/ Which picture is it?"
 
 Good: "This is a mop. · **Listen…** /m/ /a/ /p/. Which picture is it?"
 
-### 11.12 The Hear it again speaker
+### 11.12 The Hear it again speaker *(the welcome's speaker now repeats a rhyme: TEACHER_SCRIPT §3.4)*
 
 Bad (C-P 1:32–1:36, the dojo welcome): "And when you tap the speaker, I'll say it again!" · *(tap)* "And when you tap the speaker, I'll say it again!"
 
@@ -353,3 +418,14 @@ Targets (the fix list's acceptance numbers):
 | Cut-off explanations (not prompts) | swap place lines 6/6, speaker tip 8/10, map hint most visits | 0 |
 | Any line more than twice in 60 s (bar §5.1) | "Which one starts with…" 8× in 75 s | 0 |
 | A sound said as a sound with no petal on screen | every warm-up, Placement, Swap corrections, Battle help | 0 (sweep invariant) |
+
+**Teacher's voice targets** *(TV fix, 27 Sep; the full list is FIX_PLAN §11.2)*:
+
+| Measure | Now | Target |
+|---|---|---|
+| A game's first play with frame, narrated demo, readiness tap and hand-over, in that order | 0 games | every game type |
+| Bare-command lines (under four words, an instruction) | 410 of 847 lines are four words or fewer and not praise (53 min, current.md §0) | 0 |
+| The median Sensei turn (all talk between two child actions) | the median *line* is 4 words; the mean turn is 5.8–22.5 words by game (teacher-voice/current.md §1) | 8–25 words, in whole sentences |
+| Talk before a child action, first meetings | up to 31 s | ≤ 12 s at age 3 (the named exceptions in TEACHER_SCRIPT §6: ≤ 12.5 s) |
+| A replay that re-plays a full frame in the same session | – | 0 |
+| The first Dojo level's first line | "This is the dojo… Let's practise some sounds. Listen…" | an explanation of the lesson; no `listen` clip opens it |

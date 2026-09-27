@@ -5,9 +5,10 @@
 // wrong, and slower). `--optin` picks the opt-in answer (none, unsure, R, Y1, Y2).
 // Every show holds on the green Next arrow (docs/NAVIGATION.md: nothing moves on by itself): the child watches each step,
 // takes a moment (the persona's think time), then taps Next. The table's "Holds" column is the time spent waiting on a
-// ready Next; it is part of each piece's time (game time), shown apart.
+// ready Next; it is part of each piece's time (game time), shown apart. "Ready" is the part of it spent on Ready holds
+// (TEACHER_SCRIPT §2.3: a held step whose id starts "ready:"), with how many there were.
 // Output: playtest/transcripts/first-minutes/<persona>[-<optin>].{md,json}
-// Usage: bun scripts/treadmill/first-minutes.ts [--base http://localhost:5173] [--persona perfect,learner] [--optin none] [--fast 4]
+// Usage: bun scripts/treadmill/first-minutes.ts [--base http://localhost:5173] [--persona perfect,learner] [--optin none] [--fast 4] [--out dir]
 import { chromium, type Page } from "playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { LINES } from "../../src/content/lines";
@@ -21,7 +22,7 @@ const BASE = arg("base", "http://localhost:5173")!;
 const FAST = Number(arg("fast", "4"));
 const PERSONAS = arg("persona", "perfect,learner")!.split(",") as ("perfect" | "learner")[];
 const OPTIN = arg("optin", "none")!;
-const OUT = "playtest/transcripts/first-minutes";
+const OUT = arg("out", "playtest/transcripts/first-minutes")!;
 /** `--shots <dir>`: a phone-size screenshot every `--every` game seconds (default 4), named by time and piece */
 const SHOTS = arg("shots");
 const EVERY = Number(arg("every", "4"));
@@ -107,6 +108,9 @@ async function play(page: Page, persona: "perfect" | "learner", shots?: string) 
   // time spent on a ready Next (game time), per piece
   const holds: Record<string, number> = {};
   let holdFrom = 0, holdPiece = "";
+  // of which on Ready holds: time and count per piece
+  const readies: Record<string, { n: number; secs: number }> = {};
+  let readyFrom = 0, readyPiece = "", readyKey = "";
   if (shots) mkdirSync(shots, { recursive: true });
   const think = (persona === "perfect" ? 1200 : 2600) / FAST;
   while (Date.now() - t0 < (8 * 60_000) / FAST) {
@@ -134,6 +138,12 @@ async function play(page: Page, persona: "perfect" | "learner", shots?: string) 
     const held = nav?.next === "ready";
     if (held && !holdFrom) (holdFrom = Date.now()), (holdPiece = piece);
     else if (!held && holdFrom) (holds[holdPiece] = (holds[holdPiece] ?? 0) + (Date.now() - holdFrom) * FAST / 1000), (holdFrom = 0);
+    const readyNow = held && typeof nav?.pres?.id === "string" && nav.pres.id.startsWith("ready:");
+    if (readyNow && !readyFrom) {
+      readyFrom = Date.now();
+      readyPiece = piece;
+      if (nav.pres.id !== readyKey) ((readies[piece] ??= { n: 0, secs: 0 }).n++, (readyKey = nav.pres.id));
+    } else if (!readyNow && readyFrom) ((readies[readyPiece] ??= { n: 0, secs: 0 }).secs += ((Date.now() - readyFrom) * FAST) / 1000), (readyFrom = 0);
     if (held && now !== "title" && now !== "profiles" && !(await page.locator('button[aria-label="Play again"]').count())) {
       if (Date.now() - holdFrom < think) {
         await page.waitForTimeout(80);
@@ -206,12 +216,13 @@ async function play(page: Page, persona: "perfect" | "learner", shots?: string) 
   const spans = pieces.map((p, i) => ({ piece: p.piece, start: game(p.t), secs: Math.round((((pieces[i + 1]?.t ?? Date.now()) - p.t) * FAST) / 100) / 10 }));
   const optinSettledS = optinSettled ? Math.round(((optinSettled - optinFrom) * FAST) / 100) / 10 : null;
   if (holdFrom) holds[holdPiece] = (holds[holdPiece] ?? 0) + ((Date.now() - holdFrom) * FAST) / 1000;
-  return { evs, spans, holds, beats, optinSettledS, save: save && { schoolYear: save.schoolYear, band: save.band, seenPlacement: save.seenPlacement, stickers: save.stickers, shiny: save.shiny, firstSession: save.firstSession, adjustLog: save.adjustLog, warmups: save.warmups } };
+  if (readyFrom) (readies[readyPiece] ??= { n: 0, secs: 0 }).secs += ((Date.now() - readyFrom) * FAST) / 1000;
+  return { evs, spans, holds, readies, beats, optinSettledS, save: save && { schoolYear: save.schoolYear, band: save.band, seenPlacement: save.seenPlacement, stickers: save.stickers, shiny: save.shiny, firstSession: save.firstSession, adjustLog: save.adjustLog, warmups: save.warmups } };
 }
 
 function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
   const out = [`# The first five minutes (${persona} child${OPTIN !== "none" ? `, opt-in: ${OPTIN}` : ""})`, "", `Game seconds from the title tap (played at ${FAST}× and converted). Budgets from docs/FIRST_MINUTES.md §2 and §14.`, ""];
-  out.push("| Piece | Starts | Took | Holds on Next | Target | Hard cap | Verdict |", "|---|---|---|---|---|---|---|");
+  out.push("| Piece | Starts | Took | Holds on Next | Ready | Target | Hard cap | Verdict |", "|---|---|---|---|---|---|---|---|");
   let total = 0;
   for (const s of r.spans) {
     const base = s.piece.replace(/ \d$/, (m) => m);
@@ -219,7 +230,8 @@ function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
     if (s.piece !== "map" && s.piece !== "profiles") total += s.secs;
     const verdict = !b ? "" : s.piece === "opt-in" && r.optinSettledS != null ? (r.optinSettledS > 30 ? "settled after the cap" : `settled in ${r.optinSettledS} s`) : b.cap && s.secs > b.cap ? "over the cap" : s.secs > b.target ? "over target" : "within target";
     const held = r.holds[s.piece];
-    out.push(`| ${s.piece} | ${fmt(s.start)} | ${s.secs.toFixed(1)} s | ${held ? `${held.toFixed(1)} s` : ""} | ${b ? `${b.target} s` : ""} | ${b?.cap ? `${b.cap} s` : ""} | ${verdict} |`);
+    const rd = r.readies[s.piece];
+    out.push(`| ${s.piece} | ${fmt(s.start)} | ${s.secs.toFixed(1)} s | ${held ? `${held.toFixed(1)} s` : ""} | ${rd ? `${rd.n}, ${rd.secs.toFixed(1)} s` : ""} | ${b ? `${b.target} s` : ""} | ${b?.cap ? `${b.cap} s` : ""} | ${verdict} |`);
   }
   const mapAt = r.spans.find((s) => s.piece === "map")?.start;
   if (r.optinSettledS != null) out.push("", `The opt-in's cap is 30 s from first sight to a settled choice: **settled after ${r.optinSettledS} s** (the rest of the piece is Sensei confirming it and saying that grown-ups can change it).`);

@@ -4,13 +4,17 @@ import { notions } from '../../src/core/content/notions';
 import { lineHash } from '../../src/core/content/linebook';
 import type { Key, LineMeta, Need, Tag, UttPurpose } from '../../src/core/types';
 import { ask, choice, noul, pool, usage } from '../treadmill/jev-lib';
-import { writeFileSync, existsSync } from 'node:fs';
+import { writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 const root=join(import.meta.dir,'../../src/core/content');
 const path=join(root,'line-tags.draft.ts');
 const old:Record<string,LineMeta>=existsSync(path)?(await import(path+`?t=${performance.now()}`)).draftLineTags:{};
 const onlyMissing=process.argv.includes('--missing'), onlyStale=process.argv.includes('--stale');
-const selected=LINES.filter(l=>!onlyMissing&&!onlyStale || (onlyMissing&&!old[l.id]) || (onlyStale&&old[l.id]?.hash!==lineHash(l.text,l.who??'sensei')));
+// --only id,id (or --only-file ids.txt, one id per line): draft just these lines, whatever the draft holds (new blocks)
+const argOf=(k:string)=>{const i=process.argv.indexOf(k);return i>=0?process.argv[i+1]:undefined;};
+const onlyIds=argOf('--only')?.split(',')??(argOf('--only-file')?readFileSync(argOf('--only-file')!,'utf8').split(/\s+/).filter(Boolean):undefined);
+const only=onlyIds?new Set(onlyIds):null;
+const selected=LINES.filter(l=>only?only.has(l.id):!onlyMissing&&!onlyStale || (onlyMissing&&!old[l.id]) || (onlyStale&&old[l.id]?.hash!==lineHash(l.text,l.who??'sensei')));
 const purposeRule=(id:string):UttPurpose|undefined => /^(yay_|well_|streak_)/.test(id)?'praise':/^(t_|tg_|tp_)/.test(id)?'explanation':/^help_/.test(id)?'hint':/^film_/.test(id)?'exposition':undefined;
 const keyFor=(id:string,text:string):Key[]=>{
   const out=new Set<Key>();
