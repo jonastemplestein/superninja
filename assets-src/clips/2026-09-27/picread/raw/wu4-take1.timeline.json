@@ -1,0 +1,1416 @@
+{
+ "name": "wu4-take1",
+ "url": "https://superninja.templestein.com/play/?level=w1-wu4",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 69.067,
+ "game": {
+  "start": 2.368,
+  "end": 66.206
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   35.1,
+   33,
+   31.8,
+   36.5,
+   42.8,
+   93.8,
+   139.8,
+   115.5,
+   120
+  ],
+  "audioShiftMs": 51.5,
+  "residualMs": [
+   -7.8,
+   -4.5,
+   13.5,
+   10.5,
+   -14.5,
+   -42.8,
+   -89.1,
+   -60.2,
+   -88.2,
+   null
+  ],
+  "residualMedianMs": -14.5,
+  "residualMaxAbsMs": 89.1
+ },
+ "frames": {
+  "frames": 2105,
+  "fps": 33.3,
+  "p50": 21.6,
+  "p95": 87.7,
+  "p99": 178.4,
+  "max": 550.8,
+  "hitches": 218,
+  "repeatedSlots": 493,
+  "slots": 1899,
+  "deliveryMs": 61.6
+ },
+ "master": "wu4-take1.master.mp4",
+ "audio": "wu4-take1.master.wav",
+ "recordedAt": "2026-09-27T05:02:37.075Z",
+ "events": [
+  {
+   "t": 0.726,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 0.996,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.314,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.611,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.886,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.422,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.445,
+   "kind": "hitch",
+   "id": "128 ms",
+   "dur": 0.128
+  },
+  {
+   "t": 2.499,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 2.681,
+   "kind": "scene",
+   "id": "warmup"
+  },
+  {
+   "t": 2.689,
+   "kind": "music",
+   "id": "dojo",
+   "dur": 66.402
+  },
+  {
+   "t": 3.311,
+   "kind": "speech",
+   "id": "fm_l2_way",
+   "dur": 1.404,
+   "text": "Ninjas read this way!"
+  },
+  {
+   "t": 5.548,
+   "kind": "speech",
+   "id": "fm_name_cat",
+   "dur": 1.184,
+   "text": "This is a cat."
+  },
+  {
+   "t": 7.015,
+   "kind": "speech",
+   "id": "fm_name_dog",
+   "dur": 0.87,
+   "text": "This is a dog."
+  },
+  {
+   "t": 8.169,
+   "kind": "speech",
+   "id": "fm_name_fish",
+   "dur": 1.275,
+   "text": "This is a fish."
+  },
+  {
+   "t": 9.598,
+   "kind": "speech",
+   "id": "fm_show_me",
+   "dur": 1.102,
+   "text": "Let me show you!"
+  },
+  {
+   "t": 10.701,
+   "kind": "speech",
+   "id": "fm_read_cat_dog_fish",
+   "dur": 4.364,
+   "text": "Cat... dog... fish. Cat-dog-fish!"
+  },
+  {
+   "t": 11.319,
+   "kind": "hitch",
+   "id": "86 ms",
+   "dur": 0.086
+  },
+  {
+   "t": 15.069,
+   "kind": "speech",
+   "id": "fm_l2_turn",
+   "dur": 1.995,
+   "text": "Your turn! Tap them the ninja way."
+  },
+  {
+   "t": 18.15,
+   "kind": "mark",
+   "id": "tap cat"
+  },
+  {
+   "t": 18.203,
+   "kind": "tap",
+   "id": "cat",
+   "text": "rect 360,292,236,236"
+  },
+  {
+   "t": 18.231,
+   "kind": "speech",
+   "id": "word:cat",
+   "dur": 0.547
+  },
+  {
+   "t": 19.441,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 19.907,
+   "kind": "mark",
+   "id": "tap dog"
+  },
+  {
+   "t": 19.916,
+   "kind": "tap",
+   "id": "dog",
+   "text": "rect 612,292,236,236"
+  },
+  {
+   "t": 19.944,
+   "kind": "speech",
+   "id": "word:dog",
+   "dur": 0.464
+  },
+  {
+   "t": 20.321,
+   "kind": "hitch",
+   "id": "196 ms",
+   "dur": 0.196
+  },
+  {
+   "t": 21.592,
+   "kind": "hitch",
+   "id": "96 ms",
+   "dur": 0.096
+  },
+  {
+   "t": 21.735,
+   "kind": "mark",
+   "id": "tap fish"
+  },
+  {
+   "t": 21.75,
+   "kind": "tap",
+   "id": "fish",
+   "text": "rect 864,292,236,236"
+  },
+  {
+   "t": 21.779,
+   "kind": "speech",
+   "id": "word:fish",
+   "dur": 0.69
+  },
+  {
+   "t": 22.963,
+   "kind": "speech",
+   "id": "fm_triple_cat_dog_fish",
+   "dur": 2.418,
+   "text": "Cat dog fish!"
+  },
+  {
+   "t": 25.384,
+   "kind": "speech",
+   "id": "fm_l4_swap",
+   "dur": 5.121,
+   "text": "Now they're the other way round. Fish... dog... cat. Fish dog cat!"
+  },
+  {
+   "t": 25.504,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 25.506,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 25.685,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 25.905,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 25.95,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 26.044,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 26.161,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 26.212,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 26.213,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 27.263,
+   "kind": "hitch",
+   "id": "261 ms",
+   "dur": 0.261
+  },
+  {
+   "t": 29.967,
+   "kind": "hitch",
+   "id": "73 ms",
+   "dur": 0.073
+  },
+  {
+   "t": 30.04,
+   "kind": "hitch",
+   "id": "123 ms",
+   "dur": 0.123
+  },
+  {
+   "t": 30.219,
+   "kind": "hitch",
+   "id": "91 ms",
+   "dur": 0.091
+  },
+  {
+   "t": 30.31,
+   "kind": "hitch",
+   "id": "124 ms",
+   "dur": 0.124
+  },
+  {
+   "t": 30.458,
+   "kind": "hitch",
+   "id": "157 ms",
+   "dur": 0.157
+  },
+  {
+   "t": 30.658,
+   "kind": "hitch",
+   "id": "141 ms",
+   "dur": 0.141
+  },
+  {
+   "t": 31.067,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 31.215,
+   "kind": "hitch",
+   "id": "166 ms",
+   "dur": 0.166
+  },
+  {
+   "t": 31.462,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 31.507,
+   "kind": "speech",
+   "id": "fm_which_three",
+   "dur": 4.513,
+   "text": "Listen. Fish... dog... cat. Which one did I read?"
+  },
+  {
+   "t": 31.544,
+   "kind": "hitch",
+   "id": "140 ms",
+   "dur": 0.14
+  },
+  {
+   "t": 31.685,
+   "kind": "hitch",
+   "id": "110 ms",
+   "dur": 0.11
+  },
+  {
+   "t": 31.794,
+   "kind": "hitch",
+   "id": "120 ms",
+   "dur": 0.12
+  },
+  {
+   "t": 31.973,
+   "kind": "hitch",
+   "id": "135 ms",
+   "dur": 0.135
+  },
+  {
+   "t": 32.108,
+   "kind": "hitch",
+   "id": "134 ms",
+   "dur": 0.134
+  },
+  {
+   "t": 32.404,
+   "kind": "hitch",
+   "id": "72 ms",
+   "dur": 0.072
+  },
+  {
+   "t": 32.983,
+   "kind": "hitch",
+   "id": "72 ms",
+   "dur": 0.072
+  },
+  {
+   "t": 33.197,
+   "kind": "hitch",
+   "id": "77 ms",
+   "dur": 0.077
+  },
+  {
+   "t": 33.31,
+   "kind": "hitch",
+   "id": "78 ms",
+   "dur": 0.078
+  },
+  {
+   "t": 33.549,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 33.752,
+   "kind": "hitch",
+   "id": "157 ms",
+   "dur": 0.157
+  },
+  {
+   "t": 34.598,
+   "kind": "hitch",
+   "id": "80 ms",
+   "dur": 0.08
+  },
+  {
+   "t": 34.763,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 35.188,
+   "kind": "hitch",
+   "id": "162 ms",
+   "dur": 0.162
+  },
+  {
+   "t": 35.606,
+   "kind": "hitch",
+   "id": "212 ms",
+   "dur": 0.212
+  },
+  {
+   "t": 35.874,
+   "kind": "hitch",
+   "id": "162 ms",
+   "dur": 0.162
+  },
+  {
+   "t": 36.594,
+   "kind": "hitch",
+   "id": "181 ms",
+   "dur": 0.181
+  },
+  {
+   "t": 36.917,
+   "kind": "hitch",
+   "id": "91 ms",
+   "dur": 0.091
+  },
+  {
+   "t": 37.262,
+   "kind": "hitch",
+   "id": "127 ms",
+   "dur": 0.127
+  },
+  {
+   "t": 37.491,
+   "kind": "mark",
+   "id": "tap rail 0"
+  },
+  {
+   "t": 37.494,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 37.502,
+   "kind": "tap",
+   "id": "rail 0",
+   "text": "rect 429,92,602,216"
+  },
+  {
+   "t": 37.503,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 37.576,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 37.677,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 37.685,
+   "kind": "hitch",
+   "id": "107 ms",
+   "dur": 0.107
+  },
+  {
+   "t": 37.955,
+   "kind": "hitch",
+   "id": "106 ms",
+   "dur": 0.106
+  },
+  {
+   "t": 38.121,
+   "kind": "hitch",
+   "id": "79 ms",
+   "dur": 0.079
+  },
+  {
+   "t": 38.17,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 38.2,
+   "kind": "hitch",
+   "id": "113 ms",
+   "dur": 0.113
+  },
+  {
+   "t": 38.313,
+   "kind": "hitch",
+   "id": "94 ms",
+   "dur": 0.094
+  },
+  {
+   "t": 38.461,
+   "kind": "speech",
+   "id": "fm_triple_fish_dog_cat",
+   "dur": 2.421,
+   "text": "Fish dog cat!"
+  },
+  {
+   "t": 38.504,
+   "kind": "hitch",
+   "id": "88 ms",
+   "dur": 0.088
+  },
+  {
+   "t": 38.867,
+   "kind": "hitch",
+   "id": "81 ms",
+   "dur": 0.081
+  },
+  {
+   "t": 38.979,
+   "kind": "hitch",
+   "id": "311 ms",
+   "dur": 0.311
+  },
+  {
+   "t": 39.345,
+   "kind": "hitch",
+   "id": "81 ms",
+   "dur": 0.081
+  },
+  {
+   "t": 39.484,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 39.657,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 39.915,
+   "kind": "hitch",
+   "id": "145 ms",
+   "dur": 0.145
+  },
+  {
+   "t": 40.309,
+   "kind": "hitch",
+   "id": "84 ms",
+   "dur": 0.084
+  },
+  {
+   "t": 40.534,
+   "kind": "hitch",
+   "id": "86 ms",
+   "dur": 0.086
+  },
+  {
+   "t": 40.737,
+   "kind": "hitch",
+   "id": "85 ms",
+   "dur": 0.085
+  },
+  {
+   "t": 41.088,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 41.355,
+   "kind": "hitch",
+   "id": "127 ms",
+   "dur": 0.127
+  },
+  {
+   "t": 41.506,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 41.577,
+   "kind": "hitch",
+   "id": "174 ms",
+   "dur": 0.174
+  },
+  {
+   "t": 41.832,
+   "kind": "hitch",
+   "id": "113 ms",
+   "dur": 0.113
+  },
+  {
+   "t": 41.923,
+   "kind": "speech",
+   "id": "fm_name_rain",
+   "dur": 1.427,
+   "text": "This is rain."
+  },
+  {
+   "t": 42.233,
+   "kind": "hitch",
+   "id": "137 ms",
+   "dur": 0.137
+  },
+  {
+   "t": 42.452,
+   "kind": "hitch",
+   "id": "123 ms",
+   "dur": 0.123
+  },
+  {
+   "t": 42.93,
+   "kind": "hitch",
+   "id": "101 ms",
+   "dur": 0.101
+  },
+  {
+   "t": 43.242,
+   "kind": "hitch",
+   "id": "120 ms",
+   "dur": 0.12
+  },
+  {
+   "t": 43.427,
+   "kind": "hitch",
+   "id": "131 ms",
+   "dur": 0.131
+  },
+  {
+   "t": 43.73,
+   "kind": "hitch",
+   "id": "169 ms",
+   "dur": 0.169
+  },
+  {
+   "t": 43.844,
+   "kind": "speech",
+   "id": "fm_name_bow",
+   "dur": 1.178,
+   "text": "This is a bow."
+  },
+  {
+   "t": 44.456,
+   "kind": "hitch",
+   "id": "77 ms",
+   "dur": 0.077
+  },
+  {
+   "t": 44.609,
+   "kind": "hitch",
+   "id": "73 ms",
+   "dur": 0.073
+  },
+  {
+   "t": 44.682,
+   "kind": "hitch",
+   "id": "105 ms",
+   "dur": 0.105
+  },
+  {
+   "t": 45.27,
+   "kind": "hitch",
+   "id": "79 ms",
+   "dur": 0.079
+  },
+  {
+   "t": 45.339,
+   "kind": "speech",
+   "id": "fm_rainbow_q",
+   "dur": 5.192,
+   "text": "Rain... bow. Tap the rabbit, and say them fast."
+  },
+  {
+   "t": 45.486,
+   "kind": "hitch",
+   "id": "195 ms",
+   "dur": 0.195
+  },
+  {
+   "t": 45.705,
+   "kind": "hitch",
+   "id": "214 ms",
+   "dur": 0.214
+  },
+  {
+   "t": 45.966,
+   "kind": "hitch",
+   "id": "138 ms",
+   "dur": 0.138
+  },
+  {
+   "t": 46.196,
+   "kind": "hitch",
+   "id": "121 ms",
+   "dur": 0.121
+  },
+  {
+   "t": 46.738,
+   "kind": "hitch",
+   "id": "136 ms",
+   "dur": 0.136
+  },
+  {
+   "t": 47.152,
+   "kind": "hitch",
+   "id": "89 ms",
+   "dur": 0.089
+  },
+  {
+   "t": 47.241,
+   "kind": "hitch",
+   "id": "123 ms",
+   "dur": 0.123
+  },
+  {
+   "t": 47.413,
+   "kind": "hitch",
+   "id": "96 ms",
+   "dur": 0.096
+  },
+  {
+   "t": 47.799,
+   "kind": "hitch",
+   "id": "113 ms",
+   "dur": 0.113
+  },
+  {
+   "t": 48.014,
+   "kind": "hitch",
+   "id": "164 ms",
+   "dur": 0.164
+  },
+  {
+   "t": 48.178,
+   "kind": "hitch",
+   "id": "184 ms",
+   "dur": 0.184
+  },
+  {
+   "t": 48.409,
+   "kind": "hitch",
+   "id": "121 ms",
+   "dur": 0.121
+  },
+  {
+   "t": 48.53,
+   "kind": "hitch",
+   "id": "74 ms",
+   "dur": 0.074
+  },
+  {
+   "t": 48.706,
+   "kind": "hitch",
+   "id": "197 ms",
+   "dur": 0.197
+  },
+  {
+   "t": 48.995,
+   "kind": "hitch",
+   "id": "144 ms",
+   "dur": 0.144
+  },
+  {
+   "t": 49.237,
+   "kind": "hitch",
+   "id": "150 ms",
+   "dur": 0.15
+  },
+  {
+   "t": 49.439,
+   "kind": "hitch",
+   "id": "75 ms",
+   "dur": 0.075
+  },
+  {
+   "t": 49.72,
+   "kind": "hitch",
+   "id": "185 ms",
+   "dur": 0.185
+  },
+  {
+   "t": 49.985,
+   "kind": "hitch",
+   "id": "138 ms",
+   "dur": 0.138
+  },
+  {
+   "t": 50.195,
+   "kind": "hitch",
+   "id": "105 ms",
+   "dur": 0.105
+  },
+  {
+   "t": 50.484,
+   "kind": "hitch",
+   "id": "93 ms",
+   "dur": 0.093
+  },
+  {
+   "t": 50.72,
+   "kind": "hitch",
+   "id": "72 ms",
+   "dur": 0.072
+  },
+  {
+   "t": 50.86,
+   "kind": "hitch",
+   "id": "289 ms",
+   "dur": 0.289
+  },
+  {
+   "t": 51.194,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 51.547,
+   "kind": "hitch",
+   "id": "85 ms",
+   "dur": 0.085
+  },
+  {
+   "t": 51.699,
+   "kind": "hitch",
+   "id": "72 ms",
+   "dur": 0.072
+  },
+  {
+   "t": 51.771,
+   "kind": "hitch",
+   "id": "125 ms",
+   "dur": 0.125
+  },
+  {
+   "t": 51.935,
+   "kind": "mark",
+   "id": "tap rabbit"
+  },
+  {
+   "t": 51.943,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 51.952,
+   "kind": "tap",
+   "id": "rabbit",
+   "text": "rect 983,547,114,114"
+  },
+  {
+   "t": 51.955,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 52.065,
+   "kind": "hitch",
+   "id": "195 ms",
+   "dur": 0.195
+  },
+  {
+   "t": 52.236,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 52.276,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 52.31,
+   "kind": "hitch",
+   "id": "105 ms",
+   "dur": 0.105
+  },
+  {
+   "t": 52.438,
+   "kind": "hitch",
+   "id": "72 ms",
+   "dur": 0.072
+  },
+  {
+   "t": 52.612,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 52.907,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 52.984,
+   "kind": "speech",
+   "id": "fm_rainbow",
+   "dur": 0.951,
+   "text": "Rainbow!"
+  },
+  {
+   "t": 53.473,
+   "kind": "hitch",
+   "id": "292 ms",
+   "dur": 0.292
+  },
+  {
+   "t": 53.852,
+   "kind": "hitch",
+   "id": "178 ms",
+   "dur": 0.178
+  },
+  {
+   "t": 54.075,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 54.327,
+   "kind": "hitch",
+   "id": "197 ms",
+   "dur": 0.197
+  },
+  {
+   "t": 54.708,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 55.081,
+   "kind": "hitch",
+   "id": "108 ms",
+   "dur": 0.108
+  },
+  {
+   "t": 55.234,
+   "kind": "hitch",
+   "id": "123 ms",
+   "dur": 0.123
+  },
+  {
+   "t": 55.358,
+   "kind": "hitch",
+   "id": "85 ms",
+   "dur": 0.085
+  },
+  {
+   "t": 55.466,
+   "kind": "hitch",
+   "id": "551 ms",
+   "dur": 0.551
+  },
+  {
+   "t": 56.048,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 56.13,
+   "kind": "hitch",
+   "id": "86 ms",
+   "dur": 0.086
+  },
+  {
+   "t": 56.199,
+   "kind": "speech",
+   "id": "fm_name_snow",
+   "dur": 1.739,
+   "text": "This is snow."
+  },
+  {
+   "t": 56.379,
+   "kind": "hitch",
+   "id": "112 ms",
+   "dur": 0.112
+  },
+  {
+   "t": 56.656,
+   "kind": "hitch",
+   "id": "134 ms",
+   "dur": 0.134
+  },
+  {
+   "t": 57.119,
+   "kind": "hitch",
+   "id": "81 ms",
+   "dur": 0.081
+  },
+  {
+   "t": 57.252,
+   "kind": "hitch",
+   "id": "105 ms",
+   "dur": 0.105
+  },
+  {
+   "t": 57.559,
+   "kind": "hitch",
+   "id": "125 ms",
+   "dur": 0.125
+  },
+  {
+   "t": 57.684,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 57.817,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 57.916,
+   "kind": "hitch",
+   "id": "109 ms",
+   "dur": 0.109
+  },
+  {
+   "t": 58.101,
+   "kind": "hitch",
+   "id": "225 ms",
+   "dur": 0.225
+  },
+  {
+   "t": 58.228,
+   "kind": "speech",
+   "id": "fm_name_man",
+   "dur": 1.084,
+   "text": "This is a man."
+  },
+  {
+   "t": 58.469,
+   "kind": "hitch",
+   "id": "108 ms",
+   "dur": 0.108
+  },
+  {
+   "t": 58.577,
+   "kind": "hitch",
+   "id": "112 ms",
+   "dur": 0.112
+  },
+  {
+   "t": 58.747,
+   "kind": "hitch",
+   "id": "74 ms",
+   "dur": 0.074
+  },
+  {
+   "t": 58.821,
+   "kind": "hitch",
+   "id": "79 ms",
+   "dur": 0.079
+  },
+  {
+   "t": 58.977,
+   "kind": "hitch",
+   "id": "156 ms",
+   "dur": 0.156
+  },
+  {
+   "t": 59.218,
+   "kind": "hitch",
+   "id": "79 ms",
+   "dur": 0.079
+  },
+  {
+   "t": 59.296,
+   "kind": "hitch",
+   "id": "88 ms",
+   "dur": 0.088
+  },
+  {
+   "t": 59.384,
+   "kind": "hitch",
+   "id": "73 ms",
+   "dur": 0.073
+  },
+  {
+   "t": 59.482,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 59.643,
+   "kind": "speech",
+   "id": "fm_snowman_q",
+   "dur": 4.219,
+   "text": "Snow... man. Tap the rabbit, and say them fast."
+  },
+  {
+   "t": 59.778,
+   "kind": "hitch",
+   "id": "75 ms",
+   "dur": 0.075
+  },
+  {
+   "t": 59.877,
+   "kind": "hitch",
+   "id": "78 ms",
+   "dur": 0.078
+  },
+  {
+   "t": 59.955,
+   "kind": "hitch",
+   "id": "76 ms",
+   "dur": 0.076
+  },
+  {
+   "t": 60.328,
+   "kind": "hitch",
+   "id": "125 ms",
+   "dur": 0.125
+  },
+  {
+   "t": 60.579,
+   "kind": "hitch",
+   "id": "244 ms",
+   "dur": 0.244
+  },
+  {
+   "t": 61.023,
+   "kind": "hitch",
+   "id": "101 ms",
+   "dur": 0.101
+  },
+  {
+   "t": 61.224,
+   "kind": "hitch",
+   "id": "97 ms",
+   "dur": 0.097
+  },
+  {
+   "t": 61.596,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 61.744,
+   "kind": "hitch",
+   "id": "98 ms",
+   "dur": 0.098
+  },
+  {
+   "t": 61.842,
+   "kind": "hitch",
+   "id": "126 ms",
+   "dur": 0.126
+  },
+  {
+   "t": 62.072,
+   "kind": "hitch",
+   "id": "78 ms",
+   "dur": 0.078
+  },
+  {
+   "t": 62.224,
+   "kind": "hitch",
+   "id": "102 ms",
+   "dur": 0.102
+  },
+  {
+   "t": 62.353,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 62.499,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 62.62,
+   "kind": "hitch",
+   "id": "78 ms",
+   "dur": 0.078
+  },
+  {
+   "t": 62.821,
+   "kind": "hitch",
+   "id": "146 ms",
+   "dur": 0.146
+  },
+  {
+   "t": 63.015,
+   "kind": "hitch",
+   "id": "96 ms",
+   "dur": 0.096
+  },
+  {
+   "t": 63.212,
+   "kind": "hitch",
+   "id": "148 ms",
+   "dur": 0.148
+  },
+  {
+   "t": 63.505,
+   "kind": "hitch",
+   "id": "72 ms",
+   "dur": 0.072
+  },
+  {
+   "t": 63.578,
+   "kind": "hitch",
+   "id": "223 ms",
+   "dur": 0.223
+  },
+  {
+   "t": 64.022,
+   "kind": "hitch",
+   "id": "95 ms",
+   "dur": 0.095
+  },
+  {
+   "t": 64.187,
+   "kind": "hitch",
+   "id": "143 ms",
+   "dur": 0.143
+  },
+  {
+   "t": 64.331,
+   "kind": "hitch",
+   "id": "93 ms",
+   "dur": 0.093
+  },
+  {
+   "t": 64.702,
+   "kind": "hitch",
+   "id": "237 ms",
+   "dur": 0.237
+  },
+  {
+   "t": 65.035,
+   "kind": "hitch",
+   "id": "141 ms",
+   "dur": 0.141
+  },
+  {
+   "t": 65.222,
+   "kind": "mark",
+   "id": "tap rabbit"
+  },
+  {
+   "t": 65.224,
+   "kind": "hitch",
+   "id": "101 ms",
+   "dur": 0.101
+  },
+  {
+   "t": 65.226,
+   "kind": "tap",
+   "id": "rabbit",
+   "text": "rect 980,544,121,121"
+  },
+  {
+   "t": 65.228,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 65.325,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 65.441,
+   "kind": "hitch",
+   "id": "121 ms",
+   "dur": 0.121
+  },
+  {
+   "t": 65.509,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 65.549,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 65.562,
+   "kind": "hitch",
+   "id": "141 ms",
+   "dur": 0.141
+  },
+  {
+   "t": 65.703,
+   "kind": "hitch",
+   "id": "220 ms",
+   "dur": 0.22
+  },
+  {
+   "t": 65.724,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 65.876,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 65.923,
+   "kind": "hitch",
+   "id": "198 ms",
+   "dur": 0.198
+  },
+  {
+   "t": 66.192,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 66.291,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 66.408,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 66.578,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 67.007,
+   "kind": "speech",
+   "id": "fm_snowman",
+   "dur": 1.171,
+   "text": "Snowman!"
+  },
+  {
+   "t": 67.007,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 67.479,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 67.857,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 73.103,
+   "kind": "scene",
+   "id": "stickers"
+  }
+ ]
+}

@@ -259,6 +259,13 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
 }
 .bubble.baron { background: #efe0ff; }
 .bubble.baron::before { background: #efe0ff; }
+/* a sound in a caption: its petal picture, 34 px (ui.tsx CaptionPetal; SD r62), sitting on the line like a word */
+.cap-petal { position: relative; display: inline-block; width: 34px; height: 47px; vertical-align: -14px; margin: -8px 3px -6px; }
+.cap-petal svg { position: absolute; inset: 0; }
+.cap-petal img { position: absolute; object-fit: contain; }
+.cap-pair { display: inline-flex; align-items: center; margin: -8px 3px -6px; vertical-align: -14px; }
+.cap-pair .cap-petal { margin: 0; vertical-align: 0; }
+.cap-pair b { font: 700 20px/1 var(--font-ui); margin: 0 1px; }
 @keyframes pop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* ---------- headings */
@@ -401,8 +408,14 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
 .sheet { position: relative; background: #fff; border-radius: 14px; box-shadow: 0 2px 0 #e6c9bb, 0 14px 30px rgba(120, 60, 40, .25); overflow: hidden; }
 .sheet::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
   background: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.55) 42%, rgba(255,255,255,0) 50%); mix-blend-mode: screen; }
-.gem-won { animation: gemwon 3s ease-in-out infinite; }
-@keyframes gemwon { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.25); } }
+/* a won gem brightens and dims slowly: a pale layer over it (inside its border) whose opacity pulses on the compositor,
+   rather than filter keyframes repainted every frame (docs/PERF.md fix 4). The host is positioned (Tree.tsx GemChip) */
+.gem-won { isolation: isolate; }
+.gem-won::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: rgba(255, 250, 235, 0.2); opacity: 0; animation: glow-pulse 3s ease-in-out infinite;
+  animation-play-state: inherit; /* a screen that pauses its gems' loops (tree-visit.css) pauses this one with them */
+}
 
 .btn-go-wide { font-family: var(--font-ui); font-weight: 800; font-size: 32px; color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.35);
   padding: 18px 30px; border-radius: 999px; border: 5px solid var(--ink); box-shadow: 0 7px 0 var(--ink);
@@ -596,6 +609,8 @@ button:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; }
 @keyframes nj-slam { 0% { scale: 0.5; opacity: 1; } 40% { scale: 1.7; opacity: 1; } 100% { scale: 1; } }
 /* on guard while Baron Muddle speaks */
 .ninja-spot.on-guard .nj-body { animation-duration: 0.9s; }
+/* facing left (ninja.pose(p, { face }) with something left of the ninja; the sprites all face right): mirrored */
+.ninja-spot[data-facing="left"] :is(.nj-img, .nj-rim, .nj-ghost-fill) { scale: -1 1; }
 
 /* streak flames: a flat row above the head, one per answer in the streak (no numbers) */
 /* centred over the head (the sprites' heads sit right of the body's middle), a little above the hair */

@@ -1,0 +1,86 @@
+[
+ {
+  "sig": "script:unframed-turn",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:unframed-turn: every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+  "detail": "Target 0 missing. C-P 1 of 18 games; C-L 1 of 18 games. swap (w1-8 32:24.1): out of order (frame 1943.9, demo 1963.0, ready 1960.3, hand-over 1980.1). Opens: \"Oh dear. Baron Muddle has been muddling up words.\" · \"First, let's read this word. Tap each sound, and s\"",
+  "evidence": [
+   "playtest/fix/C1/transcripts/continuous-perfect.json",
+   "playtest/fix/C1/transcripts/continuous-learner.json",
+   "playtest/fix/C1/transcripts/continuous-perfect-from-w1-10.json",
+   "playtest/fix/C1/transcripts/continuous-learner-from-w1-10.json"
+  ]
+ },
+ {
+  "sig": "script:talk-before-action",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:talk-before-action: talk before a child action, first meetings",
+  "detail": "Target ≤ 12 s (named runs 12.5 s). C-P max 13.3 s (compound w1-wu2); 1 over; C-L max 12.3 s (compound w1-wu2); 1 over. compound (w1-wu2) 12.3 s from ‹tv_squish_frame› \"Here's a new game, called Word Squish.\" to ‹tv_squish_ready› \"Two little words make one big word. Now you make one. Are you ready?\"",
+  "evidence": [
+   "playtest/fix/C1/transcripts/continuous-perfect.json",
+   "playtest/fix/C1/transcripts/continuous-learner.json",
+   "playtest/fix/C1/transcripts/continuous-perfect-from-w1-10.json",
+   "playtest/fix/C1/transcripts/continuous-learner-from-w1-10.json"
+  ]
+ },
+ {
+  "sig": "script:fs-per-session",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:fs-per-session: fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+  "detail": "Target 0 missing. C-P 2 of 11 games; C-L 2 of 11 games. firstsound (w1-2 12:10.3, land 1): no idea line, rabbit prompt or slow-then-fast pair. It said: ‹tv_first_frame› ‹tv_first_sound› ‹tv_petal_say› ‹tv_ido_pair_map_hat›; soundhunt (w1-7 28:11.0, land 1): no idea line, rabbit prompt or slow-then-fast pair. It said: ‹tv_hunt_frame› ‹tv_here_sound› ‹tv_petal_say› ‹tv_ido_pair_pan_pin›",
+  "evidence": [
+   "playtest/fix/C1/transcripts/continuous-perfect.json",
+   "playtest/fix/C1/transcripts/continuous-learner.json",
+   "playtest/fix/C1/transcripts/continuous-perfect-from-w1-10.json",
+   "playtest/fix/C1/transcripts/continuous-learner-from-w1-10.json"
+  ]
+ },
+ {
+  "sig": "script:fs-readback",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:fs-readback: the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+  "detail": "Target 100%. C-P 5 of 6 (83%); C-L 4 of 5 (80%). swap (w1-8 @32:57.3): no fast lead before [sat]. Heard: /s/ /a/ /t/ · [sat]; (not judged) fastslow (w1-wu1 3:08.6, land 1): no read-back heard; (not judged) slowpick (w1-wu3 8:45.5, land 1): no read-back heard",
+  "evidence": [
+   "playtest/fix/C1/transcripts/continuous-perfect.json",
+   "playtest/fix/C1/transcripts/continuous-learner.json",
+   "playtest/fix/C1/transcripts/continuous-perfect-from-w1-10.json",
+   "playtest/fix/C1/transcripts/continuous-learner-from-w1-10.json"
+  ]
+ },
+ {
+  "sig": "script:fs-rabbit",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:fs-rabbit: Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+  "detail": "Target all; 0 outside. C(w1-10)-L 0 of 1 prompts answered (0 timed out); 1 rabbit taps outside a prompt. w1-10 @2:46.5 ‹tv_fs_rabbit_read› \"Now tap the rabbit, and read the word fast.\": no rabbit tap or timeout logged before the word; w1-10 @2:46.5: a rabbit tap with no prompt before it",
+  "evidence": [
+   "playtest/fix/C1/transcripts/continuous-perfect.json",
+   "playtest/fix/C1/transcripts/continuous-learner.json",
+   "playtest/fix/C1/transcripts/continuous-perfect-from-w1-10.json",
+   "playtest/fix/C1/transcripts/continuous-learner-from-w1-10.json"
+  ]
+ },
+ {
+  "sig": "script:fs-talk",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:fs-talk: talk before a child action, in runs with a fast/slow line",
+  "detail": "Target ≤ 12 s. C(w1-10)-L max 16.4 s (build w1-10); 1 over. build (w1-10) 16.4 s from ‹tv_to_reward› \"Let's see what you won back from Baron Muddle.\" to ‹tv_to_flower_first› \"Now let's go and see where your sounds live. Tap the green arrow.\", with ‹tv_fs_say_slow› \"Let's say it the slow way...\"",
+  "evidence": [
+   "playtest/fix/C1/transcripts/continuous-perfect.json",
+   "playtest/fix/C1/transcripts/continuous-learner.json",
+   "playtest/fix/C1/transcripts/continuous-perfect-from-w1-10.json",
+   "playtest/fix/C1/transcripts/continuous-learner-from-w1-10.json"
+  ]
+ }
+]

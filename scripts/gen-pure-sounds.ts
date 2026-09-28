@@ -21,7 +21,7 @@ import { generate, textOf, pool } from "./gemini";
 const ROOT = "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja";
 const DIR = `${ROOT}/assets-src/phonemes-r3`;
 const REPORT = `${DIR}/report.json`;
-const VOICE = "Sulafat";
+const VOICE = "Erinome";
 mkdirSync(DIR, { recursive: true });
 
 type Cut = { word: string; mode: "onset" | "glide" | "burst" | "unvoiced" | "coda" | "vowel" | "tail" | "wcut" | "ycut"; ms?: number[]; takes?: number };

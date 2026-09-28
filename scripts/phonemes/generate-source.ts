@@ -4,6 +4,6 @@ import { tts, finishAudio } from "../tts";
 
 const dir = "assets-src/phonemes";
 mkdirSync(dir, { recursive: true });
-const wav = await tts({ text: "Sofa.", voice: "Sulafat", lang: "en-GB" });
+const wav = await tts({ text: "Sofa.", voice: "Erinome", lang: "en-GB" });
 writeFileSync(`${dir}/sofa.wav`, wav);
 finishAudio(wav, `${dir}/sofa.mp3`);

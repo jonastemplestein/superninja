@@ -16,7 +16,7 @@
    strip a loop longer than the stage, slid along by the compositor (Run.tsx drawScenery), never redrawn */
 .run-scenery { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .run-scenery canvas { position: absolute; left: 0; top: 0; will-change: transform; }
-/* the lower canvas (crates, spikes, petals, the gong, lanterns done with, the power circle): under the aura */
+/* the lower canvas (crates, spikes, stars, the gong, lanterns done with, the power circle): under the aura */
 .run-scene canvas.run-under { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 /* the ninja's aura and light rays (Run.tsx placeAura), and the caught word's warm glow, added onto what is under it as
    the canvas did ("lighter"); these are turned, scaled and faded by the compositor */
@@ -29,13 +29,25 @@
   background: radial-gradient(circle closest-side, #fff 0%, rgba(255, 228, 168, 0.85) 14%, rgba(255, 200, 80, 0.7) 28%, rgba(191, 150, 60, 0.525) 46%, rgba(128, 100, 40, 0.35) 64%, rgba(64, 50, 20, 0.175) 82%, rgba(0, 0, 0, 0) 100%);
 }
 .run-halo.on { display: block; }
+/* an impact's flash (Run.tsx flash): over the canvas, faded by the compositor; transparent at rest */
+.run-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
 
-/* "read the word": the word the child reads, under the progress bar and above the lanterns */
+/* "read the word": the word the child reads, under the progress bar and above the lanterns (its spellings are spans:
+   one lights, gold, while Sensei models the word after a second miss) */
 .run-banner {
   position: absolute; left: 50%; top: 88px; translate: -50% 0; z-index: 15;
   padding: 0 40px 4px; font-family: var(--font-letters); font-weight: 700; font-size: 72px; line-height: 1.16;
   background: linear-gradient(180deg, #fffaf0, #f6e3bb);
 }
+.run-banner > .rb-seg { display: inline-block; border-radius: 12px; transition: background-color 0.15s, transform 0.15s; }
+.run-banner > .rb-seg.lit { background: #ffc53d; transform: translateY(-3px) scale(1.08); box-shadow: inset 0 0 0 4px var(--ink); }
+/* a blend group's question: one neutral dot per sound, lighting as each is said (Dec1: no petals while blending by ear) */
+.run-banner.run-dots { top: 90px; padding: 14px 30px; line-height: 0; border-radius: 40px; } /* (clear of the lanterns hanging below: bottom ≈ 164) */
 
-/* "hear the sounds again", beside the home button */
-.run-ear { position: absolute; left: 110px; top: 16px; z-index: 20; }
+/* the stars caught on the track (Dec6: the counter is stars, never the rainbow teardrop) */
+.run-stars { display: flex; align-items: center; gap: 6px; padding: 4px 18px 4px 8px; border-radius: 40px; }
+.run-stars img { width: 46px; height: 46px; object-fit: contain; }
+.run-stars .display { font-size: 34px; min-width: 22px; text-align: center; }
+
+/* where a reminder's petal pops (Run.tsx anchorAt): an invisible box moved over the caught word's lit spelling */
+.run-anchor { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; visibility: hidden; }

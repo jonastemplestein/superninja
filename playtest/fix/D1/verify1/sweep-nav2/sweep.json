@@ -1,0 +1,775 @@
+{
+ "base": "http://127.0.0.1:4841",
+ "fast": 3,
+ "secs": 583,
+ "results": {
+  "w2-4": {
+   "ok": true,
+   "secs": 150,
+   "findings": 4
+  },
+  "w2-1": {
+   "ok": true,
+   "secs": 154,
+   "findings": 5
+  },
+  "w3-1": {
+   "ok": true,
+   "secs": 157,
+   "findings": 4
+  },
+  "w3-4": {
+   "ok": true,
+   "secs": 136,
+   "findings": 5
+  },
+  "w5-1": {
+   "ok": true,
+   "secs": 147,
+   "findings": 6
+  },
+  "w3-6": {
+   "ok": true,
+   "secs": 171,
+   "findings": 7
+  },
+  "w5-3": {
+   "ok": true,
+   "secs": 133,
+   "findings": 4
+  },
+  "w5-6": {
+   "ok": true,
+   "secs": 142,
+   "findings": 6
+  },
+  "w6-1": {
+   "ok": true,
+   "secs": 123,
+   "findings": 4
+  },
+  "w6-3": {
+   "ok": true,
+   "secs": 128,
+   "findings": 4
+  },
+  "w6-6": {
+   "ok": true,
+   "secs": 123,
+   "findings": 6
+  },
+  "w6-ec11": {
+   "ok": true,
+   "secs": 126,
+   "findings": 4
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:w2-4:covered-target:button.tile[aria-label=\"e\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-4",
+   "title": "covered-target: button.tile[aria-label=\"e\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w2-4/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-4"
+  },
+  {
+   "sig": "bot:w2-4:covered-target:button.tile[aria-label=\"i\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-4",
+   "title": "covered-target: button.tile[aria-label=\"i\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w2-4/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-4"
+  },
+  {
+   "sig": "bot:w2-4:overlapping-targets:button.tile[aria-label=\"e\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-4",
+   "title": "overlapping-targets: button.tile[aria-label=\"e\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "91% overlap",
+   "evidence": [
+    "cases/w2-4/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-4"
+  },
+  {
+   "sig": "bot:w2-4:overlapping-targets:button.tile[aria-label=\"i\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-4",
+   "title": "overlapping-targets: button.tile[aria-label=\"i\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "100% overlap",
+   "evidence": [
+    "cases/w2-4/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-4"
+  },
+  {
+   "sig": "bot:w2-1:covered-target:button.tile[aria-label=\"c\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-1",
+   "title": "covered-target: button.tile[aria-label=\"c\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w2-1/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:covered-target:button.tile[aria-label=\"g\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-1",
+   "title": "covered-target: button.tile[aria-label=\"g\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w2-1/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:overlapping-targets:button.tile[aria-label=\"c\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"c\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "91% overlap",
+   "evidence": [
+    "cases/w2-1/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:overlapping-targets:button.tile[aria-label=\"g\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"g\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "100% overlap",
+   "evidence": [
+    "cases/w2-1/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:overlapping-targets:button.tile[aria-label=\"o\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"o\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "detail": "46% overlap",
+   "evidence": [
+    "cases/w2-1/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w3-1:covered-target:button.tile[aria-label=\"n\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-1",
+   "title": "covered-target: button.tile[aria-label=\"n\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w3-1/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-1"
+  },
+  {
+   "sig": "bot:w3-1:covered-target:button.tile[aria-label=\"a\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-1",
+   "title": "covered-target: button.tile[aria-label=\"a\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w3-1/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-1"
+  },
+  {
+   "sig": "bot:w3-1:overlapping-targets:button.tile[aria-label=\"n\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"n\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "91% overlap",
+   "evidence": [
+    "cases/w3-1/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-1"
+  },
+  {
+   "sig": "bot:w3-1:overlapping-targets:button.tile[aria-label=\"a\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"a\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "100% overlap",
+   "evidence": [
+    "cases/w3-1/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-1"
+  },
+  {
+   "sig": "bot:w3-4:covered-target:button.tile[aria-label=\"i\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-4",
+   "title": "covered-target: button.tile[aria-label=\"i\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w3-4/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-4"
+  },
+  {
+   "sig": "bot:w3-4:covered-target:button.tile[aria-label=\"e\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-4",
+   "title": "covered-target: button.tile[aria-label=\"e\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w3-4/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-4"
+  },
+  {
+   "sig": "bot:w3-4:overlapping-targets:button.tile[aria-label=\"i\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-4",
+   "title": "overlapping-targets: button.tile[aria-label=\"i\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "91% overlap",
+   "evidence": [
+    "cases/w3-4/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-4"
+  },
+  {
+   "sig": "bot:w3-4:overlapping-targets:button.tile[aria-label=\"e\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-4",
+   "title": "overlapping-targets: button.tile[aria-label=\"e\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "100% overlap",
+   "evidence": [
+    "cases/w3-4/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-4"
+  },
+  {
+   "sig": "bot:w3-4:overlapping-targets:button.tile[aria-label=\"t\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-4",
+   "title": "overlapping-targets: button.tile[aria-label=\"t\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "detail": "46% overlap",
+   "evidence": [
+    "cases/w3-4/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-4"
+  },
+  {
+   "sig": "bot:w5-1:covered-target:button.tile[aria-label=\"i\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-1",
+   "title": "covered-target: button.tile[aria-label=\"i\"]",
+   "detail": "centre is covered by svg",
+   "evidence": [
+    "cases/w5-1/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-1"
+  },
+  {
+   "sig": "bot:w5-1:covered-target:button.tile[aria-label=\"n\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-1",
+   "title": "covered-target: button.tile[aria-label=\"n\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w5-1/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-1"
+  },
+  {
+   "sig": "bot:w5-1:covered-target:button.tile[aria-label=\"e\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-1",
+   "title": "covered-target: button.tile[aria-label=\"e\"]",
+   "detail": "centre is covered by button.btn-round.nav-next[aria-label=\"Next\"]",
+   "evidence": [
+    "cases/w5-1/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-1"
+  },
+  {
+   "sig": "bot:w5-1:overlapping-targets:button.tile[aria-label=\"i\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"i\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "88% overlap",
+   "evidence": [
+    "cases/w5-1/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-1"
+  },
+  {
+   "sig": "bot:w5-1:overlapping-targets:button.tile[aria-label=\"n\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"n\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "100% overlap",
+   "evidence": [
+    "cases/w5-1/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-1"
+  },
+  {
+   "sig": "bot:w5-1:overlapping-targets:button.tile[aria-label=\"e\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"e\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "detail": "49% overlap",
+   "evidence": [
+    "cases/w5-1/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-1"
+  },
+  {
+   "sig": "bot:w3-6:replay-stale:level/find",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-6",
+   "title": "replay-stale: level/find",
+   "detail": "Hear it again at level:w3-6|null|find|ss said \"Find how we write...\", but this question said \"Now find how we write...\".",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-6"
+  },
+  {
+   "sig": "bot:w3-6:covered-target:button.tile[aria-label=\"u\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-6",
+   "title": "covered-target: button.tile[aria-label=\"u\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w3-6/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-6"
+  },
+  {
+   "sig": "bot:w3-6:overlapping-targets:button.tile[aria-label=\"u\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-6",
+   "title": "overlapping-targets: button.tile[aria-label=\"u\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "100% overlap",
+   "evidence": [
+    "cases/w3-6/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-6"
+  },
+  {
+   "sig": "bot:w3-6:overlapping-targets:button.tile[aria-label=\"o\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-6",
+   "title": "overlapping-targets: button.tile[aria-label=\"o\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "detail": "46% overlap",
+   "evidence": [
+    "cases/w3-6/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-6"
+  },
+  {
+   "sig": "bot:w3-6:petal-too-small:/ks/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w3-6",
+   "title": "petal-too-small: /ks/ badge",
+   "detail": "The /ks/ petal's picture is 38 CSS px on the 844×390 phone, at rest (want ≥ 38; the badge is 92 px wide).",
+   "evidence": [
+    "cases/w3-6/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-6"
+  },
+  {
+   "sig": "bot:w3-6:petal-too-small:/s/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w3-6",
+   "title": "petal-too-small: /s/ badge",
+   "detail": "The /s/ petal's picture is 38 CSS px on the 844×390 phone, at rest (want ≥ 38; the badge is 43 px wide).",
+   "evidence": [
+    "cases/w3-6/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-6"
+  },
+  {
+   "sig": "bot:w3-6:petal-too-small:/k/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w3-6",
+   "title": "petal-too-small: /k/ badge",
+   "detail": "The /k/ petal's picture is 38 CSS px on the 844×390 phone, at rest (want ≥ 38; the badge is 43 px wide).",
+   "evidence": [
+    "cases/w3-6/issue_6.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-6"
+  },
+  {
+   "sig": "bot:w5-3:covered-target:button.tile[aria-label=\"a\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-3",
+   "title": "covered-target: button.tile[aria-label=\"a\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w5-3/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-3"
+  },
+  {
+   "sig": "bot:w5-3:covered-target:button.tile[aria-label=\"u\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-3",
+   "title": "covered-target: button.tile[aria-label=\"u\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w5-3/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-3"
+  },
+  {
+   "sig": "bot:w5-3:overlapping-targets:button.tile[aria-label=\"a\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-3",
+   "title": "overlapping-targets: button.tile[aria-label=\"a\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "94% overlap",
+   "evidence": [
+    "cases/w5-3/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-3"
+  },
+  {
+   "sig": "bot:w5-3:overlapping-targets:button.tile[aria-label=\"u\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-3",
+   "title": "overlapping-targets: button.tile[aria-label=\"u\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "97% overlap",
+   "evidence": [
+    "cases/w5-3/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-3"
+  },
+  {
+   "sig": "bot:w5-6:covered-target:button.tile[aria-label=\"tch\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-6",
+   "title": "covered-target: button.tile[aria-label=\"tch\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w5-6/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-6"
+  },
+  {
+   "sig": "bot:w5-6:covered-target:button.tile[aria-label=\"e\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-6",
+   "title": "covered-target: button.tile[aria-label=\"e\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w5-6/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-6"
+  },
+  {
+   "sig": "bot:w5-6:covered-target:button.tile[aria-label=\"v\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-6",
+   "title": "covered-target: button.tile[aria-label=\"v\"]",
+   "detail": "centre is covered by button.btn-round.nav-next[aria-label=\"Next\"]",
+   "evidence": [
+    "cases/w5-6/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-6"
+  },
+  {
+   "sig": "bot:w5-6:overlapping-targets:button.tile[aria-label=\"tch\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-6",
+   "title": "overlapping-targets: button.tile[aria-label=\"tch\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "94% overlap",
+   "evidence": [
+    "cases/w5-6/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-6"
+  },
+  {
+   "sig": "bot:w5-6:overlapping-targets:button.tile[aria-label=\"e\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-6",
+   "title": "overlapping-targets: button.tile[aria-label=\"e\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "95% overlap",
+   "evidence": [
+    "cases/w5-6/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-6"
+  },
+  {
+   "sig": "bot:w5-6:overlapping-targets:button.tile[aria-label=\"v\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w5-6",
+   "title": "overlapping-targets: button.tile[aria-label=\"v\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "detail": "69% overlap",
+   "evidence": [
+    "cases/w5-6/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w5-6"
+  },
+  {
+   "sig": "bot:w6-1:covered-target:button.tile[aria-label=\"ay\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-1",
+   "title": "covered-target: button.tile[aria-label=\"ay\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w6-1/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-1"
+  },
+  {
+   "sig": "bot:w6-1:covered-target:button.tile[aria-label=\"q\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-1",
+   "title": "covered-target: button.tile[aria-label=\"q\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w6-1/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-1"
+  },
+  {
+   "sig": "bot:w6-1:overlapping-targets:button.tile[aria-label=\"ay\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"ay\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "94% overlap",
+   "evidence": [
+    "cases/w6-1/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-1"
+  },
+  {
+   "sig": "bot:w6-1:overlapping-targets:button.tile[aria-label=\"q\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-1",
+   "title": "overlapping-targets: button.tile[aria-label=\"q\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "100% overlap",
+   "evidence": [
+    "cases/w6-1/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-1"
+  },
+  {
+   "sig": "bot:w6-3:covered-target:button.tile[aria-label=\"f\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-3",
+   "title": "covered-target: button.tile[aria-label=\"f\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w6-3/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-3"
+  },
+  {
+   "sig": "bot:w6-3:covered-target:button.tile[aria-label=\"e\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-3",
+   "title": "covered-target: button.tile[aria-label=\"e\"]",
+   "detail": "centre is covered by button.btn-round.nav-next[aria-label=\"Next\"]",
+   "evidence": [
+    "cases/w6-3/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-3"
+  },
+  {
+   "sig": "bot:w6-3:overlapping-targets:button.tile[aria-label=\"f\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-3",
+   "title": "overlapping-targets: button.tile[aria-label=\"f\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "100% overlap",
+   "evidence": [
+    "cases/w6-3/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-3"
+  },
+  {
+   "sig": "bot:w6-3:overlapping-targets:button.tile[aria-label=\"e\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-3",
+   "title": "overlapping-targets: button.tile[aria-label=\"e\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "detail": "51% overlap",
+   "evidence": [
+    "cases/w6-3/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-3"
+  },
+  {
+   "sig": "bot:w6-6:covered-target:button.tile[aria-label=\"ow\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-6",
+   "title": "covered-target: button.tile[aria-label=\"ow\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w6-6/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-6"
+  },
+  {
+   "sig": "bot:w6-6:covered-target:button.tile[aria-label=\"j\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-6",
+   "title": "covered-target: button.tile[aria-label=\"j\"]",
+   "detail": "centre is covered by svg",
+   "evidence": [
+    "cases/w6-6/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-6"
+  },
+  {
+   "sig": "bot:w6-6:covered-target:button.tile[aria-label=\"g\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-6",
+   "title": "covered-target: button.tile[aria-label=\"g\"]",
+   "detail": "centre is covered by button.btn-round.nav-next[aria-label=\"Next\"]",
+   "evidence": [
+    "cases/w6-6/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-6"
+  },
+  {
+   "sig": "bot:w6-6:overlapping-targets:button.tile[aria-label=\"ow\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-6",
+   "title": "overlapping-targets: button.tile[aria-label=\"ow\"] + button.btn-round.nav-show[aria-label=\"Show me again\"]",
+   "detail": "94% overlap",
+   "evidence": [
+    "cases/w6-6/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-6"
+  },
+  {
+   "sig": "bot:w6-6:overlapping-targets:button.tile[aria-label=\"j\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-6",
+   "title": "overlapping-targets: button.tile[aria-label=\"j\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "98% overlap",
+   "evidence": [
+    "cases/w6-6/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-6"
+  },
+  {
+   "sig": "bot:w6-6:overlapping-targets:button.tile[aria-label=\"g\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-6",
+   "title": "overlapping-targets: button.tile[aria-label=\"g\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "detail": "59% overlap",
+   "evidence": [
+    "cases/w6-6/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-6"
+  },
+  {
+   "sig": "bot:w6-ec11:covered-target:button.tile[aria-label=\"e\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-ec11",
+   "title": "covered-target: button.tile[aria-label=\"e\"]",
+   "detail": "centre is covered by path",
+   "evidence": [
+    "cases/w6-ec11/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-ec11"
+  },
+  {
+   "sig": "bot:w6-ec11:covered-target:button.tile[aria-label=\"sh\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-ec11",
+   "title": "covered-target: button.tile[aria-label=\"sh\"]",
+   "detail": "centre is covered by button.btn-round.nav-next[aria-label=\"Next\"]",
+   "evidence": [
+    "cases/w6-ec11/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-ec11"
+  },
+  {
+   "sig": "bot:w6-ec11:overlapping-targets:button.tile[aria-label=\"e\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-ec11",
+   "title": "overlapping-targets: button.tile[aria-label=\"e\"] + button.btn-round.nav-again[aria-label=\"Hear it again\"]",
+   "detail": "97% overlap",
+   "evidence": [
+    "cases/w6-ec11/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-ec11"
+  },
+  {
+   "sig": "bot:w6-ec11:overlapping-targets:button.tile[aria-label=\"sh\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-ec11",
+   "title": "overlapping-targets: button.tile[aria-label=\"sh\"] + button.btn-round.nav-next[aria-label=\"Next\"]",
+   "detail": "58% overlap",
+   "evidence": [
+    "cases/w6-ec11/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-ec11"
+  }
+ ]
+}

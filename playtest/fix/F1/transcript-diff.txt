@@ -1,0 +1,15 @@
+Baseline C-P (4700) vs F1 build C-P (4701), Sensei line ids normalised (word picks, praise picks collapsed)
+ratio 0.982; baseline 530 lines, F1 539 lines
+
+insert [] -> ['fm_which_*']
+insert [] -> ['fm_name_*']
+insert [] -> ['fm_name_*']
+insert [] -> ['fm_name_*']
+insert [] -> ['suki_says']
+delete ['suki_says'] -> []
+insert [] -> ['streak_lost', 'thats', 'stays_same', 'listen']
+replace ['PRAISE'] -> ['audit_streak_first']
+replace ['PRAISE'] -> ['streak_6']
+replace ['PRAISE'] -> ['tv_streak_10']
+delete ['fm_name_*'] -> []
+insert [] -> ['nav_ready', 'nav_ready']

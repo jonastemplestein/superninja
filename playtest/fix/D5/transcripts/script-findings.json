@@ -1,0 +1,44 @@
+[
+ {
+  "sig": "script:praise-rate",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:praise-rate: praise lines a minute",
+  "detail": "Target ≤ 1.5. C(w1-9)-P 1.55. 3 praise lines in 1.9 min",
+  "evidence": [
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w1-9.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w1-9.json",
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w3-5.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w3-5.json"
+  ]
+ },
+ {
+  "sig": "script:line-60s",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:line-60s: any line more than twice in 60 s (bar the §5.1 routines)",
+  "detail": "Target 0. C(w3-5)-P 2 lines; C(w3-5)-L 2 lines. ‹t_ways_2› \"Now you know two ways to spell...\" from world flower @7:43.0; ‹wf_found_gem› \"You found a new gem! It's a spelling of the sound...\" from world flower @8:03.2",
+  "evidence": [
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w1-9.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w1-9.json",
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w3-5.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w3-5.json"
+  ]
+ },
+ {
+  "sig": "script:fs-talk",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:fs-talk: talk before a child action, in runs with a fast/slow line",
+  "detail": "Target ≤ 12 s. C(w3-5)-P max 14.0 s (build w3-6); 1 over. build (w3-6) 14.0 s from ‹tv_to_reward› \"Let's see what you won back from Baron Muddle.\" to ‹tv_to_flower_first› \"Now let's go and see where your sounds live. Tap the green arrow.\", with ‹tv_fs_slow_tortoise› \"First the slow way, like the tortoise...\"",
+  "evidence": [
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w1-9.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w1-9.json",
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w3-5.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w3-5.json"
+  ]
+ }
+]

@@ -1,0 +1,132 @@
+{
+ "chromium": {
+  "pass1_ok": true,
+  "pass1_network": 300,
+  "pass2_ok": true,
+  "pass2_network": 0,
+  "before_pass3": [
+   "sn-a:t/say_slowly:11:51ff51"
+  ],
+  "pass3_ok": true,
+  "pass3_network": 17,
+  "pass3_expected": 17,
+  "pass3_only_changed_bucket": true,
+  "pass3_sample": [
+   "/a/t/say_slowly/w14.mp3?v=23064b",
+   "/a/t/say_slowly/w7.mp3?v=23064b",
+   "/a/t/say_slowly/w47.mp3?v=23064b"
+  ],
+  "debug": [
+   "activate start mujfcv54",
+   "keys 35",
+   "deleting sn-a:t/say_slowly:11:51ff51",
+   "deleted sn-a:t/say_slowly:11:51ff51 true",
+   "loop done",
+   "claimed mujfcv54"
+  ],
+  "after_counts": {
+   "sn-a:t/say_slowly:0:a817a7": 18,
+   "sn-a:t/say_slowly:10:1dd213": 16,
+   "sn-a:t/say_slowly:11:23064b": 17,
+   "sn-a:t/say_slowly:12:067cb0": 13,
+   "sn-a:t/say_slowly:13:8e5c47": 16,
+   "sn-a:t/say_slowly:14:dba007": 16
+  },
+  "pass3_controller": true,
+  "pass4_network": 0,
+  "old_cache_entries": {
+   "sn-a:t/say_slowly:11:23064b": 17
+  },
+  "missing": "200 text/html",
+  "missing_network_hits": 2,
+  "caches": {
+   "count": 34,
+   "changedBucketCaches": [
+    "sn-a:t/say_slowly:11:23064b"
+   ],
+   "names": [
+    "sn-a:t/say_slowly:0:a817a7",
+    "sn-a:t/say_slowly:10:1dd213",
+    "sn-a:t/say_slowly:11:23064b",
+    "sn-a:t/say_slowly:12:067cb0",
+    "sn-a:t/say_slowly:13:8e5c47",
+    "sn-a:t/say_slowly:14:dba007",
+    "sn-a:t/say_slowly:15:a16564",
+    "sn-a:t/say_slowly:1:9d589c",
+    "sn-a:t/say_slowly:2:80fde6",
+    "sn-a:t/say_slowly:3:351733",
+    "sn-a:t/say_slowly:4:ebcf8e",
+    "sn-a:t/say_slowly:5:28996f",
+    "sn-a:t/say_slowly:6:888f54",
+    "sn-a:t/say_slowly:7:a37a2c",
+    "sn-a:t/say_slowly:8:17a6cd",
+    "sn-a:t/say_slowly:9:24c809"
+   ]
+  }
+ },
+ "webkit": {
+  "pass1_ok": true,
+  "pass1_network": 300,
+  "pass2_ok": true,
+  "pass2_network": 0,
+  "before_pass3": [
+   "sn-a:t/say_slowly:11:23064b"
+  ],
+  "pass3_ok": true,
+  "pass3_network": 17,
+  "pass3_expected": 17,
+  "pass3_only_changed_bucket": true,
+  "pass3_sample": [
+   "/a/t/say_slowly/w7.mp3?v=8912a3",
+   "/a/t/say_slowly/w47.mp3?v=8912a3",
+   "/a/t/say_slowly/w14.mp3?v=8912a3"
+  ],
+  "debug": [
+   "activate start mujfcy12",
+   "keys 34",
+   "deleting sn-a:t/say_slowly:11:23064b",
+   "deleted sn-a:t/say_slowly:11:23064b true",
+   "loop done",
+   "claimed mujfcy12"
+  ],
+  "after_counts": {
+   "sn-a:t/say_slowly:0:a817a7": 18,
+   "sn-a:t/say_slowly:10:1dd213": 16,
+   "sn-a:t/say_slowly:11:8912a3": 17,
+   "sn-a:t/say_slowly:12:067cb0": 13,
+   "sn-a:t/say_slowly:13:8e5c47": 16,
+   "sn-a:t/say_slowly:14:dba007": 16
+  },
+  "pass3_controller": true,
+  "pass4_network": 0,
+  "old_cache_entries": {
+   "sn-a:t/say_slowly:11:8912a3": 17
+  },
+  "missing": "200 text/html",
+  "missing_network_hits": 2,
+  "caches": {
+   "count": 34,
+   "changedBucketCaches": [
+    "sn-a:t/say_slowly:11:8912a3"
+   ],
+   "names": [
+    "sn-a:t/say_slowly:0:a817a7",
+    "sn-a:t/say_slowly:10:1dd213",
+    "sn-a:t/say_slowly:11:8912a3",
+    "sn-a:t/say_slowly:12:067cb0",
+    "sn-a:t/say_slowly:13:8e5c47",
+    "sn-a:t/say_slowly:14:dba007",
+    "sn-a:t/say_slowly:15:a16564",
+    "sn-a:t/say_slowly:1:9d589c",
+    "sn-a:t/say_slowly:2:80fde6",
+    "sn-a:t/say_slowly:3:351733",
+    "sn-a:t/say_slowly:4:ebcf8e",
+    "sn-a:t/say_slowly:5:28996f",
+    "sn-a:t/say_slowly:6:888f54",
+    "sn-a:t/say_slowly:7:a37a2c",
+    "sn-a:t/say_slowly:8:17a6cd",
+    "sn-a:t/say_slowly:9:24c809"
+   ]
+  }
+ }
+}

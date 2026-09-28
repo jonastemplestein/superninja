@@ -56,7 +56,7 @@ for (const id of process.argv.slice(2)) {
   if (existsSync(pub) && !existsSync(takes[0])) copyFileSync(pub, takes[0]);
   for (let k = 1; k <= 4; k++) {
     const f = `${DIR}/${id}_${k}.mp3`;
-    if (!existsSync(f)) finishAudio(await tts({ text: line.text, voice: "Sulafat" }), f);
+    if (!existsSync(f)) finishAudio(await tts({ text: line.text, voice: "Erinome" }), f);
     takes.push(f);
   }
   let best = { f: "", score: -1 };

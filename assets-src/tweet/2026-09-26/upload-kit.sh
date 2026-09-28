@@ -16,7 +16,7 @@ put() { # file content-type disposition [cache-control]
     --content-type "$2" --content-disposition "$3" --cache-control "${4:-public, max-age=3600}" >/dev/null
 }
 
-for c in battle-streak fish-dog film-baron gem-victory petal-scroll; do
+for c in battle-streak film-baron gem-victory petal-scroll; do
   put "$c.mp4" video/mp4 "attachment; filename=\"$c.mp4\""
   put "$c.jpg" image/jpeg inline
 done

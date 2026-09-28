@@ -1,0 +1,20 @@
+{
+  "about": "The Sky Magpie, w6-11's guardian (Baron final only, 27 Sep). 8 candidates from gen-magpie.ts (round a: PROMPT, raw/magpie_1-4; round b: PROMPT_B, raw/magpieb_1-4), judged at game size beside mon_boss_panda, mon_boss_knight and mon_gloop and on bg_sky (sheets/). The pick replaces the interim Magpie drawn at 19:22 the same day (kept byte for byte in prev/; its raws are in assets-src/midgame/art/). No staggered variant: no boss has one (version 1 poses bosses by transform and tint: MIDGAME_ENDGAME's asset table, 'Bosses').",
+  "facing": "left",
+  "picks": [
+    {
+      "cut": "magpieb_4.png",
+      "out": "public/a/i/mon_boss_magpie.webp",
+      "w": 720,
+      "replaces": true,
+      "why": "faces left towards the ninja (beak and body point left: MONSTER_INFO facing \"left\"); the chunkiest silhouette of the eight, the biggest and brightest nest of stolen gems (her whole story reads at game size), wings on hips, a laughing cocky grin; both eyes read through the purple mask. Round a's black masks vanished on her black head; b3's yellow beak read as a duck; b1 faces the viewer; b2 is close but a smaller nest"
+    },
+    {
+      "cut": "magpieb_4.png",
+      "out": "public/a/i/mon_boss_magpie_face.webp",
+      "box": [20, -110, 720, 590],
+      "w": 256,
+      "why": "the HP bar portrait: head, mask, grin, a ribbon tail and a glint of the nest, framed for .bt-hp-face's existing CSS (the img at 124 %, -12 % / -4 %, cover, top), so wiring it is only a src swap. 256 × 256 like baron_face_idle.webp. Not used by the game until Battle.tsx asks for it (today every HP face is the whole sprite)"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+ "base": "http://127.0.0.1:4741",
+ "fast": 3,
+ "secs": 428,
+ "results": {
+  "w2-1": {
+   "ok": true,
+   "secs": 86,
+   "findings": 0
+  },
+  "w3-1": {
+   "ok": true,
+   "secs": 89,
+   "findings": 0
+  },
+  "w2-4": {
+   "ok": true,
+   "secs": 90,
+   "findings": 0
+  },
+  "w3-10": {
+   "ok": true,
+   "secs": 40,
+   "findings": 0
+  },
+  "w3-4": {
+   "ok": true,
+   "secs": 77,
+   "findings": 0
+  },
+  "w4-1": {
+   "ok": true,
+   "secs": 43,
+   "findings": 0
+  },
+  "w3-6": {
+   "ok": true,
+   "secs": 91,
+   "findings": 1
+  },
+  "w4-3": {
+   "ok": true,
+   "secs": 45,
+   "findings": 0
+  },
+  "w4-6": {
+   "ok": true,
+   "secs": 46,
+   "findings": 0
+  },
+  "w5-1": {
+   "ok": true,
+   "secs": 86,
+   "findings": 0
+  },
+  "w5-3": {
+   "ok": true,
+   "secs": 81,
+   "findings": 0
+  },
+  "w5-6": {
+   "ok": true,
+   "secs": 92,
+   "findings": 0
+  },
+  "w6-1": {
+   "ok": true,
+   "secs": 81,
+   "findings": 0
+  },
+  "w6-3": {
+   "ok": true,
+   "secs": 75,
+   "findings": 0
+  },
+  "w6-6": {
+   "ok": true,
+   "secs": 81,
+   "findings": 0
+  },
+  "w6-ec11": {
+   "ok": true,
+   "secs": 72,
+   "findings": 0
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:w3-6:overlapping-targets:button.sound-badge.tier-turn[aria-label=\"Hear the sound\"] + button.sound-badge.tier-turn[aria-label=\"Hear the sound\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-6",
+   "title": "overlapping-targets: button.sound-badge.tier-turn[aria-label=\"Hear the sound\"] + button.sound-badge.tier-turn[aria-label=\"Hear the sound\"]",
+   "detail": "20% overlap",
+   "evidence": [
+    "cases/w3-6/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4741/play/?level=w3-6"
+  }
+ ]
+}

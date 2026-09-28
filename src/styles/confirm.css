@@ -1,0 +1,100 @@
+/* The confirm (src/ui/Confirm.tsx, docs/CONFIRM.md §3). Stage px (1280×720).
+   One layer at z 87: over every scene layer (the dojo's 85–87), the nav row (84) and Help (85); under Home (88), the
+   route fade (90) and the turn-your-phone prompt (99). Transform and opacity only: the glow, the spotlight and the
+   thumbs-up ninja's pop are static shadows or images whose opacity or transform animates (docs/PERF.md). */
+.cf-host { position: absolute; inset: 0; pointer-events: none; }
+.cf-host > * { pointer-events: auto; }
+.cf-root { position: absolute; inset: 0; z-index: 87; }
+.cf-root > * { position: absolute; }
+.cf-dim {
+  inset: 0; background: radial-gradient(ellipse 70% 80% at 52% 46%, rgba(40, 22, 66, 0.7), rgba(16, 8, 30, 0.88));
+  animation: cf-in 0.22s ease-out both;
+}
+.cf-root.closing { animation: cf-out 0.18s ease-in forwards; pointer-events: none; }
+@keyframes cf-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cf-out { to { opacity: 0; } }
+
+/* Sensei asks: her face (the Help button's portrait, bigger), mouthing while she talks */
+.cf-face {
+  border-radius: 50%; overflow: hidden; padding: 0;
+  background: radial-gradient(circle at 40% 35%, #fff8e6, #ffd98a 70%, #e0a53a);
+  border: 6px solid var(--ink); box-shadow: 0 7px 0 var(--ink), 0 0 0 7px rgba(255, 244, 220, 0.85);
+  animation: popin 0.4s cubic-bezier(0.3, 1.6, 0.6, 1) both;
+}
+.cf-face img { position: absolute; inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); border-radius: 50%; object-fit: cover; }
+.cf-face .cf-m { opacity: 0; }
+.cf-face.talking .cf-m1 { animation: cf-mouth 0.3s steps(1) infinite; }
+.cf-face.talking .cf-m2 { animation: cf-mouth 0.46s steps(1) 0.13s infinite; }
+@keyframes cf-mouth { 0% { opacity: 1; } 50% { opacity: 0; } }
+
+/* the bubble, its tail pointing at Sensei: what the question is about (the level being left), or her "?". Smaller than
+   the answers, so the biggest pictures on screen are the ones that answer; a tap on it shows the way */
+.cf-bubble {
+  display: grid; place-items: center;
+  background: #fffdf6; border: 5px solid var(--ink); border-radius: 32px; box-shadow: 0 7px 0 var(--ink);
+  transform-origin: 0% 50%; animation: popin 0.42s 0.05s cubic-bezier(0.3, 1.6, 0.6, 1) both;
+}
+.cf-bubble::before {
+  content: ""; position: absolute; left: -21px; top: 50%; width: 34px; height: 34px; margin-top: -17px;
+  background: inherit; border-left: 5px solid var(--ink); border-bottom: 5px solid var(--ink); border-radius: 0 0 0 8px;
+  transform: rotate(45deg);
+}
+.cf-pic { display: grid; place-items: center; width: 150px; height: 150px; object-fit: contain; pointer-events: none; }
+.cf-pic > svg { width: 100%; height: 100%; }
+.cf-q {
+  font-family: var(--font-display); font-size: 140px; line-height: 1; color: var(--gold); pointer-events: none;
+  -webkit-text-stroke: 7px var(--ink); paint-order: stroke fill; text-shadow: 0 6px 0 var(--ink);
+}
+/* the question in words, for grown-ups with captions on */
+.cf-cap {
+  position: absolute; left: 10px; right: 10px; bottom: 6px; text-align: center; pointer-events: none;
+  font: 700 15px/1.15 var(--font-ui); color: var(--ink-soft);
+}
+.cf-speaker { animation: popin 0.4s 0.1s cubic-bezier(0.3, 1.6, 0.6, 1) both; }
+
+/* the answers: .cf-ans pops in and carries the rings; .cf-bob hops (pointed at) and grows (named, picked); .cf-btn
+   presses. NO (the ▶) pops in first */
+.cf-ans { animation: popin 0.45s cubic-bezier(0.3, 1.6, 0.6, 1) both; }
+.cf-ans.no { animation-delay: 0.12s; }
+.cf-ans.yes { animation-delay: 0.24s; }
+.cf-bob { position: absolute; inset: 0; transition: transform 0.3s cubic-bezier(0.3, 1.5, 0.6, 1), opacity 0.2s; }
+.cf-btn {
+  position: absolute; inset: 0; padding: 0; border-radius: 50%; display: grid; place-items: center;
+  border: 7px solid var(--ink); box-shadow: 0 10px 0 var(--ink); transition: transform 0.08s, box-shadow 0.08s;
+}
+.cf-btn:active { transform: translateY(7px); box-shadow: 0 3px 0 var(--ink); }
+.cf-btn svg { width: 64%; height: 64%; overflow: visible; }
+/* NO: the game's green ▶ (carry on) */
+.cf-btn.next { background: radial-gradient(circle at 35% 30%, #d9ffe4 0%, var(--good) 50%, var(--good-deep) 100%); }
+.cf-btn.next svg { width: 58%; height: 58%; }
+/* YES: a picture of where it goes, in a quiet cream circle */
+.cf-btn.pic { background: radial-gradient(circle at 40% 35%, #fffdf6 0%, #fff4dc 55%, #f0d9a8 100%); }
+.cf-btn-pic { display: grid; place-items: center; width: 80%; height: 80%; object-fit: contain; }
+.cf-btn-pic > svg { width: 100%; height: 100%; }
+.cf-btn.pic .cf-btn-pic > svg { width: 84%; height: 84%; }
+
+/* two rings on every answer, static shadows whose opacity changes: ::after the gold glow while the hand points at it,
+   ::before the warm-white spotlight while Sensei names it ("the house", "the green arrow") */
+.cf-ans::before, .cf-ans::after { content: ""; position: absolute; inset: -12px; border-radius: 50%; pointer-events: none; opacity: 0; }
+.cf-ans::after { box-shadow: 0 0 0 10px #ffc53d, 0 0 0 15px rgba(43, 29, 20, 0.6), 0 0 48px 22px rgba(255, 220, 120, 0.9); }
+.cf-ans::before { box-shadow: 0 0 0 10px #fff8e8, 0 0 0 14px rgba(43, 29, 20, 0.2), 0 0 50px 24px rgba(255, 248, 226, 0.95); transition: opacity 0.25s; }
+.cf-ans.spot::before { opacity: 1; }
+.cf-ans.spot .cf-bob { transform: scale(1.1); }
+/* pointed at (the idle ladder, Help, a tap off the answers: NO; Home under a leave question: YES): it glows and hops
+   with the hand on it; the other stays still */
+.cf-root.point-no .cf-ans.no::after, .cf-root.point-yes .cf-ans.yes::after { animation: cf-glow 1.6s ease-in-out infinite; }
+.cf-root.point-no .cf-ans.no .cf-bob, .cf-root.point-yes .cf-ans.yes .cf-bob { animation: cf-hop 1.6s ease-in-out infinite; }
+@keyframes cf-glow { 0%, 100% { opacity: 0.35; } 30%, 60% { opacity: 1; } }
+@keyframes cf-hop { 0%, 60%, 100% { transform: none; } 22% { transform: translateY(-16px) scale(1.08); } 42% { transform: translateY(0) scale(0.97, 1.03); } }
+/* picked: it swells, the other fades */
+.cf-root.chose .cf-ans .cf-bob { animation: none; }
+.cf-root.chose .cf-ans.picked .cf-bob { animation: cf-picked 0.42s cubic-bezier(0.3, 1.6, 0.6, 1) both; }
+.cf-root.chose .cf-ans:not(.picked) .cf-bob { opacity: 0.3; }
+@keyframes cf-picked { 0% { transform: scale(1); } 45% { transform: scale(1.2); } 100% { transform: scale(1.1); } }
+
+/* the child's ninja beside the ▶, giving it a thumbs up ("keep playing"); a cheer-hop when the ▶ is picked */
+.cf-ninja { pointer-events: none; transform-origin: 50% 100%; animation: cf-peek 0.5s cubic-bezier(0.3, 1.6, 0.6, 1) both; }
+.cf-root.chose-no .cf-ninja { animation: cf-cheer 0.5s cubic-bezier(0.3, 1.5, 0.6, 1) both; }
+.cf-root.chose-yes .cf-ninja { animation: none; opacity: 0.3; transition: opacity 0.2s; }
+@keyframes cf-peek { from { transform: translateY(40px) scale(0.6); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes cf-cheer { 0% { transform: none; } 40% { transform: translateY(-26px) rotate(-6deg) scale(1.06); } 100% { transform: none; } }

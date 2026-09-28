@@ -1,0 +1,308 @@
+[
+ {
+  "id": "w1-tap",
+  "case": "w1-wu1",
+  "game": "tap",
+  "title": "W1 Ninja Ears: tap the sun",
+  "from": 8.35,
+  "to": 12.97
+ },
+ {
+  "id": "w1-fastslow",
+  "case": "w1-wu1",
+  "game": "fastslow",
+  "title": "W1 the rabbit and the tortoise",
+  "from": 16.29,
+  "to": 35.67,
+  "max": 12
+ },
+ {
+  "id": "w1-notice",
+  "case": "w1-wu1",
+  "game": "notice",
+  "title": "W1 the first sound (a show, no paw)",
+  "from": 43.73,
+  "to": 55.97
+ },
+ {
+  "id": "w1-tapall",
+  "case": "w1-wu1",
+  "game": "tapall",
+  "title": "W1 Pocket Hunt: tap all that start with /s/",
+  "from": 60.23,
+  "to": 67.17
+ },
+ {
+  "id": "w2-rail",
+  "case": "w1-wu2",
+  "game": "rail",
+  "title": "W2 Ninja Reading: the reading rail",
+  "from": 1.09,
+  "to": 16.27,
+  "max": 12
+ },
+ {
+  "id": "w2-which",
+  "case": "w1-wu2",
+  "game": "which",
+  "title": "W2 two rows: which did I read?",
+  "from": 25.27,
+  "to": 36.07
+ },
+ {
+  "id": "w2-compound",
+  "case": "w1-wu2",
+  "game": "compound",
+  "title": "W2 Word Squish: sun + flower",
+  "from": 40.38,
+  "to": 60.97,
+  "pawOver": [
+   "tortoise",
+   "rabbit"
+  ],
+  "max": 12
+ },
+ {
+  "id": "w3-fastslow",
+  "case": "w1-wu3",
+  "game": "fastslow",
+  "title": "W3 the rabbit and the tortoise again (recap)",
+  "from": 5.04,
+  "to": 14.38
+ },
+ {
+  "id": "w3-slowpick",
+  "case": "w1-wu3",
+  "game": "slowpick",
+  "title": "W3 Slow Words: which picture is it?",
+  "from": 24.83,
+  "to": 42.27,
+  "max": 12
+ },
+ {
+  "id": "w3-tapall-in",
+  "case": "w1-wu3",
+  "game": "tapall:in",
+  "title": "W3 Pocket Hunt: /a/ in the middle",
+  "from": 57.48,
+  "to": 64.08
+ },
+ {
+  "id": "w4-rail",
+  "case": "w1-wu4",
+  "game": "rail",
+  "title": "W4 Ninja Reading: three in a row",
+  "from": 1.09,
+  "to": 14.86
+ },
+ {
+  "id": "w5-sounds",
+  "case": "w1-wu5",
+  "game": "sounds",
+  "title": "W5 Guess My Word: /s/ /u/ /n/",
+  "from": 10.4,
+  "to": 27.39,
+  "max": 12
+ },
+ {
+  "id": "w6-dots",
+  "case": "w1-wu6",
+  "game": "dots",
+  "title": "W6 Sound Dots",
+  "from": 2.79,
+  "to": 18.85,
+  "pawOver": [
+   "first dot",
+   "second dot",
+   "third dot"
+  ],
+  "max": 12
+ },
+ {
+  "id": "w1-2-first-m",
+  "case": "w1-2",
+  "game": "firstsound",
+  "title": "w1-2 First Sounds: Sensei's I do for /m/",
+  "from": 5.53,
+  "to": 28.76,
+  "max": 12
+ },
+ {
+  "id": "w1-2-first-s",
+  "case": "w1-2",
+  "game": "firstsound",
+  "title": "w1-2 First Sounds: the I do for /s/",
+  "from": 48.29,
+  "to": 68.96,
+  "max": 12
+ },
+ {
+  "id": "w1-4-build",
+  "case": "w1-4",
+  "game": "build",
+  "title": "w1-4 Word Building: Sensei's I do (am)",
+  "from": 9.26,
+  "to": 41.47,
+  "max": 12,
+  "pawOver": [
+   "a tile",
+   "m tile"
+  ]
+ },
+ {
+  "id": "w1-7-hunt",
+  "case": "w1-7",
+  "game": "soundhunt",
+  "title": "w1-7 Sound Hunt: Sensei's I do (pin or pan)",
+  "from": 9.14,
+  "to": 36.27,
+  "max": 12
+ },
+ {
+  "id": "w1-2-find",
+  "case": "w1-2",
+  "game": "find",
+  "title": "w1-2 Ninja Eyes: the first meeting (no demo)",
+  "from": 111.98,
+  "to": 114.16,
+  "intro": true
+ },
+ {
+  "id": "w1-4-readcheck",
+  "case": "w1-4",
+  "game": "readcheck",
+  "title": "w1-4 Kai and Suki: the first meeting (guided, no demo)",
+  "from": 97.92,
+  "to": 112.67,
+  "intro": true,
+  "max": 9
+ },
+ {
+  "id": "w1-6-battle",
+  "case": "w1-6",
+  "game": "battle",
+  "title": "w1-6 the first Monster Battle (no demo)",
+  "from": 0.2,
+  "to": 12.52,
+  "intro": true,
+  "add": [
+   {
+    "t": 0.95,
+    "label": "the monster crashes in (boom, shake); the ninja shouts \u201c!\u201d"
+   }
+  ]
+ },
+ {
+  "id": "w1-8-swap",
+  "case": "w1-8",
+  "game": "swap",
+  "title": "w1-8 Sound Swap (no demo)",
+  "from": 0.5,
+  "to": 16.19,
+  "intro": true
+ },
+ {
+  "id": "w1-9-run",
+  "case": "w1-9",
+  "game": "run",
+  "title": "w1-9 Ninja Run (no demo)",
+  "from": 0.3,
+  "to": 12.0,
+  "intro": true,
+  "add": [
+   {
+    "t": 1.2,
+    "label": "the run starts: the ninja runs, lanterns come"
+   }
+  ]
+ },
+ {
+  "id": "w1-14-story",
+  "case": "w1-14",
+  "game": "story",
+  "title": "w1-14 Story Time (no demo)",
+  "from": 0.18,
+  "to": 18.81,
+  "intro": true,
+  "max": 9
+ },
+ {
+  "id": "w1-15-boss",
+  "case": "w1-15",
+  "game": "boss",
+  "title": "w1-15 the first boss (no demo)",
+  "from": 0.2,
+  "to": 12.89,
+  "intro": true,
+  "add": [
+   {
+    "t": 0.95,
+    "label": "the boss crashes in; the ninja shouts \u201c!\u201d"
+   }
+  ]
+ },
+ {
+  "id": "w2-1-learn",
+  "case": "w2-1",
+  "game": "learn",
+  "title": "w2-1 the first Dojo lesson: New Sounds (/b/)",
+  "from": 0.4,
+  "to": 13.92,
+  "intro": true,
+  "max": 12,
+  "add": [
+   {
+    "t": 7.22,
+    "label": "/b/ (the first of two)"
+   },
+   {
+    "t": 8.63,
+    "label": "the petal steps aside"
+   },
+   {
+    "t": 9.47,
+    "label": "the letter b pops in where the ninja's spell landed"
+   }
+  ]
+ },
+ {
+  "id": "w6-br1-sort",
+  "case": "w6-br1",
+  "game": "sort",
+  "title": "w6-br1 Sorting (no demo)",
+  "from": 0.2,
+  "to": 22.09,
+  "intro": true,
+  "max": 12
+ },
+ {
+  "id": "trial",
+  "case": "trial",
+  "game": "trial",
+  "title": "a Gem Trial, the first one (no demo)",
+  "from": 0.2,
+  "to": 4.87,
+  "intro": true,
+  "add": [
+   {
+    "t": 0.9,
+    "label": "the monster crashes in; the ninja shouts \u201c!\u201d"
+   }
+  ]
+ },
+ {
+  "id": "review",
+  "case": "review",
+  "game": "review",
+  "title": "Sensei's Challenge (no demo)",
+  "from": 0.5,
+  "to": 8.47,
+  "intro": true,
+  "add": [
+   {
+    "t": 1.05,
+    "label": "the monster crashes in; the ninja shouts \u201c!\u201d"
+   }
+  ]
+ }
+]

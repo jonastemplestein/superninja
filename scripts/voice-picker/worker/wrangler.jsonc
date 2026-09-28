@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  // Saves Jonas's voice-picker ratings and picks (playtest/voice-picker/index.html) to R2, so Claude can read them.
+  // Deploy: doppler run -p os -c dev -- sh scripts/voice-picker/worker/deploy.sh
+  // Remove: npx wrangler delete --config scripts/voice-picker/worker/wrangler.jsonc (see docs/DECISIONS.md, 27 Sep)
+  "name": "superninja-voice-picks",
+  // Jonas personal account (owns the superninja-share bucket)
+  "account_id": "05958bb7b57a2ac7eb5d3906fd3cf8bb",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  // Only this Worker is on workers.dev (https://superninja-voice-picks.templestein.workers.dev); no preview URLs.
+  "workers_dev": true,
+  "preview_urls": false,
+  "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "superninja-share" }],
+  "vars": {
+    // The only origin allowed to call it: the public r2.dev URL of superninja-share, which serves the page.
+    "ALLOWED_ORIGIN": "https://pub-283f083f98c24b3a8f2731dd663075d2.r2.dev"
+  }
+  // Secret PICKER_KEY (wrangler secret put): the page's unguessable R2 prefix, which the page reads from its own URL.
+}

@@ -171,15 +171,21 @@ export interface ClipInfo {
   show?: SoundShow;
   at?: Element | null;
 }
-/** Dec3: the job of a lone { sound } with no `show`. Undefined ("unclassified": no pop, and the sweep reports it) until
- *  integration makes it "petal" (plan I.1). */
-export let DEFAULT_SHOW: SoundShow | undefined = undefined;
+/** Dec3: the job of a lone { sound } with no `show`: "petal" since integration (FIX_PLAN I.1, 27 Sep), once the
+ *  sound display check found no unclassified sound left (0 of 1,371 on the integrated build). Before that it was
+ *  undefined ("unclassified": no pop, and the sweep reported it). */
+export let DEFAULT_SHOW: SoundShow | undefined = "petal";
 /** Integration and tests only (plan I.1). */
 export function setDefaultShow(s: SoundShow | undefined) {
   DEFAULT_SHOW = s;
 }
 
-type Caption = { text: string; who: "sensei" | "baron" } | null;
+/** A piece of a caption: words, or a sound, which the caption bubble draws as its petal picture (SD r62: grown-ups'
+ *  captions show a sound the way the child sees it, never as letters). */
+export type CaptionPart = { text: string } | { sound: PhonemeId };
+/** `text`: the whole caption as plain text ("/ae/" or 🔊 for a sound, as before); `parts`: the same, in pieces, for the
+ *  bubble (a sound the child is shown, or one revealed, is a `{ sound }` part). */
+export type Caption = { text: string; who: "sensei" | "baron"; parts?: CaptionPart[] } | null;
 type CaptionListener = (c: Caption) => void;
 const captionListeners = new Set<CaptionListener>();
 export function onCaption(fn: CaptionListener) {
@@ -251,6 +257,18 @@ export function nextClip(id: string, ms = 4000): Promise<{ start: number; end: n
 }
 /** When each word starts inside a multi-word clip (seconds into the clip), if measured (content/word-times.ts). */
 export const wordTimes = (id: string): readonly number[] | undefined => WORD_TIMES[id];
+
+/** A caption's pieces tidied as its text is: neighbouring words joined, no space before punctuation, and a line's
+ *  trailing "..." dropped at the very end. */
+export function captionParts(pieces: readonly CaptionPart[]): CaptionPart[] {
+  const out: CaptionPart[] = [];
+  for (const p of pieces) {
+    const last = out[out.length - 1];
+    if ("text" in p && last && "text" in last) out[out.length - 1] = { text: `${last.text} ${p.text}` };
+    else out.push(p);
+  }
+  return out.map((p, i) => ("text" in p ? { text: (i === out.length - 1 ? p.text.replace(/\.\.\.$/, "") : p.text).replace(/ +([!?.,])/g, "$1").trim() } : p)).filter((p) => !("text" in p) || p.text);
+}
 
 let caption: Caption = null;
 /** The caption showing right now (for a bubble that mounts mid-line, e.g. after a scene's first say()). */
@@ -424,32 +442,40 @@ async function sayNow(items: Say[] | Say, opts: { keep?: boolean; reveal?: boole
     if ("sounds" in it) return Promise.all(it.sounds.map((s) => load(urls.sound(s.p))));
     return Promise.resolve(null);
   });
-  // one caption for the whole sequence; target sounds/words are hidden unless revealed (e.g. after a mistake)
+  // one caption for the whole sequence; target sounds/words are hidden unless revealed (e.g. after a mistake). In the
+  // parts, a sound the child is shown ("petal") or one revealed is its petal picture (SD r62); a hidden one stays 🔊
   let who: "sensei" | "baron" = "sensei";
   const parts: string[] = [];
+  const pieces: CaptionPart[] = [];
+  const words = (t: string) => (parts.push(t), pieces.push({ text: t }));
   let hasLine = false;
   for (const it of list) {
     if ("line" in it) {
       const l = lineById.get(it.line);
       if (l) {
-        parts.push(l.text);
+        words(l.text);
         who = l.who ?? "sensei";
         hasLine = true;
       }
     } else if ("story" in it && it.caption) {
-      parts.push(it.caption);
+      words(it.caption);
       hasLine = true;
-    } else if ("sound" in it) parts.push(opts.reveal ? `/${PHONEMES[it.sound].label}/` : "🔊");
-    else if ("word" in it) parts.push(opts.reveal ? `“${it.word}”` : "🔊");
-    else if ("stretch" in it) parts.push(opts.reveal ? `“${it.stretch}”` : "🔊");
-    else if ("onset" in it) parts.push(opts.reveal ? `“${it.onset}”` : "🔊");
-    else if ("sounds" in it && opts.reveal) parts.push(it.sounds.map((s) => `/${PHONEMES[s.p].label}/`).join(" "));
+    } else if ("sound" in it) {
+      parts.push(opts.reveal ? `/${PHONEMES[it.sound]?.label ?? it.sound}/` : "🔊");
+      pieces.push(opts.reveal || (it.show ?? DEFAULT_SHOW) === "petal" ? { sound: it.sound } : { text: "🔊" });
+    } else if ("word" in it) words(opts.reveal ? `“${it.word}”` : "🔊");
+    else if ("stretch" in it) words(opts.reveal ? `“${it.stretch}”` : "🔊");
+    else if ("onset" in it) words(opts.reveal ? `“${it.onset}”` : "🔊");
+    else if ("sounds" in it && opts.reveal) {
+      parts.push(it.sounds.map((s) => `/${PHONEMES[s.p]?.label ?? s.p}/`).join(" "));
+      for (const s of it.sounds) pieces.push({ sound: s.p });
+    }
   }
   // a line's trailing "..." leads into what follows ("Let's think about the story... What made the Baron happy?"); at the
   // very end it is dropped
   const caption = hasLine ? parts.join(" ").replace(/\.\.\.$/, "").replace(/ +([!?.,])/g, "$1").replace(/([/”]) ([A-Z])/g, "$1. $2") : null;
   duck(true);
-  if (caption) emitCaption({ text: caption, who });
+  if (caption) emitCaption({ text: caption, who, parts: captionParts(pieces) });
   try {
     for (let i = 0; i < list.length; i++) {
       if (gate) await gated();
@@ -487,12 +513,12 @@ async function sayNow(items: Say[] | Say, opts: { keep?: boolean; reveal?: boole
       setSpeaker("line" in it && lineById.get(it.line)?.who === "baron" ? "baron" : "sensei");
       if ("line" in it) {
         const l = lineById.get(it.line);
-        if (l && l.who !== who) emitCaption({ text: l.text, who: l.who ?? "sensei" });
+        if (l && l.who !== who) emitCaption({ text: l.text, who: l.who ?? "sensei", parts: [{ text: l.text }] });
       }
       const target = "sound" in it || "word" in it || "stretch" in it || "onset" in it;
       if (buf) {
         const id = clipId(it);
-        // a lone sound's job: its own, else DEFAULT_SHOW (unset until integration: "unclassified", no pop). A "petal"
+        // a lone sound's job: its own, else DEFAULT_SHOW ("petal" since integration). A "petal"
         // sound is cued first, so a petal can rise before it plays (onSoundCue, at most 250 ms)
         let info: ClipInfo | undefined, meta: Record<string, unknown> | undefined;
         if ("sound" in it) {
@@ -581,6 +607,8 @@ export async function playMusic(id: string | null) {
   try {
     await next.el.play();
   } catch {
+    // (sound still locked: forget the track, or every later playMusic(sameId) would return early: TITLE_DESIGN §9.6.3)
+    if (musicId === id && musicEl === next) musicId = null;
     return;
   }
   if (musicId === id && musicEl === next) next.gain.gain.setTargetAtTime(1, c.currentTime, 0.6);
@@ -757,6 +785,14 @@ export const sfx: Record<string, () => void> = {
   kiai: () => {
     noise(0.13, { vol: 0.3, freq: 900, sweep: 1400, q: 3 });
     tone(300, 0.13, { type: "square", vol: 0.06, slide: 1.5 });
+  },
+  // ---- the ready bow (Ninja.tsx "bow", docs/TEACHER_SCRIPT.md §2.3): a soft rustle of the gi as the ninja bows, and a
+  // little "hup!" as it springs back up, both quiet, because Sensei's next line follows at once
+  bow: () => noise(0.22, { vol: 0.16, freq: 900, sweep: 2200, q: 0.9 }),
+  hup: () => {
+    tone(230, 0.1, { type: "triangle", vol: 0.16, slide: 1.45 });
+    tone(460, 0.08, { type: "sine", vol: 0.05, slide: 1.35 });
+    noise(0.05, { vol: 0.1, freq: 1300, q: 2.5 });
   },
 };
 

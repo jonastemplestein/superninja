@@ -1,0 +1,189 @@
+{
+ "case": "wrong",
+ "speed": "fast",
+ "videoStart": 1790513188034.438,
+ "frames": 2098,
+ "events": [
+  {
+   "t": 0.25,
+   "kind": "http",
+   "status": 404,
+   "url": "http://127.0.0.1:4973/a/i/hero_kai_bow.webp"
+  },
+  {
+   "t": 0.253,
+   "kind": "http",
+   "status": 404,
+   "url": "http://127.0.0.1:4973/a/i/hero_suki_bow.webp"
+  },
+  {
+   "t": 1.168,
+   "kind": "tap",
+   "why": "start"
+  },
+  {
+   "t": 7.337,
+   "kind": "drag",
+   "why": "backwards: a swipe from the right to the left",
+   "x0": 965,
+   "x1": 520,
+   "ms": 700,
+   "realMs": 746,
+   "moves": 22
+  },
+  {
+   "t": 13.287,
+   "kind": "drag",
+   "why": "the tortoise pulled back across what it has read",
+   "x0": 400,
+   "x1": 650,
+   "ms": 900,
+   "back": 200,
+   "realMs": 1300,
+   "moves": 40
+  },
+  {
+   "t": 20.004,
+   "kind": "drag",
+   "why": "a fast slide",
+   "x0": 400,
+   "x1": 985,
+   "ms": 180,
+   "realMs": 247,
+   "moves": 7
+  },
+  {
+   "t": 28.324,
+   "kind": "tap",
+   "why": "rabbit"
+  }
+ ],
+ "slider": [
+  {
+   "t": 6671,
+   "step": "wrong",
+   "n": 1
+  },
+  {
+   "t": 12490,
+   "step": "part",
+   "i": 0
+  },
+  {
+   "t": 13004,
+   "step": "wrong",
+   "n": 2
+  },
+  {
+   "t": 19738,
+   "step": "part",
+   "i": 0
+  },
+  {
+   "t": 20889,
+   "step": "part",
+   "i": 1
+  },
+  {
+   "t": 29054,
+   "step": "snowman",
+   "how": "tap",
+   "wrongWays": 2,
+   "middles": 0,
+   "flick": true,
+   "ms": 16564.40000000596
+  },
+  {
+   "t": 33203,
+   "step": "end"
+  }
+ ],
+ "nav": [
+  {
+   "t": 6671.4000000059605,
+   "kind": "tap",
+   "id": "slider:wrong:backwards"
+  },
+  {
+   "t": 13004.299999982119,
+   "kind": "tap",
+   "id": "slider:wrong:reversed"
+  },
+  {
+   "t": 21983.29999998212,
+   "kind": "speed",
+   "which": "slow",
+   "via": "slider"
+  },
+  {
+   "t": 28205,
+   "kind": "rabbit",
+   "how": "tap"
+  }
+ ],
+ "clips": [
+  {
+   "url": "/a/l/rs_how.mp3",
+   "at": "0.74",
+   "offset": 0,
+   "dur": null,
+   "cut": "5.09"
+  },
+  {
+   "url": "/a/l/rs_back_1.mp3",
+   "at": "5.84",
+   "offset": 0,
+   "dur": null,
+   "cut": "5.81"
+  },
+  {
+   "url": "/a/w/snow.mp3",
+   "at": "11.65",
+   "offset": 0,
+   "dur": null,
+   "cut": "0.88"
+  },
+  {
+   "url": "/a/l/rs_back_2.mp3",
+   "at": "12.54",
+   "offset": 0,
+   "dur": null,
+   "cut": "6.36"
+  },
+  {
+   "url": "/a/w/snow.mp3",
+   "at": "18.90",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.15"
+  },
+  {
+   "url": "/a/w/man.mp3",
+   "at": "20.05",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.80"
+  },
+  {
+   "url": "/a/l/rs_now_fast.mp3",
+   "at": "21.86",
+   "offset": 0,
+   "dur": null,
+   "cut": "5.51"
+  },
+  {
+   "url": "/a/w/snowman.mp3",
+   "at": "27.37",
+   "offset": 0,
+   "dur": null,
+   "cut": "0.85"
+  },
+  {
+   "url": "/a/l/rs_praise_2.mp3",
+   "at": "28.22",
+   "offset": 0,
+   "dur": null,
+   "cut": null
+  }
+ ]
+}

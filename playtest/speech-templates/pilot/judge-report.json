@@ -1,0 +1,347 @@
+{
+ "model": "gemini-3.8-flash",
+ "overall": {
+  "votes": 120,
+  "new": 87,
+  "rate": 0.725,
+  "new_spliced": 38,
+  "today_spliced": 86
+ },
+ "no_controls": {
+  "votes": 108,
+  "new": 81,
+  "rate": 0.75,
+  "new_spliced": 34,
+  "today_spliced": 82
+ },
+ "controls": {
+  "votes": 12,
+  "new": 6,
+  "rate": 0.5,
+  "new_spliced": 4,
+  "today_spliced": 4
+ },
+ "word_templates": {
+  "votes": 51,
+  "new": 39,
+  "rate": 0.765,
+  "new_spliced": 13,
+  "today_spliced": 40
+ },
+ "sound_templates": {
+  "votes": 57,
+  "new": 42,
+  "rate": 0.737,
+  "new_spliced": 21,
+  "today_spliced": 42
+ },
+ "pairs_won": 30,
+ "pairs": 40,
+ "by_template": {
+  "w_next_q": {
+   "votes": 6,
+   "new": 3,
+   "rate": 0.5,
+   "new_spliced": 1,
+   "today_spliced": 1
+  },
+  "w_your_word": {
+   "votes": 9,
+   "new": 9,
+   "rate": 1,
+   "new_spliced": 0,
+   "today_spliced": 9
+  },
+  "ww_change": {
+   "votes": 9,
+   "new": 9,
+   "rate": 1,
+   "new_spliced": 0,
+   "today_spliced": 9
+  },
+  "s_which_write": {
+   "votes": 6,
+   "new": 3,
+   "rate": 0.5,
+   "new_spliced": 4,
+   "today_spliced": 5
+  },
+  "ws_way_we_spell": {
+   "votes": 9,
+   "new": 1,
+   "rate": 0.111,
+   "new_spliced": 9,
+   "today_spliced": 4
+  },
+  "w_position_q": {
+   "votes": 9,
+   "new": 9,
+   "rate": 1,
+   "new_spliced": 1,
+   "today_spliced": 9
+  },
+  "w_your_next_word": {
+   "votes": 6,
+   "new": 5,
+   "rate": 0.833,
+   "new_spliced": 1,
+   "today_spliced": 5
+  },
+  "w_listen_again": {
+   "votes": 9,
+   "new": 2,
+   "rate": 0.222,
+   "new_spliced": 7,
+   "today_spliced": 1
+  },
+  "s_which_starts": {
+   "votes": 6,
+   "new": 6,
+   "rate": 1,
+   "new_spliced": 1,
+   "today_spliced": 5
+  },
+  "w_name_pic": {
+   "votes": 6,
+   "new": 3,
+   "rate": 0.5,
+   "new_spliced": 3,
+   "today_spliced": 3
+  },
+  "s_say_read": {
+   "votes": 6,
+   "new": 6,
+   "rate": 1,
+   "new_spliced": 0,
+   "today_spliced": 6
+  },
+  "s_how_write": {
+   "votes": 6,
+   "new": 5,
+   "rate": 0.833,
+   "new_spliced": 0,
+   "today_spliced": 5
+  },
+  "s_here_sound": {
+   "votes": 6,
+   "new": 4,
+   "rate": 0.667,
+   "new_spliced": 3,
+   "today_spliced": 3
+  },
+  "ws_starts_with": {
+   "votes": 9,
+   "new": 9,
+   "rate": 1,
+   "new_spliced": 1,
+   "today_spliced": 9
+  },
+  "w_say_slowly": {
+   "votes": 9,
+   "new": 5,
+   "rate": 0.556,
+   "new_spliced": 4,
+   "today_spliced": 7
+  },
+  "s_say_the_sound": {
+   "votes": 9,
+   "new": 8,
+   "rate": 0.889,
+   "new_spliced": 3,
+   "today_spliced": 5
+  }
+ },
+ "losses": [
+  {
+   "id": "s_which_write.d",
+   "tpl": "s_which_write",
+   "new": 0,
+   "of": 3,
+   "reasons": [
+    "today: Clip 1 flows smoothly into the target sound, whereas Clip 2 has an unnatural pause before the final phoneme.",
+    "today: Clip 2 has a much warmer, natural intonation and flows more smoothly into the target sound.",
+    "today: Clip 2 has much warmer, friendlier intonation and the spliced phoneme sounds cleaner and clearer."
+   ],
+   "text": {
+    "today": "Which of these is the way we write... /d/",
+    "new": "Which of these is the way we write /d/?"
+   },
+   "files": {
+    "today": "audio/s_which_write.d.today.mp3",
+    "new": "audio/s_which_write.d.new.mp3"
+   }
+  },
+  {
+   "id": "ws_way_we_spell.a.mat",
+   "tpl": "ws_way_we_spell",
+   "new": 1,
+   "of": 3,
+   "reasons": [
+    "today: Clip 1 has awkward pauses around the isolated sound, whereas Clip 2 sounds much more natural and well-structured.",
+    "today: Clip 2 introduces the sound separately first, allowing the subsequent sentence to flow much more naturally than the awkward mid-sentence insertion in clip 1.",
+    "new: Clip 1 jarringly stitches together multiple different voices, whereas Clip 2 maintains a consistent speaker throughout."
+   ],
+   "text": {
+    "today": "Here's the sound... /a/ This is the way we spell it in mat.",
+    "new": "This is the way we spell /a/ in mat."
+   },
+   "files": {
+    "today": "audio/ws_way_we_spell.a.mat.today.mp3",
+    "new": "audio/ws_way_we_spell.a.mat.new.mp3"
+   }
+  },
+  {
+   "id": "w_next_q.next",
+   "tpl": "w_next_q",
+   "new": 1,
+   "of": 3,
+   "reasons": [
+    "new: Clip 1 sounds much more natural and warm, whereas Clip 2 has an unnatural, abrupt pitch rise at the end.",
+    "today: Clip 1 has a warmer, more engaging intonation that flows naturally compared to the flatter delivery in Clip 2.",
+    "today: Clip 1 has a friendlier, more natural and engaging intonation for talking to young children."
+   ],
+   "text": {
+    "today": "What's the next sound?",
+    "new": "What's the next sound?"
+   },
+   "files": {
+    "today": "audio/w_next_q.next.today.mp3",
+    "new": "audio/w_next_q.next.new.mp3"
+   }
+  },
+  {
+   "id": "w_listen_again.top",
+   "tpl": "w_listen_again",
+   "new": 0,
+   "of": 3,
+   "reasons": [
+    "today: Clip 2 has an awkward splice where the word 'top' is inserted into the sentence, whereas Clip 1 sounds completely natural.",
+    "today: Clip 1 has the word 'top' spliced awkwardly into the carrier phrase, whereas Clip 2 flows naturally into the segmented sounds.",
+    "today: Clip 2 sounds more natural, whereas Clip 1 has a slightly awkward emphasis on the word 'top' in the instruction."
+   ],
+   "text": {
+    "today": "Let's listen again... “top” (slowly)",
+    "new": "Let's listen to top again. \"top\" (slowly)"
+   },
+   "files": {
+    "today": "audio/w_listen_again.top.today.mp3",
+    "new": "audio/w_listen_again.top.new.mp3"
+   }
+  },
+  {
+   "id": "w_listen_again.pot",
+   "tpl": "w_listen_again",
+   "new": 1,
+   "of": 3,
+   "reasons": [
+    "new: Clip 1 provides helpful context by naming the word before sounding it out, and the delivery flows naturally.",
+    "today: Clip 2 has an unnatural splice where the word 'pot' is inserted into the sentence with a noticeable pitch and tone shift.",
+    "today: In Clip 2, the word 'pot' has been awkwardly spliced into the introductory sentence."
+   ],
+   "text": {
+    "today": "Let's listen again... “pot” (slowly)",
+    "new": "Let's listen to pot again. \"pot\" (slowly)"
+   },
+   "files": {
+    "today": "audio/w_listen_again.pot.today.mp3",
+    "new": "audio/w_listen_again.pot.new.mp3"
+   }
+  },
+  {
+   "id": "w_listen_again.cab",
+   "tpl": "w_listen_again",
+   "new": 1,
+   "of": 3,
+   "reasons": [
+    "today: Clip 2 sounds much more natural and cohesive, whereas in Clip 1 the target word 'cab' sounds spliced into the sentence.",
+    "today: Clip 2 has an awkward splice where the word 'cab' is inserted into the sentence, whereas Clip 1 sounds completely natural.",
+    "new: Clip 1 provides helpful context by naming the word before sounding it out, and the delivery flows naturally."
+   ],
+   "text": {
+    "today": "Let's listen again... “cab” (slowly)",
+    "new": "Let's listen to cab again. \"cab\" (slowly)"
+   },
+   "files": {
+    "today": "audio/w_listen_again.cab.today.mp3",
+    "new": "audio/w_listen_again.cab.new.mp3"
+   }
+  },
+  {
+   "id": "w_name_pic.mat",
+   "tpl": "w_name_pic",
+   "new": 1,
+   "of": 3,
+   "reasons": [
+    "today: Clip 1 flows naturally as a single sentence, whereas clip 2 has an unnatural pause and pitch shift before the word 'mat'.",
+    "today: Clip 1 flows naturally as a single sentence, while Clip 2 has an awkward pause before the word 'mat'.",
+    "new: Clip 1 flows naturally as a single sentence, whereas in Clip 2 the word 'mat' sounds spliced in."
+   ],
+   "text": {
+    "today": "This is a mat.",
+    "new": "This is a mat."
+   },
+   "files": {
+    "today": "audio/w_name_pic.mat.today.mp3",
+    "new": "audio/w_name_pic.mat.new.mp3"
+   }
+  },
+  {
+   "id": "ws_way_we_spell.m.mat",
+   "tpl": "ws_way_we_spell",
+   "new": 0,
+   "of": 3,
+   "reasons": [
+    "today: Clip 2 sounds more natural and coherent, whereas clip 1 has an abrupt change in tone for 'in mat'.",
+    "today: Clip 2 awkwardly splices the target sound into the middle of the sentence with unnatural pauses, whereas Clip 1 introduces the sound cleanly and flows naturally.",
+    "today: Clip 1 flows naturally as a complete sentence, whereas Clip 2 has awkward pauses and unnatural pitch around the isolated sound."
+   ],
+   "text": {
+    "today": "Here's the sound... /m/ This is the way we spell it in mat.",
+    "new": "This is the way we spell /m/ in mat."
+   },
+   "files": {
+    "today": "audio/ws_way_we_spell.m.mat.today.mp3",
+    "new": "audio/ws_way_we_spell.m.mat.new.mp3"
+   }
+  },
+  {
+   "id": "ws_way_we_spell.v.vet",
+   "tpl": "ws_way_we_spell",
+   "new": 0,
+   "of": 3,
+   "reasons": [
+    "today: Clip 2 has an awkward pause and spliced sound, whereas Clip 1 sounds completely natural.",
+    "today: Clip 1 flows naturally as a single thought, whereas Clip 2 has an unnatural pause and splice around the target sound.",
+    "today: Clip 2 has much better phrasing and sentence structure, whereas Clip 1 sounds unnaturally spliced together."
+   ],
+   "text": {
+    "today": "Here's the sound... /v/ This is the way we spell it in vet.",
+    "new": "This is the way we spell /v/ in vet."
+   },
+   "files": {
+    "today": "audio/ws_way_we_spell.v.vet.today.mp3",
+    "new": "audio/ws_way_we_spell.v.vet.new.mp3"
+   }
+  },
+  {
+   "id": "w_say_slowly.dab",
+   "tpl": "w_say_slowly",
+   "new": 0,
+   "of": 3,
+   "reasons": [
+    "today: In clip 1 the target word is awkwardly spliced into the middle of the sentence, whereas clip 2 has a natural delivery.",
+    "today: Clip 2 awkwardly splices the target word into the middle of the sentence, while Clip 1 flows naturally as an instruction followed by the word.",
+    "today: Clip 1 awkwardly inserts the target word into the middle of the sentence, while Clip 2 places it naturally at the end after an instructional pause."
+   ],
+   "text": {
+    "today": "Say this word slowly... “dab”",
+    "new": "Say dab slowly."
+   },
+   "files": {
+    "today": "audio/w_say_slowly.dab.today.mp3",
+    "new": "audio/w_say_slowly.dab.new.mp3",
+    "game": "audio/w_say_slowly.dab.game.mp3"
+   }
+  }
+ ]
+}

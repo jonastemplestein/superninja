@@ -7,6 +7,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 ONLY_PREVIEW=false; [ "${1:-}" = "--preview-only" ] && ONLY_PREVIEW=true
 npx tsc -b
+bun scripts/ops/check-voice.ts   # never ship a mixed Sensei voice (the Erinome re-record); do NOT bypass
 bun scripts/treadmill/run.ts --quick --no-jev | tail -3
 grep -q '"blockers": 0\|0 blockers' playtest/INBOX.md || { echo "✗ quick treadmill found blockers: see playtest/INBOX.md"; exit 1; }
 bunx vite build --logLevel warn

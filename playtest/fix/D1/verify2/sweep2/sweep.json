@@ -1,0 +1,79 @@
+{
+ "base": "http://127.0.0.1:4841",
+ "fast": 3,
+ "secs": 263,
+ "results": {
+  "w2-1": {
+   "ok": true,
+   "secs": 139,
+   "findings": 1
+  },
+  "w5-3": {
+   "ok": true,
+   "secs": 140,
+   "findings": 0
+  },
+  "w5-6": {
+   "ok": true,
+   "secs": 143,
+   "findings": 0
+  },
+  "w3-1": {
+   "ok": true,
+   "secs": 145,
+   "findings": 0
+  },
+  "w5-1": {
+   "ok": true,
+   "secs": 149,
+   "findings": 0
+  },
+  "w3-6": {
+   "ok": true,
+   "secs": 173,
+   "findings": 1
+  },
+  "w6-ec11": {
+   "ok": true,
+   "secs": 113,
+   "findings": 1
+  },
+  "w6-1": {
+   "ok": true,
+   "secs": 124,
+   "findings": 0
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:w2-1:replay-stale:level/learn",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w2-1",
+   "title": "replay-stale: level/learn",
+   "detail": "Hear it again at level:w2-1|null|learn|g said \"Here's another new sound...\", \"Now you tap it, and say it.\", but this question said \"Tap its petal, and say it.\".",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4841/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w3-6:replay-stale:level/find",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w3-6",
+   "title": "replay-stale: level/find",
+   "detail": "Hear it again at level:w3-6|null|find|ss said \"Find how we write...\", but this question said \"Now find how we write...\".",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4841/play/?level=w3-6"
+  },
+  {
+   "sig": "bot:w6-ec11:replay-stale:level/learn",
+   "source": "invariant",
+   "severity": "major",
+   "case": "w6-ec11",
+   "title": "replay-stale: level/learn",
+   "detail": "Hear it again at level:w6-ec11|null|learn|igh said \"Here it comes...\", \"Tap it once more, and say it again.\", but this question said \"Now you tap it, and say the sound.\".",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4841/play/?level=w6-ec11"
+  }
+ ]
+}

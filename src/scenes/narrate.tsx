@@ -1,3 +1,4 @@
+import { resetSpeakAlong } from "../engine/speaking";
 // The narrative audit's runtime for the level scenes (docs/NARRATIVE_AUDIT.md). The rules and the lines are data in
 // src/content/narrative.ts; this file keeps the per-save ledger of which explanations a child has heard IN FULL (so a
 // level restart doesn't repeat a long introduction, and spaced reminders come back on schedule), and draws the two
@@ -16,13 +17,14 @@ import { STRETCHED } from "../content/stretch";
 import { LINES } from "../content/lines";
 import { canBe, sameSpelling } from "../content/teach";
 import {
-  SESSIONS, afterWord, due, dueInSessions, frameForm, letterCount, lettersForm, lettersLine, lettersKey, openingForm, otherSound, recapHold,
-  splitsSpelling, told, twoSoundsKey, type AfterWord, type FrameForm, type GameExposure, type LettersSaid, type Spacing,
+  FS_SPELLING, FS_STUCK_KIND, SESSIONS, afterWord, createFastSlow, due, dueInSessions, frameForm, letterCount, lettersForm, lettersLine, lettersKey, openingForm,
+  otherSound, recapHold, splitsSpelling, told, twoSoundsKey, type AfterWord, type FrameForm, type FsBank, type FsPraiseKind, type FsReadback, type FsStuckKind,
+  type GameExposure, type LettersSaid, type Spacing,
 } from "../content/narrative";
 import { GAMES, GAMES_MIGRATED, framedEntry, gameKey, gamesOfLevel, migrateGames, playedEntry, previewOf, readyLine, type GameId, type LineSlots } from "../content/games";
 import { say, sfx, type Say, type SoundAt } from "../engine/audio";
-import { correction, praiseFor, praiseWanted, resetPraise, type CorrectionAt, type PraiseOpts } from "../engine/feedback";
-import { gemByKey, energyOf } from "../engine/gems";
+import { correction, praiseBy, praiseFor, praiseWanted, resetPraise, slotPosition, type CorrectionAt, type PraiseOpts } from "../engine/feedback";
+import { gemByKey, energyOf, battlesForAge } from "../engine/gems";
 import { GemIcon } from "../ui/Gem";
 import { petalColour } from "../ui/petal";
 import { FAST } from "../engine/fast";
@@ -45,9 +47,9 @@ export const sessionNow = (): number => store.get().sessions ?? 0;
  *  reward leads) that hasn't happened yet. Record it with heard(key) once it has been said in full. */
 export const onceInSave = (key: string): boolean => !heardBefore(key);
 
-/** The level being played: its place in LEVELS (a review or Gem Trial counts as the level it follows), and how many
- *  reminders of each kind it has had. */
-const cur = { index: 0, family: new Map<string, number>() };
+/** The level being played: its place in LEVELS (a review or Gem Trial counts as the level it follows), its land, a
+ *  serial that changes at each level (fast and slow's per-level cap), and how many reminders of each kind it has had. */
+const cur = { index: 0, world: 1, serial: 0, family: new Map<string, number>() };
 /** The spellings whose teach moment fell in a session (g → session): a reminder is for another day (SCRIPT_FIXES C4). */
 const taughtIn = new Map<string, number>();
 /** Call at the start of every level (during the scene's first render, before its children ask anything). */
@@ -55,9 +57,12 @@ export function beginLevel(l: Level) {
   const i = LEVELS.findIndex((x) => x.id === l.id);
   const up = l.upTo ? LEVELS.findIndex((x) => x.id === l.upTo) : -1;
   cur.index = i >= 0 ? i : up >= 0 ? up : LEVELS.length;
+  cur.world = l.world ?? 1;
+  cur.serial++;
   cur.family.clear();
   for (const t of l.teach ?? []) taughtIn.set(teachEntry(t).g, sessionNow());
   resetPraise();
+  resetSpeakAlong();
 }
 
 /** A kind of reminder, capped per level so a level full of two-letter spellings doesn't turn into a lecture: one
@@ -162,7 +167,7 @@ export function lettersReminder(segs: readonly Seg[], at?: (i: number) => SoundA
   }
   return null;
 }
-/** "This can be /th/, but in this word, it's /dh/." for a word with a two-sound spelling, when due: the same schedule
+/** "This can be… /th/ · But in this word, it's… /dh/" (teach.ts canBe) for a word with a two-sound spelling, when due: the same schedule
  *  and caps as lettersReminder; both sounds are petals (a contrast pair) at `at(i)`. */
 export function twoSoundsReminder(segs: readonly Seg[], at?: (i: number) => SoundAt): Reminder | null {
   if (!reminderRoom()) return null;
@@ -175,8 +180,9 @@ export function twoSoundsReminder(segs: readonly Seg[], at?: (i: number) => Soun
   }
   return null;
 }
-/** Concept 4 at the teaching moment: "The same spelling can sometimes be… /th/ …in moth, and sometimes… /dh/ …in this."
- *  (SCRIPT_FIXES C20; both sounds petals at `at`). */
+/** Concept 4 at the teaching moment, in whole sentences (teach.ts sameSpelling): "The same spelling can sometimes be…
+ *  /th/ · This is the way we spell it in moth. · And sometimes, it can be… /dh/ · This is the way we spell it in this."
+ *  (both sounds petals at `at`). */
 export const sameSpellingSay = (g: string, first: Seg["p"], then: Seg["p"], at?: SoundAt): Say[] => sameSpelling(g, first, then, { at }).say;
 
 /** A spelling correction (engine/feedback.ts, whose "listen again" leads rotate so a second listening correction is
@@ -184,9 +190,24 @@ export const sameSpellingSay = (g: string, first: Seg["p"], then: Seg["p"], at?:
  *  it's one sound." on any miss (SCRIPT_FIXES C5): reveal and glow the right tile for it on the first miss (see
  *  revealsNow). Every sound is a petal: `at.wrong` above the tapped tile, `at.slot` above the slot being filled. The
  *  split explanation counts in the recent letters lines, never against the reminders' schedule. `_word` identifies
- *  the word being spelt (kept for the callers; the rotation needs no memory of it). */
-export function correctionFor(g: string, need: Seg, text: string, attempt: number, _word?: unknown, at: CorrectionAt = {}): Say[] {
-  const c = correction(g, need, text, attempt, at);
+ *  the word being spelt (kept for the callers; the rotation needs no memory of it). The first miss names the child's
+ *  place in the word when it is known (feedback.ts positionCorrection: "Let's listen to the word again. What's the last
+ *  sound in mat?").
+ *  `o.game` (a building game: build, battle, boss, review, trial): the first miss is always the listening correction
+ *  with the PLAIN word (FS1: the child segments it). Fast and slow's stuck recap (TEACHER_SCRIPT §9.3, Move 3) comes on
+ *  a second miss, taking turns with the plain reveal: "Let's say it the slow way first…" and the GAPPED slow word (the
+ *  line promises the slow way, so it plays it; Sensei models only after a struggle), then "We need… /m/ It's this
+ *  one…" (the right tile glows: revealsNow), at most once per word (`o.item`, the word by default). It used to come on
+ *  the first miss with the plain word, which sounded like a mistake (verify round 1). */
+export function correctionFor(g: string, need: Seg, text: string, attempt: number, _word?: unknown, at: CorrectionAt = {}, o: { game?: GameId; item?: string } = {}): Say[] {
+  if (o.game && FS_SPELLING.has(o.game) && attempt >= 2 && STRETCHED.has(text) && GRAPHEMES[g] !== need.p && !splitsSpelling(g, need)) {
+    const id = fsStuck(o.game, "slow", { item: o.item ?? text });
+    if (id) return [{ line: id }, { gap: 150 }, { stretch: text }, { gap: 350 }, { line: "we_need" }, { sound: need.p, show: "petal", ...(at.slot ? { at: at.slot } : {}) }, { gap: 300 }, { line: "its_this_one" }];
+  }
+  // the child's place in the word (pre-ship fix, 28 Sep): the slot from an item "<word>:<slot>" (Early's building), else
+  // the one slot that needs this spelling, so the first miss asks the question the child was asked ("…the last sound?")
+  const slot = /:(\d+)$/.exec(o.item ?? "")?.[1];
+  const c = correction(g, need, text, attempt, { ...at, pos: at.pos ?? slotPosition(text, need, slot === undefined ? undefined : Number(slot)) });
   if (isSplit(g, need)) noteLetters("full", letterCount(need.g));
   return c;
 }
@@ -194,8 +215,10 @@ export function correctionFor(g: string, need: Seg, text: string, attempt: numbe
 const isSplit = (g: string, need: Seg) => splitsSpelling(g, need) && GRAPHEMES[g] !== need.p;
 /** Does this miss reveal (and glow) the right tile at once? The second miss always; a split spelling on the first. */
 export const revealsNow = (g: string, need: Seg, attempt: number): boolean => attempt > 1 || isSplit(g, need);
-/** Help for a child who is spelling a word: the whole word again (stretched where we have it), and a question about
- *  the slot they're on. Never the word's sounds one by one: that would do the segmenting for them. */
+/** Help for a child who is spelling a word and struggling (help's second step, or a knockout): the slow word, and a
+ *  question about the slot they're on. Since 27 Sep the slow word is the word's sounds one by one with little gaps,
+ *  so this models the segmenting; FS1 (docs/DECISIONS.md) allows that only after a struggle. A first miss gets the
+ *  plain word (feedback.ts correction, fsStuckSay). */
 export const spellingHelp = (word: string): Say[] => [{ line: STRETCHED.has(word) ? "audit_spelling_help" : "audit_spelling_help_plain" }, { gap: 150 }, { stretch: word }];
 
 /**
@@ -203,10 +226,20 @@ export const spellingHelp = (word: string): Say[] => [{ line: STRETCHED.has(word
  * and praise, and nothing when a streak tier-up or "Ninjas read this way!" already spoke for the word. What doesn't fit
  * is deferred (a reminder isn't marked heard, the gem waits for the next word). Counts the right answer for the praise
  * rhythm either way. Resolves with what it said.
+ * `fs` (TEACHER_SCRIPT §9, FS-F2.1): a fast/slow line for the praise slot, `fsIdea(…) ?? fsPraise(…)`. When praise is
+ * due it is said in place of the praise line (nothing is stacked), and recorded with fsSaid (pass `game`) once heard in
+ * full; when it isn't due, it waits (ask again after the next word).
  */
-export async function afterWordSay(o: { tierUp: boolean; leftRight: boolean; reminder: Reminder | null; gemFirst: (() => Promise<void>) | null; closingNext?: boolean; game?: GameId; praise?: Omit<PraiseOpts, "replaced" | "closingNext"> }): Promise<AfterWord | null> {
+export async function afterWordSay(o: { tierUp: boolean; leftRight: boolean; reminder: Reminder | null; gemFirst: (() => Promise<void>) | null; closingNext?: boolean; game?: GameId; praise?: Omit<PraiseOpts, "replaced" | "closingNext">; fs?: string | null }): Promise<AfterWord | null> {
   const p: PraiseOpts = { ...o.praise, game: o.game ?? o.praise?.game, closingNext: o.closingNext };
   const pick = afterWord({ tierUp: o.tierUp, leftRight: o.leftRight, reminder: !!o.reminder, gemFirst: !!o.gemFirst, praise: praiseWanted(p) }).say;
+  if (pick === "praise" && o.fs && HAS.has(o.fs)) {
+    // a fast/slow line (the game's idea, or its fast and slow praise) takes the praise slot: it is this answer's praise
+    praiseBy(o.fs);
+    const ok = await say({ line: o.fs });
+    if (ok && p.game) fsSaid(o.fs, p.game);
+    return "praise";
+  }
   if (pick === "praise") {
     const line = praiseFor(p);
     if (line) await say({ line });
@@ -223,6 +256,74 @@ export async function afterWordSay(o: { tierUp: boolean; leftRight: boolean; rem
     return "gem-first";
   }
   return null;
+}
+
+// ---------------------------------------------------------------- fast and slow (TEACHER_SCRIPT §9, FIX_PLAN §13.5)
+// One helper for every lane (FS-F2.1): which read-back a word gets, the idea line, the stuck recap, the praise and
+// Sensei's pair, dosed per game type per session (§9.5). The record lives in memory (a session is one run of the page);
+// the rotations' pointers are save-wide, in the ledger. Record every fast/slow line with fsSaid(id, game) once its say()
+// resolved true (afterWordSay({ fs }) does it for the praise slot). Guard any line of your own with HAS.
+const fastSlow = createFastSlow({
+  session: sessionNow,
+  world: () => cur.world,
+  level: () => cur.serial,
+  count: timesHeard,
+  // a counter, not a telling: no level or session list to grow with every line
+  bump: (key) =>
+    store.set((st) => {
+      const l = ((st as WithLedger).narr ??= {});
+      l[key] = { n: (l[key]?.n ?? 0) + 1, at: [] };
+    }),
+  has: (id) => HAS.has(id),
+});
+/**
+ * Which read-back this word gets (§9.2), counted per game type per session: "rabbit" (Move 1: `tv_fs_say_sounds_slow` ·
+ * the sounds · `tv_fs_rabbit_read` or `fm_tap_rabbit` · rabbitTap() · the word; Kai and Suki, Ninja Run and Story Time:
+ * `tv_fs_say_slow` · the sounds · `tv_fs_now_fast` · the word, no tap) on the first; then "sw" (S~W's
+ * `say_sounds_read`) on the 2nd and 4th, "pair" (Move 5, with fsPair()) on the 3rd and 5th, "plain" (the faded form)
+ * after that, except that the first two read-backs of every level are "sw" (SCRIPT_STYLE §5.1). `afterMiss`: "sw" in place of "pair" or "plain" (S~W's routine follows any miss). From land 3, "rabbit"
+ * only in the session's first game with one. Call it once per read-back; record Move 1 with fsSaid(its lead-in, game).
+ */
+export const fsReadback = (game: GameId, o: { afterMiss?: boolean } = {}): FsReadback => fastSlow.readback(game, o);
+/** The game's idea line now (Move 2, §9.5), or null: the next in the save's rotation from `bank` that hasn't been said
+ *  this session; once per game type a session; at most 2 a level and 4 a session. `tight`: skips the four long lines
+ *  (a run near the 12 s rule). The save's first is `tv_fs_two_ways`. Record it with fsSaid(id, game) once heard. */
+export const fsIdea = (game: GameId, bank: FsBank, o: { tight?: boolean } = {}): string | null => fastSlow.idea(game, bank, o);
+/** The stuck recap's line (Move 3) when it is its turn, else null (the game's own line's turn): a first miss or the
+ *  8 s idle (a building game's second miss: fsStuckSay), taking turns per game (the fast/slow line first each
+ *  session), never twice on one `item`. `always`: its
+ *  turn whatever (Guess My Word's 8 s idle). Recorded at once (a turn is a turn). See fsStuckSay for the whole run. */
+export const fsStuck = (game: GameId, kind: FsStuckKind, o: { item?: string; always?: boolean } = {}): string | null => fastSlow.stuck(game, kind, o);
+/** The game's fast and slow praise (Move 4) for this praise slot, or null: once per game type a session, each line at
+ *  most once a session; never the slot straight after the game's idea or Move 1. Pass it to afterWordSay({ fs }), as
+ *  `fsIdea(…) ?? fsPraise(…)`; a scene that praises by itself records it with fsSaid. */
+export const fsPraise = (game: GameId, kind: FsPraiseKind): string | null => fastSlow.praise(game, kind);
+/** Sensei's pair (Move 5): [slow lead-in, fast lead-in], "Let's say it the slow way…" / "And now the fast way…" and
+ *  "First the slow way, like the tortoise…" / "Now the fast way, like the rabbit…", taking turns. */
+export const fsPair = (): readonly [slow: string, fast: string] => fastSlow.pair();
+/** Record a fast/slow line heard in full in `game`: an idea (and W1's `tv_same_word`, S~W's `t_if_you_say_sounds`,
+ *  which count as ideas), a praise line, or Move 1's lead-in or prompt. */
+export const fsSaid = (id: string, game: GameId): void => fastSlow.said(id, game);
+/** Was this line recorded with fsSaid this session? (Ninja Run's `tv_fs_run`, once a session.) */
+export const fsHeardThisSession = (id: string): boolean => fastSlow.heardThisSession(id);
+/**
+ * The whole stuck recap when it is its turn (fsStuck), else null: the line, then the slow word (the line promises it).
+ * - Building games (build, battle, boss, review, trial): only from a second miss (`attempt` ≥ 2). A first miss or the
+ *   8 s idle (`attempt` 1, the default) is null, with no turn used: the game's own "Let's listen again. What can you
+ *   hear here?" and the PLAIN word (FS1: the child segments it; Sensei models only after a struggle). A spelling
+ *   miss's recap comes whole from correctionFor.
+ * - First Sounds (`word`: the tapped card), Slow Words and Ninja Run: a first miss or idle.
+ * - Guess My Word: the word's sounds as neutral dots (`segs`, Dec1), never the word.
+ * `item`: the word by default. Null for a game with no stuck recap.
+ */
+export function fsStuckSay(game: GameId, word: string, o: { attempt?: number; item?: string; segs?: readonly Seg[]; always?: boolean } = {}): Say[] | null {
+  const kind = FS_STUCK_KIND[game];
+  if (!kind) return null;
+  if (FS_SPELLING.has(game) && (o.attempt ?? 1) < 2) return null;
+  const id = fsStuck(game, kind, { item: o.item ?? word, always: o.always });
+  if (!id) return null;
+  if (kind === "push") return [{ line: id }, { gap: 200 }, ...(o.segs?.length ? [{ sounds: [...o.segs], show: "hidden" } as Say] : [])];
+  return [{ line: id }, { gap: 150 }, { stretch: word }];
 }
 
 // ---------------------------------------------------------------- the teacher's voice: one entry per game type
@@ -300,10 +401,37 @@ export function mapPreview(l: Level): { game: GameId; line: string; key: string 
 }
 /** The games a level plays, in order (games.ts). */
 export const levelGames = (l: Level): GameId[] => gamesOfLevel(l);
-/** The first time a gem is ready in this save, "When a gem is full, it glows. Then you can win it in a gem battle!"
- *  (flower_i5, key `gem-battle`), else "A gem is glowing!…" (SCRIPT_FIXES C8.2). Record heard(key) when said. */
+/** The ledger keys of the gem-battle lines: flower_i5 once per save, gem_ready once a session. */
+const GEM_BATTLE = "gem-battle", GEM_READY = "gem-ready";
+/** Was this said in full in this session (heard() records its session)? */
+const heardThisSession = (key: string) => (ledger()[key]?.s ?? []).includes(sessionNow());
+/** Can a gem battle be offered to this child? Gem battles are for a child of 5 or more (TEACHER_SCRIPT §4.2; gems.ts
+ *  battlesForAge, from the school year). */
+export const gemBattlesOffered = (): boolean => battlesForAge();
+/**
+ * What Sensei says as a gem becomes ready, or null to let it glow in silence (verify round 1: "A gem is glowing! It's
+ * ready for a gem battle." after almost every reward on the preschool path, a promise that never came). Only to a child
+ * who can be offered a gem battle (gemBattlesOffered): the save's first ready gem says what a glowing gem means
+ * ("When a gem is full, it glows. Then you can win it in a gem battle!", flower_i5, SCRIPT_FIXES C8.2); later ones "A
+ * gem is glowing! It's ready for a gem battle.", at most once a session (either line counts). Record it with
+ * gemLineHeard(line) (or heard(key)) once said in full. For the reward's gem line and the World Flower's ready gem.
+ */
+export function gemReadySay(): { line: string; key: string } | null {
+  if (!gemBattlesOffered()) return null;
+  if (onceInSave(GEM_BATTLE) && HAS.has("flower_i5")) return { line: "flower_i5", key: GEM_BATTLE };
+  if (heardThisSession(GEM_READY) || heardThisSession(GEM_BATTLE) || !HAS.has("gem_ready")) return null;
+  return { line: "gem_ready", key: GEM_READY };
+}
+/** Record a gem-ready line heard in full (flower_i5 or gem_ready; any other line is ignored), for gemReadySay's rules. */
+export function gemLineHeard(line: string) {
+  if (line === "flower_i5") heard(GEM_BATTLE);
+  else if (line === "gem_ready") heard(GEM_READY);
+}
+/** @deprecated Use gemReadySay(), which can be null. This old form always names a line, so it still says "A gem is
+ *  glowing!…" after every ready gem; App.tsx (rewardGemFocus) and Tree.tsx move over at integration (fix-requests),
+ *  then it goes. */
 export const gemReadyLead = (): { line: string; key: string | null } =>
-  onceInSave("gem-battle") && HAS.has("flower_i5") ? { line: "flower_i5", key: "gem-battle" } : { line: "gem_ready", key: null };
+  onceInSave(GEM_BATTLE) && HAS.has("flower_i5") ? { line: "flower_i5", key: GEM_BATTLE } : { line: "gem_ready", key: null };
 /** "Let's see what you won back from Baron Muddle." leads the save's first three rewards that bring a new sound
  *  (TEACHER_SCRIPT §5.7; record heard(TO_REWARD) when said). */
 export const TO_REWARD = "reward:to-reward";

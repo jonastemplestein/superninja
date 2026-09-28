@@ -1,0 +1,41 @@
+{
+ "_doc": "Overrides of erinome-pick.py's ranking (27 Sep), each with its reason. The score adds 2 per blind-judge vote that names another IPA symbol, which for short vowels and isolated stops is mostly noise (the judge hears every voiced stop, old and new, as voiceless), so where scores were within ~1 point the cleaner, more natural clip (judge naturalness and artefact severity) was chosen. alts: the other Erinome cuts shown on the listening page.",
+ "b": {
+  "file": "playtest/runs/pure-sounds-erinome/cand/b/job_d.1.stop_final.voicebar-60ms-release-35ms.natural.wav",
+  "why": "tied on score (6.1); heard as bilabial /pʰ/ by all 3 votes (the other ties were heard as s/t/ʌ and i/t/θ), naturalness 9.67, 60 ms of voicing before the release like the /d/ from 'bed' that the judge heard as [d]"
+ },
+ "g": {
+  "file": "playtest/runs/pure-sounds-erinome/cand/g/bag_d.2.stop_final.voicebar-60ms-release-40ms.natural.wav",
+  "why": "tied on score with 'pig' (6.1 vs 6.0), heard as velar by all 3 votes, naturalness 9.67; Whisper wrote 'Okay.' for the 'pig' cut and nothing for this one"
+ },
+ "j": {
+  "file": "playtest/runs/pure-sounds-erinome/cand/j/badge_d.2.stop_final.voicebar-60ms-release-45ms.natural.wav",
+  "why": "every Erinome /dʒ/ is heard as /tʃ/ by the judge, and the few it heard as /dʒ/ all had a vowel after ('juh'); of the clean ones (score 6.1-6.2) this has the voice bar and the shortest frication (45 ms), the cues that set /dʒ/ apart from /tʃ/"
+ },
+ "ae": {
+  "file": "playtest/runs/pure-sounds-erinome/cand/ae/say_d.1.tail_vowel.tail+30ms.natural.wav",
+  "why": "score 2.1 against 1.9 for 'way', but naturalness 9.67 and no artefacts against 7.0 and severity 2"
+ },
+ "u": {
+  "file": "playtest/runs/pure-sounds-erinome/cand/u/uh_d.3.iso.voiced.natural.wav",
+  "why": "Erinome saying 'uh', 0.215 s; score 3.0 against 2.0 for take 4, but naturalness 8.33 against 6.67 ('synthetic, abrupt end'); heard ʌ/ʌ/a"
+ },
+ "uu": {
+  "file": "playtest/runs/pure-sounds-erinome/cand/uu/_u28a.3.iso.voiced.natural.wav",
+  "why": "Erinome saying /ʊ/, 0.225 s; score 2.2 against 1.9 for the same take whole, but naturalness 9.33 and no artefacts against 7.0 and severity 2"
+ },
+ "ee": {
+  "file": "playtest/runs/pure-sounds-erinome/cand/ee/ee_d.2.iso.whole.natural.wav",
+  "why": "score 2.95 against 2.23 for take 1, but naturalness 9.0 and no artefacts against 7.0 and severity 2.67; its objective penalty is only mild edge clicks (-23 to -25 dB) the judge did not hear"
+ },
+ "r": {
+  "alts": [
+   "playtest/runs/pure-sounds-erinome/cand/r/rrrred_d.2.init_hold.hold-45ms.natural-short.wav",
+   "playtest/runs/pure-sounds-erinome/cand/r/carrot_d.2.f3dip.f3dip.natural-short.wav"
+  ]
+ },
+ "p": {
+  "file": "playtest/runs/pure-sounds-erinome/cand/p/p_d.1.iso.to-voicing-0ms.natural.wav",
+  "why": "score 0.46 against 0.1 for the 'up' release, equally clean (heard pʰ/p/pʰ, naturalness 9.67, no artefacts), but the 'up' burst is a spike (crest 24.9 dB) that the -1.5 dBTP ceiling holds to -26 LUFS, 10 dB under the old /p/; this one (crest 12.7 dB) levels to about -14"
+ }
+}

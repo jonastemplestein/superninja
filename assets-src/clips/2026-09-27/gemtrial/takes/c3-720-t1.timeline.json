@@ -1,0 +1,458 @@
+{
+ "name": "c3-720-t1",
+ "url": "https://superninja.templestein.com/play/?scene=tree&gem=ee%3Eee&celebrate=1",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 64,
+ "game": {
+  "start": 2.482,
+  "end": 62.202
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   43.9,
+   65.3,
+   91.9,
+   88.3,
+   106.1,
+   66.2,
+   49.8,
+   41.7,
+   82,
+   95.9
+  ],
+  "audioShiftMs": 82.8,
+  "residualMs": [
+   28.1,
+   9.8,
+   -4.6,
+   -2.6,
+   -20.6,
+   18.1,
+   32.1,
+   33.1,
+   -10.5,
+   -23.5
+  ],
+  "residualMedianMs": 3.6,
+  "residualMaxAbsMs": 33.1
+ },
+ "frames": {
+  "frames": 1838,
+  "fps": 31,
+  "p50": 32.5,
+  "p95": 37.3,
+  "p99": 43.9,
+  "max": 54.6,
+  "hitches": 5,
+  "repeatedSlots": 29,
+  "slots": 1776,
+  "deliveryMs": 5.3
+ },
+ "master": "c3-720-t1.master.mp4",
+ "audio": "c3-720-t1.master.wav",
+ "recordedAt": "2026-09-27T12:32:29.763Z",
+ "events": [
+  {
+   "t": 0.795,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.11,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.429,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.731,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.013,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.568,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.666,
+   "kind": "music-stop",
+   "id": ""
+  },
+  {
+   "t": 2.843,
+   "kind": "scene",
+   "id": "tree"
+  },
+  {
+   "t": 2.846,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 2.849,
+   "kind": "mark",
+   "id": "state tree|gem-victory|0/5|wait"
+  },
+  {
+   "t": 2.871,
+   "kind": "sting",
+   "id": "gem_victory",
+   "dur": 10.031
+  },
+  {
+   "t": 2.872,
+   "kind": "speech",
+   "id": "trial_win",
+   "dur": 2.841,
+   "text": "You won the gem! It's going into its petal!"
+  },
+  {
+   "t": 2.872,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 3.062,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 6.869,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 7.044,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 7.045,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 7.684,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 7.764,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 7.983,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 8.284,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 10.092,
+   "kind": "mark",
+   "id": "state tree|gem-victory|0/5|ready"
+  },
+  {
+   "t": 10.934,
+   "kind": "mark",
+   "id": "next 1/5"
+  },
+  {
+   "t": 10.945,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 959,557,142,142"
+  },
+  {
+   "t": 10.947,
+   "kind": "speech",
+   "id": "wf_new_gem_here",
+   "dur": 3.178,
+   "text": "Look! Your new gem goes here, in its petal."
+  },
+  {
+   "t": 11.452,
+   "kind": "mark",
+   "id": "state tree|gem-victory|1/5|wait"
+  },
+  {
+   "t": 14.137,
+   "kind": "mark",
+   "id": "state tree|gem-victory|1/5|ready"
+  },
+  {
+   "t": 14.922,
+   "kind": "mark",
+   "id": "next 2/5"
+  },
+  {
+   "t": 14.924,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 960,558,139,139"
+  },
+  {
+   "t": 14.927,
+   "kind": "speech",
+   "id": "t_another_way",
+   "dur": 2.502,
+   "text": "This is another way to spell the sound..."
+  },
+  {
+   "t": 15.43,
+   "kind": "mark",
+   "id": "state tree|gem-victory|2/5|wait"
+  },
+  {
+   "t": 17.534,
+   "kind": "speech",
+   "id": "sound:ee",
+   "dur": 0.7
+  },
+  {
+   "t": 18.588,
+   "kind": "speech",
+   "id": "t_two_letters",
+   "dur": 2.861,
+   "text": "It's two letters, but it's one sound."
+  },
+  {
+   "t": 21.755,
+   "kind": "speech",
+   "id": "tg_ee_ee_like",
+   "dur": 2.906,
+   "text": "...like in bee, tree and feet."
+  },
+  {
+   "t": 24.676,
+   "kind": "mark",
+   "id": "state tree|gem-victory|2/5|ready"
+  },
+  {
+   "t": 25.354,
+   "kind": "mark",
+   "id": "next 3/5"
+  },
+  {
+   "t": 25.356,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 962,560,136,136"
+  },
+  {
+   "t": 25.357,
+   "kind": "speech",
+   "id": "t_ways_2",
+   "dur": 2.363,
+   "text": "Now you know two ways to spell..."
+  },
+  {
+   "t": 25.449,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 25.707,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 25.859,
+   "kind": "mark",
+   "id": "state tree|gem-victory|3/5|wait"
+  },
+  {
+   "t": 26.089,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 27.826,
+   "kind": "speech",
+   "id": "sound:ee",
+   "dur": 0.7
+  },
+  {
+   "t": 28.556,
+   "kind": "mark",
+   "id": "state tree|gem-victory|3/5|ready"
+  },
+  {
+   "t": 29.232,
+   "kind": "mark",
+   "id": "next 4/5"
+  },
+  {
+   "t": 29.234,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 962,560,136,136"
+  },
+  {
+   "t": 29.234,
+   "kind": "sfx",
+   "id": "gong"
+  },
+  {
+   "t": 29.237,
+   "kind": "speech",
+   "id": "petal_complete",
+   "dur": 4.361,
+   "text": "All the gems are in! The petal flies back onto the World Flower!"
+  },
+  {
+   "t": 29.739,
+   "kind": "mark",
+   "id": "state tree|gem-victory|4/5|wait"
+  },
+  {
+   "t": 30.137,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 30.46,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 30.819,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 31.289,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 31.289,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 31.29,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 31.471,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 31.471,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 32.111,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 32.193,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 32.41,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 32.711,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 33.615,
+   "kind": "mark",
+   "id": "state tree|gem-victory|4/5|ready"
+  },
+  {
+   "t": 49.638,
+   "kind": "speech",
+   "id": "nav_ready",
+   "dur": 2.151,
+   "text": "Tap the green arrow when you're ready."
+  },
+  {
+   "t": 49.72,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 50.271,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 50.417,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 50.417,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 62.285,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.599,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.9,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.223,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.51,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 70.527,
+   "kind": "mark",
+   "id": "state undefined|undefined|undefined/undefined|wait"
+  },
+  {
+   "t": 70.579,
+   "kind": "mark",
+   "id": "state undefined|null|null/null|wait"
+  },
+  {
+   "t": 72.034,
+   "kind": "mark",
+   "id": "state undefined|undefined|undefined/undefined|wait"
+  }
+ ]
+}

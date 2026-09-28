@@ -168,12 +168,17 @@ export const WORLDS: World[] = [
       L(6, 7, "sort", { units: [12], sort: { sound: "ie", spellings: ["igh", "ie"] } }),
       L(6, 9, "run", { units: [12] }),
       L(6, 10, "story", { units: [12], story: "s6" }),
-      L(6, 11, "boss", { units: [12], monster: "boss_baron" }),
+      // the Sky Magpie: the Sky Temple's guardian. Baron Muddle is fought once, in the final battle (docs/MIDGAME_ENDGAME.md R.3)
+      L(6, 11, "boss", { units: [12], monster: "boss_magpie" }),
     ],
   },
 ];
 
 export const LEVELS: Level[] = WORLDS.flatMap((w) => w.levels);
+/** The final battle's level id: the finale plays only when it is first won. null until Muddle Castle exists (MIDGAME_ENDGAME §2.2). */
+export const FINALE_LEVEL: string | null = null;
+/** The first win here plays the Baron's escape, once per save (docs/fix-requests.md, "Baron final only"). */
+export const TRICK_LEVEL = "w6-11";
 let review: Level | null = null;
 /** Sensei's Challenge: a review battle over everything learned so far (weakest spellings first). */
 export function makeReview(current: Level): Level {
@@ -231,6 +236,7 @@ export const MONSTER_INFO: Record<string, { hp: number; facing: "left" | "right"
   boss_knight: { hp: 8, facing: "left", scale: 1.5 },
   cloud_sprite: { hp: 5, facing: "left", float: true },
   thunder_drum: { hp: 5, facing: "left", float: true },
+  boss_magpie: { hp: 9, facing: "left", scale: 1.5 },
   boss_baron: { hp: 9, facing: "right", scale: 1.5 },
   gem_guardian: { hp: 5, facing: "left", scale: 1.1 },
 };

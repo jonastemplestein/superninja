@@ -11,12 +11,11 @@ const ZIP = "superninja-tweet-2026-09-26.zip";
 type Clip = { name: string; caption: string; posts: string; srt?: boolean };
 const CLIPS: Clip[] = [
   { name: "battle-streak", posts: "Long post and thread 1/10", caption: "Every sound a child reads right powers up their ninja: a glowing streak, then \"Super ninja streak!\", then a rainbow ninja master, and the monster runs away." },
-  { name: "fish-dog", posts: "Long post and thread 2/10", caption: "Before a single letter, ninjas learn which way reading goes: Sensei shows fish… dog, then it's your turn (and yes, that makes a fish-dog)." },
   { name: "film-baron", posts: "Long post and thread 3/10", srt: true, caption: "The new opening film: Baron Muddle, lip-synced to his own voice, blows the World Flower's petals all over the island." },
   { name: "gem-victory", posts: "Long post and thread 4/10", caption: "Win a gem and it dives into its petal. Collect every spelling and the petal flies home to the World Flower." },
   { name: "petal-scroll", posts: "Thread 8/10", srt: true, caption: "The petal chart is now a ninja scroll: sounds you haven't met yet hide in the mist, and the ones you have show their spellings, the words you've found, and \"different spellings… but it's the same sound!\"" },
 ];
-const THREAD_CLIPS: Record<number, string> = { 1: "battle-streak", 2: "fish-dog", 3: "film-baron", 4: "gem-victory", 8: "petal-scroll" };
+const THREAD_CLIPS: Record<number, string> = { 1: "battle-streak", 3: "film-baron", 4: "gem-victory", 8: "petal-scroll" };
 
 // Sections of tweet-draft.txt
 const draft = readFileSync(join(DIR, "tweet-draft.txt"), "utf8");
@@ -212,7 +211,7 @@ const html = `<!doctype html>
   <section>
     <h2>The post</h2>
     ${copyBlock("long", `Long post · ${xLength(long).toLocaleString("en-GB")} characters, needs X Premium`, long,
-      `<p class="attach">Attach: <strong>battle-streak, fish-dog, film-baron, gem-victory</strong>, in that order (X takes 4 videos). Swap petal-scroll in for gem-victory if you prefer the chart.</p>`)}
+      `<p class="attach">Attach: <strong>battle-streak, film-baron, gem-victory</strong>, in that order (add petal-scroll as a 4th if you like).</p>`)}
 
     <details>
       <summary><span>Thread <span class="note">10 posts, each within 280</span></span></summary>
@@ -223,7 +222,7 @@ const html = `<!doctype html>
     <details>
       <summary><span>Short post <span class="note">${xLength(short)} characters</span></span></summary>
       <div class="details-body">
-        ${copyBlock("short", `Short · ${xLength(short)} characters`, short, `<p class="attach">Attach: <strong>battle-streak</strong>, and fish-dog if you want two.</p>`)}
+        ${copyBlock("short", `Short · ${xLength(short)} characters`, short, `<p class="attach">Attach: <strong>battle-streak</strong>, and gem-victory if you want two.</p>`)}
       </div>
     </details>
   </section>

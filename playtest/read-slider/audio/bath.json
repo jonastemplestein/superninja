@@ -1,0 +1,704 @@
+{
+ "model": "gemini-3.1-pro-preview",
+ "votes": 21,
+ "calibration": {
+  "model": "gemini-3.1-pro-preview",
+  "ok": true,
+  "features": [
+   {
+    "feature": "bath",
+    "british": {
+     "uk": 47,
+     "n": 48,
+     "share": 0.9791666666666666
+    },
+    "american": {
+     "uk": 2,
+     "n": 48,
+     "share": 0.041666666666666664
+    },
+    "rightSide": 1,
+    "words": 32,
+    "ok": true,
+    "clips": [
+     {
+      "key": "british:eleven-alice/sensei-2.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/sensei-2.mp3",
+      "text": "Can you find the car? It's by the grass, next to the bath.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "grass",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       },
+       {
+        "feature": "bath",
+        "word": "bath",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/sensei-3.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/sensei-3.mp3",
+      "text": "Let's say it the slow way first, then the fast way. Brilliant, you did it!",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/sensei-4.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/sensei-4.mp3",
+      "text": "Say mat slowly. Now say it fast.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/sensei-6.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/sensei-6.mp3",
+      "text": "Water, butter, tomato, dance, can't, half past four.",
+      "p": 0.6666666666666666,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "dance",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       },
+       {
+        "feature": "bath",
+        "word": "can't",
+        "votes": [
+         "US",
+         "UK",
+         "UK"
+        ],
+        "uk": 2,
+        "n": 3,
+        "p": 0.6666666666666666
+       },
+       {
+        "feature": "bath",
+        "word": "half",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       },
+       {
+        "feature": "bath",
+        "word": "past",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/tv_same_word.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/tv_same_word.mp3",
+      "text": "Fast or slow, it's the same word. When I say it slowly, I can hear its sounds.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Fast",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/fm_starfish_q.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/fm_starfish_q.mp3",
+      "text": "Star... fish. Tap the rabbit, and say them fast.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/fm_opt_q2.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/fm_opt_q2.mp3",
+      "text": "Which class are you in? Tap your class.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "class",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/audit_middle_place.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/audit_middle_place.mp3",
+      "text": "The middle sound comes after the first sound, and before the last sound.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "after",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       },
+       {
+        "feature": "bath",
+        "word": "last",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/help_name.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/help_name.mp3",
+      "text": "Ask a grown-up to help you type your name, then tap the green tick.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Ask",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/jump_pick.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/jump_pick.mp3",
+      "text": "How far shall we jump? Ask a grown-up to help you choose.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Ask",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/world_5.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/world_5.mp3",
+      "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Castle",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/sensei-2.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/sensei-2.mp3",
+      "text": "Can you find the car? It's by the grass, next to the bath.",
+      "p": 0.3333333333333333,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "grass",
+        "votes": [
+         "US",
+         "US",
+         "UK"
+        ],
+        "uk": 1,
+        "n": 3,
+        "p": 0.3333333333333333
+       },
+       {
+        "feature": "bath",
+        "word": "bath",
+        "votes": [
+         "US",
+         "US",
+         "UK"
+        ],
+        "uk": 1,
+        "n": 3,
+        "p": 0.3333333333333333
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/sensei-3.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/sensei-3.mp3",
+      "text": "Let's say it the slow way first, then the fast way. Brilliant, you did it!",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/sensei-4.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/sensei-4.mp3",
+      "text": "Say mat slowly. Now say it fast.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/sensei-6.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/sensei-6.mp3",
+      "text": "Water, butter, tomato, dance, can't, half past four.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "dance",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "can't",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "half",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "past",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/tv_same_word.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/tv_same_word.mp3",
+      "text": "Fast or slow, it's the same word. When I say it slowly, I can hear its sounds.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Fast",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/fm_starfish_q.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/fm_starfish_q.mp3",
+      "text": "Star... fish. Tap the rabbit, and say them fast.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/fm_opt_q2.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/fm_opt_q2.mp3",
+      "text": "Which class are you in? Tap your class.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "class",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/audit_middle_place.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/audit_middle_place.mp3",
+      "text": "The middle sound comes after the first sound, and before the last sound.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "after",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "last",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/help_name.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/help_name.mp3",
+      "text": "Ask a grown-up to help you type your name, then tap the green tick.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Ask",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/jump_pick.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/jump_pick.mp3",
+      "text": "How far shall we jump? Ask a grown-up to help you choose.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Ask",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/world_5.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/world_5.mp3",
+      "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Castle",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "clips": [
+  {
+   "key": "rs_now_fast",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/rs_now_fast.mp3",
+   "text": "That was the slow way. Now tap the rabbit, and say it fast.",
+   "p": 0.9523809523809523,
+   "words": [
+    {
+     "feature": "bath",
+     "word": "fast",
+     "votes": [
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "US",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK"
+     ],
+     "uk": 20,
+     "n": 21,
+     "p": 0.9523809523809523
+    }
+   ]
+  },
+  {
+   "key": "pr_last_word",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/pr_last_word.mp3",
+   "text": "The last little word tells you what it is.",
+   "p": 0.9047619047619048,
+   "words": [
+    {
+     "feature": "bath",
+     "word": "last",
+     "votes": [
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "US",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "US",
+      "UK"
+     ],
+     "uk": 19,
+     "n": 21,
+     "p": 0.9047619047619048
+    }
+   ]
+  },
+  {
+   "key": "pr_what_cowboy",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/pr_what_cowboy.mp3",
+   "text": "A cowboy is a boy who looks after cows.",
+   "p": 0.9047619047619048,
+   "words": [
+    {
+     "feature": "bath",
+     "word": "after",
+     "votes": [
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "US",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "US",
+      "UK"
+     ],
+     "uk": 19,
+     "n": 21,
+     "p": 0.9047619047619048
+    }
+   ]
+  }
+ ]
+}

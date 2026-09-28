@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Super Ninja: the gate</title>
+<!-- the art is preloaded and sized for the phone: an SE (DPR 2) takes the 1400 px vista, the rest the 1920 px one -->
+<link rel="preload" as="image" href="art/vista-1920.webp" imagesrcset="art/vista-1400.webp 1400w, art/vista-1920.webp 1920w" imagesizes="100vw" fetchpriority="high" />
+<link rel="preload" as="image" href="art/baron-storm.webp" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Luckiest+Guy&display=block" rel="stylesheet" />
+<style>
+:root {
+  --ink: #2b1d14; --paper: #fff4dc; --red: #e2412f; --gold: #ffc53d; --gold-deep: #c98a00;
+  --good: #3fbf6a; --good-deep: #1f7a41;
+  --font-display: "Luckiest Guy", "Baloo 2", system-ui, sans-serif;
+  --font-ui: "Baloo 2", "Andika", system-ui, sans-serif;
+  --sat: env(safe-area-inset-top); --sab: env(safe-area-inset-bottom); --sal: env(safe-area-inset-left); --sar: env(safe-area-inset-right);
+  color-scheme: light;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; overflow: hidden; }
+/* the first paint is already the vista's colours (peach sky over a green meadow), never grey */
+body { background: linear-gradient(180deg, #f6d2b0 0%, #f7dcb8 48%, #b9cf8a 62%, #8fb65a 100%); font-family: var(--font-ui); color: var(--ink);
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+/* ---------- the world: the whole screen in stage px (full bleed); the 1280x720 stage sits in it like the game's */
+#world { position: fixed; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; contain: layout paint; }
+.vista { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 78%; }
+.storm-wrap { position: absolute; right: -30px; top: -26px; width: 620px; animation: storm-bob 7s ease-in-out infinite; }
+.storm { display: block; width: 100%; }
+.storm-flash { position: absolute; left: 40%; top: 5%; width: 62%; height: 70%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(236, 214, 255, 0.95), rgba(190, 140, 255, 0.55) 45%, rgba(160, 110, 255, 0) 100%);
+  opacity: 0; animation: flash 5.6s linear infinite; mix-blend-mode: screen; pointer-events: none; }
+@keyframes storm-bob { 0%, 100% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(-14px, 8px) rotate(-1deg); } }
+@keyframes flash { 0%, 58%, 61%, 64%, 67%, 100% { opacity: 0; } 59.5%, 65.5% { opacity: 1; } 62.5% { opacity: 0.35; } }
+
+#stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; }
+.abs { position: absolute; }
+
+/* ---------- the gate's light */
+.ground-glow { left: 330px; top: 640px; width: 620px; height: 110px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 244, 196, 0.95), rgba(255, 222, 130, 0.55) 55%, rgba(255, 210, 110, 0) 100%); }
+.rays { left: 40px; top: -120px; width: 1200px; height: 1200px; border-radius: 50%; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 248, 214, 0.9) 0deg 6deg, rgba(255, 248, 214, 0) 6deg 18deg);
+  -webkit-mask: radial-gradient(closest-side, #000 10%, rgba(0,0,0,0.55) 40%, transparent 78%);
+          mask: radial-gradient(closest-side, #000 10%, rgba(0,0,0,0.55) 40%, transparent 78%);
+  opacity: 0.6; animation: spin 80s linear infinite; }
+.portal { left: 290px; top: 130px; width: 700px; height: 700px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 253, 236, 1) 0%, rgba(255, 244, 196, 0.95) 22%, rgba(255, 220, 130, 0.6) 44%, rgba(255, 200, 110, 0) 72%);
+  animation: breathe 4.2s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { opacity: 0.82; transform: scale(0.97); } 50% { opacity: 1; transform: scale(1.03); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.gate { left: 0; top: 0; width: 1280px; height: 720px; pointer-events: none; overflow: visible; }
+
+/* ---------- petals: single, saturated sound colours with an ink line (like the painting's), never opal bubbles */
+.petal { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 0 50% 50% 50%;
+  background: radial-gradient(circle at 64% 64%, rgba(255,255,255,0.95) 0 9%, var(--c) 34%, var(--d) 100%);
+  border: 4px solid var(--ink); }
+.ring { left: 410px; top: 250px; width: 460px; height: 460px; pointer-events: none; animation: spin 30s linear infinite; }
+.ring .rp { position: absolute; left: 230px; top: 230px; }
+.ring .rp .petal { width: 46px; height: 46px; margin: -23px 0 0 -23px; border-width: 4px; transform: rotate(var(--a)) translateY(-178px) scale(1, 1.32) rotate(225deg);
+  background: radial-gradient(circle at 70% 70%, rgba(255,255,255,0.9) 0 8%, var(--c) 30%, var(--c) 55%, var(--d) 100%); }
+.ring-sparks { left: 410px; top: 250px; width: 460px; height: 460px; pointer-events: none; animation: spin 44s linear infinite reverse; }
+/* the portal: the gate's opening glows */
+.veil { left: 462px; top: 300px; width: 356px; height: 340px; pointer-events: none;
+  background: radial-gradient(ellipse 62% 58% at 50% 54%, rgba(255, 253, 236, 0.95) 0%, rgba(255, 240, 180, 0.7) 45%, rgba(255, 226, 140, 0.25) 80%, rgba(255, 226, 140, 0.12) 100%);
+  animation: breathe 4.2s ease-in-out -2s infinite; }
+.motes { left: 470px; top: 300px; width: 340px; height: 400px; pointer-events: none; overflow: hidden; }
+.mote { position: absolute; bottom: -20px; width: 16px; height: 16px; border-radius: 50%; background: radial-gradient(closest-side, #fff, rgba(255, 236, 160, 0.9) 45%, rgba(255, 220, 120, 0)); animation: rise 4.2s linear infinite; opacity: 0; }
+@keyframes rise { 0% { transform: translateY(0) scale(0.6); opacity: 0; } 15% { opacity: 1; } 80% { opacity: 0.8; } 100% { transform: translateY(-380px) scale(1.2); opacity: 0; } }
+.drift { left: 0; top: 0; pointer-events: none; }
+.drift .dp { position: absolute; left: 0; top: 0; opacity: 0; animation: flee 8.4s cubic-bezier(.45, .05, .6, 1) infinite; }
+.drift .dp .petal { transform: rotate(var(--r, 40deg)) scale(1, 1.25); }
+/* petals escape Baron's storm and swirl down into the gate */
+@keyframes flee {
+  0% { transform: translate(1170px, 170px) rotate(0) scale(0.8); opacity: 0; }
+  7% { opacity: 1; }
+  30% { transform: translate(1040px, 40px) rotate(140deg) scale(1.05); }
+  52% { transform: translate(880px, 120px) rotate(300deg) scale(1); }
+  70% { transform: translate(930px, 300px) rotate(420deg) scale(0.9); }
+  86% { transform: translate(770px, 390px) rotate(520deg) scale(0.7); opacity: 1; }
+  100% { transform: translate(640px, 480px) rotate(620deg) scale(0.15); opacity: 0; }
+}
+
+/* ---------- sparkles */
+.spark { position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; pointer-events: none;
+  background: radial-gradient(circle, #fff 0 18%, #fff3b8 34%, rgba(255, 214, 102, 0) 70%);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  animation: twinkle 2.8s ease-in-out infinite; opacity: 0; }
+@keyframes twinkle { 0%, 100% { transform: scale(0.2) rotate(0); opacity: 0; } 45% { transform: scale(1.1) rotate(45deg); opacity: 1; } 70% { transform: scale(0.6) rotate(70deg); opacity: 0.6; } }
+
+/* ---------- the logo: the game's lockup, hung on the gate like its name board */
+.logo-wrap { left: 0; top: 30px; width: 1280px; text-align: center; pointer-events: none; animation: logo-in 0.7s cubic-bezier(.3, 1.5, .5, 1) 0.05s both; }
+.logo { display: inline-block; font-family: var(--font-display); font-size: 124px; line-height: 0.86; letter-spacing: 4px; color: var(--paper);
+  -webkit-text-stroke: 9px var(--ink); paint-order: stroke fill; text-shadow: 0 10px 0 var(--ink), 0 20px 30px rgba(70, 30, 0, 0.35); transform: rotate(-4deg);
+  filter: drop-shadow(0 0 3px #fff6dc) drop-shadow(0 0 12px rgba(255, 244, 200, 0.95)); }
+.logo .l1 { color: var(--gold); display: block; }
+.logo .l2 { color: var(--red); font-size: 158px; display: block; }
+@keyframes logo-in { from { transform: translateY(-60px) scale(0.85); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---------- Play: the heart of the gate (the World Flower's heart: a green jewel in a gold, beaded rim, ringed by petals) */
+.play-wrap { left: 505px; top: 345px; width: 270px; height: 270px; animation: play-in 0.6s cubic-bezier(.3, 1.6, .5, 1) 0.35s both; }
+.play-bob { position: absolute; inset: 0; }
+.play { position: absolute; inset: 0; border-radius: 50%; touch-action: none; animation: pulse 1.8s ease-in-out 1s infinite; }
+.play .halo { position: absolute; inset: -34px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 250, 220, 0.95) 55%, rgba(255, 226, 140, 0.6) 75%, rgba(255, 214, 102, 0) 100%);
+  opacity: 0.7; transition: opacity 0.15s; }
+.play .ripple { position: absolute; inset: 0; border-radius: 50%; border: 10px solid rgba(255, 246, 200, 0.95); pointer-events: none;
+  animation: ripple 2.4s cubic-bezier(.2, .6, .4, 1) infinite; }
+.play .ripple.r2 { animation-delay: 1.2s; }
+.play .knob { position: absolute; inset: 0; border-radius: 50%; transition: transform 0.08s; }
+.play .rim { position: absolute; inset: 0; border-radius: 50%; border: 7px solid var(--ink);
+  background:
+    radial-gradient(circle, transparent 0 61%, rgba(0,0,0,0) 61%),
+    repeating-conic-gradient(from 0deg, #fff6c0 0deg 5deg, #e0a21a 5deg 15deg),
+    #ffc53d;
+  box-shadow: 0 12px 0 var(--ink), 0 22px 30px rgba(60, 30, 0, 0.35), inset 0 0 0 5px #ffe07a;
+  transition: box-shadow 0.08s; }
+.play .disc { position: absolute; inset: 22px; border-radius: 50%; overflow: hidden; border: 6px solid var(--ink);
+  background: radial-gradient(circle at 36% 28%, #effff3 0%, #8ff0ac 16%, #45c874 44%, #22914c 78%, #176a37 100%);
+  box-shadow: inset 0 -12px 0 rgba(0, 60, 20, 0.28), inset 0 8px 0 rgba(255,255,255,0.35); }
+.play .glint { position: absolute; left: -60%; top: -20%; width: 46%; height: 140%; pointer-events: none;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+  transform: translateX(-120%) rotate(20deg); animation: glint 3.6s ease-in-out 1.4s infinite; }
+.play .tri { position: absolute; left: 50%; top: 50%; width: 118px; height: 118px; margin: -59px 0 0 -48px; overflow: visible;
+  filter: drop-shadow(0 7px 0 var(--ink)); }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes ripple { 0% { transform: scale(0.95); opacity: 0.9; } 100% { transform: scale(1.55); opacity: 0; } }
+@keyframes glint { 0%, 55% { transform: translateX(-60%) rotate(20deg); } 85%, 100% { transform: translateX(420%) rotate(20deg); } }
+@keyframes play-in { from { transform: scale(0.3); opacity: 0; } to { transform: none; opacity: 1; } }
+/* hover (a mouse or a trackpad) and press (touch or mouse) */
+@media (hover: hover) { .play:hover .knob { transform: translateY(-5px) scale(1.04); } .play:hover .rim { box-shadow: 0 17px 0 var(--ink), 0 30px 38px rgba(60, 30, 0, 0.35), inset 0 0 0 5px #fff1a8; } }
+.force-hover .play .knob { transform: translateY(-5px) scale(1.04); }
+.force-hover .play .rim { box-shadow: 0 17px 0 var(--ink), 0 30px 38px rgba(60, 30, 0, 0.35), inset 0 0 0 5px #fff1a8; }
+.play:hover .halo, .force-hover .play .halo { opacity: 1; }
+.play.pressing, .force-press .play { animation: none; }
+.play.pressing .knob, .force-press .play .knob { transform: translateY(9px) scale(0.95, 0.93); }
+.play.pressing .rim, .force-press .play .rim { box-shadow: 0 3px 0 var(--ink), 0 8px 14px rgba(60, 30, 0, 0.3), inset 0 0 0 5px #fff1a8; }
+.play.pressing .halo, .force-press .play .halo { opacity: 1; }
+.play.pressing .disc, .force-press .play .disc { background: radial-gradient(circle at 36% 28%, #ffffff 0%, #b4ffc8 16%, #5bdc88 44%, #2aa458 78%, #1b7a40 100%); }
+/* idle nudge: a double hop */
+.play-bob.nudge { animation: hop 0.9s cubic-bezier(.3, .0, .4, 1) 2; }
+@keyframes hop { 0%, 100% { transform: translateY(0); } 25% { transform: translateY(-34px) scale(1.04, 0.97); } 50% { transform: translateY(0) scale(1.06, 0.94); } 70% { transform: translateY(-14px); } }
+
+/* ---------- the cast */
+.hero { position: absolute; bottom: 0; pointer-events: auto; cursor: pointer; }
+.hero img { display: block; width: 100%; filter: drop-shadow(0 8px 0 rgba(43, 29, 20, 0.25)); }
+.hero .bob { animation: bob 2.6s ease-in-out infinite; }
+.hero.suki .bob { animation: leap-bob 3.1s ease-in-out -0.8s infinite; }
+.hero .shadow { position: absolute; left: 16%; right: 16%; bottom: -8px; height: 26px; border-radius: 50%; background: radial-gradient(closest-side, rgba(40, 60, 10, 0.35), rgba(40, 60, 10, 0)); }
+.hero.suki .shadow { animation: shadow-breathe 3.1s ease-in-out -0.8s infinite; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes leap-bob { 0%, 100% { transform: translateY(-40px) rotate(-3deg); } 50% { transform: translateY(-64px) rotate(2deg); } }
+@keyframes shadow-breathe { 0%, 100% { transform: scale(0.8); opacity: 0.8; } 50% { transform: scale(0.65); opacity: 0.55; } }
+.hero.poked .bob { animation: poke 0.6s cubic-bezier(.3, 0, .4, 1); }
+@keyframes poke { 0% { transform: translateY(0); } 35% { transform: translateY(-90px) rotate(-8deg); } 60% { transform: translateY(-90px) rotate(8deg); } 100% { transform: translateY(0); } }
+.kai { left: 186px; width: 258px; }
+.suki { left: 6px; width: 236px; }
+.me { z-index: 2; }
+.sensei { right: 58px; bottom: 0; width: 292px; cursor: pointer; }
+.sensei .wave { transform-origin: 50% 100%; animation: wave 1.9s ease-in-out infinite; }
+.sensei img { display: block; width: 100%; transform: scaleX(-1); }
+.sensei .talk { position: absolute; left: 0; top: -38px; opacity: 0; }
+.sensei.talking .talk { opacity: 1; }
+.sensei.talking .cheer { opacity: 0; }
+@keyframes wave { 0%, 100% { transform: rotate(-2.5deg); } 50% { transform: rotate(3deg) translateY(-6px); } }
+.help-q { position: absolute; left: -6px; top: -30px; width: 66px; height: 66px; border-radius: 50%; border: 5px solid var(--ink); background: #fffdf3;
+  font: 800 44px/56px var(--font-ui); text-align: center; color: var(--ink); box-shadow: 0 5px 0 var(--ink); }
+.help-q::after { content: ""; position: absolute; right: -8px; bottom: -8px; width: 20px; height: 20px; background: #fffdf3; border-right: 5px solid var(--ink); border-bottom: 5px solid var(--ink); border-radius: 0 0 6px 0; transform: rotate(10deg); }
+.bubble { position: absolute; right: 26px; bottom: 318px; max-width: 460px; padding: 14px 24px; border: 5px solid var(--ink); border-radius: 28px; background: #fffdf3;
+  font: 800 38px/1.15 var(--font-ui); color: var(--ink); box-shadow: 0 7px 0 var(--ink); opacity: 0; transform: scale(0.6) translateY(20px); transform-origin: 90% 100%;
+  transition: opacity 0.2s, transform 0.3s cubic-bezier(.3, 1.6, .5, 1); pointer-events: none; white-space: nowrap; }
+.bubble::after { content: ""; position: absolute; right: 150px; bottom: -26px; width: 34px; height: 34px; background: #fffdf3; border-right: 5px solid var(--ink); border-bottom: 5px solid var(--ink); transform: skewX(30deg) rotate(45deg); }
+.bubble.on { opacity: 1; transform: none; }
+.bubble b { color: #d9477a; }
+
+/* ---------- grown-ups: who's playing (top-left) and the settings gear (hold), small and quiet */
+.gu { left: 22px; top: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.chip { display: flex; align-items: center; gap: 12px; height: 84px; padding: 0 26px 0 6px; border-radius: 999px; border: 5px solid var(--ink);
+  background: rgba(255, 253, 243, 0.94); box-shadow: 0 6px 0 var(--ink); }
+.chip:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--ink); }
+.face { position: relative; width: 66px; height: 66px; border-radius: 50%; border: 4px solid var(--ink); background: var(--pc, #ffc53d) center/cover; flex: none;
+  box-shadow: 0 0 0 4px var(--pc, #ffc53d); display: grid; place-items: center; font: 400 38px/1 var(--font-display); color: #fff; -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; }
+.stack { display: flex; align-items: center; }
+.stack .face { width: 50px; height: 50px; margin-left: -16px; box-shadow: 0 0 0 3px var(--pc); font-size: 26px; -webkit-text-stroke: 4px var(--ink); }
+.stack .face:first-child { width: 66px; height: 66px; margin-left: 0; z-index: 3; font-size: 38px; }
+.chip .nm { font: 800 40px/1 var(--font-ui); color: var(--ink); white-space: nowrap; padding-top: 6px; }
+.chip .more { font: 800 26px/1 var(--font-ui); color: #7a6450; padding-top: 4px; }
+.gear { position: relative; width: 76px; height: 76px; border-radius: 50%; border: 5px solid var(--ink); background: radial-gradient(circle at 38% 30%, #fffdf3, #eadbb8);
+  box-shadow: 0 5px 0 var(--ink); display: grid; place-items: center; }
+.gear svg.cog { width: 44px; height: 44px; }
+.gear svg.prog { position: absolute; inset: -9px; width: calc(100% + 18px); height: calc(100% + 18px); transform: rotate(-90deg); pointer-events: none; }
+.gear svg.prog circle { fill: none; stroke: var(--good); stroke-width: 8; stroke-dasharray: 289; stroke-dashoffset: 289; stroke-linecap: round; }
+.gear.holding svg.prog circle { transition: stroke-dashoffset 2s linear; stroke-dashoffset: 0; }
+.hold-hint { position: absolute; left: 0; top: calc(100% + 12px); white-space: nowrap; font: 700 28px/1 var(--font-ui); color: var(--ink); background: #fffdf6; border: 4px solid var(--ink);
+  border-radius: 18px; padding: 10px 16px; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+.hold-hint.on { opacity: 1; }
+
+/* ---------- the players' shelf (opens from the chip) */
+.shelf { left: -1200px; top: -800px; width: 3680px; height: 2320px; display: none; background: rgba(40, 22, 10, 0.4); z-index: 30; }
+.shelf.open { display: block; }
+.shelf .panel { position: absolute; left: 1222px; top: 818px; max-width: 1236px; padding: 18px 22px 20px; border-radius: 34px; border: 6px solid var(--ink); background: #fffaf0;
+  box-shadow: 0 9px 0 var(--ink); animation: drop 0.35s cubic-bezier(.3, 1.4, .5, 1) both; }
+@keyframes drop { from { transform: translateY(-40px) scale(0.9); opacity: 0; } to { transform: none; opacity: 1; } }
+.shelf .row { display: flex; gap: 12px; overflow-x: auto; padding: 8px 6px 6px; scrollbar-width: none; }
+.card { flex: none; width: 138px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.card .face { width: 116px; height: 116px; font-size: 70px; -webkit-text-stroke: 7px var(--ink); box-shadow: 0 0 0 6px var(--pc), 0 8px 0 6px var(--ink); }
+.card.cur .face { box-shadow: 0 0 0 6px var(--pc), 0 0 0 12px var(--gold), 0 8px 0 12px var(--ink); }
+.card .nm { font: 800 30px/1 var(--font-ui); max-width: 138px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card.hopping .face { animation: poke 0.5s cubic-bezier(.3, 0, .4, 1); }
+.card.add .face { width: 96px; height: 96px; margin: 14px 0; background: #fffdf3; border-style: dashed; box-shadow: none; color: var(--ink); -webkit-text-stroke: 0; font: 800 64px/1 var(--font-ui); }
+.card.add .nm { color: #7a6450; font-size: 26px; }
+
+/* ---------- Start: the gate opens (bright, never a cut to dark) */
+.iris { left: 540px; top: 380px; width: 200px; height: 200px; border-radius: 50%; pointer-events: none; opacity: 0; z-index: 40;
+  background: radial-gradient(closest-side, #fffef6 0%, #fff6d0 55%, rgba(255, 238, 170, 0.9) 80%, rgba(255, 230, 150, 0) 100%); }
+.going .iris { animation: iris 0.7s cubic-bezier(.55, 0, .75, .4) 0.7s forwards; }
+.going .veil, .going .portal { animation: flare 0.5s ease-out forwards; }
+@keyframes flare { to { transform: scale(1.25); opacity: 1; } }
+@keyframes iris { 0% { transform: scale(0.3); opacity: 0; } 20% { opacity: 1; } 100% { transform: scale(16); opacity: 1; } }
+.going .play { animation: play-go 0.5s cubic-bezier(.3, 0, .5, 1) forwards; }
+@keyframes play-go { 0% { transform: scale(0.92); } 35% { transform: scale(1.18); } 100% { transform: scale(1.5); opacity: 0; } }
+.going .ring { animation: ring-go 0.8s cubic-bezier(.4, 0, .6, 1) forwards; }
+@keyframes ring-go { to { transform: rotate(300deg) scale(2.6); opacity: 0; } }
+/* the ninjas crouch, leap in an arc and dive into the light of the gate */
+.going .hero.kai .bob, .going .hero.suki .bob { animation: into-gate 0.8s linear forwards; }
+.going .hero.suki .bob { animation-delay: 0.1s; }
+.going .hero .shadow { animation: none; opacity: 0; transition: opacity 0.2s; }
+@keyframes into-gate {
+  0% { transform: translate(0, 0); animation-timing-function: ease-out; }
+  18% { transform: translate(-8px, 26px) scale(1.04, 0.88); animation-timing-function: cubic-bezier(.2, .7, .4, 1); }
+  48% { transform: translate(calc(var(--gx) * 0.6), -230px) scale(0.85) rotate(-8deg); opacity: 1; animation-timing-function: cubic-bezier(.5, 0, .8, .6); }
+  88% { transform: translate(var(--gx), -70px) scale(0.3) rotate(20deg); opacity: 1; }
+  100% { transform: translate(var(--gx), -70px) scale(0.1) rotate(30deg); opacity: 0; }
+}
+.hero.kai { --gx: 325px; } .hero.suki { --gx: 516px; }
+.going .sensei .wave { animation: poke 0.6s cubic-bezier(.3, 0, .4, 1); }
+.going .storm-wrap { animation: storm-flee 1s cubic-bezier(.5, 0, .8, .5) forwards; }
+@keyframes storm-flee { to { transform: translate(160px, -140px) scale(0.85); opacity: 0.3; } }
+.burst { left: 640px; top: 480px; pointer-events: none; z-index: 35; }
+.burst .bp { position: absolute; left: 0; top: 0; animation: burst 0.9s cubic-bezier(.1, .7, .3, 1) forwards; }
+@keyframes burst { from { transform: translate(0, 0) rotate(0) scale(0.4); opacity: 1; } to { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1.1); opacity: 0; } }
+
+.next { position: fixed; inset: 0; display: none; place-items: center; background: #fffbef; z-index: 50; text-align: center; font-family: var(--font-ui); }
+.next.on { display: grid; animation: fadein 0.3s both; }
+.next h2 { font: 400 64px/1 var(--font-display); color: var(--red); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; margin: 0 0 12px; }
+.next p { font: 700 22px/1.35 var(--font-ui); margin: 0 0 18px; }
+.next button { font: 800 20px/1 var(--font-ui); padding: 12px 22px; border: 3px solid var(--ink); border-radius: 999px; background: var(--gold); box-shadow: 0 4px 0 var(--ink); }
+@keyframes fadein { from { opacity: 0; } }
+
+/* ---------- mockup-only state switcher (hidden in screenshots with ?shot=1) */
+.mock { position: fixed; left: 50%; bottom: 4px; transform: translateX(-50%); z-index: 60; display: flex; gap: 4px; padding: 3px; border-radius: 12px; background: rgba(43, 29, 20, 0.55); font: 700 11px/1 system-ui, sans-serif; }
+.mock a { color: #fff; text-decoration: none; padding: 5px 7px; border-radius: 8px; }
+.mock a.on { background: rgba(255, 255, 255, 0.25); }
+.shot .mock { display: none; }
+.turn { position: fixed; inset: 0; display: none; place-items: end center; padding-bottom: 12vh; z-index: 70;
+  background: #f7e6cf url(../../../public/media/landing/hero-portrait.webp) center 30% / cover no-repeat; }
+.turn .phone { position: relative; width: 70px; height: 118px; border: 6px solid var(--ink); border-radius: 16px; padding: 9px 5px 14px; background: #fffdf3; box-shadow: 0 5px 0 var(--ink); animation: turn 2.4s ease-in-out infinite; }
+.turn .phone i { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 6px; border: 3px solid var(--ink); background: radial-gradient(circle at 40% 30%, #8ff0ac, #2fae5f); }
+.turn .phone i::after { content: ""; width: 0; height: 0; margin-left: 5px; border-left: 18px solid #fffbea; border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+@keyframes turn { 0%, 25% { transform: rotate(0); } 55%, 100% { transform: rotate(-90deg); } }
+@media (orientation: portrait) { #world { display: none; } .turn { display: grid; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01s !important; animation-iteration-count: 1 !important; } }
+</style>
+</head>
+<body>
+<div id="world">
+  <img class="vista" src="art/vista-1920.webp" srcset="art/vista-1400.webp 1400w, art/vista-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async" />
+  <div class="storm-wrap poke-baron" id="storm"><img class="storm" src="art/baron-storm.webp" alt="" /><div class="storm-flash"></div></div>
+
+  <div id="stage" class="scene title">
+    <div class="abs ground-glow"></div>
+    <div class="abs rays"></div>
+    <div class="abs portal"></div>
+    <div class="abs veil"></div>
+    <div class="abs motes">
+      <i class="mote" style="left:30px;animation-delay:-.3s"></i><i class="mote" style="left:92px;animation-delay:-2.1s;width:12px;height:12px"></i>
+      <i class="mote" style="left:150px;animation-delay:-3.4s"></i><i class="mote" style="left:214px;animation-delay:-1.2s;width:12px;height:12px"></i>
+      <i class="mote" style="left:268px;animation-delay:-2.8s"></i><i class="mote" style="left:310px;animation-delay:-.9s;width:10px;height:10px"></i>
+    </div>
+
+    <!-- the gate: drawn in the game's inked style (vermilion lacquer, a black kasagi, gold caps, a rope with paper streamers) -->
+    <svg class="abs gate" viewBox="0 0 1280 720" aria-hidden="true">
+      <defs>
+        <linearGradient id="gp" x1="0" x2="1"><stop offset="0" stop-color="#ffb36e"/><stop offset=".2" stop-color="#f57a35"/><stop offset=".72" stop-color="#e65f2a"/><stop offset="1" stop-color="#b0421b"/></linearGradient>
+        <linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffa864"/><stop offset=".35" stop-color="#f3702f"/><stop offset="1" stop-color="#bd4a1d"/></linearGradient>
+        <linearGradient id="gk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a5236"/><stop offset=".35" stop-color="#3f2819"/><stop offset="1" stop-color="#20140c"/></linearGradient>
+        <linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".5" stop-color="#ffc53d"/><stop offset="1" stop-color="#c98a00"/></linearGradient>
+      </defs>
+      <ellipse cx="424" cy="700" rx="92" ry="16" fill="#3d4a12" opacity=".28"/>
+      <ellipse cx="856" cy="700" rx="92" ry="16" fill="#3d4a12" opacity=".28"/>
+      <g stroke="#2b1d14" stroke-width="7" stroke-linejoin="round">
+        <!-- pillars (slightly splayed) -->
+        <path d="M404 140 L460 140 L459 640 L389 640 Z" fill="url(#gp)"/>
+        <path d="M820 140 L876 140 L891 640 L821 640 Z" fill="url(#gp)"/>
+        <!-- black base sleeves with gold bands -->
+        <path d="M380 624 L468 624 L472 698 L376 698 Z" fill="url(#gk)"/>
+        <path d="M812 624 L900 624 L904 698 L808 698 Z" fill="url(#gk)"/>
+        <path d="M380 624 L468 624 L469 640 L379 640 Z" fill="url(#gg)" stroke-width="5"/>
+        <path d="M812 624 L900 624 L901 640 L811 640 Z" fill="url(#gg)" stroke-width="5"/>
+        <!-- the tie beam (nuki) and the central strut -->
+        <rect x="614" y="148" width="52" height="116" fill="url(#gb)"/>
+        <path d="M318 262 L962 262 L956 302 L324 302 Z" fill="url(#gb)"/>
+        <!-- the lower lintel (shimaki) and the black top lintel (kasagi) with upswept tips -->
+        <path d="M310 114 Q640 126 970 114 L962 152 Q640 162 318 152 Z" fill="url(#gb)"/>
+        <path d="M262 48 Q320 84 430 88 Q640 96 850 88 Q960 84 1018 48 L1026 74 Q962 118 850 120 Q640 128 430 120 Q318 118 254 74 Z" fill="url(#gk)"/>
+        <!-- gold tip caps -->
+        <path d="M262 48 L282 60 L274 86 L254 74 Z" fill="url(#gg)" stroke-width="5"/>
+        <path d="M1018 48 L998 60 L1006 86 L1026 74 Z" fill="url(#gg)" stroke-width="5"/>
+        <!-- wedges where the nuki meets the pillars -->
+        <path d="M466 266 L482 266 L482 298 L466 298 Z" fill="url(#gk)" stroke-width="4"/>
+        <path d="M798 266 L814 266 L814 298 L798 298 Z" fill="url(#gk)" stroke-width="4"/>
+      </g>
+      <!-- lacquer highlights (no ink) -->
+      <g fill="none" stroke-linecap="round">
+        <path d="M414 152 L409 612" stroke="#ffc49a" stroke-width="7" opacity=".85"/>
+        <path d="M830 152 L834 612" stroke="#ffc49a" stroke-width="7" opacity=".85"/>
+        <path d="M336 272 L944 272" stroke="#ffc49a" stroke-width="5" opacity=".8"/>
+        <path d="M332 124 Q640 135 948 124" stroke="#ffc49a" stroke-width="5" opacity=".8"/>
+        <path d="M284 64 Q340 92 440 96 Q640 103 840 96 Q940 92 996 64" stroke="#a37a58" stroke-width="4" opacity=".9"/>
+        <!-- the portal's light catching the pillars' inner edges -->
+        <path d="M455 300 L454 620" stroke="#ffe7a8" stroke-width="7" opacity=".95"/>
+        <path d="M825 300 L828 620" stroke="#ffe7a8" stroke-width="7" opacity=".95"/>
+        <!-- wood grain -->
+        <path d="M437 160 L433 300 M441 330 L437 600 M424 420 L421 560" stroke="#a9321a" stroke-width="2.5" opacity=".45"/>
+        <path d="M852 160 L855 300 M846 330 L850 600 M862 420 L866 560" stroke="#a9321a" stroke-width="2.5" opacity=".45"/>
+      </g>
+      <!-- the rope (shimenawa) and two paper streamers, framing Play from above -->
+      <path d="M460 314 Q640 346 820 314" fill="none" stroke="#2b1d14" stroke-width="34" stroke-linecap="round"/>
+      <path d="M460 314 Q640 346 820 314" fill="none" stroke="#f1d592" stroke-width="24" stroke-linecap="round"/>
+      <path d="M460 314 Q640 346 820 314" fill="none" stroke="#b98b3e" stroke-width="22" stroke-dasharray="5 12" />
+      <path d="M462 309 Q640 339 818 309" fill="none" stroke="#fff4c8" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+    </svg>
+
+    <div class="abs ring-sparks">
+      <i class="spark" style="left:30px;top:120px;animation-delay:-.4s"></i>
+      <i class="spark" style="left:372px;top:90px;animation-delay:-1.3s"></i>
+      <i class="spark" style="left:360px;top:330px;animation-delay:-2.1s"></i>
+      <i class="spark" style="left:60px;top:350px;animation-delay:-.9s"></i>
+    </div>
+    <div class="abs ring" id="ring"></div>
+    <div class="abs drift" id="drift"></div>
+
+    <div class="abs logo-wrap"><div class="logo"><span class="l1">Super</span><span class="l2">Ninja</span></div></div>
+    <i class="spark" style="left:900px;top:70px;animation-delay:-.2s"></i>
+    <i class="spark" style="left:392px;top:212px;animation-delay:-1.6s"></i>
+    <i class="spark" style="left:872px;top:250px;animation-delay:-2.4s;width:26px;height:26px"></i>
+
+    <div class="abs play-wrap"><div class="play-bob" id="playBob">
+      <button class="play" id="play" aria-label="Start">
+        <span class="halo"></span><span class="ripple"></span><span class="ripple r2"></span>
+        <span class="knob"><span class="rim"></span>
+        <span class="disc"><span class="glint"></span></span>
+        <svg class="tri" viewBox="0 0 100 100" aria-hidden="true"><path d="M26 14 L86 50 L26 86 Z" fill="#fffbea" stroke="#2b1d14" stroke-width="9" stroke-linejoin="round"/></svg></span>
+      </button>
+    </div></div>
+
+    <!-- the cast: Suki leaps, Kai cheers (both pokeable), Sensei waves and is the Help -->
+    <div class="hero suki poke" data-who="suki"><div class="shadow"></div><div class="bob"><img src="../../../public/a/i/hero_suki_jump.webp" alt="" /></div></div>
+    <div class="hero kai poke" data-who="kai"><div class="shadow"></div><div class="bob"><img src="../../../public/a/i/hero_kai_cheer.webp" alt="" /></div></div>
+    <button class="hero sensei" id="sensei" aria-label="Help"><div class="wave"><img class="cheer" src="../../../public/a/i/sensei_cheer.webp" alt="" /><img class="talk" src="../../../public/a/i/sensei_talk.webp" alt="" /><span class="help-q">?</span></div></button>
+    <div class="bubble" id="bubble"></div>
+
+    <div class="abs gu" id="gu"></div>
+    <div class="abs shelf" id="shelf"><div class="panel"><div class="row" id="row"></div></div></div>
+    <div class="abs burst" id="burst"></div>
+    <div class="abs iris"></div>
+  </div>
+</div>
+
+<div class="turn" aria-label="Turn your phone sideways"><div class="phone"><i></i></div></div>
+<div class="next" id="next"><div><h2 id="nextH"></h2><p id="nextP"></p><button id="back">Back to the title</button></div></div>
+<audio id="music" src="../../../public/a/m/title.mp3" preload="none" loop></audio>
+<nav class="mock" id="mock">
+  <a href="?state=first">first launch</a><a href="?state=returning">returning</a><a href="?state=several">several players</a>
+</nav>
+
+<script>
+(() => {
+  const q = new URLSearchParams(location.search);
+  const state = q.get("state") || "first";
+  const $ = (id) => document.getElementById(id);
+  const world = $("world"), stage = $("stage");
+  if (q.get("shot")) document.body.classList.add("shot");
+  if (q.get("force") === "hover") world.classList.add("force-hover");
+  if (q.get("force") === "press") world.classList.add("force-press");
+  document.querySelectorAll(".mock a").forEach((a) => a.classList.toggle("on", a.getAttribute("href").endsWith(state)));
+  const PUB = "../../../public/a/";
+
+  // ---------- fit: the game's Stage rule (touch keeps 10 px top, 26 px bottom, 8 px sides), but the art bleeds edge to edge
+  function fit() {
+    const cs = getComputedStyle(document.documentElement);
+    const inset = (v) => parseFloat(cs.getPropertyValue(v)) || 0;
+    const touch = matchMedia("(pointer: coarse)").matches;
+    const top = Math.max(inset("--sat"), touch ? 10 : 0), bottom = Math.max(inset("--sab"), touch ? 26 : 0);
+    const left = Math.max(inset("--sal"), touch ? 8 : 0), right = Math.max(inset("--sar"), touch ? 8 : 0);
+    const W = innerWidth, H = innerHeight, aw = W - left - right, ah = H - top - bottom;
+    const s = Math.min(aw / 1280, ah / 720);
+    world.style.width = W / s + "px";
+    world.style.height = H / s + "px";
+    world.style.transform = `scale(${s})`;
+    stage.style.transform = `translate(${(left + aw / 2) / s - 640}px, ${(top + ah / 2) / s - 360}px)`;
+    window.__fit = { s, W, H };
+  }
+  fit();
+  addEventListener("resize", fit);
+
+  // ---------- petals
+  const COLS = [["#e8412f", "#9e1f14"], ["#f47b2a", "#b0460c"], ["#ffb01f", "#b77400"], ["#ffe03a", "#c49a00"], ["#8fd14f", "#4d8a1c"], ["#2fb862", "#12723a"],
+    ["#26b8a8", "#0d766b"], ["#3fb2ee", "#1a6fa8"], ["#3d62dd", "#1d3597"], ["#8e5cd9", "#55309a"], ["#ef6fb0", "#a82f6c"], ["#ff8a7a", "#c24a3c"]];
+  const petal = (i) => `<i class="petal" style="--c:${COLS[i % 12][0]};--d:${COLS[i % 12][1]}"></i>`;
+  $("ring").innerHTML = COLS.map((_, i) => `<div class="rp" style="--a:${i * 30}deg">${petal(i).replace('style="', `style="--a:${i * 30}deg;`)}</div>`).join("");
+  $("drift").innerHTML = [0, 1, 2, 3, 4, 5, 6].map((i) => `<div class="dp" style="animation-delay:${(-i * 1.2).toFixed(1)}s;--r:${30 + i * 50}deg">${petal(i * 5 + 2)}</div>`).join("");
+
+  // ---------- players
+  const P = {
+    maya: { name: "Maya", hero: "suki", pc: "#ff7aa2" }, leo: { name: "Leo", hero: "kai", pc: "#3fb2ee" }, ava: { name: "Ava", hero: null, pc: "#8e5cd9" },
+    theo: { name: "Theo", hero: "kai", pc: "#f47b2a" }, isabella: { name: "Isabella", hero: "suki", pc: "#2fb862" }, sam: { name: "Sam", hero: null, pc: "#ffb01f" },
+  };
+  let players = state === "first" ? [] : state === "returning" ? ["maya"] : ["maya", "leo", "ava", "theo", "isabella", "sam"];
+  let cur = players[0] || null;
+  const faceHTML = (id, cls = "") => {
+    const p = P[id];
+    return p.hero ? `<span class="face ${cls}" style="--pc:${p.pc};background-image:url(art/face-${p.hero}.webp)"></span>`
+                  : `<span class="face ${cls}" style="--pc:${p.pc}">${p.name[0]}</span>`;
+  };
+  const cog = `<svg class="cog" viewBox="0 0 48 48" aria-hidden="true"><path fill="#5a4636" stroke="#2b1d14" stroke-width="2.5" stroke-linejoin="round" d="M20.6 4h6.8l1.1 5.2a15 15 0 0 1 3.9 2.3l5-1.7 3.4 5.9-4 3.5a15 15 0 0 1 0 4.5l4 3.5-3.4 5.9-5-1.7a15 15 0 0 1-3.9 2.3L27.4 44h-6.8l-1.1-5.2a15 15 0 0 1-3.9-2.3l-5 1.7-3.4-5.9 4-3.5a15 15 0 0 1 0-4.5l-4-3.5 3.4-5.9 5 1.7a15 15 0 0 1 3.9-2.3z"/><circle cx="24" cy="24" r="6.5" fill="#fffdf3" stroke="#2b1d14" stroke-width="2.5"/></svg>`;
+  function renderGU() {
+    if (!cur) { $("gu").innerHTML = ""; return; }
+    const others = players.filter((p) => p !== cur);
+    const stack = [cur, ...others.slice(0, 2)].map((id, i) => faceHTML(id).replace('style="', `style="z-index:${3 - i};`)).join("");
+    $("gu").innerHTML = `<button class="chip" id="chip" aria-label="Who's playing? ${P[cur].name}"><span class="stack">${stack}</span><span class="nm">${P[cur].name}</span></button>
+      <button class="gear" id="gear" aria-label="Grown-ups (press and hold)">${cog}<svg class="prog" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/></svg><span class="hold-hint" id="hint">Grown-ups: press and hold</span></button>`;
+    $("chip").addEventListener("pointerdown", (e) => { e.stopPropagation(); openShelf(); });
+    const gear = $("gear");
+    let t = 0, at = 0;
+    gear.addEventListener("pointerdown", (e) => { e.stopPropagation(); at = Date.now(); gear.classList.add("holding"); t = setTimeout(() => { gear.classList.remove("holding"); showNext("The grown-ups page", `Settings for ${P[cur].name}: music, captions, school year. Back returns here.`); }, 2000); });
+    const end = () => { clearTimeout(t); gear.classList.remove("holding"); if (at && Date.now() - at < 600) { $("hint").classList.add("on"); setTimeout(() => $("hint").classList.remove("on"), 1800); } at = 0; };
+    gear.addEventListener("pointerup", end); gear.addEventListener("pointerleave", end); gear.addEventListener("pointercancel", end);
+  }
+  function renderShelf() {
+    $("row").innerHTML = players.map((id) => `<button class="card ${id === cur ? "cur" : ""}" data-id="${id}">${faceHTML(id)}<span class="nm">${P[id].name}</span></button>`).join("")
+      + `<button class="card add" data-id="+"><span class="face">+</span><span class="nm">New ninja</span></button>`;
+  }
+  function openShelf() { renderShelf(); $("shelf").classList.add("open"); }
+  $("shelf").addEventListener("pointerdown", (e) => {
+    e.stopPropagation();
+    const card = e.target.closest(".card");
+    if (!card) { $("shelf").classList.remove("open"); return; }
+    const id = card.dataset.id;
+    if (id === "+") { showNext("What's your name?", "A new player: the name screen, with “A grown-up can help type it.”"); return; }
+    card.classList.add("hopping");
+    unlock();
+    setTimeout(() => { cur = id; $("shelf").classList.remove("open"); renderGU(); welcome(); }, 480);
+  });
+  renderGU();
+  if (q.get("sheet") === "open") openShelf();
+  // the child's own ninja stands in front
+  if (cur && P[cur].hero) document.querySelector(`.hero.${P[cur].hero}`).classList.add("me");
+
+  // ---------- sound: the first tap unlocks; the title music streams through <audio> and is never decoded (PERF.md fix 5)
+  let unlocked = false, ac = null;
+  function unlock() {
+    if (unlocked) return; unlocked = true;
+    const m = $("music"); m.volume = 0.5; m.play().catch(() => {});
+    try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch {}
+    if (cur && !going) setTimeout(welcome, 250);
+  }
+  // warm the HTTP cache for the music after the first paint, body thrown away (as the game does)
+  setTimeout(() => fetch(PUB + "m/title.mp3", { priority: "low" }).then((r) => r.body && r.body.pipeTo(new WritableStream())).catch(() => {}), 1500);
+  function chime() { // a bright gong-chime, synthesised (the game has its own sfx.gong)
+    if (!ac) return; const t = ac.currentTime;
+    [[392, 0.5], [587.3, 0.35], [784, 0.25], [1174.7, 0.12]].forEach(([f, g], i) => {
+      const o = ac.createOscillator(), v = ac.createGain(); o.type = i ? "sine" : "triangle"; o.frequency.value = f;
+      v.gain.setValueAtTime(0, t); v.gain.linearRampToValueAtTime(g * 0.5, t + 0.01); v.gain.exponentialRampToValueAtTime(0.001, t + 1.6 + i * 0.2);
+      o.connect(v).connect(ac.destination); o.start(t + i * 0.04); o.stop(t + 2.2);
+    });
+  }
+  const clip = (name) => { const a = new Audio(PUB + name); a.play().catch(() => {}); return a; };
+  let bubbleT = 0;
+  function sayBubble(html, ms = 2600) {
+    const b = $("bubble"); b.innerHTML = html; b.classList.add("on"); $("sensei").classList.add("talking");
+    clearTimeout(bubbleT); bubbleT = setTimeout(() => { b.classList.remove("on"); $("sensei").classList.remove("talking"); }, ms);
+  }
+  // "Welcome back, <name>": the recorded "Welcome back" plus the child's name (production: a name clip made when the name is typed;
+  // the mockup stands in with the browser's British voice)
+  let welcomed = null;
+  function welcome() {
+    if (!cur || welcomed === cur) return; welcomed = cur;
+    sayBubble(`Welcome back, <b>${P[cur].name}</b>!`);
+    if (!unlocked) return;
+    try {
+      const u = new SpeechSynthesisUtterance(`Welcome back, ${P[cur].name}!`); u.lang = "en-GB"; u.rate = 0.95; u.pitch = 1.15;
+      const v = speechSynthesis.getVoices().find((v) => v.lang === "en-GB"); if (v) u.voice = v; speechSynthesis.speak(u);
+    } catch {}
+  }
+  if (q.get("say") === "welcome" && cur) sayBubble(`Welcome back, <b>${P[cur].name}</b>!`, 1e9);
+
+  // ---------- pokes: the cast are toys; they never start the game
+  document.querySelectorAll(".poke").forEach((el) => el.addEventListener("pointerdown", (e) => {
+    e.stopPropagation(); unlock(); idle();
+    el.classList.remove("poked"); void el.offsetWidth; el.classList.add("poked");
+    clip(`fx/kiai_${el.dataset.who}_${1 + Math.floor(Math.random() * 3)}.mp3`);
+    setTimeout(() => el.classList.remove("poked"), 650);
+  }));
+  $("storm").addEventListener("pointerdown", (e) => {
+    e.stopPropagation(); unlock(); idle();
+    const f = $("storm").querySelector(".storm-flash"); f.style.animation = "none"; void f.offsetWidth; f.style.animation = "flash 1.2s linear 1";
+    setTimeout(() => (f.style.animation = ""), 1300);
+  });
+  $("sensei").addEventListener("pointerdown", (e) => { e.stopPropagation(); unlock(); idle(); clip("l/help_start.mp3"); sayBubble("Tap the big green button to start!"); });
+
+  // ---------- idle: after 9 s Play hops twice (and Sensei asks once sound is on); any tap resets. Timers, never rAF.
+  let idleT = 0, idleN = 0;
+  function idle() {
+    clearTimeout(idleT);
+    idleT = setTimeout(() => {
+      const b = $("playBob"); b.classList.remove("nudge"); void b.offsetWidth; b.classList.add("nudge");
+      if (unlocked && idleN++ < 2) { clip("l/tap_start.mp3"); sayBubble("Tap to start!", 1800); }
+      idle();
+    }, idleN ? 14000 : 9000);
+  }
+  idle();
+
+  // ---------- Start (one tap, once: the button stops the tap reaching the scene, and `going` guards it)
+  let going = false;
+  const play = $("play");
+  play.addEventListener("pointerdown", (e) => { e.stopPropagation(); play.classList.add("pressing"); start(); });
+  addEventListener("pointerup", () => play.classList.remove("pressing"));
+  world.addEventListener("pointerdown", (e) => { if (!e.target.closest("button, .poke, .shelf")) start(); });
+  function start() {
+    if (going) return; going = true;
+    unlock(); chime(); clearTimeout(idleT);
+    const b = $("burst");
+    b.innerHTML = Array.from({ length: 18 }, (_, i) => {
+      const a = (i / 18) * Math.PI * 2 + Math.random() * 0.3, d = 260 + Math.random() * 220;
+      return `<div class="bp" style="--dx:${Math.cos(a) * d}px;--dy:${Math.sin(a) * d}px;--rot:${Math.random() * 720 - 360}deg">${petal(i)}</div>`;
+    }).join("");
+    world.classList.add("going");
+    if (cur) setTimeout(welcome, 100);
+    setTimeout(() => {
+      if (!cur) showNext("What's your name?", "First launch: the name screen (“A grown-up can help type it.”), then the film, Choose and the Dojo.");
+      else showNext(`Let's go, ${P[cur].name}!`, `One tap: straight on as ${P[cur].name} (the map with its welcome, or the next lesson). Another child taps the faces top-left first.`);
+    }, 1400);
+  }
+  function showNext(h, p) { $("nextH").textContent = h; $("nextP").textContent = p; $("next").classList.add("on"); }
+  $("back").addEventListener("click", () => location.reload());
+  if (q.get("go")) setTimeout(() => { going = false; start(); }, +q.get("go"));
+  window.__snState = { scene: "title" };
+})();
+</script>
+</body>
+</html>

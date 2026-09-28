@@ -1,0 +1,170 @@
+{
+ "hoe": {
+  "word": "hoe",
+  "said": "Ho!",
+  "installed": false,
+  "takes": 2,
+  "take": 2,
+  "pass": true,
+  "stubborn": [],
+  "judge": 10,
+  "heard": "[həʊ]",
+  "blind": "hoe",
+  "whisper": "Ho!",
+  "hz": 242.5,
+  "lufs": -16,
+  "tries": [
+   {
+    "said": "Ho.",
+    "judge": 2,
+    "blind": "hot",
+    "whisper": "HUH",
+    "hz": 256
+   },
+   {
+    "said": "Ho!",
+    "judge": 10,
+    "blind": "hoe",
+    "whisper": "Ho!",
+    "hz": 242.5
+   }
+  ],
+  "file": "/var/folders/p8/rkz0wfgd3tsfwzm9zk7s_v5r0000gn/T/sn-erinome-vRcyXm/unit-check-hoe.t2.mp3"
+ },
+ "year": {
+  "word": "year",
+  "said": "Yeer!",
+  "installed": false,
+  "takes": 6,
+  "take": 2,
+  "pass": false,
+  "stubborn": [
+   "judge 3, blind \"yeah\"",
+   "Whisper \"Yeah!\""
+  ],
+  "judge": 3,
+  "heard": "jɛə",
+  "blind": "yeah",
+  "whisper": "Yeah!",
+  "hz": 285.7,
+  "lufs": -16,
+  "f3": 0.97,
+  "tries": [
+   {
+    "said": "Yeer.",
+    "judge": 2,
+    "blind": "yeah",
+    "whisper": "Yeah.",
+    "hz": 188.2,
+    "f3": 0.98
+   },
+   {
+    "said": "Yeer!",
+    "judge": 3,
+    "blind": "yeah",
+    "whisper": "Yeah!",
+    "hz": 285.7,
+    "f3": 0.97
+   },
+   {
+    "said": "yeer",
+    "judge": 3,
+    "blind": "yeah",
+    "whisper": "Yeah.",
+    "hz": 141.6,
+    "f3": 1.01
+   },
+   {
+    "said": "Year.",
+    "judge": 2,
+    "blind": "yeah",
+    "whisper": "Yeah.",
+    "hz": 173.9,
+    "f3": 0.99
+   },
+   {
+    "said": "Yeer...",
+    "judge": 2,
+    "blind": "yeah",
+    "whisper": "Yeah.",
+    "hz": 193.9,
+    "f3": 0.98
+   },
+   {
+    "said": "YEER!",
+    "judge": 2,
+    "blind": "yeah",
+    "whisper": "Yeah!",
+    "hz": 235.3,
+    "f3": 0.96
+   }
+  ],
+  "file": "/var/folders/p8/rkz0wfgd3tsfwzm9zk7s_v5r0000gn/T/sn-erinome-vRcyXm/unit-check-year.t2.mp3"
+ },
+ "laughter": {
+  "word": "laughter",
+  "said": "laafter",
+  "installed": false,
+  "takes": 3,
+  "take": 3,
+  "pass": true,
+  "stubborn": [],
+  "judge": 10,
+  "heard": "ˈlɑːftə",
+  "blind": "laughter",
+  "whisper": "Laughter.",
+  "hz": 181.8,
+  "lufs": -16.1,
+  "f3": 0.96,
+  "accent": {
+   "p": 0.8571428571428571,
+   "words": [
+    {
+     "feature": "bath",
+     "word": "laughter",
+     "uk": 18,
+     "n": 21,
+     "p": 0.86
+    },
+    {
+     "feature": "r",
+     "word": "laughter",
+     "uk": 20,
+     "n": 21,
+     "p": 0.95
+    }
+   ],
+   "votes": 21,
+   "lenientR": true
+  },
+  "tries": [
+   {
+    "said": "Lafter.",
+    "judge": 3,
+    "blind": "laughter",
+    "whisper": "laughter",
+    "hz": 320,
+    "f3": 0.99
+   },
+   {
+    "said": "Laafter.",
+    "judge": 0,
+    "blind": "haha",
+    "whisper": "Hehehe.",
+    "hz": 238.8,
+    "f3": 0.96
+   },
+   {
+    "said": "laafter",
+    "judge": 10,
+    "blind": "laughter",
+    "whisper": "Laughter.",
+    "hz": 181.8,
+    "accent": 0.8571428571428571,
+    "votes": 21,
+    "f3": 0.96
+   }
+  ],
+  "file": "/var/folders/p8/rkz0wfgd3tsfwzm9zk7s_v5r0000gn/T/sn-erinome-vRcyXm/unit-check-laughter.t3.mp3"
+ }
+}

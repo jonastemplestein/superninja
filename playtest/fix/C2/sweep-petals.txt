@@ -1,0 +1,20 @@
+== baseline (P0 build .build-baseline): 12 findings
+  minor w1-wu6 | sound-unclassified: after fm_dots_intro | A lone sound /s/ (warmup, after fm_dots_intro) has no job (show: petal, tile or hidden).
+  minor w1-wu6 | sound-unclassified: after fm_dots_turn | A lone sound /k/ (warmup, after fm_dots_turn) has no job (show: petal, tile or hidden).
+  minor w1-wu6 | sound-unclassified: after fm_name_dog | A lone sound /d/ (warmup, after fm_name_dog) has no job (show: petal, tile or hidden).
+  minor w1-wu6 | sound-unclassified: after fm_name_mug | A lone sound /m/ (warmup, after fm_name_mug) has no job (show: petal, tile or hidden).
+  minor w1-wu3 | petal-too-small: /a/ badge | The /a/ petal's picture is 30 CSS px on the 844×390 phone, at rest (want ≥ 38; the badge is 49 px wide).
+  minor w1-wu3 | sound-unclassified: after fm_tap_all_in | A lone sound /a/ (warmup, after fm_tap_all_in) has no job (show: petal, tile or hidden).
+  minor w1-wu3 | sound-unclassified: after t_they_all_have | A lone sound /a/ (warmup, after t_they_all_have) has no job (show: petal, tile or hidden).
+  minor w1-wu1 | petal-too-small: /s/ badge | The /s/ petal's picture is 30 CSS px on the 844×390 phone, at rest (want ≥ 38; the badge is 49 px wide).
+  minor w1-wu1 | sound-unclassified: after fm_notice_sun_sock | A lone sound /s/ (warmup, after fm_notice_sun_sock) has no job (show: petal, tile or hidden).
+  minor w1-wu1 | sound-unclassified: after t_everyone_say | A lone sound /s/ (warmup, after t_everyone_say) has no job (show: petal, tile or hidden).
+  minor w1-wu1 | sound-unclassified: after fm_tap_all_start | A lone sound /s/ (warmup, after fm_tap_all_start) has no job (show: petal, tile or hidden).
+  minor w1-wu1 | sound-unclassified: after fm_all_start | A lone sound /s/ (warmup, after fm_all_start) has no job (show: petal, tile or hidden).
+== C2 (final build): 6 findings
+  blocker w1-wu2 | auto-advance: step ready:W2:rail | The step ready:W2:rail#0 went on to (the end of the show) by itself (taps: fish).
+  major w1-wu4 | auto-advance: step ready:W4:rail | The step ready:W4:rail#0 went on to (the end of the show) by itself (taps: cat).
+  blocker w1-wu1 | auto-answer: warmup turn | The turn "petal s" (warmup) ended without an answer from the child (now {"scene":"warmup","next":null,"busy":true,"capped":false,"q":"notice"}).
+  blocker w1-wu1 | auto-advance: step ready:W1:tapall | The step ready:W1:tapall#0 went on to (the end of the show) by itself (taps: sock).
+  major w1-wu3 | auto-answer: warmup turn | The turn "petal a" (warmup) ended without an answer from the child (now {"scene":"warmup","next":null,"busy":true,"capped":false,"q":"tapall"}).
+  major w1-wu3 | auto-advance: step ready:W3:tapall:in | The step ready:W3:tapall:in#0 went on to (the end of the show) by itself (taps: bag).

@@ -71,7 +71,9 @@ function sayText(word: string, attempt: number) {
     hoe: ["Ho.", "Ho!", "ho", "Hoe.", "Ho...", "HO!"],
     know: ["No.", "No!", "no", "Know.", "No...", "NO!"],
     shone: ["Shon.", "Shonn.", "shon", "Shon!", "shone", "SHON!"],
-    year: ["Yeer.", "Yeer!", "yeer", "Year.", "Yeer...", "YEER!"],
+    // Erinome says every "Yeer" as "yeah" (27 Sep: 0 of 10); "Year." came out /jɪə/ once in 3 (scripts/rerecord-erinome.ts
+    // unit-check). Charon, the old exception, said "yeah" on all 6 takes too.
+    year: ["Year.", "Year.", "Year!", "Year.", "year", "Year."],
     laughter: ["Lafter.", "Laafter.", "laafter", "Lafter!", "LAHFTUH", "Lafter"],
   };
   if (phonetic[word]) return phonetic[word][attempt - 1];
@@ -98,7 +100,9 @@ if (doAudio) {
     for (let attempt = 1; attempt <= 6; attempt++) {
       const tmp = join(tmpdir(), `sn-word-${process.pid}-${word}-${attempt}.mp3`);
       try {
-        const wav = await tts({ text: sayText(word, attempt), voice: ["hoe", "year", "laughter"].includes(word) ? "Charon" : "Sulafat", lang: "en-GB" });
+        // Sensei's voice for every word: Erinome says hoe ("Ho!") and laughter ("laafter") right, so the Charon exception
+        // for hoe, year and laughter is gone (27 Sep; scripts/rerecord-erinome.ts unit-check, playtest/phonemes/erinome-wso)
+        const wav = await tts({ text: sayText(word, attempt), voice: "Erinome", lang: "en-GB" });
         finishAudio(wav, tmp);
         const rubric = `Exactly one naturally spoken Southern British English word, ${word}, once only, for a young child. Judge the phonetic word: ${HOMOPHONES[word]?.join(", ") ?? "no listed homophone"} would sound identical and is acceptable if transcribed that way. Score low for a genuinely different pronunciation, letter name, American accent, or added speech.`;
         const [judged, blind] = await Promise.all([judgeAudio(tmp, rubric), blindAudio(tmp, word)]);

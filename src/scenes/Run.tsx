@@ -16,29 +16,52 @@
 // streak the ninja kicks crates out of the way and flips over spikes; without one it trips and hops over them (never
 // hurt). At the end the gong is already in view: a flying kick on it, a backflip, a ground-pound and a cheer.
 // Speech always leads: the moves run alongside it and never make the child wait.
-// Explanations (docs/NARRATIVE_AUDIT.md, ./narrate.tsx): the cue before a word's sounds rotates between whole
-// sentences after the first; the first reading cue in each land says "Ninjas read this way!" with an arrow under the
-// word (F10); units 8-10 get a spaced "some sounds sit close together" reminder (F12); a caught word can bring a
-// spaced "two letters, one sound" reminder with that spelling lit; the first catch of a save shows its gem filling.
+// The teacher's voice (docs/TEACHER_SCRIPT.md §3.21, §4.1, §4.5; FIX_PLAN §13 TV-D5.1): the world waits on the start
+// line for ▶ on every run, the starting gun. The first run of a save (the full form) says what the game is ("This game
+// is called Ninja Run…"), asks for a practice jump (a tap anywhere; the pointing hand taps the play area), floats two
+// example lanterns past as it says who does what, and holds on "Are you ready? Tap the green arrow, and off we go!";
+// a later day's first run says "It's Ninja Run again!…" as the gun and has the practice jump on the move, and a known
+// game just the gun. The ninja stands ready facing ▶ and bows on the answer. On the full form the first lantern group
+// goes straight to its question, since "When the lanterns come…" has just said who does what ("Here come the
+// lanterns…" only if that was over a minute ago: never the same thing twice within seconds); on later runs, once a
+// session, it opens with fast and slow's "I'll say it the slow way. You catch the whole word." (§9.3). Groups 1–3 are asked "Listen for the word…" + the sounds + "Tap the lantern with my word."
+// (the first group's answer glows after 2 s on the full form), but never a third time within a minute; from the fourth,
+// the sounds alone (SCRIPT_FIXES C16).
+// The sounds are the question, so no petals: neutral dots light in the banner, one per sound (Dec1, SD r38). The first
+// catch of a session reads it back slow, then fast ("Let's say it the slow way…" · the sounds · "And now the fast
+// way…" · the word; no rabbit tap: a tap anywhere is a jump), with the tortoise and the rabbit beside the speaker. A
+// wrong lantern: "That's a different word. Listen again…" + the sounds, taking turns with the slow way's stuck recap.
+// Lanterns missed come round again, with a quiet child's ladder (§5.5): the question; then the right one glows and the
+// hand taps it ("Here it is. Tap it when you're ready."); then "Take your time, ninja."; then the sounds alone.
+// After a word, at most one of a tier line, a reminder (its petal pops above the lit spelling), the gem's first fill
+// and praise (afterWordSay, SCRIPT_FIXES C4, C15); praise every third word at most, a tier line counting as praise
+// (and silent on the last word, whose praise is the gong's). The counter and the pickups are stars: a teardrop always
+// means a sound (Dec6, SD r41).
 // Navigation (docs/NAVIGATION.md §5.D): Home is the nav layer's (top-left). Hear it again is a speaker in the top bar,
-// between the progress bar and the petal counter, for every word in both modes: it says the word's prompt again as it
-// was said ("Ninja Run! Tap to jump..." on the first word, the cue, and the sounds; in reading mode the cue, with the
-// arrow under the word again if "Ninjas read this way!" was said), and the ninja holds still while it plays.
+// between the progress bar and the star counter, for every word in both modes: it says the word's question again
+// ("Listen for the word…", the sounds with the dots lighting, "Tap the lantern with my word."; in reading mode the
+// cue, with the arrow under the word again if the left-to-right line was said), and the ninja holds still while it
+// plays. During the Ready hold it is the hold's (the frame and the question).
 import { useEffect, useRef, useState } from "react";
+import { FAST } from "../engine/fast";
 import type { LevelProps } from "../App";
 import type { Seg, Word } from "../content/phonics";
 import { levelWords, worldOf } from "../content/worlds";
 import { LINES } from "../content/lines";
-import { say, sayBlend, sfx, playMusic, preload, urls, hush, type Say } from "../engine/audio";
+import { say, sayBlend, sfx, playMusic, preload, urls, hush, onClip, onSay, type Say, type SoundAt } from "../engine/audio";
 import { chooseWords, shuffle } from "../engine/learner";
 import { recordRead } from "../engine/store";
+import { praiseBy, praiseWanted } from "../engine/feedback";
 import { streak, tierLineId, tierLineSaid, type Tier } from "../engine/streak";
 import { img, Progress, fx, useHero, W, H, sleep, useHelp, SenseiDock, isUpright, shakeStage } from "../ui/ui";
-import { poseSrc, poseFit, probePoses, type Pose } from "../ui/poses";
-import { pickPraise } from "../engine/feedback";
-import { adjacentSlots, adjacentUnit, gemSeg, rotate, RUN_BLEND_CUES } from "../content/narrative";
-import { NarrOverlay, beginLevel, explainGemEnergy, heard as told, isDue, lettersReminder, sweepUnder, twoSoundsReminder } from "./narrate";
-import { useNav, ReplayButton, TopBar } from "../ui/nav";
+import { poseSrc, poseFit, probePoses, hasPose, type Pose } from "../ui/poses";
+import { adjacentSlots, adjacentUnit, gemSeg, runBlendCue, RUN_BLEND_CUES } from "../content/narrative";
+import {
+  NarrOverlay, afterWordSay, beginLevel, explainGemEnergy, framed, fsHeardThisSession, fsPraise, fsReadback, fsSaid, fsStuck, gameForm, heard as told, isDue,
+  lettersReminder, onceInSave, played, readThisWay, readyAsk, struggledIn, sweepUnder, twoSoundsReminder,
+} from "./narrate";
+import { useNav, ReplayButton, TopBar, holdReady, navSpeed } from "../ui/nav";
+import { SoundDots } from "../ui/SoundBadge";
 import "../styles/run.css";
 import "../styles/nav-D.css";
 
@@ -54,8 +77,19 @@ const HW = 200; // the ninja's width in the run pose
 const S = HW / 170; // body offsets below were tuned at 170 px wide
 const BODY = 90 * S; // feet to tummy
 const PIVOT = HW * 0.62; // flips and spins turn around the tummy
-const LANTERN_Y = 252; // high enough that the caption bubble above Sensei (bottom-right) never covers a lantern
-/** Running between words (px) after the praise: a breather with a crate or some petals, not a wait. */
+const LANTERN_Y = 252;
+/** The tortoise and rabbit badges' centre (the nav layer's FastSlowBadges, TEACHER_SCRIPT §9.6). */
+const SPEED_AT = { x: 1142, y: 160 }; // high enough that the caption bubble above Sensei (bottom-right) never covers a lantern
+/** Everyday praise every this many right words (see catchLantern). */
+const PRAISE_EVERY = 3;
+/** The group's cue and "Tap the lantern with my word." are said on groups 1–3, but never a third time in this many
+ *  seconds (SCRIPT_STYLE: no line more than twice a minute): a quick child's third group has the sounds alone. */
+const CUE_WINDOW = 60;
+/** "Here come the lanterns. I'll say the sounds of a word." at the first group of a full-form run only if "When the
+ *  lanterns come, I'll say some sounds, and you catch the word." began more than this many seconds ago (a child who
+ *  lingered at ▶): straight after it, the two say the same thing twice within ten seconds. */
+const HOW_WINDOW = 60;
+/** Running between words (px) after the praise: a breather with a crate or some stars, not a wait. */
 const BETWEEN = 600;
 /** Lanterns come in as a group, this far apart (three still fit between the ninja and the caption bubble). */
 const SPACING = { 2: 330, 3: 285 } as const;
@@ -73,12 +107,12 @@ const TAU = Math.PI * 2;
 const DEG = Math.PI / 180;
 
 type Lantern = { x: number; y: number; word: Word; correct: boolean; popped: boolean; phase: number; gone?: number; burst?: boolean; wiggle?: number };
-type Thing = { x: number; kind: "crate" | "spikes" | "petal"; y: number; got?: boolean; kicked?: boolean; flipped?: boolean };
+type Thing = { x: number; kind: "crate" | "spikes" | "star"; y: number; got?: boolean; kicked?: boolean; flipped?: boolean };
 type Pt = { x: number; y: number };
 
 // ---------------------------------------------------------------- moves
-type Move = "kick" | "punch" | "spin" | "flip" | "cast" | "power" | "think" | "crate" | "gongkick" | "backflip" | "cheer" | "stumble";
-const DUR: Record<Move, number> = { kick: 0.5, punch: 0.46, spin: 0.6, flip: 0.56, cast: 0.5, power: 0.95, think: 1.3, crate: 0.34, gongkick: 0.6, backflip: 0.6, cheer: 1.3, stumble: 0.62 };
+type Move = "kick" | "punch" | "spin" | "flip" | "cast" | "power" | "think" | "crate" | "gongkick" | "backflip" | "cheer" | "stumble" | "bow";
+const DUR: Record<Move, number> = { kick: 0.5, punch: 0.46, spin: 0.6, flip: 0.56, cast: 0.5, power: 0.95, think: 1.3, crate: 0.34, gongkick: 0.6, backflip: 0.6, cheer: 1.3, stumble: 0.62, bow: 0.9 };
 /** What a right lantern gets, by streak tier (never one of the last two). */
 const POOLS: Record<Tier, Move[]> = {
   0: ["kick", "punch", "flip", "cast"],
@@ -266,6 +300,34 @@ function glowDot(color: string) {
     return c;
   });
 }
+/** A four-point star (sparkles), on any context. */
+function star4On(g: CanvasRenderingContext2D, x: number, y: number, s: number, rot: number) {
+  g.save();
+  g.translate(x, y);
+  g.rotate(rot);
+  g.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const a = (i * Math.PI) / 4;
+    const r = i % 2 ? s * 0.22 : s * 0.5;
+    g.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+  }
+  g.closePath();
+  g.fill();
+  g.restore();
+}
+/** An orbiting energy dot (tier 3): its coloured glow and white core, baked (drawn 68 px across at scale 1). */
+function orbitDot(col: string) {
+  return cached(`orbit|${col}`, () => {
+    const c = mkCanvas(68, 68);
+    const g = c.getContext("2d")!;
+    g.drawImage(glowDot(col), 0, 0, 68, 68);
+    g.fillStyle = "#fff";
+    g.beginPath();
+    g.arc(34, 34, 5, 0, TAU);
+    g.fill();
+    return c;
+  });
+}
 /** The ninja's silhouette filled with a colour (afterimages) or glowing (the rim light on a streak). */
 type TintKind = "t1" | "t2" | "t3" | "g2" | "g3";
 const TINTS: Record<TintKind, { fill: string[]; shadow?: string }> = {
@@ -295,6 +357,35 @@ function tinted(im: HTMLImageElement, w: number, h: number, kind: TintKind): HTM
     g.shadowBlur = 16;
     g.drawImage(s, GLOW_PAD, GLOW_PAD);
     g.drawImage(s, GLOW_PAD, GLOW_PAD);
+    return c;
+  });
+}
+
+/** A pose drawn at its size on the stage, resampled once with care (the art is 600-1000 px wide; a 3× smaller draw every
+ *  frame was both a raster cost and a little jagged). */
+function heroSprite(im: HTMLImageElement, w: number, h: number): HTMLCanvasElement | null {
+  if (!im.complete || !im.naturalWidth) return null;
+  return cached(`hero|${im.src}|${Math.round(w)}`, () => {
+    const c = mkCanvas(w, h);
+    const g = c.getContext("2d")!;
+    g.imageSmoothingQuality = "high";
+    g.drawImage(im, 0, 0, c.width, c.height);
+    return c;
+  });
+}
+/** The rim of light round the ninja on a streak: its glowing silhouette drawn RIM_K× larger, at RIM_ALPHA. */
+const RIM_K = 1.05, RIM_ALPHA = 0.9;
+/** The ninja on a streak: the rim of light and the ninja over it, baked into one sprite, centred like the silhouette. */
+function litHero(im: HTMLImageElement, w: number, h: number, kind: TintKind): HTMLCanvasElement | null {
+  const rim = tinted(im, w, h, kind), body = heroSprite(im, w, h);
+  if (!rim || !body) return null;
+  return cached(`lit|${im.src}|${Math.round(w)}|${kind}`, () => {
+    const c = mkCanvas(rim.width * RIM_K, rim.height * RIM_K);
+    const g = c.getContext("2d")!;
+    g.globalAlpha = RIM_ALPHA;
+    g.drawImage(rim, 0, 0, c.width, c.height);
+    g.globalAlpha = 1;
+    g.drawImage(body, c.width / 2 - w / 2, c.height / 2 - h / 2, w, h);
     return c;
   });
 }
@@ -362,6 +453,63 @@ function circleSprite(tier: Tier) {
 }
 let SLASH: Path2D | null = null;
 const slashPath = () => (SLASH ??= new Path2D("M14 4 C62 18 62 82 14 96 C40 74 40 26 14 4 Z"));
+/** The slash of a flying kick, with its glow, baked per tier (a live shadowBlur each frame was a raster cost). */
+const SLASH_PAD = 14, SLASH_K = 2;
+function slashSprite(tier: Tier) {
+  return cached(`slash${tier}`, () => {
+    const c = mkCanvas((62 + SLASH_PAD * 2) * SLASH_K, (100 + SLASH_PAD * 2) * SLASH_K);
+    const g = c.getContext("2d")!;
+    g.scale(SLASH_K, SLASH_K);
+    g.translate(SLASH_PAD, SLASH_PAD);
+    let fill: CanvasGradient;
+    if (tier >= 3) {
+      fill = g.createLinearGradient(0, 0, 0, 100);
+      RAINBOW.forEach((col, k) => fill.addColorStop(k / 5, col));
+    } else {
+      fill = g.createLinearGradient(0, 0, 62, 0);
+      fill.addColorStop(0, "#fff");
+      fill.addColorStop(0.5, tier === 2 ? "#ffd1e3" : "#fff4dc");
+      fill.addColorStop(1, tier === 2 ? "#ff7aa2" : "#ffc53d");
+    }
+    g.shadowColor = "rgba(255,240,190,.9)";
+    g.shadowBlur = 8 * SLASH_K; // (the live 12 px glow, drawn at about 1.5×)
+    g.fillStyle = fill;
+    g.fill(slashPath());
+    g.shadowBlur = 0;
+    g.strokeStyle = INK;
+    g.lineWidth = 4.5;
+    g.lineJoin = "round";
+    g.stroke(slashPath());
+    return c;
+  });
+}
+/** The spell's sphere at radius ORB_R, its glow baked: drawn scaled to the radius it has now. */
+const ORB_R = 66, ORB_PAD = 36;
+function orbSprite(tier: Tier) {
+  return cached(`orbsphere${tier}`, () => {
+    const R = ORB_R, P = ORB_PAD;
+    const c = mkCanvas((R + P) * 2, (R + P) * 2);
+    const g = c.getContext("2d")!;
+    g.translate(R + P, R + P);
+    const [c0, c1, c2] = ORB[tier];
+    const gr = g.createRadialGradient(-R * 0.3, -R * 0.34, 0, 0, 0, R);
+    gr.addColorStop(0, "#ffffff");
+    gr.addColorStop(0.18, c0);
+    gr.addColorStop(0.55, c1);
+    gr.addColorStop(1, c2);
+    g.shadowColor = c1;
+    g.shadowBlur = 30;
+    g.fillStyle = gr;
+    g.beginPath();
+    g.arc(0, 0, R, 0, TAU);
+    g.fill();
+    g.shadowBlur = 0;
+    g.strokeStyle = INK;
+    g.lineWidth = 4;
+    g.stroke();
+    return c;
+  });
+}
 // the pointing hand of <TapHint/> (src/ui/ui.tsx), fingertip at (31, 7) in a 64-unit box
 let HAND: Path2D | null = null;
 const handPath = () =>
@@ -447,7 +595,6 @@ type CFx =
   | { k: "slash"; x0: number; y0: number; x1: number; y1: number; t0: number; size: number; tier: Tier }
   | { k: "ribbon"; t0: number; dur: number; r: number; from: number; sweep: number; squash: number; tier: Tier; oy: number }
   | { k: "piece"; x: number; y: number; t0: number; im: HTMLImageElement; w: number; vx: number; vy: number; vr: number; half: -1 | 0 | 1; life: number; g?: number }
-  | { k: "flash"; x: number; y: number; t0: number; a: number }
   | { k: "orb"; x: number; y: number; t0: number; tier: Tier };
 
 function similar(target: Word, pool: Word[], n: number): Word[] {
@@ -473,9 +620,15 @@ export function Run({ level, onDone }: LevelProps) {
   const raysRef = useRef<HTMLCanvasElement>(null); // the aura's light rays
   const auraRef = useRef<HTMLCanvasElement>(null); // the aura
   const haloRef = useRef<HTMLDivElement>(null); // the caught word's warm glow
+  const anchorRef = useRef<HTMLDivElement>(null); // a reminder's petal pops above this (see anchorAt)
+  const flashRef = useRef<HTMLDivElement>(null); // an impact's flash (see flash)
   const [progress, setProgress] = useState(0);
-  const [banner, setBanner] = useState<{ text: string; mode: "read" | "blend" } | null>(null);
-  const [petals, setPetals] = useState(0);
+  // the banner under the progress bar: the neutral dots of a group's sounds (blend: the sounds are the question, Dec1),
+  // or the word to read (its spellings, one lit while it is modelled after a second miss); `dot`: the lit one
+  const [banner, setBanner] = useState<{ text: string; mode: "read" | "blend"; segs: Seg[] } | null>(null);
+  const [dot, setDot] = useState(-1);
+  const [stars, setStars] = useState(0); // stars caught on the track (Dec6: a teardrop always means a sound)
+  const [jumpAsk, setJumpAsk] = useState(false); // the practice jump is asked (Hear it again says it again)
   const api = useRef<{ jump: () => void; tapAt: (x: number, y: number) => void; repeat: () => unknown }>({ jump: () => {}, tapAt: () => {}, repeat: () => {} });
 
   useEffect(() => {
@@ -485,7 +638,7 @@ export function Run({ level, onDone }: LevelProps) {
     const pool = levelWords(level);
     const targets = chooseWords(level, EVENTS, "read");
     preload(targets.map((w) => urls.word(w.text)));
-    // Two canvases (docs/PERF.md fix 8): what stands under the ninja's aura (crates, spikes, petals, the lanterns it
+    // Two canvases (docs/PERF.md fix 8): what stands under the ninja's aura (crates, spikes, stars, the lanterns it
     // has done with, the gong, the power circle and speed lines) on `under`, and the rest on `c`, the top one, which
     // takes the taps. The aura and the light rays between them are DOM layers the compositor turns and scales (placeAura).
     // `g` is whichever canvas is being drawn: every drawing helper below draws on it.
@@ -500,7 +653,7 @@ export function Run({ level, onDone }: LevelProps) {
     };
     const I = {
       bg: im(`run_${world.key}`),
-      crate: im("item_crate"), spikes: im("item_spikes"), petal: im("item_petal"), lantern: im("item_lantern"), gong: im("item_gong"),
+      crate: im("item_crate"), spikes: im("item_spikes"), star: im("item_star"), lantern: im("item_lantern"), gong: im("item_gong"),
       pics: Object.fromEntries(pool.filter((w) => w.pic).map((w) => [w.text, im(`pic_${w.text}`)])) as Record<string, HTMLImageElement>,
     };
     // hero poses (the move poses switch in by themselves once poses.ts has probed them)
@@ -515,7 +668,7 @@ export function Run({ level, onDone }: LevelProps) {
       }
       return i;
     };
-    const POSES: Pose[] = ["run", "jump", "hurt", "cheer", "kick", "punch", "spin", "flip", "power", "think", "ready", "cast"];
+    const POSES: Pose[] = ["run", "jump", "hurt", "cheer", "kick", "punch", "spin", "flip", "power", "think", "ready", "cast", "bow"];
     POSES.forEach(poseImg);
     const ok = (i: HTMLImageElement) => i.complete && i.naturalWidth > 0;
 
@@ -523,8 +676,11 @@ export function Run({ level, onDone }: LevelProps) {
     let alive = true;
     let t = 0; // game time (stops while the phone is upright, and for a hit-stop)
     let dist = 0;
-    let speed = 400;
-    let targetSpeed = 400;
+    // The world waits on the start line for ▶, the starting gun (TEACHER_SCRIPT §2.3, §3.21): until then the ninja jogs
+    // on the spot while Sensei frames the game, then stands ready facing ▶, and bows on the answer.
+    let started = false;
+    let speed = 0;
+    let targetSpeed = 0;
     const hs = { x: HX, y: GROUND, vy: 0, jumps: 0, bumpT: 0, homing: null as Lantern | null };
     // a flight: at a tapped lantern (an arc that rises, then comes down onto it), or back home after a miss
     let fly: { x0: number; y0: number; t0: number; dur: number; rise: number } | null = null;
@@ -543,7 +699,20 @@ export function Run({ level, onDone }: LevelProps) {
     let allInAt = -1; // when every lantern of this word came into view
     let catching = false; // streak.hit() from a caught lantern: its tier-up waits for the streak line (see catchLantern)
     let helped = false; // the biggest help clue flew the ninja to the right lantern: no streak point for that one
-    let busy = false; // an event is running
+    let busy = false; // an event (a group of lanterns) is running
+    let introBusy = true; // the opening: Sensei frames the game and holds on ▶ (a tap is a jump, never an answer)
+    let readingBack = false; // a caught word is being read back, and what follows it (the scene takes no answer)
+    let stance: "jog" | "ready" = "jog"; // before the gun: jogging on the spot, then the ready stance facing ▶
+    let jumpWait: (() => void) | null = null; // the practice jump waits for a tap anywhere (once its line has begun)
+    let jumpAsked = false, jumpLineDone = false; // "Tap anywhere to make your ninja jump…" has begun / ended
+    let tapHand = -1; // the pointing hand taps the play area from this time ("Tap anywhere to make your ninja jump.")
+    /** Two example lanterns floating past as Sensei says "When the lanterns come…" (screen x, not the world's). */
+    type Demo = { x0: number; x1: number; y: number; t0: number; phase: number; word: string | null; leave?: number };
+    let demos: Demo[] = [];
+    let glowFrom = -1; // the right lantern glows from this time: the first group of a first run (a "we do"), Help's 2nd
+    let blendN = 0; // blend groups asked so far in this run: the cue and "Tap the lantern with my word." for the first 3
+    let loops = 0; // how many times this group's lanterns have come back round, missed (the quiet child's ladder)
+    const turns: boolean[] = []; // per group: the second miss or Help's biggest clue was reached (struggledIn)
     let holding = false; // a held explanation (the first gem to fill) waits on Next: the world stops (docs/NAVIGATION.md)
     let nextEventAt = 900; // distance
     let gongX: number | null = null;
@@ -575,7 +744,9 @@ export function Run({ level, onDone }: LevelProps) {
     const ghosts: { x: number; feet: number; pose: Pose; rot: number; sx: number; sy: number; t: number }[] = [];
     const speedLines: { x: number; y: number; len: number; t0: number }[] = [];
     let lastGhost = -1, lastLine = -1;
-    type Trophy = { w: Word; mode: "blend" | "read"; x0: number; y0: number; t0: number; lit: number; all: boolean; leave?: number };
+    /** The caught word, risen under the progress bar. `low`: when it dropped a little so a reminder's petal has room to
+     *  pop above its lit spelling (and `rise`, when it went back up). */
+    type Trophy = { w: Word; mode: "blend" | "read"; x0: number; y0: number; t0: number; lit: number; all: boolean; leave?: number; low?: number; rise?: number };
     let trophy: Trophy | null = null;
     let ending: { phase: "fly" | "rebound" | "cheer" | "done"; t0: number; x0: number } | null = null;
     let gongHitAt = -9;
@@ -583,8 +754,17 @@ export function Run({ level, onDone }: LevelProps) {
     let doneCalled = false;
     const SPARKS = Array.from({ length: 14 }, () => ({ l: Math.random() * 1.1 - 0.55, d: Math.random() * 2.4, s: 0.6 + Math.random() * 0.7 }));
 
+    /** The scene takes no answer now: Sensei frames the game or holds on ▶ (the practice jump excepted), asks a group's
+     *  question before its sounds are heard, or reads a caught word back (docs/NAVIGATION.md, the bots' `busy`). */
+    const busyNow = () => (introBusy && !jumpWait) || readingBack || holding || finished || (!!current && mode === "blend" && !heard);
     const publish = () =>
-      ((window as any).__snState = { scene: "run", event: eventIdx, of: EVENTS, mode, streak: streak.n, tier: streak.tier, glow, gong: gongX !== null, finished });
+      ((window as any).__snState = {
+        scene: "run", game: "run", event: eventIdx, of: EVENTS, mode, streak: streak.n, tier: streak.tier, glow, gong: gongX !== null, finished,
+        // `next`: the practice jump, or the word whose lantern can be caught now: a word to read once its line has been
+        // said, a blend as soon as its sounds have been heard (the question is "Listen for the word… /s/ /a/ /t/"; the
+        // lantern takes the tap during "Tap the lantern with my word.", tapAt)
+        started, busy: busyNow(), ...(jumpWait ? { next: "jump" } : current && (mode === "blend" ? heard : cueDone) ? { next: current.text } : {}),
+      });
     publish();
     const hasLine = (id: string) => LINES.some((l) => l.id === id);
     /** Sensei's prompt for the lanterns: the ninja holds still while it plays (see the speeds in update). Resolves true
@@ -597,12 +777,34 @@ export function Run({ level, onDone }: LevelProps) {
         for (const p of parts) if (!(await say(p, opts))) return false;
         return true;
       } finally {
-        if (k === cueN) cueDone = heard = true;
+        if (k === cueN) {
+          cueDone = heard = true;
+          publish();
+        }
       }
     };
-    // the cue before a word's sounds, rotating after the first (run_blend was said 39 times in one journey)
+    /** A group's sounds, the question (oral blending, Dec1): no petals, the banner's neutral dots light one per sound
+     *  ("hidden"), and the tortoise steps on each (the slow way, TEACHER_SCRIPT §9.6). A lantern can be caught once
+     *  they have all been heard, while Sensei finishes ("Tap the lantern with my word."). */
+    const question = (w: Word): Say => ({
+      sounds: w.segs,
+      gap: 330,
+      show: "hidden",
+      onSeg: (i) => {
+        if (i === 0) navSpeed("slow");
+        if (i >= 0) return void setDot(i);
+        setDot(w.segs.length); // (every dot softly lit)
+        navSpeed(null);
+        if (current === w && !heard) {
+          heard = true;
+          publish();
+        }
+      },
+    });
+    // the cue before a group's sounds (TEACHER_SCRIPT §3.21 "Listen for the word…", else the rotated C16 cues)
     let lastCue: string | null = null;
-    // this word's prompt as it was said, for Hear it again (and whether it swept the arrow under the word)
+    const heardAt = new Map<string, number[]>(); // when each cue line, "Tap the lantern…" and "When the lanterns come…" began (game time)
+    // this word's question as it was asked, for Hear it again (and whether it swept the arrow under the word)
     let prompted: { parts: (Say | Say[])[]; sweep: boolean } | null = null;
     const adjUnit = adjacentUnit(level.units);
     const offStreak = streak.on((e) => {
@@ -625,18 +827,18 @@ export function Run({ level, onDone }: LevelProps) {
           puff = { n: Math.min(10, e.prevN), t0: t };
           flameBirth = [];
         }
-        // "Keep going, ninja!" opens Sensei's correction (catchLantern), so the sounds are the last thing the child hears
+        // "Keep going, ninja." opens Sensei's correction (catchLantern), so the sounds are the last thing the child hears
         if (e.prevN >= 3) sfx.fizzle();
       }
     });
     glow = streak.tier; // a streak carried over from the last level (streak.reset() above ran before this listener)
 
-    // obstacles & petals ahead
+    // obstacles & stars ahead
     const spawnStuff = (fromX: number, toX: number) => {
       for (let x = fromX; x < toX; x += 420 + Math.random() * 380) {
         const r = Math.random();
         if (r < 0.35) things.push({ x, kind: Math.random() < 0.6 ? "crate" : "spikes", y: GROUND });
-        else for (let k = 0; k < 4; k++) things.push({ x: x + k * 70, kind: "petal", y: GROUND - 120 - Math.sin((k / 3) * Math.PI) * 120 });
+        else for (let k = 0; k < 4; k++) things.push({ x: x + k * 70, kind: "star", y: GROUND - 120 - Math.sin((k / 3) * Math.PI) * 120 });
       }
     };
     spawnStuff(900, 1800);
@@ -649,12 +851,105 @@ export function Run({ level, onDone }: LevelProps) {
       things = things.filter((th) => th.x < dist + W - 320 || th.x > gongX! + 800);
       publish();
     };
+
+    // ---------------------------------------------------------------- the opening (TEACHER_SCRIPT §3.21, §4.1)
+    const form = gameForm("run", { opening: true });
+    const ready = readyAsk("run", form);
+    // the opening's lines, decoded before they are needed: no gap opens between one line and the next, or between the
+    // Ready hold and its question
+    const opening = form === "full" ? ["tv_run_frame", "tv_run_jump", "tv_run_jump_ok", "tv_run_lanterns_how", "tv_run_lanterns"] : form === "recap" ? ["tv_run_jump", "tv_run_jump_ok"] : [];
+    void preload([...opening, ready?.line ?? "nav_ready", "tv_guess_q", "tv_run_which", "tv_fs_run"].filter(hasLine).map(urls.line));
+    /** The practice jump (full and recap forms): "Tap anywhere to make your ninja jump. Can you try it now?" while the
+     *  pointing hand taps the play area (Hear it again says it again). Resolves true once the child has jumped (a jump
+     *  during the line ends it: the child has answered). After 8 s of quiet Sensei asks once more, and 8 s after that
+     *  the run goes on without it (false): the jump is practice, never a gate. */
+    const practiceJump = async (): Promise<boolean> => {
+      if (!hasLine("tv_run_jump")) return false;
+      let jumped = false, talking = true;
+      jumpAsked = jumpLineDone = false;
+      const done = new Promise<void>((r) => (jumpWait = () => ((jumped = true), r())));
+      tapHand = t;
+      setJumpAsk(true);
+      publish();
+      const ask = () => ((talking = true), say({ line: "tv_run_jump" }).finally(() => ((talking = false), (jumpLineDone = jumpAsked = true))));
+      await Promise.race([done, ask()]);
+      for (let k = 0; k < 2 && !jumped && alive; k++) {
+        await Promise.race([done, sleep(8000)]);
+        if (k === 0 && !jumped && alive) await Promise.race([done, ask()]);
+      }
+      if (jumped && talking) hush();
+      jumpWait = null;
+      tapHand = -1;
+      setJumpAsk(false);
+      publish();
+      return jumped;
+    };
+    /** "When the lanterns come…": two example lanterns float in from the right, lit, and bob; they drift up and away as
+     *  the world starts. Their plates carry two of the level's words that this run doesn't ask. */
+    const floatDemos = () => {
+      const spare = [...shuffle(pool.filter((x) => !targets.includes(x))), ...shuffle(targets.slice(2))].map((x) => x.text);
+      demos = [0, 1].map((i) => ({ x0: W + 140 + i * 330, x1: 700 + i * 300, y: LANTERN_Y + (i % 2) * 24, t0: t + i * 0.25, phase: Math.random() * 6, word: spare[i] ?? null }));
+    };
+    const intro = async () => {
+      if (form === "full") {
+        await say({ line: "tv_run_frame" });
+        if (!alive) return;
+        await sleep(250);
+        const jumped = await practiceJump();
+        if (!alive) return;
+        if (jumped && hasLine("tv_run_jump_ok")) await say({ line: "tv_run_jump_ok" });
+        if (!alive) return;
+        if (hasLine("tv_run_lanterns_how")) {
+          floatDemos();
+          await sleep(200);
+          await say({ line: "tv_run_lanterns_how" });
+          if (!alive) return;
+        }
+      }
+      // Ready (the starting gun, on every run): the ninja stands ready facing ▶
+      stance = "ready";
+      const askLine = ready && hasLine(ready.line) ? ready.line : "nav_ready";
+      const again: Say[] =
+        form === "full" ? [{ line: "tv_run_frame" }, { gap: 300 }, ...(hasLine("tv_run_lanterns_how") ? [{ line: "tv_run_lanterns_how" }, { gap: 300 }] : []), { line: askLine }] : [{ line: askLine }];
+      // (the world is stopped while the hold waits on ▶: once the ninja has settled the frame loop sleeps, one frame
+      // drawn, no rAF, and wakes on a tap, a resize or the go; verify 28 Sep: 60 rAF/s and 35-37 % of the main thread
+      // at phone ×4, where every other game's Ready hold costs under 1 %)
+      nap(true);
+      const how = await holdReady("run", { ask: [{ line: askLine }], again: () => say(again), pose: false });
+      nap(false);
+      if (!alive || how === false) return;
+      framed("run", ready);
+      // the bow (a ninja's rei), and off we go as it springs up
+      startMove("bow");
+      for (const d of demos) d.leave = t;
+      await sleep(420);
+      if (!alive) return;
+      started = true;
+      sfx.whoosh();
+      fx.burst(hs.x - 50, GROUND, "dust", 10);
+      publish();
+      if (form === "recap") {
+        // a later day: the practice jump comes after the gun, on the move (TEACHER_SCRIPT §4.1)
+        await sleep(700);
+        if (!alive) return;
+        const jumped = await practiceJump();
+        if (!alive) return;
+        if (jumped && hasLine("tv_run_jump_ok")) await say({ line: "tv_run_jump_ok" });
+        nextEventAt = Math.max(nextEventAt, dist + 450);
+      }
+      introBusy = false;
+      publish();
+    };
+
+    // ---------------------------------------------------------------- a group of lanterns
     const startEvent = async () => {
       if (eventIdx >= EVENTS) return placeGong();
       busy = true;
       helped = false;
       touched = false;
       hintFrom = -1;
+      glowFrom = -1;
+      loops = 0;
       const w = targets[eventIdx];
       current = w;
       mode = eventIdx % 2 === 0 || !w.pic ? "blend" : "read";
@@ -662,41 +957,77 @@ export function Run({ level, onDone }: LevelProps) {
         const withPics = pool.filter((x) => x.pic);
         if (withPics.length < 3) mode = "blend";
       }
-      publish();
       const n = level.world === 1 ? 1 : 2; // beginners: two lanterns, not three moving choices
       const others = mode === "blend" ? similar(w, pool, n) : similar(w, pool.filter((x) => x.pic && x.text !== w.text), n);
       const opts = shuffle([w, ...others]);
       eventMisses = 0;
       heard = false;
+      publish();
       // The group spawns off screen so that it always runs in the same distance (APPROACH) before it has arrived.
       const sp = opts.length >= 3 ? SPACING[3] : SPACING[2];
       const zoneStart = dist + LAST_IN + APPROACH - (opts.length - 1) * sp;
       // Clear the lantern zone, and any crate or spikes that would still be in front of the ninja once the lanterns have
       // arrived (they'd sit there while it stops to listen). Those are behind Sensei's corner or off screen by now.
       things = things.filter((th) =>
-        th.kind === "petal" ? th.x < zoneStart - 200 || th.x > zoneStart + 1400 : th.x < dist + HX - 90 + APPROACH || th.x > zoneStart + 1400,
+        th.kind === "star" ? th.x < zoneStart - 200 || th.x > zoneStart + 1400 : th.x < dist + HX - 90 + APPROACH || th.x > zoneStart + 1400,
       );
       lanterns = opts.map((o, i) => ({ x: zoneStart + i * sp, y: LANTERN_Y + (mode === "read" ? 14 : 0) + (i % 2) * 24, word: o, correct: o === w, popped: false, phase: Math.random() * 6 }));
       allInAt = -1;
+      setDot(-1);
+      setBanner({ text: w.text, mode, segs: w.segs });
       if (mode === "blend") {
-        setBanner({ text: "", mode });
-        const line = eventIdx === 0 ? "run_blend" : rotate(RUN_BLEND_CUES, lastCue);
-        lastCue = line;
+        const first = eventIdx === 0;
+        const bi = blendN++;
+        const lead: Say[] = [];
+        // the first group of a first run (the full form): its question straight away, since the opening's "When the
+        // lanterns come, I'll say some sounds, and you catch the word." has just said it (HOW_WINDOW); "Here come the
+        // lanterns. I'll say the sounds of a word." only if that was long ago. Later runs: once a session, fast and
+        // slow's "I'll say it the slow way. You catch the whole word." (TEACHER_SCRIPT §9.3)
+        let fsRun = false;
+        if (first && form === "full") {
+          const how = heardAt.get("tv_run_lanterns_how")?.at(-1);
+          if (hasLine("tv_run_lanterns") && (how === undefined || t - how >= HOW_WINDOW)) lead.push({ line: "tv_run_lanterns" }, { gap: 300 });
+        } else if (first && hasLine("tv_fs_run") && !fsHeardThisSession("tv_fs_run")) {
+          lead.push({ line: "tv_fs_run" }, { gap: 300 });
+          fsRun = true;
+        }
         // units 8-10: "some sounds sit close together", spaced (NARRATIVE_AUDIT F12)
         const adj = !!adjUnit && adjacentSlots(w.segs).length > 1 && isDue("adjacent:remind", "concept");
-        const lead: Say[] = [...(eventIdx === 0 ? [{ line: "run_start" }, { gap: 300 }] : []), ...(adj ? [{ line: "audit_neighbours_short" }, { gap: 300 }] : []), { line: line }];
-        prompted = { parts: [lead, { sounds: w.segs, gap: 330 }], sweep: false };
-        const said = await cue(prompted.parts);
+        if (adj) lead.push({ line: "audit_neighbours_short" }, { gap: 300 });
+        // groups 1–3: "Listen for the word…" · the sounds · "Tap the lantern with my word."; from the 4th, the sounds
+        // (never a third time within CUE_WINDOW s, counted from when each was heard: then the sounds alone, as from
+        // the 4th)
+        const recent = (id: string) => (heardAt.get(id) ?? []).filter((at) => t - at < CUE_WINDOW).length;
+        const cand = runBlendCue(bi, hasLine, lastCue);
+        const line = cand && recent(cand) < 2 && recent("tv_run_which") < 2 ? cand : null;
+        if (line) lastCue = line;
+        const ask: Say[] = [...(line ? [{ line }, { gap: 250 }] : []), question(w)];
+        const which: Say[] = line && bi < 3 && hasLine("tv_run_which") ? [{ gap: 300 }, { line: "tv_run_which" }] : [];
+        // Hear it again: the question (never the lanterns' or fast and slow's lead-in, TEACHER_SCRIPT §9.7 rule 6)
+        const re = line ?? (hasLine("tv_guess_q") ? "tv_guess_q" : null);
+        prompted = { parts: [[...(re ? [{ line: re }, { gap: 250 }] : []), question(w), ...which]], sweep: false };
+        const said = await cue([[...lead, ...ask, ...which]]);
         if (said && adj) told("adjacent:remind");
+        if (said && fsRun) fsSaid("tv_fs_run", "run");
+        // the first group of a first run is a "we do": its answer glows 2 s after the question
+        if (said && first && form === "full" && current === w) glowFrom = t + 2;
       } else {
-        setBanner({ text: w.text, mode });
-        // the first reading in each land: "Ninjas read this way!", with an arrow under the word (NARRATIVE_AUDIT F10)
-        const ltrKey = `left-right:w${level.world}`;
-        const ltr = isDue(ltrKey, "once");
-        if (ltr) window.setTimeout(() => void sweepUnder(document.querySelector(".run-banner")), 350);
-        prompted = { parts: [[...(ltr ? [{ line: "fm_l2_way" }, { gap: 350 }] : []), { line: "run_read" }]], sweep: ltr };
+        // the first reading group of a save: "Now it's your turn to read. Read the word at the top, and catch its
+        // picture." (TEACHER_SCRIPT §4.5); later ones "Read the word, and catch the matching picture."
+        const firstRead = onceInSave("run:read") && hasLine("tv_run_read_first");
+        const readLine = firstRead ? "tv_run_read_first" : "run_read";
+        // the left-to-right line with the arrow under the word, once per land in lands 1–2 (narrate.tsx readThisWay)
+        let ltr = false;
+        if (level.world <= 2 && isDue(`left-right:w${level.world}`, "once")) {
+          cueDone = false;
+          await sleep(350); // (the banner has dropped in)
+          if (current !== w) return;
+          ltr = await readThisWay(document.querySelector(".run-banner"), level.world);
+          if (current !== w) return;
+        }
+        prompted = { parts: [[{ line: readLine }]], sweep: ltr };
         const said = await cue(prompted.parts);
-        if (said && ltr) told(ltrKey);
+        if (said && firstRead) told("run:read");
       }
     };
 
@@ -738,6 +1069,11 @@ export function Run({ level, onDone }: LevelProps) {
         sfx.bounce();
         fx.puff(hs.x + 30, GROUND - 6, 8);
         fx.burst(hs.x + 40, GROUND - 20, "dust", 8);
+      } else if (kind === "bow") {
+        // "I'm ready" (TEACHER_SCRIPT §2.3): a rustle as it bows, a "hup" as it springs up, dust as it lands
+        after(0.14, () => sfx.bow());
+        after(0.46, () => sfx.hup());
+        after(0.73, () => fx.burst(hs.x, GROUND, "dust", 5));
       }
     };
     /** A comic-book impact at p (the lantern the child got right, a crate, the gong). */
@@ -755,7 +1091,7 @@ export function Run({ level, onDone }: LevelProps) {
       else if (kind === "star") (sfx.twinkle(), sfx.thwack());
       else sfx.boom();
       if (tier >= 2 && (kind === "hit" || kind === "boom")) shakeStage();
-      if (tier >= 2 || kind === "boom") cfx.push({ k: "flash", x: p.x, y: p.y, t0: t, a: 0.16 + tier * 0.04 });
+      if (tier >= 2 || kind === "boom") flash(p.x, p.y, 0.16 + tier * 0.04);
     };
     /** The right lantern: the ninja strikes it and it bursts; the others float away. */
     const strikeLantern = (l: Lantern) => {
@@ -785,7 +1121,7 @@ export function Run({ level, onDone }: LevelProps) {
       const ly = l.y - 14 + bob;
       cfx.push({ k: "piece", x: sx, y: ly, t0: t, im: I.lantern, w: 120, vx: -420 - Math.random() * 80, vy: -160, vr: -6, half: -1, life: 0.8, g: 1500 });
       cfx.push({ k: "piece", x: sx, y: ly, t0: t, im: I.lantern, w: 120, vx: 460 + Math.random() * 80, vy: -120, vr: 7, half: 1, life: 0.8, g: 1500 });
-      fx.burst(sx, ly, "petals", 22);
+      fx.burst(sx, ly, "blossoms", 22);
       fx.glow(sx, ly, ["#ffe38a", "#ffc53d", "#fff4dc"], 14, 60, 4, 28);
       lanterns.forEach((o) => {
         if (o !== l && !o.popped) {
@@ -807,7 +1143,7 @@ export function Run({ level, onDone }: LevelProps) {
         const p = c();
         sfx.powerup();
         bloomAt = t;
-        cfx.push({ k: "flash", x: p.x, y: p.y, t0: t, a: 0.32 });
+        flash(p.x, p.y, 0.32);
         fx.ring(p.x, p.y, { color: COLS[tier][0], r0: 40, r1: 340, width: 20, life: 30 });
         fx.ring(p.x, p.y, { color: COLS[tier][1], r0: 20, r1: 250, width: 13, life: 26 });
         fx.ring(p.x, p.y, { color: "#fff", r0: 10, r1: 170, width: 8, life: 20 });
@@ -826,6 +1162,15 @@ export function Run({ level, onDone }: LevelProps) {
       cfx.push({ k: "piece", x: sx, y: GROUND - 44, t0: t, im: I.crate, w: 104, vx: 900 + speed, vy: -950, vr: 9, half: 0, life: 1.2 });
     };
 
+    /** The reminder's petal stands above the caught word's lit spelling: the anchor (a DOM box, the word is drawn on the
+     *  canvas) is moved over it as the petal's sound is cued (SOUND_DISPLAY r40, Dec4). */
+    const anchorAt = (i: number): SoundAt => () => {
+      const el = anchorRef.current;
+      const r = trophy ? segRect(trophy, i) : null;
+      if (!el || !r) return null;
+      Object.assign(el.style, { left: `${r.x}px`, top: `${r.y}px`, width: `${r.w}px`, height: `${r.h}px` });
+      return el;
+    };
     const catchLantern = async (l: Lantern) => {
       if (l.popped || !current || ending) return;
       l.popped = true;
@@ -835,6 +1180,9 @@ export function Run({ level, onDone }: LevelProps) {
         recordRead(w, eventMisses === 0);
         cueN++; // whatever Sensei was saying about this word is over
         cueDone = true;
+        readingBack = true;
+        const keptGoing = eventMisses > 0, wasHelped = helped;
+        turns[eventIdx] ||= eventMisses >= 2 || helped;
         catching = true;
         const hit = eventMisses === 0 && !helped ? streak.hit() : null;
         catching = false;
@@ -843,36 +1191,78 @@ export function Run({ level, onDone }: LevelProps) {
         trophy = { w, mode, x0: Math.min(W - 170, l.x - dist), y0: l.y + 90 + bob, t0: t + 0.04, lit: -1, all: false };
         setBanner(null);
         current = null;
-        // a beat for the impact while the word rises clear of it, then Sensei blends it as each spelling lights up
+        glowFrom = -1;
+        publish();
+        // a beat for the impact while the word rises clear of it, then Sensei reads it back as each spelling lights up
+        // (the spellings' voices, "tile"), the tortoise stepping on each sound and the rabbit hopping on the word
         await sleep(280);
-        await sayBlend(w.segs, w.text, (i) => {
+        const light = (i: number) => {
+          if (i === 0) navSpeed("slow");
           if (!trophy || trophy.w !== w) return;
           if (i < 0) (trophy.all = true), (trophy.lit = -1);
           else trophy.lit = i;
+        };
+        if (fsReadback("run") === "rabbit" && hasLine("tv_fs_say_slow") && hasLine("tv_fs_now_fast")) {
+          // the session's first catch: slow, then fast (TEACHER_SCRIPT §9.3; no rabbit tap: a tap anywhere is a jump)
+          const slow = await say([{ line: "tv_fs_say_slow" }, { gap: 200 }, { sounds: w.segs, gap: 300, show: "tile", onSeg: light }]);
+          if (slow) navSpeed("fast"); // (the rabbit lights on "And now the fast way…", and hops on the word)
+          const fast = slow && (await say([{ line: "tv_fs_now_fast" }, { gap: 150 }, { word: w.text }]));
+          if (fast) fsSaid("tv_fs_say_slow", "run");
+        } else await sayBlend(w.segs, w.text, light);
+        // Crossing into a tier: the streak line ("Ninja power!") is this word's praise, and the ninja powers up as it's
+        // said. (Dec2: a tier's line needs whole answers; before that the power-up is silent.) On the last word it is
+        // silent too: the gong's "Bong! You made it to the gong!" follows within seconds, and is the praise.
+        const closingNext = eventIdx === EVENTS - 1;
+        const tierLine = hit?.tierUp && !closingNext ? tierLineId(hit.tier) : null;
+        if (hit?.tierUp) pendingPower = { at: t, tier: hit.tier };
+        const tierSaid = !!tierLine && hasLine(tierLine);
+        if (tierSaid) tierLineSaid(tierLine, await say({ line: tierLine! }));
+        // Then at most one of: a spaced reminder about one of its spellings, lit, its petal popping above it ("It's two
+        // letters, but it's one sound." /sh/); the first time right answers fill a gem (a held step: the world stops);
+        // praise, or fast and slow's praise in its slot (SCRIPT_FIXES A7, C4, C15; TEACHER_SCRIPT §9.3)
+        const reminder = twoSoundsReminder(w.segs, anchorAt) ?? lettersReminder(w.segs, anchorAt);
+        const seg = gemSeg(w, level.teach);
+        const gemFirst = seg && isDue("gem-energy", "once")
+          ? async () => {
+              holding = true;
+              publish();
+              await explainGemEnergy(seg, { x: 1010, y: 196 }, () => alive); // (right of the word, which rests at 640, 166)
+              holding = false;
+              publish();
+            }
+          : null;
+        const offRemind = reminder
+          ? onSay((items) => {
+              if (items !== reminder.say || !trophy || trophy.w !== w) return;
+              trophy.all = false;
+              trophy.lit = reminder.i;
+              trophy.low = t; // (down a little: the petal needs room above the spelling, under the progress bar)
+            })
+          : null;
+        // Praise every third word at most (TEACHER_SCRIPT §5.3 says every second at most): the runner's words come
+        // quickly, and the ninja's move and the streak lines praise the words in between (script-audit's praise-rate,
+        // ≤ 1.5 a minute). Fast and slow's praise takes a slot when one is due.
+        const praise = { keptGoing, helped: wasHelped, every: PRAISE_EVERY };
+        const said = await afterWordSay({
+          tierUp: tierSaid, leftRight: false, reminder, gemFirst, closingNext, game: "run", praise,
+          fs: !tierSaid && praiseWanted({ ...praise, closingNext }) ? fsPraise("run", "listen") : null,
         });
-        // a spaced reminder about one of its spellings, with that spelling lit ("It's two letters, but it's one sound.")
-        const remind = twoSoundsReminder(w.segs) ?? lettersReminder(w.segs);
-        if (remind && trophy && trophy.w === w) {
-          trophy.all = false;
-          trophy.lit = remind.i;
-          if (await say([{ gap: 200 }, ...remind.say])) remind.done();
+        // a streak line was this word's praise: the rhythm starts again from it, so praise never follows it next word
+        if (tierSaid) praiseBy(tierLine!);
+        offRemind?.();
+        if (said === "reminder" && trophy && trophy.w === w) {
+          // the spelling stays lit, and the word low, until its petal has gone (a pop leaves 700 ms after its sound,
+          // SOUND_DISPLAY §4.4): rising sooner, the word would slide up under the petal
+          await sleep(980);
           if (trophy && trophy.w === w) {
             trophy.lit = -1;
             trophy.all = true;
+            trophy.rise = t;
           }
-        }
-        // Crossing into a tier: the streak line is the praise ("Ninja power!"), and the ninja powers up as it's said.
-        const line = hit?.tierUp ? tierLineId(hit.tier) : null;
-        if (hit?.tierUp) pendingPower = { at: t, tier: hit.tier };
-        const praised = await say({ line: line && hasLine(line) ? line : pickPraise() });
-        tierLineSaid(line, praised);
-        // the first time right answers fill a gem (once per save): it pops up, and fills, while the word is still up
-        if (eventIdx === 0) {
-          holding = true;
-          await explainGemEnergy(gemSeg(w, level.teach), { x: 1010, y: 196 }, () => alive); // (right of the word, which rests at 640, 166)
-          holding = false;
+          await sleep(300);
         }
         if (trophy && trophy.w === w) trophy.leave = t;
+        readingBack = false;
         eventIdx++;
         setProgress(eventIdx / EVENTS);
         busy = false;
@@ -884,8 +1274,9 @@ export function Run({ level, onDone }: LevelProps) {
         }
       } else {
         eventMisses++;
+        if (eventMisses >= 2) turns[eventIdx] = true;
         recordRead(w, false);
-        const miss = streak.miss();
+        const miss = streak.miss({ line: false });
         sfx.wrong();
         l.gone = t;
         const sx = l.x - dist;
@@ -895,10 +1286,23 @@ export function Run({ level, onDone }: LevelProps) {
         startMove("think");
         thinkUntil = t + DUR.think;
         after(0.22, () => sfx.hmm());
-        // specific: "(Keep going, ninja!) That's c-o-t, cot. Listen: c-a-t." The ninja holds still until it's said, and
-        // the right sounds are the last thing the child hears before choosing again.
-        const lost = miss.prevN >= 3 && hasLine("streak_lost") ? [{ line: "streak_lost" }, { gap: 200 }] : [];
-        await cue([[...lost, { line: "that_says" }, { sounds: l.word.segs, gap: 200 }, { word: l.word.text }, { gap: 250 }, { line: "listen" }, ...(mode === "blend" ? [{ sounds: w.segs, gap: 300 }] : [{ word: w.text }])]], { reveal: true });
+        // Gentle correction (TEACHER_SCRIPT §5.4): the ninja holds still until it's said, and the right sounds are the
+        // last thing the child hears before choosing again. "Keep going, ninja." first if a streak of 3+ was lost.
+        const lost: Say[] = miss.prevN >= 3 && hasLine("streak_lost") ? [{ line: "streak_lost" }, { gap: 200 }] : [];
+        let fix: Say[];
+        if (mode === "blend") {
+          // "That's a different word. Listen again…" + the sounds (the dots light again), taking turns with fast and
+          // slow's stuck recap, "Here's the slow way again, one sound at a time…" (§9.3)
+          const lead = fsStuck("run", "again", { item: w.text }) ?? (hasLine("tv_run_fix") ? "tv_run_fix" : "listen_again");
+          fix = [{ line: lead }, { gap: 200 }, question(w)];
+        } else if (eventMisses < 2) {
+          // reading: the tapped picture says its word, then Sounds~Write's "Say the sounds, and read the word."
+          fix = [{ word: l.word.text }, { gap: 300 }, { line: "say_sounds_read" }];
+        } else {
+          // a second miss: Sensei models it, the banner's spellings lighting with their sounds, then the word
+          fix = [{ line: "say_sounds_read" }, { gap: 250 }, { sounds: w.segs, gap: 300, show: "tile", onSeg: (i) => setDot(i) }, { gap: 150 }, { word: w.text }];
+        }
+        await cue([[...lost, ...fix]]);
       }
     };
     /** After a wrong lantern: a little hop back down to a gap between the lanterns still in play, so none of their
@@ -954,7 +1358,7 @@ export function Run({ level, onDone }: LevelProps) {
       shakeStage();
       for (let i = 0; i < 3; i++) after(0.1 + i * 0.16, () => fx.ring(gongC(), disc.y, { color: i === 1 ? "#fff4dc" : "#ffc53d", r0: 60, r1: 330, width: 12, life: 34 }));
       fx.burst(disc.x, disc.y, "confetti", 40, 1.2);
-      fx.rain("petals", 60);
+      fx.rain("blossoms", 60);
       hs.vy = -650;
       hs.jumps = 2;
       startMove("backflip");
@@ -993,20 +1397,44 @@ export function Run({ level, onDone }: LevelProps) {
     (window as any).__runReady = () => !!current && lanterns.length > 0 && lanterns.every((l) => l.popped || l.x - dist < W - 180);
     // bots: fly to the right lantern once it's well on screen (`wrong` = a wrong one, for filming a miss; `far` = the
     // furthest one that fits, e.g. a wrong lantern beyond the right one)
+    // The bots' taps are real taps on the canvas (a pointerdown at the lantern, or on open ground to jump), so the
+    // harnesses' input logs see the child answer. The canvas carries the tap's name while it is dispatched
+    // (`lantern "sit"`, `jump`), which is what their tap logs record.
+    const botTap = (x: number, y: number, label: string) => {
+      const r = c.getBoundingClientRect();
+      c.setAttribute("aria-label", label);
+      c.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, cancelable: true, isPrimary: true, pointerType: "touch", clientX: r.left + (x / W) * r.width, clientY: r.top + (y / H) * r.height }));
+      c.removeAttribute("aria-label");
+    };
     (window as any).__snRun = (wrong?: boolean, far?: boolean) => {
-      const c = lanterns.filter((l) => l.correct === !wrong && !l.popped && l.x - dist < W - 150);
-      const l = far ? c[c.length - 1] : c[0];
+      // the practice jump: a tap on open ground, once the child has heard the invitation
+      if (jumpWait) {
+        if (!jumpLineDone) return { busy: false, eventIdx, finished, x: null, flew: null };
+        botTap(700, 430, "jump");
+        return { busy: false, eventIdx, finished, x: null, flew: null, jumped: true };
+      }
+      // a child who listens waits for the question before choosing (a lantern tapped before the sounds only wiggles;
+      // one tapped during "Tap the lantern with my word." counts, but the bot lets Sensei finish)
+      if (current && (!cueDone || (mode === "blend" && !heard))) return { busy: busyNow(), eventIdx, finished, x: null, flew: null };
+      const cs = lanterns.filter((l) => l.correct === !wrong && !l.popped && l.x - dist < W - 150);
+      const l = far ? cs[cs.length - 1] : cs[0];
       const fly = !!l && !finished && l !== hs.homing;
-      if (fly) flyAt(l);
-      // `flew`: the lantern's word when this call sent the ninja (a child's tap on it), for the transcript's tap log
-      return { busy, eventIdx, finished, x: l ? Math.round(l.x - dist) : null, flew: fly ? l.word.text : null };
+      if (fly) botTap(l.x - dist, l.y + 30 + Math.sin(t * 2.5 + l.phase) * 10, `lantern "${l.word.text}"`);
+      // `tapped`: the lantern's word when this call tapped it (`flew` stays null: the tap is logged as a tap already)
+      return { busy: busyNow(), eventIdx, finished, x: l ? Math.round(l.x - dist) : null, flew: null, tapped: fly && hs.homing === l ? l.word.text : null };
     };
     // dev (filming): where the lanterns are, and whether Sensei's prompt is still playing
     (window as any).__runLanterns = () => ({ cueDone, lanterns: lanterns.map((l) => ({ x: Math.round(l.x - dist), y: l.y, word: l.word.text, correct: l.correct, popped: l.popped })) });
+    // Help (Sensei in the corner, TEACHER_SCRIPT §5.5): the first press asks the question again; the second makes the
+    // right lantern glow ("Look for the glow."); the third flies the ninja to it. With no lanterns up: how to play.
     (window as any).__snRunHelp = (n: number) => {
       if (!current) return say({ line: "help_run" });
-      if (n === 1) return cue(mode === "blend" ? [[{ line: "run_blend" }, { sounds: current.segs, gap: 330 }]] : [[{ line: "run_read" }]]);
-      if (n === 2) return say({ line: "help_run" });
+      if (n === 1) return api.current.repeat();
+      if (n === 2) {
+        glowFrom = t;
+        return say({ line: hasLine("tv_look_glow") ? "tv_look_glow" : "help_run" });
+      }
+      turns[eventIdx] = true;
       // biggest clue: the ninja flies to the right lantern (one still coming in is pulled to it)
       const l = lanterns.find((l) => l.correct && !l.popped && l.x - dist < W + 240);
       say({ line: "help_look" });
@@ -1016,13 +1444,17 @@ export function Run({ level, onDone }: LevelProps) {
         flyAt(l);
       }
     };
+    // this run's hooks on window, which the cleanup deletes (they would keep the whole run alive until the next Run)
+    const hooks = Object.fromEntries(["__runDist", "__runSpawn", "__runReady", "__snRun", "__runLanterns", "__snRunHelp"].map((k) => [k, (window as any)[k]]));
     api.current.repeat = () => {
+      if (jumpWait && !current) return say({ line: "tv_run_jump" }); // the practice jump's invitation
       if (!current || !prompted) return;
       if (prompted.sweep) window.setTimeout(() => void sweepUnder(document.querySelector(".run-banner")), 350);
       return cue(prompted.parts);
     };
     api.current.jump = () => {
       if (finished) return;
+      wake();
       if (hintFrom >= 0) hintFrom = Math.max(hintFrom, t + 2.5); // busy jumping: the hint waits for a pause
       if (hs.jumps < 2 && !hs.homing) {
         back = null;
@@ -1031,10 +1463,19 @@ export function Run({ level, onDone }: LevelProps) {
         hs.jumps++;
         sfx.jump();
         if (hs.jumps === 1) fx.burst(hs.x, GROUND, "dust", 6);
+        // the practice jump ("Can you try it now?"): the child did it (a jump before the line began is just a jump)
+        if (jumpWait && jumpAsked) {
+          const f = jumpWait;
+          jumpWait = null;
+          fx.burst(hs.x, GROUND - 230, "stars", 7, 0.9);
+          sfx.twinkle();
+          f();
+        }
       }
     };
     api.current.tapAt = (x, y) => {
       if (finished) return;
+      wake();
       // a lantern mostly on screen (one further right is pulled to the ninja, see HOMING_MAX)
       const hit = lanterns.find((l) => !l.popped && l.x - dist < W - 90 && Math.hypot(l.x - dist - x, l.y + 30 - y) < 110);
       if (hit) {
@@ -1164,94 +1605,130 @@ export function Run({ level, onDone }: LevelProps) {
       g.drawImage(image, -w / 2, -h, w, h);
       g.restore();
     };
-    const plate = (text: string, cx: number, cy: number) => {
-      g.font = "700 54px Andika";
-      const tw = g.measureText(text).width;
-      const w = tw + 40,
-        h = 72;
-      g.fillStyle = "#fff4dc";
-      g.strokeStyle = INK;
-      g.lineWidth = 5;
-      g.beginPath();
-      g.roundRect(cx - w / 2, cy - h / 2, w, h, 16);
-      g.fill();
-      g.stroke();
-      g.fillStyle = INK;
-      g.textAlign = "center";
-      g.textBaseline = "middle";
-      g.fillText(text, cx, cy + 2);
-    };
-    /** The caught word, spelling by spelling; `lit` lights the spelling whose sound is being said. */
-    const wordPlate = (segs: Seg[], cx: number, cy: number, lit: number, all: boolean) => {
-      g.font = "700 60px Andika";
-      g.textAlign = "center";
-      g.textBaseline = "middle";
-      const ws = segs.map((s) => Math.max(40, g.measureText(s.g).width + 10));
-      const tw = ws.reduce((a, b) => a + b, 0);
-      const w = tw + 48, h = 84;
-      g.save();
-      if (all) {
-        // its warm glow, baked (the plate is drawn at about 1.25×: the blur is in plate units, so it looks as it did)
-        const rw = Math.round(w);
-        const gl = glowOnly(`plate${rw}`, { w: rw, h }, 28 / 1.25, "rgba(255,190,60,0.95)", 1, (b) => {
-          b.beginPath();
-          b.roundRect(-rw / 2, -h / 2, rw, h, 18);
-          b.fill();
-        });
-        g.drawImage(gl, cx - gl.width / 2, cy - gl.height / 2);
-      }
-      g.fillStyle = all ? "#fff1b8" : "#fff4dc";
-      g.strokeStyle = INK;
-      g.lineWidth = 5;
-      g.beginPath();
-      g.roundRect(cx - w / 2, cy - h / 2, w, h, 18);
-      g.fill();
-      g.stroke();
-      g.restore();
-      let x = cx - tw / 2;
-      segs.forEach((s, i) => {
-        const on = i === lit;
-        const mid = x + ws[i] / 2;
-        if (on) {
-          g.save();
-          g.fillStyle = "#ffc53d";
-          g.strokeStyle = INK;
-          g.lineWidth = 3.5;
-          g.beginPath();
-          g.roundRect(x + 1, cy - 35, ws[i] - 2, 70, 12);
-          g.fill();
-          g.stroke();
-          g.restore();
-        }
-        g.save();
-        g.translate(mid, cy + 2 - (on ? 3 : 0));
-        if (on) g.scale(1.14, 1.14);
-        g.fillStyle = INK;
-        g.fillText(s.g, 0, 0);
-        g.restore();
-        x += ws[i];
+    // The plates are baked once each (PERF 8.2: text and shadows drawn on the canvas every frame were a raster cost), at
+    // PLATE_K× so they stay sharp when the caught word is drawn at 1.25×.
+    const PLATE_K = 1.5;
+    const measure = mkCanvas(1, 1).getContext("2d")!;
+    const drawBaked = (c: HTMLCanvasElement, cx: number, cy: number) => g.drawImage(c, cx - c.width / PLATE_K / 2, cy - c.height / PLATE_K / 2, c.width / PLATE_K, c.height / PLATE_K);
+    /** A lantern's word plate. */
+    const plateTex = (text: string) =>
+      cached(`plate|${text}`, () => {
+        measure.font = "700 54px Andika";
+        const w = measure.measureText(text).width + 40, h = 72;
+        const c = mkCanvas((w + 10) * PLATE_K, (h + 10) * PLATE_K);
+        const b = c.getContext("2d")!;
+        b.scale(PLATE_K, PLATE_K);
+        b.translate((w + 10) / 2, (h + 10) / 2);
+        b.fillStyle = "#fff4dc";
+        b.strokeStyle = INK;
+        b.lineWidth = 5;
+        b.beginPath();
+        b.roundRect(-w / 2, -h / 2, w, h, 16);
+        b.fill();
+        b.stroke();
+        b.font = "700 54px Andika";
+        b.fillStyle = INK;
+        b.textAlign = "center";
+        b.textBaseline = "middle";
+        b.fillText(text, 0, 2);
+        return c;
       });
+    const plate = (text: string, cx: number, cy: number) => drawBaked(plateTex(text), cx, cy);
+    /** A reading lantern's picture plate (once its picture has loaded). */
+    const picPlate = (word: string, cx: number, top: number) => {
+      const p = I.pics[word];
+      const draw = (b: CanvasRenderingContext2D, x: number, y: number) => {
+        b.fillStyle = "#fff4dc";
+        b.strokeStyle = INK;
+        b.lineWidth = 5;
+        b.beginPath();
+        b.roundRect(x - 70, y, 140, 120, 18);
+        b.fill();
+        b.stroke();
+        if (ok(p)) {
+          const k = Math.min(120 / p.naturalWidth, 104 / p.naturalHeight);
+          b.drawImage(p, x - (p.naturalWidth * k) / 2, y + 8, p.naturalWidth * k, p.naturalHeight * k);
+        }
+      };
+      if (!ok(p)) return draw(g, cx, top);
+      const c = cached(`pic|${word}`, () => {
+        const c = mkCanvas(150 * PLATE_K, 130 * PLATE_K);
+        const b = c.getContext("2d")!;
+        b.scale(PLATE_K, PLATE_K);
+        draw(b, 75, 5);
+        return c;
+      });
+      g.drawImage(c, cx - 75, top - 5, 150, 130);
     };
-    const star4 = (x: number, y: number, s: number, rot: number) => {
-      g.save();
-      g.translate(x, y);
-      g.rotate(rot);
-      g.beginPath();
-      for (let i = 0; i < 8; i++) {
-        const a = (i * Math.PI) / 4;
-        const r = i % 2 ? s * 0.22 : s * 0.5;
-        g.lineTo(Math.cos(a) * r, Math.sin(a) * r);
-      }
-      g.closePath();
-      g.fill();
-      g.restore();
+    /** The caught word's spellings: their widths (local units) with the plate's font. */
+    const segWidths = (segs: readonly Seg[]) => {
+      measure.font = "700 60px Andika";
+      return segs.map((s) => Math.max(40, measure.measureText(s.g).width + 10));
     };
+    /** The caught word, spelling by spelling; `lit` lights the spelling whose sound is being said; `all`: the whole word
+     *  glows warm (said fast). One texture per state. */
+    const wordPlateTex = (segs: Seg[], lit: number, all: boolean) =>
+      cached(`word|${segs.map((s) => s.g).join("|")}|${lit}|${all ? 1 : 0}`, () => {
+        const ws = segWidths(segs);
+        const tw = ws.reduce((a, b) => a + b, 0);
+        const w = tw + 48, h = 84;
+        const pad = all ? 46 : 8;
+        const c = mkCanvas((w + pad * 2) * PLATE_K, (h + pad * 2) * PLATE_K);
+        const b = c.getContext("2d")!;
+        b.scale(PLATE_K, PLATE_K);
+        b.translate(w / 2 + pad, h / 2 + pad);
+        if (all) {
+          // its warm glow (the plate is drawn at about 1.25×: the blur is in plate units, so it looks as it did)
+          const rw = Math.round(w);
+          const gl = glowOnly(`plate${rw}`, { w: rw, h }, 28 / 1.25, "rgba(255,190,60,0.95)", 1, (x) => {
+            x.beginPath();
+            x.roundRect(-rw / 2, -h / 2, rw, h, 18);
+            x.fill();
+          });
+          b.drawImage(gl, -gl.width / 2, -gl.height / 2);
+        }
+        b.fillStyle = all ? "#fff1b8" : "#fff4dc";
+        b.strokeStyle = INK;
+        b.lineWidth = 5;
+        b.beginPath();
+        b.roundRect(-w / 2, -h / 2, w, h, 18);
+        b.fill();
+        b.stroke();
+        b.font = "700 60px Andika";
+        b.textAlign = "center";
+        b.textBaseline = "middle";
+        let x = -tw / 2;
+        segs.forEach((s, i) => {
+          const on = i === lit;
+          const mid = x + ws[i] / 2;
+          if (on) {
+            b.fillStyle = "#ffc53d";
+            b.strokeStyle = INK;
+            b.lineWidth = 3.5;
+            b.beginPath();
+            b.roundRect(x + 1, -35, ws[i] - 2, 70, 12);
+            b.fill();
+            b.stroke();
+          }
+          b.save();
+          b.translate(mid, 2 - (on ? 3 : 0));
+          if (on) b.scale(1.14, 1.14);
+          b.fillStyle = INK;
+          b.fillText(s.g, 0, 0);
+          b.restore();
+          x += ws[i];
+        });
+        return c;
+      });
+    const wordPlate = (segs: Seg[], cx: number, cy: number, lit: number, all: boolean) => drawBaked(wordPlateTex(segs, lit, all), cx, cy);
+    const star4 = (x: number, y: number, s: number, rot: number) => star4On(g, x, y, s, rot);
 
     // ---- the ninja: pose and body motion for this frame
     const lookNow = (): Look => {
       const air = hs.y < GROUND - 2 || !!hs.homing || ending?.phase === "fly";
       // stopped to listen (the world holds while Sensei gives the sounds): a bouncy fighting stance, ready to jump
-      const L: Look = { pose: air ? "jump" : speed < 60 && !finished ? "ready" : "run", rot: 0, sx: 1, sy: 1, dx: 0, dy: 0 };
+      // (on the start line before the gun: jogging on the spot while Sensei frames the game, then the ready stance)
+      const L: Look = { pose: air ? "jump" : !started && stance === "jog" ? "run" : speed < 60 && !finished ? "ready" : "run", rot: 0, sx: 1, sy: 1, dx: 0, dy: 0 };
       if (hs.homing) {
         // tapped a lantern: up in a tuck, then a flying kick down onto it
         const q = fly ? (t - fly.t0) / fly.dur : 1;
@@ -1305,6 +1782,17 @@ export function Run({ level, onDone }: LevelProps) {
           return { pose: "kick", rot: -16 * DEG, sx: 1.05, sy: 0.97, dx: 0, dy: 0 };
         case "cheer":
           return { pose: "cheer", rot: 0, sx: 1, sy: 1, dx: 0, dy: 0 };
+        case "bow": {
+          // a ninja's rei, facing ▶: with its own art a small lean; until it lands, the ready stance nods forward from
+          // the hips and springs up into a little hop (as Ninja.tsx's fallback). The lean turns round the tummy, so the
+          // feet are moved back under it.
+          const art = hasPose(hero, "bow");
+          const nod = e < 0.16 ? easeInOut(e / 0.16) : e < 0.36 ? 1 : e < 0.45 ? 1 - easeInOut((e - 0.36) / 0.09) : 0;
+          const r = (art ? 3 : 16) * DEG * nod;
+          const squash = hump(e, 0.36, 0.52);
+          const hop = e > 0.45 && e < 0.73 ? Math.sin(((e - 0.45) / 0.28) * Math.PI) : 0;
+          return { pose: art && e > 0.12 && e < 0.72 ? "bow" : "ready", rot: r, sx: 1 + 0.08 * squash - 0.04 * hop, sy: 1 - 0.1 * squash + 0.06 * hop, dx: PIVOT * Math.sin(r), dy: PIVOT * (1 - Math.cos(r)) - 36 * hop };
+        }
         case "stumble": {
           // bumped a crate or spikes without a streak: a comic trip, wobble and hop (never a hurt pose)
           const wob = Math.sin(e * 14) * Math.exp(-e * 5);
@@ -1363,7 +1851,7 @@ export function Run({ level, onDone }: LevelProps) {
       const hold = !cueDone || t - allInAt < (mode === "read" ? 1.6 : 0.6);
       // after the prompt the lanterns drift over the ninja one by one (to jump for), slowly enough for a 4-year-old to
       // decode each word as it comes; tapping a lantern is the fast way, and the tap hint shows it
-      targetSpeed = finished || thinking || holding ? 0
+      targetSpeed = !started || finished || thinking || holding ? 0
         : choosing ? (allInAt < 0 ? Math.min(340, 24 + (lastSx - LAST_IN) * 2.4) : hold ? 0 : 80) // time to decode each one
         : hs.bumpT > 0 ? 220 : 360;
       if (choosing && cueDone && allInAt >= 0 && hintFrom < 0) hintFrom = t + (eventIdx === 0 ? 0.5 : 2.5);
@@ -1446,13 +1934,15 @@ export function Run({ level, onDone }: LevelProps) {
       hs.bumpT = Math.max(0, hs.bumpT - dt);
 
       // events
-      if (!busy && !finished && gongX === null && dist > nextEventAt) startEvent();
+      if (!busy && started && !introBusy && !finished && gongX === null && dist > nextEventAt) startEvent();
       if (gongX !== null && !ending) {
         const d = gongC() - hs.x;
         if ((d < 430 && hs.y >= GROUND - 2 && !hs.homing) || d < 240) startEnding();
       }
       if (ending?.phase === "done" && endSpoken && !doneCalled) {
         doneCalled = true;
+        // the end of the game's play (TEACHER_SCRIPT §2.2): a struggle brings the recap, with its hold, next time
+        played("run", { struggled: struggledIn(turns) });
         const stars = firstTry >= EVENTS - 1 ? 3 : firstTry >= EVENTS - 3 ? 2 : 1;
         sleep(300).then(() => alive && onDone(stars, { closing: "run_end" }));
       }
@@ -1479,13 +1969,14 @@ export function Run({ level, onDone }: LevelProps) {
           }
         }
         if (sx < hs.x - 60 || sx > hs.x + 60) continue;
-        if (th.kind === "petal") {
+        if (th.kind === "star") {
           if (Math.abs(th.y - (hs.y - BODY)) < 90) {
             th.got = true;
             collected++;
-            setPetals(collected);
+            setStars(collected);
             sfx.coin();
             fx.burst(sx, th.y, "sparks", 6);
+            fx.twinkle(sx, th.y, ["#fff4dc", "#ffe38a", "#ffc53d"], 5, 5);
           }
         } else if (hs.y > GROUND - 70 && hs.bumpT <= 0 && !back) {
           // no streak yet: a comic trip and hop over it (the ninja is never hurt in the run)
@@ -1512,7 +2003,21 @@ export function Run({ level, onDone }: LevelProps) {
             left.forEach((o, i) => (o.x = dist + W + 150 + i * sp));
             allInAt = -1;
             things = things.filter((th) => th.x < dist + W || th.x > dist + W + 1400);
-            if (current) void cue([mode === "blend" ? [{ line: "listen_again" }, { sounds: current.segs, gap: 330 }] : [{ line: "run_catch" }, { gap: 450 }, { word: current.text }]]);
+            // As they come back round, a quiet child's ladder (TEACHER_SCRIPT §5.5; never the word itself, which is the
+            // answer): the question again; then the right one glows, the hand taps it, "Here it is. Tap it when you're
+            // ready."; then once "Take your time, ninja."; after that only the sounds (a reading group: nothing more)
+            if (current) {
+              const k = ++loops;
+              const lead = k === 1 ? (mode === "blend" ? (hasLine("tv_guess_q") ? "tv_guess_q" : "listen_again") : "run_read") : k === 2 ? "tv_idle_point" : k === 3 ? "tv_take_time" : null;
+              if (k === 2) {
+                glowFrom = t;
+                touched = false;
+                turns[eventIdx] = true;
+              }
+              const ask = mode === "blend" ? [question(current)] : [];
+              const parts: Say[] = [...(lead && hasLine(lead) ? [{ line: lead }, ...(ask.length ? [{ gap: 250 }] : [])] : []), ...ask];
+              if (parts.length) void cue([parts]);
+            }
           }
         }
       }
@@ -1546,7 +2051,7 @@ export function Run({ level, onDone }: LevelProps) {
       if (visTier >= 2 && aura > 0.05) {
         const knot = bodyPt(heroX, heroFeet, heroRot, heroSx, heroSy, -44 * S, -176 * S);
         ribbon.push({ x: knot.x, y: knot.y, t });
-        if (t - lastGhost > 0.05) {
+        if (t - lastGhost > 0.09) {
           lastGhost = t;
           ghosts.push({ x: heroX, feet: heroFeet, pose: cur.pose, rot: heroRot, sx: heroSx, sy: heroSy, t });
         }
@@ -1602,6 +2107,13 @@ export function Run({ level, onDone }: LevelProps) {
     // The caught word's warm glow is added onto everything under it (canvas "lighter"), the painting included, which
     // is a DOM layer now: so the glow is one too, summed the same way (mix-blend-mode: plus-lighter), only while the
     // word is up.
+    /** An impact's flash: a warm white light from the hit, gone in 260 ms. A DOM layer the compositor fades (a
+     *  full-stage gradient on the canvas each frame, "screen"-blended, was the biggest raster spike of a hit). */
+    const flashEl = flashRef.current!;
+    const flash = (x: number, y: number, a: number) => {
+      flashEl.style.background = `radial-gradient(circle 700px at ${Math.round(x)}px ${Math.round(y)}px, rgba(255,250,230,0.64), rgba(255,250,230,0.32) 37%, rgba(255,250,230,0.112))`;
+      flashEl.animate([{ opacity: Math.min(1, a / 0.32) }, { opacity: 0 }], { duration: 260, easing: "linear" });
+    };
     const haloEl = haloRef.current!;
     let haloOn = false;
     const placeHalo = (h: { x: number; y: number; rx: number; ry: number; a: number } | null) => {
@@ -1630,7 +2142,10 @@ export function Run({ level, onDone }: LevelProps) {
     };
     const drawRibbon = () => {
       if (ribbon.length < 3) return;
-      const pts = ribbon.map((p) => ({ x: p.x - (t - p.t) * speed, y: p.y, a: 1 - (t - p.t) / 0.34 }));
+      // every other knot, the newest always (half the strokes; the round joins keep it smooth)
+      const knots = ribbon.filter((_, i) => (ribbon.length - 1 - i) % 2 === 0);
+      if (knots.length < 3) return;
+      const pts = knots.map((p) => ({ x: p.x - (t - p.t) * speed, y: p.y, a: 1 - (t - p.t) / 0.34 }));
       const cols = visTier >= 3 ? RAINBOW : ["#ff7aa2", "#b48cff", "#5ec8f2"];
       g.save();
       g.lineCap = "round";
@@ -1659,7 +2174,11 @@ export function Run({ level, onDone }: LevelProps) {
         if (!c) continue;
         g.save();
         g.globalAlpha = aura * 0.5 * (1 - age / 0.3);
-        withBody(gh.x - age * vs * 0.7, gh.feet, gh.rot, gh.sx, gh.sy, () => g.drawImage(c, left, -h, w, h));
+        const x = gh.x - age * vs * 0.7;
+        // an afterimage of a flip or spin turns with it; otherwise it is drawn upright, 1:1 on whole pixels (the cheap
+        // blit: the running wobble is invisible in a fading silhouette)
+        if (Math.abs(gh.rot) > 0.12) withBody(x, gh.feet, gh.rot, gh.sx, gh.sy, () => g.drawImage(c, left, -h, w, h));
+        else g.drawImage(c, Math.round(x + left), Math.round(gh.feet - c.height));
         g.restore();
       }
     };
@@ -1689,11 +2208,7 @@ export function Run({ level, onDone }: LevelProps) {
         const sz = 34 * (1 + 0.35 * s);
         g.save();
         g.globalAlpha = aura * (0.7 + 0.3 * s);
-        g.drawImage(glowDot(RAINBOW[k % 6]), x - sz, y - sz, sz * 2, sz * 2);
-        g.fillStyle = "#fff";
-        g.beginPath();
-        g.arc(x, y, 5 * (1 + 0.3 * s), 0, TAU);
-        g.fill();
+        g.drawImage(orbitDot(RAINBOW[k % 6]), x - sz, y - sz, sz * 2, sz * 2);
         g.restore();
       }
     };
@@ -1722,8 +2237,9 @@ export function Run({ level, onDone }: LevelProps) {
       const flame = (x: number, y: number, size: number, cols: string[], glow: string, rot: number, sx: number, sy: number, alpha: number) => {
         g.save();
         g.globalAlpha = alpha;
+        // (a flicker of scale, and a lean only when it is big enough to see: a rotated draw is the slow path)
         g.translate(x, y);
-        g.rotate(rot);
+        if (Math.abs(rot) > 0.06) g.rotate(rot);
         g.scale((sx * size) / 40 / FLAME_K, (sy * size) / 40 / FLAME_K);
         g.drawImage(flameSprite(cols, glow === FLAME_GLOW[0] ? "" : glow), -(20 + FLAME_PAD) * FLAME_K, -(50 + FLAME_PAD) * FLAME_K);
         g.restore();
@@ -1823,19 +2339,25 @@ export function Run({ level, onDone }: LevelProps) {
       const lit = aura > 0.02;
       const { i, w, h, left } = heroGeom(cur.pose);
       withBody(heroX, heroFeet, heroRot, heroSx, heroSy, () => {
+        const kind: TintKind = visTier >= 3 ? "t3" : visTier === 2 ? "t2" : "t1";
+        // on a streak: the rim of light and the ninja baked into one sprite (one draw a frame, not two); while the aura
+        // fades in or out, the rim is drawn under the ninja at the aura's strength
+        const lc = lit && aura > 0.97 ? litHero(i, w, h, kind) : null;
+        if (lc) return void g.drawImage(lc, left + w / 2 - lc.width / 2, -h / 2 - lc.height / 2);
         if (lit) {
-          const c = tinted(i, w, h, visTier >= 3 ? "t3" : visTier === 2 ? "t2" : "t1");
+          const c = tinted(i, w, h, kind);
           if (c) {
-            const k = 1.05;
+            const k = RIM_K;
             g.save();
-            g.globalAlpha = aura * (0.78 + 0.22 * Math.sin((t * TAU) / 1.4));
+            g.globalAlpha = aura * RIM_ALPHA;
             g.translate(left + w / 2, -h * 0.5);
             g.scale(k, k);
             g.drawImage(c, -w / 2 - GLOW_PAD, -h / 2 - GLOW_PAD);
             g.restore();
           }
         }
-        if (ok(i)) g.drawImage(i, left, -h, w, h);
+        const sp = heroSprite(i, w, h);
+        if (sp) g.drawImage(sp, left, -h, w, h);
       });
       if (lit && visTier >= 3) drawOrbit(true);
       if (lit) drawSparkles();
@@ -1858,16 +2380,24 @@ export function Run({ level, onDone }: LevelProps) {
           else if (p >= 0) {
             const sc = p < 0.25 ? 0.2 + 0.95 * (p / 0.25) : p < 0.55 ? 1.15 - 0.2 * ((p - 0.25) / 0.3) : 0.95 - 0.55 * ((p - 0.55) / 0.45);
             g.globalAlpha = p < 0.55 ? 1 : 1 - (p - 0.55) / 0.45;
-            g.translate(c.x, c.y);
-            g.rotate(c.rot);
-            g.scale((c.size / 100) * sc, (c.size / 100) * sc);
             const poly = (pts: number[]) => {
               g.beginPath();
               for (let k = 0; k < pts.length; k += 2) g.lineTo(pts[k], pts[k + 1]);
               g.closePath();
             };
-            g.shadowColor = "rgba(43,29,20,.35)";
-            g.shadowOffsetY = 5;
+            // its drop shadow, 5 px down (a fill of its own: a canvas shadow is an extra layer pass)
+            const k = (c.size / 100) * sc;
+            g.save();
+            g.translate(c.x, c.y + 5);
+            g.rotate(c.rot);
+            g.scale(k, k);
+            poly(c.outer);
+            g.fillStyle = "rgba(43,29,20,.35)";
+            g.fill();
+            g.restore();
+            g.translate(c.x, c.y);
+            g.rotate(c.rot);
+            g.scale(k, k);
             poly(c.outer);
             if (c.tier >= 3) {
               const gr = g.createRadialGradient(0, 0, 0, 0, 0, 50);
@@ -1878,7 +2408,6 @@ export function Run({ level, onDone }: LevelProps) {
               g.fillStyle = gr;
             } else g.fillStyle = c.tier === 2 ? "#ffd1e3" : "#fff4dc";
             g.fill();
-            g.shadowColor = "transparent";
             g.strokeStyle = INK;
             g.lineWidth = 5;
             g.lineJoin = "round";
@@ -1898,26 +2427,7 @@ export function Run({ level, onDone }: LevelProps) {
             g.translate(x, y);
             g.rotate(Math.atan2(c.y1 - c.y0, c.x1 - c.x0));
             g.scale(s, s);
-            g.translate(-31, -50);
-            let fill: CanvasGradient;
-            if (c.tier >= 3) {
-              fill = g.createLinearGradient(0, 0, 0, 100);
-              RAINBOW.forEach((col, k) => fill.addColorStop(k / 5, col));
-            } else {
-              fill = g.createLinearGradient(0, 0, 62, 0);
-              fill.addColorStop(0, "#fff");
-              fill.addColorStop(0.5, c.tier === 2 ? "#ffd1e3" : "#fff4dc");
-              fill.addColorStop(1, c.tier === 2 ? "#ff7aa2" : "#ffc53d");
-            }
-            g.shadowColor = "rgba(255,240,190,.9)";
-            g.shadowBlur = 12;
-            g.fillStyle = fill;
-            g.fill(slashPath());
-            g.shadowBlur = 0;
-            g.strokeStyle = INK;
-            g.lineWidth = 4.5;
-            g.lineJoin = "round";
-            g.stroke(slashPath());
+            g.drawImage(slashSprite(c.tier), -31 - SLASH_PAD, -50 - SLASH_PAD, 62 + SLASH_PAD * 2, 100 + SLASH_PAD * 2);
           }
         } else if (c.k === "ribbon") {
           if (e >= c.dur * 1.5) live = false;
@@ -1958,24 +2468,11 @@ export function Run({ level, onDone }: LevelProps) {
               g.drawImage(c.im, -w / 2, -h / 2, w, h);
             }
           }
-        } else if (c.k === "flash") {
-          const p = e / 0.26;
-          if (p >= 1) live = false;
-          else {
-            g.globalCompositeOperation = "screen";
-            g.globalAlpha = 1 - p;
-            const gr = g.createRadialGradient(c.x, c.y, 0, c.x, c.y, 700);
-            gr.addColorStop(0, `rgba(255,250,230,${Math.min(1, c.a * 2)})`);
-            gr.addColorStop(0.37, `rgba(255,250,230,${c.a})`);
-            gr.addColorStop(1, `rgba(255,250,230,${c.a * 0.35})`);
-            g.fillStyle = gr;
-            g.fillRect(0, 0, W, H);
-          }
         } else if (c.k === "orb") {
           // the spell: a glowing sphere swells on the lantern and bursts inside a spinning magic circle
           if (e >= 0.55) live = false;
           else {
-            const [c0, c1, c2] = ORB[c.tier];
+            const [c0, c1] = ORB[c.tier];
             const r = e < 0.16 ? 66 * backOut(e / 0.16) : 66 * (1 - easeIn((e - 0.16) / 0.22));
             g.translate(c.x, c.y);
             const R = 70 + 90 * easeOut(e / 0.55);
@@ -2001,21 +2498,9 @@ export function Run({ level, onDone }: LevelProps) {
             }
             g.globalAlpha = 1;
             if (r > 1) {
-              const gr = g.createRadialGradient(-r * 0.3, -r * 0.34, 0, 0, 0, r);
-              gr.addColorStop(0, "#ffffff");
-              gr.addColorStop(0.18, c0);
-              gr.addColorStop(0.55, c1);
-              gr.addColorStop(1, c2);
-              g.shadowColor = c1;
-              g.shadowBlur = 30;
-              g.fillStyle = gr;
-              g.beginPath();
-              g.arc(0, 0, r, 0, TAU);
-              g.fill();
-              g.shadowBlur = 0;
-              g.strokeStyle = INK;
-              g.lineWidth = 4;
-              g.stroke();
+              // the sphere, its glow baked (orbSprite), drawn at its size now
+              const k = r / ORB_R;
+              g.drawImage(orbSprite(c.tier), -(ORB_R + ORB_PAD) * k, -(ORB_R + ORB_PAD) * k, (ORB_R + ORB_PAD) * 2 * k, (ORB_R + ORB_PAD) * 2 * k);
               g.strokeStyle = "#ffffff";
               g.lineWidth = 5;
               g.lineCap = "round";
@@ -2029,29 +2514,47 @@ export function Run({ level, onDone }: LevelProps) {
         if (!live) cfx.splice(n, 1);
       }
     };
-    const drawTrophy = () => {
-      const tr = trophy!;
+    /** Where the caught word is now: it rises from its lantern to rest under the progress bar (640, 166), clear of the
+     *  impact burst; drops REMIND_DROP while a reminder's petal stands above one of its spellings (and rises back); and
+     *  goes into the progress bar at the end (`q`: how far, 0–1; -1 before). */
+    const REMIND_DROP = 116;
+    const trophyGeom = (tr: Trophy) => {
       const e = Math.max(0, t - tr.t0);
-      const tx = 640, ty = 166; // high, under the progress bar: clear of the impact burst at the lantern it came out of
+      const tx = 640, ty = 166;
       const k = easeOut(e / 0.38);
       let x = tr.x0 + (tx - tr.x0) * k;
       let y = tr.y0 + (ty - tr.y0) * k - Math.sin(k * Math.PI) * 70;
       let s = 1 + 0.25 * backOut(e / 0.5);
-      let a = 1;
+      let a = 1, q = -1;
+      if (tr.low != null) y += REMIND_DROP * (tr.rise != null ? 1 - easeInOut((t - tr.rise) / 0.3) : easeOut((t - tr.low) / 0.3));
       if (tr.leave != null) {
-        // into the progress bar
-        const q = clamp01((t - tr.leave) / 0.42);
+        q = clamp01((t - tr.leave) / 0.42);
         x = tx;
         y = ty + (40 - ty) * easeIn(q);
         s *= 1 - 0.8 * easeIn(q);
         a = 1 - 0.3 * q;
-        if (q >= 1) {
-          fx.twinkle(640, 40, COLS[Math.max(1, glow) as Tier], 12, 6);
-          sfx.twinkle();
-          trophy = null;
-          placeHalo(null);
-          return;
-        }
+      }
+      return { x, y, s, a, q };
+    };
+    /** Where the caught word's spelling `i` is on the stage (the lit tile's box). */
+    const segRect = (tr: Trophy, i: number) => {
+      const { x, y, s } = trophyGeom(tr);
+      const ws = segWidths(tr.w.segs);
+      const tw = ws.reduce((a, b) => a + b, 0);
+      const wx = tr.mode === "read" && I.pics[tr.w.text] ? -(150 + 18 + tw + 48) / 2 + 168 + (tw + 48) / 2 : 0;
+      const x0 = wx - tw / 2 + ws.slice(0, i).reduce((a, b) => a + b, 0);
+      return { x: x + x0 * s, y: y - 35 * s, w: (ws[i] ?? 40) * s, h: 70 * s };
+    };
+    const drawTrophy = () => {
+      const tr = trophy!;
+      const { x, y, s, a, q } = trophyGeom(tr);
+      if (q >= 1) {
+        // into the progress bar
+        fx.twinkle(640, 40, COLS[Math.max(1, glow) as Tier], 12, 6);
+        sfx.twinkle();
+        trophy = null;
+        placeHalo(null);
+        return;
       }
       // a warm glow behind it (added onto the painting: a DOM layer, as the painting is no longer on the canvas)
       const gr = 150 + (tr.all ? 40 : 0) + Math.sin(t * 6) * 8;
@@ -2061,62 +2564,40 @@ export function Run({ level, onDone }: LevelProps) {
       g.translate(x, y);
       g.scale(s, s);
       // "read": the picture the child caught, beside the word it goes with
-      const p = tr.mode === "read" ? I.pics[tr.w.text] : undefined;
       let wx = 0;
-      if (p) {
-        g.font = "700 60px Andika";
-        const pw = tr.w.segs.reduce((a, sg) => a + Math.max(40, g.measureText(sg.g).width + 10), 0) + 48;
+      if (tr.mode === "read" && I.pics[tr.w.text]) {
+        const pw = segWidths(tr.w.segs).reduce((a, b) => a + b, 0) + 48;
         const total = 150 + 18 + pw;
-        const cx = -total / 2 + 75;
         wx = -total / 2 + 168 + pw / 2;
-        g.fillStyle = "#fff4dc";
-        g.strokeStyle = INK;
-        g.lineWidth = 5;
-        g.beginPath();
-        g.roundRect(cx - 75, -64, 150, 128, 20);
-        g.fill();
-        g.stroke();
-        if (ok(p)) {
-          const sc = Math.min(130 / p.naturalWidth, 112 / p.naturalHeight);
-          g.drawImage(p, cx - (p.naturalWidth * sc) / 2, -(p.naturalHeight * sc) / 2, p.naturalWidth * sc, p.naturalHeight * sc);
-        }
+        picPlate(tr.w.text, -total / 2 + 75, -60);
       }
       wordPlate(tr.w.segs, wx, 0, tr.lit, tr.all);
       g.restore();
     };
 
-    /** First word (and whenever a child seems stuck): a hand taps each lantern in turn, left to right, to show that a
-     *  lantern can be tapped. It visits them all, so it never gives the answer away. Gone at the first tap or jump. */
-    const drawHint = () => {
-      if (touched || hintFrom < 0 || t < hintFrom || !current || hs.homing || finished) return;
-      const live = lanterns.filter((l) => !l.popped && l.x - dist > 300 && l.x - dist < W - 150).sort((a, b) => a.x - b.x);
-      if (!live.length) return;
-      const PER = 1.15;
-      const e = t - hintFrom;
-      const l = live[Math.floor(e / PER) % live.length];
-      const ph = (e % PER) / PER;
-      const bob = Math.sin(t * 2.5 + l.phase) * 10;
-      // the fingertip on the lantern's upper right, the hand up and away from the word below it, pointing down-left
-      const tip = { x: l.x - dist + 30, y: l.y - 12 + bob };
-      const dir = { x: -0.5, y: 0.866 };
+    /** The pointing hand tapping at `tip` (`ph` 0–1 through one tap): pulled back, pressed, and a ring pops out. It
+     *  points down and to the left (the play area), or to the left (`side`: at a lantern, from its right, so the hand
+     *  never reaches up under the question's banner). */
+    const drawTapHand = (tip: Pt, ph: number, side = false) => {
+      const dir = side ? { x: -1, y: 0 } : { x: -0.5, y: 0.866 };
       const pull = ph < 0.45 ? 34 * easeOut(ph / 0.45) : ph < 0.6 ? 34 * (1 - easeIn((ph - 0.45) / 0.15)) : 0;
       const alpha = Math.min(1, ph / 0.12, (1 - ph) / 0.12);
       if (ph > 0.6 && ph < 0.95) {
-        // the tap: a ring pops out of the lantern
+        // the tap: a ring pops out where the fingertip lands
         const r = (ph - 0.6) / 0.35;
         g.save();
         g.globalAlpha = alpha * (1 - r);
         g.strokeStyle = "#fffdf6";
         g.lineWidth = 7;
         g.beginPath();
-        g.arc(tip.x - 8, tip.y + 16, 20 + 56 * easeOut(r), 0, TAU);
+        g.arc(tip.x + dir.x * 18, tip.y + dir.y * 18, 20 + 56 * easeOut(r), 0, TAU);
         g.stroke();
         g.restore();
       }
       g.save();
       g.globalAlpha = alpha;
       g.translate(tip.x - dir.x * pull, tip.y - dir.y * pull);
-      g.rotate(210 * DEG);
+      g.rotate((side ? 270 : 210) * DEG);
       const k = 2.3 * (ph > 0.55 && ph < 0.7 ? 0.92 : 1);
       g.scale(k, k);
       g.translate(-31, -7);
@@ -2133,6 +2614,67 @@ export function Run({ level, onDone }: LevelProps) {
       g.lineWidth = 3.4;
       g.stroke(handPath());
       g.restore();
+    };
+    /** First word (and whenever a child seems stuck): a hand taps each lantern in turn, left to right, to show that a
+     *  lantern can be tapped. It visits them all, so it never gives the answer away, except while the right one glows
+     *  as a clue: then it taps that one. Gone at the first tap or jump.
+     *  During the practice jump it taps the open play area ahead of the ninja ("Tap anywhere…"). */
+    const drawHint = () => {
+      if (tapHand >= 0) {
+        const PER = 1.15;
+        const e = Math.max(0, t - tapHand);
+        return drawTapHand({ x: 700, y: 430 }, (e % PER) / PER);
+      }
+      if (touched || hintFrom < 0 || t < hintFrom || !current || hs.homing || finished) return;
+      const all = lanterns.filter((l) => !l.popped && l.x - dist > 300 && l.x - dist < W - 150).sort((a, b) => a.x - b.x);
+      // while the right one glows as a clue (a first run's "we do", Help's second press), the hand taps only that one
+      const clue = glowFrom >= 0 && t >= glowFrom ? all.filter((l) => l.correct) : [];
+      const live = clue.length ? clue : all;
+      if (!live.length) return;
+      const PER = 1.15;
+      const e = t - hintFrom;
+      const l = live[Math.floor(e / PER) % live.length];
+      const bob = Math.sin(t * 2.5 + l.phase) * 10;
+      // the fingertip on the lantern's right side, the hand off to its right, clear of the word below it and of the
+      // banner above
+      drawTapHand({ x: l.x - dist + 58, y: l.y - 14 + bob }, (e % PER) / PER, true);
+    };
+    /** A lantern at screen x `sx` (the string, the lantern, its word or picture plate), and its warm light when `lit`
+     *  (0–1): the example lanterns, or (`clue`) the right one glowing as a clue. */
+    const drawLanternAt = (sx: number, y: number, word: string | null, pic: boolean, lit: number, clue = false) => {
+      if (lit > 0 && !clue) {
+        // a warm light round it
+        g.save();
+        g.globalAlpha = lit;
+        g.drawImage(glowDot("rgba(255,196,70,0.95)"), sx - 170, y - 190, 340, 340);
+        g.restore();
+      } else if (lit > 0) {
+        // the clue: a wider light, a brighter heart and a soft ring swelling out of it every 1.2 s (it has to be plain
+        // to a three-year-old on any sky)
+        g.save();
+        g.globalAlpha = lit;
+        g.drawImage(glowDot("rgba(255,196,70,0.95)"), sx - 210, y - 230, 420, 420);
+        g.globalAlpha = lit * 0.75;
+        g.drawImage(glowDot("rgba(255,242,190,1)"), sx - 110, y - 130, 220, 220);
+        const q = (t % 1.2) / 1.2;
+        g.globalAlpha = lit * 0.8 * (1 - q);
+        g.strokeStyle = "#fff6c8";
+        g.lineWidth = 6;
+        g.beginPath();
+        g.arc(sx, y - 20, 74 + 70 * easeOut(q), 0, TAU);
+        g.stroke();
+        g.restore();
+      }
+      g.strokeStyle = INK;
+      g.lineWidth = 4;
+      g.beginPath();
+      g.moveTo(sx, 0);
+      g.lineTo(sx, y - 70);
+      g.stroke();
+      drawSprite(I.lantern, sx, y + 50, 120);
+      if (!word) return;
+      if (pic) picPlate(word, sx, y + 30);
+      else plate(word, sx, y + 90);
     };
     const drawLantern = (l: Lantern) => {
       const sx = l.x - dist;
@@ -2158,29 +2700,34 @@ export function Run({ level, onDone }: LevelProps) {
         g.rotate(r);
         g.translate(-sx, 0);
       }
-      g.strokeStyle = INK;
-      g.lineWidth = 4;
-      g.beginPath();
-      g.moveTo(sx, 0);
-      g.lineTo(sx, l.y - 70 + bob);
-      g.stroke();
-      drawSprite(I.lantern, sx, l.y + 50 + bob, 120);
-      if (mode === "blend" || !I.pics[l.word.text]) plate(l.word.text, sx, l.y + 90 + bob);
-      else {
-        const p = I.pics[l.word.text];
-        g.fillStyle = "#fff4dc";
-        g.strokeStyle = INK;
-        g.lineWidth = 5;
-        g.beginPath();
-        g.roundRect(sx - 70, l.y + 30 + bob, 140, 120, 18);
-        g.fill();
-        g.stroke();
-        if (ok(p)) {
-          const s = Math.min(120 / p.naturalWidth, 104 / p.naturalHeight);
-          g.drawImage(p, sx - (p.naturalWidth * s) / 2, l.y + 38 + bob, p.naturalWidth * s, p.naturalHeight * s);
-        }
-      }
+      // the clue: the right lantern glows (a first run's first group, 2 s after the question; Help's second press)
+      const lit = l.correct && !l.popped && glowFrom >= 0 && t >= glowFrom ? Math.min(1, (t - glowFrom) / 0.4) * (0.72 + 0.28 * Math.sin((t - glowFrom) * 5)) : 0;
+      drawLanternAt(sx, l.y + bob, l.word.text, mode === "read" && !!I.pics[l.word.text], lit, true);
       g.restore();
+    };
+    /** The two example lanterns ("When the lanterns come…"): they float in, lit, and drift up and away at the gun. */
+    const drawDemos = () => {
+      for (let i = demos.length - 1; i >= 0; i--) {
+        const d = demos[i];
+        const e = t - d.t0;
+        if (e < 0) continue;
+        const x = d.x0 + (d.x1 - d.x0) * easeOut(e / 1.8);
+        let y = d.y + Math.sin(t * 2.5 + d.phase) * 10;
+        let a = Math.min(1, e / 0.3);
+        if (d.leave != null) {
+          const q = t - d.leave;
+          y -= q * 80 + q * q * 500;
+          a *= 1 - q / 0.8;
+          if (a <= 0) {
+            demos.splice(i, 1);
+            continue;
+          }
+        }
+        g.save();
+        g.globalAlpha = a;
+        drawLanternAt(x, y, d.word, false, 0.8 + 0.2 * Math.sin(t * 3 + d.phase));
+        g.restore();
+      }
     };
     const draw = () => {
       drawScenery();
@@ -2190,8 +2737,9 @@ export function Run({ level, onDone }: LevelProps) {
       g.clearRect(0, 0, W, H);
       for (const th of things) {
         const sx = th.x - dist;
-        if (sx < -120 || sx > W + 120 || th.kicked || (th.got && th.kind === "petal")) continue;
-        if (th.kind === "petal") drawSprite(I.petal, sx, th.y + 25 + Math.sin(t * 4 + th.x) * 5, 52, Math.sin(t * 2 + th.x) * 0.3);
+        if (sx < -120 || sx > W + 120 || th.kicked || (th.got && th.kind === "star")) continue;
+        // a star bobs and turns gently on the track (Dec6: stars, not the rainbow teardrop)
+        if (th.kind === "star") drawSprite(I.star, sx, th.y + 26 + Math.sin(t * 4 + th.x) * 5, 54, Math.sin(t * 2 + th.x) * 0.22);
         else drawSprite(th.kind === "crate" ? I.crate : I.spikes, sx, GROUND + 8, th.kind === "crate" ? 104 : 120, th.got && !th.flipped ? 0.2 : 0);
       }
       // Lanterns the child still has to read are drawn over the ninja, its flames, aura and "?" cloud (below), so no
@@ -2217,12 +2765,29 @@ export function Run({ level, onDone }: LevelProps) {
       if (!hs.homing) drawNinjaFront();
       for (const l of lanterns) if (!behind(l)) drawLantern(l);
       if (hs.homing) drawNinjaFront();
+      drawDemos();
       drawCfx();
       if (trophy) drawTrophy();
       else placeHalo(null);
       drawHint();
     };
 
+    /** The frame loop sleeps (draws nothing, asks no rAF) while `napping` and nothing on the stage moves: the Ready hold. */
+    let napping = false, napFrom = 0, asleep = false;
+    const calm = () =>
+      t - napFrom > 1 && !started && timers.length === 0 && cfx.length === 0 && !mv && freeze <= 0 && Math.abs(speed) < 0.5 && hs.y >= GROUND - 1 && hs.vy === 0 && !hs.homing && tapHand < 0;
+    const wake = () => {
+      if (!asleep || !alive) return;
+      asleep = false;
+      last = performance.now();
+      raf = requestAnimationFrame(frame);
+    };
+    window.addEventListener("resize", wake); // (a resize clears the canvases: draw them again)
+    function nap(on: boolean) {
+      napping = on;
+      napFrom = t;
+      if (!on) wake();
+    }
     const frame = (now: number) => {
       const real = Math.min(0.05, (now - last) / 1000) / ((window as any).__runSlow || 1);
       last = now;
@@ -2230,8 +2795,19 @@ export function Run({ level, onDone }: LevelProps) {
       const perf = (window as any).__runPerf as { ms: number; n: number; max: number; flush?: boolean } | undefined; // dev: frame cost
       const p0 = perf ? performance.now() : 0;
       if (!isUpright()) {
-        if (freeze > 0) freeze -= real;
-        else update(real);
+        if (FAST === 1) {
+          if (freeze > 0) freeze -= real;
+          else update(real);
+        } else
+          // the bots' fast-forward (?fast=N) runs the world N× too, as it does speech, timers and effects, in steps of at
+          // most a frame so nothing is jumped over; otherwise a run's transcript shows its running N× longer than a
+          // child ever waits
+          for (let left = real * FAST, k = 0; left > 1e-4 && k < 16; k++) {
+            const dt = Math.min(left, 1 / 60);
+            left -= dt;
+            if (freeze > 0) freeze -= dt;
+            else update(dt);
+          }
       }
       draw();
       if (perf?.flush) {
@@ -2245,11 +2821,27 @@ export function Run({ level, onDone }: LevelProps) {
         perf.n++;
         perf.max = Math.max(perf.max, d);
       }
+      if (napping && calm()) {
+        asleep = true;
+        return;
+      }
       if (alive) raf = requestAnimationFrame(frame);
     };
     Promise.all([document.fonts.load("700 60px Andika"), document.fonts.load("52px 'Luckiest Guy'")]).finally(() => {
       last = performance.now();
-      if (alive) raf = requestAnimationFrame(frame);
+      if (!alive) return;
+      raf = requestAnimationFrame(frame);
+      void intro();
+    });
+    // fast and slow's lead-in for the first group, "I'll say it the slow way. You catch the whole word.": the tortoise
+    // lights with it, then the rabbit on "whole word" (TEACHER_SCRIPT §9.4)
+    const offClip = onClip((id, start, end) => {
+      if (id === "tv_run_jump") jumpAsked = true;
+      if (id === "tv_run_which" || (RUN_BLEND_CUES as readonly string[]).includes(id) || id === "tv_guess_q" || id === "tv_run_lanterns_how")
+        heardAt.set(id, [...(heardAt.get(id) ?? []), t].slice(-4));
+      if (id !== "tv_fs_run") return;
+      navSpeed("slow");
+      window.setTimeout(() => alive && navSpeed("fast"), (end - start) * FAST * 0.6);
     });
 
     const onKey = (e: KeyboardEvent) => {
@@ -2262,19 +2854,26 @@ export function Run({ level, onDone }: LevelProps) {
     return () => {
       alive = false;
       offStreak();
+      offClip();
       cancelAnimationFrame(raf);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", fitCanvas);
+      window.removeEventListener("resize", wake);
       hush();
       // the run's canvases go now, not at some later GC (PERF 8.3: they kept about 12 MB for the rest of the session)
       dropTextures();
       for (const el of [far, land, under, c, raysEl, auraEl]) el.width = el.height = 0;
+      // the dev and bot hooks close over this run (its canvases, its DOM and their listeners): let them go with it
+      // (only if they are still this run's, never a newer Run's)
+      const w = window as any;
+      for (const [k, f] of Object.entries(hooks)) if (w[k] === f) delete w[k];
     };
   }, []);
 
   useHelp((n) => (window as any).__snRunHelp?.(n));
-  // Hear it again: the speaker in the top bar (docs/NAVIGATION.md §3.1), while a word is being asked
-  useNav({ again: banner ? () => api.current.repeat() : null, againAt: "own" });
+  // Hear it again: the speaker in the top bar (docs/NAVIGATION.md §3.1), while a word is being asked. The tortoise and
+  // the rabbit (TEACHER_SCRIPT §9.6) sit under it, on the right, clear of the lanterns and the caught word
+  useNav({ again: banner || jumpAsk ? () => api.current.repeat() : null, againAt: "own", speed: { at: SPEED_AT } });
   const onPointer = (e: React.PointerEvent) => {
     const r = canvasRef.current!.getBoundingClientRect();
     const x = ((e.clientX - r.left) / r.width) * W;
@@ -2295,18 +2894,37 @@ export function Run({ level, onDone }: LevelProps) {
         <div ref={haloRef} className="run-halo" />
       </div>
       <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} onPointerDown={onPointer} />
+      <div ref={flashRef} className="run-flash" aria-hidden="true" />
       <TopBar>
         <div className="spacer" />
         <Progress value={progress} />
         <div className="spacer" />
-        {/* Hear it again, between the progress bar and the petal counter (clear of the Home zone), for every word */}
-        <div className="nav-d-topctl">{banner ? <ReplayButton onReplay={() => api.current.repeat()} size={100} /> : <div style={{ width: 100 }} />}</div>
-        <div className="panel" style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 16px 4px 8px", borderRadius: 40 }}>
-          <img src={img("item_petal")} alt="" style={{ width: 44 }} />
-          <span className="display" style={{ fontSize: 34 }}>{petals}</span>
+        {/* Hear it again, between the progress bar and the star counter (clear of the Home zone), for every word */}
+        <div className="nav-d-topctl">{banner || jumpAsk ? <ReplayButton onReplay={() => api.current.repeat()} size={100} /> : <div style={{ width: 100 }} />}</div>
+        {/* the stars caught on the track (Dec6, SD r41: a teardrop always means a sound, so the counter is stars) */}
+        <div className="panel run-stars" data-stars={stars}>
+          <img src={img("item_star")} alt="" />
+          <span className="display">{stars}</span>
         </div>
       </TopBar>
-      {banner?.mode === "read" && <div className="panel drop-in run-banner">{banner.text}</div>}
+      {/* a group's question: its sounds as neutral dots (the sounds are the question: no petals, Dec1); a reading
+          group's word, its spellings (one lights while Sensei models it after a second miss) */}
+      {banner?.mode === "blend" && (
+        <div className="panel drop-in run-banner run-dots" data-fs-avoid>
+          <SoundDots n={banner.segs.length} lit={dot} size={46} />
+        </div>
+      )}
+      {banner?.mode === "read" && (
+        <div className="panel drop-in run-banner" data-fs-avoid>
+          {banner.segs.map((sg, i) => (
+            <span key={i} className={i === dot ? "rb-seg lit" : "rb-seg"}>
+              {sg.g}
+            </span>
+          ))}
+        </div>
+      )}
+      {/* where a reminder's petal pops: moved over the caught word's lit spelling (the word is drawn on the canvas) */}
+      <div ref={anchorRef} className="run-anchor" aria-hidden="true" />
       <NarrOverlay />
       <SenseiDock />
     </div>

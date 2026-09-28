@@ -15,6 +15,13 @@
 .nav-again-wrap { position: relative; }
 .btn-round.nav-again svg { width: 58%; height: 58%; }
 .btn-round.nav-show svg { width: 66%; height: 66%; }
+svg.nav-paw { display: block; width: 100%; height: 100%; overflow: visible; }
+.btn-round svg.nav-paw { width: 74%; height: 74%; margin-top: 4%; }
+/* Sensei's paw (PawIcon): 74 % of the button, 2 % low (its clip circle is drawn for this). On a dimmed button (a scene's
+   own, nav-C.css navc-dim) the whole paw goes pale; its fur and trim lines stay lines */
+:is(.navc-dim .btn-round, .btn-round.navc-dim) svg.nav-paw :is(path, ellipse) { fill: #efe9df; stroke: #6d6158; }
+:is(.navc-dim .btn-round, .btn-round.navc-dim) svg.nav-paw .pw-bean { fill: #d8cfc2; stroke: none; }
+:is(.navc-dim .btn-round, .btn-round.navc-dim) svg.nav-paw .pw-line { fill: none; stroke: #d8cfc2; }
 
 /* Next: dim until the step has finished (a tap wiggles it), then green, popping in and pulsing; after 8 s idle it glows */
 .nav-next-wrap { position: relative; }
@@ -27,28 +34,180 @@
 .btn-round.nav-next.dim.wiggle { animation: nav-wiggle 0.42s ease-in-out; }
 .btn-round.nav-next.ready {
   background: radial-gradient(circle at 35% 30%, #d9ffe4 0%, var(--good) 50%, var(--good-deep) 100%);
-  animation: nav-pop 0.42s cubic-bezier(0.3, 1.6, 0.6, 1) both, pulse 1.3s ease-in-out 0.42s infinite;
+  /* the pop is on the `scale` property and the endless pulse on `transform`: with both on `transform`, the finished pop's
+     fill kept the pulse off the compositor (60 style recalcs a second through every Ready hold; integration, 27 Sep) */
+  animation: nav-pop-scale 0.42s cubic-bezier(0.3, 1.6, 0.6, 1) both, pulse 1.3s ease-in-out 0.42s infinite;
 }
 .btn-round.nav-next.ready.glow {
   box-shadow: 0 6px 0 var(--ink), 0 0 0 9px #ffc53d, 0 0 0 13px var(--ink), 0 0 38px 16px rgba(255, 220, 120, 0.9);
   animation: nav-bounce 0.9s ease-in-out infinite;
 }
+/* taken (NavSpec.next.taken: a Ready hold's ▶ tapped during the paw's introduction, the hold ending as Sensei's line
+   does): pressed in and still, a shade deeper, no pulse and no idle glow; a further tap squishes it (p1/p2 swap, so each
+   tap restarts the squish). Transform only. */
+.btn-round.nav-next.ready.taken {
+  animation: none; transform: translateY(5px); box-shadow: inset 0 6px 0 rgba(20, 60, 30, 0.28), 0 1px 0 var(--ink);
+  background: radial-gradient(circle at 35% 30%, #b8f0c8 0%, var(--good-deep) 62%, #14773d 100%);
+}
+.btn-round.nav-next.ready.taken.p1 { animation: nav-press-a 0.24s ease-out; }
+.btn-round.nav-next.ready.taken.p2 { animation: nav-press-b 0.24s ease-out; }
+@keyframes nav-press-a { from { transform: translateY(5px) scale(0.9); } to { transform: translateY(5px) scale(1); } }
+@keyframes nav-press-b { from { transform: translateY(5px) scale(0.9); } to { transform: translateY(5px) scale(1); } }
+/* the column (a battle's or a boss's Ready hold): ▶ stands 10 px from the stage's right edge, so its 8 s glow (the gold
+   ring and the bounce's 1.14) ran past it and was cut off. While it glows it steps 26 px in towards the scene, and its
+   soft glow is tighter: ring and bounce stay 10 px inside the edge (verify round 2). `translate` is its own property,
+   so it doesn't fight the bounce's transform. */
+.nav-layer[data-col] > .nav-next-wrap.glowing { translate: -26px 0; }
+.nav-layer[data-col] > .nav-next-wrap .btn-round.nav-next.ready.glow {
+  box-shadow: 0 6px 0 var(--ink), 0 0 0 9px #ffc53d, 0 0 0 13px var(--ink), 0 0 24px 8px rgba(255, 220, 120, 0.9);
+}
 @keyframes nav-pop { from { transform: scale(0.55); } to { transform: scale(1); } }
+@keyframes nav-pop-scale { from { scale: 0.55; } to { scale: 1; } }
 @keyframes nav-bounce { 0%, 100% { transform: translateY(0) scale(1); } 40% { transform: translateY(-14px) scale(1.14); } 60% { transform: translateY(0) scale(0.96, 1.04); } }
 @keyframes nav-wiggle { 0%, 100% { rotate: 0deg; } 20% { rotate: -12deg; } 45% { rotate: 10deg; } 70% { rotate: -6deg; } }
 
-/* the sound picture: the petal teardrop in its chart colour with the chart picture (src/ui/SoundBadge.tsx) */
-.sound-badge { position: relative; display: block; padding: 0; border: 0; background: none; cursor: pointer; filter: drop-shadow(0 5px 0 rgba(43, 29, 20, 0.28)); }
-.sound-badge.still { display: inline-block; cursor: default; filter: none; }
-.sound-badge:active .sound-badge-in { transform: translateY(4px) scale(0.97); }
+/* Show me again (the paw) and Next (▶) in a Ready hold (holdReady, TEACHER_SCRIPT §2.3): the paw pulses with the 24 s
+   offer; each gets a warm-white spotlight while Sensei names it ("Tap the green arrow.", "tap my paw"). The ring is a
+   static shadow on ::after whose opacity fades, and the control grows a little: transform and opacity only. */
+.nav-show-wrap { position: relative; }
+.nav-next-wrap, .nav-show-wrap { transition: transform 0.3s cubic-bezier(0.3, 1.5, 0.6, 1), translate 0.3s cubic-bezier(0.3, 1.5, 0.6, 1); }
+.nav-next-wrap::after, .nav-show-wrap::after {
+  content: ""; position: absolute; inset: -10px; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+  box-shadow: 0 0 0 9px #fff8e8, 0 0 0 13px rgba(43, 29, 20, 0.18), 0 0 44px 22px rgba(255, 248, 226, 0.95);
+}
+.nav-next-wrap.spot, .nav-show-wrap.spot { transform: scale(1.12); }
+.nav-next-wrap.spot::after, .nav-show-wrap.spot::after { opacity: 1; }
+
+/* captions (a grown-ups' setting) while the nav controls stand in the right-hand column (NavLayer's data-col: a column
+   Ready hold, as in a battle, a boss or a story's title): the column covers the bubble's usual place above Help, so the
+   bubble sits left of it (its right edge at x 1104), with its tail off the bottom-right corner, pointing down and right,
+   past the column's foot, at Sensei (as Word Building's and Story Time's do). Specificity (0,2,0), so a scene's own
+   placement for its hold (.bt.bt-hold, .st-scene.k-narr, .early:has(.navc-hold-col)) still wins. Baron's own bubble
+   keeps its place. */
+.stage:where(:has(> .nav-layer[data-col])) .bubble:where(:not(.baron)) { right: 176px; max-width: 420px; font-size: 23px; border-bottom-right-radius: 12px; }
+.stage:where(:has(> .nav-layer[data-col])) .bubble:where(:not(.baron))::before {
+  right: -32px; bottom: -50px; width: 66px; height: 56px; border: 0; border-radius: 0; transform: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='66' height='56' viewBox='0 0 66 56'%3E%3Cpath d='M2 9 L29 9 L62 54 Z' fill='%232b1d14'/%3E%3Cpath d='M0 0 L31 0 L62 49 Z' fill='%23fffdf6'/%3E%3Cpath d='M2 4 L62 49 L29 4' fill='none' stroke='%232b1d14' stroke-width='4' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat;
+}
+
+/* ---------------------------------------------------------------- sounds (src/ui/SoundBadge.tsx, SOUND_DISPLAY §4)
+   A petal's layers: .sb-in (arrival from a row, the press) > .sb-swell (swell, nod, shake: Web Animations) >
+   .sb-breathe (the breathing pulse; the introduction's grow) > the art (the teardrop svg, the picture, the mist).
+   The shadow is drawn in the svg (no filter). Transform and opacity only; the breathing is the one endless animation. */
+.sound-badge { position: relative; display: block; flex: none; padding: 0; border: 0; background: none; cursor: pointer; }
+.sound-badge.still, .sound-badge.passive { display: inline-block; cursor: default; pointer-events: none; }
+.sb-in, .sb-swell, .sb-breathe { position: absolute; inset: 0; display: block; }
+.sb-in { transition: transform 0.08s; }
+.sound-badge:active .sb-in { transform: translateY(4px) scale(0.97); }
+.sb-swell { transform-origin: 50% 40%; }
+.sb-breathe { transform-origin: 50% 62%; }
+.sb-breathe.breathe { animation: sb-breathe 0.8s ease-in-out infinite alternate; }
+@keyframes sb-breathe { from { transform: scale(1); } to { transform: scale(1.04); } }
+.sb-shape { position: absolute; left: 0; top: 0; overflow: visible; }
+.sb-pic { position: absolute; display: block; pointer-events: none; }
+.sb-pic.hid { opacity: 0; }
+.sb-pic img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* the mist: its window slides up while its content stays put (the introduction's wipe); a sound not met yet keeps it */
+.sb-mist { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.sound-badge.misty .sb-mist { overflow: visible; }
+.sb-mist-in { position: absolute; inset: 0; }
 .sound-badge.pulse { animation: pulse 1.3s ease-in-out infinite; }
-.sound-badge-in { position: absolute; inset: 0; display: block; transform-origin: 50% 40%; }
-.sound-badge-in.swell { animation: sb-swell 0.3s ease-out; }
-.sound-badge-in svg { position: absolute; inset: 0; overflow: visible; }
-.sound-badge-in img { position: absolute; object-fit: contain; pointer-events: none; }
+/* the first sound of a contrast: faded and half its colour (it shakes once as it dims) */
+.sound-badge.dim .sb-breathe { opacity: 0.62; filter: saturate(0.5); transition: opacity 0.25s; }
+/* the nav row's petal: it pops in, and steps aside while a hero, BigPetal or pop of the same sound is up (SD A7) */
+.sound-badge.nav-sound { animation: nav-pop 0.3s cubic-bezier(0.3, 1.6, 0.6, 1) both; transition: opacity 0.2s; }
+.sound-badge.dup { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s, visibility 0s 0.2s; }
 .sound-badge-hear {
   position: absolute; display: grid; place-items: center; pointer-events: none;
   border-radius: 50%; border: 4px solid var(--ink); background: radial-gradient(circle at 35% 30%, #fff6c8, #ffc53d 75%); box-shadow: 0 3px 0 var(--ink);
 }
 .sound-badge-hear svg { width: 72%; height: 72%; }
-@keyframes sb-swell { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
+
+/* two sounds: side by side, each popping in on its own clip; together, a small gold "+" between them. < x > (/ks/) is one
+   button over both petals and the "+" (SoundBadge's PairBadge): pressed, both petals press in; a join-in breathes */
+.sound-pair { position: relative; display: inline-block; flex: none; }
+.sound-pair-box.nav-sound { animation: nav-pop 0.3s cubic-bezier(0.3, 1.6, 0.6, 1) both; }
+.sound-badge.sound-pair-btn { display: block; }
+.spb-nod { position: absolute; inset: 0; display: block; transform-origin: 50% 62%; }
+.spb-nod.breathe { animation: sb-breathe 0.8s ease-in-out infinite alternate; }
+.sp-half { position: absolute; top: 0; transition: opacity 0.22s, transform 0.22s cubic-bezier(0.3, 1.5, 0.6, 1); }
+.sp-half.hid { opacity: 0; transform: scale(0.6); }
+.sp-plus {
+  position: absolute; z-index: 2; display: block; border-radius: 50%; border: 4px solid var(--ink); pointer-events: none;
+  background: radial-gradient(circle at 35% 30%, #fff6c8, #ffc53d 70%, #e0a21a); box-shadow: 0 2px 0 rgba(43, 29, 20, 0.5);
+}
+.sp-plus::before, .sp-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 54%; height: 15%; border-radius: 3px; background: var(--ink); transform: translate(-50%, -50%); }
+.sp-plus::after { transform: translate(-50%, -50%) rotate(90deg); }
+
+/* oral blending's neutral dots (Dec1): one per sound; the sounding one gold and big, the heard ones soft gold */
+.sound-dots { display: inline-flex; align-items: center; justify-content: center; }
+.sd-dot {
+  display: block; flex: none; border-radius: 50%; background: #fff8e8; border: 5px solid var(--ink); box-shadow: 0 4px 0 rgba(43, 29, 20, 0.35);
+  transition: transform 0.16s cubic-bezier(0.3, 1.6, 0.6, 1), background-color 0.16s;
+}
+.sd-dot.done { background: #ffe7a0; }
+.sd-dot.on { background: #ffc53d; transform: scale(1.3); }
+.sd-bloom { animation: sd-bloom 0.45s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+@keyframes sd-bloom { from { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.12); opacity: 1; } to { transform: scale(1); } }
+
+/* a row of petals: the Dojo's misty ones waiting, the Learn's two mini petals (unlit ones faint) */
+.sound-row { display: inline-flex; align-items: flex-end; }
+.sr-slot { position: relative; display: block; flex: none; transition: opacity 0.25s; }
+.sr-slot.unlit { opacity: 0.32; }
+
+/* a pop (SD §4.4): above its anchor, rising from its tail (scale 0.6 → 1 in 200 ms), gone 700 ms after its clip. It is
+   already half there in the first frame it is painted in (opacity 0.55, not 0): on a busy phone that frame can come
+   late, right on the sound, and a pop fading up from nothing then missed its sound (the sweep under load, 27 Sep) */
+.nav-layer > .sound-pops { position: absolute; inset: 0; z-index: 83; pointer-events: none; }
+.sound-pop { position: absolute; pointer-events: none; transform-origin: 50% 100%; animation: sp-rise 0.2s cubic-bezier(0.3, 1.5, 0.6, 1) both; }
+.sound-pop.tail-left { transform-origin: 0% 50%; }
+.sound-pop.tail-right { transform-origin: 100% 50%; }
+.sound-pop.tail-none { transform-origin: 50% 50%; }
+.sound-pop.leaving { animation: sp-leave 0.25s ease-in both; }
+@keyframes sp-rise { from { transform: scale(0.6); opacity: 0.55; } 45% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
+@keyframes sp-leave { from { transform: scale(1); opacity: 1; } to { transform: scale(0.72); opacity: 0; } }
+/* the tail: a little ink-edged triangle in the petal's colour, in the 12 px between the petal's point and the anchor */
+.sound-pop-tail { position: absolute; width: 20px; height: 11px; left: 50%; top: 100%; margin: 0 0 0 -10px; }
+.sound-pop-tail::before, .sound-pop-tail::after { content: ""; position: absolute; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.sound-pop-tail::before { inset: 0; background: var(--ink); }
+.sound-pop-tail::after { left: 5px; right: 5px; top: 0; height: 6px; background: var(--tail, #ffc53d); }
+.sound-pop.tail-left .sound-pop-tail { left: -15px; top: 50%; margin: -5px 0 0; transform: rotate(90deg); }
+.sound-pop.tail-right .sound-pop-tail { left: auto; right: -15px; top: 50%; margin: -5px 0 0; transform: rotate(-90deg); }
+
+/* ---------------------------------------------------------------- the tortoise and the rabbit (nav.tsx, TEACHER_SCRIPT §9.6)
+   Beside Hear it again while a screen has a fast/slow moment. A badge's layers: .fs-badge (placed by the layer; pops in;
+   the spotlight) > .fs-lift (lit: a little bigger; live: the pulse) > .fs-move (the step, the hop, the wiggle and the
+   hop to or from the live place: Web Animations) > .fs-ring (the gold ring when lit) + .fs-face (the disc and the
+   picture). Dim until lit: the picture faded on a pale disc; lit, the disc takes its colour and the ring shows. The
+   live rabbit (Move 1) is a full tap target that pulses. Transform and opacity only; the rings are still shadows whose
+   opacity changes. */
+.nav-layer > .fs-badges { position: absolute; inset: 0; pointer-events: none; }
+.fs-badge {
+  position: absolute; z-index: 84; pointer-events: auto; cursor: default; -webkit-tap-highlight-color: transparent;
+  animation: fs-in 0.36s cubic-bezier(0.3, 1.5, 0.6, 1) both;
+}
+.fs-lift, .fs-move, .fs-ring, .fs-face { position: absolute; inset: 0; display: block; }
+.fs-lift { transition: transform 0.22s cubic-bezier(0.3, 1.5, 0.6, 1); }
+.fs-move { transform-origin: 50% 70%; }
+.fs-face { border-radius: 50%; border: 4px solid var(--ink); background: #f8f1e3; box-shadow: 0 5px 0 var(--ink); overflow: hidden; }
+.fs-face::before { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s; background: radial-gradient(circle at 40% 32%, #f7fff2, #bfe6a0 80%); }
+.fs-badge.rabbit .fs-face::before { background: radial-gradient(circle at 40% 32%, #fff6fb, #ffc4d9 80%); }
+.fs-face img { position: absolute; left: 11%; top: 11%; width: 78%; height: 78%; object-fit: contain; opacity: 0.62; transition: opacity 0.2s; pointer-events: none; }
+.fs-ring { border-radius: 50%; opacity: 0; transition: opacity 0.2s; box-shadow: 0 0 0 5px #ffc53d, 0 0 0 8px var(--ink), 0 0 26px 10px rgba(255, 214, 102, 0.75); }
+.fs-badge.lit .fs-lift { transform: scale(1.14); }
+.fs-badge.lit .fs-face::before, .fs-badge.live .fs-face::before { opacity: 1; }
+.fs-badge.lit .fs-face img, .fs-badge.live .fs-face img { opacity: 1; }
+.fs-badge.lit .fs-ring { opacity: 1; }
+/* Move 1: the rabbit, big and live, pulsing; from 8 s its ring pulses too; the warm-white spotlight on "rabbit" */
+.fs-badge.live { cursor: pointer; }
+.fs-badge.live .fs-face { border-width: 6px; box-shadow: 0 7px 0 var(--ink); }
+.fs-badge.live .fs-lift { animation: fs-pulse 1.1s ease-in-out infinite; }
+.fs-badge.live.glow .fs-ring { animation: fs-ring 1.1s ease-in-out infinite; }
+.fs-badge::after {
+  content: ""; position: absolute; inset: -10px; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+  box-shadow: 0 0 0 9px #fff8e8, 0 0 0 13px rgba(43, 29, 20, 0.18), 0 0 44px 22px rgba(255, 248, 226, 0.95);
+}
+.fs-badge.spot::after { opacity: 1; }
+@keyframes fs-in { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes fs-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.09); } }
+@keyframes fs-ring { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }

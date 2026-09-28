@@ -18,7 +18,10 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { LEVELS, WORLDS } from "../../src/content/worlds";
 import { LINES } from "../../src/content/lines";
 import { STORIES } from "../../src/content/stories";
-import { save, step, FLOWER_SAVE } from "./bot";
+import { decodeForTranscript } from "../../src/content/templates-decode";
+import { save, step, FLOWER_SAVE, unlockAudio } from "./bot";
+import { helpGuard } from "../lib/help";
+helpGuard(import.meta.url); // --help prints the usage above and exits, before anything runs
 
 const arg = (k: string, d?: string) => {
   const i = process.argv.indexOf(`--${k}`);
@@ -32,7 +35,7 @@ const RUN = arg("out") ?? `playtest/transcripts/${new Date().toISOString().slice
 mkdirSync(RUN, { recursive: true });
 
 const LINE = new Map(LINES.map((l) => [l.id, l]));
-const PAGE = new Map(STORIES.flatMap((st) => st.pages.map((p) => [`${st.id}_${p.id}`, p.text] as const)));
+const PAGE = new Map<string, string>(STORIES.flatMap((st) => st.pages.map((p) => [`${st.id}_${p.id}`, p.text] as const)));
 
 /** `url`: the clip that played (speech events), so scripts/treadmill/joins.ts can rebuild what the child heard. */
 type Ev = { t: number; kind: "say" | "sound" | "word" | "stretch" | "onset" | "story" | "tap" | "nav" | "hold" | "ready" | "paw" | "sfx" | "scene"; who?: string; text: string; url?: string };
@@ -60,6 +63,9 @@ const CASES: Case[] = [
 
 function decode(url: string): Omit<Ev, "t"> | null {
   let m;
+  // a templated clip (/a/t/, docs/SPEECH_TEMPLATES.md): its text, from the template registry
+  const tpl = decodeForTranscript(url);
+  if (tpl) return tpl;
   if ((m = url.match(/\/a\/l\/([^/]+)\.mp3/))) {
     const l = LINE.get(m[1]);
     return { kind: "say", who: l?.who ?? "sensei", text: l?.text ?? `[line ${m[1]}]` };
@@ -89,7 +95,7 @@ async function play(page: Page, c: (typeof CASES)[number], persona: "perfect" | 
   await page.goto(BASE + "/play/");
   await page.evaluate((s) => localStorage.setItem("superninja.save.v1", JSON.stringify(s)), { ...c.save, settings: { relaxed: false, music: 0, captions: true, unlockAll: true } });
   await page.goto(`${BASE}${c.url}&fast=${FAST}`);
-  await page.mouse.click(420, 4);
+  await unlockAudio(page); // (not a click at the top: it landed on whatever was there)
   const t0 = Date.now();
   let lastScene = "";
   const scenes: Ev[] = [];
@@ -123,7 +129,7 @@ async function play(page: Page, c: (typeof CASES)[number], persona: "perfect" | 
     if (persona === "learner" && st.next && ++item % 3 === 0) {
       const wrong = page.locator(`button.tile:not([aria-label="${st.next}"]), .pick-row button:not([aria-label="${st.next}"])`).first();
       if (await wrong.count()) {
-        await wrong.dispatchEvent("pointerdown").catch(() => {});
+        await wrong.dispatchEvent("pointerdown", undefined, { timeout: 800 }).catch(() => {});
         await page.waitForTimeout(900);
       }
     }

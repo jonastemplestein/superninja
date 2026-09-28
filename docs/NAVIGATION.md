@@ -20,7 +20,7 @@ Three words are used throughout:
 The rules:
 1. **Home is on every screen** except the title (which is home), top-left, always on top and never covered.
 2. **A step never moves on by itself.** When a step has finished, the screen holds and a big green Next arrow waits. Back and Hear it again are there too.
-3. **A show may lead straight into a turn**, because the turn waits for the child. In that turn, **Hear it again** replays the question and anything explained with it, and, if a demo led into the turn, **Show me again** replays the demo.
+3. **A show may lead straight into a turn**, because the turn waits for the child. In that turn, **Hear it again** replays the question and anything explained with it, and, if a demo led into the turn, **Show me again** replays the demo. *Amended 27 Sep (teacher-voice mechanics §10.4, TEACHER_SCRIPT T2–T4): on a game's **full** form (and a recap after 21 days or a struggle) the show leads into a **Ready hold** (`holdReady()`: ▶ "I'm ready", the paw "show me again", a board tap also ready, a right answer on a hand-over Ready also the answer), and the turn follows the child's answer. Short forms and later plays still go straight into the turn.*
 4. **After a turn is answered**, its feedback plays and what comes next starts by itself, as now: the child's answer was the input.
 5. **No timer ever moves on.** No auto-picks, no paw that answers for the child, no "if nobody taps in 4 s". Idle help escalates (a glow, the question again, the paw pointing) but waits.
 6. **Next is dim and does nothing until the step has finished** (a tap on it gives a little wiggle). Back and Hear it again work at any time. Once a step has finished, Hear it again replays it with Next still green (the child has seen it; a tap on Next goes on at once).
@@ -63,6 +63,8 @@ Played on the dev server at 844×390 (a landscape phone). "Home" means a Home bu
 | Map after the first session: "Your Sticker Book lives here, on the map!" | yes | ◀ ▶ worlds | no (Help says `help_map`) | nothing | that explanation (said once) |
 
 ### 2.3 Hubs and the World Flower
+
+> *27 Sep:* this is the inventory as it was on 26 Sep. The World Flower is now SCROLL_DESIGN v2's (B2): the free view, **the chart** (half-sheets, swiped vertically) and **the card** in place of the petal panel. Home, Hear it again and the held steps work as §3 says; the chart is out of reach (`inert`) while a trip plays on it and until its Next, and the first visit is three held steps with the child's own petal (B3).
 
 | Screen or moment (file) | Home | Way back | Replay | Moves on by itself today | A child could miss |
 |---|---|---|---|---|---|
@@ -183,7 +185,7 @@ Turns keep their own idle help, minus anything that moves on: warm-up and pictur
 |---|---|---|
 | Get ready (Setup) | the title | same as "No thanks, play here" |
 | Who's playing?, New player | the title | |
-| Intro film, Choose, the opt-in, the Dojo welcome | the title | Start → the player → `afterLaunch()` resumes: the film (not seen), the opt-in (a brand-new child), the welcome (`seenTraining` unset) |
+| Intro film, Choose, the opt-in, the Dojo welcome | the title | Start → `afterLaunch()` as the current player ("Who's playing?" only without one: TITLE_DESIGN §9.7, 27 Sep) → resumes: the film (not seen), the opt-in (a brand-new child), the welcome (`seenTraining` unset) |
 | The first session's lessons and their Sticker Book rewards | the title | `firstSession` is kept, so Start resumes the lesson. Reward 1's Home first moves `firstSession.step` to 1 (Lesson 1 is done); Reward 2's Home does what its Next does (the first session is over) and lands on the map with its Sticker Book introduction |
 | The map | the title | (as now) |
 | A level | the map of its land | `streak.drop()` (as now) |
@@ -311,6 +313,12 @@ navLog(e): void                           // window.__snNavLog
 - **Icons** (ui.tsx): `Icon.paw`, `Icon.again` (↻). `RoundButton` takes `nav` (sets `data-nav`). `pushHelp(fn)` is useHelp outside a component.
 - **Styles:** `src/styles/nav.css` (imported by nav.tsx): the Home and nav-row controls, `.nav-next.dim` / `.ready` / `.glow` / `.wiggle`, `.topbar.nav-topbar`, and the sound badge.
 - **Line:** `nav_ready` "Tap the arrow when you're ready!" (content/lines.ts, "Navigation" block), recorded as one whole sentence (judge 10/10) and linted (Jev: no findings).
+- **Added 27 Sep (the fix workflow, F3; TEACHER_SCRIPT §2.3, §9.6):**
+  - `holdReady(key, { ask, again, show?, showSay?, after?, offer?, help?, spot?, handover?, answer?, sound?, at?, pose? }): Promise<"next" | "board" | "answer" | false>`: one modal nav entry on `holdNext`; ▶ and the paw live from the first word of `ask`; the idle ladder (8 s ▶ glows with the hand, 16 s `nav_ready`, 24 s `tv_offer_show` once, 40 s `nav_ready`, then quiet); Help's first press says `tv_ready_help`; ▶ dims while the paw's replay plays, then `tv_ready_now`; the ninja takes its ready stance facing ▶ and bows on the answer. `readyTap({ right?, label? })` is a board tap during a hold (`right`: a right answer on a hand-over Ready, T4). `readyStop()`, `readyHeld()`. `__snNav.pres.id` starts with `ready:`, and `__snNav.ready = { handover, answer }`.
+  - Spotlights: ▶ on "green arrow" and the paw on "paw", automatic in any line said during a hold (times from `LINE_WORDS` in `word-times.ts`).
+  - Fast and slow: `NavSpec.speed?: { own?: boolean } | null` shows the tortoise and rabbit beside the speaker (`own`: the scene draws its own, as the warm-ups do); `navSpeed("slow" | "fast" | null)` lights one (any `stretch:` clip lights the tortoise by itself); `rabbitTap({ slow?, timeoutMs? }): Promise<"tap" | "timeout">` is Move 1's join-in (the rabbit ≥ 100 stage px, spotlit, a hop at 8 s, "timeout" at 12 s).
+  - `navLog` kinds: `ready` (`{ id, how: "next" | "show" | "board" | "answer", label }`), `paw` (a demo paw moving: `{ id }`), `speed` (`{ which, via, shown }`) and `rabbit` (`{ how: "tap" | "timeout" }`, a child action for `talk-before-action`).
+  - z-order: the confirm (`src/ui/Confirm.tsx`, wired by the follow-up workflow) sits at z 87, over the scene layers, the nav row and Help, and under Home (88).
 
 ---
 
@@ -337,7 +345,7 @@ A sound is shown to children as its **petal**, never as letters: the teardrop in
 | The petal panel's header (Tree.tsx `PetalDetail`) | today's inline petal becomes `<SoundBadge size={200}>` (it already leads with the picture and no letters) |
 | The World Flower's first visit ("This is the petal for the sound… /a/", `FlowerIntro`) and a new land's recap head (`WorldVisit`) | `SoundBadge` in place of the outline with a picture in its corner, and of the bare picture |
 | The petal chart scroll (`ScrollPetal`) | the picture sits in the petal's top-right corner, like the school chart, 64 px (was 52), on every met petal; unmet petals keep the mist |
-| The World Flower (`WorldFlower`) | every met petal (light > 0) shows its picture near its round tip, upright (counter-rotated), at 55% of the petal's width; unmet petals stay pale ghosts, or in the mist |
+| The World Flower (`WorldFlower`) *(27 Sep: SCROLL_DESIGN v2 replaced the petal panel with **the card**, whose chosen spelling is a button that says its sound beside the sound's petal, and the chart scroll with **the chart**, half-sheets with each met petal's picture top right and its spellings as gem meters; both keep this rule)* | every met petal (light > 0) shows its picture near its round tip, upright (counter-rotated), at 55% of the petal's width; unmet petals stay pale ghosts, or in the mist |
 | Captions (a grown-ups' setting) | a sound is drawn as a 34 px petal picture instead of "/ae/" or 🔊 (the caption becomes text parts plus sound parts; engine/audio.ts and `SenseiDock`) |
 
 The gem victory, the trips and Reward 2's first petal already show the whole petal with its picture (`BigPetal`, `WorldFlower`).
@@ -479,6 +487,7 @@ Shared work comes first (one agent); then groups A to D can run in parallel. Eve
 - **Battle.tsx**
   - Remove the top-bar Home (the hearts stay).
   - The intro lines (Baron's threat, `battle_start` or `challenge_start`, Baron's motive, a trial's explanation, the timer and hearts explanation with its bar, the neighbours reminder) join the first word's bundle: "Hear the word" beside the card works once the intro has finished and, for the first word, plays the intro again (the bar refills while the timer lines are said), then the word; later words, the word.
+  - *Amended 27 Sep (D2, TEACHER_SCRIPT §3.18):* "plays the intro again" applies only to the **short** form, which has no Ready hold; after a Ready hold, Hear it again on the first word says only the question. During the demo's join-ins (the word card, "Can you find the last one?"), Hear it again and Help say the invitation and never answer it.
   - A Gem Trial's charge pauses while a replay plays.
   - `onDone(stars, { closing: boss ? undefined : "battle_win" })` (a boss's "You beat the boss!" is already the reward's first line, so it isn't passed twice).
 - **Swap.tsx**

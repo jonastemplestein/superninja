@@ -10,13 +10,17 @@ import { useNav } from "../ui/nav";
 import "../styles/shell.css";
 import { say } from "../engine/audio";
 
-const NAME_COLOURS = ["#ffc53d", "#8fd16a", "#6cc6f0", "#ff9ec0", "#b99cff", "#ffa46b"];
+/** The players' colours, shared with the title's "Who's playing?" chip (Title.tsx; TITLE_DESIGN §9.5). */
+export const NAME_COLOURS = ["#ffc53d", "#8fd16a", "#6cc6f0", "#ff9ec0", "#b99cff", "#ffa46b"];
+export const nameColour = (name: string) => NAME_COLOURS[[...name].reduce((a, c) => a + c.charCodeAt(0), 0) % NAME_COLOURS.length];
 
-export function Profiles({ onPlay, onNew, onHome }: { onPlay: () => void; onNew: () => void; onHome?: () => void }) {
+/** `naming`: open on the name screen (the title's "New ninja", TITLE_DESIGN §9.5). */
+export function Profiles({ onPlay, onNew, onHome, naming: startNaming }: { onPlay: () => void; onNew: () => void; onHome?: () => void; naming?: boolean }) {
   useSave((s) => s); // re-render on changes
   useNav({ home: onHome }); // (none given: App's Home rule, the title)
   const list = profilesApi.list();
-  const [naming, setNaming] = useState(list.length === 0);
+  // (?naming=1 opens straight on the name screen: the cheat menu's "Who's playing?" jump, docs/CHEATS.md)
+  const [naming, setNaming] = useState(() => list.length === 0 || !!startNaming || new URLSearchParams(location.search).get("naming") === "1");
   const [picked, setPicked] = useState<string | null>(null); // the picked player's ninja hops for joy, then we go
   // The cards keep the order they had when the screen opened: picking a player (or anything else touching the save)
   // must never re-sort them under the child's finger mid-hop. New players (made on this screen) go at the end.
@@ -62,7 +66,7 @@ export function Profiles({ onPlay, onNew, onHome }: { onPlay: () => void; onNew:
             ) : (
               // no ninja chosen yet: a big first letter in the child's own colour, so siblings' cards differ
               <div style={{ height: ch - 100, display: "grid", placeItems: "center" }} className={picked === p.id ? "profile-hop" : ""}>
-                <span style={{ width: 150, height: 150, borderRadius: "50%", display: "grid", placeItems: "center", background: NAME_COLOURS[[...p.name].reduce((a, c) => a + c.charCodeAt(0), 0) % NAME_COLOURS.length], border: "6px solid var(--ink)", boxShadow: "0 6px 0 var(--ink)", font: "700 96px/1 var(--font-letters)", color: "var(--ink)" }}>{[...p.name][0]}</span>
+                <span style={{ width: 150, height: 150, borderRadius: "50%", display: "grid", placeItems: "center", background: nameColour(p.name), border: "6px solid var(--ink)", boxShadow: "0 6px 0 var(--ink)", font: "700 96px/1 var(--font-letters)", color: "var(--ink)" }}>{[...p.name][0]}</span>
               </div>
             )}
             <span style={{ fontFamily: "var(--font-letters)", fontWeight: 700, fontSize: p.name.length > 9 ? 26 : 34, marginTop: 6, maxWidth: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</span>
@@ -92,9 +96,11 @@ function NewPlayer({ onDone, onBack }: { onDone: () => void; onBack?: () => void
     profilesApi.create(n);
     onDone();
   };
-  // a child who can't type yet isn't stuck: the first empty tap asks for a grown-up, the second plays as "Ninja 2"
+  // a child who can't type yet isn't stuck: the first empty tap asks for a grown-up; on a device's first player the
+  // second plays as "Ninja 1". When other players exist, empty taps only ask again (docs/CONFIRM.md §1: two taps must
+  // never make a stray "Ninja 3" beside a sibling's save).
   // (one tap on Go runs this twice: on finger-down, then again as the form's submit, since the button is in the form;
-  // the second run is ignored, or an empty tap would skip straight to "Ninja 2")
+  // the second run is ignored, or an empty tap would skip straight to the fallback)
   const lastTry = useRef(0);
   const tryGo = () => {
     const now = performance.now();
@@ -102,7 +108,7 @@ function NewPlayer({ onDone, onBack }: { onDone: () => void; onBack?: () => void
     lastTry.current = now;
     if (name.trim()) return go();
     emptyTaps.current++;
-    if (emptyTaps.current === 1) {
+    if (emptyTaps.current === 1 || profilesApi.list().length > 0) {
       sfx.pop();
       setAsked(true);
       say({ line: "help_name" });

@@ -1,0 +1,75 @@
+cheat menu check on http://127.0.0.1:4901/play/
+  shot playtest/cheat/01-title-before.png
+  ok   the menu's chunk is not loaded before the first open
+  ok   no menu element while closed
+open by five corner taps
+  ok   four taps: still closed
+  ok   five taps in the corner open the menu
+  ok   the chunk loads on the first open (1)
+  shot playtest/cheat/02-menu-jump-tab.png
+  shot playtest/cheat/03-menu-jump-flower.png
+  shot playtest/cheat/04-menu-jump-voice.png
+jump 1: level w1-7 (Sound Hunt)
+  ok   the menu closes on a jump
+  ok   route level:w1-7
+  shot playtest/cheat/05-jump-level-w1-7.png
+jump 2: Map: Shadow Castle
+  ok   route map
+  ok   the map shows land 5
+  shot playtest/cheat/06-jump-map-castle.png
+jump 3: World Flower petal detail
+  ok   tree open on /ae/ ({"scene":"tree","view":1,"open":"ae","visit":null,"step":"free","beat":"","intro":false,"busy":false,"done":false})
+  ok   the petal detail's transient URL is taken down
+  shot playtest/cheat/07-jump-petal-detail.png
+jump 4: gem won
+  ok   the tree plays the gem visit
+  ok   the gem is won in the save
+  shot playtest/cheat/08-jump-gem-won.png
+jump 5: reward with stickers and gems
+  ok   route reward:w2-4
+  ok   the reward's book counts up to the book's total (3)
+  shot playtest/cheat/09-jump-reward-stickers.png
+jump 6: teacher voice: Monster Battle, recap after a struggle
+  ok   ledger game:battle {"n":2,"at":[0,0],"s":[-2,-1],"lastAt":1790403519668,"lastSession":-1,"struggled":true}
+  ok   route level:w1-6
+  shot playtest/cheat/10-jump-battle-recap.png
+preset 1: Middle of Reception
+  shot playtest/cheat/11-menu-mastery-before.png
+  ok   stars up to w3-12, none from w4-1
+  ok   units 1–6 gems won, unit 7 charging
+  ok   161 words found, warm-up stickers in the book
+  ok   on the map of Dragon River
+  shot playtest/cheat/12-preset-mid-reception-map.png
+  shot playtest/cheat/13-menu-mastery-mid-reception.png
+  shot playtest/cheat/14-menu-mastery-sounds.png
+  shot playtest/cheat/15-menu-mastery-gems.png
+mastery: tap /sh/ (not met → met)
+  ok   /sh/ is met (ch-snd met)
+  ok   sh is in the petals
+preset 2: End of Year 2
+  ok   every level finished
+  shot playtest/cheat/16-preset-end-year-2-map.png
+jump 7: the World Flower, complete
+  shot playtest/cheat/17-jump-flower-complete.png
+tabs: Time and voice, Play, Save
+  shot playtest/cheat/18-menu-time.png
+  ok   22 days away: the Ninja Run's intro is a recap
+  shot playtest/cheat/19-menu-play.png
+  shot playtest/cheat/20-menu-save.png
+  ok   Close removes the menu
+  ok   the __snState overlay is up
+  shot playtest/cheat/21-state-overlay.png
+keyboard: backquote opens, Escape closes
+  ok   backquote opens
+  ok   Escape closes
+reload-mode jump: level w2-4
+  ok   reloaded on ?level=w2-1
+  ok   route level:w2-1
+  ok   the overlay came back after the reload
+  shot playtest/cheat/22-reload-jump-w2-1.png
+?cheat=1 opens it on load
+  ok   ?cheat=1 opens the menu
+  shot playtest/cheat/23-cheat-param.png
+  ok   no page errors (0)
+
+all checks passed

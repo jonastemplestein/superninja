@@ -1,0 +1,1013 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Speech templates pilot</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#16223a;--muted:#5a6882;--line:#e2e7f0;--accent:#2f5bd3;--new:#0f7a4a;--newbg:#dcf3e7;--bad:#9c2a1d;--badbg:#fde4e0;--tag:#e8edf7;--code:#eef1f7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--card:#171e2d;--ink:#e6ebf5;--muted:#9aa7bf;--line:#283246;--accent:#8fb0ff;--new:#6fd8a3;--newbg:#15392a;--bad:#ff9d8f;--badbg:#44211c;--tag:#232c3f;--code:#1f2738}}
+:root[data-theme="dark"]{--bg:#0f1420;--card:#171e2d;--ink:#e6ebf5;--muted:#9aa7bf;--line:#283246;--accent:#8fb0ff;--new:#6fd8a3;--newbg:#15392a;--bad:#ff9d8f;--badbg:#44211c;--tag:#232c3f;--code:#1f2738}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header,main,footer{max-width:1080px;margin:0 auto;padding:0 16px}header{padding-top:28px}
+h1{font-size:1.7rem;margin:0 0 .3rem}h2{font-size:1.15rem;margin:0 0 .2rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline}
+code{background:var(--code);padding:.05rem .35rem;border-radius:.3rem;font-size:.85em}.tpl{font-weight:600}
+.lead{color:var(--muted);max-width:70ch;margin:.3rem 0 1rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:1rem 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}.stat b{display:block;font-size:1.5rem}.stat span{color:var(--muted);font-size:.85rem}
+.bar{position:sticky;top:0;z-index:2;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.bar button,.pick{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:.35rem .9rem;cursor:pointer}
+.bar button[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin:.5rem 0 1rem}nav a{font-size:.8rem;color:var(--accent);text-decoration:none;background:var(--tag);padding:.15rem .5rem;border-radius:.4rem}
+section{margin:28px 0}.sub{color:var(--muted);margin:.1rem 0 .4rem;font-size:.92rem}.why{margin:.2rem 0 .8rem;max-width:75ch}
+.pair{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.vals{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}.val{background:var(--tag);border-radius:.4rem;padding:.05rem .45rem;font-size:.85rem}.val b{color:var(--muted);font-weight:500}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:12px}.side{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.tag,.blindtag{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.tag.new{color:var(--new)}
+.blindtag{display:none}.said{margin:0;font-size:.98rem;min-height:1.5em}audio{width:100%;height:40px}
+.pick{display:none;align-self:flex-start;font-size:.85rem}
+.game{margin-top:8px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:center;font-size:.9rem;color:var(--muted)}.game audio{grid-column:1/-1}
+.meta{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.8rem;color:var(--muted)}
+.join{background:var(--tag);border-radius:.4rem;padding:.05rem .45rem}.join.over{background:var(--badbg);color:var(--bad)}
+.verdict{font-size:.8rem;font-weight:700;border-radius:.4rem;padding:.05rem .45rem;background:var(--tag)}.verdict.win{background:var(--newbg);color:var(--new)}.verdict.loss{background:var(--badbg);color:var(--bad)}
+details{font-size:.85rem}details ul{margin:.3rem 0;padding-left:1.1rem}
+table{border-collapse:collapse;width:100%;background:var(--card);border-radius:12px;overflow:hidden;font-size:.9rem}th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+.scroll{overflow-x:auto}
+body.blind .tag,body.blind .said,body.blind .verdict,body.blind .meta,body.blind .game,body.blind .why,body.blind .sub{display:none}
+body.blind .blindtag{display:block}body.blind .pick{display:inline-block}body.blind .pair.done .tag,body.blind .pair.done .said,body.blind .pair.done .verdict{display:revert}
+body.blind .pair.done .pick{display:none}body.blind .pair.done .side.chosen{outline:3px solid var(--accent)}
+footer{color:var(--muted);font-size:.85rem;padding-bottom:40px}
+.findings{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:0 0 8px}.findings ul{margin:.4rem 0 0;padding-left:1.1rem}.findings li{margin:.35rem 0;max-width:80ch}
+@media (max-width:640px){.sides{grid-template-columns:1fr}h1{font-size:1.4rem}}
+</style></head><body>
+<header>
+<h1>Speech templates · pilot</h1>
+<p class="lead">Jonas, 27 Sep: “instead of ‘say this sound: a’ you can say ‘say the sound a’ … instead of ‘say this word slowly: mat’, you would say ‘say mat slowly’.” Each pair is the same moment in the game said two ways: <b>today</b> (the recorded carrier line, then the word or sound clip, as the game joins them now) and <b>new</b> (the template: the word said inside one recorded take, or a lead-in with the checked pure sound after it). Both are Erinome. Units IC1–IC4 (the first two worlds). Blind mode hides which is which.</p>
+<div class="stats">
+<div class="stat"><b>73%</b><span>judge votes for new, all 120 votes (30 of 40 pairs)</span></div>
+<div class="stat"><b>75%</b><span>without the two same-words controls (108 votes)</span></div>
+<div class="stat"><b>76%</b><span>word templates (51 votes)</span></div>
+<div class="stat"><b>74%</b><span>sound templates (57 votes)</span></div>
+<div class="stat"><b>573</b><span>clips recorded of 591; 18 failed every take</span></div>
+<div class="stat"><b>106 min</b><span>to render (1,872 TTS takes, 250 judged)</span></div>
+</div>
+<section class="findings"><h2>What the pilot found</h2><ul><li><b>The judge preferred the template in 81 of 108 votes (75%)</b>: word templates 39 of 51 (76%), sound templates 42 of 57 (74%). The two same-words controls split 6 of 12, so it isn't just picking the new recording. 30 of the 40 pairs went to the template. (Re-judged 28 Sep after the re-render; votes on pairs whose audio changed were cast again.)</li><li><b>Jonas's examples:</b> “Say the sound… /a/” won 9 of 9 against “Say… /a/”. “Say mat slowly.” won 7 of 9 against “Say this word slowly… mat” (a carrier recorded for this pilot: the game has no such line). It took 5.4 takes a word to get there, and the TTS quota ran out before the last 47 of its 85 words; those 48 were rendered on 28 Sep (4.6 takes a word, all 85 now recorded). With the new A/B samples <code>w_say_slowly</code> won 5 of 9.</li><li><b>Where the template lost:</b> <code>w_listen_again</code> 2 of 9. Its takes are rushed (3.4–3.8 words a second), because the generator ranks the take with no pause above the one at a teacher's pace, and the judge hears the word as dropped in. <code>ws_way_we_spell</code> 3 of 9: a pure sound in the middle of the sentence (“…spell /b/ …in bat.”) loses to today's order, the sound first and then “This is the way we spell it in bat.”</li><li><b>Joins:</b> today the pause before a pure sound is 278–304 ms. The template's is 150 ms. Under the edge rule fix-requests.md gives audio.ts (40 dB under the clip's peak), 14 of 408 joins came out 25–180 ms long, because 39 of 151 lead-ins end in a faint tail. With the stricter of that rule and −45 dBFS, 1 join is out (the page plays it this way). The 9 lead-ins that were out of range on timing or level were re-rendered on 28 Sep: 7 are now in range; <code>ws_starts_with</code> “Man starts with…” (+4.1 dB after the gain table) and “Sausage starts with…” (+3.3 dB) are still just over on level.</li><li><b>Level:</b> a pure sound sits a median +1 to +2 dB over the last half-second of the new lead-ins. After today's lines it sits +4 to +14 dB over. The exceptions are <code>s_here_sound</code>'s lead-in, now in range after its 28 Sep re-render, and the read-back's tiles, at +5 dB.</li><li><b>Render:</b> 517 of 591 pieces were recorded (IC1–IC4, all 16 templates) in 106 minutes: 1,554 TTS takes and 217 judge calls. 39 pieces failed every take. 12 of those are Whisper spelling the word as a name (Finn, Cobb, Kat, Kot, Kan, Anne). 10 are <code>ww_change</code> takes read too fast (3.4–4.8 words a second). 12 hit the key's TTS limit of 10,000 requests a day, which the pilot shares with other workflows. 35 pieces were never reached. On 28 Sep regen.sh rendered 73 more pieces in 14 minutes (318 takes): 573 of 591 are now recorded. 18 still fail: the 10 <code>ww_change</code> pieces (left for the template split) and 8 Whisper misspellings (Kat, Kot, Anne, Cobb, Finn, “Indian”, “CART”) plus one judge fail on “Your word is fin.”</li></ul></section>
+</header>
+<main>
+<div class="bar"><button id="blind" type="button" aria-pressed="false">Blind mode</button><span id="tally"></span><button id="reset" type="button" hidden>Clear my picks</button></div>
+<nav><a href="#w_say_slowly">w_say_slowly</a><a href="#s_say_the_sound">s_say_the_sound</a><a href="#w_position_q">w_position_q</a><a href="#w_your_word">w_your_word</a><a href="#w_listen_again">w_listen_again</a><a href="#ww_change">ww_change</a><a href="#ws_way_we_spell">ws_way_we_spell</a><a href="#ws_starts_with">ws_starts_with</a><a href="#w_your_next_word">w_your_next_word</a><a href="#w_next_q">w_next_q</a><a href="#w_name_pic">w_name_pic</a><a href="#s_which_starts">s_which_starts</a><a href="#s_which_write">s_which_write</a><a href="#s_how_write">s_how_write</a><a href="#s_here_sound">s_here_sound</a><a href="#s_say_read">s_say_read</a><a href="#failures">failures</a></nav>
+<section id="w_say_slowly">
+  <h2><code>w_say_slowly</code> <span class="tpl">Say {word} slowly.</span></h2>
+  <p class="sub">whole tier · 87 pieces recorded · judge: new won 5 of 9 votes (56%)</p>
+  <p class="why">Jonas's example. “Today” is his “Say this word slowly: mat” (a carrier recorded for this pilot, then the word clip). The game's own fallback is Sensei modelling the slow way, a different act; it is the third clip.</p>
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> bat</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say this word slowly... “bat”</p><audio controls preload="none" src="audio/w_say_slowly.bat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say bat slowly.</p><audio controls preload="none" src="audio/w_say_slowly.bat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  <div class="game"><span class="tag">the game now</span> <span class="said">Let's say it the slow way... “bat” (slowly)</span><audio controls preload="none" src="audio/w_say_slowly.bat.game.mp3"></audio></div>
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 flows naturally as a single sentence, whereas Clip 1 has an awkward pause before the target word.</li><li><b>today</b>: Clip 2 introduces the target word naturally at the end of the instruction, whereas Clip 1 splices it awkwardly into the middle of the sentence.</li><li><b>new</b>: Clip 2 sounds completely natural and fluent, whereas Clip 1 has a long pause before the target word is abruptly spliced in.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> map</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say this word slowly... “map”</p><audio controls preload="none" src="audio/w_say_slowly.map.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say map slowly.</p><audio controls preload="none" src="audio/w_say_slowly.map.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  <div class="game"><span class="tag">the game now</span> <span class="said">Let's say it the slow way... “map” (slowly)</span><audio controls preload="none" src="audio/w_say_slowly.map.game.mp3"></audio></div>
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 flows naturally as a single continuous instruction, whereas Clip 1 has an unnatural pause before the final word.</li><li><b>new</b>: Clip 2 sounds completely natural and continuous, while Clip 1 has an unnatural pause before the word 'map'.</li><li><b>new</b>: Clip 1 flows naturally as a single phrase, whereas Clip 2 has an awkward pause with the target word spliced on at the end.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> dab</span> <span class="verdict loss">judge: new 0/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say this word slowly... “dab”</p><audio controls preload="none" src="audio/w_say_slowly.dab.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say dab slowly.</p><audio controls preload="none" src="audio/w_say_slowly.dab.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  <div class="game"><span class="tag">the game now</span> <span class="said">Let's say it the slow way... “dab” (slowly)</span><audio controls preload="none" src="audio/w_say_slowly.dab.game.mp3"></audio></div>
+  <div class="meta"> <details><summary>why</summary><ul><li><b>today</b>: In clip 1 the target word is awkwardly spliced into the middle of the sentence, whereas clip 2 has a natural delivery.</li><li><b>today</b>: Clip 2 awkwardly splices the target word into the middle of the sentence, while Clip 1 flows naturally as an instruction followed by the word.</li><li><b>today</b>: Clip 1 awkwardly inserts the target word into the middle of the sentence, while Clip 2 places it naturally at the end after an instructional pause.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> men</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say this word slowly... “men”</p><audio controls preload="none" src="audio/w_say_slowly.men.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say men slowly.</p><audio controls preload="none" src="audio/w_say_slowly.men.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  <div class="game"><span class="tag">the game now</span> <span class="said">Let's say it the slow way... “men” (slowly)</span><audio controls preload="none" src="audio/w_say_slowly.men.game.mp3"></audio></div>
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> ham</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say this word slowly... “ham”</p><audio controls preload="none" src="audio/w_say_slowly.ham.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say ham slowly.</p><audio controls preload="none" src="audio/w_say_slowly.ham.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  <div class="game"><span class="tag">the game now</span> <span class="said">Let's say it the slow way... “ham” (slowly)</span><audio controls preload="none" src="audio/w_say_slowly.ham.game.mp3"></audio></div>
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> nip</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say this word slowly... “nip”</p><audio controls preload="none" src="audio/w_say_slowly.nip.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say nip slowly.</p><audio controls preload="none" src="audio/w_say_slowly.nip.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  <div class="game"><span class="tag">the game now</span> <span class="said">Let's say it the slow way... “nip” (slowly)</span><audio controls preload="none" src="audio/w_say_slowly.nip.game.mp3"></audio></div>
+  <div class="meta"> </div>
+</article>
+</section>
+<section id="s_say_the_sound">
+  <h2><code>s_say_the_sound</code> <span class="tpl">Say the sound {sound}.</span></h2>
+  <p class="sub">sound tier · 1 pieces recorded · judge: new won 8 of 9 votes (89%)</p>
+  <p class="why">Jonas's example. One lead-in, “Say the sound…”, then the checked pure sound 150 ms after the speech ends.</p>
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> p</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say... /p/</p><audio controls preload="none" src="audio/s_say_the_sound.p.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say the sound /p/.</p><audio controls preload="none" src="audio/s_say_the_sound.p.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_the_sound/0-_.mp3 → p/p.mp3">breath 150 ms · +5.68 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 provides a more natural and complete instruction for a phonics activity, with smooth delivery.</li><li><b>today</b>: Clip 1 flows naturally as a single phrase, whereas Clip 2 has a noticeable pause before a spliced-in sound.</li><li><b>new</b>: Clip 2 gives a complete, natural instruction for a phonics lesson, whereas Clip 1 is too abrupt.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> h</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say... /h/</p><audio controls preload="none" src="audio/s_say_the_sound.h.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say the sound /h/.</p><audio controls preload="none" src="audio/s_say_the_sound.h.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_say_the_sound/0-_.mp3 → p/h.mp3">breath 145 ms · +1.65 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 has full, natural phrasing and flows smoothly, whereas Clip 2 sounds clipped and unnaturally brief.</li><li><b>new</b>: Clip 2 uses more natural and complete wording for a phonics instruction, whereas Clip 1 feels overly abrupt.</li><li><b>new</b>: Clip 2 uses clearer, more supportive wording for a young learner, and flows very naturally.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> t</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say... /t/</p><audio controls preload="none" src="audio/s_say_the_sound.t.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say the sound /t/.</p><audio controls preload="none" src="audio/s_say_the_sound.t.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_say_the_sound/0-_.mp3 → p/t.mp3">breath 150 ms · +1.7 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 has a natural wording and rhythm, whereas Clip 2 sounds abruptly cut together.</li><li><b>new</b>: Clip 1 has better, more instructional wording for young learners and a smooth, natural flow.</li><li><b>new</b>: Clip 2 uses more natural teacher phrasing and has a smoother transition into the target sound.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> e</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say... /e/</p><audio controls preload="none" src="audio/s_say_the_sound.e.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say the sound /e/.</p><audio controls preload="none" src="audio/s_say_the_sound.e.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_the_sound/0-_.mp3 → p/e.mp3">breath 150 ms · +3.6 dB · 1.24 st</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 uses a more complete and natural instruction for a phonics game, despite both having the isolated sound spliced in.</li><li><b>new</b>: Clip 2 uses more natural instructional phrasing and flows much better into the target sound than the abrupt splice in Clip 1.</li><li><b>new</b>: Clip 1 uses a more complete and natural prompt for a phonics activity, though both clips splice in the target sound at the end.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> i</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say... /i/</p><audio controls preload="none" src="audio/s_say_the_sound.i.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say the sound /i/.</p><audio controls preload="none" src="audio/s_say_the_sound.i.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_the_sound/0-_.mp3 → p/i.mp3">breath 150 ms · +3.9 dB · 0.78 st</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> g</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Say... /g/</p><audio controls preload="none" src="audio/s_say_the_sound.g.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Say the sound /g/.</p><audio controls preload="none" src="audio/s_say_the_sound.g.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_say_the_sound/0-_.mp3 → p/g.mp3">breath 145 ms · +0.24 dB</span> </div>
+</article>
+</section>
+<section id="w_position_q">
+  <h2><code>w_position_q</code> <span class="tpl">What's the {pos} sound in {word}?</span></h2>
+  <p class="sub">whole tier · 85 pieces recorded · judge: new won 9 of 9 votes (100%)</p>
+  <p class="why">The item's first question now names its word. No slow word after it (FS1: it would do the segmenting).</p>
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>pos</b> first</span> <span class="val"><b>word</b> bat</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the first sound? “bat”</p><audio controls preload="none" src="audio/w_position_q.first.bat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the first sound in bat?</p><audio controls preload="none" src="audio/w_position_q.first.bat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an awkward pause and sounds spliced together.</li><li><b>new</b>: Clip 2 flows naturally as a single sentence, whereas Clip 1 has an awkward pause before the final word.</li><li><b>new</b>: Clip 2 is phrased as a complete, natural sentence, whereas Clip 1 has an awkward pause before the target word.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>pos</b> first</span> <span class="val"><b>word</b> did</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the first sound? “did”</p><audio controls preload="none" src="audio/w_position_q.first.did.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the first sound in did?</p><audio controls preload="none" src="audio/w_position_q.first.did.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a complete question, whereas Clip 2 has an unnatural pause and omits the word 'in'.</li><li><b>new</b>: Clip 1 is a natural, fluent sentence, whereas Clip 2 has an awkward pause and is missing the word 'in'.</li><li><b>new</b>: Clip 2 is a complete, naturally phrased question with smooth intonation, whereas Clip 1 has an awkward pause before the target word.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>pos</b> first</span> <span class="val"><b>word</b> dig</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the first sound? “dig”</p><audio controls preload="none" src="audio/w_position_q.first.dig.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the first sound in dig?</p><audio controls preload="none" src="audio/w_position_q.first.dig.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an awkward pause before the target word.</li><li><b>new</b>: Clip 1 is a complete, natural sentence, whereas Clip 2 has an awkward pause and drops the word 'in' before the target word.</li><li><b>new</b>: Clip 2 uses much more natural wording, despite both clips having the target word spliced in.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>pos</b> first</span> <span class="val"><b>word</b> hot</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the first sound? “hot”</p><audio controls preload="none" src="audio/w_position_q.first.hot.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the first sound in hot?</p><audio controls preload="none" src="audio/w_position_q.first.hot.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>pos</b> first</span> <span class="val"><b>word</b> hen</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the first sound? “hen”</p><audio controls preload="none" src="audio/w_position_q.first.hen.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the first sound in hen?</p><audio controls preload="none" src="audio/w_position_q.first.hen.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>pos</b> first</span> <span class="val"><b>word</b> sat</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the first sound? “sat”</p><audio controls preload="none" src="audio/w_position_q.first.sat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the first sound in sat?</p><audio controls preload="none" src="audio/w_position_q.first.sat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+</section>
+<section id="w_your_word">
+  <h2><code>w_your_word</code> <span class="tpl">Your word is {word}.</span></h2>
+  <p class="sub">whole tier · 84 pieces recorded, <b>1 failed every take</b> · judge: new won 9 of 9 votes (100%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> mat</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Your word is... “mat”</p><audio controls preload="none" src="audio/w_your_word.mat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your word is mat.</p><audio controls preload="none" src="audio/w_your_word.mat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an awkward unnatural pause before the target word.</li><li><b>new</b>: Clip 1 awkwardly splices in a completely different male voice for the target word, while Clip 2 flows naturally with a single speaker.</li><li><b>new</b>: Clip 2 flows naturally in a single voice, whereas Clip 1 has a very jarring splice where a different voice says the target word.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> am</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Your word is... “am”</p><audio controls preload="none" src="audio/w_your_word.am.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your word is 'am'.</p><audio controls preload="none" src="audio/w_your_word.am.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an awkward pause before the target word.</li><li><b>new</b>: Clip 2 flows naturally as a complete sentence, whereas Clip 1 has an unnatural pause and pitch drop before the target word.</li><li><b>new</b>: Clip 2 flows naturally in a single sentence, whereas Clip 1 has a noticeable pause before the target word.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> dab</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Your word is... “dab”</p><audio controls preload="none" src="audio/w_your_word.dab.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your word is dab.</p><audio controls preload="none" src="audio/w_your_word.dab.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an awkward pause before the target word.</li><li><b>new</b>: Clip 2 flows naturally as a single sentence, whereas Clip 1 has an unnatural pause and pitch drop before the target word.</li><li><b>new</b>: Clip 2 is spoken as one smooth, natural sentence, whereas Clip 1 has an awkward pause before the target word.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> bag</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Your word is... “bag”</p><audio controls preload="none" src="audio/w_your_word.bag.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your word is bag.</p><audio controls preload="none" src="audio/w_your_word.bag.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> big</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Your word is... “big”</p><audio controls preload="none" src="audio/w_your_word.big.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your word is big.</p><audio controls preload="none" src="audio/w_your_word.big.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> sit</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Your word is... “sit”</p><audio controls preload="none" src="audio/w_your_word.sit.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your word is sit.</p><audio controls preload="none" src="audio/w_your_word.sit.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+</section>
+<section id="w_listen_again">
+  <h2><code>w_listen_again</code> <span class="tpl">Let's listen to {word} again. {word~slow}</span></h2>
+  <p class="sub">whole tier · 80 pieces recorded, <b>5 failed every take</b> · judge: new won 2 of 9 votes (22%)</p>
+  <p class="why">A whole sentence with the word inside, then the slow word standing alone after a 450 ms sentence join.</p>
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> top</span> <span class="verdict loss">judge: new 0/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Let's listen again... “top” (slowly)</p><audio controls preload="none" src="audio/w_listen_again.top.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Let's listen to top again. &quot;top&quot; (slowly)</p><audio controls preload="none" src="audio/w_listen_again.top.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="w_listen_again/0-top.mp3 → x/top.mp3">sentence 450 ms</span> <details><summary>why</summary><ul><li><b>today</b>: Clip 2 has an awkward splice where the word 'top' is inserted into the sentence, whereas Clip 1 sounds completely natural.</li><li><b>today</b>: Clip 1 has the word 'top' spliced awkwardly into the carrier phrase, whereas Clip 2 flows naturally into the segmented sounds.</li><li><b>today</b>: Clip 2 sounds more natural, whereas Clip 1 has a slightly awkward emphasis on the word 'top' in the instruction.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> pot</span> <span class="verdict loss">judge: new 1/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Let's listen again... “pot” (slowly)</p><audio controls preload="none" src="audio/w_listen_again.pot.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Let's listen to pot again. &quot;pot&quot; (slowly)</p><audio controls preload="none" src="audio/w_listen_again.pot.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="w_listen_again/0-pot.mp3 → x/pot.mp3">sentence 455 ms</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 provides helpful context by naming the word before sounding it out, and the delivery flows naturally.</li><li><b>today</b>: Clip 2 has an unnatural splice where the word 'pot' is inserted into the sentence with a noticeable pitch and tone shift.</li><li><b>today</b>: In Clip 2, the word 'pot' has been awkwardly spliced into the introductory sentence.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> cab</span> <span class="verdict loss">judge: new 1/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Let's listen again... “cab” (slowly)</p><audio controls preload="none" src="audio/w_listen_again.cab.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Let's listen to cab again. &quot;cab&quot; (slowly)</p><audio controls preload="none" src="audio/w_listen_again.cab.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="w_listen_again/0-cab.mp3 → x/cab.mp3">sentence 450 ms</span> <details><summary>why</summary><ul><li><b>today</b>: Clip 2 sounds much more natural and cohesive, whereas in Clip 1 the target word 'cab' sounds spliced into the sentence.</li><li><b>today</b>: Clip 2 has an awkward splice where the word 'cab' is inserted into the sentence, whereas Clip 1 sounds completely natural.</li><li><b>new</b>: Clip 1 provides helpful context by naming the word before sounding it out, and the delivery flows naturally.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> mat</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Let's listen again... “mat” (slowly)</p><audio controls preload="none" src="audio/w_listen_again.mat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Let's listen to mat again. &quot;mat&quot; (slowly)</p><audio controls preload="none" src="audio/w_listen_again.mat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="w_listen_again/0-mat.mp3 → x/mat.mp3">sentence 455 ms · 7.45 st</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> hat</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Let's listen again... “hat” (slowly)</p><audio controls preload="none" src="audio/w_listen_again.hat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Let's listen to hat again. &quot;hat&quot; (slowly)</p><audio controls preload="none" src="audio/w_listen_again.hat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="w_listen_again/0-hat.mp3 → x/hat.mp3">sentence 455 ms</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> sit</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Let's listen again... “sit” (slowly)</p><audio controls preload="none" src="audio/w_listen_again.sit.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Let's listen to sit again. &quot;sit&quot; (slowly)</p><audio controls preload="none" src="audio/w_listen_again.sit.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="w_listen_again/0-sit.mp3 → x/sit.mp3">sentence 450 ms</span> </div>
+</article>
+</section>
+<section id="ww_change">
+  <h2><code>ww_change</code> <span class="tpl">{word} to {word2}. What do we need to change?</span></h2>
+  <p class="sub">whole tier · 45 pieces recorded, <b>10 failed every take</b> · judge: new won 9 of 9 votes (100%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> mop</span> <span class="val"><b>word2</b> map</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's change it to... “map” What do we need to change?</p><audio controls preload="none" src="audio/ww_change.mop.map.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Mop to map. What do we need to change?</p><audio controls preload="none" src="audio/ww_change.mop.map.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single phrase, whereas Clip 2 has an unnatural pause and pitch drop around the target word.</li><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has unnatural pauses and a noticeably spliced word.</li><li><b>new</b>: Clip 1 has unnatural pauses and a spliced-in word, whereas Clip 2 flows smoothly and naturally.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> bag</span> <span class="val"><b>word2</b> bat</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's change it to... “bat” What do we need to change?</p><audio controls preload="none" src="audio/ww_change.bag.bat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Bag to bat. What do we need to change?</p><audio controls preload="none" src="audio/ww_change.bag.bat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows completely naturally, whereas in Clip 2 the target word 'bat' is noticeably spliced in with awkward pauses.</li><li><b>new</b>: Clip 1 is completely seamless and natural, whereas Clip 2 has the word 'bat' clumsily spliced into the sentence.</li><li><b>new</b>: Clip 1 has a very obvious spliced insert for the word 'bat' with jarring pauses and shifts in tone, whereas Clip 2 sounds natural and cohesive.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> bit</span> <span class="val"><b>word2</b> bib</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's change it to... “bib” What do we need to change?</p><audio controls preload="none" src="audio/ww_change.bit.bib.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Bit to bib. What do we need to change?</p><audio controls preload="none" src="audio/ww_change.bit.bib.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an unnatural pause and pitch drop around the spliced target word.</li><li><b>new</b>: Clip 1 flows naturally as a single utterance, whereas Clip 2 has an awkward pause around the target word 'bib'.</li><li><b>new</b>: Clip 1 awkwardly switches speakers in the middle of the prompt, whereas Clip 2 is a single speaker with natural intonation despite a truncated start.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> bed</span> <span class="val"><b>word2</b> beg</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's change it to... “beg” What do we need to change?</p><audio controls preload="none" src="audio/ww_change.bed.beg.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Bed to beg. What do we need to change?</p><audio controls preload="none" src="audio/ww_change.bed.beg.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> big</span> <span class="val"><b>word2</b> pig</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's change it to... “pig” What do we need to change?</p><audio controls preload="none" src="audio/ww_change.big.pig.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Big to pig. What do we need to change?</p><audio controls preload="none" src="audio/ww_change.big.pig.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <span class="join over">longest silence 700 ms</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> am</span> <span class="val"><b>word2</b> at</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's change it to... “at” What do we need to change?</p><audio controls preload="none" src="audio/ww_change.am.at.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">'Am' to 'at'. What do we need to change?</p><audio controls preload="none" src="audio/ww_change.am.at.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+</section>
+<section id="ws_way_we_spell">
+  <h2><code>ws_way_we_spell</code> <span class="tpl">This is the way we spell {sound} in {word}.</span></h2>
+  <p class="sub">sound tier · 14 pieces recorded, <b>1 failed every take</b> · judge: new won 1 of 9 votes (11%)</p>
+  <p class="why">The official formula with the sound back in the middle: two pieces around the pure sound.</p>
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> a</span> <span class="val"><b>word</b> mat</span> <span class="verdict loss">judge: new 1/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /a/ This is the way we spell it in mat.</p><audio controls preload="none" src="audio/ws_way_we_spell.a.mat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is the way we spell /a/ in mat.</p><audio controls preload="none" src="audio/ws_way_we_spell.a.mat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_way_we_spell/0-_.mp3 → p/a.mp3">breath 145 ms · +1.25 dB · 1.26 st</span> <span class="join over" title="p/a.mp3 → ws_way_we_spell/1-mat.mp3">breath 155 ms · +5.75 dB · 4.96 st</span> <details><summary>why</summary><ul><li><b>today</b>: Clip 1 has awkward pauses around the isolated sound, whereas Clip 2 sounds much more natural and well-structured.</li><li><b>today</b>: Clip 2 introduces the sound separately first, allowing the subsequent sentence to flow much more naturally than the awkward mid-sentence insertion in clip 1.</li><li><b>new</b>: Clip 1 jarringly stitches together multiple different voices, whereas Clip 2 maintains a consistent speaker throughout.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> m</span> <span class="val"><b>word</b> mat</span> <span class="verdict loss">judge: new 0/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /m/ This is the way we spell it in mat.</p><audio controls preload="none" src="audio/ws_way_we_spell.m.mat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is the way we spell /m/ in mat.</p><audio controls preload="none" src="audio/ws_way_we_spell.m.mat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_way_we_spell/0-_.mp3 → p/m.mp3">breath 150 ms · -1.31 dB · 0.74 st</span> <span class="join over" title="p/m.mp3 → ws_way_we_spell/1-mat.mp3">breath 155 ms · +3.18 dB · 8.41 st</span> <details><summary>why</summary><ul><li><b>today</b>: Clip 2 sounds more natural and coherent, whereas clip 1 has an abrupt change in tone for 'in mat'.</li><li><b>today</b>: Clip 2 awkwardly splices the target sound into the middle of the sentence with unnatural pauses, whereas Clip 1 introduces the sound cleanly and flows naturally.</li><li><b>today</b>: Clip 1 flows naturally as a complete sentence, whereas Clip 2 has awkward pauses and unnatural pitch around the isolated sound.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> v</span> <span class="val"><b>word</b> vet</span> <span class="verdict loss">judge: new 0/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /v/ This is the way we spell it in vet.</p><audio controls preload="none" src="audio/ws_way_we_spell.v.vet.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is the way we spell /v/ in vet.</p><audio controls preload="none" src="audio/ws_way_we_spell.v.vet.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_way_we_spell/0-_.mp3 → p/v.mp3">breath 145 ms · -1.25 dB · 4.34 st</span> <span class="join " title="p/v.mp3 → ws_way_we_spell/1-vet.mp3">breath 150 ms · +1.62 dB · 4.79 st</span> <details><summary>why</summary><ul><li><b>today</b>: Clip 2 has an awkward pause and spliced sound, whereas Clip 1 sounds completely natural.</li><li><b>today</b>: Clip 1 flows naturally as a single thought, whereas Clip 2 has an unnatural pause and splice around the target sound.</li><li><b>today</b>: Clip 2 has much better phrasing and sentence structure, whereas Clip 1 sounds unnaturally spliced together.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> p</span> <span class="val"><b>word</b> pan</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /p/ This is the way we spell it in pan.</p><audio controls preload="none" src="audio/ws_way_we_spell.p.pan.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is the way we spell /p/ in pan.</p><audio controls preload="none" src="audio/ws_way_we_spell.p.pan.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="ws_way_we_spell/0-_.mp3 → p/p.mp3">breath 145 ms · +3.25 dB · 2.57 st</span> <span class="join over" title="p/p.mp3 → ws_way_we_spell/1-pan.mp3">breath 150 ms · +6.85 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single smooth sentence, whereas Clip 2 has awkward phrasing and disjointed pauses.</li><li><b>new</b>: Clip 1 flows much better as a single sentence, whereas Clip 2 has an audible glitch and unnatural pause after the target sound.</li><li><b>today</b>: Clip 1 has a jarring change of speaker between sentences, but Clip 2 awkwardly splices the isolated sound right into the middle of a single sentence.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> g</span> <span class="val"><b>word</b> bag</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /g/ This is the way we spell it in bag.</p><audio controls preload="none" src="audio/ws_way_we_spell.g.bag.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is the way we spell /g/ in bag.</p><audio controls preload="none" src="audio/ws_way_we_spell.g.bag.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_way_we_spell/0-_.mp3 → p/g.mp3">breath 145 ms · -2.19 dB</span> <span class="join " title="p/g.mp3 → ws_way_we_spell/1-bag.mp3">breath 155 ms · +0.77 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> k</span> <span class="val"><b>word</b> cat</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /c/ This is the way we spell it in cat.</p><audio controls preload="none" src="audio/ws_way_we_spell.k.cat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is the way we spell /k/ in cat.</p><audio controls preload="none" src="audio/ws_way_we_spell.k.cat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_way_we_spell/0-_.mp3 → p/k.mp3">breath 150 ms · -0.85 dB · 1.21 st</span> <span class="join " title="p/k.mp3 → ws_way_we_spell/1-cat.mp3">breath 150 ms · +0.81 dB · 1.21 st</span> </div>
+</article>
+</section>
+<section id="ws_starts_with">
+  <h2><code>ws_starts_with</code> <span class="tpl">{picture} starts with {sound}.</span></h2>
+  <p class="sub">sound tier · 57 pieces recorded, <b>1 failed every take</b> · judge: new won 9 of 9 votes (100%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>picture</b> map</span> <span class="val"><b>sound</b> m</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Map starts with... /m/</p><audio controls preload="none" src="audio/ws_starts_with.map.m.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Map starts with /m/.</p><audio controls preload="none" src="audio/ws_starts_with.map.m.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="ws_starts_with/0-map.mp3 → p/m.mp3">breath 150 ms · +3.02 dB · 1.96 st</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows much more naturally into the target sound, whereas Clip 2 has an unnatural pause and pitch shift before the phoneme.</li><li><b>new</b>: Clip 2 flows much more naturally into the target sound, whereas Clip 1 has an unnatural pitch drop and pause before the sound.</li><li><b>new</b>: Clip 1 flows naturally as a single utterance, whereas Clip 2 has an unnatural pause and pitch mismatch before the target sound.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>picture</b> octopus</span> <span class="val"><b>sound</b> o</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">“octopus” starts with... /o/</p><audio controls preload="none" src="audio/ws_starts_with.octopus.o.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Octopus starts with /o/.</p><audio controls preload="none" src="audio/ws_starts_with.octopus.o.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_starts_with/0-octopus.mp3 → p/o.mp3">breath 150 ms · +2.23 dB · 3 st</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has unnatural pauses between words.</li><li><b>new</b>: Clip 2 flows much more naturally, whereas Clip 1 has an awkward pause between 'octopus' and 'starts with'.</li><li><b>new</b>: Clip 2 flows much more naturally, whereas Clip 1 has an awkward pause after the word octopus.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>picture</b> hot</span> <span class="val"><b>sound</b> h</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">“hot” starts with... /h/</p><audio controls preload="none" src="audio/ws_starts_with.hot.h.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Hot starts with /h/.</p><audio controls preload="none" src="audio/ws_starts_with.hot.h.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_starts_with/0-hot.mp3 → p/h.mp3">breath 150 ms · +0.86 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 sounds much more natural, whereas Clip 1 has an unnaturally long, awkward pause before the final target sound.</li><li><b>new</b>: Clip 2 flows much more naturally, whereas Clip 1 has an awkward unnatural pause after the word 'Hot'.</li><li><b>new</b>: Clip 2 has unnatural pauses between each word fragment, whereas Clip 1 sounds like a single, cohesive phrase.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>picture</b> den</span> <span class="val"><b>sound</b> d</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">“den” starts with... /d/</p><audio controls preload="none" src="audio/ws_starts_with.den.d.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Den starts with /d/.</p><audio controls preload="none" src="audio/ws_starts_with.den.d.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_starts_with/0-den.mp3 → p/d.mp3">breath 150 ms · -0.08 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an awkward pause after the first word making it sound spliced.</li><li><b>new</b>: Clip 2 flows naturally into the phrase, whereas Clip 1 has an unnatural pause after the target word.</li><li><b>new</b>: Clip 2 flows much more naturally, whereas Clip 1 has an unnatural pause after the word 'den'.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>picture</b> snowman</span> <span class="val"><b>sound</b> s</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">“snowman” starts with... /s/</p><audio controls preload="none" src="audio/ws_starts_with.snowman.s.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Snowman starts with /s/.</p><audio controls preload="none" src="audio/ws_starts_with.snowman.s.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="ws_starts_with/0-snowman.mp3 → p/s.mp3">breath 150 ms · -0.6 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>picture</b> pan</span> <span class="val"><b>sound</b> p</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Pan starts with... /p/</p><audio controls preload="none" src="audio/ws_starts_with.pan.p.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Pan starts with /p/.</p><audio controls preload="none" src="audio/ws_starts_with.pan.p.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="ws_starts_with/0-pan.mp3 → p/p.mp3">breath 150 ms · +6.06 dB</span> </div>
+</article>
+</section>
+<section id="w_your_next_word">
+  <h2><code>w_your_next_word</code> <span class="tpl">Your next word is {word}.</span></h2>
+  <p class="sub">whole tier · 85 pieces recorded · judge: new won 5 of 6 votes (83%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> bin</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's your next word... “bin”</p><audio controls preload="none" src="audio/w_your_next_word.bin.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your next word is bin.</p><audio controls preload="none" src="audio/w_your_next_word.bin.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an unnatural pause before the final word, which sounds spliced in.</li><li><b>new</b>: Clip 1 flows naturally as a single sentence, while clip 2 has an awkward pause before the target word.</li><li><b>new</b>: Clip 2 flows naturally as a single sentence, whereas clip 1 has an awkward pause and tone shift before the target word.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> fan</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's your next word... “fan”</p><audio controls preload="none" src="audio/w_your_next_word.fan.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your next word is fan.</p><audio controls preload="none" src="audio/w_your_next_word.fan.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>today</b>: Clip 2 sounds much more natural and cohesive, whereas the target word in clip 1 has an awkward pause and drop in pitch.</li><li><b>new</b>: Clip 2 flows naturally as a single sentence, whereas Clip 1 has an unnatural pause before the target word.</li><li><b>new</b>: Clip 2 flows naturally as a single sentence, whereas Clip 1 has an unnatural pause before the target word.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> hop</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's your next word... “hop”</p><audio controls preload="none" src="audio/w_your_next_word.hop.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your next word is hop.</p><audio controls preload="none" src="audio/w_your_next_word.hop.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> cat</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's your next word... “cat”</p><audio controls preload="none" src="audio/w_your_next_word.cat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your next word is cat.</p><audio controls preload="none" src="audio/w_your_next_word.cat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> fog</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's your next word... “fog”</p><audio controls preload="none" src="audio/w_your_next_word.fog.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your next word is fog.</p><audio controls preload="none" src="audio/w_your_next_word.fog.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> cap</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's your next word... “cap”</p><audio controls preload="none" src="audio/w_your_next_word.cap.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Your next word is cap.</p><audio controls preload="none" src="audio/w_your_next_word.cap.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+</section>
+<section id="w_next_q">
+  <h2><code>w_next_q</code> <span class="tpl">What's the {pos} sound?</span></h2>
+  <p class="sub">whole tier · 3 pieces recorded · judge: new won 3 of 6 votes (50%)</p>
+  <p class="why">Same words both sides, both single takes: a control for the judge.</p>
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>pos</b> next</span> <span class="verdict loss">judge: new 1/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the next sound?</p><audio controls preload="none" src="audio/w_next_q.next.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the next sound?</p><audio controls preload="none" src="audio/w_next_q.next.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 sounds much more natural and warm, whereas Clip 2 has an unnatural, abrupt pitch rise at the end.</li><li><b>today</b>: Clip 1 has a warmer, more engaging intonation that flows naturally compared to the flatter delivery in Clip 2.</li><li><b>today</b>: Clip 1 has a friendlier, more natural and engaging intonation for talking to young children.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>pos</b> last</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the last sound?</p><audio controls preload="none" src="audio/w_next_q.last.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the last sound?</p><audio controls preload="none" src="audio/w_next_q.last.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>today</b>: Clip 1 flows naturally as a single sentence, whereas in Clip 2 the word 'last' sounds spliced in with an unnatural jump in pitch and tone.</li><li><b>new</b>: Clip 1 has a warmer, more engaging intonation that sounds natural for addressing a young child.</li><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an unnatural pitch drop on the final word.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>pos</b> first</span> <span class="verdict loss">judge: new 1/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">What's the first sound?</p><audio controls preload="none" src="audio/w_next_q.first.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">What's the first sound?</p><audio controls preload="none" src="audio/w_next_q.first.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 has a natural, continuous flow, whereas in Clip 2 the word 'sound' feels spliced in with an unnatural drop in pitch.</li><li><b>today</b>: Clip 1 flows naturally with a warm intonation, whereas Clip 2 has an unnatural pause and pitch drop before the final word.</li><li><b>today</b>: Clip 1 has a warmer, more engaging intonation for a young learner.</li></ul></details></div>
+</article>
+</section>
+<section id="w_name_pic">
+  <h2><code>w_name_pic</code> <span class="tpl">This is {picture~a}.</span></h2>
+  <p class="sub">whole tier · 30 pieces recorded · judge: new won 3 of 6 votes (50%)</p>
+  <p class="why">Same sentence both sides (today's fm_name_ line): a control for the judge.</p>
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>picture</b> mat</span> <span class="verdict loss">judge: new 1/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is a mat.</p><audio controls preload="none" src="audio/w_name_pic.mat.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is a mat.</p><audio controls preload="none" src="audio/w_name_pic.mat.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>today</b>: Clip 1 flows naturally as a single sentence, whereas clip 2 has an unnatural pause and pitch shift before the word 'mat'.</li><li><b>today</b>: Clip 1 flows naturally as a single sentence, while Clip 2 has an awkward pause before the word 'mat'.</li><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas in Clip 2 the word 'mat' sounds spliced in.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>picture</b> pan</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is a pan.</p><audio controls preload="none" src="audio/w_name_pic.pan.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is a pan.</p><audio controls preload="none" src="audio/w_name_pic.pan.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas in Clip 2 the target word sounds spliced in with an unnatural pause and pitch shift.</li><li><b>today</b>: Clip 1 flows completely naturally, whereas Clip 2 has an unnatural pause and pitch drop before the target word.</li><li><b>new</b>: Clip 1 has a smooth, natural flow, whereas Clip 2 has an unnatural dip and slight splice before the word 'pan'.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>picture</b> bag</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is a bag.</p><audio controls preload="none" src="audio/w_name_pic.bag.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is a bag.</p><audio controls preload="none" src="audio/w_name_pic.bag.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>picture</b> fan</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is a fan.</p><audio controls preload="none" src="audio/w_name_pic.fan.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is a fan.</p><audio controls preload="none" src="audio/w_name_pic.fan.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>picture</b> sausage</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is a sausage.</p><audio controls preload="none" src="audio/w_name_pic.sausage.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is a sausage.</p><audio controls preload="none" src="audio/w_name_pic.sausage.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>picture</b> moon</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is the moon.</p><audio controls preload="none" src="audio/w_name_pic.moon.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is the moon.</p><audio controls preload="none" src="audio/w_name_pic.moon.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"> </div>
+</article>
+</section>
+<section id="s_which_starts">
+  <h2><code>s_which_starts</code> <span class="tpl">Which one starts with {sound}?</span></h2>
+  <p class="sub">sound tier · 1 pieces recorded · judge: new won 6 of 6 votes (100%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> o</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which one starts with... /o/</p><audio controls preload="none" src="audio/s_which_starts.o.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which one starts with /o/?</p><audio controls preload="none" src="audio/s_which_starts.o.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_which_starts/0-_.mp3 → p/o.mp3">breath 150 ms · +3.66 dB · 1.28 st</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 is complete and natural, whereas Clip 2 cuts off before saying the target sound.</li><li><b>new</b>: Clip 1 flows naturally, while Clip 2 stretches out the word 'with' and has an unnaturally elongated phoneme sound.</li><li><b>new</b>: Clip 2 has a much more natural pace in the carrier phrase, whereas Clip 1 unnaturally stretches out the word 'with'.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> t</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which one starts with... /t/</p><audio controls preload="none" src="audio/s_which_starts.t.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which one starts with /t/?</p><audio controls preload="none" src="audio/s_which_starts.t.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_which_starts/0-_.mp3 → p/t.mp3">breath 155 ms · +1.28 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 is complete and flows naturally, whereas Clip 2 cuts off abruptly before saying the target sound.</li><li><b>new</b>: Clip 1 draws out the word 'with' followed by an unnatural pause before the target sound, whereas Clip 2 flows naturally.</li><li><b>new</b>: Clip 1 is a complete, natural sentence including the target sound, while Clip 2 cuts off abruptly before saying the sound.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> b</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which one starts with... /b/</p><audio controls preload="none" src="audio/s_which_starts.b.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which one starts with /b/?</p><audio controls preload="none" src="audio/s_which_starts.b.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_which_starts/0-_.mp3 → p/b.mp3">breath 150 ms · -1.95 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> h</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which one starts with... /h/</p><audio controls preload="none" src="audio/s_which_starts.h.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which one starts with /h/?</p><audio controls preload="none" src="audio/s_which_starts.h.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_which_starts/0-_.mp3 → p/h.mp3">breath 150 ms · +1.23 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 has an unnatural, drawn-out elongation on 'with' followed by an awkward pause before the target sound.</li><li><b>new</b>: Clip 2 has a much more natural rhythm, whereas Clip 1 drags out the word 'with' before an awkward pause.</li><li><b>new</b>: Clip 1 flows naturally into the target sound, whereas Clip 2 has an unnatural pause and an overly drawn-out pronunciation of the word 'with'.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> f</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which one starts with... /f/</p><audio controls preload="none" src="audio/s_which_starts.f.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which one starts with /f/?</p><audio controls preload="none" src="audio/s_which_starts.f.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_which_starts/0-_.mp3 → p/f.mp3">breath 150 ms · +0.29 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> m</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which one starts with... /m/</p><audio controls preload="none" src="audio/s_which_starts.m.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which one starts with /m/?</p><audio controls preload="none" src="audio/s_which_starts.m.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_which_starts/0-_.mp3 → p/m.mp3">breath 155 ms · +0.69 dB · 4.05 st</span> </div>
+</article>
+</section>
+<section id="s_which_write">
+  <h2><code>s_which_write</code> <span class="tpl">Which of these is the way we write {sound}?</span></h2>
+  <p class="sub">sound tier · 1 pieces recorded · judge: new won 3 of 6 votes (50%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> d</span> <span class="verdict loss">judge: new 0/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which of these is the way we write... /d/</p><audio controls preload="none" src="audio/s_which_write.d.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which of these is the way we write /d/?</p><audio controls preload="none" src="audio/s_which_write.d.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_which_write/0-_.mp3 → p/d.mp3">breath 150 ms · +1.09 dB</span> <details><summary>why</summary><ul><li><b>today</b>: Clip 1 flows smoothly into the target sound, whereas Clip 2 has an unnatural pause before the final phoneme.</li><li><b>today</b>: Clip 2 has a much warmer, natural intonation and flows more smoothly into the target sound.</li><li><b>today</b>: Clip 2 has much warmer, friendlier intonation and the spliced phoneme sounds cleaner and clearer.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> e</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which of these is the way we write... /e/</p><audio controls preload="none" src="audio/s_which_write.e.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which of these is the way we write /e/?</p><audio controls preload="none" src="audio/s_which_write.e.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_which_write/0-_.mp3 → p/e.mp3">breath 150 ms · +3.19 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 sounds much more natural and fluid, whereas Clip 1 has an awkward pause and pitch disconnect before the target sound.</li><li><b>new</b>: Clip 1 has a more natural pace, whereas Clip 2 has an awkward, exaggerated pause before the target sound.</li><li><b>new</b>: Clip 2 has an unnatural upward pitch inflection and pause on the word 'write' before the target sound, whereas Clip 1 sounds more natural and continuous.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> s</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which of these is the way we write... /s/</p><audio controls preload="none" src="audio/s_which_write.s.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which of these is the way we write /s/?</p><audio controls preload="none" src="audio/s_which_write.s.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_which_write/0-_.mp3 → p/s.mp3">breath 150 ms · +0.28 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> i</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which of these is the way we write... /i/</p><audio controls preload="none" src="audio/s_which_write.i.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which of these is the way we write /i/?</p><audio controls preload="none" src="audio/s_which_write.i.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_which_write/0-_.mp3 → p/i.mp3">breath 150 ms · +3.49 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> k</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which of these is the way we write... /c/</p><audio controls preload="none" src="audio/s_which_write.k.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which of these is the way we write /k/?</p><audio controls preload="none" src="audio/s_which_write.k.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_which_write/0-_.mp3 → p/k.mp3">breath 150 ms · +1.17 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> a</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Which of these is the way we write... /a/</p><audio controls preload="none" src="audio/s_which_write.a.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Which of these is the way we write /a/?</p><audio controls preload="none" src="audio/s_which_write.a.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_which_write/0-_.mp3 → p/a.mp3">breath 150 ms · +3.27 dB</span> </div>
+</article>
+</section>
+<section id="s_how_write">
+  <h2><code>s_how_write</code> <span class="tpl">This is how we write {sound}.</span></h2>
+  <p class="sub">sound tier · 1 pieces recorded · judge: new won 5 of 6 votes (83%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> d</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is how we write... /d/</p><audio controls preload="none" src="audio/s_how_write.d.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is how we write /d/.</p><audio controls preload="none" src="audio/s_how_write.d.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_how_write/0-_.mp3 → p/d.mp3">breath 150 ms · +3.64 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 has an unnatural pause after the first word, whereas Clip 1 flows smoothly and naturally.</li><li><b>new</b>: Clip 1 has an unnatural hesitation after the first word, whereas Clip 2 flows naturally into the target sound.</li><li><b>new</b>: Clip 2 has an unnatural pause after the first word and an extraneous sound clipped at the very end.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> o</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is how we write... /o/</p><audio controls preload="none" src="audio/s_how_write.o.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is how we write /o/.</p><audio controls preload="none" src="audio/s_how_write.o.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_how_write/0-_.mp3 → p/o.mp3">breath 150 ms · +6.23 dB · 15.27 st</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 flows naturally into the target sound, whereas Clip 1 has an awkward pause and pitch disconnect before the sound.</li><li><b>new</b>: Clip 2 flows naturally into the target sound, whereas Clip 1 has an unnatural pause.</li><li><b>today</b>: Clip 2 is complete with the target phonics sound included, whereas Clip 1 cuts off unfinished.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> f</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is how we write... /f/</p><audio controls preload="none" src="audio/s_how_write.f.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is how we write /f/.</p><audio controls preload="none" src="audio/s_how_write.f.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_how_write/0-_.mp3 → p/f.mp3">breath 150 ms · +2.86 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> a</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is how we write... /a/</p><audio controls preload="none" src="audio/s_how_write.a.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is how we write /a/.</p><audio controls preload="none" src="audio/s_how_write.a.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_how_write/0-_.mp3 → p/a.mp3">breath 155 ms · +5.83 dB · 13.02 st</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> m</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is how we write... /m/</p><audio controls preload="none" src="audio/s_how_write.m.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is how we write /m/.</p><audio controls preload="none" src="audio/s_how_write.m.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_how_write/0-_.mp3 → p/m.mp3">breath 155 ms · +3.27 dB · 12.45 st</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> i</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">This is how we write... /i/</p><audio controls preload="none" src="audio/s_how_write.i.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">This is how we write /i/.</p><audio controls preload="none" src="audio/s_how_write.i.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_how_write/0-_.mp3 → p/i.mp3">breath 155 ms · +6.05 dB · 12.34 st</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an awkward, unnatural pause before the target sound.</li><li><b>new</b>: Clip 1 has an unnaturally long pause before the target sound, whereas Clip 2 flows smoothly.</li><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an unnatural pause before the target sound.</li></ul></details></div>
+</article>
+</section>
+<section id="s_here_sound">
+  <h2><code>s_here_sound</code> <span class="tpl">Here's the sound {sound}.</span></h2>
+  <p class="sub">sound tier · 1 pieces recorded · judge: new won 4 of 6 votes (67%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> s</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /s/</p><audio controls preload="none" src="audio/s_here_sound.s.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Here's the sound /s/.</p><audio controls preload="none" src="audio/s_here_sound.s.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_here_sound/0-_.mp3 → p/s.mp3">breath 145 ms · -0.08 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 has a more natural timing and flow between the introductory phrase and the phonics sound.</li><li><b>new</b>: Clip 1 flows naturally, whereas Clip 2 has an unnaturally long pause before the target sound.</li><li><b>today</b>: Clip 1 flows naturally with appropriate intonation leading into the target sound, whereas Clip 2 sounds like the sound was spliced on after a flat ending.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>sound</b> i</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /i/</p><audio controls preload="none" src="audio/s_here_sound.i.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Here's the sound /i/.</p><audio controls preload="none" src="audio/s_here_sound.i.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_here_sound/0-_.mp3 → p/i.mp3">breath 150 ms · +3.14 dB · 4.57 st</span> <details><summary>why</summary><ul><li><b>today</b>: Clip 1 has a more natural intonation leading into the target sound, whereas Clip 2 has an awkward pause and pitch drop.</li><li><b>new</b>: Clip 1 sounds much more coherent in volume and energy, whereas the phoneme in Clip 2 is too quiet and muted.</li><li><b>new</b>: Clip 1 has natural anticipatory intonation leading into the sound, whereas Clip 2 has a full stop intonation before the spliced phoneme.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> n</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /n/</p><audio controls preload="none" src="audio/s_here_sound.n.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Here's the sound /n/.</p><audio controls preload="none" src="audio/s_here_sound.n.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_here_sound/0-_.mp3 → p/n.mp3">breath 150 ms · +0.11 dB · 4.89 st</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> g</span> <span class="verdict win">judge: new 2/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /g/</p><audio controls preload="none" src="audio/s_here_sound.g.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Here's the sound /g/.</p><audio controls preload="none" src="audio/s_here_sound.g.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_here_sound/0-_.mp3 → p/g.mp3">breath 145 ms · -0.52 dB</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 1 has a warmer, more engaging and natural tone of voice for addressing a young child.</li><li><b>today</b>: Clip 1 has a slightly more energetic, engaging, and natural delivery from the teacher.</li><li><b>new</b>: Clip 2 has a much warmer, more engaging tone suitable for young children, despite both clips having a spliced target sound.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> p</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /p/</p><audio controls preload="none" src="audio/s_here_sound.p.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Here's the sound /p/.</p><audio controls preload="none" src="audio/s_here_sound.p.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_here_sound/0-_.mp3 → p/p.mp3">breath 150 ms · +4.92 dB</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>sound</b> f</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Here's the sound... /f/</p><audio controls preload="none" src="audio/s_here_sound.f.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Here's the sound /f/.</p><audio controls preload="none" src="audio/s_here_sound.f.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join " title="s_here_sound/0-_.mp3 → p/f.mp3">breath 145 ms · -0.04 dB</span> </div>
+</article>
+</section>
+<section id="s_say_read">
+  <h2><code>s_say_read</code> <span class="tpl">Now let's say the sounds, and read the word. {word~sounds}. {word~bare}.</span></h2>
+  <p class="sub">sequence tier · 1 pieces recorded · judge: new won 6 of 6 votes (100%)</p>
+  
+  <article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> cap</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's say the sounds... and read the word. /c/ /a/ /p/ “cap”</p><audio controls preload="none" src="audio/s_say_read.cap.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Now let's say the sounds, and read the word. /k/ /a/ /p/. &quot;cap&quot;.</p><audio controls preload="none" src="audio/s_say_read.cap.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_read/0-_.mp3 → p/k.mp3">sentence 450 ms · +5.19 dB</span> <span class="join " title="p/p.mp3 → w/cap.mp3">sentence 455 ms</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 has an awkward, unnatural pause in the middle of the introductory sentence.</li><li><b>new</b>: Clip 2 flows naturally as a single sentence, whereas Clip 1 has an awkward pause splicing the instruction into two parts.</li><li><b>new</b>: Clip 1 flows naturally as a single sentence, whereas Clip 2 has an awkward, unnatural pause in the middle of the instruction.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="1">
+  <div class="vals"><span class="val"><b>word</b> net</span> <span class="verdict win">judge: new 3/3</span></div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's say the sounds... and read the word. /n/ /e/ /t/ “net”</p><audio controls preload="none" src="audio/s_say_read.net.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Now let's say the sounds, and read the word. /n/ /e/ /t/. &quot;net&quot;.</p><audio controls preload="none" src="audio/s_say_read.net.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_read/0-_.mp3 → p/n.mp3">sentence 450 ms · +4.48 dB · 9.14 st</span> <span class="join " title="p/t.mp3 → w/net.mp3">sentence 455 ms</span> <details><summary>why</summary><ul><li><b>new</b>: Clip 2 flows much more naturally in the introduction, whereas Clip 1 has an awkward pause between 'sounds' and 'and read'.</li><li><b>new</b>: Clip 1 flows naturally, whereas Clip 2 has an awkward, unnatural pause in the middle of the introductory sentence.</li><li><b>new</b>: Clip 1 has an unnatural, disjointed pause in the middle of the introductory sentence, whereas Clip 2 flows smoothly.</li></ul></details></div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> gas</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's say the sounds... and read the word. /g/ /a/ /s/ “gas”</p><audio controls preload="none" src="audio/s_say_read.gas.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Now let's say the sounds, and read the word. /g/ /a/ /s/. &quot;gas&quot;.</p><audio controls preload="none" src="audio/s_say_read.gas.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_read/0-_.mp3 → p/g.mp3">sentence 450 ms · +3.85 dB</span> <span class="join " title="p/s.mp3 → w/gas.mp3">sentence 455 ms</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> hip</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's say the sounds... and read the word. /h/ /i/ /p/ “hip”</p><audio controls preload="none" src="audio/s_say_read.hip.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Now let's say the sounds, and read the word. /h/ /i/ /p/. &quot;hip&quot;.</p><audio controls preload="none" src="audio/s_say_read.hip.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_read/0-_.mp3 → p/h.mp3">sentence 450 ms · +5.26 dB</span> <span class="join " title="p/p.mp3 → w/hip.mp3">sentence 450 ms</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> got</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's say the sounds... and read the word. /g/ /o/ /t/ “got”</p><audio controls preload="none" src="audio/s_say_read.got.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Now let's say the sounds, and read the word. /g/ /o/ /t/. &quot;got&quot;.</p><audio controls preload="none" src="audio/s_say_read.got.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_read/0-_.mp3 → p/g.mp3">sentence 450 ms · +3.85 dB</span> <span class="join " title="p/t.mp3 → w/got.mp3">sentence 450 ms</span> </div>
+</article>
+<article class="pair" data-ab="0">
+  <div class="vals"><span class="val"><b>word</b> sit</span> </div>
+  <div class="sides">
+    <div class="side" data-side="today"><span class="tag">today</span><span class="blindtag">A</span><p class="said">Now let's say the sounds... and read the word. /s/ /i/ /t/ “sit”</p><audio controls preload="none" src="audio/s_say_read.sit.today.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+    <div class="side" data-side="new"><span class="tag new">new</span><span class="blindtag">B</span><p class="said">Now let's say the sounds, and read the word. /s/ /i/ /t/. &quot;sit&quot;.</p><audio controls preload="none" src="audio/s_say_read.sit.new.mp3"></audio><button class="pick" type="button">Prefer this</button></div>
+  </div>
+  
+  <div class="meta"><span class="join over" title="s_say_read/0-_.mp3 → p/s.mp3">sentence 450 ms · +4.29 dB</span> <span class="join " title="p/t.mp3 → w/sit.mp3">sentence 455 ms</span> </div>
+</article>
+</section>
+<section id="failures"><h2>Failures</h2>
+<p class="sub">Pairs the judge gave to today (a majority of its 3 votes).</p>
+<div class="scroll"><table><thead><tr><th>pair</th><th>votes for new</th><th>why</th></tr></thead><tbody>
+<tr><td><a href="#s_which_write">s_which_write.d</a><br><small>Which of these is the way we write... /d/ → Which of these is the way we write /d/?</small></td><td>0/3</td><td>today: Clip 1 flows smoothly into the target sound, whereas Clip 2 has an unnatural pause before the final phoneme.<br>today: Clip 2 has a much warmer, natural intonation and flows more smoothly into the target sound.<br>today: Clip 2 has much warmer, friendlier intonation and the spliced phoneme sounds cleaner and clearer.</td></tr><tr><td><a href="#ws_way_we_spell">ws_way_we_spell.a.mat</a><br><small>Here's the sound... /a/ This is the way we spell it in mat. → This is the way we spell /a/ in mat.</small></td><td>1/3</td><td>today: Clip 1 has awkward pauses around the isolated sound, whereas Clip 2 sounds much more natural and well-structured.<br>today: Clip 2 introduces the sound separately first, allowing the subsequent sentence to flow much more naturally than the awkward mid-sentence insertion in clip 1.<br>new: Clip 1 jarringly stitches together multiple different voices, whereas Clip 2 maintains a consistent speaker throughout.</td></tr><tr><td><a href="#w_next_q">w_next_q.next</a><br><small>What's the next sound? → What's the next sound?</small></td><td>1/3</td><td>new: Clip 1 sounds much more natural and warm, whereas Clip 2 has an unnatural, abrupt pitch rise at the end.<br>today: Clip 1 has a warmer, more engaging intonation that flows naturally compared to the flatter delivery in Clip 2.<br>today: Clip 1 has a friendlier, more natural and engaging intonation for talking to young children.</td></tr><tr><td><a href="#w_listen_again">w_listen_again.top</a><br><small>Let's listen again... “top” (slowly) → Let's listen to top again. &quot;top&quot; (slowly)</small></td><td>0/3</td><td>today: Clip 2 has an awkward splice where the word 'top' is inserted into the sentence, whereas Clip 1 sounds completely natural.<br>today: Clip 1 has the word 'top' spliced awkwardly into the carrier phrase, whereas Clip 2 flows naturally into the segmented sounds.<br>today: Clip 2 sounds more natural, whereas Clip 1 has a slightly awkward emphasis on the word 'top' in the instruction.</td></tr><tr><td><a href="#w_listen_again">w_listen_again.pot</a><br><small>Let's listen again... “pot” (slowly) → Let's listen to pot again. &quot;pot&quot; (slowly)</small></td><td>1/3</td><td>new: Clip 1 provides helpful context by naming the word before sounding it out, and the delivery flows naturally.<br>today: Clip 2 has an unnatural splice where the word 'pot' is inserted into the sentence with a noticeable pitch and tone shift.<br>today: In Clip 2, the word 'pot' has been awkwardly spliced into the introductory sentence.</td></tr><tr><td><a href="#w_listen_again">w_listen_again.cab</a><br><small>Let's listen again... “cab” (slowly) → Let's listen to cab again. &quot;cab&quot; (slowly)</small></td><td>1/3</td><td>today: Clip 2 sounds much more natural and cohesive, whereas in Clip 1 the target word 'cab' sounds spliced into the sentence.<br>today: Clip 2 has an awkward splice where the word 'cab' is inserted into the sentence, whereas Clip 1 sounds completely natural.<br>new: Clip 1 provides helpful context by naming the word before sounding it out, and the delivery flows naturally.</td></tr><tr><td><a href="#w_name_pic">w_name_pic.mat</a><br><small>This is a mat. → This is a mat.</small></td><td>1/3</td><td>today: Clip 1 flows naturally as a single sentence, whereas clip 2 has an unnatural pause and pitch shift before the word 'mat'.<br>today: Clip 1 flows naturally as a single sentence, while Clip 2 has an awkward pause before the word 'mat'.<br>new: Clip 1 flows naturally as a single sentence, whereas in Clip 2 the word 'mat' sounds spliced in.</td></tr><tr><td><a href="#ws_way_we_spell">ws_way_we_spell.m.mat</a><br><small>Here's the sound... /m/ This is the way we spell it in mat. → This is the way we spell /m/ in mat.</small></td><td>0/3</td><td>today: Clip 2 sounds more natural and coherent, whereas clip 1 has an abrupt change in tone for 'in mat'.<br>today: Clip 2 awkwardly splices the target sound into the middle of the sentence with unnatural pauses, whereas Clip 1 introduces the sound cleanly and flows naturally.<br>today: Clip 1 flows naturally as a complete sentence, whereas Clip 2 has awkward pauses and unnatural pitch around the isolated sound.</td></tr><tr><td><a href="#ws_way_we_spell">ws_way_we_spell.v.vet</a><br><small>Here's the sound... /v/ This is the way we spell it in vet. → This is the way we spell /v/ in vet.</small></td><td>0/3</td><td>today: Clip 2 has an awkward pause and spliced sound, whereas Clip 1 sounds completely natural.<br>today: Clip 1 flows naturally as a single thought, whereas Clip 2 has an unnatural pause and splice around the target sound.<br>today: Clip 2 has much better phrasing and sentence structure, whereas Clip 1 sounds unnaturally spliced together.</td></tr><tr><td><a href="#w_say_slowly">w_say_slowly.dab</a><br><small>Say this word slowly... “dab” → Say dab slowly.</small></td><td>0/3</td><td>today: In clip 1 the target word is awkwardly spliced into the middle of the sentence, whereas clip 2 has a natural delivery.<br>today: Clip 2 awkwardly splices the target word into the middle of the sentence, while Clip 1 flows naturally as an instruction followed by the word.<br>today: Clip 1 awkwardly inserts the target word into the middle of the sentence, while Clip 2 places it naturally at the end after an instructional pause.</td></tr>
+</tbody></table></div>
+<p class="sub">Pieces no take passed (the template plays its fallback for these).</p>
+<div class="scroll"><table><thead><tr><th>piece</th><th>why</th></tr></thead><tbody>
+<tr><td><code>w_listen_again/0-an</code></td><td>Whisper heard &quot;Let's listen to Anne again.&quot;; a value wasn't heard (an)</td></tr><tr><td><code>w_listen_again/0-cat</code></td><td>Whisper heard &quot;Let's listen to Kat again.&quot;; a value wasn't heard (cat)</td></tr><tr><td><code>w_listen_again/0-cot</code></td><td>Whisper heard &quot;Let's listen to Kot again.&quot;; a value wasn't heard (cot)</td></tr><tr><td><code>w_listen_again/0-cob</code></td><td>Whisper heard &quot;Let's listen to Cobb again.&quot;; a value wasn't heard (cob)</td></tr><tr><td><code>w_listen_again/0-fin</code></td><td>Whisper heard &quot;Let's listen to Finn again.&quot;; a value wasn't heard (fin)</td></tr><tr><td><code>w_your_word/0-fin</code></td><td>judge 6: There is an unnatural pause between 'is' and 'fin', making it sound like two separate takes rather than one continuous sentence.</td></tr><tr><td><code>ws_starts_with/0-cot</code></td><td>Whisper heard &quot;CART starts with...&quot;; a value wasn't heard (cot)</td></tr><tr><td><code>ws_way_we_spell/1-den</code></td><td>Whisper heard &quot;Indian.&quot;; a value wasn't heard (den)</td></tr><tr><td><code>ww_change/0-man.map</code></td><td>Whisper heard &quot;Manta Map, what do we need to change?&quot;; a value wasn't heard (man, map); pace 3.84 words/s</td></tr><tr><td><code>ww_change/0-map.man</code></td><td>pace 3.69 words/s</td></tr><tr><td><code>ww_change/0-mop.top</code></td><td>pace 3.95 words/s</td></tr><tr><td><code>ww_change/0-top.tap</code></td><td>pace 3.65 words/s</td></tr><tr><td><code>ww_change/0-bib.bin</code></td><td>pace 3.68 words/s</td></tr><tr><td><code>ww_change/0-bag.tag</code></td><td>pace 3.44 words/s</td></tr><tr><td><code>ww_change/0-bit.big</code></td><td>pace 4.79 words/s</td></tr><tr><td><code>ww_change/0-did.dad</code></td><td>pace 4.32 words/s</td></tr><tr><td><code>ww_change/0-dig.did</code></td><td>a 420 ms pause inside a phrase</td></tr><tr><td><code>ww_change/0-peg.pen</code></td><td>pace 3.52 words/s</td></tr>
+</tbody></table></div>
+<p class="sub">Joins over the design's limits (breath 150 ± 20 ms, sentence 450 ± 30 ms, a pure sound within ± 3 dB of the lead-in's last 500 ms, lead-in tail fall ≤ 2 st).</p>
+<div class="scroll"><table><thead><tr><th>where</th><th>measured</th><th>what was done</th></tr></thead><tbody>
+<tr><td>ws_starts_with.fishdog.f</td><td>level +5.9 dB, +5.4 with the gain table (ws_starts_with/0-fishdog.mp3 → p/f.mp3)</td><td></td></tr><tr><td>ws_starts_with.flower.f</td><td>level +3.7 dB, +3.2 with the gain table (ws_starts_with/0-flower.mp3 → p/f.mp3)</td><td></td></tr><tr><td>ws_starts_with.man.m</td><td>level +5.1 dB, +4.1 with the gain table (ws_starts_with/0-man.mp3 → p/m.mp3)</td><td>re-render queued (regen.sh): the TTS quota ran out at 11:55 BST</td></tr><tr><td>ws_starts_with.moon.m</td><td>breath 180.0 ms (design 150 ± 20) ws_starts_with/0-moon.mp3 → p/m.mp3</td><td></td></tr><tr><td>ws_starts_with.sausage.s</td><td>level +3.3 dB, +3.3 with the gain table (ws_starts_with/0-sausage.mp3 → p/s.mp3)</td><td>re-render queued (regen.sh): the TTS quota ran out at 11:55 BST</td></tr><tr><td>ws_starts_with.van.v</td><td>level +5.1 dB, +4.1 with the gain table (ws_starts_with/0-van.mp3 → p/v.mp3)</td><td></td></tr>
+</tbody></table></div>
+<p class="sub">Not listed: 87 flags on <code>s_say_read</code>, whose tiles stand alone after a whole sentence (the ± 3 dB limit is for a sound inside a sentence; today's version sits the same way), and the 320 ms tile gaps. All 93 are in join-flags.json. Proposed gain table (dB, a sound after a lead-in): /a/ -3, /b/ 2, /d/ -1, /e/ -3, /f/ -0.5, /g/ 0, /h/ -1, /i/ -3.5, /k/ -1, /m/ -1, /n/ -0.5, /o/ -3.5, /p/ -5, /r/ -4.5, /s/ 0, /t/ -1.5, /v/ -1.</p>
+</section>
+</main>
+<footer>Generated 2026-09-28 07:32 by playtest/speech-templates/pilot/page.ts. Judge: gemini-3.8-flash, 3 votes a pair (new first, today first, a coin toss), temperature 1. The assembled clips are 44.1 kHz MP3s of exactly what each side plays; the template pieces themselves are 24 kHz, 48 kbps.</footer>
+<script>
+(function(){
+  var KEY="speech-pilot-picks-v1", picks={};
+  try{picks=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){picks={}}
+  var save=function(){try{localStorage.setItem(KEY,JSON.stringify(picks))}catch(e){}};
+  var pairs=[].slice.call(document.querySelectorAll(".pair"));
+  pairs.forEach(function(p,i){
+    p.dataset.key=(p.closest("section")||{}).id+":"+i;
+    var sides=p.querySelector(".sides");
+    if(Math.random()<.5){sides.insertBefore(sides.children[1],sides.children[0])}
+    var tags=p.querySelectorAll(".blindtag");tags[0].textContent="A";tags[1].textContent="B";
+    [].forEach.call(p.querySelectorAll(".side"),function(s){
+      s.querySelector(".pick").addEventListener("click",function(){picks[p.dataset.key]=s.dataset.side;save();mark(p);tally()});
+    });
+    mark(p);
+  });
+  function mark(p){var k=picks[p.dataset.key];p.classList.toggle("done",!!k);[].forEach.call(p.querySelectorAll(".side"),function(s){s.classList.toggle("chosen",s.dataset.side===k)})}
+  function tally(){var ks=Object.keys(picks),n=ks.filter(function(k){return picks[k]==="new"}).length;document.getElementById("tally").textContent=ks.length?("Your picks: new "+n+" of "+ks.length):"";document.getElementById("reset").hidden=!ks.length}
+  document.getElementById("blind").addEventListener("click",function(){var on=document.body.classList.toggle("blind");this.setAttribute("aria-pressed",on)});
+  document.getElementById("reset").addEventListener("click",function(){picks={};save();pairs.forEach(mark);tally()});
+  document.addEventListener("play",function(e){[].forEach.call(document.querySelectorAll("audio"),function(a){if(a!==e.target)a.pause()})},true);
+  tally();
+})();
+</script>
+</body></html>

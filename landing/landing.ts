@@ -24,18 +24,33 @@ const io = new IntersectionObserver(
 );
 document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
-// gameplay clips: load when near, play only while visible (saves data and battery on phones)
+// gameplay clips: load when near, play only while visible (saves data and battery on phones).
+// A clip that may not play with its sound on goes on playing muted instead of freezing on its poster: iOS Safari
+// pauses a clip that is unmuted outside a tap, and refuses play() on it (see `soundBlocked` below).
+const soundBlocked = new WeakSet<HTMLVideoElement>();
+let onBlocked = () => {};
+function playClip(v: HTMLVideoElement) {
+  v.play().catch(() => {
+    if (v.muted || !v.src) return;
+    soundBlocked.add(v);
+    v.muted = true;
+    v.play().catch(() => {});
+    onBlocked();
+  });
+}
 const vids = new IntersectionObserver(
   (entries) => {
     for (const e of entries) {
       const v = e.target as HTMLVideoElement;
       if (e.isIntersecting) {
         if (v.dataset.src && !v.src) v.src = v.dataset.src;
-        v.play().catch(() => {});
-      } else v.pause();
+        // (asked again as more of it shows: a card peeking in from the side of the carousel gets its play() while
+        // it is a sliver, and some browsers hold that one back; it is not asked again unless the ratio is watched)
+        if (v.paused) playClip(v);
+      } else if (!v.paused) v.pause();
     }
   },
-  { rootMargin: "200px 0px" },
+  { rootMargin: "200px 0px", threshold: [0, 0.5, 1] },
 );
 document.querySelectorAll<HTMLVideoElement>("video[data-src], video[autoplay]").forEach((v) => vids.observe(v));
 
@@ -142,7 +157,7 @@ const loudest = () => {
   if (filmPlaying()) return film;
   let best: HTMLVideoElement | null = null;
   let bestV = 0.35;
-  for (const [v, r] of visibility) if (v !== film && r > bestV) { best = v; bestV = r; }
+  for (const [v, r] of visibility) if (v !== film && r > bestV && !soundBlocked.has(v)) { best = v; bestV = r; }
   return best;
 };
 function applySound() {
@@ -150,14 +165,18 @@ function applySound() {
   soundLabel.textContent = soundOn ? "Sound on" : "Tap for sound";
   const lead = soundOn ? loudest() : null;
   for (const v of allVideos) {
+    const unmuting = v === lead && v.muted;
     v.muted = v !== lead;
     if (v === lead) v.volume = 1;
+    // (iOS Safari pauses a clip that is unmuted outside a tap: play it again, or on muted if that's refused)
+    if (unmuting && v !== film && v.src && v.paused) playClip(v);
   }
   if (soundOn && lead !== film) {
     music.play().catch(() => {});
     music.volume = lead ? 0.08 : 0.35; // duck the music under a video that's speaking
   } else music.pause(); // the story film has its own music
 }
+onBlocked = applySound;
 const vis = new IntersectionObserver(
   (es) => {
     for (const e of es) visibility.set(e.target as HTMLVideoElement, e.intersectionRatio);
@@ -173,16 +192,23 @@ soundBtn.addEventListener("click", (e) => {
   soundOn = !soundOn;
   applySound();
 });
-const firstGesture = () => {
-  if (!userChose) {
-    soundOn = true;
-    applySound();
+// The first tap, click or key anywhere switches the sound on (the sound button decides for itself). A touch counts
+// when it lifts, and only as a tap, not the end of a scroll: that's when browsers allow sound. Every tap also unlocks
+// every clip, because iOS Safari lets a clip be unmuted later (when it scrolls into view) only if it has been unmuted
+// inside a tap before; otherwise it pauses it, and the clip sits there like a picture.
+const gesture = (e: Event) => {
+  if (e.type === "pointerdown" && (e as PointerEvent).pointerType !== "mouse") return;
+  if ((navigator as Navigator & { userActivation?: { isActive: boolean } }).userActivation?.isActive === false) return;
+  for (const v of allVideos) {
+    const m = v.muted;
+    v.muted = !m;
+    v.muted = m;
+    soundBlocked.delete(v);
   }
-  removeEventListener("pointerdown", firstGesture, true);
-  removeEventListener("keydown", firstGesture, true);
+  if (!userChose && !soundBtn.contains(e.target as Node)) soundOn = true;
+  applySound();
 };
-addEventListener("pointerdown", firstGesture, true);
-addEventListener("keydown", firstGesture, true);
+for (const type of ["pointerdown", "touchend", "click", "keydown"]) addEventListener(type, gesture, true);
 // try immediately too: some browsers allow sound for returning visitors
 music.play().then(() => {
   soundOn = true;

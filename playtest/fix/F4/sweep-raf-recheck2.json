@@ -1,0 +1,238 @@
+{
+ "base": "http://127.0.0.1:4704",
+ "fast": 3,
+ "secs": 50,
+ "results": {
+  "map": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "w1-14": {
+   "ok": true,
+   "secs": 20,
+   "findings": 0
+  },
+  "w1-wu2": {
+   "ok": true,
+   "secs": 29,
+   "findings": 0
+  },
+  "w1-15": {
+   "ok": true,
+   "secs": 40,
+   "findings": 7
+  },
+  "w2-1": {
+   "ok": true,
+   "secs": 50,
+   "findings": 10
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:w1-15:sound-unclassified:after battle_boss",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-15",
+   "title": "sound-unclassified: after battle_boss",
+   "detail": "A lone sound /s/ (battle, after battle_boss) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-15/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w1-15"
+  },
+  {
+   "sig": "bot:w1-15:sound-unclassified:after audit_gem_first",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-15",
+   "title": "sound-unclassified: after audit_gem_first",
+   "detail": "A lone sound /o/ (battle, after audit_gem_first) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-15/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w1-15"
+  },
+  {
+   "sig": "bot:w1-15:sound-unclassified:after baron_taunt_1",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-15",
+   "title": "sound-unclassified: after baron_taunt_1",
+   "detail": "A lone sound /n/ (battle, after baron_taunt_1) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-15/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w1-15"
+  },
+  {
+   "sig": "bot:w1-15:sound-unclassified:after streak_6",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-15",
+   "title": "sound-unclassified: after streak_6",
+   "detail": "A lone sound /p/ (battle, after streak_6) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-15/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w1-15"
+  },
+  {
+   "sig": "bot:w1-15:sound-unclassified:after tv_streak_10",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-15",
+   "title": "sound-unclassified: after tv_streak_10",
+   "detail": "A lone sound /t/ (battle, after tv_streak_10) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-15/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w1-15"
+  },
+  {
+   "sig": "bot:w1-15:sound-unclassified:after baron_grr",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-15",
+   "title": "sound-unclassified: after baron_grr",
+   "detail": "A lone sound /n/ (battle, after baron_grr) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-15/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w1-15"
+  },
+  {
+   "sig": "bot:w1-15:sound-unclassified:after yay_8",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-15",
+   "title": "sound-unclassified: after yay_8",
+   "detail": "A lone sound /s/ (battle, after yay_8) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-15/issue_6.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w1-15"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after listen",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after listen",
+   "detail": "A lone sound /b/ (learn, after listen) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after audit_spell_it",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after audit_spell_it",
+   "detail": "A lone sound /b/ (learn, after audit_spell_it) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after dojo_tap_say",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after dojo_tap_say",
+   "detail": "A lone sound /b/ (learn, after dojo_tap_say) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after dojo_find",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after dojo_find",
+   "detail": "A lone sound /b/ (find, after dojo_find) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after tut_speaker",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after tut_speaker",
+   "detail": "A lone sound /b/ (find, after tut_speaker) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after dojo_build_word",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after dojo_build_word",
+   "detail": "A lone sound /b/ (build, after dojo_build_word) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after audit_gem_first",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after audit_gem_first",
+   "detail": "A lone sound /h/ (build, after audit_gem_first) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_6.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after yay_4",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after yay_4",
+   "detail": "A lone sound /k/ (build, after yay_4) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_7.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after yay_2",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after yay_2",
+   "detail": "A lone sound /p/ (build, after yay_2) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_8.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after tv_yay_lovely",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after tv_yay_lovely",
+   "detail": "A lone sound /h/ (build, after tv_yay_lovely) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_9.png"
+   ],
+   "repro": "http://127.0.0.1:4704/play/?level=w2-1"
+  }
+ ]
+}

@@ -1,0 +1,109 @@
+{
+ "base": "http://127.0.0.1:4843",
+ "fast": 3,
+ "secs": 110,
+ "results": {
+  "w2-5": {
+   "ok": true,
+   "secs": 47,
+   "findings": 0
+  },
+  "w3-8": {
+   "ok": true,
+   "secs": 57,
+   "findings": 1
+  },
+  "w4-5": {
+   "ok": true,
+   "secs": 65,
+   "findings": 1
+  },
+  "w1-8": {
+   "ok": true,
+   "secs": 67,
+   "findings": 1
+  },
+  "w3-2": {
+   "ok": true,
+   "secs": 88,
+   "findings": 1
+  },
+  "w5-4": {
+   "ok": true,
+   "secs": 36,
+   "findings": 0
+  },
+  "w5-8": {
+   "ok": true,
+   "secs": 33,
+   "findings": 0
+  },
+  "w1-12": {
+   "ok": true,
+   "secs": 106,
+   "findings": 1
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:w3-8:sound-unclassified:after thats",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w3-8",
+   "title": "sound-unclassified: after thats",
+   "detail": "A lone sound /m/ (swap, after thats) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w3-8/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4843/play/?level=w3-8"
+  },
+  {
+   "sig": "bot:w4-5:sound-unclassified:after thats",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w4-5",
+   "title": "sound-unclassified: after thats",
+   "detail": "A lone sound /k/ (swap, after thats) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w4-5/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4843/play/?level=w4-5"
+  },
+  {
+   "sig": "bot:w1-8:sound-unclassified:after thats",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-8",
+   "title": "sound-unclassified: after thats",
+   "detail": "A lone sound /t/ (swap, after thats) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-8/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4843/play/?level=w1-8"
+  },
+  {
+   "sig": "bot:w3-2:sound-unclassified:after thats",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w3-2",
+   "title": "sound-unclassified: after thats",
+   "detail": "A lone sound /t/ (swap, after thats) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w3-2/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4843/play/?level=w3-2"
+  },
+  {
+   "sig": "bot:w1-12:sound-unclassified:after thats",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-12",
+   "title": "sound-unclassified: after thats",
+   "detail": "A lone sound /t/ (swap, after thats) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-12/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4843/play/?level=w1-12"
+  }
+ ]
+}

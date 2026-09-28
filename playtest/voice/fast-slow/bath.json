@@ -1,0 +1,1630 @@
+{
+ "note": "BATH-vowel audit, 27 Sep (docs/TEACHER_SCRIPT.md §9.8). Judge: gemini-3.1-pro-preview, 3 votes a word, clip padded with 400 ms of silence, question: \"Is the vowel in '<word>' the long British /ɑː/ (as in 'father') or the short American /æ/ (as in 'cat')?\". A take is kept only at 3 of 3 /ɑː/.",
+ "calibration": {
+  "pro": "British reader (ElevenLabs Alice) judged American 1/45 votes; American reader (OpenAI Coral) 40/45; majority right on 30/30 words",
+  "flash": "British 0/45; American 25/45"
+ },
+ "before": {
+  "world_5": {
+   "castle": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "streak_10": {
+   "master": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "help_name": {
+   "ask": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "last_sound_q": {
+   "last": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "jump_pick": {
+   "ask": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tut_test": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "fm_opt_q2": {
+   "class": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_opt_q2_again": {
+   "class": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_newyear_q": {
+   "class": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_last_one": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "fm_fast_sun": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "fm_same_word": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_tap_rabbit": {
+   "fast": [
+    "æ",
+    "ɑː",
+    "æ"
+   ]
+  },
+  "fm_sunflower": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_starfish_q": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_sunflower_q": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "audit_swap_last": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "audit_last_place": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "audit_middle_place": {
+   "after": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ],
+   "last": [
+    "æ",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_rainbow_q": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_snowman_q": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "audit_streak_first": {
+   "answers": [
+    "ɑː",
+    "æ",
+    "æ"
+   ]
+  },
+  "baron_w5": {
+   "castle": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "baron_final": {
+   "rather": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "st_last_one": {
+   "last": [
+    "ɑː",
+    "æ",
+    "æ"
+   ]
+  },
+  "st_last_changes": {
+   "last": [
+    "ɑː",
+    "ɑː",
+    "æ"
+   ]
+  },
+  "tv_opt_ask": {
+   "ask": [
+    "æ",
+    "æ",
+    "ɑː"
+   ]
+  },
+  "tv_ts_fast": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_same_word": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_ts_wrong_rabbit": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_ts_wrong_tortoise": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_rw_fast_slow": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_you_find_last": {
+   "last": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_last_first": {
+   "last": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_learn_last": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_fs_two_ways": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_fs_rabbit": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_fs_made": {
+   "after": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_fs_ninja": {
+   "fast": [
+    "æ",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_mantra": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_fs_rabbit_read": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_now_fast": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_fs_fast_rabbit": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_stuck_push": {
+   "fast": [
+    "æ",
+    "ɑː",
+    "æ"
+   ]
+  },
+  "tv_fs_praise_both": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  }
+ },
+ "after": {
+  "world_5": {
+   "castle": [
+    "ɑː",
+    "æ",
+    "ɑː"
+   ]
+  },
+  "streak_10": {
+   "master": [
+    "ɑː",
+    "æ",
+    "ɑː"
+   ]
+  },
+  "help_name": {
+   "ask": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "last_sound_q": {
+   "last": [
+    "ɑː",
+    "æ",
+    "æ"
+   ]
+  },
+  "jump_pick": {
+   "ask": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tut_test": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "fm_opt_q2": {
+   "class": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_opt_q2_again": {
+   "class": [
+    "æ",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_newyear_q": {
+   "class": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_last_one": {
+   "last": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_fast_sun": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_same_word": {
+   "fast": [
+    "ɑː",
+    "æ",
+    "ɑː"
+   ]
+  },
+  "fm_tap_rabbit": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_sunflower": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_starfish_q": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_sunflower_q": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "audit_swap_last": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "audit_last_place": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "audit_middle_place": {
+   "after": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ],
+   "last": [
+    "æ",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_rainbow_q": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "fm_snowman_q": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "audit_streak_first": {
+   "answers": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "baron_w5": {
+   "castle": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "baron_final": {
+   "rather": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "st_last_one": {
+   "last": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "st_last_changes": {
+   "last": [
+    "æ",
+    "ɑː",
+    "æ"
+   ]
+  },
+  "tv_opt_ask": {
+   "ask": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_ts_fast": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_same_word": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_ts_wrong_rabbit": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_ts_wrong_tortoise": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_rw_fast_slow": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_you_find_last": {
+   "last": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_last_first": {
+   "last": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_learn_last": {
+   "last": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_two_ways": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_rabbit": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_fs_made": {
+   "after": [
+    "æ",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_ninja": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_mantra": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_hiding": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_ninjas_can": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_rabbit_read": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_now_fast": {
+   "fast": [
+    "æ",
+    "æ",
+    "æ"
+   ]
+  },
+  "tv_fs_fast_rabbit": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_stuck_push": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_praise_both": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  },
+  "tv_fs_praise_both_3": {
+   "fast": [
+    "ɑː",
+    "ɑː",
+    "ɑː"
+   ]
+  }
+ },
+ "retake_rounds": {
+  "tv_fs_two_ways": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "ɑː æ ɑː"
+    },
+    "seconds": 3.68,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "ɑː ɑː æ"
+    },
+    "seconds": 3.69,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.77,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.74,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {
+     "fast": "ɑː ɑː æ"
+    },
+    "seconds": 3.66,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 3.69,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "fm_last_one": [
+   {
+    "round": 1,
+    "bath": {
+     "last": "æ æ æ"
+    },
+    "seconds": 1.33,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "last": "æ ɑː ɑː"
+    },
+    "seconds": 1.22,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "last": "æ æ æ"
+    },
+    "seconds": 1.32,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "last": "æ æ æ"
+    },
+    "seconds": 1.29,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {
+     "last": "æ æ æ"
+    },
+    "seconds": 1.23,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {
+     "last": "ɑː ɑː ɑː"
+    },
+    "seconds": 1.28,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "fm_fast_sun": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 2.36,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "fm_tap_rabbit": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 2.46,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 2.72,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 2.43,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 2.43,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "fm_snowman_q": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 4.14,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 4.48,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_opt_ask": [
+   {
+    "round": 1,
+    "bath": {
+     "ask": "ɑː ɑː ɑː"
+    },
+    "seconds": 2.15,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_ts_fast": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.84,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.74,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.58,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 1.83,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_learn_last": [
+   {
+    "round": 1,
+    "bath": {
+     "last": "æ æ æ"
+    },
+    "seconds": 1.56,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "last": "æ æ æ"
+    },
+    "seconds": 1.65,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "last": "ɑː æ ɑː"
+    },
+    "seconds": 1.71,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "last": "æ æ æ"
+    },
+    "seconds": 1.86,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {
+     "last": "æ æ æ"
+    },
+    "seconds": 1.84,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {
+     "last": "ɑː ɑː ɑː"
+    },
+    "seconds": 1.59,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_rabbit": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 4.76,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 4.47,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 4.46,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.71,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 4.5,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 4.52,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 7,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.89,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 8,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.89,
+    "exact": true,
+    "ok": false
+   }
+  ],
+  "tv_fs_made": [
+   {
+    "round": 1,
+    "bath": {
+     "after": "æ æ æ"
+    },
+    "seconds": 3.62,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "after": "æ æ ɑː"
+    },
+    "seconds": 3.53,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "after": "ɑː ɑː ɑː"
+    },
+    "seconds": 3.43,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_mantra": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 4.01,
+    "exact": false,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 4.13,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 4.67,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_now_fast": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "ɑː æ æ"
+    },
+    "seconds": 1.53,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.53,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.52,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.52,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {
+     "fast": "æ ɑː æ"
+    },
+    "seconds": 1.52,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.53,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 7,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.53,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 8,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 1.52,
+    "exact": true,
+    "ok": false
+   }
+  ],
+  "tv_fs_stuck_push": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "ɑː ɑː æ"
+    },
+    "seconds": 3.64,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "ɑː æ ɑː"
+    },
+    "seconds": 4.01,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "ɑː ɑː æ"
+    },
+    "seconds": 3.75,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.43,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {
+     "fast": "ɑː æ ɑː"
+    },
+    "seconds": 3.63,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {
+     "fast": "æ æ ɑː"
+    },
+    "seconds": 3.92,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 7,
+    "bath": {
+     "fast": "ɑː æ ɑː"
+    },
+    "seconds": 3.82,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 8,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 3.92,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_both": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "ɑː æ æ"
+    },
+    "seconds": 2.91,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.4,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "ɑː æ ɑː"
+    },
+    "seconds": 3.52,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.88,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.53,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 3.45,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_hiding": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "ɑː ɑː æ"
+    },
+    "seconds": 3.17,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 3.38,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_whole": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 2.94,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_push": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 3.05,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_turn": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 3.43,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_ninjas_can": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.53,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "æ ɑː ɑː"
+    },
+    "seconds": 3.25,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 3.33,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_next": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 3.78,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {},
+    "seconds": 3.67,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {},
+    "seconds": 3.86,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {},
+    "seconds": 4,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {},
+    "seconds": 3.97,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {},
+    "seconds": 3.3,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_start_end": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 4.62,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {},
+    "seconds": 4.42,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {},
+    "seconds": 4.34,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {},
+    "seconds": 3.89,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {},
+    "seconds": 4.23,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 6,
+    "bath": {},
+    "seconds": 4.3,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 7,
+    "bath": {},
+    "seconds": 4.41,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 8,
+    "bath": {},
+    "seconds": 4.29,
+    "exact": true,
+    "ok": false
+   }
+  ],
+  "tv_fs_count": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 3.37,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_both_2": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 4.02,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_both_3": [
+   {
+    "round": 1,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.76,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.06,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {
+     "fast": "æ æ æ"
+    },
+    "seconds": 3.06,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {
+     "fast": "ɑː æ ɑː"
+    },
+    "seconds": 3.28,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {
+     "fast": "ɑː ɑː ɑː"
+    },
+    "seconds": 3.71,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_found_2": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 2.86,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_found_3": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 3.44,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_found_4": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 3.17,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_every_2": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 4.05,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_every_3": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 4.4,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_praise_every_4": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 3.37,
+    "exact": true,
+    "ok": true
+   }
+  ],
+  "tv_fs_start_end": [
+   {
+    "round": 1,
+    "bath": {},
+    "seconds": 3.7,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 2,
+    "bath": {},
+    "seconds": 4.29,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 3,
+    "bath": {},
+    "seconds": 4.13,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 4,
+    "bath": {},
+    "seconds": 3.67,
+    "exact": true,
+    "ok": false
+   },
+   {
+    "round": 5,
+    "bath": {},
+    "seconds": 3.12,
+    "exact": true,
+    "ok": true
+   }
+  ]
+ }
+}

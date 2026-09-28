@@ -10,10 +10,26 @@
 .st-bg { filter: none; animation: st-kenburns 14s ease-out forwards, fadein 0.6s; }
 @keyframes st-kenburns { from { transform: scale(1.02); } to { transform: scale(1.1) translate(-1%, -1%); } }
 
-/* title card */
-.st-title { position: absolute; left: var(--play-x); top: 40%; translate: -50% -50%; width: max-content; max-width: 720px; }
-.st-title .panel { padding: 20px 56px; background: linear-gradient(180deg, #fffaf0, #f6e3bb); text-align: center; }
+/* the title page: the first page's picture, softened, and the title card, which opens like a book's cover (from its
+   spine, on the left), glows as Sensei frames the game, and lights word by word as she reads the title (Story.tsx
+   TitleCard). Transform and opacity only; nothing loops. */
+.st-title-bg { filter: blur(4px) brightness(0.8); }
+.st-title { position: absolute; left: var(--play-x); top: 40%; translate: -50% -50%; width: max-content; max-width: 720px; perspective: 1100px; }
+.st-book { position: relative; transform-origin: 0 50%; backface-visibility: hidden; animation: st-open 0.95s cubic-bezier(0.25, 0.9, 0.3, 1.12) 0.15s both; }
+@keyframes st-open {
+  from { transform: rotateY(-86deg) scale(0.9); opacity: 0; }
+  30% { opacity: 1; }
+  to { transform: rotateY(0) scale(1); opacity: 1; }
+}
+.st-title .panel { position: relative; padding: 20px 56px; background: linear-gradient(180deg, #fffaf0, #f6e3bb); text-align: center; }
 .st-title .display { font-size: 72px; color: var(--blossom); line-height: 1.05; }
+.st-title .display span { display: inline-block; margin: 0 0.14em; transition: transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.st-title .display span.on { color: #ffd45a; transform: translateY(-7px) scale(1.08); }
+/* the glow behind the card (its opacity is animated by Story.tsx on the frame's first word) */
+.st-title-glow {
+  position: absolute; inset: -84px -120px; z-index: -1; border-radius: 50%; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 236, 160, 1) 55%, rgba(255, 210, 90, 0.75) 72%, rgba(255, 205, 90, 0));
+}
 
 /* the text panel along the bottom */
 .st-panel {
@@ -23,7 +39,6 @@
 }
 .st-panel.baron { background: linear-gradient(180deg, #f6ecff, #dcc8f5); }
 .st-narr { font-family: var(--font-ui); font-weight: 600; font-size: 30px; line-height: 1.32; }
-.st-narr span { transition: color 0.1s; }
 .st-narr .on { color: var(--blossom-deep); }
 .st-narr.long { font-size: 27px; }
 .st-ask { font-family: var(--font-ui); font-weight: 700; font-size: 32px; line-height: 1.25; }
@@ -35,21 +50,26 @@
 .st-words { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
 .st-line { display: flex; flex-wrap: nowrap; align-items: flex-start; }
 .st-words.flow .st-line { flex-wrap: wrap; } /* only until the words have been measured (never painted) */
-.st-word { flex-shrink: 0; display: inline-flex; align-items: flex-start; margin-right: var(--gap, 34px); margin-bottom: 38px; font-family: var(--font-letters); font-weight: 700; line-height: 1.1; }
+.st-word { position: relative; isolation: isolate; flex-shrink: 0; display: inline-flex; align-items: flex-start; margin-right: var(--gap, 34px); margin-bottom: 38px; font-family: var(--font-letters); font-weight: 700; line-height: 1.1; }
+/* the warm light behind a word: it glows once as the page is handed over (Story.tsx glowWords) and as the ninja's spell
+   lands (.lit below); only its opacity and scale move */
+.st-glow {
+  position: absolute; inset: -14px -16px -24px; z-index: -1; border-radius: 24px; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 196, 50, 0.95) 30%, rgba(255, 180, 40, 0.55) 68%, rgba(255, 180, 40, 0));
+}
 .st-line .st-word:last-child { margin-right: 0; }
 /* a tall, forgiving tap area (≥ 44 px high on a phone) round each word; the negative margins keep the text where it
    was, and the word gaps stay even (short words aren't padded out: even spacing helps beginning readers) */
-.st-word .word-btn { display: inline-flex; font-family: var(--font-letters); font-weight: 700; line-height: 1.1; border-radius: 16px; padding: 18px var(--pad, 12px); margin: -18px calc(-1 * var(--pad, 12px)); transition: color 0.12s, background 0.2s; }
+.st-word .word-btn { display: inline-flex; font-family: var(--font-letters); font-weight: 700; line-height: 1.1; border-radius: 16px; padding: 18px var(--pad, 12px); margin: -18px calc(-1 * var(--pad, 12px)); }
 /* short words ("a", "I", "is") get a wider box (--pad, set by ReadWord), so the tap box is at least 84 stage px wide */
 .st-word .word-btn.on { color: var(--blossom-deep); background: rgba(255, 197, 61, 0.28); }
 .st-word .word-btn.on .sb { background: var(--blossom-deep); }
-/* the ninja's spell lands: every word lights up in turn */
-.st-words.lit .st-word { animation: st-wordglow 0.62s cubic-bezier(0.3, 1.6, 0.5, 1) both; animation-delay: calc(var(--i) * 75ms); }
-@keyframes st-wordglow {
-  0% { translate: 0 0; scale: 1; text-shadow: none; }
-  35% { translate: 0 -10px; scale: 1.1; text-shadow: 0 0 14px rgba(255, 213, 90, 1), 0 0 30px rgba(255, 170, 40, 0.8); color: #b35a00; }
-  100% { translate: 0 0; scale: 1; text-shadow: 0 0 0 rgba(255, 213, 90, 0); }
-}
+/* the ninja's spell lands: every word lights up in turn (a hop, and its light flaring behind it: no text-shadow keyframes,
+   which repaint every frame) */
+.st-words.lit .st-word { animation: st-wordhop 0.62s cubic-bezier(0.3, 1.6, 0.5, 1) both; animation-delay: calc(var(--i) * 75ms); }
+.st-words.lit .st-glow { animation: st-wordlight 0.8s ease-out both; animation-delay: calc(var(--i) * 75ms); }
+@keyframes st-wordhop { 0% { translate: 0 0; scale: 1; } 35% { translate: 0 -10px; scale: 1.1; } 100% { translate: 0 0; scale: 1; } }
+@keyframes st-wordlight { 0% { opacity: 0; scale: 0.8; } 30% { opacity: 1; scale: 1.08; } 100% { opacity: 0; scale: 1; } }
 
 /* a column of round buttons above Sensei: "hear it again" on top, the green "go on" below */
 .st-side { position: absolute; right: 20px; bottom: 200px; width: 112px; z-index: 7; display: flex; flex-direction: column; align-items: center; gap: 22px; }
@@ -66,21 +86,28 @@
 @keyframes st-go { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
 @keyframes st-go-ring { 0%, 100% { scale: 1; opacity: 0.7; } 50% { scale: 1.2857; opacity: 0; } } /* (56 + 16) / 56 */
 .st-side .btn-round.st-go.done { filter: saturate(0.6) brightness(1.1); }
+/* waiting for its line ("When you've read it all, tap the green tick.", "Your turn to read."): there, but asleep; a tap
+   shakes it (Story.tsx) */
+.st-side .st-go-wrap.wait .btn-round.st-go { opacity: 0.5; }
 
 /* choices: two big words in the play area */
 .st-choices { position: absolute; left: 344px; right: 176px; top: 176px; z-index: 6; display: flex; justify-content: center; gap: 90px; }
-.st-choices .tile.lg { padding: 0 40px; font-size: 96px; }
-.st-choices .tile { transition: transform 0.08s, box-shadow 0.08s, opacity 0.25s, filter 0.25s; }
+/* (the big tile's look, whether or not it is .lg: a chosen word's tiles drop .lg, so a tap-bot looking for .tile.lg
+   stops at once; Story.tsx) */
+.st-choices .tile { --size: 150px; border-radius: 30px; border-width: 6px; padding: 0 40px; font-size: 96px; }
+.st-choices .tile { transition: transform 0.08s, opacity 0.25s; }
 .st-choices .tile.visited { opacity: 0.4; filter: grayscale(1); }
 .st-choices .tile.right { background: linear-gradient(180deg, #eaffea, #bff0c9); }
 .st-choices .tile.picked { background: linear-gradient(180deg, #fffaf0, #ffe7b8); }
 /* once a word is chosen it steps up (Story.tsx: LIFT) and the other one sinks away and fades out, before the ninja's
    magic leaves its hands: the stars fly high over where it was, so they can't seem to land on it */
-.st-choices .tile.right, .st-choices .tile.picked { translate: 0 -24px; transition: translate 0.2s cubic-bezier(0.3, 1.5, 0.6, 1), background 0.2s; }
-.st-choices .tile.not { opacity: 0; visibility: hidden; filter: grayscale(0.8); translate: 0 170px; scale: 0.55; transition: opacity 0.2s, filter 0.2s, translate 0.22s cubic-bezier(0.3, 0.7, 0.4, 1), scale 0.22s cubic-bezier(0.3, 0.7, 0.4, 1), visibility 0s 0.22s; }
+.st-choices .tile.right, .st-choices .tile.picked { translate: 0 -24px; transition: translate 0.2s cubic-bezier(0.3, 1.5, 0.6, 1); }
+.st-choices .tile.not { opacity: 0; visibility: hidden; translate: 0 170px; scale: 0.55; transition: opacity 0.2s, translate 0.22s cubic-bezier(0.3, 0.7, 0.4, 1), scale 0.22s cubic-bezier(0.3, 0.7, 0.4, 1), visibility 0s 0.22s; }
+/* the save's first choice: the words wait (a little quieter) for "Now you choose what happens." */
+.st-choices.wait .tile { opacity: 0.8; }
 /* the chosen word is sounded out: sound buttons under each spelling light up in turn, then the whole word */
 .st-seg { display: inline-flex; }
-.st-seg > span { position: relative; transition: color 0.1s; }
+.st-seg > span { position: relative; }
 .st-seg > span.on { color: var(--blossom-deep); }
 .st-seg .sb { bottom: -16px; }
 
@@ -92,7 +119,17 @@
   font-family: var(--font-ui); font-size: 40px; font-weight: 800; white-space: nowrap;
 }
 .st-cards { position: absolute; left: 340px; right: 170px; top: 196px; z-index: 6; display: flex; justify-content: center; gap: 40px; }
-.st-cards .card { position: relative; width: 230px; height: 230px; transition: background 0.2s, opacity 0.3s, filter 0.3s; }
+.st-cards .card { position: relative; width: 230px; height: 230px; transition: opacity 0.3s; }
+/* the pictures glow in turn as the question is read: a golden ring round each, in and out once (opacity and scale; a
+   card is its own stacking context while it drops in, so a light behind it would cover its picture) */
+.st-cards.asking .card::after {
+  content: ""; position: absolute; inset: -17px; border-radius: 44px; pointer-events: none; opacity: 0;
+  border: 9px solid rgba(255, 205, 70, 0.95);
+  animation: st-cardlight 1.5s ease-in-out both; animation-delay: calc(var(--k, 0) * 160ms + 0.25s);
+}
+@keyframes st-cardlight { 0% { opacity: 0; scale: 0.94; } 35% { opacity: 1; scale: 1.03; } 100% { opacity: 0; scale: 1; } }
+/* help: the right picture glows (a still ring), "Look for the glow." */
+.st-cards .card.hint { outline: 10px solid rgba(255, 197, 61, 0.95); outline-offset: 4px; }
 /* the drop-in stays in the list, so it isn't replayed when the shake ends (the delays are inline: "<drop>s, 0s") */
 .st-cards .card.wrong { background: #ffe0cc; animation: dropin 0.55s cubic-bezier(0.3, 1.5, 0.6, 1) both, shake 0.4s; }
 /* a wrong picture already tried stays faded, so the child tries one of the others (they wiggle: Story.tsx nudge) */
@@ -100,11 +137,11 @@
 /* the right picture steps up (Story.tsx: LIFT) and the others sink away and fade out, before the ninja's magic leaves
    its hands: it flies high over where they were, so it can't seem to hit a wrong one */
 .st-cards.solved .card:not(.right) {
-  opacity: 0; visibility: hidden; filter: grayscale(0.8); translate: 0 160px; scale: 0.62;
-  transition: opacity 0.2s, filter 0.2s, translate 0.22s cubic-bezier(0.3, 0.7, 0.4, 1), scale 0.22s cubic-bezier(0.3, 0.7, 0.4, 1), visibility 0s 0.22s;
+  opacity: 0; visibility: hidden; translate: 0 160px; scale: 0.62;
+  transition: opacity 0.2s, translate 0.22s cubic-bezier(0.3, 0.7, 0.4, 1), scale 0.22s cubic-bezier(0.3, 0.7, 0.4, 1), visibility 0s 0.22s;
 }
 .st-cards .card.right {
-  translate: 0 -24px; transition: translate 0.2s cubic-bezier(0.3, 1.5, 0.6, 1), background 0.2s;
+  translate: 0 -24px; transition: translate 0.2s cubic-bezier(0.3, 1.5, 0.6, 1);
   background: #dfffe6; box-shadow: 0 8px 0 var(--ink), 0 0 0 10px rgba(255, 197, 61, 0.9), 0 20px 34px rgba(0, 0, 0, 0.25);
 }
 

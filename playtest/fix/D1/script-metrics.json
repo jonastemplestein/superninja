@@ -1,0 +1,3384 @@
+{
+ "fast": {
+  "id": "fast-line",
+  "row": "new sentence lines faster than 3.3 words a second",
+  "value": "0 of 494",
+  "target": "0 (or re-taken)",
+  "pass": true,
+  "detail": []
+ },
+ "runs": [
+  {
+   "file": "playtest/fix/D1/transcripts-final/splitter/continuous-splitter-from-w5-1.json",
+   "label": "C5-S",
+   "persona": "splitter",
+   "from": "w5-1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "6",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [
+      "w5-1 @0:38.8 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @1:03.8 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\"",
+      "w5-1 @4:15.1 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-3 @9:16.4 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-3 @9:38.6 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\"",
+      "w5-3 @11:00.2 ‹t_two_letters› \"It's two letters, but it's one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "1 sounds",
+     "target": "0 (perfect runs only; info here)",
+     "pass": null,
+     "detail": [
+      "/sh/: 3× (w5-1 0:38.8, w5-1 4:15.1, w5-3 11:00.2)"
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_5 ×3",
+     "target": "≤ 1 per land",
+     "pass": false,
+     "detail": [
+      "world_5 \"Welcome to Shadow Castle. Don't worry, I'm right beside you.\" said 3 times"
+     ]
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "0",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "1.02",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "14 praise lines in 13.8 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "1 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹tv_here_sound› \"Here's the sound...\" from world flower @5:37.6"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "5",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w5-1 @0:38.8 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @1:03.8 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\"",
+      "reward @5:11.7 ‹audit_gem_first› \"Look, a gem! Each gem holds a way to spell a sound. When you get words\"",
+      "w5-3 @9:16.4 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-3 @9:38.6 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "2 of 2 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "n/a",
+     "target": "0 missing",
+     "pass": null,
+     "detail": [
+      "no game is met for the first time in this run"
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "n/a",
+     "target": "≤ 15 s",
+     "pass": null,
+     "detail": [
+      "no first-meeting runs recognised"
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "11 words (median line 6 words; 49 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 18 of 49"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 15 of 15, rabbit 15 of 15",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 16.6 s (build w5-1); 1 over",
+     "target": "≤ 12 s",
+     "pass": false,
+     "detail": [
+      "build (w5-1) 16.6 s from ‹tv_won_four› \"You won back four sounds...\" to ‹tv_to_flower_first› \"Now let's go and see where your sounds live. Tap the green arrow.\", with ‹tv_fs_slow_tortoise› \"First the slow way, like the tortoise...\""
+     ]
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/D1/transcripts-final/w2-1/continuous-learner-from-w2-1.json",
+   "label": "C(w2-1)-L",
+   "persona": "learner",
+   "from": "w2-1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "0",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0 (perfect runs only; info here)",
+     "pass": null,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_2 ×1",
+     "target": "≤ 1 per land",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "0",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "1.07",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "7 praise lines in 6.5 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "1 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹tv_here_sound› \"Here's the sound...\" from world flower @5:42.4"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "max 10.9 s (learn w2-1); 0 over",
+     "target": "≤ 15 s (named runs 15 s)",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "8 words (median line 6 words; 32 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 16 of 32"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "yes",
+     "target": "yes",
+     "pass": true,
+     "detail": [
+      "w2-1 opens: ‹tv_learn_frame_four› \"Today in the dojo, I'm going to teach you four new sounds.\" · ‹tv_learn_how› \"I'll say each sound, and show you how we write it. Then you say it with me.\" · ‹tv_learn_ready› \"Are you ready for the first one? Tap the green arrow.\" · ‹tv_learn_first› \"Here's the first new sound. Get your ninja ears ready.\" · ‹tv_here_it_comes› \"Here it comes...\""
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 5 of 5, rabbit 5 of 5",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 12.6 s (build w2-1); 1 over",
+     "target": "≤ 12 s",
+     "pass": false,
+     "detail": [
+      "build (w2-1) 12.6 s from ‹say_sounds_read› \"Say the sounds, and read the word.\" to ‹first_sound_q› \"What's the first sound?\", with ‹tv_fs_praise_every› \"You said it slowly, and found every sound.\""
+     ]
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/D1/transcripts-final/w2-1/continuous-perfect-from-w2-1.json",
+   "label": "C(w2-1)-P",
+   "persona": "perfect",
+   "from": "w2-1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "0",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "0",
+     "target": "≤ 1 per land",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "1",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": [
+      "reward @4:16.0"
+     ]
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "0.74",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "4 praise lines in 5.4 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "1 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹tv_here_sound› \"Here's the sound...\" from world flower @4:38.6"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "max 10.9 s (learn w2-1); 0 over",
+     "target": "≤ 15 s (named runs 15 s)",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "16 words (median line 7 words; 22 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 8 of 22"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "yes",
+     "target": "yes",
+     "pass": true,
+     "detail": [
+      "w2-1 opens: ‹tv_learn_frame_four› \"Today in the dojo, I'm going to teach you four new sounds.\" · ‹tv_learn_how› \"I'll say each sound, and show you how we write it. Then you say it with me.\" · ‹tv_learn_ready› \"Are you ready for the first one? Tap the green arrow.\" · ‹tv_learn_first› \"Here's the first new sound. Get your ninja ears ready.\" · ‹tv_here_it_comes› \"Here it comes...\""
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 5 of 5, rabbit 5 of 5",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 26.2 s (build w2-1); 1 over",
+     "target": "≤ 12 s",
+     "pass": false,
+     "detail": [
+      "build (w2-1) 26.2 s from ‹tv_to_reward› \"Let's see what you won back from Baron Muddle.\" to ‹tv_to_flower_first› \"Now let's go and see where your sounds live. Tap the green arrow.\", with ‹tv_fs_slow_tortoise› \"First the slow way, like the tortoise...\""
+     ]
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/D1/transcripts-final/w3-6/continuous-learner-from-w3-6.json",
+   "label": "C(w3-6)-L",
+   "persona": "learner",
+   "from": "w3-6",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "1",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [
+      "w3-6 @1:13.8 ‹t_two_letters› \"It's two letters, but it's one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0 (perfect runs only; info here)",
+     "pass": null,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_3 ×1",
+     "target": "≤ 1 per land",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "0",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "0.86",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "7 praise lines in 8.2 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "2 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹t_ways_2› \"Now you know two ways to spell...\" from world flower @6:19.8",
+      "‹wf_found_gem› \"You found a new gem! It's a spelling of the sound...\" from world flower @6:43.0"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "n/a",
+     "target": "0 missing",
+     "pass": null,
+     "detail": [
+      "no game is met for the first time in this run"
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "n/a",
+     "target": "≤ 15 s",
+     "pass": null,
+     "detail": [
+      "no first-meeting runs recognised"
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "8 words (median line 6 words; 40 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 19 of 40"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 5 of 5, rabbit 5 of 5",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 11.7 s (build w3-6); 0 over",
+     "target": "≤ 12 s",
+     "pass": true,
+     "detail": []
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/D1/transcripts-final/w3-6/continuous-perfect-from-w3-6.json",
+   "label": "C(w3-6)-P",
+   "persona": "perfect",
+   "from": "w3-6",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "1",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [
+      "w3-6 @1:04.2 ‹t_two_letters› \"It's two letters, but it's one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "0",
+     "target": "≤ 1 per land",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "1",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": [
+      "reward @5:00.3"
+     ]
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "1.00",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "7 praise lines in 7.0 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "2 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹t_ways_2› \"Now you know two ways to spell...\" from world flower @5:29.8",
+      "‹wf_found_gem› \"You found a new gem! It's a spelling of the sound...\" from world flower @5:52.1"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "1",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "reward @4:53.4 ‹audit_gem_first› \"Look, a gem! Each gem holds a way to spell a sound. When you get words\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "n/a",
+     "target": "0 missing",
+     "pass": null,
+     "detail": [
+      "no game is met for the first time in this run"
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "n/a",
+     "target": "≤ 15 s",
+     "pass": null,
+     "detail": [
+      "no first-meeting runs recognised"
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "11 words (median line 6 words; 26 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 9 of 26"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 5 of 5, rabbit 5 of 5",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 31.0 s (build w3-6); 1 over",
+     "target": "≤ 12 s",
+     "pass": false,
+     "detail": [
+      "build (w3-6) 31.0 s from ‹tv_to_reward› \"Let's see what you won back from Baron Muddle.\" to ‹tv_to_flower_first› \"Now let's go and see where your sounds live. Tap the green arrow.\", with ‹tv_fs_slow_tortoise› \"First the slow way, like the tortoise...\""
+     ]
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/D1/transcripts-final/w5-1/continuous-learner-from-w5-1.json",
+   "label": "C5-L",
+   "persona": "learner",
+   "from": "w5-1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "2",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [
+      "w5-1 @0:34.4 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @0:57.7 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0 (perfect runs only; info here)",
+     "pass": null,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_5 ×1",
+     "target": "≤ 1 per land",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "0",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "1.05",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "7 praise lines in 6.7 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "1 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹tv_here_sound› \"Here's the sound...\" from world flower @5:27.8"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "2",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w5-1 @0:34.4 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @0:57.7 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "n/a",
+     "target": "0 missing",
+     "pass": null,
+     "detail": [
+      "no game is met for the first time in this run"
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "n/a",
+     "target": "≤ 15 s",
+     "pass": null,
+     "detail": [
+      "no first-meeting runs recognised"
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "8 words (median line 6 words; 32 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 16 of 32"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 5 of 5, rabbit 5 of 5",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 11.6 s (build w5-1); 0 over",
+     "target": "≤ 12 s",
+     "pass": true,
+     "detail": []
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/D1/transcripts-final/w5-1/continuous-perfect-from-w5-1.json",
+   "label": "C5-P",
+   "persona": "perfect",
+   "from": "w5-1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "2",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [
+      "w5-1 @0:36.2 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @0:56.9 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "0",
+     "target": "≤ 1 per land",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "1",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": [
+      "reward @4:29.3"
+     ]
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 2",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "0.69",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "4 praise lines in 5.8 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "1 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹tv_here_sound› \"Here's the sound...\" from world flower @4:53.7"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "2",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w5-1 @0:36.2 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @0:56.9 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "n/a",
+     "target": "0 missing",
+     "pass": null,
+     "detail": [
+      "no game is met for the first time in this run"
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "n/a",
+     "target": "≤ 15 s",
+     "pass": null,
+     "detail": [
+      "no first-meeting runs recognised"
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "16 words (median line 6 words; 21 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 7 of 21"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 5 of 5, rabbit 5 of 5",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 28.1 s (build w5-1); 1 over",
+     "target": "≤ 12 s",
+     "pass": false,
+     "detail": [
+      "build (w5-1) 28.1 s from ‹tv_to_reward› \"Let's see what you won back from Baron Muddle.\" to ‹tv_to_flower_first› \"Now let's go and see where your sounds live. Tap the green arrow.\", with ‹tv_fs_slow_tortoise› \"First the slow way, like the tortoise...\""
+     ]
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/D1/transcripts-final/w6-1/continuous-learner-from-w6-1.json",
+   "label": "C(w6-1)-L",
+   "persona": "learner",
+   "from": "w6-1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "2",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [
+      "w6-1 @0:31.7 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w6-1 @0:59.9 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0 (perfect runs only; info here)",
+     "pass": null,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_6 ×1",
+     "target": "≤ 1 per land",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "0",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "0.71",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "4 praise lines in 5.6 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "0 lines",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "3",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w6-1 @0:31.7 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w6-1 @0:59.9 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\"",
+      "reward @4:25.7 ‹audit_gem_first› \"Look, a gem! Each gem holds a way to spell a sound. When you get words\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "n/a",
+     "target": "0 missing",
+     "pass": null,
+     "detail": [
+      "no game is met for the first time in this run"
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "n/a",
+     "target": "≤ 15 s",
+     "pass": null,
+     "detail": [
+      "no first-meeting runs recognised"
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "8 words (median line 7 words; 25 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 11 of 25"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 5 of 5, rabbit 5 of 5",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 13.4 s (build w6-1); 1 over",
+     "target": "≤ 12 s",
+     "pass": false,
+     "detail": [
+      "build (w6-1) 13.4 s from ‹sound:t› \"/t/\" to ‹first_sound_q› \"What's the first sound?\", with ‹tv_fs_praise_every› \"You said it slowly, and found every sound.\""
+     ]
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/D1/transcripts-final/w6-1/continuous-perfect-from-w6-1.json",
+   "label": "C(w6-1)-P",
+   "persona": "perfect",
+   "from": "w6-1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "2",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [
+      "w6-1 @0:29.5 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w6-1 @0:55.1 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_6 ×1",
+     "target": "≤ 1 per land",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "0",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "0 of 1",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "0.84",
+     "target": "≤ 1.5",
+     "pass": true,
+     "detail": [
+      "4 praise lines in 4.8 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "0 lines",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "3",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w6-1 @0:29.5 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w6-1 @0:55.1 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\"",
+      "reward @3:40.8 ‹audit_gem_first› \"Look, a gem! Each gem holds a way to spell a sound. When you get words\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "the tier-3 streak line before 7 whole answers",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "n/a",
+     "target": "0 missing",
+     "pass": null,
+     "detail": [
+      "no game is met for the first time in this run"
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "n/a",
+     "target": "≤ 15 s",
+     "pass": null,
+     "detail": [
+      "no first-meeting runs recognised"
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "18 words (median line 7 words; 16 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 2 of 16"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "0 said (0 lines)",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    },
+    {
+     "id": "fs-per-session",
+     "row": "fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1)",
+     "value": "0 of 1 games",
+     "target": "0 missing",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-repeat",
+     "row": "an idea line (or a fast/slow praise line) said twice in a session",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-idea-caps",
+     "row": "idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session",
+     "value": "1 a level, 1 a session (most)",
+     "target": "≤ 2 / ≤ 4; 1 game from land 3",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-readback",
+     "row": "the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+     "value": "1 of 1 (100%)",
+     "target": "100%",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "fs-badges",
+     "row": "the tortoise lit on every slow slot, the rabbit on the fast word after it",
+     "value": "tortoise 5 of 5, rabbit 5 of 5",
+     "target": "100%",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-answer-leak",
+     "row": "the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki)",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "none of those games in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "fs-rabbit",
+     "row": "Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+     "value": "1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt",
+     "target": "all; 0 outside",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "fs-talk",
+     "row": "talk before a child action, in runs with a fast/slow line",
+     "value": "max 16.1 s (build w6-1); 1 over",
+     "target": "≤ 12 s",
+     "pass": false,
+     "detail": [
+      "build (w6-1) 16.1 s from ‹tv_to_reward› \"Let's see what you won back from Baron Muddle.\" to ‹tv_to_flower_first› \"Now let's go and see where your sounds live. Tap the green arrow.\", with ‹tv_fs_slow_tortoise› \"First the slow way, like the tortoise...\""
+     ]
+    }
+   ]
+  }
+ ]
+}

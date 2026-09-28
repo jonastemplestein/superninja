@@ -1,10 +1,12 @@
 // The Sticker Book (docs/FIRST_MINUTES.md §6): every picture the child has played with, and every word read or spelt,
-// as stickers in the order they were collected, six to a page. A picture sticker says its word fast, then slow; a
-// word sticker (a gold edge and its spelling) says the sounds and reads the word; a shiny one sparkles. After the last
+// as stickers in the order they were collected, six to a page. A picture sticker says its word fast, then slow (the
+// pure sounds with gaps: "sun… s · u · n"), with the rabbit hopping on the fast word and the tortoise stepping on each
+// slow sound beside the speaker; a word sticker (a gold edge and its spelling) says its sounds, each spelling lighting
+// as it plays (a spelling's voice: no petal, SOUND_DISPLAY r65), and reads the word; a shiny one sparkles. After the last
 // sticker, three dashed "mystery" outlines show the next pictures on the child's path. No walls of silhouettes, and
 // the counter is a big number with a sticker icon. (In code it stays `Book`; the child hears "Sticker Book".)
 // Home is the nav layer's (top-left, to the map); Hear it again (top-right) says what Sensei said on arriving.
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { WORD_BY_TEXT } from "../content/phonics";
 import { LEVELS, levelWords } from "../content/worlds";
 import { WARMUPS } from "../content/warmups";
@@ -46,6 +48,8 @@ export function Book({ onBack }: { onBack?: () => void }) {
   // open at the spread with the newest sticker
   const [spread, setSpread] = useState(() => Math.max(0, Math.floor(Math.max(0, stickers.length - 1) / (PER_PAGE * 2))));
   const [flip, setFlip] = useState<0 | 1 | -1>(0);
+  const flipT = useRef(0);
+  useEffect(() => () => clearTimeout(flipT.current), []);
 
   // what Sensei said on arriving ("This is your Sticker Book!" the first time), else how the book works
   const [firstLook] = useState(() => !store.get().seenBook);
@@ -57,14 +61,17 @@ export function Book({ onBack }: { onBack?: () => void }) {
     }
   }, []);
   useHelp(() => say({ line: "help_book" }));
-  useNav({ again: () => say(firstLook ? [{ line: "fm_rw_book" }, { gap: 300 }, { line: "help_book" }] : { line: "help_book" }), againAt: "top-right", ...(onBack ? { home: onBack } : {}) });
+  // (the tortoise and the rabbit: every picture sticker says its word fast, then slow. They sit above the book, right of
+  // the counter and left of the speaker, clear of the pages)
+  useNav({ again: () => say(firstLook ? [{ line: "fm_rw_book" }, { gap: 300 }, { line: "help_book" }] : { line: "help_book" }), againAt: "top-right", speed: { at: { x: 1010, y: 44 } }, ...(onBack ? { home: onBack } : {}) });
 
   const turn = (d: 1 | -1) => {
     const n = spread + d;
     if (n < 0 || n >= spreads.length) return;
     sfx.page();
     setFlip(d);
-    setTimeout(() => {
+    clearTimeout(flipT.current);
+    flipT.current = window.setTimeout(() => {
       setSpread(n);
       setFlip(0);
     }, 260);
@@ -76,10 +83,11 @@ export function Book({ onBack }: { onBack?: () => void }) {
     sfx.pop();
     const xy = stageXY(el);
     fx.burst(xy.x, xy.y, "stars", 8);
-    void sayStickerWord(w, stickerKind(w));
+    void sayStickerWord(w, stickerKind(w), el, { fs: true });
   };
 
-  (window as any).__snState = { scene: "book", stickers: stickers.length };
+  // (bots and the sweep: the Sticker Book is a place to browse, not a game, TEACHER_SCRIPT §2.6)
+  (window as any).__snState = { scene: "book", game: null, stickers: stickers.length, next: null, busy: false };
   return (
     <div className="scene book-scene" style={{ background: "radial-gradient(ellipse at 50% 40%, #6b3f2a, #2b1a12)" }}>
       {/* the book */}

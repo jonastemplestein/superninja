@@ -1,0 +1,1077 @@
+{
+ "limits": {
+  "breath_ms": "150 ± 20",
+  "sentence_ms": "450 ± 30",
+  "level_db": "± 3",
+  "fall_st": "≤ 2",
+  "longest_ms": "≤ 600"
+ },
+ "utterances": 316,
+ "joins": 415,
+ "by_template": {
+  "w_listen_again": {
+   "joins": 80,
+   "timing": 0,
+   "level": 0,
+   "level_after_gain": 0,
+   "fall": 0,
+   "longest": 0,
+   "f0_info": 17
+  },
+  "s_which_starts": {
+   "joins": 16,
+   "timing": 0,
+   "level": 5,
+   "level_after_gain": 0,
+   "fall": 0,
+   "longest": 0,
+   "f0_info": 5
+  },
+  "s_which_write": {
+   "joins": 16,
+   "timing": 0,
+   "level": 5,
+   "level_after_gain": 0,
+   "fall": 0,
+   "longest": 0,
+   "f0_info": 0
+  },
+  "s_say_read": {
+   "joins": 168,
+   "timing": 0,
+   "level": 76,
+   "level_after_gain": 84,
+   "fall": 0,
+   "longest": 3,
+   "f0_info": 37
+  },
+  "s_how_write": {
+   "joins": 16,
+   "timing": 0,
+   "level": 12,
+   "level_after_gain": 0,
+   "fall": 0,
+   "longest": 0,
+   "f0_info": 7
+  },
+  "s_here_sound": {
+   "joins": 16,
+   "timing": 0,
+   "level": 3,
+   "level_after_gain": 0,
+   "fall": 0,
+   "longest": 0,
+   "f0_info": 7
+  },
+  "ws_way_we_spell": {
+   "joins": 30,
+   "timing": 0,
+   "level": 8,
+   "level_after_gain": 0,
+   "fall": 0,
+   "longest": 0,
+   "f0_info": 9
+  },
+  "ws_starts_with": {
+   "joins": 57,
+   "timing": 1,
+   "level": 21,
+   "level_after_gain": 5,
+   "fall": 0,
+   "longest": 0,
+   "f0_info": 11
+  },
+  "s_say_the_sound": {
+   "joins": 16,
+   "timing": 0,
+   "level": 5,
+   "level_after_gain": 0,
+   "fall": 0,
+   "longest": 0,
+   "f0_info": 1
+  }
+ },
+ "gain_table_db": {
+  "a": -3.0,
+  "b": 2.0,
+  "d": -1.0,
+  "e": -3.0,
+  "f": -0.5,
+  "g": 0.0,
+  "h": -1.0,
+  "i": -3.5,
+  "k": -1.0,
+  "m": -1.0,
+  "n": -0.5,
+  "o": -3.5,
+  "p": -5.0,
+  "r": -4.5,
+  "s": 0.0,
+  "t": -1.5,
+  "v": -1.0
+ },
+ "level_steps_db": {
+  "a": [
+   0.65,
+   1.25,
+   2.04,
+   2.92,
+   3.26,
+   3.27,
+   3.68,
+   5.83
+  ],
+  "i": [
+   1.47,
+   3.14,
+   3.32,
+   3.47,
+   3.49,
+   3.9,
+   5.19,
+   6.05
+  ],
+  "m": [
+   -1.31,
+   0.25,
+   0.36,
+   0.69,
+   0.71,
+   1.12,
+   1.35,
+   3.02,
+   3.27,
+   3.34,
+   5.12
+  ],
+  "s": [
+   -1.75,
+   -1.22,
+   -0.6,
+   -0.51,
+   -0.08,
+   0.11,
+   0.26,
+   0.28,
+   0.68,
+   2.83,
+   2.83,
+   3.3
+  ],
+  "t": [
+   -0.98,
+   -0.72,
+   -0.68,
+   0.94,
+   1.28,
+   1.3,
+   1.7,
+   2.72,
+   3.85
+  ],
+  "n": [
+   -1.56,
+   0.01,
+   0.11,
+   0.44,
+   0.46,
+   0.87,
+   3.02,
+   3.35
+  ],
+  "o": [
+   0.53,
+   1.66,
+   2.23,
+   3.33,
+   3.66,
+   3.68,
+   4.08,
+   6.23
+  ],
+  "p": [
+   3.22,
+   3.25,
+   3.37,
+   4.38,
+   4.6,
+   4.92,
+   5.26,
+   5.28,
+   5.62,
+   5.68,
+   6.06,
+   7.83
+  ],
+  "b": [
+   -3.96,
+   -3.32,
+   -3.26,
+   -2.29,
+   -2.01,
+   -1.95,
+   -1.94,
+   -1.92,
+   -1.53,
+   -1.37,
+   -0.27,
+   0.62
+  ],
+  "k": [
+   -0.85,
+   -0.37,
+   -0.16,
+   0.55,
+   0.82,
+   1.16,
+   1.17,
+   1.58,
+   1.7,
+   3.73
+  ],
+  "g": [
+   -2.19,
+   -0.52,
+   -0.18,
+   -0.17,
+   0.24,
+   2.39
+  ],
+  "h": [
+   -0.78,
+   -0.09,
+   0.43,
+   0.86,
+   0.89,
+   0.89,
+   1.23,
+   1.24,
+   1.65,
+   2.13,
+   3.07,
+   3.8
+  ],
+  "d": [
+   -0.94,
+   -0.57,
+   -0.08,
+   0.64,
+   0.74,
+   1.07,
+   1.09,
+   1.49,
+   1.7,
+   3.64
+  ],
+  "e": [
+   2.84,
+   3.18,
+   3.19,
+   3.6,
+   5.75
+  ],
+  "f": [
+   -1.71,
+   -1.54,
+   -0.04,
+   0.29,
+   0.29,
+   0.3,
+   0.71,
+   2.84,
+   2.86,
+   3.47,
+   3.74,
+   5.86
+  ],
+  "v": [
+   -1.25,
+   0.42,
+   0.76,
+   0.77,
+   1.18,
+   2.05,
+   3.33,
+   5.09
+  ],
+  "r": [
+   4.61
+  ]
+ },
+ "pieces": {
+  "s_say_read/0-_.mp3": [
+   "level"
+  ],
+  "ws_starts_with/0-fishdog.mp3": [
+   "level"
+  ],
+  "ws_starts_with/0-flower.mp3": [
+   "level"
+  ],
+  "ws_starts_with/0-man.mp3": [
+   "level"
+  ],
+  "ws_starts_with/0-moon.mp3": [
+   "timing"
+  ],
+  "ws_starts_with/0-sausage.mp3": [
+   "level"
+  ],
+  "ws_starts_with/0-van.mp3": [
+   "level"
+  ]
+ },
+ "flags": [
+  {
+   "where": "s_say_read.am",
+   "what": "level +7.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/a.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.an",
+   "what": "level +7.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/a.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.at",
+   "what": "level +7.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/a.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.bag",
+   "what": "level +2.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/b.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.bat",
+   "what": "level +2.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/b.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.bed",
+   "what": "level +2.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/b.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.beg",
+   "what": "level +2.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/b.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.bib",
+   "what": "level +2.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/b.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.big",
+   "what": "level +2.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/b.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.bin",
+   "what": "level +2.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/b.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.bit",
+   "what": "level +2.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/b.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.cab",
+   "what": "level +5.2 dB, +4.2 with the gain table (s_say_read/0-_.mp3 → p/k.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.can",
+   "what": "level +5.2 dB, +4.2 with the gain table (s_say_read/0-_.mp3 → p/k.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.cap",
+   "what": "level +5.2 dB, +4.2 with the gain table (s_say_read/0-_.mp3 → p/k.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.cat",
+   "what": "level +5.2 dB, +4.2 with the gain table (s_say_read/0-_.mp3 → p/k.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.cob",
+   "what": "level +5.2 dB, +4.2 with the gain table (s_say_read/0-_.mp3 → p/k.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.cot",
+   "what": "level +5.2 dB, +4.2 with the gain table (s_say_read/0-_.mp3 → p/k.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.dab",
+   "what": "level +5.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/d.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.dad",
+   "what": "level +5.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/d.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.den",
+   "what": "level +5.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/d.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.did",
+   "what": "level +5.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/d.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.dig",
+   "what": "level +5.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/d.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.dip",
+   "what": "level +5.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/d.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.dog",
+   "what": "level +5.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/d.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.dot",
+   "what": "level +5.1 dB, +4.1 with the gain table (s_say_read/0-_.mp3 → p/d.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.fan",
+   "what": "level +4.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/f.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.fed",
+   "what": "level +4.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/f.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.fig",
+   "what": "level +4.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/f.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.fit",
+   "what": "level +4.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/f.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.fog",
+   "what": "level +4.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/f.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.gap",
+   "what": "level +3.9 dB, +3.9 with the gain table (s_say_read/0-_.mp3 → p/g.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.gas",
+   "what": "level +3.9 dB, +3.9 with the gain table (s_say_read/0-_.mp3 → p/g.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.get",
+   "what": "level +3.9 dB, +3.9 with the gain table (s_say_read/0-_.mp3 → p/g.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.got",
+   "what": "level +3.9 dB, +3.9 with the gain table (s_say_read/0-_.mp3 → p/g.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.ham",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.hat",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.hen",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.him",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.hip",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.hit",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.hob",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.hog",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.hop",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.hot",
+   "what": "level +5.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/h.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.in",
+   "what": "level +7.5 dB, +4.0 with the gain table (s_say_read/0-_.mp3 → p/i.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.it",
+   "what": "level +7.5 dB, +4.0 with the gain table (s_say_read/0-_.mp3 → p/i.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.mad",
+   "what": "level +4.7 dB, +3.7 with the gain table (s_say_read/0-_.mp3 → p/m.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.man",
+   "what": "level +4.7 dB, +3.7 with the gain table (s_say_read/0-_.mp3 → p/m.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.map",
+   "what": "level +4.7 dB, +3.7 with the gain table (s_say_read/0-_.mp3 → p/m.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.mat",
+   "what": "level +4.7 dB, +3.7 with the gain table (s_say_read/0-_.mp3 → p/m.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.men",
+   "what": "level +4.7 dB, +3.7 with the gain table (s_say_read/0-_.mp3 → p/m.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.mop",
+   "what": "level +4.7 dB, +3.7 with the gain table (s_say_read/0-_.mp3 → p/m.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "s_say_read.nap",
+   "what": "level +4.5 dB, +4.0 with the gain table (s_say_read/0-_.mp3 → p/n.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.net",
+   "what": "level +4.5 dB, +4.0 with the gain table (s_say_read/0-_.mp3 → p/n.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.nip",
+   "what": "level +4.5 dB, +4.0 with the gain table (s_say_read/0-_.mp3 → p/n.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.nod",
+   "what": "level +4.5 dB, +4.0 with the gain table (s_say_read/0-_.mp3 → p/n.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.not",
+   "what": "level +4.5 dB, +4.0 with the gain table (s_say_read/0-_.mp3 → p/n.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.on",
+   "what": "level +7.7 dB, +4.2 with the gain table (s_say_read/0-_.mp3 → p/o.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pan",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pat",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.peg",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pen",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pet",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pig",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pin",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pip",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pit",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pop",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.pot",
+   "what": "level +9.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/p.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.sad",
+   "what": "level +4.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/s.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.sat",
+   "what": "level +4.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/s.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.set",
+   "what": "level +4.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/s.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.sip",
+   "what": "level +4.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/s.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.sit",
+   "what": "level +4.3 dB, +4.3 with the gain table (s_say_read/0-_.mp3 → p/s.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.tag",
+   "what": "level +5.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/t.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.tan",
+   "what": "level +5.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/t.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.tap",
+   "what": "level +5.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/t.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.ten",
+   "what": "level +5.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/t.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.tin",
+   "what": "level +5.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/t.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.tip",
+   "what": "level +5.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/t.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.top",
+   "what": "level +5.3 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/t.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)"
+  },
+  {
+   "where": "s_say_read.van",
+   "what": "longest silence 605 ms (limit 600)",
+   "piece": null,
+   "kind": "longest",
+   "done": "none: the 320 ms tile gap, as today"
+  },
+  {
+   "where": "s_say_read.van",
+   "what": "level +4.8 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/v.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: the 320 ms tile gap, as today"
+  },
+  {
+   "where": "s_say_read.veg",
+   "what": "longest silence 605 ms (limit 600)",
+   "piece": null,
+   "kind": "longest",
+   "done": "none: the 320 ms tile gap, as today"
+  },
+  {
+   "where": "s_say_read.veg",
+   "what": "level +4.8 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/v.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: the 320 ms tile gap, as today"
+  },
+  {
+   "where": "s_say_read.vet",
+   "what": "longest silence 605 ms (limit 600)",
+   "piece": null,
+   "kind": "longest",
+   "done": "none: the 320 ms tile gap, as today"
+  },
+  {
+   "where": "s_say_read.vet",
+   "what": "level +4.8 dB, +3.8 with the gain table (s_say_read/0-_.mp3 → p/v.mp3)",
+   "piece": "s_say_read/0-_.mp3",
+   "kind": "level",
+   "done": "none: the 320 ms tile gap, as today"
+  },
+  {
+   "where": "ws_starts_with.fishdog.f",
+   "what": "level +5.9 dB, +5.4 with the gain table (ws_starts_with/0-fishdog.mp3 → p/f.mp3)",
+   "piece": "ws_starts_with/0-fishdog.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "ws_starts_with.flower.f",
+   "what": "level +3.7 dB, +3.2 with the gain table (ws_starts_with/0-flower.mp3 → p/f.mp3)",
+   "piece": "ws_starts_with/0-flower.mp3",
+   "kind": "level",
+   "done": ""
+  },
+  {
+   "where": "ws_starts_with.man.m",
+   "what": "level +5.1 dB, +4.1 with the gain table (ws_starts_with/0-man.mp3 → p/m.mp3)",
+   "piece": "ws_starts_with/0-man.mp3",
+   "kind": "level",
+   "done": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST"
+  },
+  {
+   "where": "ws_starts_with.moon.m",
+   "what": "breath 180.0 ms (design 150 ± 20) ws_starts_with/0-moon.mp3 → p/m.mp3",
+   "piece": "ws_starts_with/0-moon.mp3",
+   "kind": "timing",
+   "done": ""
+  },
+  {
+   "where": "ws_starts_with.sausage.s",
+   "what": "level +3.3 dB, +3.3 with the gain table (ws_starts_with/0-sausage.mp3 → p/s.mp3)",
+   "piece": "ws_starts_with/0-sausage.mp3",
+   "kind": "level",
+   "done": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST"
+  },
+  {
+   "where": "ws_starts_with.van.v",
+   "what": "level +5.1 dB, +4.1 with the gain table (ws_starts_with/0-van.mp3 → p/v.mp3)",
+   "piece": "ws_starts_with/0-van.mp3",
+   "kind": "level",
+   "done": ""
+  }
+ ],
+ "done": {
+  "s_say_read.am": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.an": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.at": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.bag": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.bat": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.bed": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.beg": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.bib": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.big": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.bin": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.bit": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.cab": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.can": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.cap": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.cat": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.cob": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.cot": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.dab": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.dad": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.den": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.did": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.dig": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.dip": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.dog": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.dot": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.gap": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.gas": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.get": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.got": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.ham": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.hat": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.hen": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.him": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.hip": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.hit": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.hob": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.hog": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.hop": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.hot": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.in": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.it": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.nap": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.net": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.nip": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.nod": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.not": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.on": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pan": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pat": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.peg": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pen": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pet": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pig": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pin": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pip": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pit": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pop": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.pot": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.sad": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.sat": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.set": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.sip": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.sit": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.tag": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.tan": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.tap": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.ten": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.tin": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.tip": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.top": "none: tiles after a whole sentence, not a sound inside one (today +2.3 dB)",
+  "s_say_read.van": "none: the 320 ms tile gap, as today",
+  "s_say_read.veg": "none: the 320 ms tile gap, as today",
+  "s_say_read.vet": "none: the 320 ms tile gap, as today",
+  "s_here_sound.a": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.i": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.s": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.t": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.n": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.o": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.p": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.b": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.k": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.g": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.h": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.d": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "s_here_sound.e": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "ws_way_we_spell.m.mat": "none: within ±3 dB without the gain table (the table needs a value per lead-in, not only per sound)",
+  "ws_way_we_spell.f.fan": "none: within ±3 dB without the gain table (the table needs a value per lead-in, not only per sound)",
+  "ws_way_we_spell.v.vet": "none: within ±3 dB without the gain table (the table needs a value per lead-in, not only per sound)",
+  "ws_starts_with.bib.b": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "ws_starts_with.den.d": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "ws_starts_with.dog.d": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "ws_starts_with.man.m": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "ws_starts_with.net.n": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "ws_starts_with.pot.p": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "ws_starts_with.sausage.s": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST",
+  "ws_starts_with.vet.v": "re-render queued (regen.sh): the TTS quota ran out at 11:55 BST"
+ },
+ "regenerated": []
+}

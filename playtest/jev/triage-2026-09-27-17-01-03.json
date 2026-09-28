@@ -1,0 +1,1962 @@
+{
+ "generated": "2026-09-27T17:29:25.803Z",
+ "run": "playtest/runs/2026-09-27-17-01-03",
+ "usage": {
+  "model": "jev-1.13.0",
+  "calls": 69,
+  "retries": 0,
+  "inputTokens": 63309,
+  "outputTokens": 7096,
+  "usd": 0.002659,
+  "p50ms": 472,
+  "p95ms": 656,
+  "wallMs": 2587
+ },
+ "input": {
+  "files": [
+   "critic.json",
+   "sweep.json"
+  ],
+  "findings": 59,
+  "groups": 45,
+  "pairsAsked": 24,
+  "pairsSkipped": 0
+ },
+ "clusters": [
+  {
+   "id": "c20",
+   "title": "Cannot spell 'bib' with provided letter tiles",
+   "groups": [
+    "critic:missing-letter-tile"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-1"
+   ],
+   "impact": 0.99,
+   "childFacing": 0.87,
+   "severity": "blocker",
+   "area": "content"
+  },
+  {
+   "id": "c44",
+   "title": "Game freezes and fails to load the practice dojo",
+   "groups": [
+    "critic:activity-freeze",
+    "bot:stuck:no change",
+    "bot:did-not-finish:tap Practise in the dojo"
+   ],
+   "findings": 3,
+   "cases": [
+    "tree-practise-tap"
+   ],
+   "impact": 1,
+   "childFacing": 0.69,
+   "severity": "blocker",
+   "area": "crash"
+  },
+  {
+   "id": "c42",
+   "title": "Text and gem targets are far too small to read or tap",
+   "groups": [
+    "critic:undersized-interactive-targets",
+    "bot:text-overflow:button.btn-round.pd-act[label]"
+   ],
+   "findings": 2,
+   "cases": [
+    "tree-petal"
+   ],
+   "impact": 0.99,
+   "childFacing": 0.85,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c35",
+   "title": "Abstract swirl graphic provides no visual clue for target word",
+   "groups": [
+    "critic:ambiguous-target-word"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-4"
+   ],
+   "impact": 0.9,
+   "childFacing": 0.87,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c28",
+   "title": "Rabbit and turtle blend controls are tiny and placed in the top navigation area",
+   "groups": [
+    "critic:small-remote-target"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-7"
+   ],
+   "impact": 0.86,
+   "childFacing": 0.87,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c31",
+   "title": "Instruction tells child to tap a green arrow, but button is grey",
+   "groups": [
+    "critic:mismatched-visual-cue"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-1"
+   ],
+   "impact": 0.81,
+   "childFacing": 0.9,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c10",
+   "title": "Arrow button colour contradicts instruction",
+   "groups": [
+    "critic:instruction-visual-mismatch"
+   ],
+   "findings": 3,
+   "cases": [
+    "w1-2",
+    "w1-7",
+    "w6-ec11"
+   ],
+   "impact": 0.8,
+   "childFacing": 0.85,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c33",
+   "title": "Navigation arrow is grey despite instruction to tap green arrow",
+   "groups": [
+    "critic:misleading-colour-instruction"
+   ],
+   "findings": 2,
+   "cases": [
+    "w5-3",
+    "w6-3"
+   ],
+   "impact": 0.7,
+   "childFacing": 0.91,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c25",
+   "title": "Instruction requests green arrow but button is grey",
+   "groups": [
+    "critic:incorrect-visual-cue"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-4"
+   ],
+   "impact": 0.72,
+   "childFacing": 0.88,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c32",
+   "title": "Prompt asks child to tap a green arrow, but the button is grey",
+   "groups": [
+    "critic:misleading-visual-instruction"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-11"
+   ],
+   "impact": 0.69,
+   "childFacing": 0.88,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c2",
+   "title": "Next navigation arrow appears inactive",
+   "groups": [
+    "critic:next-button-disabled"
+   ],
+   "findings": 1,
+   "cases": [
+    "nav-demo"
+   ],
+   "impact": 0.82,
+   "childFacing": 0.72,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c14",
+   "title": "Three cards marked correct despite prompt stating 'You found them both'",
+   "groups": [
+    "critic:contradictory-feedback"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-wu3"
+   ],
+   "impact": 0.69,
+   "childFacing": 0.82,
+   "severity": "major",
+   "area": "logic"
+  },
+  {
+   "id": "c12",
+   "title": "Map pin icon used for target sound",
+   "groups": [
+    "critic:placeholder-icon"
+   ],
+   "findings": 2,
+   "cases": [
+    "w1-wu1",
+    "w1-wu3"
+   ],
+   "impact": 0.62,
+   "childFacing": 0.88,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c7",
+   "title": "Pig sound pin is positioned over 'i' instead of 'p'",
+   "groups": [
+    "critic:misplaced-mnemonic-marker"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-10"
+   ],
+   "impact": 0.71,
+   "childFacing": 0.76,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c23",
+   "title": "Letter tile displays invalid 'ht' cluster",
+   "groups": [
+    "critic:invalid-letter-tile"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-12"
+   ],
+   "impact": 0.71,
+   "childFacing": 0.75,
+   "severity": "major",
+   "area": "content"
+  },
+  {
+   "id": "c24",
+   "title": "Picture card displays abstract spiral instead of target word",
+   "groups": [
+    "critic:unrecognisable-picture-card"
+   ],
+   "findings": 2,
+   "cases": [
+    "w3-2",
+    "w4-5"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.78,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c38",
+   "title": "overlapping-targets: button.sound-badge.tier-turn[aria-label=\"Hear the sound\"] + button.sound-badge.tier-turn[aria-label=\"Hear the sound\"]",
+   "groups": [
+    "bot:overlapping-targets:button.sound-badge.tier-turn[label] + button.sound-badge.tier-turn[label]"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-6"
+   ],
+   "impact": 0.77,
+   "childFacing": 0.58,
+   "severity": "major",
+   "area": "layout"
+  },
+  {
+   "id": "c40",
+   "title": "sound-without-petal: /l/ after tv_first_is",
+   "groups": [
+    "bot:sound-without-petal:/l/ after tv_first_is",
+    "bot:sound-without-petal:/i/ after tv_first_is"
+   ],
+   "findings": 2,
+   "cases": [
+    "w4-7"
+   ],
+   "impact": 0.71,
+   "childFacing": 0.53,
+   "severity": "major",
+   "area": "art"
+  },
+  {
+   "id": "c41",
+   "title": "sound-without-petal: /k/ after t_two_letters",
+   "groups": [
+    "bot:sound-without-petal:/k/ after t_two_letters"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-4"
+   ],
+   "impact": 0.77,
+   "childFacing": 0.48,
+   "severity": "major",
+   "area": "audio"
+  },
+  {
+   "id": "c27",
+   "title": "Rabbit reading button is very small for preschool fingers",
+   "groups": [
+    "critic:small-touch-target"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-6"
+   ],
+   "impact": 0.74,
+   "childFacing": 0.83,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c0",
+   "title": "Next arrow has low contrast and appears inactive",
+   "groups": [
+    "critic:low-contrast-next-button"
+   ],
+   "findings": 1,
+   "cases": [
+    "finale"
+   ],
+   "impact": 0.73,
+   "childFacing": 0.83,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c21",
+   "title": "Instruction asks to tap a green arrow, but the button is grey",
+   "groups": [
+    "critic:instruction-ui-mismatch"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-1"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.89,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c30",
+   "title": "Instruction tells child to tap a green arrow, but the arrow is grey",
+   "groups": [
+    "critic:misleading-visual-prompt"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-9"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.88,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c13",
+   "title": "Tortoise and rabbit buttons are tiny and overlap the book",
+   "groups": [
+    "critic:touch-target-overlap"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-wu1"
+   ],
+   "impact": 0.7,
+   "childFacing": 0.84,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c8",
+   "title": "Prompt asks for green arrow, but button is grey",
+   "groups": [
+    "critic:misleading-colour-prompt"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-11"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.87,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c36",
+   "title": "Prompt instructs child to tap a petal but shows a boat pin",
+   "groups": [
+    "critic:mismatched-prompt-text"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-6"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.87,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c19",
+   "title": "Prompt refers to a green arrow, but the button is grey",
+   "groups": [
+    "critic:colour-mismatch"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-8"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.86,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c17",
+   "title": "Instruction refers to green arrow but button is grey",
+   "groups": [
+    "critic:mismatched-button-colour"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-4"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.85,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c34",
+   "title": "Audio replay button missing during letter selection",
+   "groups": [
+    "critic:missing-audio-replay"
+   ],
+   "findings": 1,
+   "cases": [
+    "w5-4"
+   ],
+   "impact": 0.71,
+   "childFacing": 0.78,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c26",
+   "title": "Audio replay button moves between the bottom shelf and the top header",
+   "groups": [
+    "critic:inconsistent-control-placement"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-7"
+   ],
+   "impact": 0.67,
+   "childFacing": 0.78,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c3",
+   "title": "Speech bubble overlaps navigation button",
+   "groups": [
+    "critic:speech-bubble-overlap"
+   ],
+   "findings": 7,
+   "cases": [
+    "optin-Y1",
+    "w1-wu1",
+    "w1-wu2",
+    "w1-wu3",
+    "w2-4",
+    "w4-2",
+    "w5-10"
+   ],
+   "impact": 0.66,
+   "childFacing": 0.79,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c37",
+   "title": "Bucket and spade illustration used for 'beach'",
+   "groups": [
+    "critic:picture-word-mismatch"
+   ],
+   "findings": 1,
+   "cases": [
+    "w6-ec11"
+   ],
+   "impact": 0.64,
+   "childFacing": 0.8,
+   "severity": "minor",
+   "area": "art"
+  },
+  {
+   "id": "c29",
+   "title": "Dialogue reports monster health reduction before the word is completed",
+   "groups": [
+    "critic:premature-dialogue-prompt"
+   ],
+   "findings": 1,
+   "cases": [
+    "w4-7"
+   ],
+   "impact": 0.65,
+   "childFacing": 0.65,
+   "severity": "minor",
+   "area": "logic"
+  },
+  {
+   "id": "c9",
+   "title": "Next button overlaps speech bubble text",
+   "groups": [
+    "critic:button-text-overlap"
+   ],
+   "findings": 2,
+   "cases": [
+    "w1-14",
+    "w4-8"
+   ],
+   "impact": 0.51,
+   "childFacing": 0.8,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c18",
+   "title": "Navigation button overlaps speech bubble text",
+   "groups": [
+    "critic:overlapping-ui-elements"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "impact": 0.46,
+   "childFacing": 0.79,
+   "severity": "minor",
+   "area": "layout"
+  },
+  {
+   "id": "c16",
+   "title": "Grapheme gem overlaps turtle speed button",
+   "groups": [
+    "critic:hud-overlap"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-3"
+   ],
+   "impact": 0.62,
+   "childFacing": 0.76,
+   "severity": "polish",
+   "area": "layout"
+  },
+  {
+   "id": "c15",
+   "title": "Next button crowds and overlaps help badge",
+   "groups": [
+    "critic:button-overlap"
+   ],
+   "findings": 1,
+   "cases": [
+    "w2-3"
+   ],
+   "impact": 0.58,
+   "childFacing": 0.81,
+   "severity": "polish",
+   "area": "layout"
+  },
+  {
+   "id": "c22",
+   "title": "Next button overlaps intro speech bubble",
+   "groups": [
+    "critic:button-speech-bubble-overlap"
+   ],
+   "findings": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "impact": 0.47,
+   "childFacing": 0.77,
+   "severity": "polish",
+   "area": "layout"
+  },
+  {
+   "id": "c4",
+   "title": "Train graphic overlaps word card",
+   "groups": [
+    "critic:element-overlap"
+   ],
+   "findings": 3,
+   "cases": [
+    "tree-found",
+    "w5-5",
+    "w6-10"
+   ],
+   "impact": 0.38,
+   "childFacing": 0.72,
+   "severity": "polish",
+   "area": "layout"
+  },
+  {
+   "id": "c1",
+   "title": "Stray rigging anchor circles visible on top petals",
+   "groups": [
+    "critic:stray-debug-graphics"
+   ],
+   "findings": 1,
+   "cases": [
+    "idle-next"
+   ],
+   "impact": 0.31,
+   "childFacing": 0.66,
+   "severity": "polish",
+   "area": "art"
+  },
+  {
+   "id": "c11",
+   "title": "Desktop mouse pointer visible on touchscreen interface",
+   "groups": [
+    "critic:stray-cursor"
+   ],
+   "findings": 1,
+   "cases": [
+    "w1-5"
+   ],
+   "impact": 0.39,
+   "childFacing": 0.13,
+   "severity": "polish",
+   "area": "harness"
+  }
+ ],
+ "groups": [
+  {
+   "i": 0,
+   "key": "critic:low-contrast-next-button",
+   "cluster": 0,
+   "n": 1,
+   "cases": [
+    "finale"
+   ],
+   "title": "Next arrow has low contrast and appears inactive",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.83,
+   "impact": 0.73,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 1,
+   "key": "critic:stray-debug-graphics",
+   "cluster": 1,
+   "n": 1,
+   "cases": [
+    "idle-next"
+   ],
+   "title": "Stray rigging anchor circles visible on top petals",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.66,
+   "impact": 0.31,
+   "area": "art",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 2,
+   "key": "critic:next-button-disabled",
+   "cluster": 2,
+   "n": 1,
+   "cases": [
+    "nav-demo"
+   ],
+   "title": "Next navigation arrow appears inactive",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.72,
+   "impact": 0.82,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 3,
+   "key": "critic:speech-bubble-overlap",
+   "cluster": 3,
+   "n": 7,
+   "cases": [
+    "optin-Y1",
+    "w1-wu1",
+    "w1-wu2",
+    "w1-wu3",
+    "w2-4",
+    "w4-2",
+    "w5-10"
+   ],
+   "title": "Speech bubble overlaps navigation button",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.79,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 4,
+   "key": "critic:element-overlap",
+   "cluster": 4,
+   "n": 3,
+   "cases": [
+    "tree-found",
+    "w5-5",
+    "w6-10"
+   ],
+   "title": "Train graphic overlaps word card",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.72,
+   "impact": 0.38,
+   "area": "layout",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 5,
+   "key": "critic:undersized-interactive-targets",
+   "cluster": 42,
+   "n": 1,
+   "cases": [
+    "tree-petal"
+   ],
+   "title": "Text and gem targets are far too small to read or tap",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.85,
+   "impact": 0.99,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 6,
+   "key": "critic:activity-freeze",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "tree-practise-tap"
+   ],
+   "title": "Game freezes and fails to load the practice dojo",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.69,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker",
+   "jevSeverity": "blocker"
+  },
+  {
+   "i": 7,
+   "key": "critic:misplaced-mnemonic-marker",
+   "cluster": 7,
+   "n": 1,
+   "cases": [
+    "w1-10"
+   ],
+   "title": "Pig sound pin is positioned over 'i' instead of 'p'",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.76,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 8,
+   "key": "critic:misleading-colour-prompt",
+   "cluster": 8,
+   "n": 1,
+   "cases": [
+    "w1-11"
+   ],
+   "title": "Prompt asks for green arrow, but button is grey",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.87,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 9,
+   "key": "critic:button-text-overlap",
+   "cluster": 9,
+   "n": 2,
+   "cases": [
+    "w1-14",
+    "w4-8"
+   ],
+   "title": "Next button overlaps speech bubble text",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.8,
+   "impact": 0.51,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 10,
+   "key": "critic:instruction-visual-mismatch",
+   "cluster": 10,
+   "n": 3,
+   "cases": [
+    "w1-2",
+    "w1-7",
+    "w6-ec11"
+   ],
+   "title": "Arrow button colour contradicts instruction",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.85,
+   "impact": 0.8,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 11,
+   "key": "critic:stray-cursor",
+   "cluster": 11,
+   "n": 1,
+   "cases": [
+    "w1-5"
+   ],
+   "title": "Desktop mouse pointer visible on touchscreen interface",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.13,
+   "impact": 0.39,
+   "area": "harness",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 12,
+   "key": "critic:placeholder-icon",
+   "cluster": 12,
+   "n": 2,
+   "cases": [
+    "w1-wu1",
+    "w1-wu3"
+   ],
+   "title": "Map pin icon used for target sound",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.88,
+   "impact": 0.62,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 13,
+   "key": "critic:touch-target-overlap",
+   "cluster": 13,
+   "n": 1,
+   "cases": [
+    "w1-wu1"
+   ],
+   "title": "Tortoise and rabbit buttons are tiny and overlap the book",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.84,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 14,
+   "key": "critic:contradictory-feedback",
+   "cluster": 14,
+   "n": 1,
+   "cases": [
+    "w1-wu3"
+   ],
+   "title": "Three cards marked correct despite prompt stating 'You found them both'",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.82,
+   "impact": 0.69,
+   "area": "logic",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 15,
+   "key": "critic:button-overlap",
+   "cluster": 15,
+   "n": 1,
+   "cases": [
+    "w2-3"
+   ],
+   "title": "Next button crowds and overlaps help badge",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.81,
+   "impact": 0.58,
+   "area": "layout",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 16,
+   "key": "critic:hud-overlap",
+   "cluster": 16,
+   "n": 1,
+   "cases": [
+    "w2-3"
+   ],
+   "title": "Grapheme gem overlaps turtle speed button",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.76,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 17,
+   "key": "critic:mismatched-button-colour",
+   "cluster": 17,
+   "n": 1,
+   "cases": [
+    "w2-4"
+   ],
+   "title": "Instruction refers to green arrow but button is grey",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.85,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 18,
+   "key": "critic:overlapping-ui-elements",
+   "cluster": 18,
+   "n": 1,
+   "cases": [
+    "w2-7"
+   ],
+   "title": "Navigation button overlaps speech bubble text",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.79,
+   "impact": 0.46,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 19,
+   "key": "critic:colour-mismatch",
+   "cluster": 19,
+   "n": 1,
+   "cases": [
+    "w2-8"
+   ],
+   "title": "Prompt refers to a green arrow, but the button is grey",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.86,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 20,
+   "key": "critic:missing-letter-tile",
+   "cluster": 20,
+   "n": 1,
+   "cases": [
+    "w3-1"
+   ],
+   "title": "Cannot spell 'bib' with provided letter tiles",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.87,
+   "impact": 0.99,
+   "area": "content",
+   "severity": "blocker",
+   "jevSeverity": "blocker"
+  },
+  {
+   "i": 21,
+   "key": "critic:instruction-ui-mismatch",
+   "cluster": 21,
+   "n": 1,
+   "cases": [
+    "w3-1"
+   ],
+   "title": "Instruction asks to tap a green arrow, but the button is grey",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.89,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 22,
+   "key": "critic:button-speech-bubble-overlap",
+   "cluster": 22,
+   "n": 1,
+   "cases": [
+    "w3-11"
+   ],
+   "title": "Next button overlaps intro speech bubble",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.77,
+   "impact": 0.47,
+   "area": "layout",
+   "severity": "polish",
+   "jevSeverity": "polish"
+  },
+  {
+   "i": 23,
+   "key": "critic:invalid-letter-tile",
+   "cluster": 23,
+   "n": 1,
+   "cases": [
+    "w3-12"
+   ],
+   "title": "Letter tile displays invalid 'ht' cluster",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.75,
+   "impact": 0.71,
+   "area": "content",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 24,
+   "key": "critic:unrecognisable-picture-card",
+   "cluster": 24,
+   "n": 2,
+   "cases": [
+    "w3-2",
+    "w4-5"
+   ],
+   "title": "Picture card displays abstract spiral instead of target word",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.78,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 25,
+   "key": "critic:incorrect-visual-cue",
+   "cluster": 25,
+   "n": 1,
+   "cases": [
+    "w3-4"
+   ],
+   "title": "Instruction requests green arrow but button is grey",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.88,
+   "impact": 0.72,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 26,
+   "key": "critic:inconsistent-control-placement",
+   "cluster": 26,
+   "n": 1,
+   "cases": [
+    "w3-7"
+   ],
+   "title": "Audio replay button moves between the bottom shelf and the top header",
+   "source": "critic",
+   "reported": "polish",
+   "childFacing": 0.78,
+   "impact": 0.67,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 27,
+   "key": "critic:small-touch-target",
+   "cluster": 27,
+   "n": 1,
+   "cases": [
+    "w4-6"
+   ],
+   "title": "Rabbit reading button is very small for preschool fingers",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.83,
+   "impact": 0.74,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 28,
+   "key": "critic:small-remote-target",
+   "cluster": 28,
+   "n": 1,
+   "cases": [
+    "w4-7"
+   ],
+   "title": "Rabbit and turtle blend controls are tiny and placed in the top navigation area",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.87,
+   "impact": 0.86,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 29,
+   "key": "critic:premature-dialogue-prompt",
+   "cluster": 29,
+   "n": 1,
+   "cases": [
+    "w4-7"
+   ],
+   "title": "Dialogue reports monster health reduction before the word is completed",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.65,
+   "impact": 0.65,
+   "area": "logic",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 30,
+   "key": "critic:misleading-visual-prompt",
+   "cluster": 30,
+   "n": 1,
+   "cases": [
+    "w4-9"
+   ],
+   "title": "Instruction tells child to tap a green arrow, but the arrow is grey",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.88,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 31,
+   "key": "critic:mismatched-visual-cue",
+   "cluster": 31,
+   "n": 1,
+   "cases": [
+    "w5-1"
+   ],
+   "title": "Instruction tells child to tap a green arrow, but button is grey",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.9,
+   "impact": 0.81,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 32,
+   "key": "critic:misleading-visual-instruction",
+   "cluster": 32,
+   "n": 1,
+   "cases": [
+    "w5-11"
+   ],
+   "title": "Prompt asks child to tap a green arrow, but the button is grey",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.88,
+   "impact": 0.69,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 33,
+   "key": "critic:misleading-colour-instruction",
+   "cluster": 33,
+   "n": 2,
+   "cases": [
+    "w5-3",
+    "w6-3"
+   ],
+   "title": "Navigation arrow is grey despite instruction to tap green arrow",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.91,
+   "impact": 0.7,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 34,
+   "key": "critic:missing-audio-replay",
+   "cluster": 34,
+   "n": 1,
+   "cases": [
+    "w5-4"
+   ],
+   "title": "Audio replay button missing during letter selection",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.78,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 35,
+   "key": "critic:ambiguous-target-word",
+   "cluster": 35,
+   "n": 1,
+   "cases": [
+    "w5-4"
+   ],
+   "title": "Abstract swirl graphic provides no visual clue for target word",
+   "source": "critic",
+   "reported": "major",
+   "childFacing": 0.87,
+   "impact": 0.9,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 36,
+   "key": "critic:mismatched-prompt-text",
+   "cluster": 36,
+   "n": 1,
+   "cases": [
+    "w6-6"
+   ],
+   "title": "Prompt instructs child to tap a petal but shows a boat pin",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.87,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 37,
+   "key": "critic:picture-word-mismatch",
+   "cluster": 37,
+   "n": 1,
+   "cases": [
+    "w6-ec11"
+   ],
+   "title": "Bucket and spade illustration used for 'beach'",
+   "source": "critic",
+   "reported": "minor",
+   "childFacing": 0.8,
+   "impact": 0.64,
+   "area": "art",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 38,
+   "key": "bot:overlapping-targets:button.sound-badge.tier-turn[label] + button.sound-badge.tier-turn[label]",
+   "cluster": 38,
+   "n": 1,
+   "cases": [
+    "w3-6"
+   ],
+   "title": "overlapping-targets: button.sound-badge.tier-turn[aria-label=\"Hear the sound\"] + button.sound-badge.tier-turn[aria-label=\"Hear the sound\"]",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.58,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 39,
+   "key": "bot:sound-without-petal:/i/ after tv_first_is",
+   "cluster": 40,
+   "n": 1,
+   "cases": [
+    "w4-7"
+   ],
+   "title": "sound-without-petal: /i/ after tv_first_is",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.53,
+   "impact": 0.7,
+   "area": "audio",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 40,
+   "key": "bot:sound-without-petal:/l/ after tv_first_is",
+   "cluster": 40,
+   "n": 1,
+   "cases": [
+    "w4-7"
+   ],
+   "title": "sound-without-petal: /l/ after tv_first_is",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.51,
+   "impact": 0.71,
+   "area": "art",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 41,
+   "key": "bot:sound-without-petal:/k/ after t_two_letters",
+   "cluster": 41,
+   "n": 1,
+   "cases": [
+    "w5-4"
+   ],
+   "title": "sound-without-petal: /k/ after t_two_letters",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.48,
+   "impact": 0.77,
+   "area": "audio",
+   "severity": "major",
+   "jevSeverity": "major"
+  },
+  {
+   "i": 42,
+   "key": "bot:text-overflow:button.btn-round.pd-act[label]",
+   "cluster": 42,
+   "n": 1,
+   "cases": [
+    "tree-petal"
+   ],
+   "title": "text-overflow: button.btn-round.pd-act[aria-label=\"Gem battle ai\"]",
+   "source": "invariant",
+   "reported": "minor",
+   "childFacing": 0.62,
+   "impact": 0.43,
+   "area": "layout",
+   "severity": "minor",
+   "jevSeverity": "minor"
+  },
+  {
+   "i": 43,
+   "key": "bot:did-not-finish:tap Practise in the dojo",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "tree-practise-tap"
+   ],
+   "title": "did-not-finish: tap Practise in the dojo",
+   "source": "invariant",
+   "reported": "major",
+   "childFacing": 0.44,
+   "impact": 0.97,
+   "area": "layout",
+   "severity": "blocker",
+   "jevSeverity": "blocker",
+   "stuck": "stuck",
+   "stuckP": {
+    "unclear": 0,
+    "stuck": 1,
+    "slow": 0
+   }
+  },
+  {
+   "i": 44,
+   "key": "bot:stuck:no change",
+   "cluster": 44,
+   "n": 1,
+   "cases": [
+    "tree-practise-tap"
+   ],
+   "title": "stuck: no change",
+   "source": "invariant",
+   "reported": "blocker",
+   "childFacing": 0.64,
+   "impact": 1,
+   "area": "logic",
+   "severity": "blocker",
+   "jevSeverity": "blocker",
+   "stuck": "stuck",
+   "stuckP": {
+    "stuck": 1,
+    "unclear": 0,
+    "slow": 0
+   }
+  }
+ ],
+ "merges": [
+  {
+   "a": "critic:undersized-interactive-targets",
+   "b": "bot:text-overflow:button.btn-round.pd-act[label]",
+   "p": 0.61
+  },
+  {
+   "a": "critic:activity-freeze",
+   "b": "bot:did-not-finish:tap Practise in the dojo",
+   "p": 0.72
+  },
+  {
+   "a": "critic:activity-freeze",
+   "b": "bot:stuck:no change",
+   "p": 0.8
+  },
+  {
+   "a": "critic:premature-dialogue-prompt",
+   "b": "bot:sound-without-petal:/i/ after tv_first_is",
+   "p": 0.41
+  },
+  {
+   "a": "bot:sound-without-petal:/i/ after tv_first_is",
+   "b": "bot:sound-without-petal:/l/ after tv_first_is",
+   "p": 0.65
+  },
+  {
+   "a": "bot:did-not-finish:tap Practise in the dojo",
+   "b": "bot:stuck:no change",
+   "p": 0.71
+  }
+ ],
+ "findings": [],
+ "triage": {
+  "critic:finale:low-contrast-next-button": {
+   "group": "critic:low-contrast-next-button",
+   "cluster": "c0",
+   "childFacing": 0.83,
+   "impact": 0.73,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:idle-next:stray-debug-graphics": {
+   "group": "critic:stray-debug-graphics",
+   "cluster": "c1",
+   "childFacing": 0.66,
+   "impact": 0.31,
+   "area": "art",
+   "severity": "polish"
+  },
+  "critic:nav-demo:next-button-disabled": {
+   "group": "critic:next-button-disabled",
+   "cluster": "c2",
+   "childFacing": 0.72,
+   "impact": 0.82,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:optin-Y1:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c3",
+   "childFacing": 0.79,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w1-wu1:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c3",
+   "childFacing": 0.79,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w1-wu2:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c3",
+   "childFacing": 0.79,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w1-wu3:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c3",
+   "childFacing": 0.79,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w2-4:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c3",
+   "childFacing": 0.79,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w4-2:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c3",
+   "childFacing": 0.79,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w5-10:speech-bubble-overlap": {
+   "group": "critic:speech-bubble-overlap",
+   "cluster": "c3",
+   "childFacing": 0.79,
+   "impact": 0.66,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:tree-found:element-overlap": {
+   "group": "critic:element-overlap",
+   "cluster": "c4",
+   "childFacing": 0.72,
+   "impact": 0.38,
+   "area": "layout",
+   "severity": "polish"
+  },
+  "critic:w5-5:element-overlap": {
+   "group": "critic:element-overlap",
+   "cluster": "c4",
+   "childFacing": 0.72,
+   "impact": 0.38,
+   "area": "layout",
+   "severity": "polish"
+  },
+  "critic:w6-10:element-overlap": {
+   "group": "critic:element-overlap",
+   "cluster": "c4",
+   "childFacing": 0.72,
+   "impact": 0.38,
+   "area": "layout",
+   "severity": "polish"
+  },
+  "critic:tree-petal:undersized-interactive-targets": {
+   "group": "critic:undersized-interactive-targets",
+   "cluster": "c42",
+   "childFacing": 0.85,
+   "impact": 0.99,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:tree-practise-tap:activity-freeze": {
+   "group": "critic:activity-freeze",
+   "cluster": "c44",
+   "childFacing": 0.69,
+   "impact": 1,
+   "area": "crash",
+   "severity": "blocker"
+  },
+  "critic:w1-10:misplaced-mnemonic-marker": {
+   "group": "critic:misplaced-mnemonic-marker",
+   "cluster": "c7",
+   "childFacing": 0.76,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w1-11:misleading-colour-prompt": {
+   "group": "critic:misleading-colour-prompt",
+   "cluster": "c8",
+   "childFacing": 0.87,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w1-14:button-text-overlap": {
+   "group": "critic:button-text-overlap",
+   "cluster": "c9",
+   "childFacing": 0.8,
+   "impact": 0.51,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w4-8:button-text-overlap": {
+   "group": "critic:button-text-overlap",
+   "cluster": "c9",
+   "childFacing": 0.8,
+   "impact": 0.51,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w1-2:instruction-visual-mismatch": {
+   "group": "critic:instruction-visual-mismatch",
+   "cluster": "c10",
+   "childFacing": 0.85,
+   "impact": 0.8,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w1-7:instruction-visual-mismatch": {
+   "group": "critic:instruction-visual-mismatch",
+   "cluster": "c10",
+   "childFacing": 0.85,
+   "impact": 0.8,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w6-ec11:instruction-visual-mismatch": {
+   "group": "critic:instruction-visual-mismatch",
+   "cluster": "c10",
+   "childFacing": 0.85,
+   "impact": 0.8,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w1-5:stray-cursor": {
+   "group": "critic:stray-cursor",
+   "cluster": "c11",
+   "childFacing": 0.13,
+   "impact": 0.39,
+   "area": "harness",
+   "severity": "polish"
+  },
+  "critic:w1-wu1:placeholder-icon": {
+   "group": "critic:placeholder-icon",
+   "cluster": "c12",
+   "childFacing": 0.88,
+   "impact": 0.62,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w1-wu3:placeholder-icon": {
+   "group": "critic:placeholder-icon",
+   "cluster": "c12",
+   "childFacing": 0.88,
+   "impact": 0.62,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w1-wu1:touch-target-overlap": {
+   "group": "critic:touch-target-overlap",
+   "cluster": "c13",
+   "childFacing": 0.84,
+   "impact": 0.7,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w1-wu3:contradictory-feedback": {
+   "group": "critic:contradictory-feedback",
+   "cluster": "c14",
+   "childFacing": 0.82,
+   "impact": 0.69,
+   "area": "logic",
+   "severity": "major"
+  },
+  "critic:w2-3:button-overlap": {
+   "group": "critic:button-overlap",
+   "cluster": "c15",
+   "childFacing": 0.81,
+   "impact": 0.58,
+   "area": "layout",
+   "severity": "polish"
+  },
+  "critic:w2-3:hud-overlap": {
+   "group": "critic:hud-overlap",
+   "cluster": "c16",
+   "childFacing": 0.76,
+   "impact": 0.62,
+   "area": "layout",
+   "severity": "polish"
+  },
+  "critic:w2-4:mismatched-button-colour": {
+   "group": "critic:mismatched-button-colour",
+   "cluster": "c17",
+   "childFacing": 0.85,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w2-7:overlapping-ui-elements": {
+   "group": "critic:overlapping-ui-elements",
+   "cluster": "c18",
+   "childFacing": 0.79,
+   "impact": 0.46,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w2-8:colour-mismatch": {
+   "group": "critic:colour-mismatch",
+   "cluster": "c19",
+   "childFacing": 0.86,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w3-1:missing-letter-tile": {
+   "group": "critic:missing-letter-tile",
+   "cluster": "c20",
+   "childFacing": 0.87,
+   "impact": 0.99,
+   "area": "content",
+   "severity": "blocker"
+  },
+  "critic:w3-1:instruction-ui-mismatch": {
+   "group": "critic:instruction-ui-mismatch",
+   "cluster": "c21",
+   "childFacing": 0.89,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w3-11:button-speech-bubble-overlap": {
+   "group": "critic:button-speech-bubble-overlap",
+   "cluster": "c22",
+   "childFacing": 0.77,
+   "impact": 0.47,
+   "area": "layout",
+   "severity": "polish"
+  },
+  "critic:w3-12:invalid-letter-tile": {
+   "group": "critic:invalid-letter-tile",
+   "cluster": "c23",
+   "childFacing": 0.75,
+   "impact": 0.71,
+   "area": "content",
+   "severity": "major"
+  },
+  "critic:w3-2:unrecognisable-picture-card": {
+   "group": "critic:unrecognisable-picture-card",
+   "cluster": "c24",
+   "childFacing": 0.78,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w4-5:unrecognisable-picture-card": {
+   "group": "critic:unrecognisable-picture-card",
+   "cluster": "c24",
+   "childFacing": 0.78,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w3-4:incorrect-visual-cue": {
+   "group": "critic:incorrect-visual-cue",
+   "cluster": "c25",
+   "childFacing": 0.88,
+   "impact": 0.72,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w3-7:inconsistent-control-placement": {
+   "group": "critic:inconsistent-control-placement",
+   "cluster": "c26",
+   "childFacing": 0.78,
+   "impact": 0.67,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w4-6:small-touch-target": {
+   "group": "critic:small-touch-target",
+   "cluster": "c27",
+   "childFacing": 0.83,
+   "impact": 0.74,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w4-7:small-remote-target": {
+   "group": "critic:small-remote-target",
+   "cluster": "c28",
+   "childFacing": 0.87,
+   "impact": 0.86,
+   "area": "layout",
+   "severity": "major"
+  },
+  "critic:w4-7:premature-dialogue-prompt": {
+   "group": "critic:premature-dialogue-prompt",
+   "cluster": "c29",
+   "childFacing": 0.65,
+   "impact": 0.65,
+   "area": "logic",
+   "severity": "minor"
+  },
+  "critic:w4-9:misleading-visual-prompt": {
+   "group": "critic:misleading-visual-prompt",
+   "cluster": "c30",
+   "childFacing": 0.88,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w5-1:mismatched-visual-cue": {
+   "group": "critic:mismatched-visual-cue",
+   "cluster": "c31",
+   "childFacing": 0.9,
+   "impact": 0.81,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w5-11:misleading-visual-instruction": {
+   "group": "critic:misleading-visual-instruction",
+   "cluster": "c32",
+   "childFacing": 0.88,
+   "impact": 0.69,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w5-3:misleading-colour-instruction": {
+   "group": "critic:misleading-colour-instruction",
+   "cluster": "c33",
+   "childFacing": 0.91,
+   "impact": 0.7,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w6-3:misleading-colour-instruction": {
+   "group": "critic:misleading-colour-instruction",
+   "cluster": "c33",
+   "childFacing": 0.91,
+   "impact": 0.7,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w5-4:missing-audio-replay": {
+   "group": "critic:missing-audio-replay",
+   "cluster": "c34",
+   "childFacing": 0.78,
+   "impact": 0.71,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "critic:w5-4:ambiguous-target-word": {
+   "group": "critic:ambiguous-target-word",
+   "cluster": "c35",
+   "childFacing": 0.87,
+   "impact": 0.9,
+   "area": "art",
+   "severity": "major"
+  },
+  "critic:w6-6:mismatched-prompt-text": {
+   "group": "critic:mismatched-prompt-text",
+   "cluster": "c36",
+   "childFacing": 0.87,
+   "impact": 0.67,
+   "area": "art",
+   "severity": "minor"
+  },
+  "critic:w6-ec11:picture-word-mismatch": {
+   "group": "critic:picture-word-mismatch",
+   "cluster": "c37",
+   "childFacing": 0.8,
+   "impact": 0.64,
+   "area": "art",
+   "severity": "minor"
+  },
+  "bot:w3-6:overlapping-targets:button.sound-badge.tier-turn[aria-label=\"Hear the sound\"] + button.sound-badge.tier-turn[aria-label=\"Hear the sound\"]": {
+   "group": "bot:overlapping-targets:button.sound-badge.tier-turn[label] + button.sound-badge.tier-turn[label]",
+   "cluster": "c38",
+   "childFacing": 0.58,
+   "impact": 0.77,
+   "area": "layout",
+   "severity": "major"
+  },
+  "bot:w4-7:sound-without-petal:/i/ after tv_first_is": {
+   "group": "bot:sound-without-petal:/i/ after tv_first_is",
+   "cluster": "c40",
+   "childFacing": 0.53,
+   "impact": 0.7,
+   "area": "audio",
+   "severity": "major"
+  },
+  "bot:w4-7:sound-without-petal:/l/ after tv_first_is": {
+   "group": "bot:sound-without-petal:/l/ after tv_first_is",
+   "cluster": "c40",
+   "childFacing": 0.51,
+   "impact": 0.71,
+   "area": "art",
+   "severity": "major"
+  },
+  "bot:w5-4:sound-without-petal:/k/ after t_two_letters": {
+   "group": "bot:sound-without-petal:/k/ after t_two_letters",
+   "cluster": "c41",
+   "childFacing": 0.48,
+   "impact": 0.77,
+   "area": "audio",
+   "severity": "major"
+  },
+  "bot:tree-petal:text-overflow:button.btn-round.pd-act[aria-label=\"Gem battle ai\"]": {
+   "group": "bot:text-overflow:button.btn-round.pd-act[label]",
+   "cluster": "c42",
+   "childFacing": 0.62,
+   "impact": 0.43,
+   "area": "layout",
+   "severity": "minor"
+  },
+  "bot:tree-practise-tap:did-not-finish:tap Practise in the dojo": {
+   "group": "bot:did-not-finish:tap Practise in the dojo",
+   "cluster": "c44",
+   "childFacing": 0.44,
+   "impact": 0.97,
+   "area": "layout",
+   "severity": "blocker",
+   "stuck": "stuck"
+  },
+  "bot:tree-practise-tap:stuck:no change": {
+   "group": "bot:stuck:no change",
+   "cluster": "c44",
+   "childFacing": 0.64,
+   "impact": 1,
+   "area": "logic",
+   "severity": "blocker",
+   "stuck": "stuck"
+  }
+ }
+}

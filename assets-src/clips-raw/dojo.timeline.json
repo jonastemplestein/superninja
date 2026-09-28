@@ -1,0 +1,584 @@
+{
+ "name": "dojo",
+ "url": "https://superninja.templestein.com/play/?level=w2-1",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 29.967,
+ "game": {
+  "start": 2.413,
+  "end": 28.205
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   17,
+   9.8,
+   16.2,
+   16.3,
+   10.1,
+   35.4,
+   37.7,
+   29.8,
+   337.1,
+   35.1
+  ],
+  "audioShiftMs": 32.1,
+  "residualMs": [
+   21.1,
+   28.4,
+   5.1,
+   5.1,
+   29.4,
+   3.8,
+   -15.4,
+   -9.3,
+   null,
+   -14.2
+  ],
+  "residualMedianMs": 5.1,
+  "residualMaxAbsMs": 29.4
+ },
+ "frames": {
+  "frames": 1456,
+  "fps": 57.6,
+  "p50": 16.6,
+  "p95": 18.2,
+  "p99": 20.8,
+  "max": 267.3,
+  "hitches": 4,
+  "repeatedSlots": 28,
+  "slots": 758,
+  "deliveryMs": 10.2
+ },
+ "master": "dojo.master.mp4",
+ "audio": "dojo.master.wav",
+ "recordedAt": "2026-09-27T06:42:50.751Z",
+ "events": [
+  {
+   "t": 0.523,
+   "kind": "scene",
+   "id": "learn"
+  },
+  {
+   "t": 0.666,
+   "kind": "speech",
+   "id": "dojo_hello",
+   "dur": 5.373,
+   "text": "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds."
+  },
+  {
+   "t": 0.721,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 0.909,
+   "kind": "music",
+   "id": "dojo",
+   "dur": 29.071
+  },
+  {
+   "t": 0.995,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.305,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.605,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.896,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 6.293,
+   "kind": "speech",
+   "id": "listen",
+   "dur": 0.756,
+   "text": "Listen..."
+  },
+  {
+   "t": 7.2,
+   "kind": "speech",
+   "id": "sound:b",
+   "dur": 0.254
+  },
+  {
+   "t": 7.956,
+   "kind": "speech",
+   "id": "sound:b",
+   "dur": 0.254
+  },
+  {
+   "t": 8.735,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 9.055,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 9.45,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 9.45,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 9.477,
+   "kind": "speech",
+   "id": "audit_spell_it",
+   "dur": 1.739,
+   "text": "And this is how we spell it."
+  },
+  {
+   "t": 9.558,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 740,177,207,207"
+  },
+  {
+   "t": 9.558,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 9.558,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 10.275,
+   "kind": "hitch",
+   "id": "267 ms",
+   "dur": 0.267
+  },
+  {
+   "t": 10.42,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 729,166,230,230"
+  },
+  {
+   "t": 10.42,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 11.155,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 729,161,230,230"
+  },
+  {
+   "t": 11.155,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 11.371,
+   "kind": "speech",
+   "id": "sound:b",
+   "dur": 0.254
+  },
+  {
+   "t": 11.927,
+   "kind": "speech",
+   "id": "dojo_tap_say",
+   "dur": 1.991,
+   "text": "Tap it, and say it with me!"
+  },
+  {
+   "t": 12.061,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 729,160,230,230"
+  },
+  {
+   "t": 12.061,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 12.956,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 729,160,230,230"
+  },
+  {
+   "t": 12.956,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 13.705,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 729,163,230,230"
+  },
+  {
+   "t": 13.705,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 13.919,
+   "kind": "speech",
+   "id": "sound:b",
+   "dur": 0.254
+  },
+  {
+   "t": 14.07,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 14.416,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 14.539,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 729,165,230,232"
+  },
+  {
+   "t": 14.539,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 14.541,
+   "kind": "speech",
+   "id": "sound:b",
+   "dur": 0.252
+  },
+  {
+   "t": 14.635,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 14.793,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 14.82,
+   "kind": "speech",
+   "id": "tv_yay_thats_it",
+   "dur": 0.835,
+   "text": "That's it!"
+  },
+  {
+   "t": 14.983,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 15.399,
+   "kind": "tap",
+   "id": "b",
+   "text": "rect 729,166,230,230"
+  },
+  {
+   "t": 15.399,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 15.658,
+   "kind": "speech",
+   "id": "listen",
+   "dur": 0.756,
+   "text": "Listen..."
+  },
+  {
+   "t": 16.566,
+   "kind": "speech",
+   "id": "sound:k",
+   "dur": 0.186
+  },
+  {
+   "t": 16.706,
+   "kind": "hitch",
+   "id": "267 ms",
+   "dur": 0.267
+  },
+  {
+   "t": 17.25,
+   "kind": "speech",
+   "id": "sound:k",
+   "dur": 0.186
+  },
+  {
+   "t": 17.956,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 18.278,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 18.666,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 18.666,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 18.667,
+   "kind": "speech",
+   "id": "audit_spell_it",
+   "dur": 1.739,
+   "text": "And this is how we spell it."
+  },
+  {
+   "t": 19.136,
+   "kind": "tap",
+   "id": "c",
+   "text": "rect 728,159,232,232"
+  },
+  {
+   "t": 19.137,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 19.137,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 19.523,
+   "kind": "hitch",
+   "id": "266 ms",
+   "dur": 0.266
+  },
+  {
+   "t": 19.966,
+   "kind": "tap",
+   "id": "c",
+   "text": "rect 729,162,230,230"
+  },
+  {
+   "t": 19.966,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 20.56,
+   "kind": "speech",
+   "id": "sound:k",
+   "dur": 0.186
+  },
+  {
+   "t": 20.82,
+   "kind": "tap",
+   "id": "c",
+   "text": "rect 729,165,230,230"
+  },
+  {
+   "t": 20.821,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 21.048,
+   "kind": "speech",
+   "id": "dojo_tap_say",
+   "dur": 1.99,
+   "text": "Tap it, and say it with me!"
+  },
+  {
+   "t": 21.824,
+   "kind": "tap",
+   "id": "c",
+   "text": "rect 729,165,230,230"
+  },
+  {
+   "t": 21.824,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 22.834,
+   "kind": "tap",
+   "id": "c",
+   "text": "rect 729,165,230,230"
+  },
+  {
+   "t": 22.834,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 23.038,
+   "kind": "speech",
+   "id": "sound:k",
+   "dur": 0.186
+  },
+  {
+   "t": 23.16,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 23.7,
+   "kind": "tap",
+   "id": "c",
+   "text": "rect 729,166,230,230"
+  },
+  {
+   "t": 23.7,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 23.701,
+   "kind": "speech",
+   "id": "sound:k",
+   "dur": 0.185
+  },
+  {
+   "t": 23.733,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 23.733,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 23.842,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 23.886,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 23.91,
+   "kind": "speech",
+   "id": "yay_4",
+   "dur": 1.282,
+   "text": "Well done."
+  },
+  {
+   "t": 24.083,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 24.621,
+   "kind": "tap",
+   "id": "c",
+   "text": "rect 729,166,230,230"
+  },
+  {
+   "t": 24.621,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 25.194,
+   "kind": "speech",
+   "id": "listen",
+   "dur": 0.756,
+   "text": "Listen..."
+  },
+  {
+   "t": 25.788,
+   "kind": "hitch",
+   "id": "267 ms",
+   "dur": 0.267
+  },
+  {
+   "t": 26.101,
+   "kind": "speech",
+   "id": "sound:g",
+   "dur": 0.155
+  },
+  {
+   "t": 26.762,
+   "kind": "speech",
+   "id": "sound:g",
+   "dur": 0.155
+  },
+  {
+   "t": 27.444,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 27.766,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 28.149,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 28.15,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 28.15,
+   "kind": "speech",
+   "id": "audit_spell_it",
+   "dur": 1.739,
+   "text": "And this is how we spell it."
+  },
+  {
+   "t": 28.237,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 28.551,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 28.824,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 29.117,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 29.419,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

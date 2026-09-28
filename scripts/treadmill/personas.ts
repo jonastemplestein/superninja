@@ -3,6 +3,8 @@
 // Usage: bun scripts/treadmill/personas.ts <runDir> [--who maya,oscar] [--base http://localhost:5173] [--effort xhigh]
 import { spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { helpGuard } from "../lib/help";
+if (import.meta.main) helpGuard(import.meta.url); // --help prints the usage above and exits
 
 const [runDir] = process.argv.slice(2);
 const arg = (k: string, d?: string) => {

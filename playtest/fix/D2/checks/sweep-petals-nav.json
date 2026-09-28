@@ -1,0 +1,66 @@
+{
+ "base": "http://127.0.0.1:4742",
+ "fast": 3,
+ "secs": 143,
+ "results": {
+  "w1-6": {
+   "ok": true,
+   "secs": 41,
+   "findings": 0
+  },
+  "w1-13": {
+   "ok": true,
+   "secs": 55,
+   "findings": 0
+  },
+  "w2-2": {
+   "ok": true,
+   "secs": 56,
+   "findings": 0
+  },
+  "w1-15": {
+   "ok": true,
+   "secs": 61,
+   "findings": 0
+  },
+  "w5-2": {
+   "ok": true,
+   "secs": 60,
+   "findings": 0
+  },
+  "trial": {
+   "ok": true,
+   "secs": 62,
+   "findings": 1
+  },
+  "w5-11": {
+   "ok": true,
+   "secs": 81,
+   "findings": 1
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:trial:anim-hidden:@sparkle",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "trial",
+   "title": "anim-hidden: @sparkle",
+   "detail": "3 endless animations running on hidden elements at once on tree/gem-victory (over the budget of 2 in 2 of 62 samples, on tree/gem-victory): @sparkle ×3.",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4742/play/?trial=ai>ae"
+  },
+  {
+   "sig": "bot:w5-11:sound-without-petal:/ch/ after t_three_letters",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-11",
+   "title": "sound-without-petal: /ch/ after t_three_letters",
+   "detail": "A \"petal\" sound /ch/ started (battle, after t_three_letters) with no /ch/ petal visible, and none 50 ms later.",
+   "evidence": [
+    "cases/w5-11/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4742/play/?level=w5-11"
+  }
+ ]
+}

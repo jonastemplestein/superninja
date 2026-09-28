@@ -1,0 +1,262 @@
+<!doctype html><meta charset="utf-8"><title>Soak report</title><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>:root{--bg:#fffaf0;--ink:#2b1d14;--line:#c9602e;--mute:#8a7866}@media (prefers-color-scheme:dark){:root{--bg:#1d1712;--ink:#f3e6d3;--line:#ff9a5c;--mute:#a8957f}}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,sans-serif;margin:0;padding:16px;max-width:1100px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}figure{margin:0}figcaption{font-weight:600}figcaption span{color:var(--mute);font-weight:400;margin-left:6px}
+svg{width:100%;height:auto;overflow:visible}path{fill:none;stroke:var(--line);stroke-width:1.5}.m{fill:var(--ink)}.m.boundary{fill:#2f8f5a}.m.stress{fill:#d1453b}
+pre{white-space:pre-wrap;overflow-x:auto;font-size:12px}</style>
+<h1>Soak report</h1><p>Dots: green = after a level (GC'd, on the map), red = strike stress, dark = other phases.</p><div class="grid"><figure><figcaption>fps <span>60.2 – 61</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,10.7 L43.6,11.0 L77.2,10.7 L110.7,10.5 L147.4,10.2 L180.9,10.3 L214.5,11.0 L242.0,11.3 L275.6,10.0 L309.2,10.2 L318.3,10.0 L342.7,11.1 L376.3,10.8 L409.9,11.1 L461.8,11.3 L495.4,11.1 L528.9,10.8 L562.5,11.1 L590.0,10.7"/><circle cx="10.0" cy="10.7" r="2.5" class="m baseline"><title>baseline : 60.6</title></circle><circle cx="242.0" cy="11.3" r="2.5" class="m boundary"><title>boundary w1-8: 60.2</title></circle><circle cx="275.6" cy="10.0" r="2.5" class="m idle-map"><title>idle-map : 61</title></circle><circle cx="309.2" cy="10.2" r="2.5" class="m idle-map"><title>idle-map : 60.9</title></circle><circle cx="318.3" cy="10.0" r="2.5" class="m settled"><title>settled after soak: 61</title></circle><circle cx="342.7" cy="11.1" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 60.3</title></circle><circle cx="376.3" cy="10.8" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 60.5</title></circle><circle cx="409.9" cy="11.1" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 60.3</title></circle><circle cx="461.8" cy="11.3" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 60.2</title></circle><circle cx="495.4" cy="11.1" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 60.3</title></circle><circle cx="528.9" cy="10.8" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 60.5</title></circle><circle cx="562.5" cy="11.1" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 60.3</title></circle><circle cx="590.0" cy="10.7" r="2.5" class="m settled"><title>settled map after the stress: 60.6</title></circle></svg></figure><figure><figcaption>mainThreadPct <span>0.9 – 35.4</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,107.5 L43.6,84.9 L77.2,75.3 L110.7,73.0 L147.4,58.3 L180.9,45.9 L214.5,10.0 L242.0,103.8 L275.6,101.2 L309.2,102.4 L318.3,106.6 L342.7,102.4 L376.3,87.7 L409.9,93.1 L461.8,97.0 L495.4,105.8 L528.9,83.2 L562.5,95.0 L590.0,101.2"/><circle cx="10.0" cy="107.5" r="2.5" class="m baseline"><title>baseline : 0.9</title></circle><circle cx="242.0" cy="103.8" r="2.5" class="m boundary"><title>boundary w1-8: 2.2</title></circle><circle cx="275.6" cy="101.2" r="2.5" class="m idle-map"><title>idle-map : 3.1</title></circle><circle cx="309.2" cy="102.4" r="2.5" class="m idle-map"><title>idle-map : 2.7</title></circle><circle cx="318.3" cy="106.6" r="2.5" class="m settled"><title>settled after soak: 1.2</title></circle><circle cx="342.7" cy="102.4" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 2.7</title></circle><circle cx="376.3" cy="87.7" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 7.9</title></circle><circle cx="409.9" cy="93.1" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 6</title></circle><circle cx="461.8" cy="97.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 4.6</title></circle><circle cx="495.4" cy="105.8" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 1.5</title></circle><circle cx="528.9" cy="83.2" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 9.5</title></circle><circle cx="562.5" cy="95.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 5.3</title></circle><circle cx="590.0" cy="101.2" r="2.5" class="m settled"><title>settled map after the stress: 3.1</title></circle></svg></figure><figure><figcaption>rendererPct <span>80 – 98</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,28.4 L43.6,24.3 L77.2,22.2 L110.7,22.2 L147.4,18.2 L180.9,17.1 L214.5,10.0 L242.0,26.3 L275.6,26.3 L309.2,27.3 L318.3,27.3 L342.7,26.3 L376.3,23.3 L409.9,24.3 L461.8,24.3 L495.4,26.3 L528.9,22.2 L562.5,25.3 L590.0,25.3"/><circle cx="10.0" cy="28.4" r="2.5" class="m baseline"><title>baseline : 80</title></circle><circle cx="242.0" cy="26.3" r="2.5" class="m boundary"><title>boundary w1-8: 82</title></circle><circle cx="275.6" cy="26.3" r="2.5" class="m idle-map"><title>idle-map : 82</title></circle><circle cx="309.2" cy="27.3" r="2.5" class="m idle-map"><title>idle-map : 81</title></circle><circle cx="318.3" cy="27.3" r="2.5" class="m settled"><title>settled after soak: 81</title></circle><circle cx="342.7" cy="26.3" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 82</title></circle><circle cx="376.3" cy="23.3" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 85</title></circle><circle cx="409.9" cy="24.3" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 84</title></circle><circle cx="461.8" cy="24.3" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 84</title></circle><circle cx="495.4" cy="26.3" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 82</title></circle><circle cx="528.9" cy="22.2" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 86</title></circle><circle cx="562.5" cy="25.3" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 83</title></circle><circle cx="590.0" cy="25.3" r="2.5" class="m settled"><title>settled map after the stress: 83</title></circle></svg></figure><figure><figcaption>gpuPct <span>8 – 15</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,50.0 L43.6,56.7 L77.2,50.0 L110.7,50.0 L147.4,30.0 L180.9,23.3 L214.5,10.0 L242.0,50.0 L275.6,43.3 L309.2,50.0 L318.3,50.0 L342.7,43.3 L376.3,30.0 L409.9,36.7 L461.8,30.0 L495.4,43.3 L528.9,16.7 L562.5,16.7 L590.0,43.3"/><circle cx="10.0" cy="50.0" r="2.5" class="m baseline"><title>baseline : 9</title></circle><circle cx="242.0" cy="50.0" r="2.5" class="m boundary"><title>boundary w1-8: 9</title></circle><circle cx="275.6" cy="43.3" r="2.5" class="m idle-map"><title>idle-map : 10</title></circle><circle cx="309.2" cy="50.0" r="2.5" class="m idle-map"><title>idle-map : 9</title></circle><circle cx="318.3" cy="50.0" r="2.5" class="m settled"><title>settled after soak: 9</title></circle><circle cx="342.7" cy="43.3" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 10</title></circle><circle cx="376.3" cy="30.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 12</title></circle><circle cx="409.9" cy="36.7" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 11</title></circle><circle cx="461.8" cy="30.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 12</title></circle><circle cx="495.4" cy="43.3" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 10</title></circle><circle cx="528.9" cy="16.7" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 14</title></circle><circle cx="562.5" cy="16.7" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 14</title></circle><circle cx="590.0" cy="43.3" r="2.5" class="m settled"><title>settled map after the stress: 10</title></circle></svg></figure><figure><figcaption>heapMB <span>5.4 – 9.5</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,53.2 L43.6,34.2 L77.2,22.6 L110.7,23.7 L147.4,23.7 L180.9,18.4 L214.5,10.0 L242.0,19.5 L275.6,22.6 L309.2,18.4 L318.3,21.6 L342.7,21.6 L376.3,20.5 L409.9,22.6 L461.8,18.4 L495.4,17.4 L528.9,19.5 L562.5,19.5 L590.0,19.5"/><circle cx="10.0" cy="53.2" r="2.5" class="m baseline"><title>baseline : 5.4</title></circle><circle cx="242.0" cy="19.5" r="2.5" class="m boundary"><title>boundary w1-8: 8.6</title></circle><circle cx="275.6" cy="22.6" r="2.5" class="m idle-map"><title>idle-map : 8.3</title></circle><circle cx="309.2" cy="18.4" r="2.5" class="m idle-map"><title>idle-map : 8.7</title></circle><circle cx="318.3" cy="21.6" r="2.5" class="m settled"><title>settled after soak: 8.4</title></circle><circle cx="342.7" cy="21.6" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 8.4</title></circle><circle cx="376.3" cy="20.5" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 8.5</title></circle><circle cx="409.9" cy="22.6" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 8.3</title></circle><circle cx="461.8" cy="18.4" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 8.7</title></circle><circle cx="495.4" cy="17.4" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 8.8</title></circle><circle cx="528.9" cy="19.5" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 8.6</title></circle><circle cx="562.5" cy="19.5" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 8.6</title></circle><circle cx="590.0" cy="19.5" r="2.5" class="m settled"><title>settled map after the stress: 8.6</title></circle></svg></figure><figure><figcaption>nodes <span>179 – 858</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,84.9 L43.6,89.1 L77.2,76.6 L110.7,83.0 L147.4,77.2 L180.9,74.3 L214.5,10.0 L242.0,81.3 L275.6,81.6 L309.2,79.9 L318.3,81.6 L342.7,71.9 L376.3,69.2 L409.9,71.5 L461.8,30.9 L495.4,30.9 L528.9,74.2 L562.5,74.2 L590.0,80.3"/><circle cx="10.0" cy="84.9" r="2.5" class="m baseline"><title>baseline : 215</title></circle><circle cx="242.0" cy="81.3" r="2.5" class="m boundary"><title>boundary w1-8: 246</title></circle><circle cx="275.6" cy="81.6" r="2.5" class="m idle-map"><title>idle-map : 244</title></circle><circle cx="309.2" cy="79.9" r="2.5" class="m idle-map"><title>idle-map : 258</title></circle><circle cx="318.3" cy="81.6" r="2.5" class="m settled"><title>settled after soak: 244</title></circle><circle cx="342.7" cy="71.9" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 327</title></circle><circle cx="376.3" cy="69.2" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 350</title></circle><circle cx="409.9" cy="71.5" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 330</title></circle><circle cx="461.8" cy="30.9" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 679</title></circle><circle cx="495.4" cy="30.9" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 679</title></circle><circle cx="528.9" cy="74.2" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 307</title></circle><circle cx="562.5" cy="74.2" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 307</title></circle><circle cx="590.0" cy="80.3" r="2.5" class="m settled"><title>settled map after the stress: 255</title></circle></svg></figure><figure><figcaption>detachedNodes <span>45 – 531</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,101.5 L43.6,99.8 L77.2,81.6 L110.7,94.6 L147.4,93.4 L180.9,96.3 L214.5,17.0 L242.0,97.6 L275.6,97.9 L309.2,95.3 L318.3,97.9 L342.7,97.9 L376.3,94.2 L409.9,97.9 L461.8,10.0 L495.4,10.0 L528.9,98.1 L562.5,98.1 L590.0,97.4"/><circle cx="10.0" cy="101.5" r="2.5" class="m baseline"><title>baseline : 45</title></circle><circle cx="242.0" cy="97.6" r="2.5" class="m boundary"><title>boundary w1-8: 66</title></circle><circle cx="275.6" cy="97.9" r="2.5" class="m idle-map"><title>idle-map : 64</title></circle><circle cx="309.2" cy="95.3" r="2.5" class="m idle-map"><title>idle-map : 78</title></circle><circle cx="318.3" cy="97.9" r="2.5" class="m settled"><title>settled after soak: 64</title></circle><circle cx="342.7" cy="97.9" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 64</title></circle><circle cx="376.3" cy="94.2" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 84</title></circle><circle cx="409.9" cy="97.9" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 64</title></circle><circle cx="461.8" cy="10.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 531</title></circle><circle cx="495.4" cy="10.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 531</title></circle><circle cx="528.9" cy="98.1" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 63</title></circle><circle cx="562.5" cy="98.1" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 63</title></circle><circle cx="590.0" cy="97.4" r="2.5" class="m settled"><title>settled map after the stress: 67</title></circle></svg></figure><figure><figcaption>listeners <span>204 – 346</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,37.2 L43.6,49.3 L77.2,40.1 L110.7,36.0 L147.4,47.3 L180.9,43.8 L214.5,43.2 L242.0,14.0 L275.6,29.7 L309.2,13.2 L318.3,29.7 L342.7,51.0 L376.3,50.8 L409.9,51.0 L461.8,10.0 L495.4,10.0 L528.9,44.1 L562.5,44.1 L590.0,21.0"/><circle cx="10.0" cy="37.2" r="2.5" class="m baseline"><title>baseline : 252</title></circle><circle cx="242.0" cy="14.0" r="2.5" class="m boundary"><title>boundary w1-8: 332</title></circle><circle cx="275.6" cy="29.7" r="2.5" class="m idle-map"><title>idle-map : 278</title></circle><circle cx="309.2" cy="13.2" r="2.5" class="m idle-map"><title>idle-map : 335</title></circle><circle cx="318.3" cy="29.7" r="2.5" class="m settled"><title>settled after soak: 278</title></circle><circle cx="342.7" cy="51.0" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 204</title></circle><circle cx="376.3" cy="50.8" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 205</title></circle><circle cx="409.9" cy="51.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 204</title></circle><circle cx="461.8" cy="10.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 346</title></circle><circle cx="495.4" cy="10.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 346</title></circle><circle cx="528.9" cy="44.1" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 228</title></circle><circle cx="562.5" cy="44.1" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 228</title></circle><circle cx="590.0" cy="21.0" r="2.5" class="m settled"><title>settled map after the stress: 308</title></circle></svg></figure><figure><figcaption>animations <span>4 – 75</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,71.3 L43.6,94.0 L77.2,91.3 L110.7,84.7 L147.4,54.0 L180.9,11.3 L214.5,10.0 L242.0,71.3 L275.6,71.3 L309.2,71.3 L318.3,71.3 L342.7,88.7 L376.3,88.7 L409.9,88.7 L461.8,104.7 L495.4,104.7 L528.9,30.0 L562.5,30.0 L590.0,67.3"/><circle cx="10.0" cy="71.3" r="2.5" class="m baseline"><title>baseline : 29</title></circle><circle cx="242.0" cy="71.3" r="2.5" class="m boundary"><title>boundary w1-8: 29</title></circle><circle cx="275.6" cy="71.3" r="2.5" class="m idle-map"><title>idle-map : 29</title></circle><circle cx="309.2" cy="71.3" r="2.5" class="m idle-map"><title>idle-map : 29</title></circle><circle cx="318.3" cy="71.3" r="2.5" class="m settled"><title>settled after soak: 29</title></circle><circle cx="342.7" cy="88.7" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 16</title></circle><circle cx="376.3" cy="88.7" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 16</title></circle><circle cx="409.9" cy="88.7" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 16</title></circle><circle cx="461.8" cy="104.7" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 4</title></circle><circle cx="495.4" cy="104.7" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 4</title></circle><circle cx="528.9" cy="30.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 60</title></circle><circle cx="562.5" cy="30.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 60</title></circle><circle cx="590.0" cy="67.3" r="2.5" class="m settled"><title>settled map after the stress: 32</title></circle></svg></figure><figure><figcaption>animInfinite <span>3 – 58</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,94.5 L43.6,97.9 L77.2,94.5 L110.7,96.2 L147.4,60.0 L180.9,63.4 L214.5,10.0 L242.0,94.5 L275.6,94.5 L309.2,94.5 L318.3,94.5 L342.7,97.9 L376.3,96.2 L409.9,96.2 L461.8,104.8 L495.4,104.8 L528.9,25.5 L562.5,25.5 L590.0,89.3"/><circle cx="10.0" cy="94.5" r="2.5" class="m baseline"><title>baseline : 9</title></circle><circle cx="242.0" cy="94.5" r="2.5" class="m boundary"><title>boundary w1-8: 9</title></circle><circle cx="275.6" cy="94.5" r="2.5" class="m idle-map"><title>idle-map : 9</title></circle><circle cx="309.2" cy="94.5" r="2.5" class="m idle-map"><title>idle-map : 9</title></circle><circle cx="318.3" cy="94.5" r="2.5" class="m settled"><title>settled after soak: 9</title></circle><circle cx="342.7" cy="97.9" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 7</title></circle><circle cx="376.3" cy="96.2" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 8</title></circle><circle cx="409.9" cy="96.2" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 8</title></circle><circle cx="461.8" cy="104.8" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 3</title></circle><circle cx="495.4" cy="104.8" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 3</title></circle><circle cx="528.9" cy="25.5" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 49</title></circle><circle cx="562.5" cy="25.5" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 49</title></circle><circle cx="590.0" cy="89.3" r="2.5" class="m settled"><title>settled map after the stress: 12</title></circle></svg></figure><figure><figcaption>particles <span>0 – 1</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,110.0 L43.6,110.0 L77.2,110.0 L110.7,110.0 L147.4,110.0 L180.9,110.0 L214.5,110.0 L242.0,110.0 L275.6,110.0 L309.2,110.0 L318.3,110.0 L342.7,110.0 L376.3,110.0 L409.9,110.0 L461.8,110.0 L495.4,110.0 L528.9,110.0 L562.5,110.0 L590.0,110.0"/><circle cx="10.0" cy="110.0" r="2.5" class="m baseline"><title>baseline : 0</title></circle><circle cx="242.0" cy="110.0" r="2.5" class="m boundary"><title>boundary w1-8: 0</title></circle><circle cx="275.6" cy="110.0" r="2.5" class="m idle-map"><title>idle-map : 0</title></circle><circle cx="309.2" cy="110.0" r="2.5" class="m idle-map"><title>idle-map : 0</title></circle><circle cx="318.3" cy="110.0" r="2.5" class="m settled"><title>settled after soak: 0</title></circle><circle cx="342.7" cy="110.0" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 0</title></circle><circle cx="376.3" cy="110.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 0</title></circle><circle cx="409.9" cy="110.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 0</title></circle><circle cx="461.8" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="495.4" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="528.9" cy="110.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 0</title></circle><circle cx="562.5" cy="110.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 0</title></circle><circle cx="590.0" cy="110.0" r="2.5" class="m settled"><title>settled map after the stress: 0</title></circle></svg></figure><figure><figcaption>particlesPeak <span>0 – 223</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,110.0 L43.6,102.8 L77.2,92.5 L110.7,66.1 L147.4,58.0 L180.9,62.0 L214.5,10.0 L242.0,110.0 L275.6,110.0 L309.2,110.0 L318.3,110.0 L342.7,110.0 L376.3,82.6 L409.9,110.0 L461.8,110.0 L495.4,110.0 L528.9,65.6 L562.5,110.0 L590.0,110.0"/><circle cx="10.0" cy="110.0" r="2.5" class="m baseline"><title>baseline : 0</title></circle><circle cx="242.0" cy="110.0" r="2.5" class="m boundary"><title>boundary w1-8: 0</title></circle><circle cx="275.6" cy="110.0" r="2.5" class="m idle-map"><title>idle-map : 0</title></circle><circle cx="309.2" cy="110.0" r="2.5" class="m idle-map"><title>idle-map : 0</title></circle><circle cx="318.3" cy="110.0" r="2.5" class="m settled"><title>settled after soak: 0</title></circle><circle cx="342.7" cy="110.0" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 0</title></circle><circle cx="376.3" cy="82.6" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 61</title></circle><circle cx="409.9" cy="110.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 0</title></circle><circle cx="461.8" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="495.4" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="528.9" cy="65.6" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 99</title></circle><circle cx="562.5" cy="110.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 0</title></circle><circle cx="590.0" cy="110.0" r="2.5" class="m settled"><title>settled map after the stress: 0</title></circle></svg></figure><figure><figcaption>fxDomNodes <span>0 – 1</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,110.0 L43.6,110.0 L77.2,110.0 L110.7,110.0 L147.4,110.0 L180.9,110.0 L214.5,110.0 L242.0,110.0 L275.6,110.0 L309.2,110.0 L318.3,110.0 L342.7,110.0 L376.3,110.0 L409.9,110.0 L461.8,110.0 L495.4,110.0 L528.9,110.0 L562.5,110.0 L590.0,110.0"/><circle cx="10.0" cy="110.0" r="2.5" class="m baseline"><title>baseline : 0</title></circle><circle cx="242.0" cy="110.0" r="2.5" class="m boundary"><title>boundary w1-8: 0</title></circle><circle cx="275.6" cy="110.0" r="2.5" class="m idle-map"><title>idle-map : 0</title></circle><circle cx="309.2" cy="110.0" r="2.5" class="m idle-map"><title>idle-map : 0</title></circle><circle cx="318.3" cy="110.0" r="2.5" class="m settled"><title>settled after soak: 0</title></circle><circle cx="342.7" cy="110.0" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 0</title></circle><circle cx="376.3" cy="110.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 0</title></circle><circle cx="409.9" cy="110.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 0</title></circle><circle cx="461.8" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="495.4" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="528.9" cy="110.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 0</title></circle><circle cx="562.5" cy="110.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 0</title></circle><circle cx="590.0" cy="110.0" r="2.5" class="m settled"><title>settled map after the stress: 0</title></circle></svg></figure><figure><figcaption>rafPerSec <span>0 – 98</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,110.0 L43.6,50.1 L77.2,35.4 L110.7,33.7 L147.4,29.3 L180.9,24.8 L214.5,10.0 L242.0,110.0 L275.6,96.4 L309.2,96.4 L318.3,110.0 L342.7,110.0 L376.3,95.4 L409.9,100.3 L461.8,110.0 L495.4,110.0 L528.9,94.7 L562.5,110.0 L590.0,95.4"/><circle cx="10.0" cy="110.0" r="2.5" class="m baseline"><title>baseline : 0</title></circle><circle cx="242.0" cy="110.0" r="2.5" class="m boundary"><title>boundary w1-8: 0</title></circle><circle cx="275.6" cy="96.4" r="2.5" class="m idle-map"><title>idle-map : 13.3</title></circle><circle cx="309.2" cy="96.4" r="2.5" class="m idle-map"><title>idle-map : 13.3</title></circle><circle cx="318.3" cy="110.0" r="2.5" class="m settled"><title>settled after soak: 0</title></circle><circle cx="342.7" cy="110.0" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 0</title></circle><circle cx="376.3" cy="95.4" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 14.3</title></circle><circle cx="409.9" cy="100.3" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 9.5</title></circle><circle cx="461.8" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="495.4" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="528.9" cy="94.7" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 15</title></circle><circle cx="562.5" cy="110.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 0</title></circle><circle cx="590.0" cy="95.4" r="2.5" class="m settled"><title>settled map after the stress: 14.3</title></circle></svg></figure><figure><figcaption>intervals <span>1 – 1</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,10.0 L43.6,10.0 L77.2,10.0 L110.7,10.0 L147.4,10.0 L180.9,10.0 L214.5,10.0 L242.0,10.0 L275.6,10.0 L309.2,10.0 L318.3,10.0 L342.7,10.0 L376.3,10.0 L409.9,10.0 L461.8,10.0 L495.4,10.0 L528.9,10.0 L562.5,10.0 L590.0,10.0"/><circle cx="10.0" cy="10.0" r="2.5" class="m baseline"><title>baseline : 1</title></circle><circle cx="242.0" cy="10.0" r="2.5" class="m boundary"><title>boundary w1-8: 1</title></circle><circle cx="275.6" cy="10.0" r="2.5" class="m idle-map"><title>idle-map : 1</title></circle><circle cx="309.2" cy="10.0" r="2.5" class="m idle-map"><title>idle-map : 1</title></circle><circle cx="318.3" cy="10.0" r="2.5" class="m settled"><title>settled after soak: 1</title></circle><circle cx="342.7" cy="10.0" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 1</title></circle><circle cx="376.3" cy="10.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 1</title></circle><circle cx="409.9" cy="10.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 1</title></circle><circle cx="461.8" cy="10.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 1</title></circle><circle cx="495.4" cy="10.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 1</title></circle><circle cx="528.9" cy="10.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 1</title></circle><circle cx="562.5" cy="10.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 1</title></circle><circle cx="590.0" cy="10.0" r="2.5" class="m settled"><title>settled map after the stress: 1</title></circle></svg></figure><figure><figcaption>decodedMB <span>1 – 16.6</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,104.0 L43.6,75.7 L77.2,54.0 L110.7,49.8 L147.4,37.1 L180.9,34.1 L214.5,20.8 L242.0,20.8 L275.6,20.8 L309.2,20.8 L318.3,20.8 L342.7,16.6 L376.3,14.2 L409.9,14.2 L461.8,14.2 L495.4,14.2 L528.9,10.0 L562.5,10.0 L590.0,10.0"/><circle cx="10.0" cy="104.0" r="2.5" class="m baseline"><title>baseline : 1</title></circle><circle cx="242.0" cy="20.8" r="2.5" class="m boundary"><title>boundary w1-8: 14.8</title></circle><circle cx="275.6" cy="20.8" r="2.5" class="m idle-map"><title>idle-map : 14.8</title></circle><circle cx="309.2" cy="20.8" r="2.5" class="m idle-map"><title>idle-map : 14.8</title></circle><circle cx="318.3" cy="20.8" r="2.5" class="m settled"><title>settled after soak: 14.8</title></circle><circle cx="342.7" cy="16.6" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 15.5</title></circle><circle cx="376.3" cy="14.2" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 15.9</title></circle><circle cx="409.9" cy="14.2" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 15.9</title></circle><circle cx="461.8" cy="14.2" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 15.9</title></circle><circle cx="495.4" cy="14.2" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 15.9</title></circle><circle cx="528.9" cy="10.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 16.6</title></circle><circle cx="562.5" cy="10.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 16.6</title></circle><circle cx="590.0" cy="10.0" r="2.5" class="m settled"><title>settled map after the stress: 16.6</title></circle></svg></figure><figure><figcaption>footprintMB <span>78.1 – 148.2</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,57.3 L242.0,18.2 L318.3,18.0 L342.7,13.0 L590.0,10.0"/><circle cx="10.0" cy="57.3" r="2.5" class="m baseline"><title>baseline : 78.1</title></circle><circle cx="242.0" cy="18.2" r="2.5" class="m boundary"><title>boundary w1-8: 136</title></circle><circle cx="318.3" cy="18.0" r="2.5" class="m settled"><title>settled after soak: 136.3</title></circle><circle cx="342.7" cy="13.0" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 143.7</title></circle><circle cx="590.0" cy="10.0" r="2.5" class="m settled"><title>settled map after the stress: 148.2</title></circle></svg></figure><figure><figcaption>audioHandlers <span>10 – 96</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,98.5 L43.6,98.5 L77.2,85.0 L110.7,71.5 L147.4,66.3 L180.9,80.8 L214.5,10.0 L242.0,98.5 L275.6,98.5 L309.2,97.5 L318.3,98.5 L342.7,98.5 L376.3,79.8 L409.9,98.5 L461.8,99.6 L495.4,99.6 L528.9,98.5 L562.5,98.5 L590.0,98.5"/><circle cx="10.0" cy="98.5" r="2.5" class="m baseline"><title>baseline : 11</title></circle><circle cx="242.0" cy="98.5" r="2.5" class="m boundary"><title>boundary w1-8: 11</title></circle><circle cx="275.6" cy="98.5" r="2.5" class="m idle-map"><title>idle-map : 11</title></circle><circle cx="309.2" cy="97.5" r="2.5" class="m idle-map"><title>idle-map : 12</title></circle><circle cx="318.3" cy="98.5" r="2.5" class="m settled"><title>settled after soak: 11</title></circle><circle cx="342.7" cy="98.5" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 11</title></circle><circle cx="376.3" cy="79.8" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 29</title></circle><circle cx="409.9" cy="98.5" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 11</title></circle><circle cx="461.8" cy="99.6" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 10</title></circle><circle cx="495.4" cy="99.6" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 10</title></circle><circle cx="528.9" cy="98.5" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 11</title></circle><circle cx="562.5" cy="98.5" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 11</title></circle><circle cx="590.0" cy="98.5" r="2.5" class="m settled"><title>settled map after the stress: 11</title></circle></svg></figure><figure><figcaption>recalcPerSec <span>20.3 – 64.4</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,77.5 L43.6,17.8 L77.2,14.2 L110.7,14.8 L147.4,13.3 L180.9,12.3 L214.5,10.0 L242.0,76.3 L275.6,59.7 L309.2,59.4 L318.3,77.7 L342.7,78.5 L376.3,61.4 L409.9,62.0 L461.8,68.7 L495.4,71.8 L528.9,62.6 L562.5,78.0 L590.0,70.9"/><circle cx="10.0" cy="77.5" r="2.5" class="m baseline"><title>baseline : 20.9</title></circle><circle cx="242.0" cy="76.3" r="2.5" class="m boundary"><title>boundary w1-8: 21.7</title></circle><circle cx="275.6" cy="59.7" r="2.5" class="m idle-map"><title>idle-map : 32.4</title></circle><circle cx="309.2" cy="59.4" r="2.5" class="m idle-map"><title>idle-map : 32.6</title></circle><circle cx="318.3" cy="77.7" r="2.5" class="m settled"><title>settled after soak: 20.8</title></circle><circle cx="342.7" cy="78.5" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 20.3</title></circle><circle cx="376.3" cy="61.4" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 31.3</title></circle><circle cx="409.9" cy="62.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 30.9</title></circle><circle cx="461.8" cy="68.7" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 26.6</title></circle><circle cx="495.4" cy="71.8" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 24.6</title></circle><circle cx="528.9" cy="62.6" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 30.5</title></circle><circle cx="562.5" cy="78.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 20.6</title></circle><circle cx="590.0" cy="70.9" r="2.5" class="m settled"><title>settled map after the stress: 25.2</title></circle></svg></figure><figure><figcaption>longTaskMs <span>0 – 1</span></figcaption><svg viewBox="0 0 600 120"><path d="M10.0,110.0 L43.6,110.0 L77.2,110.0 L110.7,110.0 L147.4,110.0 L180.9,110.0 L214.5,110.0 L242.0,110.0 L275.6,110.0 L309.2,110.0 L318.3,110.0 L342.7,110.0 L376.3,110.0 L409.9,110.0 L461.8,110.0 L495.4,110.0 L528.9,110.0 L562.5,110.0 L590.0,110.0"/><circle cx="10.0" cy="110.0" r="2.5" class="m baseline"><title>baseline : 0</title></circle><circle cx="242.0" cy="110.0" r="2.5" class="m boundary"><title>boundary w1-8: 0</title></circle><circle cx="275.6" cy="110.0" r="2.5" class="m idle-map"><title>idle-map : 0</title></circle><circle cx="309.2" cy="110.0" r="2.5" class="m idle-map"><title>idle-map : 0</title></circle><circle cx="318.3" cy="110.0" r="2.5" class="m settled"><title>settled after soak: 0</title></circle><circle cx="342.7" cy="110.0" r="2.5" class="m settled"><title>settled the reward (w1-8), Next ready: 0</title></circle><circle cx="376.3" cy="110.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 0</title></circle><circle cx="409.9" cy="110.0" r="2.5" class="m idle-next"><title>idle-next the reward (w1-8), a held Next, untouched: 0</title></circle><circle cx="461.8" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="495.4" cy="110.0" r="2.5" class="m aura-t0"><title>aura-t0 ninja demo, streak 0, idle: 0</title></circle><circle cx="528.9" cy="110.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 0</title></circle><circle cx="562.5" cy="110.0" r="2.5" class="m aura-t3"><title>aura-t3 ninja demo, streak 10, idle: 0</title></circle><circle cx="590.0" cy="110.0" r="2.5" class="m settled"><title>settled map after the stress: 0</title></circle></svg></figure></div><pre># Soak soak-w1-8
+
+1 levels in one page (reloads: none), fast=2, phone emulation (844×390, DPR 3), CPU throttled 4×, served prod from http://127.0.0.1:4843 (snapshot built 2026-09-27T18:44:33.794Z). Longest streak: 10. Page errors: 0.
+
+## Budgets: **FAIL** (4: listeners, idleRaf, idleNextRaf, idleNextMain)
+
+docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §11.1 and docs/PERF.md §5. "n/a": not judged on this run. Owners are the fix plan's lanes; an offending animation names the file that defines it.
+
+| result | when | check | budget | measured | owner |
+|---|---|---|---|---|---|
+| pass | after each level, back on the map (GC'd) | DOM nodes (CDP, attached + detached) | ≤ start + 600 (815) | start 215, worst 246 (after w1-8) | all |
+| pass | after each level, back on the map (GC'd) | JS heap, MB | ≤ start + 8 (13.4) | start 5.4, worst 8.6 (after w1-8) | all |
+| **FAIL** | after each level, back on the map (GC'd) | event listeners | ≤ start + 40 (292) | start 252, worst 332 (after w1-8); over after 1 of 2 boundaries, from w1-8 | all |
+| pass | after each level, back on the map (GC'd) | animations on the map | ≤ start + 5 (34) | start 29, worst 29 (after start) | all |
+| pass | after each level, back on the map (GC'd) | live intervals | ≤ start + 1 (2) | start 1, worst 1 (after start) | all |
+| pass | after each level, back on the map (GC'd) | particles on the canvas | ≤ 5 | start 0, worst 0 (after start) | F1 |
+| pass | after each level, back on the map (GC'd) | nodes in the fx layer | ≤ 0 | start 0, worst 0 (after start) | F1 |
+| pass | after each level, back on the map (GC'd) | rAF requests/s on the still map | ≤ 5 | start 0, worst 0 (after start) | F1 |
+| pass | after each level, back on the map (GC'd) | live decoded audio, MB | ≤ 64 | start 1, worst 14.8 (after w1-8) | F1, B1 |
+| pass | after each level, back on the map (GC'd) | Web Audio nodes (AudioHandlers) | ≤ start + 8 (19) | start 11, worst 11 (after start) | F1 |
+| pass | after each level, back on the map (GC'd) | &amp;lt;audio> elements alive | ≤ start + 2 (4) | start 2, worst 2 (after start) | F1 |
+| pass | after each level, back on the map (GC'd) | window.__snNavLog entries | ≤ 500 | start 0, worst 36 (after w1-8) | F3 |
+| pass | after each level, back on the map (GC'd) | the save's adjustLog entries | ≤ 200 | start 0, worst 0 (after start) | F1 |
+| n/a | on the title, untouched for 5 s | live decoded audio, MB | ≤ 2 | not measured (--no-title, or an older run) | B1 |
+| pass | while playing, and on still screens (title, map, a held Next), every sample | endless animations the compositor can't run | ≤ 2 | max 0; over in 0 of 10 samples | F1, B, C, D (by file) |
+| pass | while playing, and on still screens (title, map, a held Next), every sample | endless animations running on hidden elements | ≤ 2 | max 0; over in 0 of 10 samples | F1, D2 (by file) |
+| **FAIL** | the still map, 20 s untouched | rAF requests/s, median | ≤ 5 | 13.3 (max 13.3); main thread 2.9 % | F1, B1 |
+| **FAIL** | a held Next (a reward), 20 s untouched, the idle nudge included | rAF requests/s, median | ≤ 5 | 11.9 (max 14.3); main thread 7 % | F1, F3 (nav.tsx), B1 |
+| pass | phone ×4, while playing | every screen's median fps | ≥ 50 | lowest reward:w1-8 (60.4) | D5 (the runner); otherwise the screen's owner |
+| pass | phone ×4, the still map | main thread %, median | ≤ 5 % | 2.9 % | F1 |
+| **FAIL** | phone ×4, a held Next (a reward), the idle nudge included | main thread %, median | ≤ 6 % | 7 % (7.9, 6) | F1 (the ninja), F3 (the nudge), B1 (the reward) |
+| pass | phone ×4, the ninja standing still | main thread % at streak 0, mean | ≤ 6 % | 3.1 % (4.6, 1.5) | F1 |
+| pass | phone ×4, the ninja standing still | main thread % at streak 10, mean | ≤ 14 % | 7.4 % (9.5, 5.3) | F1 |
+| n/a | phone ×4, the World Flower | main thread %, median | ≤ 30 % | not measured (no World Flower visit in this run) | B2 |
+| n/a | phone ×4, the World Flower | longest task, ms | ≤ 120 ms | not measured (no World Flower visit in this run) | B2 |
+| n/a | the strike stress (streak-10 strikes, 7 a second) | particles at the peak | ≤ 350 | not measured (--stress 0) | F1 |
+| n/a | 10 s after the stress | particles / fx nodes left | 0 / 0 | not measured (--stress 0) | F1 |
+| pass | the whole soak | page reloads | 0 | 0 | all |
+| pass | the whole soak | levels the bot finished | all | 1 of 1 | the scene's owner (or bot.ts) |
+
+## After each level (on the map, after a forced GC)
+
+| metric | start | per level → | last | slope / level | budget |
+|---|---|---|---|---|---|
+| heapMB | 5.4 | 5.4 8.6 | 8.6 | 3.2 | ok (≤ start + 8 (13.4)) |
+| nodes | 215 | 215 246 | 246 | 31 | ok (≤ start + 600 (815)) |
+| detachedNodes | 45 | 45 66 | 66 | 21 |  |
+| attachedNodes | 170 | 170 180 | 180 | 10 |  |
+| listeners | 252 | 252 332 | 332 | 80 | FAIL (≤ start + 40 (292)) |
+| globalListeners | 20 | 20 33 | 33 | 13 |  |
+| animations | 29 | 29 29 | 29 | 0 | ok (≤ start + 5 (34)) |
+| animInfinite | 9 | 9 9 | 9 | 0 |  |
+| animHiddenInfinite | 0 | 0 0 | 0 | 0 |  |
+| animMainThreadInfinite | 0 | 0 0 | 0 | 0 |  |
+| fxDomNodes | 0 | 0 0 | 0 | 0 | ok (≤ 0) |
+| particles | 0 | 0 0 | 0 | 0 | ok (≤ 5) |
+| rafPerSec | 0 | 0 0 | 0 | 0 | ok (≤ 5) |
+| intervals | 1 | 1 1 | 1 | 0 | ok (≤ start + 1 (2)) |
+| pendingTimeouts | 1 | 1 1 | 1 | 0 |  |
+| mediaAlive | 2 | 2 2 | 2 | 0 | ok (≤ start + 2 (4)) |
+| decodedMB | 1 | 1 14.8 | 14.8 | 13.8 | ok (≤ 64) |
+| decodedTotalMB | 1 | 1 14.8 | 14.8 | 13.8 |  |
+| decodedClips | 2 | 2 39 | 39 | 37 |  |
+| audioHandlers | 11 | 11 11 | 11 | 0 | ok (≤ start + 8 (19)) |
+| arrayBuffers | 10 | 10 47 | 47 | 37 |  |
+| layoutObjects | 147 | 147 162 | 162 | 15 |  |
+| navLog | 0 | 0 36 | 36 | 36 | ok (≤ 500) |
+| adjustLog | 0 | 0 0 | 0 | 0 | ok (≤ 200) |
+| imagesFetched | 58 | 58 65 | 65 | 7 |  |
+| audioFetched | 3 | 3 40 | 40 | 37 |  |
+| imgInDomMB | 18 | 18 18 | 18 | 0 |  |
+| rendererRssMB | 324 | 324 743 | 743 | 419 |  |
+| gpuRssMB | 78 | 78 91 | 91 | 13 |  |
+| footprintMB | 78.1 | 78.1 136 | 136 | 57.9 |  |
+| gpuFootprintMB | 14.2 | 14.2 14.3 | 14.3 | 0.1 |  |
+| mem_blink_gc | 4.9 | 4.9 17.9 | 17.9 | 13 |  |
+| mem_blink_objects | 1.9 | 1.9 2.7 | 2.7 | 0.8 |  |
+| mem_canvas | 3.5 | 3.5 3.8 | 3.8 | 0.3 |  |
+| mem_cc | 113.4 | 113.4 435.1 | 435.1 | 321.7 |  |
+| mem_discardable | 109.9 | 109.9 422.9 | 422.9 | 313 |  |
+| mem_malloc | 47.6 | 47.6 47.3 | 47.3 | -0.3 |  |
+| mem_media | 2.4 | 2.4 2.4 | 2.4 | 0 |  |
+| mem_mojo | 0 | 0 0 | 0 | 0 |  |
+| mem_parkable_images | 0 | 0 0 | 0 | 0 |  |
+| mem_parkable_strings | 0 | 0 0 | 0 | 0 |  |
+| mem_partition_alloc | 17.6 | 17.6 58 | 58 | 40.4 |  |
+| mem_shared_memory | 142.2 | 142.2 460 | 460 | 317.8 |  |
+| mem_site_storage | 0 | 0 0 | 0 | 0 |  |
+| mem_skia | 0.2 | 0.2 1.9 | 1.9 | 1.7 |  |
+| mem_v8 | 7.4 | 7.4 10.7 | 10.7 | 3.3 |  |
+| mem_web_cache | 1.6 | 1.6 1.7 | 1.7 | 0.1 |  |
+
+## While playing (periodic samples): first half vs second half
+
+| metric | first half | second half |
+|---|---|---|
+| fps | 60.6 | 60.7 |
+| slowFramePct | 0 | 0 |
+| mainThreadPct | 11.4 | 25.5 |
+| scriptPct | 1.5 | 2.5 |
+| stylePct | 1.9 | 5 |
+| layoutPct | 0.2 | 0.3 |
+| recalcPerSec | 60.8 | 63.2 |
+| layoutPerSec | 6.8 | 12.3 |
+| rendererPct | 85.3 | 93 |
+| gpuPct | 8.7 | 13.3 |
+| longTaskMs | 0 | 0 |
+| rafPerSec | 68.9 | 86.9 |
+| rafPerFrame | 1 | 1.2 |
+| animHiddenInfinite | 0 | 0 |
+| animMainThreadInfinite | 0 | 0 |
+| animations | 15 | 63.7 |
+| animInfinite | 8 | 38 |
+| particles | 0 | 0 |
+| particlesPeak | 51 | 148.7 |
+
+## Phases (the title, the still map, a held Next, the ninja's aura, the strike stress)
+
+| phase | what | fps | main % | style % | recalcs/s | rAF/s | renderer CPU % | GPU CPU % | particles (now / peak) | fx nodes | animations | decoded MB | Nodes | heap MB |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| idle-map | map | 61 | 3.1 | 0.7 | 32.4 | 13.3 | 82 | 10 | 0 / 0 | 0 | 29 (9 inf, 0 main) | 14.8 | 244 | 8.3 |
+| idle-map | map | 60.9 | 2.7 | 0.7 | 32.6 | 13.3 | 81 | 9 | 0 / 0 | 0 | 29 (9 inf, 0 main) | 14.8 | 258 | 8.7 |
+| settled | after soak | 61 | 1.2 | 0.3 | 20.8 | 0 | 81 | 9 | 0 / 0 | 0 | 29 (9 inf, 0 main) | 14.8 | 244 | 8.4 |
+| settled | the reward (w1-8), Next ready | 60.3 | 2.7 | 0.3 | 20.3 | 0 | 82 | 10 | 0 / 0 | 0 | 16 (7 inf, 0 main) | 15.5 | 327 | 8.4 |
+| idle-next | the reward (w1-8), a held Next, untouched | 60.5 | 7.9 | 1 | 31.3 | 14.3 | 85 | 12 | 0 / 61 | 0 | 16 (8 inf, 0 main) | 15.9 | 350 | 8.5 |
+| idle-next | the reward (w1-8), a held Next, untouched | 60.3 | 6 | 0.8 | 30.9 | 9.5 | 84 | 11 | 0 / 0 | 0 | 16 (8 inf, 0 main) | 15.9 | 330 | 8.3 |
+| aura-t0 | ninja demo, streak 0, idle | 60.2 | 4.6 | 1.1 | 26.6 | 0 | 84 | 12 | 0 / 0 | 0 | 4 (3 inf, 0 main) | 15.9 | 679 | 8.7 |
+| aura-t0 | ninja demo, streak 0, idle | 60.3 | 1.5 | 0.4 | 24.6 | 0 | 82 | 10 | 0 / 0 | 0 | 4 (3 inf, 0 main) | 15.9 | 679 | 8.8 |
+| aura-t3 | ninja demo, streak 10, idle | 60.5 | 9.5 | 2.6 | 30.5 | 15 | 86 | 14 | 0 / 99 | 0 | 60 (49 inf, 0 main) | 16.6 | 307 | 8.6 |
+| aura-t3 | ninja demo, streak 10, idle | 60.3 | 5.3 | 1.8 | 20.6 | 0 | 83 | 14 | 0 / 0 | 0 | 60 (49 inf, 0 main) | 16.6 | 307 | 8.6 |
+| settled | map after the stress | 60.6 | 3.1 | 0.5 | 25.2 | 14.3 | 83 | 10 | 0 / 0 | 0 | 32 (12 inf, 0 main) | 16.6 | 255 | 8.6 |
+
+## Levels
+
+| level | kind | secs | finished | max streak | streak at end | stuck |
+|---|---|---|---|---|---|---|
+| w1-8 | swap | 69 | yes | 10 | 10 |  |
+
+## Last boundary: what is still running
+
+```
+{
+ "animations": {
+  "total": 29,
+  "running": 9,
+  "infinite": 9,
+  "hiddenInfinite": 0,
+  "mainThreadInfinite": 0,
+  "finishedKept": 20,
+  "top": [
+   [
+    "@popin",
+    19
+   ],
+   [
+    "@petal-drift-r",
+    3
+   ],
+   [
+    "@petal-drift-l",
+    3
+   ],
+   [
+    "@mapnext",
+    1
+   ],
+   [
+    "@taphint",
+    1
+   ],
+   [
+    "@bob",
+    1
+   ],
+   [
+    "@fadeout",
+    1
+   ]
+  ],
+  "mainThread": {},
+  "hidden": {}
+ },
+ "globalListeners": {
+  "window:pointerdown:capture": 4,
+  "window:keydown:capture": 2,
+  "document:visibilitychange": 2,
+  "window:pagehide": 2,
+  "document:gesturestart": 1,
+  "document:gesturechange": 1,
+  "document:contextmenu": 1,
+  "document:dragstart": 1,
+  "document:selectstart": 1,
+  "document:touchmove": 1,
+  "document:selectionchange": 1,
+  "window:load": 1,
+  "window:beforeinstallprompt": 1,
+  "window:resize": 1,
+  "window:orientationchange": 1,
+  "window:__playwright_global_listeners_check__": 1,
+  "window:mousemove:capture": 1,
+  "window:pointerup:capture": 1,
+  "window:touchstart:capture": 1,
+  "window:touchend:capture": 1,
+  "window:touchcancel:capture": 1,
+  "window:mousedown:capture": 1,
+  "window:mouseup:capture": 1,
+  "window:click:capture": 1,
+  "window:auxclick:capture": 1,
+  "window:dblclick:capture": 1,
+  "window:contextmenu:capture": 1
+ },
+ "intervals": {
+  "100ms at http://127.0.0.1:4843/assets/play-D2f099y6.js:2:971": 1
+ },
+ "mods": {
+  "visemeListeners": 1,
+  "bufferCache": 39,
+  "captionListeners": 3,
+  "clipListeners": 3,
+  "sayListeners": 2,
+  "music": 1,
+  "speaking": 0,
+  "decodedLruMB": 14.8,
+  "musicDecks": 2,
+  "storeListeners": 4,
+  "attemptSubs": 0,
+  "saveBytes": 2517,
+  "adjustLog": 0,
+  "poseSubs": 1,
+  "particles": 0,
+  "particleKinds": {},
+  "glowCache": 12,
+  "helpStack": 1,
+  "nudgeListeners": 1,
+  "uprightSubs": 1,
+  "imgCache": 2,
+  "fxDomChildren": 0,
+  "streakListeners": 1,
+  "streakSubs": 0,
+  "streakN": 10,
+  "owned": 0,
+  "ownedConnected": 0,
+  "busy": 0,
+  "spotMounted": 0,
+  "moveRunning": 0,
+  "spotGen": 2,
+  "navStack": 1,
+  "navSubs": 2,
+  "nudgeSubs": 0,
+  "holds": 0,
+  "narrateSubs": 0
+ }
+}
+```
+
+</pre>

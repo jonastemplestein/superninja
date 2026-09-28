@@ -153,3 +153,123 @@ test("TS §5.8: the map previews a game the child has never played, once", () =>
   N.played("build");
   assert.equal(N.mapPreview(lv("w1-4")), null, "a game already played");
 });
+
+// ---------------------------------------------------------------- fast and slow (TEACHER_SCRIPT §9, FS-F2.1)
+const say = (xs: unknown[]) => xs.map((x) => {
+  const o = x as Record<string, unknown>;
+  return "line" in o ? o.line : "word" in o ? `[${o.word}]` : "stretch" in o ? `[${o.stretch}, slowly]` : "sounds" in o ? `${o.show}:${(o.sounds as { p: string }[]).map((s) => `/${s.p}/`).join("")}` : null;
+}).filter(Boolean);
+
+test("FS-F2.1: Move 1 once per game type per session, the save's first idea is two_ways, and the pointer is in the save", () => {
+  store.reset();
+  session(20);
+  N.beginLevel(lv("w1-4"));
+  assert.equal(N.fsReadback("build"), "rabbit");
+  N.fsSaid("tv_fs_rabbit_read", "build");
+  const idea = N.fsIdea("build", "build", { tight: true });
+  assert.equal(idea, "tv_fs_two_ways");
+  N.fsSaid(idea!, "build");
+  assert.equal(N.timesHeard("fs:idea"), 1, "the rotation's pointer is in the save");
+  assert.equal(N.fsIdea("build", "build"), null);
+  assert.deepEqual([N.fsReadback("build"), N.fsReadback("build")], ["sw", "pair"]);
+  assert.equal(N.fsPraise("build", "build"), null, "the praise slot after the idea stays the game's own");
+  assert.equal(N.fsPraise("build", "build"), "tv_fs_praise_every");
+  N.beginLevel(lv("w1-5"));
+  assert.notEqual(N.fsReadback("build"), "rabbit", "the same game in a second level of the session");
+  session(21);
+  N.beginLevel(lv("w1-5"));
+  assert.equal(N.fsReadback("build"), "rabbit", "the next session");
+  assert.notEqual(N.fsIdea("build", "build"), "tv_fs_two_ways");
+});
+
+test("FS1 (verify round 1): a building game's first miss is the listening correction and the PLAIN word, never the stuck recap", () => {
+  store.reset();
+  session(30);
+  N.beginLevel(lv("w1-4"));
+  const need = { g: "m", p: "m" as const };
+  for (const w of ["mat", "map", "mop"]) {
+    const first = say(N.correctionFor("t", need, w, 1, undefined, {}, { game: "build" }));
+    // (pre-ship fix, 28 Sep: the child is on the first sound, so the question names it: "Let's listen to the word
+    // again." · "What's the first sound?" · the word, or the w_position_q template's one clip once recorded)
+    assert.ok(["tv_listen_word_again", "tv_listen_here", "listen_here", "audit_spelling_help_plain"].includes(first[0] as string), `${w}: ${first[0]}`);
+    assert.ok(!first.includes("audit_listen_next"), "never 'What sound comes next?' on the first sound");
+    if (!String(first.at(-1)).startsWith("w_position_q")) assert.equal(first.at(-1), `[${w}]`, "the plain word (FS1)");
+    assert.ok(!first.includes("tv_fs_stuck_slow"), "no promise of the slow way on a first miss");
+  }
+  assert.deepEqual(say(N.correctionFor("s", { g: "sh", p: "sh" }, "shop", 1, undefined, {}, { game: "build" })).slice(0, 1), ["thats"], "a split spelling keeps its correction");
+  const plain = say(N.correctionFor("t", need, "mat", 1));
+  // (28 Sep: the pre-ship fix names the position: "Let's listen to the word again." · "What's the first sound?" · the word)
+  assert.ok(plain[0] !== "tv_fs_stuck_slow" && plain.at(-1) === "[mat]" && !plain.includes("audit_listen_next"), `no game: the listening correction (${plain})`);
+});
+
+test("FS1 (verify round 1): a building game's second miss takes turns with the stuck recap, which plays the GAPPED slow word, then shows the tile", () => {
+  store.reset();
+  session(31);
+  N.beginLevel(lv("w1-4"));
+  const need = { g: "t", p: "t" as const };
+  const slot = {} as Element;
+  const recap = N.correctionFor("p", need, "pot", 2, undefined, { slot: () => slot }, { game: "battle" });
+  assert.deepEqual(say(recap), ["tv_fs_stuck_slow", "[pot, slowly]", "we_need", "its_this_one"], "the slow way it promises, then the reveal");
+  const pop = recap.find((x) => "sound" in x) as { sound: string; show: string; at?: unknown };
+  assert.deepEqual([pop.sound, pop.show, typeof pop.at], ["t", "petal", "function"], "the needed sound pops above the slot");
+  const own = say(N.correctionFor("p", need, "hot", 2, undefined, {}, { game: "battle" }));
+  assert.deepEqual(own, ["thats", "we_need", "its_this_one"], "the next second miss: the plain reveal (they take turns)");
+  assert.deepEqual(say(N.correctionFor("p", need, "net", 2, undefined, {}, { game: "battle" })).slice(0, 2), ["tv_fs_stuck_slow", "[net, slowly]"]);
+  assert.deepEqual(say(N.correctionFor("p", need, "net", 3, undefined, {}, { game: "battle" })).slice(0, 1), ["thats"], "never twice on one word");
+  assert.deepEqual(say(N.correctionFor("p", need, "pit", 2)).slice(0, 1), ["thats"], "no game: the plain reveal");
+});
+
+test("FS-F2.1: fsStuckSay: spelling only from a second miss (slow); Slow Words the slow word; Guess My Word the dots, never the word", () => {
+  store.reset();
+  session(40);
+  N.beginLevel(lv("w1-4"));
+  assert.equal(N.fsStuckSay("battle", "sun", { attempt: 1 }), null, "a first miss or the 8 s idle: the game's own listening line and the plain word");
+  assert.equal(N.fsStuckSay("build", "sun"), null, "(attempt 1 is the default)");
+  assert.deepEqual(say(N.fsStuckSay("battle", "pin", { attempt: 2 })!), ["tv_fs_stuck_slow", "[pin, slowly]"], "a second miss models it");
+  assert.equal(N.fsStuckSay("battle", "pin", { attempt: 2, item: "pin:2" }), null, "the game's own line's turn");
+  assert.deepEqual(say(N.fsStuckSay("slowpick", "van")!), ["tv_fs_stuck_again", "[van, slowly]"]);
+  const map = say(N.fsStuckSay("sounds", "map", { segs: segs("map"), always: true })!);
+  assert.deepEqual(map, ["tv_fs_stuck_push", "hidden:/m//a//p/"]);
+  assert.equal(N.fsStuckSay("story", "cat"), null, "no stuck recap in Story Time");
+});
+
+test("verify round 1: a ready gem promises a gem battle only to a child of 5 or more, at most once a session", () => {
+  store.reset();
+  session(60);
+  const year = (schoolYear: "none" | "unsure" | "R" | "Y1" | "Y2" | "unset", at = Date.now()) => store.set((s) => void ((s.schoolYear = schoolYear), (s.schoolYearAt = at)));
+  for (const y of ["none", "unsure", "unset", "R"] as const) {
+    year(y);
+    assert.equal(N.gemBattlesOffered(), false, `${y}: a 3- or 4-year-old (TEACHER_SCRIPT §4.2)`);
+    assert.equal(N.gemReadySay(), null, `${y}: the gem glows in silence`);
+  }
+  year("R", Date.UTC(2025, 8, 10));
+  assert.equal(N.gemBattlesOffered(), true, "Reception a September ago: 5 now");
+  year("Y1");
+  assert.deepEqual(N.gemReadySay(), { line: "flower_i5", key: "gem-battle" }, "the save's first ready gem says what a glowing gem means");
+  assert.deepEqual(N.gemReadySay(), { line: "flower_i5", key: "gem-battle" }, "…until it has been heard");
+  N.gemLineHeard("flower_i5");
+  assert.equal(N.gemReadySay(), null, "that was this session's news");
+  session(61);
+  assert.deepEqual(N.gemReadySay(), { line: "gem_ready", key: "gem-ready" });
+  N.gemLineHeard("gem_ready");
+  assert.equal(N.gemReadySay(), null, "once a session");
+  session(62);
+  assert.equal(N.gemReadySay()?.line, "gem_ready", "the next session");
+  N.gemLineHeard("t_practise_invite");
+  assert.equal(N.gemReadySay()?.line, "gem_ready", "other lines don't count");
+});
+
+test("FS-F2.1: fsPair takes turns; a Ninja Run Move 1 is recorded by its pair", () => {
+  store.reset();
+  session(50);
+  N.beginLevel(lv("w1-4"));
+  const [a, b] = [N.fsPair(), N.fsPair()];
+  assert.notDeepEqual(a, b);
+  assert.equal(N.fsReadback("run"), "rabbit");
+  N.fsSaid("tv_fs_now_fast", "run");
+  assert.equal(N.fsReadback("run"), "sw");
+  N.fsSaid("tv_fs_run", "run");
+  assert.equal(N.fsHeardThisSession("tv_fs_run"), true);
+  session(51);
+  assert.equal(N.fsHeardThisSession("tv_fs_run"), false);
+});

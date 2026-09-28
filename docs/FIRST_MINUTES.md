@@ -3,6 +3,8 @@
 > **Amendment (Jonas, 26 Sep 2026): "have the same let me show you, now you try mechanism in the warm ups".** Every warm-up game type opens with **"Let me show you!"**: Sensei and the ninja demonstrate one item, with the paw tapping and the ninja moving, and nothing for the child to do. Then comes **"Now you try!"**, where the child does it. This applies to Ninja Ears (naming and picking), fast and slow, "tap all that start with /s/", "Ninjas read this way" and "Which did I read?". The demo item counts towards the time budget (keep it to about 5 s). Keep it light: two phases in the warm-ups; the full I do / we do / you do comes back from IC Unit 1. New lines to record: `fm_show_me` "Let me show you!" and `fm_you_try` "Now you try!". Alternates for variety: `fm_show_me_2` "Watch me first!" and `fm_you_try_2` "Your turn!".
 
 
+> **Superseded in part (27 Sep 2026, the teacher's voice: docs/TEACHER_SCRIPT.md; teacher-voice/mechanics.md §10.3).** The bare labels "Let me show you!" / "Now you try!" (and "Watch me first!", "Your turn!") are retired (`fm_show_me*`, `fm_you_try*` are in `RETIRED_LINES`). Every game now opens with its frame, a narrated demo in whole sentences ("I'll go first…"), a Ready hold (▶ or the paw) and a hand-over, as TEACHER_SCRIPT §3 writes it for each game. The demo mechanism the Amendment asked for stays; only the labels go.
+
 > **Review pass (26 Sep 2026, agents on Jonas's behalf; every change is a row in docs/DECISIONS.md).** Lesson 1 has no slow-word pick: with the Amendment's demos the governor dropped both for every child, so the first one is W3's, with its own "Let me show you!" (Reception keeps its cat pick). "Words are made of sounds" is the 4.4 s `fm_hear_sounds_short`. In the warm-ups only choices between pictures count towards the streak, and tier-ups are silent. Lesson 2's swap is ◇ and the which-did-I-read demo is dropped when the lesson is behind; beat times are the quick bot's, and an optional beat plays only if the lesson still finishes by its target. At the hard cap the child keeps their turn (their first tap, or 7 s) before the paw, "Here's the last one!" is only for one answer left, and "You found them…!" only counts the child's own finds. Reward 2's book flies to the map before the first petal blooms on a real World Flower, which then flies into the map's flower button. Measured with a bot answering after 1.2 s: Lesson 1 80.7 s, Lesson 2 55.8 s, title to the map 4:23 (at 2×; 82.6 s, 56.8 s and 4:32 at 4×).
 
 
@@ -150,7 +152,7 @@ The clock starts when the child taps the title screen. The grown-up handover bef
 
 1. **Voice and pictures only.** Sensei says everything, and a paw or hand shows every new action. Captions stay off.
 2. **Every picture is named aloud when it appears.** Naming spotlights that card (§11).
-3. **No mode announcements** ("Watch me first", "Let's do it together", "Now it's your turn"). Sensei's explanation is the "I do". The first tap is the "we do", and its answer glows after 2 s. The next tap is the "you do".
+3. **No mode announcements** ("Watch me first", "Let's do it together", "Now it's your turn"). Sensei's explanation is the "I do". The first tap is the "we do", and its answer glows after 2 s. The next tap is the "you do". *Superseded (27 Sep, TEACHER_SCRIPT T2 and mechanics §10.3): announcing what comes next is right when it is a teacher's whole sentence ("I'll go first. Then it's your turn."); only bare labels stay out (T7).*
 4. **Taps:**
    - A tap while a card is being named echoes its name and spotlights it; it doesn't wiggle.
    - A tap during the question counts as an answer.
@@ -589,7 +591,9 @@ The ninja stands bottom-left all the time and glows on streaks (docs/HERO.md). L
 | Reward 1 (first time) | 21 s | 26 s | — |
 | Lesson 2 | 60 s | 75 s | ≤ 56 s |
 | Reward 2 (first time) | 26 s | 30 s | — |
-| Title to the map | 4:34 | 5:00 | — |
+| Title to the map | 4:34 | 5:30 (was 5:00; TEACHER_SCRIPT T22, 27 Sep) | about 7:10 for a quick child (C2's bot, 27 Sep): over the cap, an open question in docs/DECISIONS.md |
+
+**The title (27 Sep, docs/TITLE_DESIGN.md §9.7):** the clock still starts at the title tap. The title's exit now takes 1.05 s (was 0.5 s), and a returning child skips "Who's playing?" (one tap and about 2 s fewer); a first launch still goes to the name screen.
 
 **Treadmill acceptance** (scripts/treadmill):
 1. The bots stay within the Bot column above, and the 3¾-year-old persona within the hard caps.

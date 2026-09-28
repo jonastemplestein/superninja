@@ -1,0 +1,250 @@
+{
+  "what": "P0 pre-flight baseline (FIX_PLAN §0.3), fix workflow of 27 Sep",
+  "runner": {
+    "pid": 42643,
+    "script": "playtest/runs/fix/baseline/run-baseline.ts",
+    "log": "playtest/runs/fix/baseline/logs/runner.log"
+  },
+  "servers": {
+    "baseline": {
+      "port": 4700,
+      "base": "http://127.0.0.1:4700",
+      "game": "http://127.0.0.1:4700/play/",
+      "build": "playtest/runs/fix/.build-baseline",
+      "pidFile": "playtest/runs/fix/.build-baseline.pid",
+      "stop": "bun scripts/treadmill/frozen.ts --port 4700 --out playtest/runs/fix/.build-baseline --stop",
+      "note": "left running for before/after comparisons; integration stops it"
+    },
+    "probes": {
+      "port": 4790,
+      "base": "http://127.0.0.1:4790",
+      "build": "playtest/runs/fix/.build-baseline-probes",
+      "pidFile": "playtest/runs/fix/.build-baseline-probes.pid",
+      "note": "soak.vite.config.ts build for the soak; stopped by the runner when the soak ends"
+    }
+  },
+  "loadAtStart": [
+    12.1,
+    11.6,
+    8.2
+  ],
+  "started": "2026-09-27T04:54:23.927Z",
+  "finished": "2026-09-27T05:29:09.766Z",
+  "jobs": [
+    {
+      "name": "soak-phone",
+      "cmd": [
+        "bun",
+        "scripts/treadmill/soak.ts",
+        "--serve",
+        "none",
+        "--base",
+        "http://127.0.0.1:4790",
+        "--mobile",
+        "--cpu",
+        "4",
+        "--fast",
+        "2",
+        "--levels",
+        "12",
+        "--out",
+        "playtest/runs/fix/baseline/soak-phone"
+      ],
+      "out": "playtest/runs/fix/baseline/soak-phone (summary.md, checks.json, report.html)",
+      "note": "on the frozen probes build at 4790 (playtest/runs/fix/.build-baseline-probes), built from the same tree as 4700; the 4790 server is stopped when the soak ends",
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/soak-phone.log",
+      "pid": 42644,
+      "started": "2026-09-27T04:54:23.928Z",
+      "ended": "2026-09-27T05:13:35.273Z",
+      "exit": 0
+    },
+    {
+      "name": "tx-start",
+      "cmd": [
+        "bun",
+        "scripts/treadmill/continuous.ts",
+        "--base",
+        "http://127.0.0.1:4700",
+        "--persona",
+        "perfect,learner",
+        "--levels",
+        "12",
+        "--out",
+        "playtest/fix/baseline/transcripts"
+      ],
+      "out": "playtest/fix/baseline/transcripts/continuous-{perfect,learner}.{md,json}",
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/tx-start.log",
+      "pid": 42645,
+      "started": "2026-09-27T04:54:23.929Z",
+      "ended": "2026-09-27T05:02:48.328Z",
+      "exit": 0
+    },
+    {
+      "name": "tx-w5-1",
+      "cmd": [
+        "bun",
+        "scripts/treadmill/continuous.ts",
+        "--base",
+        "http://127.0.0.1:4700",
+        "--persona",
+        "perfect,learner",
+        "--from",
+        "w5-1",
+        "--levels",
+        "12",
+        "--out",
+        "playtest/fix/baseline/transcripts"
+      ],
+      "out": "playtest/fix/baseline/transcripts/continuous-{perfect,learner}-from-w5-1.{md,json}",
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/tx-w5-1.log",
+      "pid": 42646,
+      "started": "2026-09-27T04:54:23.929Z",
+      "ended": "2026-09-27T05:03:05.414Z",
+      "exit": 0
+    },
+    {
+      "name": "tx-w6-br1",
+      "cmd": [
+        "bun",
+        "scripts/treadmill/continuous.ts",
+        "--base",
+        "http://127.0.0.1:4700",
+        "--persona",
+        "perfect,learner",
+        "--from",
+        "w6-br1",
+        "--levels",
+        "13",
+        "--out",
+        "playtest/fix/baseline/transcripts"
+      ],
+      "out": "playtest/fix/baseline/transcripts/continuous-{perfect,learner}-from-w6-br1.{md,json}",
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/tx-w6-br1.log",
+      "pid": 42647,
+      "started": "2026-09-27T04:54:23.929Z",
+      "ended": "2026-09-27T05:01:55.422Z",
+      "exit": 0
+    },
+    {
+      "name": "tx-splitter",
+      "cmd": [
+        "bun",
+        "scripts/treadmill/continuous.ts",
+        "--base",
+        "http://127.0.0.1:4700",
+        "--persona",
+        "splitter",
+        "--from",
+        "w5-1",
+        "--levels",
+        "8",
+        "--out",
+        "playtest/fix/baseline/transcripts"
+      ],
+      "out": "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.{md,json}",
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/tx-splitter.log",
+      "pid": 42648,
+      "started": "2026-09-27T04:54:23.929Z",
+      "ended": "2026-09-27T05:00:17.040Z",
+      "exit": 0
+    },
+    {
+      "name": "tx-watcher",
+      "cmd": [
+        "bun",
+        "scripts/treadmill/continuous.ts",
+        "--base",
+        "http://127.0.0.1:4700",
+        "--persona",
+        "watcher",
+        "--levels",
+        "19",
+        "--out",
+        "playtest/fix/baseline/transcripts"
+      ],
+      "out": "playtest/fix/baseline/transcripts/continuous-watcher.{md,json}",
+      "note": "the preschool path: the first minutes (film to W2 and the map), then 19 stones, w1-wu3 to w2-1 (continuous.ts stops at 70 game minutes, so it may end before w2-1)",
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/tx-watcher.log",
+      "pid": 42649,
+      "started": "2026-09-27T04:54:23.930Z",
+      "ended": "2026-09-27T05:05:58.529Z",
+      "exit": 0
+    },
+    {
+      "name": "script-audit",
+      "cmd": [
+        "sh",
+        "-c",
+        "bun scripts/treadmill/script-audit.ts playtest/fix/baseline/transcripts/continuous-*.json --out playtest/fix/baseline/script-audit.md --check --findings playtest/fix/baseline/script.json --metrics playtest/fix/baseline/script-metrics.json"
+      ],
+      "out": "playtest/fix/baseline/script-audit.md (+ script.json findings, script-metrics.json); --check exits 1 on the baseline, as expected",
+      "after": [
+        "tx-start",
+        "tx-w5-1",
+        "tx-w6-br1",
+        "tx-splitter",
+        "tx-watcher"
+      ],
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/script-audit.log",
+      "pid": 50108,
+      "started": "2026-09-27T05:05:58.531Z",
+      "ended": "2026-09-27T05:05:59.493Z",
+      "exit": 1
+    },
+    {
+      "name": "sound-display",
+      "cmd": [
+        "bun",
+        "scripts/treadmill/sound-display.ts",
+        "--base",
+        "http://127.0.0.1:4700",
+        "--out",
+        "playtest/runs/fix/baseline/sound",
+        "--check",
+        "--findings",
+        "playtest/runs/fix/baseline/sound/sound.json"
+      ],
+      "out": "playtest/runs/fix/baseline/sound (summary.md, log.json, frames/, sound.json); --check exits 1 on the baseline, as expected",
+      "after": [
+        "soak-phone"
+      ],
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/sound-display.log",
+      "pid": 58759,
+      "started": "2026-09-27T05:13:35.274Z",
+      "ended": "2026-09-27T05:29:09.766Z",
+      "exit": 1
+    },
+    {
+      "name": "sweep-petals",
+      "cmd": [
+        "bun",
+        "scripts/treadmill/sweep.ts",
+        "--petals",
+        "--par",
+        "4",
+        "--base",
+        "http://127.0.0.1:4700",
+        "--run",
+        "playtest/runs/fix/baseline/sweep"
+      ],
+      "out": "playtest/runs/fix/baseline/sweep (sweep.json, cases/)",
+      "after": [
+        "soak-phone"
+      ],
+      "status": "done",
+      "log": "playtest/runs/fix/baseline/logs/sweep-petals.log",
+      "pid": 58760,
+      "started": "2026-09-27T05:13:35.274Z",
+      "ended": "2026-09-27T05:28:57.788Z",
+      "exit": 0
+    }
+  ]
+}

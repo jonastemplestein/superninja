@@ -1,0 +1,538 @@
+{
+ "name": "wu6-take3",
+ "url": "https://superninja.templestein.com/play/?level=w1-wu6",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 54,
+ "game": {
+  "start": 2.52,
+  "end": 52.205
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   21.9,
+   32.6,
+   150.5,
+   66,
+   47.9,
+   95.2,
+   95.9,
+   96.8,
+   98.5,
+   71.1
+  ],
+  "audioShiftMs": 91.8,
+  "residualMs": [
+   72.9,
+   61.5,
+   -55.8,
+   30.8,
+   42.9,
+   -3.1,
+   -21.5,
+   -22.5,
+   -24.5,
+   10.9
+  ],
+  "residualMedianMs": 3.9,
+  "residualMaxAbsMs": 72.9
+ },
+ "frames": {
+  "frames": 2872,
+  "fps": 58.4,
+  "p50": 18.7,
+  "p95": 22,
+  "p99": 23.9,
+  "max": 47.6,
+  "hitches": 0,
+  "repeatedSlots": 2,
+  "slots": 1475,
+  "deliveryMs": 24
+ },
+ "master": "wu6-take3.master.mp4",
+ "audio": "wu6-take3.master.wav",
+ "recordedAt": "2026-09-27T06:06:38.234Z",
+ "events": [
+  {
+   "t": 0.773,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.095,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.411,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.731,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.043,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.631,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.722,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 2.973,
+   "kind": "scene",
+   "id": "warmup"
+  },
+  {
+   "t": 2.984,
+   "kind": "music",
+   "id": "dojo",
+   "dur": 47.937
+  },
+  {
+   "t": 3.637,
+   "kind": "speech",
+   "id": "fm_name_sun",
+   "dur": 1.479,
+   "text": "This is the sun."
+  },
+  {
+   "t": 5.269,
+   "kind": "speech",
+   "id": "fm_show_me",
+   "dur": 1.102,
+   "text": "Let me show you!"
+  },
+  {
+   "t": 6.403,
+   "kind": "speech",
+   "id": "fm_dots_intro",
+   "dur": 3.545,
+   "text": "Every dot is a sound. Ninjas tap them this way!"
+  },
+  {
+   "t": 10.701,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 10.73,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 12.263,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 12.29,
+   "kind": "speech",
+   "id": "sound:u",
+   "dur": 0.48
+  },
+  {
+   "t": 13.516,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 13.543,
+   "kind": "speech",
+   "id": "sound:n",
+   "dur": 0.591
+  },
+  {
+   "t": 14.81,
+   "kind": "speech",
+   "id": "word:sun",
+   "dur": 0.553
+  },
+  {
+   "t": 16.341,
+   "kind": "speech",
+   "id": "fm_name_cat",
+   "dur": 1.184,
+   "text": "This is a cat."
+  },
+  {
+   "t": 17.705,
+   "kind": "speech",
+   "id": "fm_dots_turn",
+   "dur": 3.818,
+   "text": "Your turn! Tap the dots this way, and say the sounds with me."
+  },
+  {
+   "t": 22.336,
+   "kind": "mark",
+   "id": "tap dot 0"
+  },
+  {
+   "t": 22.368,
+   "kind": "tap",
+   "id": "dot 0",
+   "text": "rect 544,428,100,100"
+  },
+  {
+   "t": 22.394,
+   "kind": "speech",
+   "id": "sound:k",
+   "dur": 0.186
+  },
+  {
+   "t": 23.421,
+   "kind": "mark",
+   "id": "tap dot 1"
+  },
+  {
+   "t": 23.423,
+   "kind": "tap",
+   "id": "dot 1",
+   "text": "rect 680,428,100,100"
+  },
+  {
+   "t": 23.449,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 24.566,
+   "kind": "mark",
+   "id": "tap dot 2"
+  },
+  {
+   "t": 24.568,
+   "kind": "tap",
+   "id": "dot 2",
+   "text": "rect 816,428,100,100"
+  },
+  {
+   "t": 24.594,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 25.038,
+   "kind": "speech",
+   "id": "fm_dots_say",
+   "dur": 2.784,
+   "text": "Say the sounds... and say the word!"
+  },
+  {
+   "t": 29.198,
+   "kind": "speech",
+   "id": "word:cat",
+   "dur": 0.547
+  },
+  {
+   "t": 29.838,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 30.514,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 30.826,
+   "kind": "speech",
+   "id": "fm_name_dog",
+   "dur": 0.87,
+   "text": "This is a dog."
+  },
+  {
+   "t": 32.652,
+   "kind": "mark",
+   "id": "slip dot 2"
+  },
+  {
+   "t": 32.655,
+   "kind": "tap",
+   "id": "dot 2",
+   "text": "rect 816,428,100,100"
+  },
+  {
+   "t": 32.688,
+   "kind": "speech",
+   "id": "fm_l2_start",
+   "dur": 2.236,
+   "text": "Start here, on this side!"
+  },
+  {
+   "t": 35.736,
+   "kind": "mark",
+   "id": "tap dot 0"
+  },
+  {
+   "t": 35.737,
+   "kind": "tap",
+   "id": "dot 0",
+   "text": "rect 544,428,100,100"
+  },
+  {
+   "t": 35.763,
+   "kind": "speech",
+   "id": "sound:d",
+   "dur": 0.368
+  },
+  {
+   "t": 36.936,
+   "kind": "mark",
+   "id": "tap dot 1"
+  },
+  {
+   "t": 36.938,
+   "kind": "tap",
+   "id": "dot 1",
+   "text": "rect 680,428,100,100"
+  },
+  {
+   "t": 36.964,
+   "kind": "speech",
+   "id": "sound:o",
+   "dur": 0.48
+  },
+  {
+   "t": 38.243,
+   "kind": "mark",
+   "id": "tap dot 2"
+  },
+  {
+   "t": 38.25,
+   "kind": "tap",
+   "id": "dot 2",
+   "text": "rect 816,428,100,100"
+  },
+  {
+   "t": 38.277,
+   "kind": "speech",
+   "id": "sound:g",
+   "dur": 0.155
+  },
+  {
+   "t": 39.063,
+   "kind": "speech",
+   "id": "word:dog",
+   "dur": 0.464
+  },
+  {
+   "t": 39.7,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 40.194,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 40.607,
+   "kind": "speech",
+   "id": "fm_name_mug",
+   "dur": 0.778,
+   "text": "This is a mug."
+  },
+  {
+   "t": 42.317,
+   "kind": "mark",
+   "id": "tap dot 0"
+  },
+  {
+   "t": 42.318,
+   "kind": "tap",
+   "id": "dot 0",
+   "text": "rect 544,428,100,100"
+  },
+  {
+   "t": 42.344,
+   "kind": "speech",
+   "id": "sound:m",
+   "dur": 0.659
+  },
+  {
+   "t": 43.802,
+   "kind": "mark",
+   "id": "tap dot 1"
+  },
+  {
+   "t": 43.803,
+   "kind": "tap",
+   "id": "dot 1",
+   "text": "rect 680,428,100,100"
+  },
+  {
+   "t": 43.804,
+   "kind": "speech",
+   "id": "sound:u",
+   "dur": 0.48
+  },
+  {
+   "t": 45.105,
+   "kind": "mark",
+   "id": "tap dot 2"
+  },
+  {
+   "t": 45.112,
+   "kind": "tap",
+   "id": "dot 2",
+   "text": "rect 816,428,100,100"
+  },
+  {
+   "t": 45.113,
+   "kind": "speech",
+   "id": "sound:g",
+   "dur": 0.155
+  },
+  {
+   "t": 45.902,
+   "kind": "speech",
+   "id": "word:mug",
+   "dur": 0.638
+  },
+  {
+   "t": 46.633,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 47.042,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 47.043,
+   "kind": "speech",
+   "id": "fm_l6_done",
+   "dur": 2.872,
+   "text": "Now you're ready to find out how we write the sounds!"
+  },
+  {
+   "t": 47.324,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 47.547,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 47.727,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 47.728,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 48.368,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 48.447,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 48.667,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 48.968,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 49.919,
+   "kind": "sfx",
+   "id": "fanfare"
+  },
+  {
+   "t": 49.924,
+   "kind": "scene",
+   "id": "stickers"
+  },
+  {
+   "t": 50.01,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 50.246,
+   "kind": "speech",
+   "id": "yay_7",
+   "dur": 0.744,
+   "text": "You did it!"
+  },
+  {
+   "t": 52.297,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 52.612,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 52.911,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 53.144,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 962,560,135,135"
+  },
+  {
+   "t": 53.188,
+   "kind": "speech",
+   "id": "world_1",
+   "dur": 0.876,
+   "text": "Welcome to Bamboo Village!"
+  },
+  {
+   "t": 53.204,
+   "kind": "music",
+   "id": "world_bamboo",
+   "dur": 0.86
+  },
+  {
+   "t": 53.209,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 53.222,
+   "kind": "scene",
+   "id": "map"
+  },
+  {
+   "t": 53.511,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

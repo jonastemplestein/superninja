@@ -126,6 +126,8 @@ Jonas's own sequence has two "ready" moments: "Are you ready?" before the demo a
 | **short** | the first play of the game in a session, once it has had its two tellings | one reminder line that names the game (*"Tap-the-picture again!"*), or the question's own stem if that already says it · your turn. No show, no Ready?. Show me again is still offered where the game has a demo on its own pictures (§4.5) |
 | **none** | a later play of the same game in the same session | the question only (the SCRIPT_STYLE §5 fade) |
 
+> **Amended 27 Sep (TEACHER_SCRIPT T3, §2.2; logged by integration):** a **recap has no Ready hold** unless the child has been away 21 days or struggled with the game last time (`recapHold()` in `narrative.ts`). Its telling counts on the child's first answer (`framed()` then), not on a Ready tap. `frameForm()` returns `"recap"` in both cases; `recapHold()` says whether it gets the hold. Why: arrow fatigue (25–30 ▶ taps before w2-1), and the stone tap is already the child's "yes".
+
 These forms apply to the frame, show and Ready? around a turn. An authored **teaching show** such as the fast/slow explanation, the notice beat or the Dojo's reveal of a new spelling follows its own dosage (the idea's or the spelling's, ARCHITECTURE §6.2), not the game's.
 
 ### 3.3 What doesn't get the pattern
@@ -157,6 +159,7 @@ These forms apply to the frame, show and Ready? around a turn. An authored **tea
 - **▶ (Next): "I'm ready".** The ninja bows (a new `bow` move and pose, a ninja's *rei* before training; it falls back to `ready` plus a hop and a "hup"). Sensei says *"Your turn!"* and the question, and the turn starts.
 - **The paw: "Show me again".** The show plays again exactly, narrated. ▶ goes dim while it plays, and a tap on it wiggles. After the replay Sensei asks *"Ready now?"* (short), ▶ comes back and the idle ladder starts again. There is no limit on replays.
 - **A tap on the board** (a card, a rail, a button of the game) also means "I'm ready": the hold ends, the tapped card spotlights and says its word (FIRST_MINUTES §3 rule 4's early-tap echo), then *"Your turn!"* and the question. It is **not** an answer, because the question hasn't been asked yet.
+- > **Amended 27 Sep (TEACHER_SCRIPT T4, §2.3):** on a **hand-over Ready** (the Ready line names the task: "Can you find the sock? Or tap the paw…"), a tap on the **right answer** counts as ready *and* as the answer (`readyTap({ right: true })` resolves `"answer"`), so the child who found the sock isn't asked to find it again. Other board taps still mean "ready" only, as above.
 - **During a replay of the show,** a tap on the board stops the replay (as Show me again does today). If the replay was on the turn's own pictures, the tap also counts as ready. If it was on the demo's own pictures (which, sounds, dots, compound), it only stops the replay.
 - **Hear it again** replays the frame and the question. It doesn't replay the show: that is the paw.
 - **Help:** the first press gives the readiness question in its long form (both answers spotlit); later presses call `nudgeNext()`, as on any hold.
@@ -387,6 +390,8 @@ Holds in W1: today 1 (the notice → tap all). With the new pattern there are 4:
 | G21 `run:blend` | **F** ✚ *"Ninja Run! Your ninja runs by itself. Tap anywhere to jump. When the lanterns come, listen to the sounds and tap the word they make."* · no show (a moving world; the first lantern's answer glows after 2 s instead, a we do) · **R** ✚ the ninja waits on the start line: *"Ready? Tap the arrow, and off we go!"*. **The world starts moving on the child's tap** | **every** run keeps its start tap (it is the run's starting gun, not a readiness check). Short: *"Ninja Run! Ready? Off we go!"* `run:read` (full): its first read group gets a frame (*"Now read the word on the flag, and catch its picture!"*), with no hold (mid-run) | row | `Run` start |
 | G22 `story` | **F** the title step (already held on Next) ✚ says how it goes: *"Story time! I'll read the pages with lots of words. On the pages with big words, it's your turn to read."* Its Next **is** the Ready. `story:read` first: *"Say the sounds and read each word, then tap the green tick."* `story:choice` and `story:question` first: as today (`audit_story_choice`) | short: "Story time!" + the title | column | `Story` title step and first pages |
 
+> **Amended 27 Sep (TEACHER_SCRIPT §3.18, T13; logged by integration):** G18's first battle **has a demo**, with the word-card tap and "Can you find the last one?" as the child's join-ins, and the letters stay dim until ▶ (in the column). The recap is `tv_battle_recap` + `tv_battle_go` (with its Ready only per T3). The **short form is `tv_battle_again`, with the letters waking as it ends** (no Ready hold; the first word's Hear it again says only the question, not the whole frame).
+
 ### 6.5 Rewards, hubs and the shell
 
 No readiness holds. Their shows are their own frames, and they already hold on Next. Two small things:
@@ -503,7 +508,7 @@ This work fits the fix plan's lanes. None of it touches `src/core`.
 4. **NAVIGATION rule 3 is amended.** "A show may lead straight into a turn" becomes: on a game's full or recap form the show leads into a Ready? hold, and the turn follows the child's answer.
 5. **ARCHITECTURE §6.2's `mech:` row:** "Then" is a short reminder at the first use in a session, and none after that in the session.
 6. **The governor never skips a first-meeting frame, show or Ready?** `skipDemo` applies to recap shows only.
-7. **W1 target about 100 s, cap 115 s; W2 about 75 s, cap 90 s** (re-measured by the bot before they are fixed). The title-to-map cap is 5:15, and Reward 2 is one step on the first session.
+7. **W1 target about 100 s, cap 115 s; W2 about 75 s, cap 90 s** (re-measured by the bot before they are fixed). The title-to-map cap is 5:15, and Reward 2 is one step on the first session. *(Amended: TEACHER_SCRIPT T22 moves the cap to 5:30; C2's bot measured about 7:10 for a quick child on 27 Sep, an open question in docs/DECISIONS.md.)*
 8. **Every Ninja Run keeps its start tap** (the starting gun), even on the short form.
 9. **The Dojo's `Build` gets the I do on its full and recap forms**, so a school-path child sees a word built before building one.
 

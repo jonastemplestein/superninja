@@ -1,0 +1,931 @@
+{
+ "name": "w1-8-kai-t1",
+ "url": "https://superninja.templestein.com/play/?level=w1-8",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 64.2,
+ "game": {
+  "start": 2.467,
+  "end": 62.205
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   24.8,
+   45,
+   41.1,
+   41.8,
+   40.5,
+   58.3,
+   57.8,
+   69.6,
+   111.5,
+   94.5
+  ],
+  "audioShiftMs": 60.1,
+  "residualMs": [
+   25.1,
+   20.1,
+   22.4,
+   22.4,
+   6.4,
+   -0.6,
+   4.7,
+   -32.6,
+   -75.6,
+   -33.2
+  ],
+  "residualMedianMs": 5.6,
+  "residualMaxAbsMs": 75.6
+ },
+ "frames": {
+  "frames": 2919,
+  "fps": 49.3,
+  "p50": 17.5,
+  "p95": 25.1,
+  "p99": 103.5,
+  "max": 314.6,
+  "hitches": 62,
+  "repeatedSlots": 160,
+  "slots": 1776,
+  "deliveryMs": 27.1
+ },
+ "master": "w1-8-kai-t1.master.mp4",
+ "audio": "w1-8-kai-t1.master.wav",
+ "recordedAt": "2026-09-27T07:38:13.364Z",
+ "events": [
+  {
+   "t": 0.825,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.12,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.389,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.689,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.973,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.53,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.791,
+   "kind": "scene",
+   "id": "swap"
+  },
+  {
+   "t": 2.796,
+   "kind": "music",
+   "id": "world_bamboo",
+   "dur": 61.461
+  },
+  {
+   "t": 2.8,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 2.803,
+   "kind": "speech",
+   "id": "swap_start",
+   "dur": 5.995,
+   "text": "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time."
+  },
+  {
+   "t": 9.002,
+   "kind": "speech",
+   "id": "this_is",
+   "dur": 0.886,
+   "text": "This is..."
+  },
+  {
+   "t": 9.889,
+   "kind": "speech",
+   "id": "word:mat",
+   "dur": 0.637
+  },
+  {
+   "t": 10.557,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 11.613,
+   "kind": "speech",
+   "id": "word:sat",
+   "dur": 0.736
+  },
+  {
+   "t": 12.649,
+   "kind": "speech",
+   "id": "stretch:mat",
+   "dur": 1.536
+  },
+  {
+   "t": 14.534,
+   "kind": "speech",
+   "id": "stretch:sat",
+   "dur": 1.471
+  },
+  {
+   "t": 16.251,
+   "kind": "speech",
+   "id": "what_changed",
+   "dur": 2.219,
+   "text": "What changed? Listen here."
+  },
+  {
+   "t": 19.602,
+   "kind": "mark",
+   "id": "tap pos 0"
+  },
+  {
+   "t": 19.631,
+   "kind": "tap",
+   "id": "m",
+   "text": "rect 424,270,132,132"
+  },
+  {
+   "t": 19.631,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 19.632,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 19.745,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 20.223,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 20.274,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 20.274,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 20.659,
+   "kind": "speech",
+   "id": "audit_swap_first",
+   "dur": 4.237,
+   "text": "Yes, the first sound changes! Now pick the new sound."
+  },
+  {
+   "t": 25.947,
+   "kind": "mark",
+   "id": "tap new s"
+  },
+  {
+   "t": 25.95,
+   "kind": "tap",
+   "id": "s",
+   "text": "rect 652,570,120,120"
+  },
+  {
+   "t": 25.95,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 25.951,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 26.368,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 26.368,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 26.561,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 26.846,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 27.889,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 28.465,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 29.043,
+   "kind": "speech",
+   "id": "word:sat",
+   "dur": 0.735
+  },
+  {
+   "t": 29.777,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 29.803,
+   "kind": "speech",
+   "id": "yay_8",
+   "dur": 1.606,
+   "text": "Wow, great listening!"
+  },
+  {
+   "t": 29.93,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 30.414,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 31.41,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 32.465,
+   "kind": "speech",
+   "id": "word:sit",
+   "dur": 0.656
+  },
+  {
+   "t": 33.423,
+   "kind": "speech",
+   "id": "stretch:sat",
+   "dur": 1.471
+  },
+  {
+   "t": 35.243,
+   "kind": "speech",
+   "id": "stretch:sit",
+   "dur": 0.592
+  },
+  {
+   "t": 36.087,
+   "kind": "speech",
+   "id": "what_changed",
+   "dur": 2.219,
+   "text": "What changed? Listen here."
+  },
+  {
+   "t": 39.493,
+   "kind": "mark",
+   "id": "tap pos 1"
+  },
+  {
+   "t": 39.499,
+   "kind": "tap",
+   "id": "a",
+   "text": "rect 574,270,132,132"
+  },
+  {
+   "t": 39.499,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 39.5,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 39.642,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 39.821,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 39.821,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 40,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 40.19,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 40.193,
+   "kind": "speech",
+   "id": "audit_streak_first",
+   "dur": 3.611,
+   "text": "Three right answers in a row! Your ninja is getting stronger."
+  },
+  {
+   "t": 43.835,
+   "kind": "speech",
+   "id": "audit_swap_middle",
+   "dur": 4.35,
+   "text": "Yes, the middle sound changes! Now pick the new sound."
+  },
+  {
+   "t": 47.159,
+   "kind": "hitch",
+   "id": "150 ms",
+   "dur": 0.15
+  },
+  {
+   "t": 47.73,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 48.136,
+   "kind": "hitch",
+   "id": "90 ms",
+   "dur": 0.09
+  },
+  {
+   "t": 49.029,
+   "kind": "hitch",
+   "id": "72 ms",
+   "dur": 0.072
+  },
+  {
+   "t": 49.149,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 49.274,
+   "kind": "mark",
+   "id": "tap new i"
+  },
+  {
+   "t": 49.278,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 652,570,120,120"
+  },
+  {
+   "t": 49.279,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 49.279,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 49.354,
+   "kind": "hitch",
+   "id": "106 ms",
+   "dur": 0.106
+  },
+  {
+   "t": 49.715,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 49.716,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 49.772,
+   "kind": "hitch",
+   "id": "121 ms",
+   "dur": 0.121
+  },
+  {
+   "t": 49.907,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 50.017,
+   "kind": "hitch",
+   "id": "155 ms",
+   "dur": 0.155
+  },
+  {
+   "t": 50.192,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 50.279,
+   "kind": "hitch",
+   "id": "127 ms",
+   "dur": 0.127
+  },
+  {
+   "t": 50.528,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 51.012,
+   "kind": "hitch",
+   "id": "149 ms",
+   "dur": 0.149
+  },
+  {
+   "t": 51.232,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 51.252,
+   "kind": "hitch",
+   "id": "149 ms",
+   "dur": 0.149
+  },
+  {
+   "t": 51.494,
+   "kind": "hitch",
+   "id": "152 ms",
+   "dur": 0.152
+  },
+  {
+   "t": 51.74,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 51.758,
+   "kind": "hitch",
+   "id": "262 ms",
+   "dur": 0.262
+  },
+  {
+   "t": 52.117,
+   "kind": "hitch",
+   "id": "168 ms",
+   "dur": 0.168
+  },
+  {
+   "t": 52.318,
+   "kind": "speech",
+   "id": "word:sit",
+   "dur": 0.656
+  },
+  {
+   "t": 52.381,
+   "kind": "hitch",
+   "id": "77 ms",
+   "dur": 0.077
+  },
+  {
+   "t": 52.763,
+   "kind": "hitch",
+   "id": "228 ms",
+   "dur": 0.228
+  },
+  {
+   "t": 52.977,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 52.979,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 53.006,
+   "kind": "speech",
+   "id": "tv_yay_thats_it",
+   "dur": 0.835,
+   "text": "That's it!"
+  },
+  {
+   "t": 53.266,
+   "kind": "hitch",
+   "id": "92 ms",
+   "dur": 0.092
+  },
+  {
+   "t": 53.3,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 53.401,
+   "kind": "hitch",
+   "id": "152 ms",
+   "dur": 0.152
+  },
+  {
+   "t": 53.643,
+   "kind": "hitch",
+   "id": "203 ms",
+   "dur": 0.203
+  },
+  {
+   "t": 53.841,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 53.889,
+   "kind": "hitch",
+   "id": "71 ms",
+   "dur": 0.071
+  },
+  {
+   "t": 53.906,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 53.96,
+   "kind": "hitch",
+   "id": "75 ms",
+   "dur": 0.075
+  },
+  {
+   "t": 54.4,
+   "kind": "hitch",
+   "id": "139 ms",
+   "dur": 0.139
+  },
+  {
+   "t": 54.772,
+   "kind": "hitch",
+   "id": "92 ms",
+   "dur": 0.092
+  },
+  {
+   "t": 54.898,
+   "kind": "speech",
+   "id": "word:sat",
+   "dur": 0.736
+  },
+  {
+   "t": 55.033,
+   "kind": "hitch",
+   "id": "276 ms",
+   "dur": 0.276
+  },
+  {
+   "t": 55.481,
+   "kind": "hitch",
+   "id": "106 ms",
+   "dur": 0.106
+  },
+  {
+   "t": 55.633,
+   "kind": "hitch",
+   "id": "136 ms",
+   "dur": 0.136
+  },
+  {
+   "t": 55.934,
+   "kind": "speech",
+   "id": "stretch:sit",
+   "dur": 0.592
+  },
+  {
+   "t": 56.022,
+   "kind": "hitch",
+   "id": "103 ms",
+   "dur": 0.103
+  },
+  {
+   "t": 56.276,
+   "kind": "hitch",
+   "id": "108 ms",
+   "dur": 0.108
+  },
+  {
+   "t": 56.515,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 56.71,
+   "kind": "hitch",
+   "id": "315 ms",
+   "dur": 0.315
+  },
+  {
+   "t": 56.881,
+   "kind": "speech",
+   "id": "stretch:sat",
+   "dur": 1.471
+  },
+  {
+   "t": 57.245,
+   "kind": "hitch",
+   "id": "170 ms",
+   "dur": 0.17
+  },
+  {
+   "t": 57.527,
+   "kind": "hitch",
+   "id": "130 ms",
+   "dur": 0.13
+  },
+  {
+   "t": 57.962,
+   "kind": "hitch",
+   "id": "104 ms",
+   "dur": 0.104
+  },
+  {
+   "t": 58.127,
+   "kind": "hitch",
+   "id": "104 ms",
+   "dur": 0.104
+  },
+  {
+   "t": 58.272,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 58.398,
+   "kind": "hitch",
+   "id": "79 ms",
+   "dur": 0.079
+  },
+  {
+   "t": 58.517,
+   "kind": "hitch",
+   "id": "86 ms",
+   "dur": 0.086
+  },
+  {
+   "t": 58.605,
+   "kind": "speech",
+   "id": "what_changed",
+   "dur": 2.219,
+   "text": "What changed? Listen here."
+  },
+  {
+   "t": 58.668,
+   "kind": "hitch",
+   "id": "84 ms",
+   "dur": 0.084
+  },
+  {
+   "t": 58.751,
+   "kind": "hitch",
+   "id": "86 ms",
+   "dur": 0.086
+  },
+  {
+   "t": 58.881,
+   "kind": "hitch",
+   "id": "87 ms",
+   "dur": 0.087
+  },
+  {
+   "t": 59.007,
+   "kind": "hitch",
+   "id": "120 ms",
+   "dur": 0.12
+  },
+  {
+   "t": 59.397,
+   "kind": "hitch",
+   "id": "81 ms",
+   "dur": 0.081
+  },
+  {
+   "t": 59.646,
+   "kind": "hitch",
+   "id": "124 ms",
+   "dur": 0.124
+  },
+  {
+   "t": 59.896,
+   "kind": "hitch",
+   "id": "124 ms",
+   "dur": 0.124
+  },
+  {
+   "t": 60.269,
+   "kind": "hitch",
+   "id": "188 ms",
+   "dur": 0.188
+  },
+  {
+   "t": 60.772,
+   "kind": "hitch",
+   "id": "197 ms",
+   "dur": 0.197
+  },
+  {
+   "t": 61.105,
+   "kind": "hitch",
+   "id": "77 ms",
+   "dur": 0.077
+  },
+  {
+   "t": 61.358,
+   "kind": "hitch",
+   "id": "205 ms",
+   "dur": 0.205
+  },
+  {
+   "t": 61.62,
+   "kind": "hitch",
+   "id": "97 ms",
+   "dur": 0.097
+  },
+  {
+   "t": 61.754,
+   "kind": "hitch",
+   "id": "77 ms",
+   "dur": 0.077
+  },
+  {
+   "t": 61.887,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 62.029,
+   "kind": "hitch",
+   "id": "77 ms",
+   "dur": 0.077
+  },
+  {
+   "t": 62.253,
+   "kind": "mark",
+   "id": "tap pos 1"
+  },
+  {
+   "t": 62.255,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 574,270,132,132"
+  },
+  {
+   "t": 62.255,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 62.256,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 62.266,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.379,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 62.538,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.893,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 62.893,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 62.893,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 62.928,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 62.934,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.275,
+   "kind": "speech",
+   "id": "swap_pick",
+   "dur": 0.982,
+   "text": "Now pick the new sound."
+  },
+  {
+   "t": 63.291,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.7,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 65.704,
+   "kind": "mark",
+   "id": "tap new a"
+  },
+  {
+   "t": 65.706,
+   "kind": "tap",
+   "id": "a",
+   "text": "rect 652,570,120,120"
+  },
+  {
+   "t": 88.926,
+   "kind": "mark",
+   "id": "tap pos 0"
+  },
+  {
+   "t": 98.919,
+   "kind": "mark",
+   "id": "tap new m"
+  },
+  {
+   "t": 119.665,
+   "kind": "mark",
+   "id": "tap pos 1"
+  },
+  {
+   "t": 135.637,
+   "kind": "mark",
+   "id": "tap new t"
+  },
+  {
+   "t": 154.244,
+   "kind": "mark",
+   "id": "tap pos 0"
+  }
+ ]
+}

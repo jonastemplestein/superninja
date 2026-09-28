@@ -1,0 +1,485 @@
+{
+ "name": "swap",
+ "url": "https://superninja.templestein.com/play/?level=w1-12",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 34,
+ "game": {
+  "start": 2.398,
+  "end": 32.207
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   23.9,
+   27.7,
+   29.5,
+   28.5,
+   36.5,
+   32.5,
+   29.2,
+   22.4,
+   33.4,
+   26.7
+  ],
+  "audioShiftMs": 37.5,
+  "residualMs": [
+   -8.8,
+   2.5,
+   -15.5,
+   2.5,
+   -5.5,
+   12.2,
+   15.1,
+   -10.2,
+   -2.8,
+   3.2
+  ],
+  "residualMedianMs": -0.1,
+  "residualMaxAbsMs": 15.5
+ },
+ "frames": {
+  "frames": 1721,
+  "fps": 58.8,
+  "p50": 16.7,
+  "p95": 18.2,
+  "p99": 18.5,
+  "max": 266.3,
+  "hitches": 3,
+  "repeatedSlots": 16,
+  "slots": 879,
+  "deliveryMs": 7.9
+ },
+ "master": "swap.master.mp4",
+ "audio": "swap.master.wav",
+ "recordedAt": "2026-09-27T06:43:40.654Z",
+ "events": [
+  {
+   "t": 0.574,
+   "kind": "scene",
+   "id": "swap"
+  },
+  {
+   "t": 0.724,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 0.983,
+   "kind": "music",
+   "id": "world_bamboo",
+   "dur": 33.023
+  },
+  {
+   "t": 1.002,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.046,
+   "kind": "speech",
+   "id": "swap_start",
+   "dur": 5.995,
+   "text": "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time."
+  },
+  {
+   "t": 1.284,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.602,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.894,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 7.244,
+   "kind": "speech",
+   "id": "this_is",
+   "dur": 0.886,
+   "text": "This is..."
+  },
+  {
+   "t": 8.131,
+   "kind": "speech",
+   "id": "word:sat",
+   "dur": 0.736
+  },
+  {
+   "t": 8.894,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 9.948,
+   "kind": "speech",
+   "id": "word:sit",
+   "dur": 0.656
+  },
+  {
+   "t": 10.907,
+   "kind": "speech",
+   "id": "stretch:sat",
+   "dur": 1.471
+  },
+  {
+   "t": 12.727,
+   "kind": "speech",
+   "id": "stretch:sit",
+   "dur": 0.592
+  },
+  {
+   "t": 13.573,
+   "kind": "speech",
+   "id": "what_changed",
+   "dur": 2.219,
+   "text": "What changed? Listen here."
+  },
+  {
+   "t": 15.828,
+   "kind": "tap",
+   "id": "a",
+   "text": "rect 574,270,132,132"
+  },
+  {
+   "t": 15.828,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 15.829,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 15.942,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 16.423,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 16.457,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 16.457,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 16.564,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 530,657,76,76"
+  },
+  {
+   "t": 16.564,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 16.565,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 16.838,
+   "kind": "speech",
+   "id": "audit_swap_middle",
+   "dur": 0.588,
+   "text": "Yes, the middle sound changes! Now pick the new sound."
+  },
+  {
+   "t": 16.975,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 16.975,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 17.166,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 17.453,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 17.809,
+   "kind": "hitch",
+   "id": "264 ms",
+   "dur": 0.264
+  },
+  {
+   "t": 18.494,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 19.006,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 19.586,
+   "kind": "speech",
+   "id": "word:sit",
+   "dur": 0.656
+  },
+  {
+   "t": 20.243,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 20.27,
+   "kind": "speech",
+   "id": "tv_yay_lovely",
+   "dur": 1.145,
+   "text": "Lovely!"
+  },
+  {
+   "t": 20.394,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 20.891,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 21.417,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 22.473,
+   "kind": "speech",
+   "id": "word:pit",
+   "dur": 0.604
+  },
+  {
+   "t": 23.381,
+   "kind": "speech",
+   "id": "stretch:sit",
+   "dur": 0.592
+  },
+  {
+   "t": 24.327,
+   "kind": "speech",
+   "id": "stretch:pit",
+   "dur": 1.007
+  },
+  {
+   "t": 25.583,
+   "kind": "speech",
+   "id": "what_changed",
+   "dur": 2.219,
+   "text": "What changed? Listen here."
+  },
+  {
+   "t": 27.855,
+   "kind": "tap",
+   "id": "s",
+   "text": "rect 424,270,132,132"
+  },
+  {
+   "t": 27.855,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 27.855,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 27.952,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 28.224,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 28.224,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 28.424,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 28.614,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 28.622,
+   "kind": "speech",
+   "id": "streak_3",
+   "dur": 1.128,
+   "text": "Ninja power!"
+  },
+  {
+   "t": 29.46,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 29.757,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 508,570,120,120"
+  },
+  {
+   "t": 29.757,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 29.758,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 29.914,
+   "kind": "speech",
+   "id": "audit_swap_first",
+   "dur": 0.709,
+   "text": "Yes, the first sound changes! Now pick the new sound."
+  },
+  {
+   "t": 30.172,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 30.172,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 30.363,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 30.645,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 31.025,
+   "kind": "hitch",
+   "id": "266 ms",
+   "dur": 0.266
+  },
+  {
+   "t": 31.07,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 31.582,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 32.158,
+   "kind": "speech",
+   "id": "word:pit",
+   "dur": 0.604
+  },
+  {
+   "t": 32.245,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 32.548,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 32.766,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 32.79,
+   "kind": "speech",
+   "id": "yay_4",
+   "dur": 1.216,
+   "text": "Well done."
+  },
+  {
+   "t": 32.856,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 32.889,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 33.13,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 33.436,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 33.437,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 33.607,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 33.607,
+   "kind": "sfx",
+   "id": "thwack"
+  }
+ ]
+}

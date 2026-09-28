@@ -1,0 +1,53 @@
+{
+ "summary": {
+  "clips": 2,
+  "missing": [],
+  "exact": 1,
+  "not_exact": [
+   "tv_demo_rule_tapall"
+  ],
+  "letters": [],
+  "fast": [],
+  "loudness_off": [],
+  "lead_blips": [],
+  "lead_falling": [],
+  "model": "medium.en",
+  "exact_rate": 0.5
+ },
+ "clips": {
+  "tv_demo_rule_fastslow": {
+   "text": "Let's pretend you tap the tortoise. Then you say the word slowly.",
+   "heard": "Let's pretend you tap the tortoise, then you say the word slowly.",
+   "exact": true,
+   "logprob": -0.202,
+   "diff": [],
+   "letters": [],
+   "seconds": 3.71,
+   "words": 12,
+   "wps": 3.23,
+   "fast": false,
+   "lufs": -16.3,
+   "target": -16.0,
+   "lufs_ok": true,
+   "lead": false
+  },
+  "tv_demo_rule_tapall": {
+   "text": "Let's pretend I say a sound. Then you find every picture that starts with it.",
+   "heard": "Let's pretend I say as sound, then you find every picture that starts with it.",
+   "exact": false,
+   "logprob": -0.174,
+   "diff": [
+    "replace 'a'\u2192'as'"
+   ],
+   "letters": [],
+   "seconds": 4.63,
+   "words": 15,
+   "wps": 3.24,
+   "fast": false,
+   "lufs": -16.1,
+   "target": -16.0,
+   "lufs_ok": true,
+   "lead": false
+  }
+ }
+}

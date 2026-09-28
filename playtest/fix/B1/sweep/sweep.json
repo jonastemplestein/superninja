@@ -1,0 +1,95 @@
+{
+ "base": "http://127.0.0.1:4721",
+ "fast": 3,
+ "secs": 40,
+ "results": {
+  "map": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "map-warmups": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "title": {
+   "ok": true,
+   "secs": 12,
+   "findings": 1
+  },
+  "choose": {
+   "ok": true,
+   "secs": 10,
+   "findings": 0
+  },
+  "idle-next": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "finale": {
+   "ok": true,
+   "secs": 13,
+   "findings": 0
+  },
+  "home-reward": {
+   "ok": true,
+   "secs": 2,
+   "findings": 0
+  },
+  "home-film": {
+   "ok": true,
+   "secs": 7,
+   "findings": 1
+  },
+  "home-choose": {
+   "ok": true,
+   "secs": 7,
+   "findings": 1
+  },
+  "home-finale": {
+   "ok": true,
+   "secs": 7,
+   "findings": 0
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:title:zone-conflict:button.t-chip[aria-label=\"Who's playing? Ninja\"]",
+   "source": "invariant",
+   "severity": "major",
+   "case": "title",
+   "title": "zone-conflict: button.t-chip[aria-label=\"Who's playing? Ninja\"]",
+   "detail": "centre at stage 102,53 is in the Home zone (x 0-130, y 0-130)",
+   "evidence": [
+    "cases/title/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4721/play/?scene=title"
+  },
+  {
+   "sig": "bot:home-film:zone-conflict:button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "source": "invariant",
+   "severity": "major",
+   "case": "home-film",
+   "title": "zone-conflict: button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "detail": "centre at stage 102,63 is in the Home zone (x 0-130, y 0-130)",
+   "evidence": [
+    "cases/home-film/f_02_after-Home.png"
+   ],
+   "repro": "http://127.0.0.1:4721/play/?scene=intro"
+  },
+  {
+   "sig": "bot:home-choose:zone-conflict:button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "source": "invariant",
+   "severity": "major",
+   "case": "home-choose",
+   "title": "zone-conflict: button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "detail": "centre at stage 102,63 is in the Home zone (x 0-130, y 0-130)",
+   "evidence": [
+    "cases/home-choose/f_01_after-Home.png"
+   ],
+   "repro": "http://127.0.0.1:4721/play/?scene=choose"
+  }
+ ]
+}

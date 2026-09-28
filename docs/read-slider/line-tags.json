@@ -1,0 +1,622 @@
+{
+ "rs_how": {
+  "id": "rs_how",
+  "hash": "978a5b3c",
+  "who": "sensei",
+  "purpose": "instruction",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "remind"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 2
+ },
+ "rs_back_1": {
+  "id": "rs_back_1",
+  "hash": "69839231",
+  "who": "sensei",
+  "purpose": "correction",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "rs_back_2": {
+  "id": "rs_back_2",
+  "hash": "1b814452",
+  "who": "sensei",
+  "purpose": "correction",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "remind"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "rs_back_3": {
+  "id": "rs_back_3",
+  "hash": "530074cf",
+  "who": "sensei",
+  "purpose": "correction",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "remind"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "rs_start_here": {
+  "id": "rs_start_here",
+  "hash": "a5d30e6d",
+  "who": "sensei",
+  "purpose": "instruction",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "remind"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "rs_idle": {
+  "id": "rs_idle",
+  "hash": "2963f542",
+  "who": "sensei",
+  "purpose": "hint",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "rs_keep_going": {
+  "id": "rs_keep_going",
+  "hash": "a4519464",
+  "who": "sensei",
+  "purpose": "hint",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "rs_again": {
+  "id": "rs_again",
+  "hash": "af5ef8d8",
+  "who": "sensei",
+  "purpose": "instruction",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "rs_sounds_with_me": {
+  "id": "rs_sounds_with_me",
+  "hash": "d9c5b48a",
+  "who": "sensei",
+  "purpose": "instruction",
+  "tags": [
+   {
+    "key": "idea:say-the-sounds-read-the-word",
+    "as": "ask"
+   }
+  ],
+  "needs": [
+   {
+    "key": "idea:words-are-made-of-sounds",
+    "level": "explained"
+   }
+  ],
+  "repetition": "routine",
+  "steps": 2
+ },
+ "rs_now_fast": {
+  "id": "rs_now_fast",
+  "hash": "98549d32",
+  "who": "sensei",
+  "purpose": "prompt",
+  "tags": [
+   {
+    "key": "idea:fast-and-slow-saying",
+    "as": "ask"
+   }
+  ],
+  "needs": [
+   {
+    "key": "idea:fast-and-slow-saying",
+    "level": "explained"
+   }
+  ],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "rs_slowly": {
+  "id": "rs_slowly",
+  "hash": "ff9df652",
+  "who": "sensei",
+  "purpose": "hint",
+  "tags": [
+   {
+    "key": "idea:fast-and-slow-saying",
+    "as": "remind"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "rs_praise_1": {
+  "id": "rs_praise_1",
+  "hash": "173792cb",
+  "who": "sensei",
+  "purpose": "praise",
+  "tags": [
+   {
+    "key": "idea:fast-and-slow-saying",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "vary"
+ },
+ "rs_praise_2": {
+  "id": "rs_praise_2",
+  "hash": "8d4bcf87",
+  "who": "sensei",
+  "purpose": "praise",
+  "tags": [
+   {
+    "key": "idea:fast-and-slow-saying",
+    "as": "mention"
+   },
+   {
+    "key": "idea:left-to-right",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "vary"
+ },
+ "rs_praise_3": {
+  "id": "rs_praise_3",
+  "hash": "649e9c77",
+  "who": "sensei",
+  "purpose": "praise",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "vary"
+ },
+ "pr_frame": {
+  "id": "pr_frame",
+  "hash": "a4d05aab",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_demo": {
+  "id": "pr_demo",
+  "hash": "67ed0bee",
+  "who": "sensei",
+  "purpose": "model",
+  "tags": [
+   {
+    "key": "idea:fast-and-slow-saying",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_demo_back": {
+  "id": "pr_demo_back",
+  "hash": "79695217",
+  "who": "sensei",
+  "purpose": "model",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_rainbow": {
+  "id": "pr_back_rainbow",
+  "hash": "8d1c736d",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_raincoat": {
+  "id": "pr_back_raincoat",
+  "hash": "7f2905ad",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_snowman": {
+  "id": "pr_back_snowman",
+  "hash": "5a08c08b",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_cupcake": {
+  "id": "pr_back_cupcake",
+  "hash": "0c7fd462",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_football": {
+  "id": "pr_back_football",
+  "hash": "1fe95f53",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_treehouse": {
+  "id": "pr_back_treehouse",
+  "hash": "06a59a8e",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_cowboy": {
+  "id": "pr_back_cowboy",
+  "hash": "b8c4db6d",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_sunflower": {
+  "id": "pr_back_sunflower",
+  "hash": "f9b33c55",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_back_pancake": {
+  "id": "pr_back_pancake",
+  "hash": "797a6757",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_another": {
+  "id": "pr_another",
+  "hash": "0a3a7aff",
+  "who": "sensei",
+  "purpose": "transition",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_sounds_too": {
+  "id": "pr_sounds_too",
+  "hash": "fcd10a32",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [
+   {
+    "key": "idea:words-are-made-of-sounds",
+    "as": "explain"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_sounds_demo": {
+  "id": "pr_sounds_demo",
+  "hash": "4107ea66",
+  "who": "sensei",
+  "purpose": "model",
+  "tags": [
+   {
+    "key": "idea:say-the-sounds-read-the-word",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_recap": {
+  "id": "pr_recap",
+  "hash": "f5a2f0f7",
+  "who": "sensei",
+  "purpose": "reminder",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "remind"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_your_turn": {
+  "id": "pr_your_turn",
+  "hash": "eed9cbab",
+  "who": "sensei",
+  "purpose": "instruction",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "remind"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "pr_short": {
+  "id": "pr_short",
+  "hash": "caeec955",
+  "who": "sensei",
+  "purpose": "reminder",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "remind"
+   }
+  ],
+  "needs": [],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "pr_w4_done": {
+  "id": "pr_w4_done",
+  "hash": "e4cf68a7",
+  "who": "sensei",
+  "purpose": "praise",
+  "tags": [
+   {
+    "key": "idea:left-to-right",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "vary"
+ },
+ "pr_last_word": {
+  "id": "pr_last_word",
+  "hash": "a09ad8d5",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_rainbow": {
+  "id": "pr_what_rainbow",
+  "hash": "558741cc",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_snowman": {
+  "id": "pr_what_snowman",
+  "hash": "4fc3b3ee",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_cupcake": {
+  "id": "pr_what_cupcake",
+  "hash": "e6256010",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_raincoat": {
+  "id": "pr_what_raincoat",
+  "hash": "7f910488",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_football": {
+  "id": "pr_what_football",
+  "hash": "978a4104",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_treehouse": {
+  "id": "pr_what_treehouse",
+  "hash": "120a8089",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_cowboy": {
+  "id": "pr_what_cowboy",
+  "hash": "202db2cd",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_sunflower": {
+  "id": "pr_what_sunflower",
+  "hash": "3aa0f8b1",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_what_pancake": {
+  "id": "pr_what_pancake",
+  "hash": "00faf684",
+  "who": "sensei",
+  "purpose": "explanation",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ },
+ "pr_rw2_list": {
+  "id": "pr_rw2_list",
+  "hash": "08f3af1a",
+  "who": "sensei",
+  "purpose": "reward",
+  "tags": [],
+  "needs": [],
+  "repetition": "vary"
+ },
+ "pr_rw_shiny": {
+  "id": "pr_rw_shiny",
+  "hash": "78c28827",
+  "who": "sensei",
+  "purpose": "reward",
+  "tags": [
+   {
+    "key": "obj:sticker-book",
+    "as": "mention"
+   }
+  ],
+  "needs": [],
+  "repetition": "vary"
+ },
+ "pr_rw2_s": {
+  "id": "pr_rw2_s",
+  "hash": "5b54eb1a",
+  "who": "sensei",
+  "purpose": "prompt",
+  "tags": [
+   {
+    "key": "idea:first-sound",
+    "as": "ask"
+   }
+  ],
+  "needs": [
+   {
+    "key": "idea:first-sound",
+    "level": "explained"
+   }
+  ],
+  "repetition": "routine",
+  "steps": 1
+ },
+ "pr_map_replay": {
+  "id": "pr_map_replay",
+  "hash": "ab3e70ac",
+  "who": "sensei",
+  "purpose": "meta",
+  "tags": [],
+  "needs": [],
+  "repetition": "routine"
+ }
+}

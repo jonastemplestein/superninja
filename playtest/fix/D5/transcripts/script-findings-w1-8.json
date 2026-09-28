@@ -1,0 +1,38 @@
+[
+ {
+  "sig": "script:unframed-turn",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:unframed-turn: every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+  "detail": "Target 0 missing. C(w1-8)-P 1 of 2 games; C(w1-8)-L 1 of 2 games. swap (w1-8 0:06.1): out of order (frame 5.7, demo 25.0, ready 22.4, hand-over 42.3). Opens: \"Oh dear. Baron Muddle has been muddling up words.\" · \"First, let's read this word. Tap each sound, and s\"",
+  "evidence": [
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w1-8.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w1-8.json"
+  ]
+ },
+ {
+  "sig": "script:fs-readback",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:fs-readback: the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead",
+  "detail": "Target 100%. C(w1-8)-P 2 of 3 (67%); C(w1-8)-L 1 of 3 (33%). swap (w1-8 @0:39.5): no fast lead before [sat]. Heard: /s/ /a/ /t/ · [sat]; build (w1-10 @7:21.0): no fast lead before [an]. Heard: ‹tv_fs_say_sounds_slow› · /a/ /n/ · (tap) · (rabbit: tap) · [an]",
+  "evidence": [
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w1-8.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w1-8.json"
+  ]
+ },
+ {
+  "sig": "script:fs-rabbit",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:fs-rabbit: Move 1's rabbit: a child action after every rabbit prompt, and live only then",
+  "detail": "Target all; 0 outside. C(w1-8)-L 1 of 1 prompts answered (0 timed out); 1 rabbit taps outside a prompt. w1-10 @7:22.6: a rabbit tap with no prompt before it",
+  "evidence": [
+   "playtest/fix/D5/transcripts/continuous-perfect-from-w1-8.json",
+   "playtest/fix/D5/transcripts/continuous-learner-from-w1-8.json"
+  ]
+ }
+]

@@ -403,6 +403,20 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "card_also_first": {
+    "id": "card_also_first",
+    "hash": "66224a0e",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "term:spelling",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
   "challenge_start": {
     "id": "challenge_start",
     "hash": "5e1bebc6",
@@ -1897,6 +1911,15 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "gem_dusty": {
+    "id": "gem_dusty",
+    "hash": "a4db4095",
+    "who": "sensei",
+    "purpose": "prompt",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
   "gem_energy": {
     "id": "gem_energy",
     "hash": "06411ef8",
@@ -1927,6 +1950,24 @@ export const draftLineTags: Record<string, LineMeta> = {
   "gem_ready": {
     "id": "gem_ready",
     "hash": "49ebb9eb",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "gem_sparkle": {
+    "id": "gem_sparkle",
+    "hash": "a9cae0b3",
+    "who": "sensei",
+    "purpose": "praise",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "gem_won_shine": {
+    "id": "gem_won_shine",
+    "hash": "99e2c058",
     "who": "sensei",
     "purpose": "instruction",
     "tags": [],
@@ -2006,6 +2047,24 @@ export const draftLineTags: Record<string, LineMeta> = {
     "who": "sensei",
     "purpose": "hint",
     "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "help_flower_fill": {
+    "id": "help_flower_fill",
+    "hash": "81af6283",
+    "who": "sensei",
+    "purpose": "hint",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "explain"
+      },
+      {
+        "key": "idea:one-line-per-sound",
+        "as": "explain"
+      }
+    ],
     "needs": [],
     "repetition": "routine"
   },
@@ -2560,6 +2619,15 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "petal_caught_up": {
+    "id": "petal_caught_up",
+    "hash": "f97257fe",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
   "petal_complete": {
     "id": "petal_complete",
     "hash": "c2cb50b8",
@@ -2586,6 +2654,28 @@ export const draftLineTags: Record<string, LineMeta> = {
         "level": "explained"
       }
     ],
+    "repetition": "routine"
+  },
+  "petal_outline": {
+    "id": "petal_outline",
+    "hash": "cc3215af",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "explain"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "explain"
+      },
+      {
+        "key": "idea:one-line-per-sound",
+        "as": "explain"
+      }
+    ],
+    "needs": [],
     "repetition": "routine"
   },
   "petal_secret": {
@@ -6413,7 +6503,7 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_ae_hear": {
     "id": "tp_ae_hear",
-    "hash": "fbf646e4",
+    "hash": "71b91d90",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [
@@ -6427,16 +6517,11 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_ae_list": {
     "id": "tp_ae_list",
-    "hash": "0af4772d",
+    "hash": "c99a4181",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
-    "needs": [
-      {
-        "key": "sound:ae",
-        "level": "explained"
-      }
-    ],
+    "needs": [],
     "repetition": "routine"
   },
   "tp_b_hear": {
@@ -6464,16 +6549,21 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_ch_hear": {
     "id": "tp_ch_hear",
-    "hash": "24c4a48c",
+    "hash": "be99bf19",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
-    "needs": [],
+    "needs": [
+      {
+        "key": "sound:ch",
+        "level": "explained"
+      }
+    ],
     "repetition": "routine"
   },
   "tp_ch_list": {
     "id": "tp_ch_list",
-    "hash": "d2d5504f",
+    "hash": "5b2f22ea",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [
@@ -6551,21 +6641,16 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_ee_hear": {
     "id": "tp_ee_hear",
-    "hash": "57d495f6",
+    "hash": "d3d8af92",
     "who": "sensei",
     "purpose": "explanation",
-    "tags": [
-      {
-        "key": "sound:ee",
-        "as": "mention"
-      }
-    ],
+    "tags": [],
     "needs": [],
     "repetition": "routine"
   },
   "tp_ee_list": {
     "id": "tp_ee_list",
-    "hash": "e6dfee31",
+    "hash": "2ce3e319",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
@@ -6574,16 +6659,21 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_f_hear": {
     "id": "tp_f_hear",
-    "hash": "1dac1049",
+    "hash": "96e6f9c4",
     "who": "sensei",
     "purpose": "explanation",
-    "tags": [],
+    "tags": [
+      {
+        "key": "sound:f",
+        "as": "explain"
+      }
+    ],
     "needs": [],
     "repetition": "routine"
   },
   "tp_f_list": {
     "id": "tp_f_list",
-    "hash": "edc58b92",
+    "hash": "58446885",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [
@@ -6661,15 +6751,10 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_ie_hear": {
     "id": "tp_ie_hear",
-    "hash": "82925a20",
+    "hash": "56b89556",
     "who": "sensei",
     "purpose": "explanation",
-    "tags": [
-      {
-        "key": "sound:ie",
-        "as": "mention"
-      }
-    ],
+    "tags": [],
     "needs": [
       {
         "key": "sound:ie",
@@ -6680,7 +6765,7 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_ie_list": {
     "id": "tp_ie_list",
-    "hash": "ecc7cf4b",
+    "hash": "ca5827f3",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
@@ -6712,7 +6797,7 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_k_hear": {
     "id": "tp_k_hear",
-    "hash": "5f890582",
+    "hash": "abf1e3ba",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
@@ -6721,7 +6806,7 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_k_list": {
     "id": "tp_k_list",
-    "hash": "283d8939",
+    "hash": "678e92e1",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
@@ -6730,7 +6815,7 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_l_hear": {
     "id": "tp_l_hear",
-    "hash": "082e6312",
+    "hash": "de998a1d",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
@@ -6739,10 +6824,15 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_l_list": {
     "id": "tp_l_list",
-    "hash": "166e896f",
+    "hash": "69e72646",
     "who": "sensei",
     "purpose": "explanation",
-    "tags": [],
+    "tags": [
+      {
+        "key": "sound:l",
+        "as": "mention"
+      }
+    ],
     "needs": [],
     "repetition": "routine"
   },
@@ -6825,7 +6915,7 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_oe_hear": {
     "id": "tp_oe_hear",
-    "hash": "30230ce0",
+    "hash": "8e8a5fb8",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
@@ -6834,16 +6924,11 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_oe_list": {
     "id": "tp_oe_list",
-    "hash": "88c80875",
+    "hash": "f6457849",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
-    "needs": [
-      {
-        "key": "sound:oe",
-        "level": "explained"
-      }
-    ],
+    "needs": [],
     "repetition": "routine"
   },
   "tp_p_hear": {
@@ -6894,16 +6979,21 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_s_hear": {
     "id": "tp_s_hear",
-    "hash": "a01435d3",
+    "hash": "3e2052ca",
     "who": "sensei",
     "purpose": "explanation",
-    "tags": [],
+    "tags": [
+      {
+        "key": "sound:s",
+        "as": "explain"
+      }
+    ],
     "needs": [],
     "repetition": "routine"
   },
   "tp_s_list": {
     "id": "tp_s_list",
-    "hash": "32341864",
+    "hash": "d11ec89f",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [],
@@ -7009,34 +7099,16 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_v_hear": {
     "id": "tp_v_hear",
-    "hash": "4728a3c2",
+    "hash": "5b6cdc0a",
     "who": "sensei",
     "purpose": "explanation",
-    "tags": [
-      {
-        "key": "sound:v",
-        "as": "mention"
-      }
-    ],
-    "needs": [
-      {
-        "key": "sound:v",
-        "level": "explained"
-      },
-      {
-        "key": "mech:replay-button",
-        "level": "explained"
-      },
-      {
-        "key": "idea:sounds-have-spellings",
-        "level": "explained"
-      }
-    ],
+    "tags": [],
+    "needs": [],
     "repetition": "routine"
   },
   "tp_v_list": {
     "id": "tp_v_list",
-    "hash": "0082f31b",
+    "hash": "c6aa7157",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [
@@ -7050,21 +7122,16 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_w_hear": {
     "id": "tp_w_hear",
-    "hash": "bdb9c157",
+    "hash": "4a8c72b3",
     "who": "sensei",
     "purpose": "explanation",
-    "tags": [
-      {
-        "key": "sound:w",
-        "as": "mention"
-      }
-    ],
+    "tags": [],
     "needs": [],
     "repetition": "routine"
   },
   "tp_w_list": {
     "id": "tp_w_list",
-    "hash": "517b62ec",
+    "hash": "9d7bc02a",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [
@@ -7101,21 +7168,16 @@ export const draftLineTags: Record<string, LineMeta> = {
   },
   "tp_z_hear": {
     "id": "tp_z_hear",
-    "hash": "20035681",
+    "hash": "2eb7a6e6",
     "who": "sensei",
     "purpose": "explanation",
-    "tags": [
-      {
-        "key": "sound:z",
-        "as": "mention"
-      }
-    ],
+    "tags": [],
     "needs": [],
     "repetition": "routine"
   },
   "tp_z_list": {
     "id": "tp_z_list",
-    "hash": "ad6d3b5c",
+    "hash": "b396295b",
     "who": "sensei",
     "purpose": "explanation",
     "tags": [
@@ -7342,6 +7404,15 @@ export const draftLineTags: Record<string, LineMeta> = {
     "hash": "6a712baa",
     "who": "sensei",
     "purpose": "instruction",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_and_sometimes_be": {
+    "id": "tv_and_sometimes_be",
+    "hash": "8f54ccf7",
+    "who": "sensei",
+    "purpose": "transition",
     "tags": [],
     "needs": [],
     "repetition": "routine"
@@ -7603,6 +7674,20 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "tv_but_in_this_word": {
+    "id": "tv_but_in_this_word",
+    "hash": "0be4ad57",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [
+      {
+        "key": "idea:middle-sound",
+        "level": "explained"
+      }
+    ],
+    "repetition": "routine"
+  },
   "tv_by_yourself": {
     "id": "tv_by_yourself",
     "hash": "2b2bfdb3",
@@ -7647,6 +7732,20 @@ export const draftLineTags: Record<string, LineMeta> = {
   "tv_choose_q": {
     "id": "tv_choose_q",
     "hash": "f679454f",
+    "who": "sensei",
+    "purpose": "prompt",
+    "tags": [
+      {
+        "key": "mech:tap-reader",
+        "as": "ask"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_choose_q_now": {
+    "id": "tv_choose_q_now",
+    "hash": "3b293a95",
     "who": "sensei",
     "purpose": "prompt",
     "tags": [
@@ -8399,6 +8498,15 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "tv_ido_pair_bus_pan": {
+    "id": "tv_ido_pair_bus_pan",
+    "hash": "26093252",
+    "who": "sensei",
+    "purpose": "model",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
   "tv_ido_pair_bus_pig": {
     "id": "tv_ido_pair_bus_pig",
     "hash": "8e8ed33f",
@@ -8539,6 +8647,24 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "tv_learn_done_three": {
+    "id": "tv_learn_done_three",
+    "hash": "a96189e5",
+    "who": "sensei",
+    "purpose": "praise",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_done_two": {
+    "id": "tv_learn_done_two",
+    "hash": "7762e69b",
+    "who": "sensei",
+    "purpose": "praise",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
   "tv_learn_first": {
     "id": "tv_learn_first",
     "hash": "7e6fcd1f",
@@ -8601,6 +8727,66 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "tv_learn_frame_mixed": {
+    "id": "tv_learn_frame_mixed",
+    "hash": "5d596658",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_frame_one": {
+    "id": "tv_learn_frame_one",
+    "hash": "ee46c882",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_frame_one_three_ways": {
+    "id": "tv_learn_frame_one_three_ways",
+    "hash": "7c1759e7",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_frame_one_two_ways": {
+    "id": "tv_learn_frame_one_two_ways",
+    "hash": "b1cebe81",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
   "tv_learn_frame_three": {
     "id": "tv_learn_frame_three",
     "hash": "69c8373d",
@@ -8640,6 +8826,15 @@ export const draftLineTags: Record<string, LineMeta> = {
   "tv_learn_frame_ways": {
     "id": "tv_learn_frame_ways",
     "hash": "5485a9c1",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_frame_ways_many": {
+    "id": "tv_learn_frame_ways_many",
+    "hash": "41933f73",
     "who": "sensei",
     "purpose": "instruction",
     "tags": [],
@@ -8778,6 +8973,102 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "tv_learn_short_mixed": {
+    "id": "tv_learn_short_mixed",
+    "hash": "6b6de765",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:words-are-made-of-sounds",
+        "as": "mention"
+      },
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_short_one": {
+    "id": "tv_learn_short_one",
+    "hash": "5a390691",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:one-line-per-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_short_one_three_ways": {
+    "id": "tv_learn_short_one_three_ways",
+    "hash": "173d2998",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:last-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:one-line-per-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_short_one_two_ways": {
+    "id": "tv_learn_short_one_two_ways",
+    "hash": "09480e1e",
+    "who": "sensei",
+    "purpose": "explanation",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:last-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:one-line-per-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
   "tv_learn_short_three": {
     "id": "tv_learn_short_three",
     "hash": "6512494c",
@@ -8801,6 +9092,55 @@ export const draftLineTags: Record<string, LineMeta> = {
     "hash": "af8dec12",
     "who": "sensei",
     "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:words-are-made-of-sounds",
+        "as": "mention"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_learn_short_ways": {
+    "id": "tv_learn_short_ways",
+    "hash": "efc6cfa8",
+    "who": "sensei",
+    "purpose": "explanation",
+    "tags": [
+      {
+        "key": "idea:first-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "mention"
+      },
+      {
+        "key": "idea:one-line-per-sound",
+        "as": "mention"
+      }
+    ],
+    "needs": [
+      {
+        "key": "idea:first-sound",
+        "level": "explained"
+      },
+      {
+        "key": "idea:middle-sound",
+        "level": "explained"
+      }
+    ],
+    "repetition": "routine"
+  },
+  "tv_learn_short_ways_many": {
+    "id": "tv_learn_short_ways_many",
+    "hash": "5c46c75c",
+    "who": "sensei",
+    "purpose": "explanation",
     "tags": [
       {
         "key": "idea:words-are-made-of-sounds",
@@ -8858,6 +9198,15 @@ export const draftLineTags: Record<string, LineMeta> = {
   "tv_listen_sound_again": {
     "id": "tv_listen_sound_again",
     "hash": "59eea0af",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_listen_word_again": {
+    "id": "tv_listen_word_again",
+    "hash": "e99cbc08",
     "who": "sensei",
     "purpose": "instruction",
     "tags": [],
@@ -10356,6 +10705,24 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "tv_rw_stickers_tap": {
+    "id": "tv_rw_stickers_tap",
+    "hash": "3ffabbc2",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "obj:sticker-book",
+        "as": "explain"
+      },
+      {
+        "key": "idea:stickers-for-pictures",
+        "as": "explain"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
   "tv_rw_tap": {
     "id": "tv_rw_tap",
     "hash": "fe3241a8",
@@ -10829,6 +11196,20 @@ export const draftLineTags: Record<string, LineMeta> = {
     "needs": [],
     "repetition": "routine"
   },
+  "tv_squish_meet": {
+    "id": "tv_squish_meet",
+    "hash": "f39d2226",
+    "who": "sensei",
+    "purpose": "naming",
+    "tags": [
+      {
+        "key": "idea:say-the-sounds-read-the-word",
+        "as": "mention"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
   "tv_squish_ready": {
     "id": "tv_squish_ready",
     "hash": "6e9e1e95",
@@ -11196,6 +11577,15 @@ export const draftLineTags: Record<string, LineMeta> = {
   "tv_to_flower_first": {
     "id": "tv_to_flower_first",
     "hash": "e0c846c1",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_to_flower_one": {
+    "id": "tv_to_flower_one",
+    "hash": "36ffa9ec",
     "who": "sensei",
     "purpose": "instruction",
     "tags": [],
@@ -11742,6 +12132,69 @@ export const draftLineTags: Record<string, LineMeta> = {
         "level": "explained"
       }
     ],
+    "repetition": "routine"
+  },
+  "tv_won_tap_four": {
+    "id": "tv_won_tap_four",
+    "hash": "47a66071",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "idea:middle-sound",
+        "as": "explain"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_won_tap_many": {
+    "id": "tv_won_tap_many",
+    "hash": "4867e4cc",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_won_tap_one": {
+    "id": "tv_won_tap_one",
+    "hash": "d6ec6da6",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [
+      {
+        "key": "mech:replay-button",
+        "as": "explain"
+      },
+      {
+        "key": "idea:first-sound",
+        "as": "explain"
+      },
+      {
+        "key": "idea:middle-sound",
+        "as": "explain"
+      }
+    ],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_won_tap_three": {
+    "id": "tv_won_tap_three",
+    "hash": "4b13dfb5",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [],
+    "repetition": "routine"
+  },
+  "tv_won_tap_two": {
+    "id": "tv_won_tap_two",
+    "hash": "0b63fb5f",
+    "who": "sensei",
+    "purpose": "instruction",
+    "tags": [],
+    "needs": [],
     "repetition": "routine"
   },
   "tv_won_three": {

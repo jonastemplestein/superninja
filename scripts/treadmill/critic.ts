@@ -5,6 +5,8 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { generate, pool, textOf } from "../gemini";
 import type { CaseMeta, Finding, Severity } from "./types";
+import { helpGuard } from "../lib/help";
+helpGuard(import.meta.url); // --help prints the usage above and exits, before anything runs
 
 type Frame = CaseMeta["frames"][number] & { label: string; path: string };
 type Review = { score: number; summary: string; problems: Problem[] };

@@ -1,0 +1,364 @@
+/* The World Flower v2 (docs/SCROLL_DESIGN.md, the mockup docs/scroll-design/final/index.html): the radial flower's
+   moments, the petal chart (the school's laminated sheets, half a sheet per screen), the petal card and the fork panel.
+   Stage coordinates (1280 × 720). Every animation is transform or opacity, and finite: nothing on these screens runs
+   for ever (SCROLL_DESIGN §6). */
+
+/* ================================================================== THE RADIAL WORLD FLOWER (view 0) */
+/* a flight home, a bloom, a flash, a sound just met growing out of the heart (the petal's inner group) */
+.wf-land { transform-box: fill-box; transform-origin: 50% 100%; animation: wfland 1s cubic-bezier(.3, 1.4, .5, 1) both; }
+@keyframes wfland { from { transform: translateY(-160px) scale(.2) rotate(-50deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.wf-flash { animation: wfflash .7s ease-out both; }
+@keyframes wfflash { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
+.wf-bloom { transform-box: fill-box; transform-origin: 50% 100%; animation: wfbloom 1.7s cubic-bezier(.3, 1.5, .5, 1) both; }
+@keyframes wfbloom { 0% { transform: scale(1); } 26% { transform: scale(2.1); } 52% { transform: scale(1.62); } 74% { transform: scale(1.4); } 100% { transform: scale(1.32); } }
+.wf-grow { transform-box: fill-box; transform-origin: 50% 100%; animation: wfgrow 1.1s cubic-bezier(.3, 1.4, .5, 1) .5s both; }
+@keyframes wfgrow { from { transform: scale(.08); opacity: 0; } 60% { opacity: 1; } }
+/* the sparkles on complete petals and the ready gems (one HTML layer): they twinkle twice and hop three times on
+   arrival (and on Help), then rest */
+.wf-fx { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.wf-fx i { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; background: var(--star) center / contain no-repeat; }
+.wf-fx i.big { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+.wf-fx b { position: absolute; width: 39px; height: 39px; margin: -19.5px 0 0 -19.5px; background: var(--gold-gem) center / contain no-repeat; }
+.wf-fx.arrive i { animation: pc-twinkle 1.1s ease-in-out 2 both; animation-delay: var(--d, 0s); }
+.wf-fx.arrive b { animation: pc-hop .62s cubic-bezier(.3, .8, .4, 1) 3; }
+@keyframes pc-twinkle { 0%, 100% { transform: scale(.7) rotate(0deg); opacity: .7; } 45% { transform: scale(1.35) rotate(45deg); opacity: 1; } }
+@keyframes pc-hop { 0%, 100% { transform: none; } 38% { transform: translateY(-42%) scale(1.12) rotate(-8deg); } 70% { transform: translateY(4%) scale(.96); } }
+/* the view: a soft warm light where the flower grows, and a gentle vignette (painted once) */
+.tree-light { position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(46% 62% at 54% 44%, rgba(255, 246, 214, .55), rgba(255, 246, 214, 0) 70%),
+              radial-gradient(120% 120% at 50% 45%, transparent 60%, rgba(60, 36, 20, .22) 100%); }
+
+@media (prefers-reduced-motion: reduce) { .wf-grow, .wf-fx.arrive i, .wf-fx.arrive b { animation: none; } }
+
+/* ================================================================== THE LETTERBOX (painted to match the view) */
+.viewport.vp-flower { background: #d9c7a8; }
+.viewport.vp-chart { background: #f3e6cf; }
+.viewport.vp-dim { background: #a8998a; }
+
+/* ================================================================== THE PETAL CHART (view 1) */
+/* the wall: warm paper light from the top left, calm */
+.scene.tree-chart { background:
+  radial-gradient(90% 80% at 18% 0%, #fff8e8 0%, rgba(255, 248, 232, 0) 60%),
+  radial-gradient(70% 70% at 100% 100%, #e8d2b1 0%, rgba(232, 210, 177, 0) 70%),
+  #f3e6cf !important; }
+.pc-view { position: absolute; inset: 0; }
+.pc-scroller { position: absolute; inset: 0; z-index: 1; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  scroll-snap-type: y mandatory; touch-action: pan-y; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.pc-scroller::-webkit-scrollbar { display: none; }
+.pc-scroller.dragging { scroll-snap-type: none; }
+.pc-board { position: relative; width: 1280px; }
+.pc-edge { position: absolute; left: 0; right: 0; height: 20px; z-index: 2; pointer-events: none; }
+.pc-edge.t { top: 0; background: linear-gradient(#f5e9d5, rgba(245, 233, 213, 0)); }
+.pc-edge.b { bottom: 0; background: linear-gradient(rgba(240, 226, 204, 0), #f0e2cc); }
+
+/* a laminated sheet: warm white paper, the film's soft edge and sheen, lifted off the wall by a soft shadow (no pins) */
+.pc-sheet { position: relative; width: 936px; margin-left: 172px; }
+.pc-sheet::before { content: ""; position: absolute; left: 0; right: 0; top: 16px; bottom: 16px; border-radius: 18px;
+  background: radial-gradient(120% 60% at 12% 0%, #fffefa 0%, rgba(255, 254, 250, 0) 55%), linear-gradient(128deg, rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, 0) 22%, rgba(255, 255, 255, 0) 70%, rgba(255, 246, 228, .8) 100%), #fffcf5;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, .6), 0 0 0 7.5px rgba(150, 132, 108, .22), 0 26px 44px -26px rgba(92, 56, 24, .55), 0 6px 14px -8px rgba(92, 56, 24, .25); }
+.pc-half { position: relative; z-index: 1; height: 720px; display: grid; grid-template-columns: repeat(4, 234px); grid-template-rows: repeat(2, 334px);
+  align-content: start; padding-top: 40px; scroll-snap-align: start; scroll-snap-stop: always;
+  content-visibility: auto; contain-intrinsic-size: auto 936px auto 720px; }
+.pc-half.lo { padding-top: 12px; }
+/* a half-sheet already drawn in an idle moment (Tree.tsx PetalChart): it stays drawn, so a swipe only composites */
+.pc-half.near { content-visibility: visible; }
+/* one swipe, one half-sheet: while a finger is on the sheet only the half it began on and its neighbours snap
+   (Tree.tsx PetalChart swipeFrom), so a hard fling can't be planned past the next half-sheet */
+.pc-scroller.swipe .pc-half:not(.snap) { scroll-snap-align: none; }
+
+/* ---------- a petal on the chart: the chart's slim teardrop (136 × 296) in a 234 × 334 cell (the button).
+   ::after = the outline (a mask of one SVG teardrop), .pc-fl = the colour inside (a mask; its <i> comes down from the
+   top to the level), ::before = the star and sparkles of a complete petal. */
+.pc-petal { position: relative; display: block; width: 234px; height: 334px; cursor: pointer; outline: none; }
+.pc-petal:focus-visible { outline: 4px solid var(--gold); outline-offset: -4px; border-radius: 24px; }
+.pc-petal::after { content: ""; position: absolute; left: 49px; top: 30px; width: 136px; height: 296px; pointer-events: none; z-index: 1; background: var(--c);
+  -webkit-mask: var(--m-line) 0 0 / 100% 100% no-repeat; mask: var(--m-line) 0 0 / 100% 100% no-repeat; }
+.pc-petal:active .pc-col, .pc-petal:active .pc-pic { transform: scale(.97); }
+.pc-pic { position: absolute; left: 154px; top: -2px; width: 72px; height: 72px; object-fit: contain; z-index: 3; pointer-events: none; }
+.pc-col { position: absolute; left: 49px; top: 30px; width: 136px; height: 296px; padding-top: var(--top); z-index: 2; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; }
+/* MISSING: a faint dotted slot in a whisper of its colour, nothing inside, no picture */
+.pc-petal.mys::after { -webkit-mask-image: var(--m-dots); mask-image: var(--m-dots); background: var(--ghost); }
+/* OUTLINE: met, nothing coloured in yet: the outline at half strength, the picture, the spellings */
+.pc-petal.outl::after { opacity: .5; }
+/* a met petal off the first half-sheet, drawn a moment later: its cell only */
+.pc-petal.pc-later::after { content: none; }
+/* COLOURING IN: from the round top (the commonest spellings first) down to the level, a crisp surface line */
+.pc-fl { position: absolute; left: 49px; top: 30px; width: 136px; height: 296px; z-index: 0; overflow: hidden; pointer-events: none;
+  -webkit-mask: var(--m-fill) 0 0 / 100% 100% no-repeat; mask: var(--m-fill) 0 0 / 100% 100% no-repeat; }
+.pc-fl > i { position: absolute; inset: 0; background: linear-gradient(to bottom, var(--w0) 0%, var(--w0) 40%, var(--w1) 100%);
+  transform: translateY(calc((var(--lv) - 1) * 100%)); }
+.pc-fl > i::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22px; border-bottom: 3.5px solid var(--surf); background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .5)); }
+.pc-petal.done .pc-fl > i::after, .pd-big.done .pc-fl > i::after { display: none; }
+.pc-gl { position: absolute; left: 33px; top: 14px; width: 168px; height: 328px; z-index: 0; pointer-events: none; background: var(--c); opacity: .14;
+  -webkit-mask: var(--m-glow) 0 0 / 100% 100% no-repeat; mask: var(--m-glow) 0 0 / 100% 100% no-repeat; }
+.inked .pc-gl { opacity: .26; }
+.pc-petal.done .pc-gl { opacity: .5; }
+.pc-petal.full .pc-gl { background: #ffc93a; opacity: 1; }
+/* ALL WON FOR NOW (complete for the child's stage, not the whole column): the surface is a glowing gold line */
+.caught .pc-fl > i::after { border-bottom: 5px solid #ffc53d; background: linear-gradient(rgba(255, 236, 170, 0), rgba(255, 236, 170, .95)); height: 30px; }
+.caught .pc-fl > i { box-shadow: 0 3px 10px 2px rgba(255, 205, 70, .75); }
+/* the colour growing (after practice, or a gem won): one petal, 1.6 s, during a trip */
+.pc-fl.rising > i { transition: transform 1.6s cubic-bezier(.25, .9, .3, 1); }
+/* COMPLETE: full colour, a deeper outline, a gloss, a star at the point and two sparkles; the shine sweeps once when its
+   half-sheet arrives. MATTE (dusty): no gloss, sparkles or shine; the star and the colour stay */
+.pc-petal.done::after { -webkit-mask-image: var(--m-line-b); mask-image: var(--m-line-b); background: var(--c-deep); }
+.pc-petal.done .pc-fl > i { box-shadow: none; }
+.pc-fl::after { content: ""; position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity .6s;
+  background: radial-gradient(22% 13% at 34% 13%, rgba(255, 255, 255, .85), rgba(255, 255, 255, 0) 100%); }
+.pc-petal.done .pc-fl::after, .pd-big.done .pc-fl::after { opacity: 1; }
+.pc-petal.done.matte .pc-fl::after, .pd-big.done.matte .pc-fl::after, .pc-petal.done.matte .pc-fl b { opacity: 0 !important; animation: none !important; }
+.pc-fl b { position: absolute; top: -8%; bottom: -8%; left: -60%; width: 46%; z-index: 2; opacity: 0;
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .8) 50%, rgba(255, 255, 255, 0)); transform: skewX(-12deg); }
+.pc-half.arrive .pc-petal.done .pc-fl b { animation: pc-shine 1.3s cubic-bezier(.4, 0, .3, 1) .25s 1 both; }
+@keyframes pc-shine { 0% { opacity: 1; transform: translateX(0) skewX(-12deg); } 100% { opacity: 1; transform: translateX(420%) skewX(-12deg); } }
+.pc-petal.done::before { content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: var(--star) 97px 303px / 42px 42px no-repeat, var(--sparkle) 58px 52px / 22px 22px no-repeat, var(--sparkle) 166px 122px / 16px 16px no-repeat; }
+.pc-petal.done.matte::before { background: var(--star) 97px 303px / 42px 42px no-repeat; animation: none !important; }
+.pc-half.arrive .pc-petal.done:not(.matte)::before { animation: pc-glint 1.2s ease-out .9s 1 both; }
+@keyframes pc-glint { 0% { opacity: 1; } 30% { opacity: .35; } 60% { opacity: 1; } }
+
+/* the spellings: Andika regular, ink when met, pencil while still to find. On colour, a paper halo keeps them crisp. */
+.pc-ln { position: relative; flex: none; font-family: var(--font-letters); font-weight: 400; line-height: 1; white-space: nowrap;
+  font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0; }
+.pc-ln + .pc-ln { margin-top: var(--gap, 0px); }
+.pc-ln.m { font-size: var(--M); height: calc(var(--M) * 1.12); color: var(--ink); }
+.pc-ln.f { font-size: var(--F); height: calc(var(--F) * 1.2); color: #9a8f84; }
+.pc-ln.hint { font-size: min(var(--F), calc(var(--M) * .6)); height: calc(min(var(--F), calc(var(--M) * .6)) * 1.3); color: #5a4636; }
+.pc-ln.hint b { font-weight: 400; color: var(--ink-c); }
+.inked .pc-ln { text-shadow: 0 0 3px #fffdf8, 0 0 1.5px #fffdf8, 0 0 1px #fffdf8; }
+.inked .pc-ln.f { color: #857a70; }
+
+/* THE GEM METER (SCROLL_DESIGN §3.2): a small cut gem beside each met spelling. Four looks a parent can tell apart at
+   phone size, by more than hue (§8.6):
+   - glass / fill: a PENCIL gem; practice fills its lower half (the pavilion) with the petal's colour from the point,
+     true to area, to .056 + .611 × √energy of its height, so the top facet stays clear until the battle;
+   - ready: the gold gem, 1.3× bigger, on a white halo disc, with rays (the only mark with rays);
+   - won: a SOLID jewel in INK (--cj → --cj-deep), never frosted; its white glint grows with polish (consolidation);
+     mastered: the glint becomes a sparkle;
+   - dusty: grey specks (and at most a 12 % film) on the still-solid jewel. */
+@property --e { syntax: "<number>"; inherits: true; initial-value: 0; }
+.pc-ln.m::after { content: ""; position: absolute; left: 100%; top: calc(var(--M) * .157); margin-left: calc(var(--M) * .1); width: var(--gw); height: calc(var(--gw) * .9);
+  pointer-events: none;
+  background: var(--gem-line) center / 100% 100% no-repeat, linear-gradient(to top, var(--cj) calc((.056 + .611 * sqrt(var(--e))) * 100%), #f2ede5 0);
+  -webkit-mask: var(--m-gem) center / 100% 100% no-repeat; mask: var(--m-gem) center / 100% 100% no-repeat; }
+.pc-ln.m.w::after { background: var(--gem-won) center / 100% 100% no-repeat,
+  radial-gradient(calc(7% + 13% * var(--pol, 0)) calc(8% + 14% * var(--pol, 0)) at 34% 30%, rgba(255, 255, 255, .95) 40%, rgba(255, 255, 255, 0)),
+  linear-gradient(165deg, var(--cj) 30%, var(--cj-deep)); }
+.pc-ln.m.w.mx::after { background: var(--gem-mastered) center / 100% 100% no-repeat, linear-gradient(165deg, var(--cj) 30%, var(--cj-deep)); }
+.pc-ln.m.dust::after, .pc-ln.m.w.dust::after, .pc-ln.m.w.mx.dust::after { background: var(--dust) center / 100% 100% no-repeat, var(--gem-won) center / 100% 100% no-repeat,
+  linear-gradient(rgba(214, 206, 196, .12), rgba(214, 206, 196, .12)), linear-gradient(165deg, var(--cj) 30%, var(--cj-deep)); }
+.pc-ln.m.r::after { -webkit-mask: none; mask: none; top: calc(var(--M) * -.1); margin-left: calc(var(--M) * .03); width: var(--rw); height: var(--rw); background: var(--gold-gem) center / contain no-repeat; }
+.pc-half.arrive .pc-ln.r::after { animation: pc-hop .62s cubic-bezier(.3, .8, .4, 1) 3; }
+/* the practised beat: the meter fills from where it was (one element, during the trip only) */
+.pc-ln.m.filling { transition: --e 1.4s cubic-bezier(.3, 1.2, .5, 1); }
+/* THE SOUND LINE (MULTI_SOUND.md §7.2): under a spelling the child has met representing two or more sounds */
+.pc-ln.ms { background-image: var(--ms); background-repeat: no-repeat; background-position: 50% 100%; background-size: 84% var(--msh, 4px); }
+/* under a spelling with a descender (g j p q y) the line drops below the tail: the line's box grows downwards by .15 M
+   without moving the next line (Andika's descender ends at 1.14 em; the line then sits at 1.19–1.27 em) */
+.pc-ln.ms.dsc { box-sizing: content-box; padding-bottom: calc(var(--M) * .15); margin-bottom: calc(var(--M) * -.15); }
+
+/* a trip's focus (?gem=): a gold ring round the spelling pulses three times, then stays */
+.pc-ln.focus::before { content: ""; position: absolute; left: -12px; right: -12px; top: -6px; bottom: -4px; border-radius: 999px;
+  border: 4px solid #ffc53d; background: rgba(255, 214, 90, .18); animation: pc-ring3 1s ease-in-out 3; }
+@keyframes pc-ring3 { 0%, 100% { transform: none; opacity: 1; } 50% { transform: scale(1.12); opacity: .45; } }
+/* a spelling just met, inked in; a gem just won, landing */
+.pc-ln.inked { animation: pc-inked .7s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes pc-inked { 0% { transform: scale(.6); opacity: .2; } 55% { transform: scale(1.25); opacity: 1; } 100% { transform: none; } }
+.pc-ln.pending::after { opacity: 0; }
+.pc-ln.landed { animation: pc-inked .6s cubic-bezier(.3, 1.6, .5, 1) both; }
+.pc-ln.landed::after { animation: pc-land .5s cubic-bezier(.3, 1.8, .5, 1) both; }
+@keyframes pc-land { 0% { transform: scale(2.2); opacity: .3; } 100% { transform: none; opacity: 1; } }
+.pc-flyer { position: absolute; left: 0; top: 0; width: 150px; height: 150px; margin: -75px 0 0 -75px; z-index: 72; pointer-events: none; }
+.pc-flyer::before { content: ""; position: absolute; inset: -40px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 246, 200, .95), rgba(255, 214, 90, .45) 45%, transparent 70%); }
+.pc-flyer i { position: absolute; left: 20px; top: 24px; width: 110px; height: 99px;
+  background: var(--gem-won) center / 100% 100% no-repeat, linear-gradient(165deg, var(--cj-lite) 10%, var(--cj) 55%, var(--cj-deep));
+  -webkit-mask: var(--m-gem) center / 100% 100% no-repeat; mask: var(--m-gem) center / 100% 100% no-repeat; }
+
+/* a tap on a petal not met yet */
+.pc-petal.shake { animation: pc-shake .45s ease-in-out; transform-origin: 117px 60px; }
+@keyframes pc-shake { 0%, 100% { transform: none; } 25% { transform: rotate(-2.5deg); } 60% { transform: rotate(2deg); } }
+
+/* THE UNLOCK (a sound met for the first time, after its trip): the dotted slot fades, the outline draws in, the picture
+   sticks on, the spellings write themselves in, then any first colour flows in. Runs once. */
+.pc-dots-tmp { position: absolute; left: 49px; top: 30px; width: 136px; height: 296px; z-index: 1; pointer-events: none; background: var(--ghost);
+  -webkit-mask: var(--m-dots) 0 0 / 100% 100% no-repeat; mask: var(--m-dots) 0 0 / 100% 100% no-repeat; animation: pc-fadeout .5s .5s both; }
+.pc-petal.unlock::after { animation: pc-drawin .7s .7s both; transform-origin: 117px 180px; }
+.pc-petal.unlock .pc-pic { animation: pc-stick .7s cubic-bezier(.3, 1.6, .5, 1) 1.1s both; }
+.pc-petal.unlock .pc-ln { animation: pc-writein .4s ease-out both; animation-delay: calc(1.7s + var(--d)); }
+.pc-petal.unlock .pc-fl, .pc-petal.unlock .pc-gl { animation: pc-fadein .9s 2.6s both; }
+@keyframes pc-fadeout { to { opacity: 0; } }
+@keyframes pc-fadein { from { opacity: 0; } }
+@keyframes pc-drawin { from { opacity: 0; transform: scale(.94); } }
+@keyframes pc-stick { from { opacity: 0; transform: scale(.2) rotate(-14deg); } 60% { opacity: 1; transform: scale(1.18) rotate(4deg); } }
+@keyframes pc-writein { from { opacity: 0; transform: translateY(8px); } }
+
+/* the grown-ups' key, in sheet 3's empty last row */
+.pc-key { grid-column: 1 / -1; align-self: center; justify-self: center; margin-top: 16px; max-width: 900px; padding: 14px 22px; border-radius: 18px;
+  border: 2.5px dashed #e3d8ca; color: #7a6c5f; font: 600 21px/1.55 var(--font-ui); text-align: center; }
+.pc-key > span { white-space: nowrap; }
+.pc-key .kt { font: 800 21px/1 var(--font-ui); color: #6d5f53; }
+.pc-key .kp { display: inline-block; vertical-align: -12px; width: 20px; height: 40px; margin: 0 3px 0 8px; }
+.pc-key .kg { display: inline-block; vertical-align: -7px; width: 30px; height: 28px; margin: 0 1px 0 5px; }
+.pc-key .kg.kr { width: 36px; height: 36px; vertical-align: -10px; background: var(--gold-gem) center / contain no-repeat; }
+.pc-key .ks { display: inline-block; vertical-align: 3px; width: 34px; height: 5px; margin: 0 4px 0 8px; border-radius: 2px; }
+.pc-key .kl { font: 400 26px/1 var(--font-letters); color: var(--ink); }
+
+/* the page dots: where you are on the chart (3 sheets, 2 halves each). One tall target; tap or drag to jump. */
+.pc-dots { position: absolute; left: 1150px; top: 176px; width: 96px; height: 368px; z-index: 5; touch-action: none; cursor: pointer; }
+/* (the dots below the pill slide down, and the pill springs open: transforms only) */
+.pc-dots i { position: absolute; left: 40px; width: 16px; height: 16px; border-radius: 8px; background: #d9cbb8; transition: translate .3s cubic-bezier(.3, 1.3, .5, 1); transform-origin: 50% 0; }
+.pc-dots i.on { background: var(--ink); height: 40px; animation: pc-pill .3s cubic-bezier(.3, 1.3, .5, 1); }
+@keyframes pc-pill { from { transform: scaleY(.4); } }
+
+/* with a card open, the toggle and the page dots step away (the card is modal; Home and Help stay) */
+.tree-card-open .tree-toggle, .tree-card-open .pc-dots { visibility: hidden; }
+/* a trip on the chart holds it (Tree.tsx chartHeld: back from practice, a gem landing, spellings met): Hear it again and
+   Next stand in the right-hand column then, over the page dots, which rest out of sight until the chart is free */
+.tree-base[inert] .pc-dots { opacity: 0; transition: opacity .25s; }
+/* the view toggle, under Home, in both views (its icon is the other view) */
+.tree-toggle { position: absolute; left: 18px; top: 150px; z-index: 6; }
+.tree-toggle .btn-round svg { width: 70%; height: 70%; }
+.tree-toggle .btn-round { width: 100px; height: 100px; }
+/* after 6 s on the free flower it bobs three times (a look at the chart), then rests */
+.tree-toggle .btn-round.nudge { animation: pc-bob .9s ease-in-out .2s 3; }
+
+/* under a trip (a show over the flower, through a veil), nothing hops or shines */
+.tree-base[inert] :is(.pc-half.arrive .pc-ln.r, .pc-half.arrive .pc-petal.done)::after, .tree-base[inert] .pc-half.arrive .pc-fl b, .tree-base[inert] .wf-fx.arrive > * { animation: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-half.arrive .pc-ln.r::after, .pc-petal.shake, .pc-petal.unlock *, .pc-petal.unlock::after, .pc-half.arrive .pc-petal.done .pc-fl b,
+  .pc-half.arrive .pc-petal.done::before, .pc-ln.focus::before, .pc-ln.inked, .pc-ln.landed, .pc-ln.landed::after { animation: none; }
+}
+
+/* ================================================================== THE PETAL CARD (Tree.tsx PetalDetail: SCROLL_DESIGN §3.6)
+   A laminated flash card, 980 × 680 at (150, 20), over a scrim that covers everything but Home and Help. It grows out of
+   the tapped petal. Card coordinates below. */
+.pd-backdrop { position: absolute; inset: 0; z-index: 20; background: rgba(43, 29, 20, .38); animation: pc-fadein .2s both; }
+.pd-card { position: absolute; left: 150px; top: 20px; width: 980px; height: 680px; border-radius: 28px;
+  background: radial-gradient(80% 60% at 20% 0%, #fffaf0 0%, rgba(255, 250, 240, 0) 60%), #fffdf8;
+  box-shadow: 0 0 0 7px rgba(255, 255, 255, .72), 0 0 0 8.5px rgba(150, 132, 108, .3), 0 30px 50px -24px rgba(30, 15, 5, .6); }
+.pd-card .btn-round { position: absolute; }
+/* the petal up close: the same petal, the same life cycle, bigger. The whole column is one target */
+.pd-big { position: absolute; left: 44px; top: 96px; width: 250px; height: 560px; cursor: pointer; }
+.pd-big .pd-big-line { position: absolute; inset: 0; z-index: 1; background: var(--c); pointer-events: none;
+  -webkit-mask: var(--m-bigline) 0 0 / 100% 100% no-repeat; mask: var(--m-bigline) 0 0 / 100% 100% no-repeat; }
+.pd-big.done .pd-big-line { -webkit-mask-image: var(--m-bigline-b); mask-image: var(--m-bigline-b); background: var(--c-deep); }
+.pd-big.outl .pd-big-line { opacity: .5; }
+.pd-big .pc-fl { left: 0; top: 0; width: 250px; height: 560px; -webkit-mask-image: var(--m-bigfill); mask-image: var(--m-bigfill); }
+.pd-big:not(.done) .pc-fl b { display: none; }
+.pd-big.done::before { content: ""; position: absolute; left: 100px; top: 530px; width: 52px; height: 52px; z-index: 3; background: var(--star) center / contain no-repeat; }
+.pd-col { position: absolute; inset: 0; z-index: 2; padding-top: var(--top); display: flex; flex-direction: column; align-items: center; }
+.pd-big .pc-ln { border-radius: 999px; padding: 0 14px; }
+.pd-big .pc-ln.m { font-size: var(--BM); height: calc(var(--BM) * 1.14); }
+.pd-big .pc-ln.f { font-size: var(--BF); height: calc(var(--BF) * 1.2); }
+.pd-big .pc-ln.hint { font-size: min(var(--BF), calc(var(--BM) * .6)); height: calc(min(var(--BF), calc(var(--BM) * .6)) * 1.3); pointer-events: none; }
+.pd-big .pc-ln.m::after { margin-left: calc(var(--BM) * .02); top: calc(var(--BM) * .182); }
+.pd-big .pc-ln.m.r::after { top: calc(var(--BM) * -.1); }
+.pd-big .pc-ln.ms { background-size: 84% max(4px, calc(var(--BM) * .085)); }
+.pd-big .pc-ln.sel { background-color: color-mix(in srgb, var(--c) 16%, #fff); box-shadow: 0 0 0 4px var(--c); }
+.pd-pic { position: absolute; left: 226px; top: 18px; width: 112px; height: 112px; z-index: 3; object-fit: contain; pointer-events: none; }
+.pd-close { position: absolute; left: 866px; top: 18px; }
+.pd-close .btn-round { position: relative; width: 92px; height: 92px; }
+
+/* the header: ONE speaker (the sound, then the chosen spelling's words) and the chosen spelling with its big gem */
+.btn-round.pd-spk { left: 370px; top: 30px; width: 116px; height: 116px; }
+.btn-round.pd-spk svg { width: 60%; height: 60%; }
+.pd-spk.hint::before { content: ""; position: absolute; inset: -14px; border-radius: 50%; border: 6px solid #fff3b0; animation: pc-ring3 1s ease-in-out 3 both; pointer-events: none; }
+.pd-chosen { position: absolute; left: 512px; top: 34px; height: 108px; padding: 0 26px 0 30px; border-radius: 30px; background: #fff; border: 5px solid var(--c);
+  display: flex; align-items: center; gap: 18px; font: 400 76px/1 var(--font-letters); font-variant-ligatures: none; color: var(--ink); cursor: pointer; }
+.pd-chosen > span { display: block; transition: transform .12s; }
+.pd-chosen:active > span { transform: scale(.96); }
+/* a descender (g j p q y): the letters lift 11 px and the sound line drops to the chip's foot, below the tail */
+.pd-chosen.dsc > span { transform: translateY(-11px); }
+.pd-chosen.dsc:active > span { transform: translateY(-11px) scale(.96); }
+.pd-chosen.dsc .pd-ms { bottom: 3px; }
+.pd-chosen::before { content: ""; position: absolute; left: -24px; top: 34px; border: 13px solid transparent; border-right: 19px solid var(--c); }
+/* the chosen spelling's big gem and the fork panel's gems: the same four looks as the chart's meter (§3.2) */
+.pd-gm { width: 64px; height: 58px; position: relative; flex: none; }
+.pd-gm::after, .fk-gem::after { content: ""; position: absolute; inset: 0;
+  background: var(--gem-line) center / 100% 100% no-repeat, linear-gradient(to top, var(--cj) calc((.056 + .611 * sqrt(var(--e))) * 100%), #f2ede5 0);
+  -webkit-mask: var(--m-gem) center / 100% 100% no-repeat; mask: var(--m-gem) center / 100% 100% no-repeat; }
+.pd-gm.w::after, .fk-gem.w::after { background: var(--gem-won) center / 100% 100% no-repeat,
+  radial-gradient(calc(7% + 13% * var(--pol, 0)) calc(8% + 14% * var(--pol, 0)) at 34% 30%, rgba(255, 255, 255, .95) 40%, rgba(255, 255, 255, 0)),
+  linear-gradient(165deg, var(--cj) 30%, var(--cj-deep)); }
+.pd-gm.w.mx::after, .fk-gem.w.mx::after { background: var(--gem-mastered) center / 100% 100% no-repeat, linear-gradient(165deg, var(--cj) 30%, var(--cj-deep)); }
+.pd-gm.dust::after, .pd-gm.w.dust::after, .pd-gm.w.mx.dust::after, .fk-gem.dust::after, .fk-gem.w.dust::after, .fk-gem.w.mx.dust::after {
+  background: var(--dust) center / 100% 100% no-repeat, var(--gem-won) center / 100% 100% no-repeat,
+  linear-gradient(rgba(214, 206, 196, .12), rgba(214, 206, 196, .12)), linear-gradient(165deg, var(--cj) 30%, var(--cj-deep)); }
+.pd-gm.r::after, .fk-gem.r::after { -webkit-mask: none; mask: none; inset: -21px; background: var(--gold-gem) center / contain no-repeat; }
+.pd-gm.r { animation: pc-hop .62s cubic-bezier(.3, .8, .4, 1) .4s 3; }
+.pd-ms { position: absolute; left: 30px; width: calc(100% - 128px); bottom: 12px; height: 7px; background: var(--ms) center / 100% 100% no-repeat; }
+/* for grown-ups, in small print right under the chip: where the gem is on its climb (4.9 : 1 on the card) */
+.pd-cap { position: absolute; left: 520px; top: 148px; max-width: 440px; overflow: hidden; text-overflow: ellipsis; font: 700 20px/1 var(--font-ui); color: #7d6e61; letter-spacing: .01em; white-space: nowrap; }
+
+/* three word cards for the chosen spelling: tap one to hear it */
+.pd-shelf { position: absolute; left: 370px; top: 178px; width: 580px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.pd-wc { height: 176px; border-radius: 20px; background: #fff; border: 3px solid #eadfd2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 4px 6px;
+  box-shadow: 0 5px 0 #eadfd2; transition: transform .2s; }
+.pd-wc:active { transform: translateY(3px); box-shadow: 0 1px 0 #eadfd2; }
+.pd-wc img { width: 90px; height: 90px; object-fit: contain; flex: none; }
+.pd-wc .wt { font: 700 52px/1.05 var(--font-letters); color: var(--ink); white-space: nowrap; font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0; }
+.pd-wc .wt b { color: var(--ink-c); font-weight: 700; background: linear-gradient(transparent 62%, var(--wash) 62% 94%, transparent 94%); }
+.pd-wc.spot { border-color: #ffc53d; box-shadow: 0 5px 0 #c98a00, 0 0 0 6px #fff4c8; transform: scale(1.05); }
+
+/* the fork chip: the chosen spelling's other sounds, as their little petals (it opens the fork panel) */
+.pd-also { position: absolute; left: 370px; top: 386px; height: 150px; padding: 0 26px 0 18px; border-radius: 26px; background: #fff; border: 4px solid #eadfd2;
+  display: flex; align-items: center; gap: 14px; box-shadow: 0 5px 0 #eadfd2; }
+.pd-also:active { transform: translateY(3px); box-shadow: 0 1px 0 #eadfd2; }
+.pd-also.pulse { animation: pc-bob .8s ease-in-out 3; }
+.pd-also .lk { width: 58px; height: 58px; flex: none; }
+.pd-mini { position: relative; width: 58px; height: 118px; flex: none; }
+.pd-mini .mp { position: absolute; inset: 0; background: var(--mc); -webkit-mask: var(--m-fill) 0 0 / 100% 100% no-repeat; mask: var(--m-fill) 0 0 / 100% 100% no-repeat; opacity: .22; }
+.pd-mini .ml { position: absolute; inset: 0; background: var(--mc); -webkit-mask: var(--m-line-b) 0 0 / 100% 100% no-repeat; mask: var(--m-line-b) 0 0 / 100% 100% no-repeat; }
+.pd-mini img { position: absolute; left: 6px; top: 8px; width: 46px; height: 46px; object-fit: contain; }
+
+/* the one action: practise in the dojo (the gate), or a gem battle (the gem guardian) when the gem is full and glowing */
+.btn-round.pd-act { left: 788px; top: 440px; width: 150px; height: 150px; }
+/* (the guardian is framed on its head: the whole picture is 190 % of the button, cropped by .pd-act-pic, a round layer
+   the size of the button, so the button itself has no overflow: the sweep's text-overflow, 27 Sep) */
+.pd-act-pic { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; pointer-events: none; }
+.pd-act img { position: absolute; left: -22%; top: -8%; width: 190%; height: 190%; max-width: none; object-fit: contain; object-position: 0 0; }
+.btn-round.pd-act.battle { overflow: hidden; background: radial-gradient(circle at 35% 30%, #fff6d0 0%, #ffd45a 50%, #d99a10 100%); }
+.pd-act svg { width: 64%; height: 64%; }
+.btn-round.pd-act.pulse { animation: pc-bob .8s ease-in-out 3; }
+/* the chip bobs WITH its button (scaled about the button's centre, 121 px below the chip's top), never into it */
+.btn-round.pd-act.pulse + .pd-act-chip { animation: pc-bob .8s ease-in-out 3; transform-origin: 50% 121px; }
+@keyframes pc-bob { 50% { transform: scale(1.08); } }
+.pd-act-chip { position: absolute; left: 863px; top: 394px; translate: -50% 0; min-width: 60px; padding: 0 14px; height: 54px; border-radius: 16px; z-index: 2;
+  background: #fff; border: 4px solid var(--ink); box-shadow: 0 3px 0 var(--ink); font: 400 40px/46px var(--font-letters); text-align: center; font-variant-ligatures: none; color: var(--ink); pointer-events: none; }
+
+/* ================================================================== THE FORK PANEL: one spelling, its sounds side by side */
+.btn-round.fk-spk { left: 60px; top: 30px; }
+.fk-title { position: absolute; left: 50%; top: 22px; translate: -50% 0; height: 128px; min-width: 190px; padding: 0 44px 14px; border-radius: 36px; background: #fff;
+  border: 5px solid #eadfd2; display: grid; place-items: center; font: 400 104px/1 var(--font-letters); font-variant-ligatures: none; color: var(--ink); }
+.fk-ms { position: absolute; left: 44px; right: 44px; bottom: 14px; height: 9px; background: var(--ms) center / 100% 100% no-repeat; }
+.fk-title > span { display: block; }
+.fk-title.dsc > span { transform: translateY(-14px); }
+.fk-title.dsc .fk-ms { bottom: 3px; }
+.fk-row { position: absolute; left: 36px; width: 730px; top: 166px; display: flex; justify-content: center; gap: 12px; }
+.fk-sense { position: relative; width: 206px; height: 490px; flex: none; }
+.fk-row.n4 .fk-sense { width: 173px; }
+.fk-row.n4 .fk-petal { left: 14px; width: 144px; height: 288px; }
+.fk-row.n4 .fk-pic { left: 104px; width: 70px; height: 70px; }
+.fk-row.n4 .pd-wc { left: 2px; width: 169px; top: 326px; }
+.fk-row.n4 .pd-wc .wt { font-size: 40px; }
+.fk-row.n4 .pc-gl { left: 0; width: 173px; height: 318px; }
+.fk-petal { position: absolute; left: 28px; top: 24px; width: 150px; height: 300px; cursor: pointer; transition: transform .25s cubic-bezier(.3, 1.4, .5, 1); }
+.fk-sense.on .fk-petal { transform: translateY(-8px) scale(1.04); }
+.fk-bl { position: absolute; inset: 0; z-index: 1; background: var(--c); -webkit-mask: var(--m-line) 0 0 / 100% 100% no-repeat; mask: var(--m-line) 0 0 / 100% 100% no-repeat; }
+.fk-petal.mys .fk-bl { -webkit-mask-image: var(--m-dots); mask-image: var(--m-dots); background: var(--ghost); }
+.fk-g { position: absolute; left: 0; right: 0; top: 64px; z-index: 2; text-align: center; font: 400 64px/1 var(--font-letters); font-variant-ligatures: none; color: var(--ink); text-shadow: 0 0 3px #fffdf8, 0 0 2px #fffdf8; }
+.fk-gem { display: block; margin: 16px auto 0; width: 50px; height: 45px; position: relative; }
+.fk-gem.r::after { inset: -19px; }
+.fk-petal.mys .fk-g { color: #c9bdb0; text-shadow: none; }
+.fk-pic { position: absolute; left: 122px; top: -4px; width: 80px; height: 80px; z-index: 3; object-fit: contain; pointer-events: none; }
+.fk-sense .pd-wc { position: absolute; left: 6px; top: 338px; width: 194px; height: 146px; }
+.fk-sense .pc-gl { left: 12px; top: 8px; width: 182px; height: 332px; opacity: .3; }
+.fk-sense .pd-wc img { width: 76px; height: 76px; }
+.fk-sense .pd-wc .wt { font-size: 46px; }
+.btn-round.fk-lens { left: 800px; top: 470px; width: 140px; height: 140px; }
+.fk-lens svg { width: 84%; height: 84%; }
+.fk-lens-g { position: absolute; left: 22%; top: 22%; width: 43%; height: 43%; display: grid; place-items: center; font: 400 34px/1 var(--font-letters); font-variant-ligatures: none; color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) { .pd-spk.hint::before, .btn-round.pd-act.pulse, .btn-round.pd-act.pulse + .pd-act-chip, .pd-also.pulse, .pd-gm.r { animation: none; } }

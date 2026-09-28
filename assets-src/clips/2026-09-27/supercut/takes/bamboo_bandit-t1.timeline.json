@@ -1,0 +1,962 @@
+{
+ "name": "bamboo_bandit-t1",
+ "url": "https://superninja.templestein.com/play/?level=w1-13",
+ "capture": "cdp",
+ "gpu": true,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 63.9,
+ "game": {
+  "start": 2.334,
+  "end": 62.202
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   4.1,
+   22.5,
+   18.7,
+   6.9,
+   23.3,
+   17.5,
+   21.8,
+   6.8,
+   22.3
+  ],
+  "audioShiftMs": 27.3,
+  "residualMs": [
+   26.3,
+   5.3,
+   8.7,
+   19.7,
+   null,
+   -4,
+   1,
+   -4.7,
+   28,
+   -3.3
+  ],
+  "residualMedianMs": 5.3,
+  "residualMaxAbsMs": 28
+ },
+ "frames": {
+  "frames": 3561,
+  "fps": 60,
+  "p50": 16.7,
+  "p95": 18.6,
+  "p99": 24.8,
+  "max": 54.2,
+  "hitches": 1,
+  "repeatedSlots": 3,
+  "slots": 1780,
+  "deliveryMs": 12.7
+ },
+ "master": "bamboo_bandit-t1.master.mp4",
+ "audio": "bamboo_bandit-t1.master.wav",
+ "recordedAt": "2026-09-27T15:06:30.837Z",
+ "events": [
+  {
+   "t": 0.726,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.005,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.275,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.586,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.847,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.366,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.409,
+   "kind": "hitch",
+   "id": "112 ms",
+   "dur": 0.112
+  },
+  {
+   "t": 2.615,
+   "kind": "scene",
+   "id": "battle:in"
+  },
+  {
+   "t": 2.618,
+   "kind": "music",
+   "id": "battle",
+   "dur": 40.555
+  },
+  {
+   "t": 2.622,
+   "kind": "mark",
+   "id": "order in(2 no pic) tap(3) pop(3 no pic) tip(3 no pic) kept"
+  },
+  {
+   "t": 2.622,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 2.623,
+   "kind": "mark",
+   "id": "battle"
+  },
+  {
+   "t": 3.064,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 3.065,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 3.073,
+   "kind": "speech",
+   "id": "battle_start",
+   "dur": 5.078,
+   "text": "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!"
+  },
+  {
+   "t": 8.181,
+   "kind": "speech",
+   "id": "battle_spell",
+   "dur": 0.811,
+   "text": "Spell..."
+  },
+  {
+   "t": 9.496,
+   "kind": "speech",
+   "id": "word:in",
+   "dur": 0.421
+  },
+  {
+   "t": 9.936,
+   "kind": "mark",
+   "id": "word 1 in"
+  },
+  {
+   "t": 10.7,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 609,592,104,104"
+  },
+  {
+   "t": 10.7,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 10.703,
+   "kind": "mark",
+   "id": "tap i (in)"
+  },
+  {
+   "t": 10.729,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 11.074,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 11.432,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 11.547,
+   "kind": "tap",
+   "id": "n",
+   "text": "rect 845,592,104,104"
+  },
+  {
+   "t": 11.548,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 11.549,
+   "kind": "mark",
+   "id": "tap n (in)"
+  },
+  {
+   "t": 11.577,
+   "kind": "speech",
+   "id": "sound:n",
+   "dur": 0.59
+  },
+  {
+   "t": 12.167,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 12.679,
+   "kind": "speech",
+   "id": "sound:n",
+   "dur": 0.591
+  },
+  {
+   "t": 13.681,
+   "kind": "speech",
+   "id": "word:in",
+   "dur": 0.421
+  },
+  {
+   "t": 14.195,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 14.547,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 14.547,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 14.838,
+   "kind": "speech",
+   "id": "tv_yay_thats_it",
+   "dur": 0.833,
+   "text": "That's it!"
+  },
+  {
+   "t": 15.748,
+   "kind": "scene",
+   "id": "battle:tap"
+  },
+  {
+   "t": 15.822,
+   "kind": "speech",
+   "id": "word:tap",
+   "dur": 0.59
+  },
+  {
+   "t": 16.433,
+   "kind": "mark",
+   "id": "word 2 tap"
+  },
+  {
+   "t": 17.066,
+   "kind": "tap",
+   "id": "t",
+   "text": "rect 668,592,104,104"
+  },
+  {
+   "t": 17.066,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 17.067,
+   "kind": "mark",
+   "id": "tap t (tap)"
+  },
+  {
+   "t": 17.089,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 17.391,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 17.647,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 17.9,
+   "kind": "tap",
+   "id": "a",
+   "text": "rect 786,592,104,104"
+  },
+  {
+   "t": 17.9,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 17.901,
+   "kind": "mark",
+   "id": "tap a (tap)"
+  },
+  {
+   "t": 17.925,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 18.389,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 18.764,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 18.776,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 904,592,104,104"
+  },
+  {
+   "t": 18.776,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 18.777,
+   "kind": "mark",
+   "id": "tap p (tap)"
+  },
+  {
+   "t": 18.805,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.178
+  },
+  {
+   "t": 19.128,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 19.554,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 20.13,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.178
+  },
+  {
+   "t": 20.71,
+   "kind": "speech",
+   "id": "word:tap",
+   "dur": 0.59
+  },
+  {
+   "t": 21.3,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 21.621,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 22.047,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 22.098,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 22.098,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 22.238,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 22.239,
+   "kind": "speech",
+   "id": "streak_3",
+   "dur": 1.128,
+   "text": "Ninja power!"
+  },
+  {
+   "t": 23.398,
+   "kind": "scene",
+   "id": "battle:pop"
+  },
+  {
+   "t": 23.518,
+   "kind": "speech",
+   "id": "word:pop",
+   "dur": 0.462
+  },
+  {
+   "t": 24.008,
+   "kind": "mark",
+   "id": "word 3 pop"
+  },
+  {
+   "t": 24.684,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 727,592,104,104"
+  },
+  {
+   "t": 24.685,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 24.685,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.178
+  },
+  {
+   "t": 24.686,
+   "kind": "mark",
+   "id": "tap p (pop)"
+  },
+  {
+   "t": 24.946,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 25.314,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 25.521,
+   "kind": "tap",
+   "id": "o",
+   "text": "rect 845,592,104,104"
+  },
+  {
+   "t": 25.521,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 25.522,
+   "kind": "mark",
+   "id": "tap o (pop)"
+  },
+  {
+   "t": 25.549,
+   "kind": "speech",
+   "id": "sound:o",
+   "dur": 0.207
+  },
+  {
+   "t": 25.897,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 26.108,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 26.164,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 26.363,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 26.425,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 727,592,104,104"
+  },
+  {
+   "t": 26.425,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 26.426,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.178
+  },
+  {
+   "t": 26.427,
+   "kind": "mark",
+   "id": "tap p (pop)"
+  },
+  {
+   "t": 26.777,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.178
+  },
+  {
+   "t": 27.202,
+   "kind": "speech",
+   "id": "sound:o",
+   "dur": 0.207
+  },
+  {
+   "t": 27.671,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.178
+  },
+  {
+   "t": 28.247,
+   "kind": "speech",
+   "id": "word:pop",
+   "dur": 0.462
+  },
+  {
+   "t": 28.81,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 29.164,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 29.164,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 29.281,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 29.472,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 29.489,
+   "kind": "speech",
+   "id": "streak_6",
+   "dur": 2.614,
+   "text": "Wow! Super ninja streak!"
+  },
+  {
+   "t": 32.248,
+   "kind": "scene",
+   "id": "battle:tip"
+  },
+  {
+   "t": 32.255,
+   "kind": "speech",
+   "id": "word:tip",
+   "dur": 0.543
+  },
+  {
+   "t": 32.798,
+   "kind": "mark",
+   "id": "word 4 tip"
+  },
+  {
+   "t": 33.492,
+   "kind": "tap",
+   "id": "t",
+   "text": "rect 786,592,104,104"
+  },
+  {
+   "t": 33.492,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 33.493,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 33.497,
+   "kind": "mark",
+   "id": "tap t (tip)"
+  },
+  {
+   "t": 33.766,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 34.248,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 34.399,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 432,592,104,104"
+  },
+  {
+   "t": 34.4,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 34.401,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 34.401,
+   "kind": "mark",
+   "id": "tap i (tip)"
+  },
+  {
+   "t": 34.43,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 34.764,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 34.765,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 35.179,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 35.207,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 665,594,104,104"
+  },
+  {
+   "t": 35.207,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 35.208,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.178
+  },
+  {
+   "t": 35.208,
+   "kind": "mark",
+   "id": "tap p (tip)"
+  },
+  {
+   "t": 35.24,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 35.56,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 35.986,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 36.498,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.178
+  },
+  {
+   "t": 37.076,
+   "kind": "speech",
+   "id": "word:tip",
+   "dur": 0.543
+  },
+  {
+   "t": 37.741,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 37.741,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 38.139,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 38.184,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 38.229,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 38.28,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 38.479,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 38.498,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 38.53,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 38.563,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 38.563,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 38.563,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 38.564,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 38.69,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 39.045,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 39.425,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 39.615,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 39.642,
+   "kind": "speech",
+   "id": "battle_win",
+   "dur": 2.523,
+   "text": "Hooray! The monster ran away!"
+  },
+  {
+   "t": 39.795,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 39.795,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 40.436,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 40.514,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 40.735,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 41.035,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 42.17,
+   "kind": "sfx",
+   "id": "fanfare"
+  },
+  {
+   "t": 42.173,
+   "kind": "mark",
+   "id": "left battle for reward"
+  },
+  {
+   "t": 42.263,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 42.297,
+   "kind": "scene",
+   "id": "reward"
+  },
+  {
+   "t": 42.523,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 42.8,
+   "kind": "speech",
+   "id": "yay_7",
+   "dur": 0.744,
+   "text": "You did it!"
+  },
+  {
+   "t": 44.862,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 44.98,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 45.114,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 45.245,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 45.276,
+   "kind": "speech",
+   "id": "fm_rw_more",
+   "dur": 1.768,
+   "text": "More stickers for your Sticker Book!"
+  },
+  {
+   "t": 45.367,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 45.88,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 45.88,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 45.917,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 47.978,
+   "kind": "speech",
+   "id": "audit_gem_more",
+   "dur": 2.401,
+   "text": "Look, this gem has filled a little more."
+  },
+  {
+   "t": 50.814,
+   "kind": "speech",
+   "id": "jump_offer",
+   "dur": 4.367,
+   "text": "Wow! You got everything right. Is this too easy? You can jump ahead!"
+  },
+  {
+   "t": 62.229,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.534,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.795,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.061,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.363,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

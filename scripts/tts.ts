@@ -14,7 +14,7 @@ export async function tts(opts: { text: string; voice?: string; lang?: string; m
       responseModalities: ["AUDIO"],
       speechConfig: {
         languageCode: opts.lang ?? "en-GB",
-        voiceConfig: { prebuiltVoiceConfig: { voiceName: opts.voice ?? "Sulafat" } },
+        voiceConfig: { prebuiltVoiceConfig: { voiceName: opts.voice ?? "Erinome" } },
       },
     },
   });

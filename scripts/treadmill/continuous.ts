@@ -13,24 +13,32 @@
 // the warm-up beat) as they change; each question as it opens (`turn`: __snState.next set and not busy); every held
 // step (`hold`: __snNav.next "ready", with how it ended; a Ready is a hold whose id starts "ready:"); each sound clip's
 // job (`show`) and the route it started on; right/wrong sounds (`sfx`); whether the scene was busy at each tap; the
-// game's nav log (every entry, not just the last 500); the splitter's deliberate splits and paw moves.
+// game's nav log (every entry, not just the last 500); the splitter's deliberate splits and paw moves. For the fast and
+// slow checks (FIX_PLAN §13.5, TEACHER_SCRIPT §9.6): the nav log's `speed` (the tortoise or the rabbit lit) and `rabbit`
+// (Move 1's join-in resolved) entries as events, and on every speech clip `lit`: which of the tortoise and the rabbit were
+// lit as it started (sampled then and 150 ms in: the nav layer's badges, [data-fs="tortoise"|"rabbit"] with class "lit"
+// or __snNav.speed.lit while they are drawn, or a warm-up's own .wu-speed buttons glowing).
 //
 // Personas: perfect, learner (about 1 in 3 first tries wrong), splitter (a learner's pace, and on the first try of any
-// slot whose spelling has two or more letters it taps a single-letter tile inside it: bot.ts), watcher (taps the paw once
-// at every Ready hold: bot.ts).
+// slot whose spelling has two or more letters it taps a tile that is part of it, wherever it is on screen: bot.ts),
+// watcher (taps the paw once at every Ready hold: bot.ts).
 //
 // Output: playtest/transcripts/<out>/continuous-<persona>.{md,json}
 // Usage: bun scripts/treadmill/continuous.ts [--base http://localhost:5173] [--persona learner,perfect] [--levels 12]
 //        [--optin none] [--from w5-1] [--fast 4] [--out playtest/transcripts/<run>]
 import { chromium, type Page } from "playwright";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { LINES } from "../../src/content/lines";
 import { LEVELS } from "../../src/content/worlds";
 import { teachEntry } from "../../src/content/phonics";
 import { STORIES } from "../../src/content/stories";
 import { warmupScript } from "../../src/content/warmups";
 import { step } from "./bot";
-import { gameOfScene } from "./script-audit";
+import { durations } from "./durations";
+import { fsNavEvents, gameOfScene } from "./script-audit";
+import { decodeForTranscript } from "../../src/content/templates-decode";
+import { helpGuard } from "../lib/help";
+helpGuard(import.meta.url); // --help prints the usage above and exits, before anything runs
 
 const arg = (k: string, d?: string) => {
   const i = process.argv.indexOf(`--${k}`);
@@ -50,11 +58,12 @@ const RUN = arg("out") ?? `playtest/transcripts/${new Date().toISOString().slice
 mkdirSync(RUN, { recursive: true });
 
 const LINE = new Map(LINES.map((l) => [l.id, l]));
-const PAGE = new Map(STORIES.flatMap((st) => st.pages.map((p) => [`${st.id}_${p.id}`, p.text] as const)));
-const DUR: Record<string, number> = JSON.parse(readFileSync("public/a/durations.json", "utf8"));
+const PAGE = new Map<string, string>(STORIES.flatMap((st) => st.pages.map((p) => [`${st.id}_${p.id}`, p.text] as const)));
+/** Clip lengths (durations.json, with the gapped slow words and newer clips measured from their files: durations.ts). */
+const DUR: Record<string, number> = durations();
 
 type Ev = {
-  t: number; kind: "say" | "sound" | "word" | "stretch" | "onset" | "story" | "tap" | "scene" | "piece" | "route" | "game" | "turn" | "hold" | "sfx" | "split" | "paw";
+  t: number; kind: "say" | "sound" | "word" | "stretch" | "onset" | "story" | "tap" | "scene" | "piece" | "route" | "game" | "turn" | "hold" | "sfx" | "split" | "paw" | "speed" | "rabbit";
   who?: string; text: string; id?: string; dur?: number; cut?: boolean;
   /** a sound clip's job (§3.1: petal, tile, hidden, or unclassified), the route any clip started on, and whether the map
    *  or App's fade from it was still on screen (a level's line that starts then speaks over the map: Dec5) */
@@ -63,10 +72,15 @@ type Ev = {
   nav?: string | null; busy?: boolean;
   /** a hold: when it ended and how (next, show, board: <label>, answer: <label>, none); a split: the spelling and the tile */
   end?: number; how?: string; next?: string; tapped?: string; game?: string | null;
+  /** a speech clip: the fast/slow badges lit as it started ("slow", "fast"); a speed event: which one lit */
+  lit?: string[]; which?: string;
 };
 
 function decode(url: string): Omit<Ev, "t"> | null {
   let m;
+  // a templated clip (/a/t/, docs/SPEECH_TEMPLATES.md): its text, from the template registry
+  const tpl = decodeForTranscript(url);
+  if (tpl) return tpl;
   const dur = (k: string) => DUR[k];
   if ((m = url.match(/\/a\/l\/([^/]+)\.mp3/))) {
     const l = LINE.get(m[1]);
@@ -102,6 +116,9 @@ const pieceNow = (page: Page) =>
  *  level and the warm-up beat. A warm-up's tap-all is "tapall:in" when its script beat is a sound in the middle. */
 function gameNow(st: any, level: string | null, tiles: boolean, tapallN: number): string | null {
   if (typeof st?.game === "string") return st.game;
+  // a scene that publishes `game: null` says it is not a game (Show Sensei's placement keeps scene "find" for the bots;
+  // the opt-in, Training, the rewards, the film): don't guess one from the scene (lane A's request, integration 27 Sep)
+  if (st && "game" in st && st.game === null) return null;
   if (st?.scene === "warmup" && st.beat === "tapall") {
     let how = st.how;
     if (!how && st.key) {
@@ -143,8 +160,43 @@ async function play(page: Page, persona: Persona) {
     w.__botPersona = persona;
     // every clip, with the route and scene it started on (a level line that starts on the map spoke over it)
     const log: any[] = [];
+    // which of the tortoise and the rabbit are lit right now (TEACHER_SCRIPT §9.6): the nav layer's badges, or a
+    // warm-up's own speed buttons (glow, flash or pulse)
+    const shown = (el: Element) => {
+      const r = el.getBoundingClientRect();
+      if (r.width < 4 || r.height < 4) return false;
+      for (let e: Element | null = el; e; e = e.parentElement) {
+        const cs = getComputedStyle(e);
+        if (cs.display === "none" || cs.visibility === "hidden" || Number(cs.opacity) < 0.2) return false;
+      }
+      return true;
+    };
+    // lit: the nav layer's badge with class "lit" (or data-lit); a warm-up's own button glowing, flashing or pulsing
+    const on = (el: Element) => {
+      const c = el.getAttribute("class") ?? "";
+      if (el.matches(".wu-speed")) return /\b(glow|flash|pulse)\b/.test(c);
+      const d = el.getAttribute("data-lit");
+      return /\blit\b/.test(c) || (d !== null && d !== "false" && d !== "0");
+    };
+    const litNow = () => {
+      const out: string[] = [];
+      const sp = w.__snNav?.speed;
+      if (sp && sp.shown !== false && typeof sp.lit === "string") out.push(sp.lit);
+      for (const [sel, which] of [['[data-fs="tortoise"], [data-speed="slow"], .wu-speed.tortoise', "slow"], ['[data-fs="rabbit"], [data-speed="fast"], .wu-speed.rabbit', "fast"]])
+        if (!out.includes(which) && [...document.querySelectorAll(sel)].some((el) => on(el) && shown(el))) out.push(which);
+      return out;
+    };
     log.push = function (...items: any[]) {
-      for (const it of items) Array.prototype.push.call(this, { ...it, route: w.__snRoute != null ? String(w.__snRoute) : null, scene: w.__snState?.scene ?? null, mapOn: !!document.querySelector(".scene.map") || [...document.querySelectorAll(".fullscreen-fade")].some((f) => f.getAnimations().some((a) => a.playState === "running")) });
+      for (const it of items) {
+        const rec: any = { ...it, route: w.__snRoute != null ? String(w.__snRoute) : null, scene: w.__snState?.scene ?? null, mapOn: !!document.querySelector(".scene.map") || [...document.querySelectorAll(".fullscreen-fade")].some((f) => f.getAnimations().some((a) => a.playState === "running")) };
+        if (it?.kind === "speech") {
+          rec.lit = litNow();
+          setTimeout(() => {
+            for (const x of litNow()) if (!rec.lit.includes(x)) rec.lit.push(x);
+          }, 150);
+        }
+        Array.prototype.push.call(this, rec);
+      }
       return this.length;
     };
     w.__audioLog = log;
@@ -156,6 +208,24 @@ async function play(page: Page, persona: Persona) {
       return Array.prototype.push.apply(this, items);
     };
     w.__snNavLog = nav;
+    // the streak's granted tier lines (streak.ts keeps its last 50 in __snStreak.lines): keep every one, for script-audit's
+    // exact master-early (Dec2: a tier line rests on whole answers)
+    const granted: any[] = (w.__botStreakLines = []);
+    let streakProbe: any;
+    Object.defineProperty(w, "__snStreak", {
+      configurable: true,
+      get: () => streakProbe,
+      set: (v) => {
+        streakProbe = v;
+        if (v && Array.isArray(v.lines)) {
+          const push0 = v.lines.push;
+          v.lines.push = function (...items: any[]) {
+            granted.push(...items);
+            return push0.apply(this, items);
+          };
+        }
+      },
+    });
     addEventListener("pointerdown", (e) => {
       const el = (e.target as Element).closest?.("[aria-label], button, .tile, .card");
       const n = (e.target as Element).closest?.("[data-nav]")?.getAttribute("data-nav") ?? null;
@@ -295,7 +365,7 @@ async function play(page: Page, persona: Persona) {
             const wrong = page.locator(`button.tile:not([aria-label="${st.next}"]), .pick-row button:not([aria-label="${st.next}"])`).first();
             if (await wrong.count()) {
               await page.waitForTimeout(think);
-              await wrong.dispatchEvent("pointerdown").catch(() => {});
+              await wrong.dispatchEvent("pointerdown", undefined, { timeout: 800 }).catch(() => {});
               await page.waitForTimeout(3500 / FAST);
               continue;
             }
@@ -317,9 +387,9 @@ async function play(page: Page, persona: Persona) {
   }
   await page.waitForTimeout(1500);
   if (hold) holds.push({ ...hold, end: null });
-  const { audio, taps, navlog, splits, off } = await page.evaluate(() => { const w = window as any; return { audio: w.__audioLog ?? [], taps: w.__taps ?? [], navlog: w.__botNavLog ?? [], splits: w.__botSplits ?? [], off: Date.now() - performance.now() }; });
+  const { audio, taps, navlog, splits, splitNone, streakLines, off } = await page.evaluate(() => { const w = window as any; return { audio: w.__audioLog ?? [], taps: w.__taps ?? [], navlog: w.__botNavLog ?? [], splits: w.__botSplits ?? [], splitNone: w.__botSplitNone ?? [], streakLines: w.__snStreak ? w.__botStreakLines ?? [] : null, off: Date.now() - performance.now() }; });
   const game = (t: number) => Math.round(((t - t0) * FAST) / 100) / 10;
-  const speech: Ev[] = audio.filter((a: any) => a.kind === "speech").map((a: any) => { const d = decode(a.url); return d ? { t: game(a.t), ...d, ...(d.kind === "sound" ? { show: a.show ?? "unclassified" } : {}), ...(a.route ? { route: a.route } : {}), ...(d.kind === "say" && a.mapOn !== undefined ? { mapOn: !!a.mapOn } : {}) } : null; }).filter(Boolean);
+  const speech: Ev[] = audio.filter((a: any) => a.kind === "speech").map((a: any) => { const d = decode(a.url); return d ? { t: game(a.t), ...d, ...(d.kind === "sound" ? { show: a.show ?? "unclassified" } : {}), ...(a.route ? { route: a.route } : {}), ...(d.kind === "say" && a.mapOn !== undefined ? { mapOn: !!a.mapOn } : {}), ...(Array.isArray(a.lit) && a.lit.length ? { lit: a.lit } : {}) } : null; }).filter(Boolean);
   // a clip is cut off when the next speech clip starts before it could have finished (its recorded length, less 150 ms)
   for (let i = 0; i + 1 < speech.length; i++) {
     const e = speech[i];
@@ -343,6 +413,8 @@ async function play(page: Page, persona: Persona) {
   const sfx: Ev[] = audio.filter((a: any) => a.kind === "sfx" && /^sfx:(good|great|wrong)$/.test(a.url)).map((a: any) => ({ t: game(a.t), kind: "sfx" as const, text: a.url.slice(4) }));
   const splitEvs: Ev[] = splits.map((s: any) => ({ t: game(s.t), kind: "split" as const, text: `${s.tapped} for ${s.next}`, next: s.next, tapped: s.tapped }));
   const paws: Ev[] = nav.filter((e: any) => e.kind === "paw" || e.kind === "demo").map((e: any) => ({ t: e.t, kind: "paw" as const, text: e.id ?? e.kind }));
+  // the tortoise and the rabbit (nav log `speed`, `rabbit`); a rabbit tap the tap log missed becomes a tap
+  const fs = fsNavEvents(nav, tapEvs) as Ev[];
   const evs: Ev[] = [
     ...speech,
     ...tapEvs,
@@ -353,8 +425,13 @@ async function play(page: Page, persona: Persona) {
     ...sfx,
     ...splitEvs,
     ...paws,
+    ...fs,
   ].sort((a, b) => a.t - b.t);
-  return { evs, dom: dom.map((d) => ({ t: game(d.t), nodes: d.nodes, fx: d.fx })), stones, navlog: nav };
+  // the splitter's two-letter slots that offered no part of the spelling to tap (so no split was possible there)
+  const noSplit = splitNone.map((s: any) => ({ t: game(s.t), next: s.next, word: s.word, bank: s.bank }));
+  // the tier lines the streak granted (null: a build before streak.ts published __snStreak), on the game clock
+  const streak = streakLines ? streakLines.map((l: any) => ({ ...l, t: game(l.t + off) })) : null;
+  return { evs, dom: dom.map((d) => ({ t: game(d.t), nodes: d.nodes, fx: d.fx })), stones, navlog: nav, noSplit, streakLines: streak };
 }
 
 const fmt = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toFixed(1).padStart(4, "0")}`;
@@ -376,6 +453,11 @@ function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
       words.push(e.cut ? `${w}✂` : w);
       continue;
     }
+    // the fast/slow badges: [tortoise] or [rabbit] where one lit, among the sounds and words
+    if (e.kind === "speed") {
+      words.push(e.text === "slow" ? "[tortoise]" : e.text === "fast" ? "[rabbit]" : `[${e.text}]`);
+      continue;
+    }
     if (["route", "game", "turn", "sfx"].includes(e.kind)) continue;
     if (e.kind === "hold" && !/^ready:/.test(e.text)) continue;
     flush();
@@ -391,6 +473,7 @@ function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
       out.push(`${ts}     [ready: ${e.text.replace(/^ready:/, "")}: ${how}${e.end != null ? ` after ${(e.end - e.t).toFixed(1)} s` : ""}]`);
     } else if (e.kind === "split") out.push(`${ts}     > child taps < ${e.tapped} > for < ${e.next} > (splitter: a deliberate split)`);
     else if (e.kind === "paw") out.push(`${ts}     (the paw: ${e.text})`);
+    else if (e.kind === "rabbit") out.push(`${ts}     (the rabbit: ${e.text === "tap" ? "the child tapped it" : e.text === "timeout" ? "no tap in 12 s; Sensei says it fast" : e.text})`);
   }
   flush();
   out.push("", "## Page size over time (DOM elements; fx layer children)", "", r.dom.map((d) => `${fmt(d.t)} ${d.nodes}/${d.fx}`).join(" · "));
@@ -406,7 +489,8 @@ await Promise.all(
     const meta = { persona, from: FROM ?? null, optin: OPTIN, fast: FAST, levels: LEVELS_AFTER, base: BASE, at: new Date().toISOString() };
     writeFileSync(`${RUN}/continuous-${persona}${FROM ? `-from-${FROM}` : ""}.json`, JSON.stringify({ meta, ...r }, null, 1));
     writeFileSync(`${RUN}/continuous-${persona}${FROM ? `-from-${FROM}` : ""}.md`, render(persona, r));
-    console.log(`${persona}: ${r.stones} stones, ${r.evs.filter((e) => e.kind === "say").length} lines, ${r.evs.filter((e) => e.cut).length} cut off, ${r.evs.filter((e) => e.kind === "hold" && /^ready:/.test(e.text)).length} Ready holds, ${r.evs.filter((e) => e.kind === "split").length} splits`);
+    const splits = r.evs.filter((e) => e.kind === "split").length;
+    console.log(`${persona}: ${r.stones} stones, ${r.evs.filter((e) => e.kind === "say").length} lines, ${r.evs.filter((e) => e.cut).length} cut off, ${r.evs.filter((e) => e.kind === "hold" && /^ready:/.test(e.text)).length} Ready holds, ${splits} splits${persona === "splitter" ? ` (${r.noSplit.length} more two-letter slots offered no part of the spelling)` : ""}`);
     await ctx.close();
   }),
 );

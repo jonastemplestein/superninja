@@ -31,7 +31,7 @@ export const STORIES: Story[] = [
       { id: "4", kind: "read", scene: "path", hero: "run", text: "Tip, tap, tip, tap." },
       { id: "5", kind: "choice", scene: "fork", hero: "idle", text: "Two places to look! Where is the pot hidden?", options: [{ word: "pit", next: "5a" }, { word: "mat", next: "6" }] },
       { id: "5a", kind: "read", scene: "pit", text: "Pip! Nap, Pip, nap.", next: "5b" },
-      { id: "5b", kind: "narr", scene: "pit", text: "Shhh! Let's tiptoe away and let Pip the panda sleep. Try the other place!", next: "5" },
+      { id: "5b", kind: "narr", scene: "pit", text: "Shhh! Let's tiptoe away and let Pip the panda sleep. Try the other place.", next: "5" },
       { id: "6", kind: "read", scene: "mat", hero: "cheer", text: "Pot! Pot on mat!" },
       { id: "7", kind: "narr", scene: "feast", hero: "cheer", text: "The pandas cheered and gobbled up every last dumpling. And look! Inside the pot was a glowing sound petal." },
       { id: "q", kind: "question", scene: "feast", text: "What did Baron Muddle hide?", options: [{ img: "pic_pot", label: "pot", correct: true }, { img: "pic_map", label: "map" }, { img: "pic_pan", label: "pan" }] },
@@ -99,7 +99,7 @@ export const STORIES: Story[] = [
       { id: "3", kind: "narr", scene: "plan", hero: "idle", text: "Super Ninja had a plan: make a log into a boat! But what could hold the sticks on?" },
       { id: "4", kind: "choice", scene: "plan", hero: "idle", text: "What will hold the sticks on?", options: [{ word: "jam", next: "4a" }, { word: "belt", next: "5" }] },
       { id: "4a", kind: "read", scene: "jam", text: "Jam? It is a big mess!", next: "4b" },
-      { id: "4b", kind: "narr", scene: "jam", text: "Splodge! Jam is yummy, but it's no good for building boats. Try again!", next: "4" },
+      { id: "4b", kind: "narr", scene: "jam", text: "Splodge! Jam is yummy, but it's no good for building boats. Try again.", next: "4" },
       { id: "5", kind: "read", scene: "log", hero: "cheer", text: "Frog and I sit on the log. Drift, log, drift!" },
       { id: "6", kind: "narr", scene: "far", hero: "cheer", text: "They drifted all the way across Dragon River. Frog's gran was waiting on the far bank, with a sound petal!" },
       { id: "q", kind: "question", scene: "far", text: "What did they ride across the river?", options: [{ img: "pic_log", label: "log", correct: true }, { img: "pic_bus", label: "bus" }, { img: "pic_van", label: "van" }] },
@@ -145,8 +145,10 @@ export const STORIES: Story[] = [
       { id: "5a", kind: "read", scene: "snail", text: "The snail is slow, slow, slow. Go, snail, go!", next: "6" },
       { id: "5b", kind: "read", scene: "goat", text: "The goat eats a coat. Yuck!", next: "6" },
       { id: "6", kind: "read", scene: "happy", hero: "cheer", text: "He is not sad. He can grin!" },
-      { id: "7", kind: "narr", scene: "bloom", hero: "cheer", text: "And with a happy sniff, the Baron gave back the very last petal. The World Flower burst into bloom, and the whole island filled with sounds, words and stories once more. The end!" },
-      { id: "q", kind: "question", scene: "bloom", text: "What made the Baron happy?", options: [{ img: "item_scroll", label: "a story", correct: true }, { img: "pic_rain", label: "rain" }, { img: "pic_boat", label: "a boat" }] },
+      // Baron final only (27 Sep, docs/fix-requests.md row 18): the Baron no longer gives the petal back; he whistles up
+      // the Sky Magpie, w6-11's boss. The finale keeps the bloom (story_s6_bloom) for the real end
+      { id: "7", kind: "narr", scene: "happy", hero: "idle", text: "The Baron grinned a big, sly grin. Then he gave a long, sneaky whistle, and something big and shiny swooped down from the temple roof..." },
+      { id: "q", kind: "question", scene: "happy", text: "What made the Baron happy?", options: [{ img: "item_scroll", label: "a story", correct: true }, { img: "pic_rain", label: "rain" }, { img: "pic_boat", label: "a boat" }] },
     ],
   },
 ];

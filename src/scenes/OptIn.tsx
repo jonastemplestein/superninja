@@ -1,33 +1,46 @@
-// The opt-in (docs/FIRST_MINUTES.md §4): a brand-new child tells Sensei whether they go to big school, and which
-// class, and hears that their grown-ups can change it later. It happens in the dojo, right after "Now, choose your
-// ninja!", with the ninja bottom-left, Sensei's Help bottom-right and the grown-ups' gear top-right (press and hold to
-// open).
-//   A: "Do you go to big school yet?"  TEDDY (not yet) · SCHOOL (yes, with the child's own ninja at the gate)
-//   B: "Which class are you in?"       three class doors (Reception ★, Year One 1, Year Two 2) · "Not sure?" cloud
+// The opt-in (docs/FIRST_MINUTES.md §4; the teacher's voice: docs/TEACHER_SCRIPT.md §3.3, FIX_PLAN TV-A.2): a
+// brand-new child tells Sensei whether they go to big school, and which class, and hears that their grown-ups can change
+// it later. It happens in the dojo, right after Choose, with the ninja bottom-left, Sensei's Help bottom-right and the
+// grown-ups' gear top-right (press and hold to open). A friendly question, not a quiz: the reason first, then each
+// "If…" line lands slowly on its spotlit card.
+//   A: "First, let's find the right games for you." · "Do you go to big school yet?" (both cards bob once) · "If you
+//      don't go yet, tap the teddy." (the teddy spotlit on "teddy") · "If you do, tap the school." (the school on
+//      "school"). A tap: "Not yet. That's fine." / "You go to big school.", with a gold ring round the card.
+//   B: "Which class are you in? Tap your class." · the doors' labels, each spotlit · "Not sure? Tap the cloud."
 // Navigation (docs/NAVIGATION.md §5.A; nothing moves on by itself): taps count from the moment the cards land, even
-// during the question (they cut Sensei off), and say the card's own label. A tap SELECTS the card: a gold ring draws
-// round it and stays; tapping another moves it. The big green Next arrow (dim until something is selected) confirms.
-// Hear it again says the question and each card's label with its spotlight; screen B has ◀ Back to A. Silence: after
-// 8 s Sensei asks again (the cards bob), once more at 20 s, then waits; the game never chooses for the child.
+// during the question (they cut Sensei off). A tap SELECTS the card: the gold ring draws round it and stays; tapping
+// another moves it. The big green Next arrow (dim until something is selected) confirms. Hear it again says the
+// question and each card's label with its spotlight; screen B has ◀ Back to A. Silence (quiet game time, with nothing
+// selected): 8 s, the "If…" lines again with the cards bobbing (B: "Tap your class, or the cloud."); 20 s, "Ask a
+// grown-up to help you choose." with the gear glowing; then Sensei waits: the game never chooses for the child (so
+// TEACHER_SCRIPT's 40 s default isn't brought back: NAVIGATION rule 5).
 // Confirming: the chosen card shrinks into a badge that flies to the grown-ups' gear, which glows and wiggles while
-// Sensei says what she has set up, then "Your grown-ups can change this later, in the grown-ups' settings." That
-// holds on Next (Hear it again says it again) before the first lesson. Home goes to the title (nothing is saved yet).
+// Sensei says what she has set up ("Then we'll start with some listening games, just for you."), then "Grown-ups, you
+// can change this later in the settings." That holds on Next: "Now come with me to the dojo. Tap the green arrow."
+// (Hear it again says it all again) before the dojo welcome. Home goes to the title (nothing is saved yet).
 // Mode "newyear" (the first launch on or after 1 September): "It's a new school year! Which class are you in now?"
 // then screen B; "Not sure?" keeps last year's class.
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { say, sfx, playMusic, hush, preload, urls, type Say } from "../engine/audio";
+import { say, sfx, playMusic, hush, preload, urls, onClip, type Say } from "../engine/audio";
+import { FAST } from "../engine/fast";
 import type { SchoolYear } from "../engine/store";
+import { LINES } from "../content/lines";
+import { wordAt } from "../content/word-times";
 import { img, heroImg, fx, sleep, tapProps, useHelp, useHero, SenseiDock, Icon, stageRect } from "../ui/ui";
 import { NinjaSpot, ninja } from "../ui/Ninja";
 import { useNav, holdNext, nudgeNext } from "../ui/nav";
+import { quietLadder } from "./Training";
 import "../styles/optin.css";
 import "../styles/nav-A.css";
 
 type Choice = "notyet" | "school" | "R" | "Y1" | "Y2" | "unsure";
 interface Card { id: Choice; label: string; echo: string; sayLabel: string }
+const HAS = new Set(LINES.map((l) => l.id));
+/** A line, or the older one it replaces until it has text (every caller guards: SCRIPT_FIXES Part B). */
+const pick = (id: string, old: string) => (HAS.has(id) ? id : old);
 const A: Card[] = [
-  { id: "notyet", label: "teddy", echo: "fm_opt_echo_notyet", sayLabel: "fm_opt_notyet" },
-  { id: "school", label: "school", echo: "fm_opt_echo_school", sayLabel: "fm_opt_yes" },
+  { id: "notyet", label: "teddy", echo: pick("tv_opt_echo_notyet", "fm_opt_echo_notyet"), sayLabel: pick("tv_opt_notyet", "fm_opt_notyet") },
+  { id: "school", label: "school", echo: pick("tv_opt_echo_school", "fm_opt_echo_school"), sayLabel: pick("tv_opt_yes", "fm_opt_yes") },
 ];
 const B: Card[] = [
   { id: "R", label: "Reception", echo: "fm_opt_rec", sayLabel: "fm_opt_rec" },
@@ -35,7 +48,23 @@ const B: Card[] = [
   { id: "Y2", label: "Year Two", echo: "fm_opt_y2", sayLabel: "fm_opt_y2" },
   { id: "unsure", label: "Not sure", echo: "fm_opt_unsure", sayLabel: "fm_opt_unsure" },
 ];
-const CONFIRM: Record<Exclude<Choice, "school">, string> = { notyet: "fm_opt_ok_notyet", unsure: "fm_opt_ok_unsure", R: "fm_opt_ok_rec", Y1: "fm_opt_ok_y1", Y2: "fm_opt_ok_y2" };
+const CONFIRM: Record<Exclude<Choice, "school">, string> = { notyet: pick("tv_opt_ok_notyet", "fm_opt_ok_notyet"), unsure: "fm_opt_ok_unsure", R: "fm_opt_ok_rec", Y1: "fm_opt_ok_y1", Y2: "fm_opt_ok_y2" };
+const GROWNUPS = pick("tv_opt_grownups", "fm_opt_grownups");
+/** The cards each clip spotlights (TEACHER_SCRIPT §3.3): an "If…" line on the word that names its card (content/
+ *  word-times.ts), a door's label from its start. */
+const SPOTS: Record<string, [Choice, string | null][]> = {
+  tv_opt_notyet: [["notyet", "teddy"]],
+  tv_opt_yes: [["school", "school"]],
+  tv_opt_again: [["notyet", "teddy"], ["school", "school"]],
+  fm_opt_notyet: [["notyet", null]],
+  fm_opt_yes: [["school", null]],
+  fm_opt_rec: [["R", null]],
+  fm_opt_y1: [["Y1", null]],
+  fm_opt_y2: [["Y2", null]],
+  fm_opt_unsure: [["unsure", null]],
+};
+/** A spotlight comes on this long before its word, so it has landed as the word is said (game ms). */
+const SPOT_LEAD = 180;
 const YEAR: Record<Exclude<Choice, "school">, SchoolYear> = { notyet: "none", unsure: "unsure", R: "R", Y1: "Y1", Y2: "Y2" };
 const GEAR = { x: 1206, y: 58 };
 
@@ -55,6 +84,7 @@ export function OptIn({ onDone, onGrownups, onHome, mode = "new", lastYear }: { 
   const [spot, setSpot] = useState<Choice | null>(null);
   const [selected, setSelected] = useState<{ id: Choice; n: number } | null>(null);
   const [bob, setBob] = useState(0);
+  const [bobOnce, setBobOnce] = useState(0); // bumps: both cards bob once (on "Do you go to big school yet?")
   const [chosen, setChosen] = useState<Choice | null>(null);
   const [confirming, setConfirming] = useState(false);
   const [gear, setGear] = useState(0); // > 0: the gear glows; bumps restart its wiggle
@@ -63,45 +93,43 @@ export function OptIn({ onDone, onGrownups, onHome, mode = "new", lastYear }: { 
   const live = useRef(true);
   const locked = useRef(false);
   const selRef = useRef<Choice | null>(null);
-  const idle = useRef<number[]>([]);
-  const talk = useRef(0); // the question's spoken run: a newer one (Hear it again, Help, Back) stops an older one
+  const idle = useRef<{ stop(): void } | null>(null);
+  const talk = useRef(0); // the question's spoken run: a newer one (Hear it again, Help, Back, a tap) stops an older one
   const confirmSaid = useRef<Promise<boolean> | null>(null);
   const confirmLines = useRef<Say[]>([]);
+  const confirmToDojo = useRef(false); // the latest run of the confirm lines ends on "Now come with me to the dojo…"
   const screenRef = useRef(screen);
   screenRef.current = screen;
   const cards = screen === "A" ? A : B;
+  /** The hold's line (mode "new": on to the dojo welcome). */
+  const toDojo: Say[] = mode === "new" && HAS.has("tv_opt_to_dojo") ? [{ line: "tv_opt_to_dojo" }] : [];
 
-  const question = (s: "A" | "B", again = false): Say[] =>
+  /** The question and each card's label: the "If…" lines on screen A, the doors' labels on B (the spotlights follow the
+   *  clips: see the onClip effect below). `first`: the reason first ("First, let's find the right games for you."). */
+  const question = (s: "A" | "B", first = false): Say[] =>
     s === "A"
-      ? again ? [{ line: "fm_opt_q1_again" }] : [{ line: "fm_opt_q1" }]
-      : again ? [{ line: "fm_opt_q2_again" }] : [{ line: mode === "newyear" ? "fm_newyear_q" : "fm_opt_q2" }];
+      ? [...(first && HAS.has("tv_opt_why") ? [{ line: "tv_opt_why" }, { gap: 300 }] : []), { line: "fm_opt_q1" }, { gap: 350 }, { line: A[0].sayLabel }, { gap: 350 }, { line: A[1].sayLabel }]
+      : [{ line: mode === "newyear" ? "fm_newyear_q" : "fm_opt_q2" }, { gap: 350 }, ...B.flatMap((c): Say[] => [{ line: c.sayLabel }, { gap: 300 }])];
+  /** 8 s of quiet with nothing selected: the "If…" lines again (B: "Tap your class, or the cloud."). */
+  const again8 = (s: "A" | "B"): Say[] => (s === "A" ? [{ line: pick("tv_opt_again", "fm_opt_q1_again") }] : [{ line: "fm_opt_q2_again" }]);
 
-  /** The question, then each card's label while that card is spotlit. A tap, or a newer run, stops it. */
-  const sayQuestion = async (s: "A" | "B") => {
+  /** The question, then each card's label with its spotlight. A tap, or a newer run, stops it. */
+  const sayQuestion = async (s: "A" | "B", first = false) => {
     const my = ++talk.current;
-    const ok = await say(question(s));
-    if (!ok || my !== talk.current || locked.current || !live.current) return false;
-    for (const c of s === "A" ? A : B) {
-      if (my !== talk.current || locked.current || !live.current || screenRef.current !== s) return false;
-      setSpot(c.id);
-      await sleep(150);
-      const done = await say({ line: c.sayLabel });
-      await sleep(250);
-      if (my === talk.current) setSpot(null);
-      if (!done) return false;
-    }
-    return my === talk.current;
+    const ok = await say(question(s, first));
+    return ok && my === talk.current && !locked.current && live.current && screenRef.current === s;
   };
-  /** A screen's cards land, then Sensei asks. */
+  /** A screen's cards land (they work from now), then Sensei asks. */
   const ask = async (s: "A" | "B") => {
     clearIdle();
     await sleep(400);
     if (!live.current || screenRef.current !== s) return;
     setLanded(true);
-    if ((await sayQuestion(s)) && !selRef.current) startIdle(s);
+    const done = await sayQuestion(s, s === "A");
+    if (done && !selRef.current) startIdle(s);
     if (screenRef.current === s) setAsked(true);
   };
-  /** Hear it again (and Help's first press): the question and the labels again. */
+  /** Hear it again (and Help's first press): the question and the labels again (not the reason). */
   const askAgain = async () => {
     if (locked.current) return;
     clearIdle();
@@ -109,26 +137,55 @@ export function OptIn({ onDone, onGrownups, onHome, mode = "new", lastYear }: { 
     if ((await sayQuestion(s)) && !selRef.current) startIdle(s);
   };
   const clearIdle = () => {
-    idle.current.forEach(clearTimeout);
-    idle.current = [];
+    idle.current?.stop();
+    idle.current = null;
   };
-  /** Silence, with nothing selected: 8 s → ask again, the cards bob; 20 s → once more; then Sensei waits. */
+  /** Silence, with nothing selected (quiet game time): 8 s → the "If…" lines again, the cards bob; 20 s → "Ask a
+   *  grown-up to help you choose.", the gear glows; then Sensei waits. */
   const startIdle = (s: "A" | "B") => {
     clearIdle();
-    const nudge = () => {
-      if (locked.current || selRef.current || screenRef.current !== s) return;
-      // (off for two frames, then on: the bob starts again)
-      setBob(0);
-      requestAnimationFrame(() => requestAnimationFrame(() => setBob((k) => k + 1)));
-      void say(question(s, true));
-    };
-    idle.current.push(window.setTimeout(nudge, 8000), window.setTimeout(nudge, 20000));
+    idle.current = quietLadder([8000, 20000], (k) => {
+      if (locked.current || selRef.current || screenRef.current !== s || !live.current) return;
+      if (k === 0) {
+        // (off for two frames, then on: the bob starts again)
+        setBob(0);
+        requestAnimationFrame(() => requestAnimationFrame(() => setBob((b) => b + 1)));
+        talk.current++;
+        void say(again8(s));
+      } else {
+        setGear((g) => g + 1);
+        talk.current++;
+        void say([{ line: pick("tv_opt_ask", "fm_opt_q1_again") }]);
+      }
+    });
   };
+
+  // the spotlights follow the speech (TEACHER_SCRIPT §3.3): a card is lit on the word that names it, or for its label's
+  // clip, and goes off as the clip ends; "Do you go to big school yet?" bobs both cards once
+  useEffect(
+    () =>
+      onClip((id, start, end) => {
+        if (!live.current || locked.current) return;
+        if (id === "fm_opt_q1") return void setBobOnce((k) => k + 1);
+        const spots = SPOTS[id];
+        if (!spots) return;
+        const my = talk.current;
+        const len = (end - start) * FAST; // game ms (setTimeout runs in game time)
+        spots.forEach(([c, word], i) => {
+          const at = word ? wordAt(id, word) : 0;
+          const on = at === undefined ? 0 : Math.max(0, at * 1000 - SPOT_LEAD);
+          const off = i + 1 < spots.length ? (wordAt(id, spots[i + 1][1] ?? "") ?? len / 1000) * 1000 - SPOT_LEAD : len + 350;
+          setTimeout(() => my === talk.current && !selRef.current && setSpot(c), on);
+          setTimeout(() => my === talk.current && setSpot((x) => (x === c ? null : x)), Math.max(on + 300, off));
+        });
+      }),
+    [],
+  );
 
   useEffect(() => {
     live.current = true;
     playMusic("dojo");
-    preload([...A, ...B].flatMap((c) => [urls.line(c.echo), urls.line(c.sayLabel)]).concat(Object.values(CONFIRM).map(urls.line), [urls.line("fm_opt_grownups")]));
+    preload([...A, ...B].flatMap((c) => [urls.line(c.echo), urls.line(c.sayLabel)]).concat(Object.values(CONFIRM).map(urls.line), [urls.line(GROWNUPS), urls.line("tv_opt_why"), urls.line("tv_opt_to_dojo")]));
     void ask(screen);
     return () => {
       live.current = false;
@@ -152,7 +209,7 @@ export function OptIn({ onDone, onGrownups, onHome, mode = "new", lastYear }: { 
     [screen],
   );
 
-  /** A tap: say the card's label, and select it (a gold ring round it; another tap moves it). */
+  /** A tap: say the card's echo ("Not yet. That's fine."), and select it (a gold ring round it; another tap moves it). */
   const tap = (c: Card) => {
     if (locked.current || !landed) return;
     clearIdle();
@@ -199,11 +256,13 @@ export function OptIn({ onDone, onGrownups, onHome, mode = "new", lastYear }: { 
   const toClasses = () => toScreen("B");
   const toA = () => toScreen("A");
 
-  /** What Sensei has set up, and that the grown-ups can change it (Hear it again says it again; the gear wiggles). */
+  /** What Sensei has set up, that the grown-ups can change it, and the way on (Hear it again says it again; the gear
+   *  wiggles). */
   const sayConfirm = () => {
     setGear((k) => k + 1);
-    const p = say(confirmLines.current);
+    const p = say([...confirmLines.current, ...(toDojo.length ? [{ gap: 350 }, ...toDojo] : [])]);
     confirmSaid.current = p;
+    confirmToDojo.current = toDojo.length > 0;
     return p;
   };
 
@@ -214,13 +273,14 @@ export function OptIn({ onDone, onGrownups, onHome, mode = "new", lastYear }: { 
     clearIdle();
     talk.current++;
     setSelected(null);
+    setSpot(null);
     hush();
     const year = mode === "newyear" && id === "unsure" ? lastYear ?? "unsure" : YEAR[id];
     const movedUp = mode === "newyear" && id !== "unsure" && year !== lastYear;
     confirmLines.current =
       mode === "newyear"
-        ? movedUp ? [{ line: "fm_newyear_up" }, { gap: 300 }, { line: "fm_opt_grownups" }] : [{ line: "fm_opt_grownups" }]
-        : [{ line: CONFIRM[id] }, { gap: 300 }, { line: "fm_opt_grownups" }];
+        ? movedUp ? [{ line: "fm_newyear_up" }, { gap: 300 }, { line: GROWNUPS }] : [{ line: GROWNUPS }]
+        : [{ line: CONFIRM[id] }, { gap: 300 }, { line: GROWNUPS }];
     setChosen(id);
     // the chosen card shrinks into a badge that flies to the grown-ups' gear
     const el = document.querySelector(`.oi [data-choice="${id}"]`);
@@ -235,23 +295,27 @@ export function OptIn({ onDone, onGrownups, onHome, mode = "new", lastYear }: { 
     await sleep(350);
     if (!live.current) return;
     confirmSaid.current ??= say(confirmLines.current);
-    // (a Hear it again meanwhile starts the lines over: wait for the latest run)
+    // (a Hear it again meanwhile starts the lines over, "…to the dojo" included: wait for the latest run)
+    let said = false;
     for (let p = confirmSaid.current; ; p = confirmSaid.current!) {
-      await p;
+      said = await p;
       if (p === confirmSaid.current || !live.current) break;
     }
     await flown;
     if (!live.current) return;
-    // the step holds: Next goes on to the first lesson
-    if ((await holdNext("optin-confirm", sayConfirm)) && live.current) onDone({ year, silent: false, movedUp });
+    // the step holds on Next ("Now come with me to the dojo. Tap the green arrow.", unless a Hear it again has just said
+    // it): then the dojo welcome
+    const held = holdNext("optin-confirm", sayConfirm);
+    if (toDojo.length && !(said && confirmToDojo.current)) void say(toDojo);
+    if ((await held) && live.current) onDone({ year, silent: false, movedUp });
   };
 
   (window as any).__snState = {
-    scene: "optin", screen, choices: cards.map((c) => c.label), next: !landed || locked.current ? null : cards[0].label, asked, selected: selected?.id ?? null, chosen,
+    scene: "optin", game: null, screen, choices: cards.map((c) => c.label), next: !landed || locked.current ? null : cards[0].label, asked, selected: selected?.id ?? null, chosen,
   };
 
   const cls = (id: Choice) =>
-    `${spot === id ? "spot" : ""} ${spot && spot !== id ? "aside" : ""} ${bob ? "bob" : ""} ${selected?.id === id ? "sel" : ""} ${chosen === id ? "chosen" : ""} ${chosen && chosen !== id ? "gone" : ""}`;
+    `${spot === id ? "spot" : ""} ${spot && spot !== id ? "aside" : ""} ${bob ? "bob" : bobOnce && !chosen ? `bob1 b${bobOnce % 2}` : ""} ${selected?.id === id ? "sel" : ""} ${chosen === id ? "chosen" : ""} ${chosen && chosen !== id ? "gone" : ""}`;
   return (
     <div className={`scene oi ${screen === "B" ? "oi-b" : "oi-a"}`}>
       <img className="bg-img" src={img("dojo_bg")} alt="" />

@@ -4,6 +4,16 @@ import { WORDS, UNITS, dictationSafe, teachEntry, type PhonemeId, type Word } fr
 import { LEVELS, WORLDS, knownSpellings, setTrialLevel, MILESTONES, startLevelAfter, type Level } from "../content/worlds";
 import { store, ENERGY_FULL, type Save } from "./store";
 import { jumpOfferDue, told, type Exposure } from "../content/narrative";
+import { ageBandFor } from "../core/kernel/time";
+
+/** Gem battles are for a child of 5 or more (TEACHER_SCRIPT §4.2): the age band the core derives from the school year
+ *  (FIRST_MINUTES §4: not at big school yet, "not sure" and an old save count as 3, Reception as 4, a year more each
+ *  September). A younger child's gems still fill and glow, but Sensei doesn't promise them a battle (narrate.tsx
+ *  gemReadySay). */
+export function battlesForAge(s: Pick<Save, "schoolYear" | "schoolYearAt"> = store.get(), now = Date.now()): boolean {
+  const band = ageBandFor({ schoolYear: s.schoolYear ?? "unset", schoolYearAt: s.schoolYearAt }, now);
+  return band !== "3" && band !== "4";
+}
 
 export type GemState = "future" | "hidden" | "charging" | "ready" | "won";
 /** Has the child met this spelling (it has been taught, so its gem shows its letters)? */

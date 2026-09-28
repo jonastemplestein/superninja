@@ -1,0 +1,452 @@
+{
+ "name": "wu4-take5",
+ "url": "https://superninja.templestein.com/play/?level=w1-wu4",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 63.9,
+ "game": {
+  "start": 2.439,
+  "end": 62.205
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   18.6,
+   40.8,
+   37,
+   355.2,
+   36.2,
+   40.2,
+   33.7,
+   33.5,
+   51.2,
+   60.5
+  ],
+  "audioShiftMs": 47.3,
+  "residualMs": [
+   15.3,
+   -10.1,
+   -7.1,
+   null,
+   11.9,
+   -13.4,
+   -7.1,
+   9.9,
+   -25.1,
+   -18.1
+  ],
+  "residualMedianMs": -7.1,
+  "residualMaxAbsMs": 25.1
+ },
+ "frames": {
+  "frames": 3529,
+  "fps": 59.6,
+  "p50": 16.8,
+  "p95": 19.2,
+  "p99": 20.9,
+  "max": 35.3,
+  "hitches": 0,
+  "repeatedSlots": 0,
+  "slots": 1777,
+  "deliveryMs": 17.1
+ },
+ "master": "wu4-take5.master.mp4",
+ "audio": "wu4-take5.master.wav",
+ "recordedAt": "2026-09-27T06:02:15.625Z",
+ "events": [
+  {
+   "t": 0.715,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.023,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.326,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.626,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.945,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.487,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.506,
+   "kind": "hitch",
+   "id": "126 ms",
+   "dur": 0.126
+  },
+  {
+   "t": 2.554,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 2.73,
+   "kind": "scene",
+   "id": "warmup"
+  },
+  {
+   "t": 2.734,
+   "kind": "music",
+   "id": "dojo",
+   "dur": 61.191
+  },
+  {
+   "t": 3.364,
+   "kind": "speech",
+   "id": "fm_l2_way",
+   "dur": 1.404,
+   "text": "Ninjas read this way!"
+  },
+  {
+   "t": 5.603,
+   "kind": "speech",
+   "id": "fm_name_cat",
+   "dur": 1.184,
+   "text": "This is a cat."
+  },
+  {
+   "t": 7.062,
+   "kind": "speech",
+   "id": "fm_name_dog",
+   "dur": 0.87,
+   "text": "This is a dog."
+  },
+  {
+   "t": 8.21,
+   "kind": "speech",
+   "id": "fm_name_fish",
+   "dur": 1.275,
+   "text": "This is a fish."
+  },
+  {
+   "t": 9.637,
+   "kind": "speech",
+   "id": "fm_show_me",
+   "dur": 1.102,
+   "text": "Let me show you!"
+  },
+  {
+   "t": 10.739,
+   "kind": "speech",
+   "id": "fm_read_cat_dog_fish",
+   "dur": 4.364,
+   "text": "Cat... dog... fish. Cat-dog-fish!"
+  },
+  {
+   "t": 15.107,
+   "kind": "speech",
+   "id": "fm_l2_turn",
+   "dur": 1.995,
+   "text": "Your turn! Tap them the ninja way."
+  },
+  {
+   "t": 18.219,
+   "kind": "mark",
+   "id": "tap cat"
+  },
+  {
+   "t": 18.234,
+   "kind": "tap",
+   "id": "cat",
+   "text": "rect 360,292,236,236"
+  },
+  {
+   "t": 18.261,
+   "kind": "speech",
+   "id": "word:cat",
+   "dur": 0.547
+  },
+  {
+   "t": 19.896,
+   "kind": "mark",
+   "id": "tap dog"
+  },
+  {
+   "t": 19.897,
+   "kind": "tap",
+   "id": "dog",
+   "text": "rect 612,292,236,236"
+  },
+  {
+   "t": 19.926,
+   "kind": "speech",
+   "id": "word:dog",
+   "dur": 0.464
+  },
+  {
+   "t": 21.463,
+   "kind": "mark",
+   "id": "tap fish"
+  },
+  {
+   "t": 21.465,
+   "kind": "tap",
+   "id": "fish",
+   "text": "rect 864,292,236,236"
+  },
+  {
+   "t": 21.489,
+   "kind": "speech",
+   "id": "word:fish",
+   "dur": 0.69
+  },
+  {
+   "t": 22.457,
+   "kind": "speech",
+   "id": "fm_triple_cat_dog_fish",
+   "dur": 2.418,
+   "text": "Cat dog fish!"
+  },
+  {
+   "t": 24.878,
+   "kind": "speech",
+   "id": "fm_l4_swap",
+   "dur": 5.121,
+   "text": "Now they're the other way round. Fish... dog... cat. Fish dog cat!"
+  },
+  {
+   "t": 24.999,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 25,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 25.18,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 25.399,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 25.444,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 25.54,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 25.657,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 25.69,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 25.69,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 30.838,
+   "kind": "speech",
+   "id": "fm_which_three",
+   "dur": 4.513,
+   "text": "Listen. Fish... dog... cat. Which one did I read?"
+  },
+  {
+   "t": 36.742,
+   "kind": "mark",
+   "id": "tap rail 0"
+  },
+  {
+   "t": 36.744,
+   "kind": "tap",
+   "id": "rail 0",
+   "text": "rect 429,92,602,216"
+  },
+  {
+   "t": 36.745,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 36.917,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 37.398,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 37.558,
+   "kind": "speech",
+   "id": "fm_triple_fish_dog_cat",
+   "dur": 2.421,
+   "text": "Fish dog cat!"
+  },
+  {
+   "t": 40.859,
+   "kind": "speech",
+   "id": "fm_name_rain",
+   "dur": 1.427,
+   "text": "This is rain."
+  },
+  {
+   "t": 42.563,
+   "kind": "speech",
+   "id": "fm_name_bow",
+   "dur": 1.178,
+   "text": "This is a bow."
+  },
+  {
+   "t": 43.929,
+   "kind": "speech",
+   "id": "fm_rainbow_q",
+   "dur": 5.192,
+   "text": "Rain... bow. Tap the rabbit, and say them fast."
+  },
+  {
+   "t": 50.298,
+   "kind": "mark",
+   "id": "tap rabbit"
+  },
+  {
+   "t": 50.301,
+   "kind": "tap",
+   "id": "rabbit",
+   "text": "rect 985,549,109,109"
+  },
+  {
+   "t": 50.303,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 50.582,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 50.624,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 50.947,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 51.15,
+   "kind": "speech",
+   "id": "fm_rainbow",
+   "dur": 0.951,
+   "text": "Rainbow!"
+  },
+  {
+   "t": 54.187,
+   "kind": "speech",
+   "id": "fm_name_snow",
+   "dur": 1.739,
+   "text": "This is snow."
+  },
+  {
+   "t": 56.208,
+   "kind": "speech",
+   "id": "fm_name_man",
+   "dur": 1.084,
+   "text": "This is a man."
+  },
+  {
+   "t": 57.475,
+   "kind": "speech",
+   "id": "fm_snowman_q",
+   "dur": 4.219,
+   "text": "Snow... man. Tap the rabbit, and say them fast."
+  },
+  {
+   "t": 62.253,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.526,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.843,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.91,
+   "kind": "mark",
+   "id": "tap rabbit"
+  },
+  {
+   "t": 62.912,
+   "kind": "tap",
+   "id": "rabbit",
+   "text": "rect 984,548,111,111"
+  },
+  {
+   "t": 62.913,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 63.108,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.194,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 63.233,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 63.408,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 63.415,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.564,
+   "kind": "sfx",
+   "id": "sparkle"
+  }
+ ]
+}

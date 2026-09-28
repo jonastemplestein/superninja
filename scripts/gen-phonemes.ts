@@ -6,7 +6,7 @@ import { PHONEMES, type PhonemeId } from "../src/content/phonics";
 import { tts, finishAudio, durationOf } from "./tts";
 import { pool, generate, textOf } from "./gemini";
 
-export const TEACHER_VOICE = "Sulafat";
+export const TEACHER_VOICE = "Erinome";
 const TAKES = Number(process.env.TAKES ?? 2);
 const DIR = "assets-src/phonemes";
 const REPORT = `${DIR}/report.json`;

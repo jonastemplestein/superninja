@@ -9,7 +9,10 @@
 //   created, live decoded audio bytes, global (window/document) listeners, and module state (listener sets, caches) via
 //   the probes in soak.vite.config.ts. At each level boundary also a memory-infra dump (footprint by allocator).
 // Before the levels it opens the title untouched for 5 s (what the title decodes). After each level, on the map, it
-// forces a GC and takes a "boundary" sample: the soak invariant compares those with the first one (docs/PERF.md). Then:
+// forces a GC and takes a "boundary" sample once Sensei has been quiet for 2.5 s (retaken once if a line starts during
+// it): the soak invariant compares those with the first one (docs/PERF.md), which is taken after one bot action, and
+// the heap with the one after the first level (--heap-warm). Event listeners are the game's: CDP's JSEventListeners
+// less Playwright's own (its InjectedScript's window listeners in each world it uses; playwrightListeners). Then:
 // --idle s on the still map; --idle-next s on a reward left alone with Next ready (NextArrow's idle nudge: the glow at
 // 8 s, the pointing hand and the ninja's leap at 16 s, the line again at 40 s, in game time); the ninja demo standing
 // still at streak 0 and 10 (the aura's standing cost); and --stress N: N streak-10 strikes fired at 7 a second (the
@@ -23,14 +26,17 @@
 //
 // Usage: bun scripts/treadmill/soak.ts [--levels 16] [--from w1-2] [--fast 2] [--mobile] [--cpu 4] [--every 10]
 //          [--minutes 60] [--idle 60] [--idle-next 40] [--stress 150] [--wrong 0.05] [--serve prod|dev|none] [--base URL] [--port N]
-//          [--out playtest/soak/<run>] [--headed] [--check] [--findings file] [--heap] [--patched] [--no-memdump]
-//          [--no-title] [--no-aura]
+//          [--out playtest/soak/<run>] [--headed] [--check] [--findings file] [--heap] [--no-memdump]
+//          [--no-title] [--no-aura] [--heap-warm 1]
 //   --mobile: phone emulation (844×390 landscape, DPR 3, touch, mobile UA); --cpu 4: CDP CPU throttling (4× slower).
 //   --check: judge the run against the budgets (docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §11.1 and PERF.md §5; BOUNDARY and
 //   judge() below), print the table, and exit 1 if any budget fails. The phone rows (fps, main thread %) are judged only
 //   with --cpu > 1; on desktop they are shown, not judged. Without --check the table is printed and the exit is 0.
 //   --heap: V8/Blink heap snapshots at the start and after the levels, diffed by constructor into heap-diff.md (what
-//   the growth is made of). --patched: see soak-fixes.ts.
+//   the growth is made of). (--patched and soak-fixes.ts, the preview of the PERF.md fixes, were retired at integration:
+//   FIX_PLAN Dec10. A plain soak now measures the fixes themselves.)
+//   --heap-warm N: the heap row's start is the boundary after the first N levels (default 1: a first visit to each
+//   screen compiles code and fills Blink's caches, which isn't a leak); 0 judges it from the cold map, as before 27 Sep.
 //   --analyse <dir>: re-judge a finished soak (e.g. after a budget changes); the run's own flags are read from its
 //   levels.json (older runs: pass the same --mobile/--cpu flags).
 //   --findings <file>: also write the failed budgets as treadmill findings (types.ts), e.g. <runDir>/soak.json.
@@ -42,9 +48,11 @@ import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { LEVELS } from "../../src/content/worlds";
-import { save, step } from "./bot";
+import { save, step, unlockAudio } from "./bot";
 import { frozen } from "./frozen";
 import type { Finding } from "./types";
+import { helpGuard } from "../lib/help";
+helpGuard(import.meta.url); // --help prints the usage above and exits, before anything runs
 
 const arg = (k: string, d?: string) => {
   const i = process.argv.indexOf(`--${k}`);
@@ -64,12 +72,22 @@ const IDLE_NEXT = Number(arg("idle-next", "40")); // s on a reward left alone wi
 const STRESS = Number(arg("stress", "150"));
 const WRONG = Number(arg("wrong", "0.05"));
 const SERVE = arg("serve", "prod")!;
-const PORT = Number(arg("port", String(5186 + (MOBILE ? 1 : 0) + (CPU > 1 ? 2 : 0) + (flag("patched") ? 4 : 0))));
+const PORT = Number(arg("port", String(5186 + (MOBILE ? 1 : 0) + (CPU > 1 ? 2 : 0))));
 const MEMDUMP = !flag("no-memdump");
 const HEAP = flag("heap"); // heap snapshots at the start and after the levels, diffed by constructor (heap-diff.md)
-const OUT = arg("analyse") ?? arg("out", `playtest/soak/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}${MOBILE ? "-mobile" : ""}${CPU > 1 ? `-cpu${CPU}` : ""}${flag("patched") ? "-patched" : ""}`)!;
+/** The heap row's start: the boundary after this many levels (the warm-up), not the cold map. A first visit to each kind
+ *  of screen grows the heap by compiled code and Blink's caches, which is not a leak: from a cold map the desktop soak went
+ *  5.4 → 13.6 MB, 0.2 MB over start + 8, while four laps of the same four levels grew 0.3 MB a lap (verify round 1). 0
+ *  judges from the cold map, as before. */
+let HEAP_WARM = Number(arg("heap-warm", "1"));
+const OUT = arg("analyse") ?? arg("out", `playtest/soak/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}${MOBILE ? "-mobile" : ""}${CPU > 1 ? `-cpu${CPU}` : ""}`)!;
 const CHECK = flag("check");
-let PATCHED = flag("patched"); // a preview of docs/PERF.md's fixes, patched into the snapshot (soak-fixes.ts)
+// (a run from before integration may have been a --patched preview: its levels.json says so, and the summary names it)
+let PATCHED = false;
+if (flag("patched")) {
+  console.error("soak.ts: --patched was retired at integration (FIX_PLAN Dec10): the fixes are in the game now, so run a plain soak.");
+  process.exit(2);
+}
 const TITLE = !flag("no-title");
 const AURA = !flag("no-aura");
 const LEVEL_MAX_MS = 7 * 60_000; // real time per level before the soak gives up on it and moves on
@@ -80,9 +98,9 @@ mkdirSync(OUT, { recursive: true });
 // ---------------------------------------------------------------- the snapshot server
 async function startServer(): Promise<{ base: string; stop: () => void; built?: string }> {
   if (SERVE === "none") return { base: arg("base", "http://localhost:5173")!, stop: () => {} };
-  const env = { SOAK_FIXES: PATCHED ? "1" : "0", SOAK_FIXES_REPORT: `${OUT}/fixes.json` };
+  const env: Record<string, string> = {};
   if (SERVE === "prod") {
-    const f = await frozen({ port: PORT, out: `${tmpdir()}/superninja-soak-${PORT}`, probes: true, patched: PATCHED, env, retry: 2, log: (s) => console.log(s) });
+    const f = await frozen({ port: PORT, out: `${tmpdir()}/superninja-soak-${PORT}`, probes: true, env, retry: 2, log: (s) => console.log(s) });
     return { base: f.base, stop: f.stop, built: f.built ?? undefined };
   }
   const cfg = "scripts/treadmill/soak.vite.config.ts";
@@ -103,12 +121,16 @@ function instrument() {
   const w = window as any;
   const P: any = (w.__snPerf = {
     raf: 0,
+    speechTotal: 0,
     long: { n: 0, ms: 0, max: 0 }, loaf: { n: 0, ms: 0, blocking: 0 },
     canvas: { cur: 0, last: 0, max: 0 },
     audio: { decoded: 0, decodedBytes: 0, liveBytes: 0, live: 0, pending: 0, sources: 0, osc: 0, gains: 0, filters: 0, mediaSources: 0, analysers: 0, buffers: 0 },
     media: [] as WeakRef<HTMLMediaElement>[], mediaCreated: 0,
     intervals: new Map<number, { ms: number; at: string }>(), pending: new Set<number>(),
   });
+  // every speech clip the game starts (audio.ts and ui.tsx log each one when window.__audioLog exists): a log that only
+  // counts, so nothing grows, for the boundary samples' "was anything said in the window?"
+  w.__audioLog = { push: (...items: any[]) => { for (const it of items) if (it && it.kind === "speech") P.speechTotal++; return 0; } };
   // rAF: every request the game makes counts (requests per second / 60 ≈ live rAF loops). Frames are counted only in a
   // short probe (P.fps), because a loop of our own would itself keep the main thread producing frames, which is one of
   // the very costs this measures (an idle page with no rAF loop lets composited animations run without the main thread)
@@ -232,7 +254,9 @@ function instrument() {
   };
   ET.addEventListener = function (this: EventTarget, type: string, fn: any, o?: any) {
     const k = fn && !o?.once && key(this, type, o);
-    if (k) (L.get(k) ?? L.set(k, new Set()).get(k)!).add(fn);
+    // (not Playwright's: its InjectedScript in the main world adds 13 window listeners through this same prototype, its
+    // hit-target interceptors and __playwright_global_listeners_check__; verify round 1)
+    if (k && !/__playwright|InjectedScript|HitTargetInterceptor/.test(`${type} ${new Error().stack ?? ""}`)) (L.get(k) ?? L.set(k, new Set()).get(k)!).add(fn);
     return add0.call(this, type, fn, o);
   };
   ET.removeEventListener = function (this: EventTarget, type: string, fn: any, o?: any) {
@@ -250,6 +274,15 @@ function instrument() {
     const byName: Record<string, number> = {};
     const mainNames: Record<string, number> = {};
     const hiddenNames: Record<string, number> = {};
+    /** Hidden: not rendered (display none, visibility hidden), or opacity 0 on it or an ancestor, except an opacity that
+     *  is an animation's own (a fade in progress, an animation's delay, a twinkle at its dark end): those are on their way
+     *  to being seen (27 Sep, screens-b: fade-in frames at exactly 0 counted as hidden). */
+    const isHidden = (el: Element) => {
+      if ((el as any).checkVisibility?.({ checkOpacity: false, checkVisibilityCSS: true, visibilityProperty: true }) === false) return true;
+      for (let e: Element | null = el; e; e = e.parentElement)
+        if (Number(getComputedStyle(e).opacity) < 0.01 && !e.getAnimations().some((x) => x.playState === "running" && ((x.effect as KeyframeEffect | null)?.getKeyframes() ?? []).some((k) => "opacity" in k))) return true;
+      return false;
+    };
     for (const a of anims) {
       const eff = a.effect as KeyframeEffect | null;
       const inf = eff?.getTiming().iterations === Infinity;
@@ -262,7 +295,7 @@ function instrument() {
       if (inf) infinite++;
       // (a paused endless animation costs nothing: only running ones count as hidden or main-thread)
       if (inf && a.playState === "running") {
-        if (el && !(el as any).checkVisibility?.({ checkOpacity: true, checkVisibilityCSS: true, opacityProperty: true, visibilityProperty: true })) (hiddenInf++, (hiddenNames[name] = (hiddenNames[name] ?? 0) + 1));
+        if (el && isHidden(el)) (hiddenInf++, (hiddenNames[name] = (hiddenNames[name] ?? 0) + 1));
         let props: string[] = [];
         try {
           props = eff!.getKeyframes().flatMap((k) => Object.keys(k));
@@ -411,6 +444,34 @@ async function memDump(bcdp: CDPSession | null) {
   return { renderer, gpu, browser: all.find((p) => /browser/i.test(p.name))?.footprint ?? null };
 }
 
+// ---------------------------------------------------------------- Playwright's own listeners (the listener budget is the game's)
+/** The page's execution contexts (the main world and Playwright's utility worlds), from Runtime events on our session. */
+const worlds = new Map<number, { main: boolean; name: string }>();
+async function trackWorlds(cdp: CDPSession) {
+  cdp.on("Runtime.executionContextCreated", (e: any) => worlds.set(e.context.id, { main: !!e.context.auxData?.isDefault, name: String(e.context.name ?? "") }));
+  cdp.on("Runtime.executionContextDestroyed", (e: any) => worlds.delete(e.executionContextId));
+  cdp.on("Runtime.executionContextsCleared", () => worlds.clear());
+  await cdp.send("Runtime.enable");
+}
+/** Playwright's listeners on the page's window: every InjectedScript it puts in a world adds 13 there (12 hit-target
+ *  interceptors and __playwright_global_listeners_check__), in the main world and in each utility world, and CDP's
+ *  JSEventListeners counts them all. It injects them at its first locator action, after the soak's first sample, so the
+ *  listener row once rose by 26 to 80 with nothing wrong in the game (verify round 1). In a utility world every window
+ *  listener is Playwright's (the page runs nothing there); in the main world, those whose handler is its code.
+ *  DOMDebugger.getEventListeners reports a world's own listeners only. */
+async function playwrightListeners(cdp: CDPSession): Promise<number> {
+  let n = 0;
+  for (const [id, w] of [...worlds]) {
+    const win = (await cdp.send("Runtime.evaluate", { expression: "window", contextId: id, objectGroup: "sn-pwl" }).catch(() => null)) as any;
+    const oid = win?.result?.objectId;
+    if (!oid) continue;
+    const ls = (await cdp.send("DOMDebugger.getEventListeners" as any, { objectId: oid, depth: 0 }).catch(() => null)) as any;
+    for (const l of ls?.listeners ?? []) if (!w.main || /__playwright/.test(l.type) || /_hitTargetInterceptor|seenEvent\s*=\s*true/.test(String(l.handler?.description ?? ""))) n++;
+  }
+  await cdp.send("Runtime.releaseObjectGroup", { objectGroup: "sn-pwl" }).catch(() => {});
+  return n;
+}
+
 async function sample(page: Page, cdp: CDPSession, bcdp: CDPSession | null, tag: string, extra: Record<string, unknown> = {}): Promise<Sample | null> {
   let mem: Awaited<ReturnType<typeof memDump>> = null;
   if (tag === "boundary" || tag === "baseline" || tag === "settled" || tag === "title") {
@@ -419,6 +480,10 @@ async function sample(page: Page, cdp: CDPSession, bcdp: CDPSession | null, tag:
     await cdp.send("HeapProfiler.collectGarbage").catch(() => {});
     await cdp.send("HeapProfiler.collectGarbage").catch(() => {});
     mem = await memDump(bcdp);
+    // (on the map: a touch on nothing first, which starts the map's idle ladder again, so its hop at 8 s and its hint at
+    // 16 s of game time don't land in the 2 s window: at --fast 2 they came 4 and 8 real seconds after the arrival, in the
+    // middle of the sample, with Sensei's talking face and rAF; verify round 1)
+    if (tag === "boundary" || tag === "baseline") await unlockAudio(page);
     await page.evaluate(() => (window as any).__snPerf?.read?.()).catch(() => null);
     const m0 = (await cdp.send("Performance.getMetrics")) as { metrics: { name: string; value: number }[] };
     lastMetrics = Object.fromEntries(m0.metrics.map((x) => [x.name, x.value]));
@@ -431,6 +496,7 @@ async function sample(page: Page, cdp: CDPSession, bcdp: CDPSession | null, tag:
   if (!inPage) return null;
   const { metrics } = (await cdp.send("Performance.getMetrics")) as { metrics: { name: string; value: number }[] };
   const m: Record<string, number> = Object.fromEntries(metrics.map((x) => [x.name, x.value]));
+  const pwListeners = await playwrightListeners(cdp);
   const now = Date.now();
   const dt = lastAt ? (now - lastAt) / 1000 : 0;
   const d = (k: string) => (lastMetrics && dt ? (m[k] - lastMetrics[k]) / dt : null);
@@ -454,7 +520,10 @@ async function sample(page: Page, cdp: CDPSession, bcdp: CDPSession | null, tag:
     heapMB: Math.round((m.JSHeapUsedSize / 1048576) * 10) / 10,
     heapTotalMB: Math.round((m.JSHeapTotalSize / 1048576) * 10) / 10,
     nodes: m.Nodes,
-    listeners: m.JSEventListeners,
+    // the game's own: CDP's count less Playwright's (playwrightListeners)
+    listeners: m.JSEventListeners - pwListeners,
+    listenersRaw: m.JSEventListeners,
+    listenersPlaywright: pwListeners,
     documents: m.Documents,
     frames: m.Frames,
     layoutObjects: m.LayoutObjects,
@@ -591,6 +660,44 @@ async function tap(page: Page, sel: string) {
   return true;
 }
 
+/** Is Sensei speaking (the audio module's probe; false on a build without the probes)? */
+const speakingNow = (page: Page) =>
+  ev(page, () => {
+    const m = (window as any).__snPerfMods?.["engine/audio.ts"];
+    return m ? (m().speaking ?? 0) > 0 : false;
+  });
+/** Wait until Sensei has been quiet for 2.5 s in a row (a map line can follow a moment's quiet: the arrival line, then
+ *  the next stone's), at most 25 s. */
+async function quiet(page: Page) {
+  let since = Date.now();
+  for (const t = Date.now(); Date.now() - t < 25_000; await page.waitForTimeout(250)) {
+    if (await speakingNow(page)) since = Date.now();
+    else if (Date.now() - since >= 2500) return;
+  }
+}
+
+/** A sample of the still map (the baseline, a boundary): once Sensei has been quiet for 2.5 s, with the map's idle ladder
+ *  started again by a touch on nothing (and again inside sample(), just before its window). If anything was said from
+ *  then to the end of the sample (a clip started, or a say() still running), the lipsync's rAF loop and the speech's
+ *  own listeners are in it: it is taken again, up to twice. (Verify round 1: a hint said during the memory dump ended
+ *  inside the window, so "speaking" read 0 at its end while the lipsync asked for 60 frames a second.) */
+async function stillSample(page: Page, cdp: CDPSession, bcdp: CDPSession | null, tag: "baseline" | "boundary", extra: Record<string, unknown>) {
+  const said = () => ev(page, () => Number((window as any).__snPerf?.speechTotal ?? 0));
+  let s: Sample | null = null;
+  for (let k = 0; k < 3; k++) {
+    await quiet(page);
+    await unlockAudio(page);
+    const n0 = await said();
+    s = await sample(page, cdp, bcdp, tag, { ...extra, ...(k ? { retaken: k } : {}) });
+    const spoke = Number((await said()) ?? 0) - Number(n0 ?? 0);
+    if (!s) return s;
+    s.speechDuring = spoke;
+    if (!spoke && !(Number(s.mods?.speaking ?? 0) > 0)) break;
+    if (k < 2) samples.pop();
+  }
+  return s;
+}
+
 let stopServer = () => {}; // (so a crash or Ctrl-C doesn't leave the snapshot server running)
 async function main() {
   const server = await startServer();
@@ -612,6 +719,7 @@ async function main() {
   page.on("load", () => void reloads++);
   const cdp = await ctx.newCDPSession(page);
   await cdp.send("Performance.enable", { timeDomain: "timeTicks" } as any);
+  await trackWorlds(cdp);
   if (CPU > 1) await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU });
   const bcdp = await browser.newBrowserCDPSession().catch(() => null);
   await page.addInitScript(instrument);
@@ -629,11 +737,15 @@ async function main() {
     await sample(page, cdp, bcdp, "title", { level: null, levelIndex: 0, phase: "the title, 5 s, untouched" });
   }
   await page.goto(`${BASE}/play/?scene=map&fast=${FAST}`);
-  await page.mouse.click(422, 4); // the first gesture unlocks audio
+  await unlockAudio(page); // the first gesture unlocks audio (bot.ts: on <html>, where no screen takes it)
   reloads = 0;
   if (CPU > 1) await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU });
+  // one bot action before the baseline, so Playwright's scripts are in both worlds when it is taken (a locator in the
+  // utility world, an evaluate on an element in the main one), as they are at every later sample (verify round 1)
+  await page.locator('[data-nav="next"], .scene.map').first().count().catch(() => 0);
+  await page.locator("body").first().evaluate(() => 0, undefined, { timeout: 800 }).catch(() => 0);
   await page.waitForTimeout(4000);
-  await sample(page, cdp, bcdp, "baseline", { level: null, levelIndex: 0 });
+  await stillSample(page, cdp, bcdp, "baseline", { level: null, levelIndex: 0 });
   const heap0 = HEAP ? await heapSummary(cdp) : null;
 
   const start = LEVELS.findIndex((l) => l.id === FROM);
@@ -687,7 +799,7 @@ async function main() {
           if (Math.random() < WRONG) {
             const wrong = page.locator(`.row button.tile:not([aria-label="${st.next}"]), .pick-row button:not([aria-label="${st.next}"])`).first();
             if (await wrong.count().catch(() => 0)) {
-              await wrong.dispatchEvent("pointerdown").catch(() => {});
+              await wrong.dispatchEvent("pointerdown", undefined, { timeout: 800 }).catch(() => {});
               await page.waitForTimeout(900 / FAST);
             }
           }
@@ -720,8 +832,11 @@ async function main() {
       await page.waitForTimeout(700);
     }
     await page.waitForTimeout(3500);
+    // then wait for Sensei to finish the map's lines: a boundary taken mid-line counted the speech's own listeners, rAF
+    // and animations (about +50 listeners on no element: B1 and D6's finding; the talking face's @wave ×3 and @pulse at
+    // 34 of 34 animations, when a map line started after a wait that ended at the first quiet moment: verify round 1)
     console.log(`— ${lv.id} (${lv.kind}) ${left && !stuck ? "done" : "NOT finished"} in ${secs}s, streak max ${levelMax}`);
-    await sample(page, cdp, bcdp, "boundary", { level: lv.id, levelIndex: li + 1, streak: endStreak, maxStreak: levelMax });
+    await stillSample(page, cdp, bcdp, "boundary", { level: lv.id, levelIndex: li + 1, streak: endStreak, maxStreak: levelMax });
     nextSample = Date.now() + EVERY;
   }
 
@@ -811,7 +926,7 @@ async function main() {
   await browser.close();
   server.stop();
   // ---------------------------------------------------------------- report
-  const meta: Meta = { mobile: MOBILE, cpu: CPU, fast: FAST, from: FROM, levels: N_LEVELS, patched: PATCHED, serve: SERVE, base: BASE, built: server.built ?? null, idle: IDLE_S, idleNext: IDLE_NEXT, stress: STRESS };
+  const meta: Meta = { mobile: MOBILE, cpu: CPU, fast: FAST, from: FROM, levels: N_LEVELS, patched: PATCHED, serve: SERVE, base: BASE, built: server.built ?? null, idle: IDLE_S, idleNext: IDLE_NEXT, stress: STRESS, heapWarm: HEAP_WARM };
   writeFileSync(`${OUT}/samples.json`, JSON.stringify(samples, null, 1));
   writeFileSync(`${OUT}/levels.json`, JSON.stringify({ levels, errors, reloads, meta }, null, 1));
   const cols = [...new Set(samples.flatMap((s) => Object.keys(s)))].filter((k) => !["mods", "detail", "peak", "mem"].includes(k));
@@ -821,7 +936,7 @@ async function main() {
 
 // ---------------------------------------------------------------- analysis: the budgets (docs/PERF.md §5, FIX_PLAN §11.1)
 /** How the run was made (levels.json), so --analyse judges it the same way. */
-interface Meta { mobile: boolean; cpu: number; fast: number; from: string; levels: number; patched: boolean; serve: string; base: string; built: string | null; idle: number; idleNext?: number; stress: number }
+interface Meta { mobile: boolean; cpu: number; fast: number; from: string; levels: number; patched?: boolean; serve: string; base: string; built: string | null; idle: number; idleNext?: number; stress: number; heapWarm?: number }
 
 /** One budget judged on one run. ok: null when this run doesn't judge it (the phone rows on desktop, no World Flower
  *  visit, an older run without that sample); `measured` is still filled in when there is something to show. */
@@ -907,12 +1022,16 @@ function judge(meta: Meta, levels: any[], reloads: number): Check[] {
   const where = (s: Sample) => s.level ?? "start";
 
   for (const b of BOUNDARY) {
-    const pts = bounds.filter((s) => s[b.k] != null && Number.isFinite(Number(s[b.k])));
+    let pts = bounds.filter((s) => s[b.k] != null && Number.isFinite(Number(s[b.k])));
     const budget = b.slack ? `≤ start + ${b.abs}` : `≤ ${b.abs}`;
     if (!pts.length || !base) {
       C.push({ id: b.k, when: "after each level, back on the map (GC'd)", what: b.what, budget, measured: "not measured (a build without the soak probes, or an older run)", ok: null, owner: b.owner });
       continue;
     }
+    // the heap: from the boundary after the warm-up level(s) (--heap-warm), the cold map shown beside it
+    const warm = b.k === "heapMB" ? Math.min(meta.heapWarm ?? HEAP_WARM, pts.length - 1) : 0;
+    const cold = warm > 0 ? `cold map ${r1(Number(pts[0][b.k]))}, ` : "";
+    if (warm > 0) pts = pts.slice(warm);
     const b0 = Number(pts[0][b.k]);
     const limit = r1(b0 * b.slack + b.abs);
     const worst = pts.reduce((w, s) => (Number(s[b.k]) > Number(w[b.k]) ? s : w));
@@ -922,7 +1041,7 @@ function judge(meta: Meta, levels: any[], reloads: number): Check[] {
       when: "after each level, back on the map (GC'd)",
       what: b.what,
       budget: b.slack ? `${budget} (${limit})` : budget,
-      measured: `start ${r1(b0)}, worst ${r1(Number(worst[b.k]))} (after ${where(worst)})${over.length ? `; over after ${over.length} of ${pts.length} boundaries, from ${where(over[0])}` : ""}`,
+      measured: `${cold}start ${r1(b0)}${warm > 0 ? ` (after ${where(pts[0])}, the warm-up)` : ""}, worst ${r1(Number(worst[b.k]))} (after ${where(worst)})${over.length ? `; over after ${over.length} of ${pts.length} boundaries, from ${where(over[0])}` : ""}`,
       ok: !over.length,
       owner: b.owner,
     });
@@ -1186,7 +1305,7 @@ pre{white-space:pre-wrap;overflow-x:auto;font-size:12px}</style>
 }
 
 /** --analyse <dir>: re-judge a finished soak from its samples.json (checks.json, summary.md, report.html), e.g. after a
- *  budget changes. The run's flags come from its levels.json; for older runs, pass the same --mobile/--cpu/--patched. */
+ *  budget changes. The run's flags come from its levels.json; for older runs, pass the same --mobile/--cpu. */
 function reanalyse(dir: string) {
   samples.push(...(JSON.parse(readFileSync(`${dir}/samples.json`, "utf8")) as Sample[]));
   const { levels, errors, reloads, meta: saved } = JSON.parse(readFileSync(`${dir}/levels.json`, "utf8"));
@@ -1195,7 +1314,7 @@ function reanalyse(dir: string) {
   const meta: Meta = saved ?? { mobile: MOBILE, cpu: CPU, fast: FAST, from: levels[0]?.id ?? FROM, levels: levels.length, patched: PATCHED, serve: "?", base: "?", built: null, idle: (samples.filter((s) => s.tag === "idle-map").length * EVERY) / 1000, idleNext: (samples.filter((s) => s.tag === "idle-next").length * EVERY) / 1000, stress: struck };
   MOBILE = meta.mobile;
   CPU = meta.cpu;
-  PATCHED = meta.patched;
+  PATCHED = meta.patched ?? false;
   const maxStreak = Math.max(0, ...levels.map((l: any) => l.maxStreak ?? 0));
   finish(dir, meta, levels, errors ?? [], reloads ?? 0, maxStreak);
 }

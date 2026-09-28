@@ -3,7 +3,7 @@ export const HOUR: Ms = 3_600_000;
 export const DAY: Ms = 24 * HOUR;
 export const elapsed = (from: EpochMs, to: EpochMs): Ms => Math.max(0, to - from);
 export const hours = (from: EpochMs, to: EpochMs): number => elapsed(from, to) / HOUR;
-export function ageBandFor(profile: ProfileState, now: EpochMs): AgeBand {
+export function ageBandFor(profile: Pick<ProfileState, 'age' | 'schoolYear' | 'schoolYearAt'>, now: EpochMs): AgeBand {
   if (profile.age) return band(profile.age.years + elapsed(profile.age.at, now) / (365.2425 * DAY));
   const base = { none: 3, unsure: 3, unset: 3, R: 4, Y1: 5, Y2: 6 }[profile.schoolYear];
   if (!profile.schoolYearAt || base === 3) return band(base);

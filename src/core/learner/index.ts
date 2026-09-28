@@ -1,3 +1,5 @@
+import { emptyFoundations, observeFoundation } from './foundations';
+import { foundationsForAttempt } from './foundation-evidence';
 import { canMoveOn as swCanMoveOn, rollUp, SW_ACTIVITIES, type Evidence, type GpcKey } from '../../content/sw';
 import type { Attempt, GameEvent, KcFamily, KcId, KcState, KcStatus, LearnerApi, LearnerEnv, LearnerState, WordState } from '../types';
 import { HOUR, expectedUnit } from '../kernel/time';
@@ -6,7 +8,7 @@ const clamp = (x:number, lo=0, hi=1) => Math.min(hi,Math.max(lo,x));
 export function family(kc: KcId): KcFamily { return kc.startsWith('gpc:') ? kc.endsWith(':read') ? 'gpc-read' : 'gpc-spell' : kc.startsWith('skill:') ? 'skill' : kc.startsWith('pa:') ? 'pa' : kc.startsWith('sound:') ? 'sound' : kc.startsWith('word:') ? 'word' : kc.startsWith('special:') ? 'special' : kc.startsWith('concept:') ? 'concept' : 'mech'; }
 const emptyKc = (kc:KcId, env:LearnerEnv):KcState => ({ kc, family:family(kc), pL:env.cfg.bkt[family(kc)].pL0, tUpdated:0, halfLifeH:env.cfg.memory.initialHalfLifeH, lapses:0, exposures:0, explained:0, modelled:0, opportunities:0, independent:0, recent:[], sessions:0, source:'observed' });
 const emptyWord = (t:number):WordState => ({ heard:0,seen:0,readOk:0,readTries:0,spellOk:0,spellTries:0,last:t });
-export const initial:LearnerApi['initial'] = (profile, child, env) => ({ v:1,profile,asOf:0,lastSeq:0,child,kcs:{},confusions:{},words:{},latency:{},evidence:[],sw:rollUp([],env.cfg.mastery),units:{},frontier:'IC1',affect:{ guessing:0,positionBias:null,fatigue:0,frustration:0,boredom:0,errorsInRow:0,firstTriesInRow:0,activeMsThisSession:0,strayTapsThisSession:0,recent:[] },totals:{sessions:0,activeMs:0,attempts:0,items:0,days:[]} });
+export const initial:LearnerApi['initial'] = (profile, child, env) => ({ v:1,profile,asOf:0,lastSeq:0,child,foundations:emptyFoundations(),kcs:{},confusions:{},words:{},latency:{},evidence:[],sw:rollUp([],env.cfg.mastery),units:{},frontier:'IC1',affect:{ guessing:0,positionBias:null,fatigue:0,frustration:0,boredom:0,errorsInRow:0,firstTriesInRow:0,activeMsThisSession:0,strayTapsThisSession:0,recent:[] },totals:{sessions:0,activeMs:0,attempts:0,items:0,days:[]} });
 export const recall:LearnerApi['recall'] = (s,kc,now) => { const x=s.kcs[kc]; return x?.tLastSuccess===undefined || x.tLastRetrieval===undefined ? null : Math.pow(2,-Math.max(0,now-x.tLastRetrieval)/(HOUR*x.halfLifeH)); };
 export const pKnown:LearnerApi['pKnown'] = (s,kc,now,env) => { const x=s.kcs[kc] ?? emptyKc(kc,env); const r=recall(s,kc,now); return r===null ? x.pL : x.pL*(env.cfg.memory.rFloor+(1-env.cfg.memory.rFloor)*r); };
 const median = (xs:readonly number[]) => { const a=[...xs].sort((a,b)=>a-b); return a.length ? (a[(a.length-1)>>1]+a[a.length>>1])/2 : 0; };
@@ -156,7 +158,8 @@ export const apply:LearnerApi['apply'] = (s,e,env) => {
   const chance=recent.reduce((n,x)=>n+1/x.choices,0)/recent.length;
   const guessing=recent.length>=env.cfg.detectors.window && rapid>=env.cfg.detectors.rapidShare && acc<=chance+.15?1:s.affect.guessing*.7;
   const affect={...s.affect,recent,guessing,errorsInRow:a.correct?0:s.affect.errorsInRow+1,firstTriesInRow:a.correct&&a.attemptNo===1?s.affect.firstTriesInRow+1:0};
-  return {...s,asOf:e.t,lastSeq:e.seq,kcs,words,confusions,evidence,sw:added.length?rollUp(evidence,env.cfg.mastery):s.sw,latency,affect,totals:{...s.totals,attempts:s.totals.attempts+1}};
+  const foundations=foundationsForAttempt(a).reduce((f,observation)=>observeFoundation(f,observation,e.t,e.sid),s.foundations??emptyFoundations());
+  return {...s,foundations,asOf:e.t,lastSeq:e.seq,kcs,words,confusions,evidence,sw:added.length?rollUp(evidence,env.cfg.mastery):s.sw,latency,affect,totals:{...s.totals,attempts:s.totals.attempts+1}};
 };
 export function fold(events:Iterable<GameEvent>,env:LearnerEnv,from?:LearnerState):LearnerState { const all=[...events].sort((a,b)=>a.seq-b.seq); if(!from&&!all.length) throw new Error('fold requires an initial state for an empty log'); let s=from??initial(all[0].sid.split(':s')[0],{schoolYear:'unset',band:'none',ageBand:'3'},env); for(const e of all) s=apply(s,e,env); return s; }
 export const predict:LearnerApi['predict'] = (s,refs,choices,now,env) => { const target=refs.filter(r=>r.role==='target').reduce((p,r)=>p*pKnown(s,r.kc,now,env),1); const component=refs.filter(r=>r.role==='component').reduce((p,r)=>p*Math.sqrt(pKnown(s,r.kc,now,env)),1); const chance=choices>0?1/choices:.05; return chance+(1-chance)*target*component*(1-.1); };

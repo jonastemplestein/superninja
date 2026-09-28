@@ -1,0 +1,83 @@
+{
+ "base": "http://127.0.0.1:4711",
+ "fast": 3,
+ "secs": 50,
+ "results": {
+  "profiles": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "training": {
+   "ok": true,
+   "secs": 20,
+   "findings": 0
+  },
+  "grownups": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "optin": {
+   "ok": true,
+   "secs": 8,
+   "findings": 0
+  },
+  "placement": {
+   "ok": true,
+   "secs": 32,
+   "findings": 0
+  },
+  "optin-Y1": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "home-optin": {
+   "ok": true,
+   "secs": 7,
+   "findings": 1
+  },
+  "optin-unsure": {
+   "ok": true,
+   "secs": 11,
+   "findings": 0
+  },
+  "home-training": {
+   "ok": true,
+   "secs": 6,
+   "findings": 1
+  },
+  "home-placement": {
+   "ok": true,
+   "secs": 6,
+   "findings": 0
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:home-optin:zone-conflict:button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "source": "invariant",
+   "severity": "major",
+   "case": "home-optin",
+   "title": "zone-conflict: button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "detail": "centre at stage 102,63 is in the Home zone (x 0-130, y 0-130)",
+   "evidence": [
+    "cases/home-optin/f_02_after-Home.png"
+   ],
+   "repro": "http://127.0.0.1:4711/play/?scene=optin"
+  },
+  {
+   "sig": "bot:home-training:zone-conflict:button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "source": "invariant",
+   "severity": "major",
+   "case": "home-training",
+   "title": "zone-conflict: button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "detail": "centre at stage 102,63 is in the Home zone (x 0-130, y 0-130)",
+   "evidence": [
+    "cases/home-training/f_02_after-Home.png"
+   ],
+   "repro": "http://127.0.0.1:4711/play/?scene=training"
+  }
+ ]
+}

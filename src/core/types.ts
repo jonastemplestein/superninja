@@ -32,6 +32,7 @@
 //   Deferred, marked "Deferred" where they appear: exact replay (InputEvent), adjust and split, quests and Baron's
 //   cadence, Jev and LLM players, cohorts and model-recovery metrics.
 
+import type { Foundations, FoundationObservation } from "./learner/foundations";
 import type { PhonemeId } from "../content/phonics";
 import type {
   ConceptId, ErrorType, Evidence, GpcKey, ItemSpec, MasteryConfig, MasteryModel, ProficiencyStatus,
@@ -278,7 +279,7 @@ export type TeachMoment =
 export type HintKind =
   | "replay"          // the child pressed "Hear it again"
   | "repeat-prompt"   // Sensei asked again (Help press 1; the idle step at 8 s)
-  | "listen-again"    // first-miss correction: the word again, stretched
+  | "listen-again"    // first-miss correction: the word again (plain in spelling games, FS1: the slow word has gaps now)
   | "place-of-error"  // "If this was 'sit', this would be /i/. Is it?"
   | "strategy"        // a how-to line said before the prompt on Help press 1, for mechanics that have one
   | "glow"            // the answer glows (we do, Help press 2)
@@ -562,6 +563,8 @@ export type AttemptResponse =
  *  the spelling at the contrast or error position), pick games one per tap, Sound Swap two per step (which sound
  *  changes, then which spelling). */
 export interface Attempt {
+  /** Explicitly assessed foundation skills; never infer spoken production from a tap. */
+  foundations?: FoundationObservation[];
   activity: SwActivityId | GameOnlyActivity;
   itemKind: CoreItemKind;
   mechanic: MechanicId;
@@ -715,7 +718,8 @@ export interface WordEntry {
   picSafe: boolean;
   /** first sound as a child names the picture (pic-names.ts), for first-sound games */
   picSaysFirst: boolean;
-  /** has a stretched recording in public/a/x */
+  /** has a slow recording in public/a/x. Since 27 Sep 2026 that is the word's pure sounds one by one with little gaps
+   *  (scripts/gen-slow-words.ts; every word with a segmentation), not a stretched word: the name is kept. */
   stretched: boolean;
   dictationSafe: boolean;
   /** starts with a sound you can stretch (m s f n l r v z sh th, a vowel) */
@@ -972,6 +976,8 @@ export interface AffectState {
 }
 
 export interface LearnerState {
+  /** Optional only for backwards-compatible snapshots; initial() always supplies it. */
+  foundations?: Foundations;
   v: 1;
   profile: ProfileId;
   asOf: EpochMs;
@@ -1163,6 +1169,8 @@ export interface Scaffold {
   choices: number;
   /** extra tiles beyond the word's own spellings (Sounds~Write Lesson 1 and 5: 0) */
   distractors: number;
+  /** "stretched" plays the slow clip (public/a/x), which since 27 Sep 2026 is segmented with little gaps, so it sounds
+   *  like "segmented"; the name is kept for plans and logs already written */
   presentation: "whole" | "stretched" | "segmented";
   /** one line per sound under the slots */
   lines: boolean;

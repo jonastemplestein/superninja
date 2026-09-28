@@ -1,0 +1,280 @@
+{
+ "pass": false,
+ "meta": {
+  "mobile": true,
+  "cpu": 4,
+  "fast": 2,
+  "from": "w1-2",
+  "levels": 4,
+  "patched": false,
+  "serve": "prod",
+  "base": "http://127.0.0.1:4822",
+  "built": "2026-09-27T11:36:18.697Z",
+  "idle": 5,
+  "idleNext": 0,
+  "stress": 0
+ },
+ "checks": [
+  {
+   "id": "nodes",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "DOM nodes (CDP, attached + detached)",
+   "budget": "≤ start + 600 (837)",
+   "measured": "start 237, worst 340 (after w1-5)",
+   "ok": true,
+   "owner": "all"
+  },
+  {
+   "id": "heapMB",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "JS heap, MB",
+   "budget": "≤ start + 8 (13.3)",
+   "measured": "start 5.3, worst 10.2 (after w1-5)",
+   "ok": true,
+   "owner": "all"
+  },
+  {
+   "id": "listeners",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "event listeners",
+   "budget": "≤ start + 40 (292)",
+   "measured": "start 252, worst 331 (after w1-3); over after 4 of 5 boundaries, from w1-2",
+   "ok": false,
+   "owner": "all"
+  },
+  {
+   "id": "animations",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "animations on the map",
+   "budget": "≤ start + 5 (34)",
+   "measured": "start 29, worst 30 (after w1-5)",
+   "ok": true,
+   "owner": "all"
+  },
+  {
+   "id": "intervals",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "live intervals",
+   "budget": "≤ start + 1 (2)",
+   "measured": "start 1, worst 3 (after w1-4); over after 2 of 5 boundaries, from w1-4",
+   "ok": false,
+   "owner": "all"
+  },
+  {
+   "id": "particles",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "particles on the canvas",
+   "budget": "≤ 5",
+   "measured": "start 0, worst 0 (after start)",
+   "ok": true,
+   "owner": "F1"
+  },
+  {
+   "id": "fxDomNodes",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "nodes in the fx layer",
+   "budget": "≤ 0",
+   "measured": "start 0, worst 0 (after start)",
+   "ok": true,
+   "owner": "F1"
+  },
+  {
+   "id": "rafPerSec",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "rAF requests/s on the still map",
+   "budget": "≤ 5",
+   "measured": "start 10.9, worst 10.9 (after start); over after 1 of 5 boundaries, from start",
+   "ok": false,
+   "owner": "F1"
+  },
+  {
+   "id": "decodedMB",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "live decoded audio, MB",
+   "budget": "≤ 64",
+   "measured": "start 1, worst 39.9 (after w1-4)",
+   "ok": true,
+   "owner": "F1, B1"
+  },
+  {
+   "id": "audioHandlers",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "Web Audio nodes (AudioHandlers)",
+   "budget": "≤ start + 8 (19)",
+   "measured": "start 11, worst 11 (after start)",
+   "ok": true,
+   "owner": "F1"
+  },
+  {
+   "id": "mediaAlive",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "<audio> elements alive",
+   "budget": "≤ start + 2 (4)",
+   "measured": "start 2, worst 2 (after start)",
+   "ok": true,
+   "owner": "F1"
+  },
+  {
+   "id": "navLog",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "window.__snNavLog entries",
+   "budget": "≤ 500",
+   "measured": "start 0, worst 66 (after w1-5)",
+   "ok": true,
+   "owner": "F3"
+  },
+  {
+   "id": "adjustLog",
+   "when": "after each level, back on the map (GC'd)",
+   "what": "the save's adjustLog entries",
+   "budget": "≤ 200",
+   "measured": "start 0, worst 0 (after start)",
+   "ok": true,
+   "owner": "F1"
+  },
+  {
+   "id": "titleDecodedMB",
+   "when": "on the title, untouched for 5 s",
+   "what": "live decoded audio, MB",
+   "budget": "≤ 2",
+   "measured": "0.7 MB in 2 clips",
+   "ok": true,
+   "owner": "B1"
+  },
+  {
+   "id": "animMainThreadInfinite",
+   "when": "while playing, and on still screens (title, map, a held Next), every sample",
+   "what": "endless animations the compositor can't run",
+   "budget": "≤ 2",
+   "measured": "max 0; over in 0 of 25 samples",
+   "ok": true,
+   "owner": "F1, B, C, D (by file)"
+  },
+  {
+   "id": "animHiddenInfinite",
+   "when": "while playing, and on still screens (title, map, a held Next), every sample",
+   "what": "endless animations running on hidden elements",
+   "budget": "≤ 2",
+   "measured": "max 0; over in 0 of 25 samples",
+   "ok": true,
+   "owner": "F1, D2 (by file)"
+  },
+  {
+   "id": "idleRaf",
+   "when": "the still map, 5 s untouched",
+   "what": "rAF requests/s, median",
+   "budget": "≤ 5",
+   "measured": "12.8 (max 12.8); main thread 2.9 %",
+   "ok": false,
+   "owner": "F1, B1"
+  },
+  {
+   "id": "idleNextRaf",
+   "when": "a held Next (a reward), 0 s untouched, the idle nudge included",
+   "what": "rAF requests/s, median",
+   "budget": "≤ 5",
+   "measured": "not measured (--idle-next 0, or an older run)",
+   "ok": null,
+   "owner": "F1, F3 (nav.tsx), B1"
+  },
+  {
+   "id": "fps",
+   "when": "phone ×4, while playing",
+   "what": "every screen's median fps",
+   "budget": "≥ 50",
+   "measured": "lowest level:w1-2 (60.4)",
+   "ok": true,
+   "owner": "D5 (the runner); otherwise the screen's owner"
+  },
+  {
+   "id": "idleMain",
+   "when": "phone ×4, the still map",
+   "what": "main thread %, median",
+   "budget": "≤ 5 %",
+   "measured": "2.9 %",
+   "ok": true,
+   "owner": "F1"
+  },
+  {
+   "id": "idleNextMain",
+   "when": "phone ×4, a held Next (a reward), the idle nudge included",
+   "what": "main thread %, median",
+   "budget": "≤ 6 %",
+   "measured": "not measured (--idle-next 0, or an older run)",
+   "ok": null,
+   "owner": "F1 (the ninja), F3 (the nudge), B1 (the reward)"
+  },
+  {
+   "id": "auraT0",
+   "when": "phone ×4, the ninja standing still",
+   "what": "main thread % at streak 0, mean",
+   "budget": "≤ 6 %",
+   "measured": "2.3 % (3.2, 1.3)",
+   "ok": true,
+   "owner": "F1"
+  },
+  {
+   "id": "auraT3",
+   "when": "phone ×4, the ninja standing still",
+   "what": "main thread % at streak 10, mean",
+   "budget": "≤ 14 %",
+   "measured": "6.2 % (7.7, 4.7)",
+   "ok": true,
+   "owner": "F1"
+  },
+  {
+   "id": "flowerMain",
+   "when": "phone ×4, the World Flower",
+   "what": "main thread %, median",
+   "budget": "≤ 30 %",
+   "measured": "29.7 % over 3 samples (29.7, 29.6, 41)",
+   "ok": true,
+   "owner": "B2"
+  },
+  {
+   "id": "flowerTask",
+   "when": "phone ×4, the World Flower",
+   "what": "longest task, ms",
+   "budget": "≤ 120 ms",
+   "measured": "75 ms",
+   "ok": true,
+   "owner": "B2"
+  },
+  {
+   "id": "stressPeak",
+   "when": "the strike stress (streak-10 strikes, 7 a second)",
+   "what": "particles at the peak",
+   "budget": "≤ 350",
+   "measured": "not measured (--stress 0)",
+   "ok": null,
+   "owner": "F1"
+  },
+  {
+   "id": "stressAfter",
+   "when": "10 s after the stress",
+   "what": "particles / fx nodes left",
+   "budget": "0 / 0",
+   "measured": "not measured (--stress 0)",
+   "ok": null,
+   "owner": "F1"
+  },
+  {
+   "id": "reloaded",
+   "when": "the whole soak",
+   "what": "page reloads",
+   "budget": "0",
+   "measured": "0",
+   "ok": true,
+   "owner": "all"
+  },
+  {
+   "id": "levels",
+   "when": "the whole soak",
+   "what": "levels the bot finished",
+   "budget": "all",
+   "measured": "4 of 4",
+   "ok": true,
+   "owner": "the scene's owner (or bot.ts)"
+  }
+ ]
+}

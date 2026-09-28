@@ -82,29 +82,52 @@ section.torn.alt::before { -webkit-mask-image: var(--edge-b); mask-image: var(--
 .sound-btn[aria-pressed="true"] .s-off { display: none; }
 .bar.solid .sound-btn[aria-pressed="true"] .s-label { display: none; }
 .bar.solid .sound-btn[aria-pressed="true"] { padding: 0; width: 44px; justify-content: center; }
+/* phones: brand + "Tap for sound" + Play is ~480px, which pushed the sticky Play off the right edge; a round button fits */
+@media (max-width: 520px) {
+  .bar.solid .sound-btn .s-label { display: none; }
+  .bar.solid .sound-btn { padding: 0; width: 44px; justify-content: center; }
+}
 
-/* ---------- hero: phone first. The portrait painting, the logo in its calm sky, the words on paper below. */
-.hero { position: relative; display: grid; grid-template-columns: 100%; background: linear-gradient(#f9cfb9 0, #f9cfb9 120px, var(--paper) 120px); overflow: hidden; isolation: isolate; }
-.hero-art, #petals, .hero-title { grid-area: 1 / 1; }
-.hero-art { display: block; position: relative; z-index: 0; margin-top: clamp(60px, 22vw, 110px); }
+/* ---------- hero: phone first. The portrait painting fills the first screen: the logo in its calm sky, Play on the misty
+   meadow at the bottom, just above the fold; the rest of the words follow on paper.
+   svh = the height you see with the browser's bars showing, so Play is on screen before any scrolling. */
+.hero {
+  --fold-gap: clamp(20px, 3.2svh, 30px); /* below Play: its 5px shadow + a comfortable margin */
+  --screen: calc(100svh - var(--fold-gap)); /* where the painting (and so Play) ends */
+  --art-h: calc(100vw * 2752 / 1536); /* the painting's natural height at full width */
+  --art-box: clamp(min(420px, var(--art-h)), var(--screen), var(--art-h)); /* how much of it fits */
+  /* what doesn't fit comes off the misty foot (under Play) and a little off the sky, but only as much sky as the logo can
+     spare: Suki's hair buns sit 29.5% down the painting and must stay clear of the logo (same sizes as .logo below) */
+  --trim-top: max(0px, min((var(--art-h) - var(--art-box)) / 2, 0.295 * var(--art-h) - env(safe-area-inset-top, 0px) - clamp(64px, 11svh, 80px) - 0.86 * (clamp(40px, min(13.5vw, 7.4svh), 96px) + clamp(60px, min(20.5vw, 11.3svh), 150px)) - 8px));
+  position: relative; display: grid; grid-template-columns: 100%; background: linear-gradient(#f9cfb9 0, #f9cfb9 120px, var(--paper) 120px); overflow: hidden; isolation: isolate;
+}
+.hero-art, #petals { grid-area: 1 / 1; }
+/* taller screens: the whole painting, pushed down into the sky colour so its foot lands on the fold; shorter ones:
+   the full-width painting, trimmed (see --trim-top) */
+.hero-art { display: block; position: relative; z-index: 0; margin-top: clamp(0px, calc(var(--screen) - var(--art-h)), 110px); }
 .hero-art::before { content: ""; position: absolute; inset: -2px 0 auto 0; height: 40px; background: linear-gradient(#f9cfb9, rgba(249,207,185,0)); z-index: 1; }
-.hero-art img { width: 100%; height: auto; aspect-ratio: 1536 / 2752; object-fit: cover; }
+.hero-art img { width: 100%; height: var(--art-box); object-fit: cover; object-position: 50% calc(-1 * var(--trim-top)); }
 .hero-art::after { content: ""; position: absolute; inset: auto 0 0 0; height: 22%; background: linear-gradient(to bottom, rgba(251,236,216,0), var(--paper) 92%); }
 #petals { z-index: 1; width: 100%; height: 100%; pointer-events: none; -webkit-mask: linear-gradient(to bottom, transparent 28%, #000 44%, #000 86%, transparent); mask: linear-gradient(to bottom, transparent 28%, #000 44%, #000 86%, transparent); }
 .hero-copy { display: contents; }
-.hero-title { z-index: 2; align-self: start; text-align: center; padding: calc(80px + env(safe-area-inset-top)) var(--gutter) 0; }
-.logo { font-family: var(--display); font-weight: 400; margin: 0; line-height: .86; letter-spacing: .02em; transform: rotate(-3deg); }
+/* on phones the title lockup splits: the logo in the sky, the tagline on the meadow just above Play (under the logo it
+   would sit on Suki's face) */
+.hero-title { display: contents; text-align: center; }
+.logo { grid-area: 1 / 1; z-index: 2; align-self: start; margin: calc(clamp(64px, 11svh, 80px) + env(safe-area-inset-top)) var(--gutter) 0; font-family: var(--display); font-weight: 400; line-height: .86; letter-spacing: .02em; transform: rotate(-3deg); }
 .logo span { display: block; -webkit-text-stroke: 9px var(--ink); paint-order: stroke fill; text-shadow: 0 7px 0 var(--ink); }
-.logo .l1 { color: var(--gold); font-size: clamp(48px, 13.5vw, 96px); }
-.logo .l2 { color: var(--red); font-size: clamp(72px, 20.5vw, 150px); margin-top: 2px; }
-.tagline { font-family: var(--serif); font-variation-settings: "SOFT" 100; font-style: italic; font-weight: 600; font-size: 19px; line-height: 1.3; color: var(--ink); margin: 16px auto 0; max-width: 24ch; text-wrap: balance; }
+/* sized by width, and by height on short screens so the sky still holds it */
+.logo .l1 { color: var(--gold); font-size: clamp(40px, min(13.5vw, 7.4svh), 96px); }
+.logo .l2 { color: var(--red); font-size: clamp(60px, min(20.5vw, 11.3svh), 150px); margin-top: 2px; }
+.tagline { grid-area: 1 / 1; z-index: 2; align-self: end; font-family: var(--serif); font-variation-settings: "SOFT" 100; font-style: italic; font-weight: 600; font-size: clamp(16px, 2.7svh, 19px); line-height: 1.3; color: var(--ink); margin: 0 auto calc(64px + clamp(6px, 1.2svh, 12px)); padding: 0 var(--gutter); max-width: calc(24ch + 2 * var(--gutter)); text-wrap: balance; text-shadow: 0 0 10px var(--paper), 0 0 4px var(--paper), 0 0 2px var(--paper); }
 .hero-more { position: relative; z-index: 2; display: flex; flex-direction: column; text-align: center; padding: 0 var(--gutter) 64px; margin-top: -64px; }
-.hero-more .cta-row { order: -1; margin-bottom: 30px; }
+/* "Watch the story" starts just past the fold, rather than peeking in as half a pink circle under Play */
+.hero-more .cta-row { order: -1; margin-bottom: 30px; gap: calc(var(--fold-gap) + 8px); }
 .lede { font-family: var(--serif); font-variation-settings: "SOFT" 100; font-weight: 500; font-size: 21px; line-height: 1.45; color: var(--ink); max-width: 30ch; margin: 0 auto; text-wrap: pretty; }
 .lede em { color: var(--blossom-deep); }
 .cta-row { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .cta-row .btn { width: min(100%, 320px); }
-.promises { list-style: none; padding: 0; margin: 22px auto 0; display: grid; grid-template-columns: auto auto; justify-content: center; gap: 6px 22px; font-size: 15px; font-weight: 800; color: var(--ink-3); text-align: left; }
+/* one column on phones: two side by side ran off the right edge ("44 sounds, every s…") */
+.promises { list-style: none; padding: 0; margin: 22px auto 0; display: grid; grid-template-columns: auto; justify-content: center; gap: 6px 22px; font-size: 15px; font-weight: 800; color: var(--ink-3); text-align: left; }
 .promises li { white-space: nowrap; }
 .promises li::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--blossom); margin: 0 8px 2px 0; }
 
@@ -158,6 +181,38 @@ section.torn.alt::before { -webkit-mask-image: var(--edge-b); mask-image: var(--
 .mode p { margin: 0 0 10px; }
 .note { font-size: 15px; line-height: 1.5; color: var(--ink-3); border-top: 2px dotted rgba(58,36,22,.2); padding-top: 10px; margin-top: 12px !important; }
 .note b { color: var(--ink-2); font-weight: 800; }
+
+/* ---------- pre-school to Year 2: the road, one stop per map, each with a badge saying what's playable today.
+   Phones: top to bottom along a dotted path, like the map's; desktops: left to right. No animation beyond the reveal. */
+.years { --bg: var(--sage); }
+.years .kicker { color: #4d7a3c; }
+.years .sec-head { margin-bottom: 20px; }
+.years-lede { max-width: 640px; margin: 0 auto 46px; font-family: var(--serif); font-variation-settings: "SOFT" 100; font-size: clamp(19px, 2vw, 21px); line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+.road { --art: 90px; --gap: 30px; --dots: radial-gradient(circle, rgba(58,36,22,.4) 0 2.6px, transparent 3.2px); position: relative; list-style: none; margin: 0 auto; padding: 0; max-width: 620px; display: grid; gap: var(--gap); }
+.stop { position: relative; display: grid; grid-template-columns: var(--art) minmax(0, 1fr); gap: 18px; align-items: start; align-content: start; }
+/* the dotted path: from under each stop's picture down to the next one */
+.stop:not(:last-child)::before { content: ""; position: absolute; left: calc(var(--art) / 2 - 4px); top: calc(var(--art) + 10px); bottom: calc(-1 * var(--gap) + 4px); width: 8px; background: var(--dots) 50% 0 / 8px 15px repeat-y; }
+.stop-art { position: relative; width: var(--art); height: var(--art); border-radius: 50%; border: 3px solid var(--ink); box-shadow: 0 4px 0 var(--ink), 0 12px 20px -10px rgba(58,36,22,.5); overflow: hidden; background: #fff8ee; }
+.stop-art img { width: 100%; height: 100%; object-fit: cover; }
+/* not built yet, so no painting of it: its character on a plain disc, with a pencilled (dashed) edge */
+.stop.unpainted .stop-art { display: grid; place-items: center; border-style: dashed; box-shadow: 0 12px 20px -12px rgba(58,36,22,.45); }
+.stop.unpainted .stop-art img { width: 80%; height: 80%; object-fit: contain; }
+.stop-muddle .stop-art { background: radial-gradient(circle at 50% 30%, #6d5c96, var(--night-2) 70%); }
+.stop-library .stop-art { background: radial-gradient(circle at 50% 30%, #fff1d6, #e9c38b 75%); }
+.stop-when { margin: 4px 0 2px; font-weight: 900; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--blossom-deep); }
+.stop h3 { margin: 0 0 8px; font-size: 23px; }
+.badge { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 10px; padding: 1px 12px 1px 9px; border-radius: 999px; border: 2px solid var(--green-deep); background: #e0f0d8; color: var(--green-deep); font-weight: 900; font-size: 14px; line-height: 1.65; letter-spacing: .02em; }
+.badge::before { content: ""; flex: none; width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
+.badge.building { border-style: dashed; border-color: #a8740f; background: #fff0c6; color: #6e4a00; }
+.badge.building::before { width: 5px; height: 5px; background: none; border: 2px solid currentColor; }
+.stop-now { margin: 0; font-size: 16.5px; line-height: 1.55; }
+.stop .note { margin: 10px 0 0 !important; }
+.stop .gems { display: block; margin: 4px 0 6px; }
+.stop .g { font-size: 15px; padding: 0 6px; margin: 2px 0; border-width: 2px; border-radius: 8px; box-shadow: 0 2px 0 var(--ink); }
+.bosses { display: flow-root; gap: 6px 40px; max-width: 920px; margin: 64px auto 0; padding: 28px 20px 16px; border-radius: 6px; background: #fffaf1; background-image: var(--grain); box-shadow: 0 1px 0 rgba(58,36,22,.08), 0 30px 50px -30px rgba(58,36,22,.45); }
+.bosses img { float: right; width: 84px; height: auto; margin: 0 0 6px 14px; filter: drop-shadow(0 8px 6px rgba(58,36,22,.2)); }
+.bosses h3 { margin: 0 0 10px; }
+.bosses p { margin: 0 0 12px; font-size: 17px; }
 
 /* ---------- world flower */
 .flower { --bg: var(--paper-2); background-image: var(--grain); }
@@ -230,12 +285,17 @@ footer a { color: var(--ink-2); }
 @media (min-width: 640px) {
   :root { --gutter: 32px; }
   .cast { grid-template-columns: repeat(4, 1fr); }
+  .promises { grid-template-columns: auto auto; }
   .modes { grid-auto-flow: row; grid-template-columns: 1fr 1fr; grid-auto-columns: auto; gap: 64px 40px; overflow: visible; margin: 0; padding: 0; }
   .swipe-hint { display: none; }
   .flower-media { grid-template-columns: 1fr 1fr; gap: 40px; }
   .letter { padding: 48px 52px; }
   .install-grid { grid-template-columns: 220px 1fr; gap: 40px; }
   .install-kai { width: 100%; }
+  .road { --art: 110px; }
+  .stop { gap: 22px; }
+  .bosses { display: grid; grid-template-columns: 150px minmax(0, 1fr); align-items: start; padding: 40px 44px 28px; }
+  .bosses img { float: none; width: 100%; margin: 0; }
 }
 
 /* ---------- desktop: the wide painting, words in its calm sky */
@@ -252,13 +312,13 @@ footer a { color: var(--ink-2); }
   #petals { position: absolute; inset: 0; -webkit-mask: linear-gradient(to right, transparent 38%, #000 52%); mask: linear-gradient(to right, transparent 38%, #000 52%); }
   .hero-copy { display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; height: 100%; width: min(1160px, calc(100% - 64px)); margin: 0 auto; padding-top: 40px; }
   .hero-copy::before { content: ""; position: absolute; z-index: -1; left: -12%; top: 50%; width: 62%; aspect-ratio: 1; translate: 0 -50%; border-radius: 50%; background: radial-gradient(closest-side, rgba(253,244,232,.82), rgba(253,244,232,.55) 55%, rgba(253,244,232,0)); }
-  .hero-title { padding: 0; text-align: left; max-width: 520px; }
-  .logo { transform-origin: left; }
+  .hero-title { display: block; padding: 0; text-align: left; max-width: 520px; }
+  .logo { margin: 0; transform-origin: left; }
   .logo .l1 { font-size: clamp(64px, 6.4vw, 100px); }
   .logo .l2 { font-size: clamp(96px, 9.6vw, 150px); }
-  .tagline { margin: 16px 0 0; font-size: 22px; max-width: none; }
+  .tagline { margin: 16px 0 0; padding: 0; font-size: 22px; max-width: none; text-shadow: none; }
   .hero-more { margin: 0; padding: 18px 0 0; text-align: left; max-width: 500px; }
-  .hero-more .cta-row { order: 0; margin: 0; }
+  .hero-more .cta-row { order: 0; margin: 0; gap: 26px; }
   .lede { margin-bottom: 28px !important; }
   .lede { margin: 0 0 28px; font-size: 22px; max-width: 29ch; }
   .cta-row { flex-direction: row; gap: 26px; }
@@ -269,6 +329,14 @@ footer a { color: var(--ink-2); }
   .story-copy p { font-size: 21px; }
   .flower-grid { grid-template-columns: 1fr 1fr; gap: 56px; }
   .flower-art img { margin: 0; }
+  /* the road runs left to right: five stops on one dotted path */
+  .road { --art: 128px; max-width: none; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 26px; }
+  .road::before { content: ""; position: absolute; left: 10%; right: 10%; top: calc(var(--art) / 2 - 4px); height: 8px; background: var(--dots) 0 50% / 15px 8px repeat-x; }
+  .stop:not(:last-child)::before { display: none; }
+  .stop { grid-template-columns: 1fr; justify-items: center; gap: 12px; text-align: center; }
+  .stop h3 { font-size: 22px; text-wrap: balance; }
+  .stop-now { font-size: 16px; }
+  .stop .note { font-size: 14.5px; }
   .hands-grid { grid-template-columns: 1.1fr 1fr; gap: 64px; }
   .letter { grid-template-columns: 1fr 1fr; }
   .letter > div + div h3:first-child { margin-top: 8px; }
@@ -290,8 +358,9 @@ footer a { color: var(--ink-2); }
   .reveal { opacity: 1; transform: none; }
 }
 
-/* phones held sideways: the whole hero, with Play, fits in one screen */
-@media (orientation: landscape) and (max-height: 540px) {
+/* phones held sideways (in the wide layout): the whole hero, with Play, fits in one screen. Narrower ones (568px) keep
+   the portrait hero: this fixed-height hero would clip Play off it entirely */
+@media (orientation: landscape) and (min-width: 600px) and (max-height: 540px) {
   .hero { height: 100svh; min-height: 0; }
   .hero-copy { padding-top: 64px; padding-bottom: 20px; }
   .tagline { font-size: 20px; margin-top: 10px; max-width: 300px; }
@@ -301,4 +370,8 @@ footer a { color: var(--ink-2); }
   .logo span { -webkit-text-stroke-width: 6px; text-shadow: 0 4px 0 var(--ink); }
   .hero-more .lede { display: none; }
   .hero-more .promises { display: none; }
+  /* the cast at phone size: the desktop Kai & Suki pair is wider than a quarter of a sideways phone */
+  .cast img, .duo { height: 150px; }
+  .duo img { height: 132px; }
+  .duo img + img { height: 140px; margin-left: -34px; }
 }

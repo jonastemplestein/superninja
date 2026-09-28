@@ -1,0 +1,195 @@
+/* The cheat menu (src/cheat/CheatMenu.tsx, docs/CHEATS.md): a full-screen grown-ups' overlay in CSS px (outside the
+   scaled 1280×720 stage), laid out for a phone held sideways (844×390) first. Loaded with the menu's own chunk. */
+.ch-host {
+  position: fixed; inset: 0; z-index: 2147483000;
+  font-family: var(--font-ui); color: var(--ink);
+}
+.ch {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  background: var(--paper);
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  outline: none; font-size: 15px; line-height: 1.25;
+}
+/* (zero specificity: the classes below win over it and over the game's global button reset) */
+.ch :where(button) { font: inherit; color: var(--ink); touch-action: manipulation; }
+.ch :where(button:disabled) { opacity: 0.45; cursor: default; }
+
+/* ---------- top bar: the title, the tabs, Close */
+.ch-bar {
+  flex: none; display: flex; align-items: center; gap: 8px;
+  padding: calc(6px + env(safe-area-inset-top)) 8px 6px 10px;
+  background: var(--paper-2); border-bottom: 3px solid var(--ink);
+}
+.ch-title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 22px; letter-spacing: 0.5px; color: var(--blossom-deep); }
+.ch-tabs {
+  flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+  touch-action: pan-x; overscroll-behavior: contain;
+}
+.ch-tabs::-webkit-scrollbar { display: none; }
+.ch-tab {
+  flex: none; min-height: 44px; padding: 0 16px; border-radius: 999px;
+  border: 3px solid var(--ink); background: #fff; font-weight: 800; font-size: 16px; white-space: nowrap;
+}
+.ch-tab.on { background: var(--ink); color: var(--paper); }
+.ch-close {
+  flex: none; min-width: 92px; min-height: 44px; padding: 0 12px; border-radius: 14px;
+  border: 3px solid var(--ink); background: var(--red); color: #fff; font-weight: 800;
+  box-shadow: 0 3px 0 var(--ink);
+}
+
+/* ---------- the scrolling body */
+.ch-body {
+  flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+  padding: 8px 12px 48px; touch-action: pan-y;
+}
+.ch-status { margin: 2px 0 10px; font-size: 13px; color: var(--ink-soft); }
+.ch-status b { color: var(--ink); }
+.ch-sec { margin: 0 0 18px; }
+.ch-sec > h3 {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px;
+  margin: 6px 0 8px; font-size: 17px; font-weight: 800;
+}
+.ch-aside { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.ch-dim { color: var(--ink-soft); font-weight: 600; }
+.ch-lab { font-weight: 700; font-size: 14px; }
+.ch-err { color: var(--red); font-weight: 700; }
+
+.ch-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 8px; }
+.ch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 8px; }
+
+/* ---------- buttons */
+.ch-btn {
+  min-height: 48px; padding: 6px 10px; border-radius: 12px; text-align: left;
+  border: 3px solid var(--ink); background: #fff; box-shadow: 0 3px 0 var(--ink);
+  font-weight: 700; font-size: 15px; line-height: 1.15;
+}
+.ch-btn small { display: block; margin-top: 2px; font-weight: 600; font-size: 12px; color: var(--ink-soft); }
+.ch-btn:active:not(:disabled), .ch-chip:active:not(:disabled), .ch-lv:active, .ch-snd:active, .ch-gem:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+.ch-btn.on { background: #fff1b8; }
+.ch-btn.danger { background: #ffe1dc; color: #9a1f12; }
+.ch-chip {
+  min-height: 40px; min-width: 44px; padding: 0 12px; border-radius: 999px;
+  border: 3px solid var(--ink); background: #fff; font-weight: 700; font-size: 14px; white-space: nowrap;
+  box-shadow: 0 2px 0 var(--ink);
+}
+.ch-chip.on { background: var(--ink); color: var(--paper); }
+/* a chip row that doesn't fit scrolls sideways (its chips keep their size); a vertical swipe that starts on it still
+   scrolls the menu, so it allows both pans (a lone pan-x here stops the body's pan-y) */
+.ch-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; touch-action: pan-x pan-y; overscroll-behavior-x: contain; padding-bottom: 4px; }
+.ch-chips::-webkit-scrollbar { display: none; }
+.ch-chips .ch-chip { flex: none; }
+.ch-toggle {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 4px 6px 4px 12px; text-align: left;
+  border-radius: 12px; border: 3px solid var(--ink); background: #fff; font-weight: 700; font-size: 14px;
+}
+.ch-toggle b { flex: none; min-width: 44px; padding: 5px 8px; border-radius: 999px; text-align: center; background: #d8cfc0; font-size: 13px; }
+.ch-toggle small { display: block; margin-top: 2px; font-weight: 600; font-size: 12px; color: var(--ink-soft); }
+/* "in-app": a jump that never reloads the page, even with the reload switch on */
+.ch-tag {
+  float: right; margin: -2px -4px 2px 6px; padding: 1px 7px; border-radius: 999px;
+  background: #d7e6ff; color: #1d3f7a; border: 2px solid #1d3f7a; font-size: 11px; font-weight: 800; line-height: 1.3;
+}
+.ch-tag.inline { float: none; display: inline-block; margin: 0 1px; vertical-align: 1px; }
+.ch-toggle.on b { background: var(--good); color: #fff; }
+
+/* ---------- selects and fields */
+.ch-selects label { display: flex; flex-direction: column; gap: 3px; font-weight: 700; font-size: 13px; flex: 1 1 240px; }
+.ch select, .ch-input, .ch-text {
+  font: 600 16px/1.2 var(--font-ui); color: var(--ink); background: #fff;
+  border: 3px solid var(--ink); border-radius: 10px; min-height: 44px; padding: 6px 8px;
+  user-select: text; -webkit-user-select: text; -webkit-touch-callout: default;
+}
+.ch-input { flex: 1 1 200px; }
+.ch-text { display: block; width: 100%; margin: 0 0 8px; font: 12px/1.35 ui-monospace, Menlo, monospace; resize: vertical; }
+.ch-details { margin: 4px 0 0; }
+.ch-details > summary { cursor: pointer; font-weight: 700; min-height: 40px; display: flex; align-items: center; list-style: none; }
+.ch-details > summary::-webkit-details-marker { display: none; }
+.ch-details > summary::before { content: "▸"; display: inline-block; width: 1.1em; transition: transform 0.15s; }
+.ch-details[open] > summary::before { transform: rotate(90deg); }
+
+/* ---------- levels */
+.ch-world { margin: 0 0 10px; }
+.ch-world-name { display: inline-block; margin: 0 0 6px; padding: 2px 12px; border: 3px solid var(--ink); border-radius: 999px; font-weight: 800; font-size: 14px; }
+.ch-levels { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 6px; }
+.ch-lv {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 56px; padding: 4px; border-radius: 12px; border: 3px solid var(--ink); background: #fff;
+  box-shadow: 0 3px 0 var(--ink); text-align: center;
+}
+.ch-lv b { font-size: 17px; font-weight: 800; }
+.ch-lv small { font-size: 11px; font-weight: 600; color: var(--ink-soft); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ch-lv i { position: absolute; top: 1px; right: 4px; font-style: normal; font-size: 10px; color: var(--gold-deep); letter-spacing: -1px; }
+.ch-lv.next { background: #fff1b8; outline: 3px solid var(--gold); outline-offset: 1px; }
+
+/* ---------- the 44 sounds */
+.ch-sounds { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 6px; }
+.ch-snd {
+  display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 4px 2px 5px;
+  border-radius: 12px; border: 3px solid var(--ink); background: #e7e2ef; box-shadow: 0 3px 0 var(--ink);
+}
+.ch-snd b { font-family: var(--font-letters); font-size: 15px; }
+.ch-snd i { font-size: 11px; font-weight: 600; color: var(--ink-soft); line-height: 1; }
+.ch-snd small { font-size: 11px; font-weight: 700; color: var(--ink-soft); }
+.ch-snd.met { background: #fff1b8; }
+.ch-snd.secure { background: #bfe8c8; }
+.ch-snd.secure small { color: var(--good-deep); }
+.ch-snd.na { opacity: 0.45; border-style: dashed; box-shadow: none; }
+
+/* ---------- gems */
+.ch-gemrows { display: flex; flex-direction: column; gap: 6px; margin: 0 0 10px; }
+.ch-gemrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ch-gemsound {
+  flex: none; min-width: 58px; padding: 3px 8px; border: 3px solid var(--ink); border-radius: 10px; text-align: center;
+  font-family: var(--font-letters); font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.ch-gemsound small { display: block; font: 600 10.5px/1 var(--font-ui); }
+.ch-gem {
+  --e: 0%; --c: #ffc53d;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 64px; min-height: 48px; padding: 2px 8px;
+  border-radius: 12px; border: 3px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
+  background: linear-gradient(0deg, color-mix(in srgb, var(--c) 55%, #fff) var(--e), #fff var(--e));
+}
+.ch-gem b { font-family: var(--font-letters); font-size: 19px; line-height: 1; }
+.ch-gem small { font-size: 10.5px; font-weight: 700; color: var(--ink-soft); }
+.ch-gem.hidden { background: #e7e2ef; }
+.ch-gem.hidden b { opacity: 0.45; }
+.ch-gem.ready { background: #ffe38a; box-shadow: 0 3px 0 var(--ink), 0 0 0 3px var(--gold); }
+.ch-gem.won { background: var(--c); }
+.ch-gem.won b, .ch-gem.won small { color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); }
+
+/* ---------- words, games, the ledger */
+.ch-units { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 6px; margin: 0 0 8px; }
+.ch-unit { display: flex; align-items: center; gap: 6px; }
+.ch-unit > span { flex: 1; min-width: 0; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ch-games { display: flex; flex-direction: column; gap: 6px; }
+.ch-game {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px;
+  padding: 6px 8px; border: 2px solid var(--paper-3); border-radius: 12px; background: #fffaf0;
+}
+.ch-game > div:first-child { flex: 1 1 220px; }
+.ch-game small { display: block; font-size: 12px; color: var(--ink-soft); }
+.ch-game .ch-row { margin: 0; }
+.ch-ledger { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.ch-entry { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.ch-entry code { font: 600 12.5px ui-monospace, Menlo, monospace; }
+.ch-entry .ch-chip { min-height: 32px; margin-left: auto; }
+
+/* ---------- confirm, toast */
+.ch-confirm {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0; padding: 8px 10px;
+  border: 3px solid var(--red); border-radius: 14px; background: #fff0ed; font-weight: 700;
+}
+.ch-confirm > span { flex: 1 1 240px; }
+.ch-toast {
+  position: absolute; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+  max-width: calc(100% - 32px); padding: 9px 16px; border-radius: 12px; pointer-events: none;
+  background: var(--ink); color: var(--paper); font-weight: 700; font-size: 14px; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- the live __snState readout (Play tab) */
+#sn-cheat-state {
+  position: fixed; top: calc(2px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); z-index: 2147482999;
+  max-width: min(64vw, 620px); max-height: 38vh; overflow: hidden; margin: 0; padding: 3px 8px; pointer-events: none;
+  border-radius: 8px; background: rgba(20, 12, 30, 0.74); color: #f3eeff;
+  font: 10px/1.3 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-all;
+}

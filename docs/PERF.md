@@ -83,10 +83,31 @@ Evidence is in `playtest/runs/perf/after-r2/`.
 
 **Left:**
 
-- `.tut-arrow-wrap` (`shell.css`) is ready, but `Training.tsx` doesn't wrap the tutorial arrow in it yet, so that full-stage SVG still sways on the main thread while it shows.
-- `soak-fixes.ts` and `soak.ts --patched` are still there. Retire them (fix plan Dec10), since the patches no longer apply.
+- ~~`.tut-arrow-wrap` (`shell.css`) is ready, but `Training.tsx` doesn't wrap the tutorial arrow in it yet.~~ Done by the fix workflow's lane A (27 Sep).
+- ~~`soak-fixes.ts` and `soak.ts --patched` are still there.~~ Retired at integration (fix plan Dec10, 27 Sep); `soak.ts --patched` now exits with a message.
 - The soak isn't a preview gate (12–25 min). Run `run.ts --soak-phone` nightly.
 - The strike stress peaks a little higher (272 vs 255 particles on the phone), within the 350 cap.
+
+### After the fix workflow (27 Sep, evening)
+
+The teacher-voice, petals and World Flower workflow ([FIX_PLAN](FIX_PLAN_PERF_SCRIPT_SOUNDS.md)) touched every scene. Its final phone soak (integration's frozen build, `--mobile --cpu 4 --fast 2 --levels 12 --idle 60 --stress 150 --check`; `playtest/runs/fix/I/soak-phone/summary.md`) passes **28 of 29** budgets, against the P0 baseline's 27 of 29 on the morning's build (`playtest/runs/fix/baseline/soak-phone/`):
+
+| | P0 (27 Sep, morning) | final (27 Sep, evening) | budget |
+|---|---|---|---|
+| every screen's median fps, lowest | 42.5 (the runner) | **60.3** (the runner now 60–61) | ≥ 50 |
+| the World Flower: main thread / longest task | 29.4 % / 135 ms | **21.9 % / 0 ms** (v2: half-sheets, `content-visibility`, no filter loops) | ≤ 30 % / ≤ 120 ms |
+| the still map: main thread / rAF | 1.2 % / 0 | 1.5 % / 0 | ≤ 5 % / ≤ 5 |
+| a held Next with its nudge: main thread / rAF | 3.9 % / 4.4 | 3.6 % / 4.8 | ≤ 6 % / ≤ 5 |
+| the ninja still, streak 0 / 10 | 2.8 % / 6.1 % | 2.1 % / 5.0 % | ≤ 6 % / ≤ 14 % |
+| endless non-compositable / hidden animations | 0 / 0 | 0 / 0 | ≤ 2 |
+| live decoded audio, worst | 40 MB | 40 MB | ≤ 64 MB |
+| the title, 5 s: decoded audio | 0.1 MB | 0.7 MB (`tap_start`, `help_start`) | ≤ 2 MB |
+| stress: particle peak / after | 280 / 0 | 275 / 0 | ≤ 350 / 0 |
+| event listeners after each level | worst 277 | **worst 332: FAIL** (see below) | ≤ start + 40 |
+
+- **▶ in a Ready hold restyled every frame** (found by D4, fixed at integration): its pop-in (`nav-pop … both`) and its endless `pulse` both animated `transform`, and the finished pop's fill kept the pulse off the compositor: 60 style recalcs a second for as long as a Ready hold waits (every game's first meeting now has one). The pop now animates the `scale` property. Phone ×4, in a Ready hold: 3.9 % → 0.4 % main thread, 60 → 4.5 recalcs a second (the same as with the pulse paused).
+- **The listener budget fails, but nothing piles up.** Across 12 levels the count on the map sits in a flat band (277–332; window listeners flat at 33 after the first level; detached nodes flat at about 184 from w1-9). The bumps (+27 to +55) come only on the map straight after a World Flower trip, and are gone by the next level: React's `load`/`error` listeners on 13–27 image elements that stay alive, detached, until the next route. P0 had no such bump (275–277). Owner: the World Flower (B2) or the shell (B1); `soak.ts --heap` after a trip will name what holds them. The budget as written (start + 40, the first map) can't tell a retained set from a leak; judging the trend per level would.
+- The soak's after-level sample now waits for Sensei to finish the map's line (up to 15 s), so the speech's own listeners and rAF aren't counted.
 
 ## 1. How it was measured
 
@@ -532,7 +553,7 @@ bun scripts/treadmill/soak.ts --analyse playtest/soak/<run> --mobile --cpu 4    
 1. A `--soak` stage in `run.ts`, run nightly or with `--personas`: `sh("soak", ["bun", "scripts/treadmill/soak.ts", "--mobile", "--cpu", "4", "--fast", "2", "--levels", "12", "--out", `${runDir}/soak`, "--findings", `${runDir}/soak.json`])`.
 2. `soak` added to the `inbox.ts` file pattern: `/^(sweep|critic|pics|joins|soak|persona-.*|jev-.*)\.json$/`.
 
-Once fixes 1–6 land, delete `soak-fixes.ts` and the `--patched` flag. A plain soak should then match the "after" column.
+Once fixes 1–6 land, delete `soak-fixes.ts` and the `--patched` flag. A plain soak should then match the "after" column. *(Done 27 Sep: both retired at integration.)*
 
 ## 6. Caveats
 

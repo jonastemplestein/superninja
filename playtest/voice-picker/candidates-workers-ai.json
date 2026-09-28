@@ -1,0 +1,1457 @@
+[
+ {
+  "id": "inworld-tts2-wendy",
+  "provider": "Cloudflare Workers AI: inworld/tts-2",
+  "voice": "Wendy",
+  "model": "inworld/tts-2",
+  "label": "Inworld TTS-2 Wendy",
+  "gender": "f",
+  "settings": {
+   "temperature": 1
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/inworld-tts2-wendy/sensei-1.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/sensei-2.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/sensei-3.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/sensei-4.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/sensei-5.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/inworld-tts2-wendy/narrator-1.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/narrator-2.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/inworld-tts2-wendy/baron-1.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/inworld-tts2-wendy/sensei-2.take2.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/inworld-tts2-wendy/sensei-6.take2.mp3",
+    "audio/workers-ai/inworld-tts2-wendy/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 10,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: flat (TRAP) vowel in 2/19 BATH words: dance (0.78), dance (0.67)",
+   "acoustics: flapped t in 4/9 t-words: butter (sensei-6.t1), butter (sensei-6.t2), tomato (sensei-6.t2), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "0/24",
+   "rFlags": [],
+   "bathFlat": "2/19",
+   "bathFlags": [
+    "dance (0.78)",
+    "dance (0.67)"
+   ],
+   "tFlapped": "4/9",
+   "tFlags": [
+    "butter (sensei-6.t1)",
+    "butter (sensei-6.t2)",
+    "tomato (sensei-6.t2)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": [
+    -0.03,
+    -0.63,
+    0.01
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 98
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 9,
+  "storytelling": 9,
+  "villainy": 4.8,
+  "naturalness": 8.9,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0189,
+  "costSource": "Inworld on-demand: $25 per 1M characters (TTS-2)",
+  "fullLibraryOneTakeUSD": 2.01,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Inworld's own tag: British female, posh. British: ABX 21/21, no r-colouring in 24 r-words, 'dance' flattish in 2 of 3 takes; 'butter' sometimes has a quick tapped t. Warm (9.0) and natural (8.9); a good Sensei or narrator, with no steering. Inworld samples at temperature 1, so takes vary: render 2 or 3 and keep the best. As Sensei she would mean re-recording every line and word and rebuilding the pure sounds from her voice.",
+  "rank": {
+   "narrator": 3
+  }
+ },
+ {
+  "id": "inworld-tts2-wendy-teacher",
+  "provider": "Cloudflare Workers AI: inworld/tts-2",
+  "voice": "Wendy",
+  "model": "inworld/tts-2",
+  "label": "Inworld TTS-2 Wendy, steered: kind teacher / storyteller / villain",
+  "gender": "f",
+  "settings": {
+   "temperature": 1,
+   "steer": {
+    "sensei": "[speak warmly and gently, like a kind teacher talking to a small child]",
+    "narrator": "[tell it like a warm, magical bedtime story]",
+    "baron": "[as a theatrical pantomime villain, gleeful and wicked]"
+   }
+  },
+  "roles": [
+   "sensei"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-1.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-2.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-3.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-4.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-5.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/inworld-tts2-wendy-teacher/narrator-1.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/narrator-2.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/inworld-tts2-wendy-teacher/baron-1.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-2.take2.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-6.take2.mp3",
+    "audio/workers-ai/inworld-tts2-wendy-teacher/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 10,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: flat (TRAP) vowel in 3/19 BATH words: dance (0.66), can't (0.66), can't (1.0)",
+   "acoustics: flapped t in 2/9 t-words: tomato (sensei-6.t1), butter (sensei-6.t2)"
+  ],
+  "acoustics": {
+   "rColoured": "0/24",
+   "rFlags": [],
+   "bathFlat": "3/19",
+   "bathFlags": [
+    "dance (0.66)",
+    "can't (0.66)",
+    "can't (1.0)"
+   ],
+   "tFlapped": "2/9",
+   "tFlags": [
+    "tomato (sensei-6.t1)",
+    "butter (sensei-6.t2)"
+   ],
+   "tomatoIndex": [
+    -0.1,
+    0.11,
+    0.14
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 98
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 9.3,
+  "storytelling": 9,
+  "villainy": 7.5,
+  "naturalness": 9.1,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0325,
+  "costSource": "Inworld on-demand: $25 per 1M characters (TTS-2)",
+  "fullLibraryOneTakeUSD": 3.44,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Wendy (Inworld's own tag: British female, posh) with Inworld TTS-2's bracketed steering in front of each line: '[speak warmly and gently, like a kind teacher talking to a small child]' for Sensei, '[tell it like a warm, magical bedtime story]' for the narrator, a pantomime-villain tag for the Baron. The tags are not spoken (checked by transcription). Warmer and more natural than plain Wendy (9.3 and 9.1) and a much better Baron (7.5 against 4.8). British: ABX 21/21, no r-colouring in 24 r-words, 'dance' and 'can't' flattish in one take. The steering text is billed as characters, so it costs more a minute than plain Wendy. As Sensei she would mean re-recording every line and word and rebuilding the pure sounds from her voice.",
+  "rank": {
+   "sensei": 2
+  }
+ },
+ {
+  "id": "inworld-tts2-eleanor",
+  "provider": "Cloudflare Workers AI: inworld/tts-2",
+  "voice": "Eleanor",
+  "model": "inworld/tts-2",
+  "label": "Inworld TTS-2 Eleanor",
+  "gender": "f",
+  "settings": {
+   "temperature": 1
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-1.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-2.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-3.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-4.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-5.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/inworld-tts2-eleanor/narrator-1.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/narrator-2.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/inworld-tts2-eleanor/baron-1.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-2.take2.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-6.take2.mp3",
+    "audio/workers-ai/inworld-tts2-eleanor/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 10,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: flat (TRAP) vowel in 3/19 BATH words: dance (0.78), dance (0.93), dance (1.08)",
+   "acoustics: flapped t in 3/9 t-words: butter (sensei-6.t2), tomato (sensei-6.t2), butter (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "0/23",
+   "rFlags": [],
+   "bathFlat": "3/19",
+   "bathFlags": [
+    "dance (0.78)",
+    "dance (0.93)",
+    "dance (1.08)"
+   ],
+   "tFlapped": "3/9",
+   "tFlags": [
+    "butter (sensei-6.t2)",
+    "tomato (sensei-6.t2)",
+    "butter (sensei-6.t3)"
+   ],
+   "tomatoIndex": [
+    0.04,
+    -0.13,
+    0.18
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 98
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 9,
+  "storytelling": 8.8,
+  "villainy": 3.8,
+  "naturalness": 8.8,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0206,
+  "costSource": "Inworld on-demand: $25 per 1M characters (TTS-2)",
+  "fullLibraryOneTakeUSD": 2.18,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Inworld British female, polished and articulate (an e-learning voice). British: ABX 21/21, no r-colouring in 23 r-words; 'dance' is flattish in all three takes. Warm (9.0), a touch more formal than Wendy. As Sensei she would mean re-recording every line and word and rebuilding the pure sounds from her voice.",
+  "rank": {
+   "sensei": 3
+  }
+ },
+ {
+  "id": "minimax-hd-graceful-lady",
+  "provider": "Cloudflare Workers AI: minimax/speech-2.8-hd",
+  "voice": "English_Graceful_Lady",
+  "model": "minimax/speech-2.8-hd",
+  "label": "MiniMax Speech 2.8 HD Graceful Lady",
+  "gender": "f",
+  "settings": {},
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-1.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-2.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-3.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-4.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-5.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/minimax-hd-graceful-lady/narrator-1.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/narrator-2.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/minimax-hd-graceful-lady/baron-1.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-2.take2.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-6.take2.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 10,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: r-coloured vowel in 1/24 r-words: stormy (narrator-2.t1, 0.78)",
+   "acoustics: flat (TRAP) vowel in 1/19 BATH words: dance (0.61)",
+   "acoustics: flapped t in 2/9 t-words: tomato (sensei-6.t2), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "1/24",
+   "rFlags": [
+    "stormy (narrator-2.t1, 0.78)"
+   ],
+   "bathFlat": "1/19",
+   "bathFlags": [
+    "dance (0.61)"
+   ],
+   "tFlapped": "2/9",
+   "tFlags": [
+    "tomato (sensei-6.t2)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": [
+    0.29,
+    0.4,
+    0.23
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 98
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 9.4,
+  "storytelling": 9,
+  "villainy": 5.5,
+  "naturalness": 9,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0625,
+  "costSource": "MiniMax pay-as-you-go: $100 per 1M characters (Speech 2.8 HD)",
+  "fullLibraryOneTakeUSD": 6.62,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Best Sensei from Workers AI. MiniMax publishes no accent for 'Graceful Lady'; every check here calls her Southern British: ABX 21/21 over three takes, and the cleanest acoustics of the women (1 r flag in 24 r-words, 'stormy'; 1 flat BATH vowel in 19, 'dance'). Warmest plain voice (9.4) and among the most natural (9.0). She speaks slowly (sensei-2 is 5.3 s against 3.5-4 s for the others), which suits a teacher. The most expensive engine here, but still about 6 cents a minute. As Sensei she would mean re-recording every line and word and rebuilding the 46 pure sounds from her voice, because today's pure sounds are cut from Sulafat.",
+  "rank": {
+   "sensei": 1,
+   "narrator": 2
+  }
+ },
+ {
+  "id": "minimax-hd-graceful-lady-happy",
+  "provider": "Cloudflare Workers AI: minimax/speech-2.8-hd",
+  "voice": "English_Graceful_Lady",
+  "model": "minimax/speech-2.8-hd",
+  "label": "MiniMax Speech 2.8 HD Graceful Lady, emotion happy",
+  "gender": "f",
+  "settings": {
+   "emotion": "happy"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-1.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-2.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-3.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-4.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-5.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/narrator-1.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/narrator-2.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/baron-1.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-2.take2.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-6.take2.mp3",
+    "audio/workers-ai/minimax-hd-graceful-lady-happy/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 10,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: r-coloured vowel in 1/23 r-words: another (sensei-5.t1, 0.67)",
+   "acoustics: flapped t in 5/9 t-words: butter (sensei-6.t1), tomato (sensei-6.t1), tomato (sensei-6.t2), butter (sensei-6.t3), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "1/23",
+   "rFlags": [
+    "another (sensei-5.t1, 0.67)"
+   ],
+   "bathFlat": "n/a (no car/mat reference)",
+   "bathFlags": [],
+   "tFlapped": "5/9",
+   "tFlags": [
+    "butter (sensei-6.t1)",
+    "tomato (sensei-6.t1)",
+    "tomato (sensei-6.t2)",
+    "butter (sensei-6.t3)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": []
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 98
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 9.6,
+  "storytelling": 9,
+  "villainy": 4.7,
+  "naturalness": 8.8,
+  "wordErrors": [
+   "WORDS: spelled out letter by letter instead of spoken as a word",
+   "WORDS: spelled out letter by letter as 'W O D S'",
+   "WORDS: spelled out letter by letter instead of read as a word"
+  ],
+  "costPerMinuteUSD": 0.0638,
+  "costSource": "MiniMax pay-as-you-go: $100 per 1M characters (Speech 2.8 HD)",
+  "fullLibraryOneTakeUSD": 6.76,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Graceful Lady with MiniMax's emotion setting 'happy': brighter and quicker, the warmest score here (9.6). But it read 'WORDS' as letters ('W-O-R-D-S') in the Baron line, so capitals need writing in lower case with this setting, and it tapped more t's (5 of 9 t-words) in the brisker delivery. Try it for praise lines rather than for everything.",
+  "rank": {}
+ },
+ {
+  "id": "xai-grok-eve",
+  "provider": "Cloudflare Workers AI: xai/grok-tts",
+  "voice": "eve",
+  "model": "xai/grok-tts",
+  "label": "xAI Grok TTS Eve",
+  "gender": "f",
+  "settings": {},
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/xai-grok-eve/sensei-1.mp3",
+    "audio/workers-ai/xai-grok-eve/sensei-2.mp3",
+    "audio/workers-ai/xai-grok-eve/sensei-3.mp3",
+    "audio/workers-ai/xai-grok-eve/sensei-4.mp3",
+    "audio/workers-ai/xai-grok-eve/sensei-5.mp3",
+    "audio/workers-ai/xai-grok-eve/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/xai-grok-eve/narrator-1.mp3",
+    "audio/workers-ai/xai-grok-eve/narrator-2.mp3",
+    "audio/workers-ai/xai-grok-eve/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/xai-grok-eve/baron-1.mp3",
+    "audio/workers-ai/xai-grok-eve/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/xai-grok-eve/sensei-2.take2.mp3",
+    "audio/workers-ai/xai-grok-eve/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/xai-grok-eve/sensei-6.take2.mp3",
+    "audio/workers-ai/xai-grok-eve/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 9.3,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: r-coloured vowel in 2/24 r-words: far (narrator-1.t1, 0.62), stormy (narrator-2.t1, 0.63)",
+   "acoustics: flat (TRAP) vowel in 7/19 BATH words: grass (0.66), bath (0.61), dance (0.93), dance (0.99), half (1.5), past (0.73), past (0.67)",
+   "acoustics: flapped t in 3/9 t-words: tomato (sensei-6.t1), tomato (sensei-6.t2), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "2/24",
+   "rFlags": [
+    "far (narrator-1.t1, 0.62)",
+    "stormy (narrator-2.t1, 0.63)"
+   ],
+   "bathFlat": "7/19",
+   "bathFlags": [
+    "grass (0.66)",
+    "bath (0.61)",
+    "dance (0.93)",
+    "dance (0.99)",
+    "half (1.5)",
+    "past (0.73)",
+    "past (0.67)"
+   ],
+   "tFlapped": "3/9",
+   "tFlags": [
+    "tomato (sensei-6.t1)",
+    "tomato (sensei-6.t2)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": [
+    1.7,
+    2,
+    1.89
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 98
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 9,
+  "storytelling": 9,
+  "villainy": 2.2,
+  "naturalness": 8.8,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.013,
+  "costSource": "xAI: $15 per 1M characters (Grok TTS)",
+  "fullLibraryOneTakeUSD": 1.38,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "xAI Grok TTS 'Eve' (language 'en'; Grok has no accent setting and only 5 built-in voices). The ABX judge calls her British (21/21), but the acoustics find a flat vowel in 7 of 19 BATH words ('grass', 'bath') and r-colouring in 'far' and 'stormy': closer to a Northern or mid-Atlantic accent than a Southern British one. Warm (9.0), and the cheapest good voice here (about 1.3 cents a minute). Not a Sensei for a Southern British school.",
+  "rank": {}
+ },
+ {
+  "id": "inworld-tts2-rupert",
+  "provider": "Cloudflare Workers AI: inworld/tts-2",
+  "voice": "Rupert",
+  "model": "inworld/tts-2",
+  "label": "Inworld TTS-2 Rupert",
+  "gender": "m",
+  "settings": {
+   "temperature": 1
+  },
+  "roles": [
+   "narrator",
+   "baron",
+   "sensei"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/inworld-tts2-rupert/sensei-1.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/sensei-2.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/sensei-3.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/sensei-4.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/sensei-5.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/inworld-tts2-rupert/narrator-1.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/narrator-2.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/inworld-tts2-rupert/baron-1.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/inworld-tts2-rupert/sensei-2.take2.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/inworld-tts2-rupert/sensei-6.take2.mp3",
+    "audio/workers-ai/inworld-tts2-rupert/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 10,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: r-coloured vowel in 2/24 r-words: far (narrator-1.t1, 0.71), stormy (narrator-2.t1, 0.78)",
+   "acoustics: flapped t in 3/9 t-words: tomato (sensei-6.t1), tomato (sensei-6.t2), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "2/24",
+   "rFlags": [
+    "far (narrator-1.t1, 0.71)",
+    "stormy (narrator-2.t1, 0.78)"
+   ],
+   "bathFlat": "0/19",
+   "bathFlags": [],
+   "tFlapped": "3/9",
+   "tFlags": [
+    "tomato (sensei-6.t1)",
+    "tomato (sensei-6.t2)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": [
+    -1.48,
+    -2.36,
+    -1.45
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 97
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 96
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 8.4,
+  "storytelling": 8.3,
+  "villainy": 5.8,
+  "naturalness": 8.6,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0205,
+  "costSource": "Inworld on-demand: $25 per 1M characters (TTS-2)",
+  "fullLibraryOneTakeUSD": 2.18,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Inworld British male, a resonant 'trusted mentor'. The cleanest BATH vowels of every voice here (none flat in 19), with 2 possible r flags ('far', 'stormy', which may be tracking errors). The most natural voice in the screen (9.3) and versatile: a male Sensei, a narrator, or a Baron (villainy 9 in the screen, 5.8 in the full run, so steering would help).",
+  "rank": {}
+ },
+ {
+  "id": "minimax-hd-imposing-manner",
+  "provider": "Cloudflare Workers AI: minimax/speech-2.8-hd",
+  "voice": "English_ImposingManner",
+  "model": "minimax/speech-2.8-hd",
+  "label": "MiniMax Speech 2.8 HD ImposingManner",
+  "gender": "m",
+  "settings": {},
+  "roles": [
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-1.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-2.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-3.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-4.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-5.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/minimax-hd-imposing-manner/narrator-1.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/narrator-2.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/minimax-hd-imposing-manner/baron-1.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-2.take2.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-6.take2.mp3",
+    "audio/workers-ai/minimax-hd-imposing-manner/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 9.7,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "ABX judge: Clip X uses short TRAP vowels in 'grass' and 'bath', matching Clip B rather than the long broad-A vowels in Clip A.",
+   "acoustics: r-coloured vowel in 9/24 r-words: car (sensei-2.t1, 0.64), butter (sensei-6.t1, 0.75), water (sensei-6.t2, 0.79), butter (sensei-6.t2, 0.73), butter (sensei-6.t3, 0.71), four (sensei-6.t3, 0.44), word (sensei-1.t1, 0.78), another (sensei-5.t1, 0.57), flower (narrator-1.t1, 0.71)",
+   "acoustics: flat (TRAP) vowel in 2/19 BATH words: dance (1.29), dance (0.67)",
+   "acoustics: flapped t in 3/9 t-words: tomato (sensei-6.t1), tomato (sensei-6.t2), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "9/24",
+   "rFlags": [
+    "car (sensei-2.t1, 0.64)",
+    "butter (sensei-6.t1, 0.75)",
+    "water (sensei-6.t2, 0.79)",
+    "butter (sensei-6.t2, 0.73)",
+    "butter (sensei-6.t3, 0.71)",
+    "four (sensei-6.t3, 0.44)",
+    "word (sensei-1.t1, 0.78)",
+    "another (sensei-5.t1, 0.57)",
+    "flower (narrator-1.t1, 0.71)"
+   ],
+   "bathFlat": "2/19",
+   "bathFlags": [
+    "dance (1.29)",
+    "dance (0.67)"
+   ],
+   "tFlapped": "3/9",
+   "tFlags": [
+    "tomato (sensei-6.t1)",
+    "tomato (sensei-6.t2)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": [
+    0.27,
+    -0.34,
+    0.06
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 20,
+    "votes": 21,
+    "pUK": 94
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 97
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 8.9,
+  "storytelling": 8.8,
+  "villainy": 2.7,
+  "naturalness": 8.6,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0754,
+  "costSource": "MiniMax pay-as-you-go: $100 per 1M characters (Speech 2.8 HD)",
+  "fullLibraryOneTakeUSD": 7.99,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "MiniMax 'Imposing Manner', male. The ABX judge says British (20/21), but the acoustics find an American-style r in 9 of 24 r-words ('car', 'water', 'butter'): a mid-Atlantic tendency. Listen before using it even as a narrator; not for Sensei.",
+  "rank": {}
+ },
+ {
+  "id": "inworld-tts2-sebastian",
+  "provider": "Cloudflare Workers AI: inworld/tts-2",
+  "voice": "Sebastian",
+  "model": "inworld/tts-2",
+  "label": "Inworld TTS-2 Sebastian",
+  "gender": "m",
+  "settings": {
+   "temperature": 1
+  },
+  "roles": [
+   "baron",
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-1.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-2.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-3.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-4.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-5.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/inworld-tts2-sebastian/narrator-1.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/narrator-2.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/inworld-tts2-sebastian/baron-1.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-2.take2.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-6.take2.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 9.9,
+  "britishScoreBaronLine": 10,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: flapped t in 5/9 t-words: butter (sensei-6.t1), water (sensei-6.t2), butter (sensei-6.t2), tomato (sensei-6.t2), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "0/24",
+   "rFlags": [],
+   "bathFlat": "n/a (no car/mat reference)",
+   "bathFlags": [],
+   "tFlapped": "5/9",
+   "tFlags": [
+    "butter (sensei-6.t1)",
+    "water (sensei-6.t2)",
+    "butter (sensei-6.t2)",
+    "tomato (sensei-6.t2)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": []
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 98
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 7.3,
+  "storytelling": 9,
+  "villainy": 8.3,
+  "naturalness": 8.8,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0196,
+  "costSource": "Inworld on-demand: $25 per 1M characters (TTS-2)",
+  "fullLibraryOneTakeUSD": 2.08,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Inworld male, deep and characterful. British: ABX 21/21 and no r-colouring in 24 r-words (the BATH index couldn't be computed for his voice); the t in 'butter' and 'water' is tapped in some takes. The best narrator here (storytelling 9, natural 8.8) and a good Baron without steering (villainy 8.3).",
+  "rank": {
+   "narrator": 1,
+   "baron": 2
+  }
+ },
+ {
+  "id": "inworld-tts2-james",
+  "provider": "Cloudflare Workers AI: inworld/tts-2",
+  "voice": "James",
+  "model": "inworld/tts-2",
+  "label": "Inworld TTS-2 James",
+  "gender": "m",
+  "settings": {
+   "temperature": 1
+  },
+  "roles": [
+   "baron"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/inworld-tts2-james/sensei-1.mp3",
+    "audio/workers-ai/inworld-tts2-james/sensei-2.mp3",
+    "audio/workers-ai/inworld-tts2-james/sensei-3.mp3",
+    "audio/workers-ai/inworld-tts2-james/sensei-4.mp3",
+    "audio/workers-ai/inworld-tts2-james/sensei-5.mp3",
+    "audio/workers-ai/inworld-tts2-james/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/inworld-tts2-james/narrator-1.mp3",
+    "audio/workers-ai/inworld-tts2-james/narrator-2.mp3",
+    "audio/workers-ai/inworld-tts2-james/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/inworld-tts2-james/baron-1.mp3",
+    "audio/workers-ai/inworld-tts2-james/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/inworld-tts2-james/sensei-2.take2.mp3",
+    "audio/workers-ai/inworld-tts2-james/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/inworld-tts2-james/sensei-6.take2.mp3",
+    "audio/workers-ai/inworld-tts2-james/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 9.7,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "ABX judge: Clip X uses the short 'a' vowel in 'grass' and 'bath', matching the northern English accent of Clip B rather than the broad 'a' of Clip A.",
+   "acoustics: flat (TRAP) vowel in 2/19 BATH words: dance (1.35), can't (1.65)",
+   "acoustics: flapped t in 1/9 t-words: water (sensei-6.t2)"
+  ],
+  "acoustics": {
+   "rColoured": "0/24",
+   "rFlags": [],
+   "bathFlat": "2/19",
+   "bathFlags": [
+    "dance (1.35)",
+    "can't (1.65)"
+   ],
+   "tFlapped": "1/9",
+   "tFlags": [
+    "water (sensei-6.t2)"
+   ],
+   "tomatoIndex": [
+    3.23,
+    -0.1,
+    0.13
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 20,
+    "votes": 21,
+    "pUK": 93
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 7.8,
+  "storytelling": 8.5,
+  "villainy": 8.2,
+  "naturalness": 8.3,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0191,
+  "costSource": "Inworld on-demand: $25 per 1M characters (TTS-2)",
+  "fullLibraryOneTakeUSD": 2.02,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Inworld male. British: ABX 20/21 (one vote heard a Northern short a in 'grass' and 'bath') and no r-colouring in 24 r-words; 'dance' and 'can't' flat in one take. A good Baron (villainy 8.2). One transcription heard 'Baron Mordo' in narrator-2: listen.",
+  "rank": {
+   "baron": 3
+  }
+ },
+ {
+  "id": "inworld-tts2-sebastian-villain",
+  "provider": "Cloudflare Workers AI: inworld/tts-2",
+  "voice": "Sebastian",
+  "model": "inworld/tts-2",
+  "label": "Inworld TTS-2 Sebastian, steered: pantomime villain",
+  "gender": "m",
+  "settings": {
+   "temperature": 1,
+   "steer": {
+    "baron": "[as a theatrical pantomime villain, gleeful and wicked]"
+   }
+  },
+  "roles": [
+   "baron"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-1.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-2.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-3.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-4.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-5.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/inworld-tts2-sebastian-villain/narrator-1.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/narrator-2.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/inworld-tts2-sebastian-villain/baron-1.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-2.take2.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-6.take2.mp3",
+    "audio/workers-ai/inworld-tts2-sebastian-villain/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 9.7,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "ABX judge: Speaker X shares Speaker A's flat 'a' vowels in 'dance', 'can't', and 'half past', as well as rhoticity in 'four'.",
+   "acoustics: r-coloured vowel in 1/24 r-words: far (narrator-1.t1, 0.73)",
+   "acoustics: flat (TRAP) vowel in 4/19 BATH words: dance (1.13), dance (1.43), dance (1.2), can't (0.98)",
+   "acoustics: flapped t in 4/9 t-words: tomato (sensei-6.t1), water (sensei-6.t2), butter (sensei-6.t2), tomato (sensei-6.t2)"
+  ],
+  "acoustics": {
+   "rColoured": "1/24",
+   "rFlags": [
+    "far (narrator-1.t1, 0.73)"
+   ],
+   "bathFlat": "4/19",
+   "bathFlags": [
+    "dance (1.13)",
+    "dance (1.43)",
+    "dance (1.2)",
+    "can't (0.98)"
+   ],
+   "tFlapped": "4/9",
+   "tFlags": [
+    "tomato (sensei-6.t1)",
+    "water (sensei-6.t2)",
+    "butter (sensei-6.t2)",
+    "tomato (sensei-6.t2)"
+   ],
+   "tomatoIndex": [
+    -0.09,
+    1.77,
+    1.41
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 20,
+    "votes": 21,
+    "pUK": 92
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 96
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 8.1,
+  "storytelling": 9,
+  "villainy": 9.2,
+  "naturalness": 8.8,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0219,
+  "costSource": "Inworld on-demand: $25 per 1M characters (TTS-2)",
+  "fullLibraryOneTakeUSD": 2.32,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Sebastian with Inworld steering '[as a theatrical pantomime villain, gleeful and wicked]' on the Baron lines only (his other lines are unsteered). The best Baron here: villainy 9.2, British 3/3 on the Baron line, and no American r in 'words', the word Algenib gets wrong. (His 'dance' came out flat in the Sensei word-list line, which doesn't matter for the Baron.)",
+  "rank": {
+   "baron": 1
+  }
+ },
+ {
+  "id": "deepgram-aura1-athena",
+  "provider": "Cloudflare Workers AI: @cf/deepgram/aura-1",
+  "voice": "athena",
+  "model": "@cf/deepgram/aura-1",
+  "label": "Deepgram Aura-1 Athena (British female, Cloudflare-hosted)",
+  "gender": "f",
+  "settings": {
+   "speaker": "athena",
+   "encoding": "linear16",
+   "container": "wav",
+   "sample_rate": 48000
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/deepgram-aura1-athena/sensei-1.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/sensei-2.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/sensei-3.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/sensei-4.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/sensei-5.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/deepgram-aura1-athena/narrator-1.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/narrator-2.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/deepgram-aura1-athena/baron-1.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/deepgram-aura1-athena/sensei-2.take2.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/deepgram-aura1-athena/sensei-6.take2.mp3",
+    "audio/workers-ai/deepgram-aura1-athena/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 9.3,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: r-coloured vowel in 3/22 r-words: water (sensei-6.t2, 0.77), word (sensei-1.t1, 0.77), words (baron-1.t1, 0.59)",
+   "acoustics: flat (TRAP) vowel in 6/17 BATH words: fast (0.82), dance (0.98), dance (1.17), dance (0.86), half (0.91), half (0.99)",
+   "acoustics: flapped t in 3/9 t-words: tomato (sensei-6.t1), tomato (sensei-6.t2), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "3/22",
+   "rFlags": [
+    "water (sensei-6.t2, 0.77)",
+    "word (sensei-1.t1, 0.77)",
+    "words (baron-1.t1, 0.59)"
+   ],
+   "bathFlat": "6/17",
+   "bathFlags": [
+    "fast (0.82)",
+    "dance (0.98)",
+    "dance (1.17)",
+    "dance (0.86)",
+    "half (0.91)",
+    "half (0.99)"
+   ],
+   "tFlapped": "3/9",
+   "tFlags": [
+    "tomato (sensei-6.t1)",
+    "tomato (sensei-6.t2)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": [
+    -0.13,
+    -0.03,
+    -0.6
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 98
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 95
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 7.4,
+  "storytelling": 8,
+  "villainy": 2,
+  "naturalness": 8.4,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0161,
+  "costSource": "Workers AI catalogue: $0.015 per 1k characters",
+  "fullLibraryOneTakeUSD": 1.71,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Deepgram Aura-1 Athena (British female, according to Deepgram), hosted by Cloudflare: cheap and fast. ABX 21/21, but the acoustics find r-colouring in 3 of 22 r-words ('water', 'word', 'words') and a flat vowel in 6 of 17 BATH words: an older, less consistent model. Warmth 7.4: she sounds like a helpful phone assistant, not a teacher.",
+  "rank": {}
+ },
+ {
+  "id": "deepgram-aura2-draco",
+  "provider": "Cloudflare Workers AI: @cf/deepgram/aura-2-en",
+  "voice": "draco",
+  "model": "@cf/deepgram/aura-2-en",
+  "label": "Deepgram Aura-2 Draco (British male, Cloudflare-hosted)",
+  "gender": "m",
+  "settings": {
+   "speaker": "draco",
+   "encoding": "linear16",
+   "container": "wav",
+   "sample_rate": 48000
+  },
+  "roles": [
+   "narrator",
+   "baron"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/deepgram-aura2-draco/sensei-1.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/sensei-2.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/sensei-3.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/sensei-4.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/sensei-5.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/deepgram-aura2-draco/narrator-1.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/narrator-2.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/deepgram-aura2-draco/baron-1.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/deepgram-aura2-draco/sensei-2.take2.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/deepgram-aura2-draco/sensei-6.take2.mp3",
+    "audio/workers-ai/deepgram-aura2-draco/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 9.8,
+  "britishScoreBaronLine": 9.3,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "acoustics: r-coloured vowel in 1/24 r-words: far (narrator-1.t1, 0.64)",
+   "acoustics: flat (TRAP) vowel in 1/19 BATH words: dance (1.27)",
+   "acoustics: flapped t in 3/9 t-words: tomato (sensei-6.t1), tomato (sensei-6.t2), tomato (sensei-6.t3)"
+  ],
+  "acoustics": {
+   "rColoured": "1/24",
+   "rFlags": [
+    "far (narrator-1.t1, 0.64)"
+   ],
+   "bathFlat": "1/19",
+   "bathFlags": [
+    "dance (1.27)"
+   ],
+   "tFlapped": "3/9",
+   "tFlags": [
+    "tomato (sensei-6.t1)",
+    "tomato (sensei-6.t2)",
+    "tomato (sensei-6.t3)"
+   ],
+   "tomatoIndex": [
+    -0.95,
+    -0.56,
+    -0.42
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 21,
+    "votes": 21,
+    "pUK": 97
+   },
+   "baronLine": {
+    "britishVotes": 3,
+    "votes": 3,
+    "pUK": 96
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 6.2,
+  "storytelling": 8.2,
+  "villainy": 3.8,
+  "naturalness": 7.4,
+  "wordErrors": [
+   "it: missing"
+  ],
+  "costPerMinuteUSD": 0.0227,
+  "costSource": "Workers AI catalogue: $0.03 per 1k characters",
+  "fullLibraryOneTakeUSD": 2.41,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Deepgram Aura-2 Draco (British male, according to Deepgram), hosted by Cloudflare. British on the ABX (21/21) and the acoustics (1 r flag, 'far'; 1 flat 'dance'). But he is the least warm (6.2) and least natural (7.4) voice here, and he dropped 'it' once. Use only if a cheap Cloudflare-hosted voice is a must.",
+  "rank": {}
+ },
+ {
+  "id": "deepgram-aura2-pandora",
+  "provider": "Cloudflare Workers AI: @cf/deepgram/aura-2-en",
+  "voice": "pandora",
+  "model": "@cf/deepgram/aura-2-en",
+  "label": "Deepgram Aura-2 Pandora (British female, Cloudflare-hosted)",
+  "gender": "f",
+  "settings": {
+   "speaker": "pandora",
+   "encoding": "linear16",
+   "container": "wav",
+   "sample_rate": 48000
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-1.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-2.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-3.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-4.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-5.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-6.mp3"
+   ],
+   "narrator": [
+    "audio/workers-ai/deepgram-aura2-pandora/narrator-1.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/narrator-2.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/narrator-3.mp3"
+   ],
+   "baron": [
+    "audio/workers-ai/deepgram-aura2-pandora/baron-1.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/baron-2.mp3"
+   ]
+  },
+  "extraTakes": {
+   "sensei-2": [
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-2.take2.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-2.take3.mp3"
+   ],
+   "sensei-6": [
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-6.take2.mp3",
+    "audio/workers-ai/deepgram-aura2-pandora/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "britishScoreBaronLine": 3.7,
+  "accentVerdicts": {
+   "Southern British English (RP or modern standard)": 9
+  },
+  "americanFeatures": [
+   "briefed judge: a rhotic r (\"words\"), 2/12 votes",
+   "ABX judge: Speaker X shares Speaker B's rhotic pronunciation of 'car' and the short 'a' vowel in 'grass' and 'bath', unlike Speaker A's non-rhotic pronunciation and broad ",
+   "ABX judge: Speaker X exhibits American English features matching Speaker A, including the flap T in 'water' and 'butter', the /æ/ vowel in 'dance' and 'can't', and rhotici",
+   "ABX judge: Clip X shares Clip A's American accent features, including tapped 't's and rhotic endings in 'water' and 'butter', the 'ay' diphthong in 'tomato', and the short",
+   "ABX judge: Speaker X exhibits American English features matching Clip B, including rhoticity in 'water' and 'four', t-flapping in 'water' and 'butter', and the TRAP vowel ",
+   "ABX judge: Speaker X uses North American flap t and rhotic endings in 'water', 'butter', and 'four', along with the short-a vowel in 'dance', 'can't', 'half', and 'past', ",
+   "ABX judge: Speaker X exhibits strong rhoticity in 'words', matching Speaker A's rhotic pronunciation rather than Speaker B's non-rhotic pronunciation.",
+   "ABX judge: Clip X is rhotic in 'words', matching the American accent in Clip B rather than the non-rhotic British accent in Clip A.",
+   "ABX judge: Speaker X exhibits a rhotic pronunciation of 'words', matching Speaker B's American rhotic accent rather than Speaker A's non-rhotic British pronunciation.",
+   "acoustics: r-coloured vowel in 17/24 r-words: car (sensei-2.t1, 0.78), car (sensei-2.t2, 0.58), car (sensei-2.t3, 0.73), water (sensei-6.t1, 0.78), butter (sensei-6.t1, 0.73), water (sensei-6.t2, 0.63), water (sensei-6.t3, 0.56), butter (sensei-6.t3, 0.59), word (sensei-1.t1, 0.63), dear (sensei-5.t1, 0.72), far (narrator-1.t1, 0.6), world (narrator-1.t1, 0.71), flower (narrator-1.t1, 0.71), stormy (narrator-2.t1, 0.65), words (baron-1.t1, 0.7), words (baron-1.t1, 0.68), words (baron-1.t1, 0.64)",
+   "acoustics: flat (TRAP) vowel in 12/19 BATH words: grass (0.65), grass (0.87), bath (0.64), bath (0.85), dance (0.79), dance (0.61), can't (0.76), can't (0.96), can't (0.98), half (0.7), past (0.73), past (0.63)",
+   "acoustics: flapped t in 1/9 t-words: tomato (sensei-6.t2)"
+  ],
+  "acoustics": {
+   "rColoured": "17/24",
+   "rFlags": [
+    "car (sensei-2.t1, 0.78)",
+    "car (sensei-2.t2, 0.58)",
+    "car (sensei-2.t3, 0.73)",
+    "water (sensei-6.t1, 0.78)",
+    "butter (sensei-6.t1, 0.73)",
+    "water (sensei-6.t2, 0.63)",
+    "water (sensei-6.t3, 0.56)",
+    "butter (sensei-6.t3, 0.59)",
+    "word (sensei-1.t1, 0.63)",
+    "dear (sensei-5.t1, 0.72)",
+    "far (narrator-1.t1, 0.6)",
+    "world (narrator-1.t1, 0.71)",
+    "flower (narrator-1.t1, 0.71)",
+    "stormy (narrator-2.t1, 0.65)",
+    "words (baron-1.t1, 0.7)",
+    "words (baron-1.t1, 0.68)",
+    "words (baron-1.t1, 0.64)"
+   ],
+   "bathFlat": "12/19",
+   "bathFlags": [
+    "grass (0.65)",
+    "grass (0.87)",
+    "bath (0.64)",
+    "bath (0.85)",
+    "dance (0.79)",
+    "dance (0.61)",
+    "can't (0.76)",
+    "can't (0.96)",
+    "can't (0.98)",
+    "half (0.7)",
+    "past (0.73)",
+    "past (0.63)"
+   ],
+   "tFlapped": "1/9",
+   "tFlags": [
+    "tomato (sensei-6.t2)"
+   ],
+   "tomatoIndex": [
+    1.76,
+    1.51,
+    1.46
+   ]
+  },
+  "abx": {
+   "accentLines": {
+    "britishVotes": 16,
+    "votes": 21,
+    "pUK": 74
+   },
+   "baronLine": {
+    "britishVotes": 0,
+    "votes": 3,
+    "pUK": 5
+   },
+   "note": "ABX judge from the audit (anchors ElevenLabs Alice vs OpenAI coral; Baron: George vs ash), 3 votes a take, takes 1-3 of sensei-2 and sensei-6"
+  },
+  "warmth": 7.8,
+  "storytelling": 7.7,
+  "villainy": 1.5,
+  "naturalness": 7.3,
+  "wordErrors": [],
+  "costPerMinuteUSD": 0.0251,
+  "costSource": "Workers AI catalogue: $0.03 per 1k characters",
+  "fullLibraryOneTakeUSD": 2.66,
+  "pathsRelativeTo": "playtest/voice-picker",
+  "notes": "Not reliably British. Deepgram labels Pandora British and take 1 passes, but takes 2 and 3 of the accent lines went American (ABX 16/21; the Baron line 0/3, an American r in 'words'). The acoustics find r-colouring in 17 of 24 r-words and a flat vowel in 12 of 19 BATH words. The briefed judge still gave her 10/10, which is the audit's warning in action. Not recommended.",
+  "rank": {}
+ }
+]

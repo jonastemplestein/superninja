@@ -8,6 +8,27 @@
 
 ---
 
+> **Status, 27 Sep (after the fix workflow; integration, [FIX_PLAN](FIX_PLAN_PERF_SCRIPT_SOUNDS.md) §10).** Every row in §3 is done, by the lane the plan gave it, and every lone sound now has a job: the integrated build had 0 unclassified sounds of 1,371, so `DEFAULT_SHOW` is now `"petal"` (Dec3, I.1). The sweep's sound-without-petal, petal-for-hidden and petal-giveaway are blockers in the first-session cases (I.2). The results are in `playtest/fix/final/` (`script-compare.md`: every script check before and after; `sound-check.md`; `contact.html`) and the integration step's report.
+>
+> | Rows | Done by | Notes |
+> |---|---|---|
+> | 1–5 (warm-ups) | C2 | W5's neutral dots bloom into mini petals under the chosen picture (Dec1); W6's dots become mini petals as tapped; W1's first /s/ plays the introduction animation |
+> | 6, 7, 65 (stickers) | B4 | Reward 2's /s/ lifts out of the flower as a 220 hero in mist and blooms on the child's tap; word stickers are `"tile"` |
+> | 9–17 (early levels) | C1 | A12: no apple for /a/, no pig for /p/ in the first-sound decks (/p/'s demo uses the bus and the pan) |
+> | 18–28 (Dojo) | D1, with F2 and F3 | the misty row, the hero's introduction, the < x > and < th > pairs, the tally as two mini petals (Dec6), pops at the wrong tile and the slot, the reminder ending on its sound (Dec4) |
+> | 29–33 (battle) | D2 | |
+> | 34–37 (Sound Swap) | D3 | "That's… /h/" pops above the tapped letter; the spelling choices show no petal |
+> | 38–41 (Ninja Run) | D5 | blend mode shows dots, not petals (Dec1); the counter and pickups are stars (Dec6) |
+> | 42 (Story) | D6 | the reminder's petal above the lit spelling |
+> | 43–45 (Sorting) | D4 | a 220 hero petal above the sleeping chests; the top bar's petal is `header` (104) |
+> | 46–49 (Show Sensei) | A | no train card in the find-all round (A12) |
+> | 50, 54–56 (the World Flower's shows) | B3 | the first visit's petal is the child's own; the nav row never repeats the big petal's sound; a two-sounds recap is a pair |
+> | 51–53, 57 (the World Flower) | B2 | **52 and 53 changed with SCROLL_DESIGN v2:** the petal panel is now **the card**, whose chosen spelling is a button that says its sound, beside the sound's petal; the chart scroll is now **the chart** (half-sheets), each met petal with its picture at the top right and its spellings as gem meters, unmet ones in mist. Both still meet the rule |
+> | 58, 60 (reward, title) | B1 | the won *sounds'* petals rise into the reward and each blooms on its sound (Dec8); the title's drift is round blossoms (Dec6) |
+> | 62 (captions) | F1 | a 34 px petal in the caption bubble, drawn without `data-p` |
+>
+> **Still open (minor):** a handful of pictures under 38 CSS px while a line is being said (the smallest was 22 px: the < x > pair during `tv_learn_next` in w3-6, and petals caught mid pop-in in w1-6, w1-8 and w2-1); /s/'s picture is now a red ring that reads as an empty petal at 39 px (A, D3: for Jonas's art list); one run of w5-11 said /ch/ after "It's three letters…" with no petal (D2; not seen again in two more sweeps).
+
 ## 1. The rule, made precise
 
 A **sound** is a phoneme: /ae/, /sh/, /k/. A **spelling** is the letters that write it: < ai >, < ay >, < a-e >. The game already draws spellings as letters on tiles, gems, chests and word cards, and that stays. Jonas's rule is about the other half: whenever the game shows the child a sound, the child sees its **petal**. The petal is the chart teardrop in the sound's chart colour, with the sound's chart picture in its round top (or beside it when the round top holds gems). The chart data is `src/content/flower.ts` `CHART_PETALS` and the pictures are `public/a/i/petal_<id>.webp`.

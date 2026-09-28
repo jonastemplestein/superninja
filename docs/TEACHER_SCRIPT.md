@@ -422,6 +422,8 @@ With no sticker tap after 8 s, the hand wiggles again and `tv_rw_tap` is said on
 
 ### 3.7 W2, Ninja Reading: the second lesson
 
+> *Superseded by §10 (27 Sep): picture reading v2 and the read slider replace the fish-dog, the swap and the which-rows game. **Until the follow-up workflow wires §10 in (docs/QUEUE.md 0b), the game still plays this section.***
+
 *Voice:* bouncier than W1: mash-ups and magic tricks, and a giggle in "Fish dog!".
 
 #### A. Ninja Reading (`rail`, full)
@@ -481,6 +483,8 @@ The demo's second "Fish dog!" goes (SCRIPT_FIXES C17.4).
 | tv_rw_link_book | straight after | the cards rise | Let's put your new pictures in your Sticker Book. | — | every time |
 
 ### 3.8 Reward 2, the World Flower's first glimpse, and the first map
+
+> *Superseded by §10 (27 Sep): picture reading v2 and the read slider replace the fish-dog, the swap and the which-rows game. **Until the follow-up workflow wires §10 in (docs/QUEUE.md 0b), the game still plays this section.***
 
 *Voice:* celebration, then wonder (hushed on "shining through the mist"), then the practical calm of a map.
 
@@ -566,6 +570,8 @@ The insight ("When I say it slowly, I can hear its sounds.") is not said again: 
 
 ### 3.10 W4, Ninja Reading again: three in a row
 
+> *Superseded by §10 (27 Sep): picture reading v2 and the read slider replace the fish-dog, the swap and the which-rows game. **Until the follow-up workflow wires §10 in (docs/QUEUE.md 0b), the game still plays this section.***
+
 **Forms.** In a later session (the usual case for a 3-year-old) each game is a **recap**: its one line, the canonical demo on its own pictures, and a spoken hand-over, with no Ready hold. In the same session as W2 each game is **short**: the one line, then the turn, with the paw offering the demo.
 
 | line id | trigger | on screen | exact text | the child does | first time or replay |
@@ -616,6 +622,8 @@ On the map: `tv_map_next_<game>` (sounds) "Next is a new game, called Guess My W
 `t_if_you_say_sounds` is Sounds~Write's explicit reminder, which no run has ever said.
 
 ### 3.12 W6, Sound Dots (`dots`, full)
+
+> *Superseded by §10 (27 Sep): picture reading v2 and the read slider replace the fish-dog, the swap and the which-rows game. **Until the follow-up workflow wires §10 in (docs/QUEUE.md 0b), the game still plays this section.***
 
 On the map: `tv_map_next_<game>` (dots) "Next is a new game, called Sound Dots. Tap the glowing stone to play."
 
@@ -2013,3 +2021,329 @@ The base is CB throughout (all three judges ranked it first). Where a judge majo
 | T21 | **Before land 2, the World Flower's trips leave out "We see this spelling in…".** | The child can't read yet (three-year-old judge §3.18). |
 | T22 | **The first-minutes cap moves from 5:00 to 5:30** once the bot has re-measured it. | The extra time is the child's own turns (mechanics §5.4). |
 | T23 | **Estimated runs aim at ≤ 12 s; five named runs of 12.1–12.3 s stay** (§6), each with its cut ready if the bot measures more than 12.5 s. | Whole sentences cost words; the cuts keep the teacher voice. |
+
+---
+
+## 9. Fast and slow, more often (Jonas, 27 Sep)
+
+**Added 27 September 2026, after Jonas's playtest:**
+
+> "Oh yeah and you gotta read the 'slow way to say a word' with actual little gaps between the sounds. It is too smooth now. And you need to explain more often that there are slow and fast ways to read words etc."
+
+Before this section, the idea was said once, in W1 (the rabbit and the tortoise, §3.5 B), and hinted at in W5 (`t_if_you_say_sounds`). W3's recap even skipped it on purpose (§3.9 A: "The insight is not said again"). This section overrides that: **every game that says a word slowly, or asks the child to blend or segment, names the slow way and the fast way in every session**, with the tortoise and the rabbit on screen each time. It adds 40 recorded lines (`tv_fs_*`, §9.4: the first 24, then 8 more short idea lines and 8 more praise lines the same day, so a child doesn't hear the same few again and again) and changes no line in §3–§5. Where it takes a moment from a line in those sections, the row says so.
+
+### 9.1 The idea, and what the slow way now sounds like
+
+What Sensei teaches, in the child's words:
+- **Every word is made of sounds.**
+- **There's a slow way to say a word, and a fast way.** The slow way is the tortoise: the sounds one by one, with little gaps. The fast way is the rabbit: the whole word.
+- **We read** by saying the sounds (the slow way), then pushing them together (the fast way). That is Sounds~Write's "Say the sounds, and read the word." and "If you say the sounds, you can hear the word.", which stay word for word.
+- **We spell** by saying the word slowly, so we can hear each sound. That is Sounds~Write's "I'm going to say the word 'sat' very slowly. Listen carefully to hear the sounds…" (teacher-language §10.7).
+
+**The slow way has real gaps.** The `[w, slowly]` slot is no longer a stretched ("elastic") word. It is the word's pure sounds, one by one, 250 ms apart (/k/ · /a/ · /t/), spliced from the checked pure sounds in `public/a/p` by `scripts/gen-slow-words.ts` (FEEDBACK Round 15). The clips are `public/a/x/<w>.mp3`, one for each of the 997 words with a segmentation, and `SLOW_TIMES` (`src/content/slow-times.gen.ts`) gives each sound's onset, so the tortoise can step, and a tile or dot can light, on each sound. Every pure sound in it follows the /d/ lesson from the same day: **no sound may trail into a vowel ("duh"), and Jonas's ear, not the acoustic gate, is the judge.** In a read-back the slow part is the tiles' own sounds, one per tile, lit in turn, as before.
+
+**How long the slow way is** (measured on 27 Sep over all 997 clips, by the number of sounds): three sounds 1.57 s on average (0.9–2.3 s; 543 words), and 1.53 s once /o/ and /u/ were rebuilt shorter the same morning; four sounds 2.1 s (1.3–2.9 s); five sounds 2.5 s (2.0–3.2 s); two sounds 1.1 s. So a four- or five-sound word takes about 2.4–2.7 s at the long end. The old stretched clips (163 words) averaged 1.2 s. §9.3's runs use 1.6 s for a three-sound word (§9.7, FS3).
+
+**Short vowels stay short, and /g/ and /b/ are voiced** (27 Sep, the same day). In British English length is what tells /o/ (hot) from /or/ (fork), and /u/ (cup) from /ar/ (car). The pure /o/ and /u/ had been stretched to 0.41 s, and a blind listener heard hot as "ought", cup as "carp" and bus as "pass". They are now natural short vowels cut from Sensei's own "hop" and "up" (0.13 s and 0.11 s, not stretched), and `gen-slow-words.ts` cuts every short vowel (a e i o u) in a slow word at 0.24 s. A /g/ or /b/ said alone was heard as /k/ or /p/, so in a slow word each starts with a 45 ms voiced closure made from its own voicing (the pure clips themselves are unchanged). Every slow word is -16 LUFS with its true peak at or under -1.5 dBTP. The before and after are on the slow-words listening page for Jonas's ear.
+
+### 9.2 Five moves
+
+| Move | What happens | When | Lines |
+|---|---|---|---|
+| **1. The rabbit read-back** (the child pushes it fast) | Sensei says the slow way while the tortoise walks. Then she asks the child to tap the rabbit, and the rabbit says the word fast. The child's tap is a registered action, so it splits the talk (§0.1, the 12 s rule) | the first word read back in each game, each session: after the Ready on a full form, the first read-back on a recap or short form | `tv_fs_say_sounds_slow` · the slow slot · `tv_fs_rabbit_read` (a game with letters) or `fm_tap_rabbit` (a listening game) · the tap · [w] |
+| **2. The idea** | one whole sentence that says the idea out loud | once per game per session, beside Move 1 (before the rabbit prompt, or after the tap, whichever run has room), or in the game's first praise slot where there is no Move 1 | 19 lines in rotation (§9.5) |
+| **3. The stuck recap** | back to the slow way when the child is stuck | a first miss or the 8 s idle, taking turns with the game's own line (never the same one twice in a row, never twice on one item) | `tv_fs_stuck_slow`, `tv_fs_stuck_again`, `tv_fs_stuck_push` |
+| **4. Fast and slow praise** | praise that names the slow way | once per game per session, in the game's praise slot (§5.3's rhythm), never where the idea line took the slot; **each praise line at most once a session** | 11 lines in three kinds (§9.5): letters `tv_fs_praise_both`, `_both_2`, `_both_3`; listening `tv_fs_praise_found`, `_found_2` to `_found_4`; building `tv_fs_praise_every`, `_every_2` to `_every_4` |
+| **5. Sensei's pair** | "Let's say it the slow way…" · the slow slot · "And now, fast…" · the word | the 3rd and 5th read-backs in a game in a session, where §9.3 allows it; never after a miss (S~W's `say_sounds_read` has those) | `tv_fs_say_slow` + `tv_fs_now_fast`, or `tv_fs_slow_tortoise` + `tv_fs_fast_rabbit` (they take turns) |
+
+Every other read-back stays as §3–§5 have it: S~W's `say_sounds_read` on the 2nd and 4th, and after any miss, then the faded form (the sounds and the word, no stem). **The tortoise and the rabbit light on every slow slot and every fast word, whichever line leads in** (§9.6).
+
+### 9.3 Where, game by game
+
+Runs are estimated as in §6: the recorded length of each clip (§9.8), 0.35 s between clips, 0.55 s a pure sound (0.3 s between sounds), 0.65 s a word, **1.6 s the slow way** (a three-sound word's measured mean, §9.1; about 0.5 s more for four sounds and 1.0 s more for five). A run ends where the line that cues the child's next action starts.
+
+| Game (lane) | The session's fast/slow moment | What plays | Est. run | The rest of the session |
+|---|---|---|---|---|
+| **W1, the rabbit and the tortoise** (`fastslow`, C2) | unchanged: §3.5 B is the first telling (`tv_ts_fast`, `tv_ts_slow`, `tv_same_word`) | the scene's own big tortoise and rabbit; `tv_ts_slow` now plays the slow way with gaps | – | `tv_same_word` counts as W1's idea line |
+| **W3, the rabbit and the tortoise** (`fastslow` recap or short, C2) | after the child's tortoise tap | [mug, slowly] · **idea** (the save's first idea line is always `tv_fs_two_ways`) · `fm_tap_rabbit` · the tap · [mug]. **The idea takes `tv_praise_slowly`'s place** when both are due (the praise moves to a later slow word) | tortoise tap → the rabbit prompt ≤ 7.0 s | – |
+| **W3, Slow Words** (`slowpick`, C2) | the first right answer | [van, slowly] · **idea** (≤ 3.9 s) · `fm_tap_rabbit` · the tap (the rabbit comes back from its corner) · [van] | the tap → the prompt 6.2 s; the rabbit → the next question 9.5 s | 1st miss: `tv_fs_stuck_again` [van, slowly] (6.8 s), taking turns with `tv_slow_again`. **8 s idle: `tv_fs_stuck_again` [van, slowly], in place of `tv_idle_look_<w>`**, which would say the answer (flag 2). Praise: a listening praise line (§9.5) |
+| **W3, Pocket Hunt, the middle** (`tapall:in`, C2) | the child's first find | [bag, slowly] · **idea** (spell bank) | the find → the hunt goes on 5.8 s (the cards stay live) | – |
+| **W5, Guess My Word** (`sounds`, C2) | the first right answer (on the full form, **in place of `tv_guess_together`**) | [map] · `tv_fs_say_sounds_slow` · /m/ /a/ /p/ (neutral dots, Dec1) · **idea** (≤ 3.9 s) · `fm_tap_rabbit` · the tap · [map] | the tap → the prompt 10.8 s; the rabbit → the next question 9.6 s | 1st miss: `tv_fs_stuck_push` + the sounds (7.6 s), taking turns with `tv_guess_again`. **8 s idle: `tv_fs_stuck_push` + the sounds, never a line that names the word.** Praise: a listening praise line (§9.5) |
+| **W6, Sound Dots** (`dots`, C2) | the first word, after the last dot | `fm_tap_rabbit` (**in place of `tv_now_say_word`**) · the tap · [cat] (the sweep) · `t_if_you_say_sounds` (once per save; it counts as the idea) or **idea** | the rabbit → the next word's first dot ≤ 6.9 s | Praise: a listening praise line (§9.5) |
+| **First Sounds** (`firstsound`, C1) | the first praise slot of the session | **idea** (spell bank, ≤ 3.9 s), in place of the praise line | – (praise-sized) | 1st miss: [cat] · `tv_fs_stuck_slow` [cat, slowly] · `fm_diff_cat` · `tv_fix_start` /s/, taking turns with §5.4's [cat, first] version (10.8 s, the cards live throughout). The slow way puts the first sound out on its own |
+| **Word Building** (`build`, C1: `BuildSequence`) | the first word built after the Ready (the we do), or the first word on a recap or short form | `tv_fs_say_sounds_slow` · the tiles' sounds · `tv_fs_rabbit_read` · the tap · [at] (the sweep) · **idea** (spell bank, ≤ 3.9 s). **In place of that word's `say_sounds_read`** | last tile → the prompt 4.7 s; the rabbit → the next question 10.7 s | Read-back 2: `say_sounds_read`; 3 and 5: Move 5. 1st miss: `tv_fs_stuck_slow` [mat, slowly], taking turns with `tv_listen_here`. Praise: a building praise line (§9.5) |
+| **Kai and Suki** (`readcheck`, C1: `ReadCheck`) | the first right-reader answer. **No rabbit tap here**: the fast word before the readers would answer the check | `tv_yes_<reader>` · `tv_fs_say_slow` · the sounds · `tv_fs_now_fast` · [am] (in place of the bare sounds and word) | → `read_tap_sounds` 9.9 s (two sounds), 10.7 s (three) | idea: the first praise slot (letters bank). Later resolutions: Move 5 on the 3rd |
+| **Sound Hunt** (`soundhunt`, C1) | the first praise slot of the session | **idea** (spell bank), in place of the praise line | – | its build phase is Word Building's |
+| **Dojo, Word Building** (`build`, D1: `Build`) | the first built word of the session | as Word Building, with `tv_fs_rabbit_read` | the rabbit → `first_sound_q` 8.2 s | as Word Building |
+| **Monster Battle, boss, Sensei's Challenge** (`battle`, `boss`, `review`, D2) | the first word the child zaps in the session | as Word Building. **The rabbit's tap is the finishing zap**: the rabbit hops at the monster and the bar drops | the rabbit → the next word 7.6 s | 1st miss: `tv_fs_stuck_slow` taking turns with `tv_listen_here`. Move 5 on the 3rd and 5th words. **A gem battle** (`trial`) has **no Move 1 and no Move 5** (the purple bar runs): only the tortoise and rabbit lighting, the stuck recap, and the idea in its first praise slot |
+| **Sound Swap** (`swap`, D3) | the start word, after the child's sound taps (`tv_swap_read_first`) | the child's taps (the slow way) · `tv_fs_rabbit_read` (in place of the bare [mat] sweep) · the tap · [mat] | the rabbit → `tv_ready_to_watch` 5.7 s | idea: the first praise slot (spell bank, but not `tv_fs_same`: Swap changes the word). No Move 5: the turn is already 11 s with two slow words (flag 3) |
+| **Ninja Run** (`run`, D5) | the first lantern group of every run but the first (whose `tv_run_lanterns` says it) | `tv_fs_run` · `tv_guess_q` · the sounds · `tv_run_which` | → `tv_run_which` 8.1 s | The first catch of the session: `tv_fs_say_slow` · the sounds · `tv_fs_now_fast` · [sit] (7.8 s, then the run goes on; no rabbit tap, because a tap anywhere is a jump). Wrong lantern: `tv_fs_stuck_again` + the sounds, taking turns with `tv_run_fix` |
+| **Story Time** (`story`, D6) | the first child page of the session, straight after `tv_story_yours` or `story_your_turn` | **idea** (letters bank). The page is live, so no run | – | The first word tapped for help: `tv_fs_say_slow` · the word's letters light, one per sound · `tv_fs_now_fast` · [w]. Later taps as §3.23 |
+| **Word Squish** (`compound`, C2) | no change: its tortoise and rabbit already say two words slowly, then fast | – | – | – |
+| **Training, Show Sensei** (A) | nothing: no slow words there | – | – | – |
+
+**The rabbit's idle ladder** (Move 1): at 8 s the rabbit hops and glows (no line); at 12 s Sensei says `tv_fs_now_fast` · [w] herself and the game goes on, as the petal join-in does (§3.5 C). A tap on the tortoise instead replays the slow way, and the rabbit pulses again.
+
+### 9.4 The lines
+
+| id (tv_fs_*) | trigger | on screen | exact text | the child does | dosage |
+|---|---|---|---|---|---|
+| tv_fs_two_ways | Move 2: the save's first idea line (W3, usually); then in turn | the tortoise lights on "slow way", the rabbit on "fast way" | There's a slow way to say a word, and a fast way. | — | the save's first idea line, then in rotation |
+| tv_fs_tortoise | Move 2 (a long line, 5–6.5 s: not in a tight run) | the tortoise walks | The tortoise says each word slowly, one sound at a time. (was "a word": §9.8) | — | rotation |
+| tv_fs_gaps | Move 2 | the tortoise walks; the slow word's sound dots pulse one by one, with gaps | The slow way has little gaps between the sounds. | — | rotation |
+| tv_fs_rabbit | Move 2 (a long line, 4.4 s; 3.8 s since its retake, §9.8) | the rabbit hops | The rabbit pushes the sounds together, and says the word fast. | — | rotation (listening and reading games) |
+| tv_fs_read | Move 2 | the tortoise, then the rabbit | When we read, we say the sounds first, then the word. | — | rotation (listening and reading games) |
+| tv_fs_same | Move 2 | both light together | The tortoise and the rabbit say the very same word. | — | rotation (not in Sound Swap) |
+| tv_fs_made | Move 2 | the word's sound dots or tiles light in turn | Every word is made of little sounds, one by one. (was "…of sounds, one after another.": §9.8) | — | rotation |
+| tv_fs_ninja | Move 2 (a long line, 4.7 s) | the tortoise, then the rabbit; the ninja does a slow kata, then a dash | Slow first, then fast. That's how ninjas read words. | — | rotation (listening and reading games) |
+| tv_fs_mantra | Move 2 (a long line, 4.7 s) | the tiles light, then the sweep | We say the sounds slowly. Then we read the word fast. | — | rotation (games with letters: Kai and Suki, Story Time) |
+| tv_fs_spell | Move 2 | the lines under the word glow | To build a word, we say it slowly first. | — | rotation (building games) |
+| tv_fs_find | Move 2 | the tortoise walks | Saying it slowly helps us find every sound. | — | rotation (building and hunting games) |
+| tv_fs_hiding | Move 2 (added 27 Sep, like the seven below: all under 3.5 s) | the tortoise walks, then the rabbit hops | There's a fast word hiding in every slow word. | — | rotation (listening and reading games) |
+| tv_fs_whole | Move 2 | the rabbit hops | The rabbit says the whole word, all at once. | — | rotation (listening and reading games) |
+| tv_fs_push | Move 2 | the sound dots or tiles slide together | We push the sounds together to make the word. | — | rotation (listening and reading games) |
+| tv_fs_turn | Move 2 | the sound dots or tiles light one by one | The slow way gives every sound a turn. | — | rotation (listening and building games) |
+| tv_fs_ninjas_can | Move 2 | the ninja does a slow kata, then a dash | Ninjas can say a word slowly, and fast too. | — | rotation (listening games) |
+| tv_fs_next | Move 2 | the tortoise walks; the next empty slot glows | Saying it slowly tells us which sound comes next. | — | rotation (building and hunting games) |
+| tv_fs_start_end | Move 2 | the tortoise walks; each slot or card glows as its sound plays | The slow way shows us where each sound goes. | — | rotation (building and hunting games) |
+| tv_fs_count | Move 2 | the sound dots or tiles light one by one | The slow way helps us count the sounds. | — | rotation (building and hunting games) |
+| tv_fs_say_sounds_slow | Move 1, the read-back's slow half | the tortoise walks; the tiles (or dots) light one by one as each sound plays | Let's say the sounds, the slow way… /s/ /a/ /t/ | says the sounds | once per game per session |
+| tv_fs_rabbit_read | Move 1, the fast half, in a game with letters | the rabbit grows, pulses and is spotlit on "rabbit" | Now tap the rabbit, and read the word fast. | taps the rabbit: [sat], the sweep and the rabbit's hop | once per game per session |
+| fm_tap_rabbit (kept, ↻ in §7.2) | Move 1, the fast half, in a listening game (W3, W5, W6) | the scene's rabbit pulses | Now tap the rabbit, and say it fast. | taps the rabbit: [w] | once per game per session |
+| tv_fs_say_slow | Move 5's slow half; Kai and Suki, Run and Story's first pair | the tortoise walks; the sounds light in turn | Let's say it the slow way… [sat, slowly] | says it along | the 3rd and 5th read-backs |
+| tv_fs_now_fast | Move 5's fast half; the rabbit's 12 s idle | the rabbit hops; the sweep | And now, fast… [sat] (was "And now the fast way…": §9.8) | says the word | with `tv_fs_say_slow` |
+| tv_fs_slow_tortoise | Move 5's slow half, taking turns with `tv_fs_say_slow` | the tortoise walks | First the slow way, like the tortoise… [sat, slowly] | says it along | the 3rd and 5th read-backs, in turn |
+| tv_fs_fast_rabbit | Move 5's fast half, with `tv_fs_slow_tortoise` | the rabbit hops | Now the fast way, like the rabbit… [sat] | says the word | with `tv_fs_slow_tortoise` |
+| tv_fs_run | Ninja Run, the first lantern group of a run (not the save's first run) | the lanterns float in; the tortoise and rabbit badges light in turn | I'll say it the slow way, and you catch the whole word. (was two sentences: §9.8) | — (then catches a lantern) | once per session |
+| tv_fs_stuck_slow | Move 3: a first miss or 8 s idle while building, battling or in First Sounds | the slot (or the card) glows; the tortoise walks | Let's say it the slow way first… [mat, slowly] | taps again | every other stuck moment |
+| tv_fs_stuck_again | Move 3: Slow Words and Ninja Run, a first miss or 8 s idle | the tortoise walks; the sound dots light in turn | Here's the slow way again, one sound at a time… [van, slowly] | taps again | every other stuck moment |
+| tv_fs_stuck_push | Move 3: Guess My Word, a first miss or 8 s idle | the neutral dots light one per sound (Dec1), then the rabbit badge pulses once | Say the sounds with me. Then push them together, fast. · /m/ /a/ /p/ | says the sounds, taps a picture | every other stuck moment; always at the 8 s idle |
+| tv_fs_praise_both | Move 4, a game with letters | the rabbit hops | Slow, then fast. That's real reading! | — | the first of its kind; at most once a session |
+| tv_fs_praise_found | Move 4, a listening game (Slow Words, Guess My Word, Sound Dots, Ninja Run) | the tortoise and rabbit light | You heard the slow way, and found the word. | — | the first of its kind; at most once a session |
+| tv_fs_praise_every | Move 4, a building game (Word Building, the Dojo, battles) | the tortoise walks | You said it slowly, and found every sound. | — | the first of its kind; at most once a session |
+| tv_fs_praise_both_2 | Move 4, a game with letters (added 27 Sep, like the six below) | the tortoise, then the rabbit | You said each sound slowly, then read the whole word. | — | the letters kind, in turn; at most once a session |
+| tv_fs_praise_both_3 | Move 4, a game with letters | the tortoise, then the rabbit hops | The slow way, then the fast way. You read it! | — | the letters kind, in turn; at most once a session |
+| tv_fs_praise_found_2 | Move 4, a listening game | the rabbit hops | You pushed the sounds together, and heard the word. | — | the listening kind, in turn; at most once a session |
+| tv_fs_praise_found_3 | Move 4, a listening game | the tortoise and rabbit light | Those little sounds made a word, and you found it! | — | the listening kind, in turn; at most once a session |
+| tv_fs_praise_found_4 | Move 4, a listening game | the tortoise, then the rabbit hops | You listened to every sound, and caught the word! | — | the listening kind, in turn; at most once a session |
+| tv_fs_praise_every_2 | Move 4, a building game | the tortoise walks | Slowly does it! Every sound is in its place. | — | the building kind, in turn; at most once a session |
+| tv_fs_praise_every_3 | Move 4, a building game | the tortoise walks | Sound by sound, the slow way. Well built! | — | the building kind, in turn; at most once a session |
+| tv_fs_praise_every_4 | Move 4, a building game | the tortoise walks | You listened slowly, and got the sounds in order. | — | the building kind, in turn; at most once a session |
+
+The slots are the house's (§1): a pure sound or the slow word always stands in its own clip, after a lead-in recorded suspended, or alone after a full stop (`tv_fs_stuck_push`). No sound sits inside a sentence.
+
+### 9.5 Dosage and rotation
+
+- **By sessions, per game type.** Moves 1, 2 and 4 happen at most once per game type per session (`game:<id>` as in §2.2; `tapall:in` and `tapall` count separately). The same game in two levels of one session gets them in the first level only.
+- **Idea lines:** at most **2 a level and 4 a session**, and **never the same sentence twice in a session**. `t_if_you_say_sounds` (W5, W6) and W1's `tv_same_word` count as idea lines where they play.
+- **The rotation.** One save-wide pointer (`timesHeard("fs:idea")`) walks the list in §9.4's order. Each game takes the next line from its bank that hasn't been said this session:
+  - **Listening games** (W3, Slow Words, W5, W6, Ninja Run): `two_ways`, `tortoise`, `gaps`, `hiding`, `rabbit`, `whole`, `read`, `turn`, `same`, `push`, `made`, `ninjas_can`, `ninja` (13 lines, 10 of them short).
+  - **Reading games** (Kai and Suki, Story Time): `two_ways`, `tortoise`, `gaps`, `hiding`, `rabbit`, `whole`, `read`, `push`, `same`, `ninja`, `mantra` (11 lines, 7 short; these games have no tight run).
+  - **Building and hunting games** (Word Building, the Dojo, battles, Sound Swap, First Sounds, Sound Hunt, Pocket Hunt in the middle): `two_ways`, `tortoise`, `gaps`, `next`, `made`, `start_end`, `same` (not in Swap), `turn`, `spell`, `count`, `find` (11 lines, 10 short, 9 in Swap).
+  - **In a tight run** (§9.3's "≤ 3.9 s") the four long lines are skipped: `tortoise` (6.2 s since the accent fix, §9.8), `rabbit` (4.4 s then; 3.8 s since its retake, still skipped: `FS_LONG` in `narrative.ts`), `ninja` 4.7 s and `mantra` 4.7 s. Every other idea line is under 3.9 s, and the eight added on 27 Sep are under 3.5 s (§9.8), so a tight run has at least 8 different lines to walk through (9 in Swap).
+  - The long and short lines alternate in each bank, so the pointer never has to skip far in a tight run.
+- **Praise lines (Move 4): at most once a session each.** Three kinds, by the game:
+  - **letters** (Kai and Suki, Story Time): `praise_both`, `praise_both_2`, `praise_both_3`;
+  - **listening** (Slow Words, Guess My Word, Sound Dots, Ninja Run): `praise_found`, `praise_found_2`, `praise_found_3`, `praise_found_4`;
+  - **building** (Word Building, the Dojo, battles, bosses, Sensei's Challenge): `praise_every`, `praise_every_2`, `praise_every_3`, `praise_every_4`.
+
+  A game's Move 4 takes the next line of its kind that hasn't been said this session, walked by one save-wide pointer per kind (`timesHeard("fs:praise:<kind>")`), so the next session starts on a different line. **No praise line is said twice in a session.** When a kind's lines have all been said, that game has no Move 4, and its praise slot has its ordinary praise (§5.3). With 3–4 lines a kind, that happens only in a session with more games of one kind than it has lines.
+- **The read-back lead-ins are routines,** like Sounds~Write's own: they may repeat, but the two pairs take turns, and both fade with the read-backs (§5.1, SCRIPT_STYLE §5).
+- **The stuck lines take turns with the game's own line,** so neither is said twice running. A stuck line is never said twice on one item.
+- **As the child grows.** In lands 1–2 (Bamboo Village and Blossom Hills), all of the above. From land 3, Moves 1 and 2 happen once per session (the session's first game with a read-back), and Moves 3–5 and the tortoise and rabbit stay. The child reads fluently by then, and the moves become the reminder, not the lesson.
+- **Only what is heard counts** (ARCHITECTURE §3): a line cut off by Home or a crash isn't recorded, so it comes again.
+- **The helper** (FIX_PLAN §13.5, F2): `narrate.tsx` keeps the per-session record in memory, as `perSession` does, since a session is one run of the page. Until it lands, a lane can use `onceInSave(\`fs:${game}:${sessionNow()}\`)` and `heard()`.
+
+### 9.6 The tortoise and the rabbit on screen
+
+- **Where the scene has its own big tortoise and rabbit** (the warm-ups' `speed` buttons: W1, W3, W4 and, for §9.3, W5 and W6), those are the cue and the join-in (lane C2). The nav badges hide, as `againAt: "own"` hides the speaker.
+- **Everywhere else,** two small badges sit **beside the speaker (Hear it again)** in the nav row: the tortoise on the left, the rabbit on the right (`ui_tortoise`, `ui_rabbit`), drawn by the nav layer (F3). In a "column" screen (battles, Story Time) they sit in the column, under the speaker. They never cover ▶, the paw, the petal or the caption.
+  - **The slow way:** while a slow slot or the read-back's sounds play, the tortoise lights and takes a slow step on each sound. Any `stretch:` clip lights it by itself.
+  - **The fast way:** on the fast word after it, the rabbit lights and hops once.
+  - **Move 1:** the rabbit grows to a full tap target (at least 100 stage px, like every nav control), pulses, and is spotlit on the word "rabbit". It is live only then. At other times a tap on a badge does nothing but wiggle it. In Slow Words, Guess My Word and Ninja Run it would give the answer away.
+  - **The ninja moves with them:** a slow-motion kata on the slow way, a dash on the fast way (W1's moves, §3.5 B).
+
+### 9.7 Rules, flags and decisions
+
+**The rules** (with TS's):
+1. **Sounds only at a sentence end or in their own slot.** The slow word and the pure sounds are always their own clips.
+2. **"Read" only where there are letters.** A listening game says "say it fast" (`fm_tap_rabbit`), and a game with tiles says "read the word fast" (`tv_fs_rabbit_read`).
+3. **Never give the answer before the child's answer.** In Slow Words, Guess My Word, Ninja Run and Kai and Suki, the fast word comes only after the child has answered.
+4. **The 12 s rule holds** (§0.1). Every run in §9.3 is estimated at 10.8 s or less (the longest are First Sounds' stuck recap, with the cards live throughout, and Guess My Word's rabbit prompt, both 10.8 s). The idea line goes on whichever side of the rabbit's tap has room, and takes the praise slot where there is no tap.
+5. **Sounds~Write's words stay exact.** `say_sounds_read`, `t_if_you_say_sounds` and "Listen for the word…" are not replaced. The fast/slow words go around them, and `tv_fs_say_sounds_slow` and `tv_fs_mantra` keep S~W's "say the sounds" and "read the word".
+6. **Fast/slow lines are never Hear it again's instruction.** The speaker replays the turn's question. The stuck and praise lines are feedback (FIX_PLAN §13.5).
+
+**Flags and decisions** (for docs/DECISIONS.md, by integration):
+
+| # | Decision or flag | Why |
+|---|---|---|
+| FS1 | **The slow way has gaps everywhere it plays,** including the spelling games' listening prompts (`tv_listen_here`, `tv_last_first`, `tv_swap_both`, the stuck recap). *Flag:* Sounds~Write stretches without gaps when the **child** is to segment ("Say the word slowly but don't segment it", "you do not segment the word for the student"). With gaps, a building prompt does the segmenting, and the child only matches sounds to tiles. **Reversible by the audio lane:** keep today's stretched clip beside the gapped one (`public/a/x/<w>.mp3` and a new folder), so the building games' prompts can go back to the stretched word if Jonas prefers, without new lines. | Jonas asked for gaps, and his ear decides. The S~W difference is real, so it is logged, not hidden. |
+| FS2 | **Slow Words and Guess My Word never use `tv_idle_look_<w>`** ("Where's the sock?") at 8 s: it names the answer. The 8 s idle there is `tv_fs_stuck_again` + [w, slowly] or `tv_fs_stuck_push` + the sounds. | §5.5's picture-game idle line gives the answer in the two games where the word *is* the question. |
+| FS3 | **The gapped slow way makes TS runs that contain a slow word longer, by about 0.4 s a word on average.** W1's sock → Ready (12.1 s in §6) becomes about 12.5 s (sock's slow way is 1.27 s since the short-vowel fix, where the stretched sock was 0.9 s), so its named cut (`tv_ts_meet` → "Meet the rabbit and the tortoise.") applies. Sound Swap's turn (two slow words) is about 10 s, and Swap still gets no Move 5. F4 re-measures `talk-before-action` with the new clips. | The slow way is three pure sounds and two 250 ms gaps: 1.53 s on average for a three-sound word (measured, §9.1), where the old stretched words averaged 1.2 s. |
+| FS4 | **W3's recap says the idea again,** reversing §3.9 A's "not said again". | Jonas: "explain more often". |
+| FS5 | **The rabbit is the one new join-in.** The child taps it to say the word fast, once per game per session. The rabbit in the nav row is live only when asked. | A registered tap splits the talk, and the fast way becomes the child's own. This is W1's move carried into every game. |
+| FS6 | **Gem battles get no rabbit tap and no pair,** because the purple bar is running. | A wait for a tap, or 3 s of talk, costs the child time on the clock. |
+
+### 9.8 Recorded, and the QA
+
+The 40 lines are recorded in one block at the end of `LINES`: `// --- Fast and slow (docs/TEACHER_SCRIPT.md §9, 27 Sep)`. Each take is made with `gen-audio.ts lines --only …` (en-GB, plain text), with Gemini's judge, the pace and tail gates and the loudness rule, then checked with faster-whisper (`playtest/voice/qa.py`, `small.en`) word for word, and for letter names, pace, loudness and the lead-ins' tails. The first recording's QA is in [`playtest/voice/fast-slow/qa.json`](../playtest/voice/fast-slow/qa.json). `durations.json` has the lengths. The 16 lines added on 27 Sep still need their tags in `src/core/content/line-tags.ts` (docs/fix-requests.md, "Fast and slow"), and its hashes for the four reworded lines below are of the old texts (their tags still fit).
+
+**The voice.** Sensei has been Gemini's Erinome since 27 Sep, 09:33 (docs/DECISIONS.md). The lines retaken for their accent (below) are Erinome takes. The rest were first recorded in Sulafat, and the Erinome re-record of every Sensei line (`playtest/runs/revoice/shard-*.txt`) replaces them, with the same gates and the accent judge's 80 % bar. At 12:15 on 27 Sep, 22 of the 40 were still Sulafat.
+
+**The accent.** Every take with a BATH word (fast, last, after, ask), an r after a vowel (word, first, tortoise) or a t between vowels (little, tortoise) is judged by `scripts/accent-judge.ts` (docs/TREADMILL.md, "The accent judge"): Gemini 3.1 Pro, word by word, 21 votes a word, calibrated every run on British (ElevenLabs Alice and George) and American (OpenAI coral) readings of the same sentences, and refusing to judge when they don't separate. A take is kept at 80 % British or more on every word over 42 votes (21 to pick it and 21 fresh ones, because the best of 20 takes on 21 votes is often lucky), from up to 20 takes of a wording. The first check (3 votes, "British /ɑː/ or American /æ/?", no calibration), whose table this section had until now, passed takes this judge hears as American or in between.
+
+**15 lines retaken (27 Sep):** the seven the fast-and-slow checker heard as American or in between, and eight more where this judge heard an American r when it judged all 40. "Before" is the Sulafat clip before this fix; "now" is what the game plays. The before and now votes are all from one run of the judge, after the takes were picked.
+
+| id | the line now | before (Sulafat) | now (Erinome) | British now | takes | picked on |
+|---|---|---|---|---|---|---|
+| `tv_fs_made` | Every word is made of little sounds, one by one. | "after" 7/21; r in "word" 20/21; r in "another" 21/21 | r in "word" 20/21; t in "little" 20/21 | 95 % | 42 (20 of the old words, 20 of "one by one", 2 of these) | 93 % on 42 ("word" 40, "little" 39) |
+| `tv_fs_rabbit` | The rabbit pushes the sounds together, and says the word fast. | "fast" 0/21; r in "word" 0/21 | "fast" 20/21; r in "word" 19/21 | 90 % | 1 | 88 % on 42 ("fast" 20 + 17) |
+| `tv_fs_now_fast` | And now, fast… | "fast" 14/21 | "fast" 19/21 | 90 % | 25 (20 of the old words, 5 of these) | 90 % on 42 ("fast" 38) |
+| `tv_fs_ninjas_can` | Ninjas can say a word slowly, and fast too. | "fast" 7/21; r in "word" 19/21 | "fast" 18/21; r in "word" 20/21 | 86 % | 17 | 88 % on 42 ("fast" 19 + 18) |
+| `tv_ts_fast` | The rabbit says words fast… | "fast" 14/21; r in "words" 21/21 | "fast" 14/21; r in "words" 20/21 | 67 % | 20 | 74 % on 42 ("fast" 16 + 15): the best of 20, none reached 80 % |
+| `tv_learn_last` | Here's the last new sound… | "last" 11/21 | "last" 21/21 | 100 % | 5 | 95 % on 42 ("last" 20 + 20) |
+| `tv_opt_ask` | Ask a grown-up to help you choose. | "ask" 18/21 | (kept) | 86 % | 0 | not retaken: 90 % on 21 ("ask" 19), over the 70 % bar |
+| `tv_fs_spell` | To build a word, we say it slowly first. | r in "word" 0/21; r in "first" 0/21 | r in "word" 21/21; r in "first" 21/21 | 100 % | 3 | 95 % on 21, then 100 % on 21 fresh |
+| `tv_fs_praise_both_2` | You said each sound slowly, then read the whole word. | r in "word" 0/21 | r in "word" 21/21 | 100 % | 9 | 100 % on 21, then 100 % on 21 fresh |
+| `tv_fs_praise_found_2` | You pushed the sounds together, and heard the word. | r in "heard" 0/21; r in "word" 0/21 | r in "heard" 17/21; r in "word" 17/21 | 81 % | 15 | 86 % on 21, then 90 % on 42 fresh |
+| `tv_fs_praise_every_4` | You listened slowly, and got the sounds in order. | r in "order" 0/21 | r in "order" 21/21 | 100 % | 2 | 100 % on 21, then 100 % on 21 fresh |
+| `tv_fs_stuck_slow` | Let's say it the slow way first… | r in "first" 19/21 | r in "first" 19/21 | 90 % | 15 | 95 % on 21, then 90 % on 21 fresh |
+| `tv_fs_praise_both` | Slow, then fast. That's real reading! | "fast" 11/21 | "fast" 20/21 | 95 % | 6 | 95 % on 21, then 86 % on 21 fresh |
+| `tv_fs_tortoise` | The tortoise says each word slowly, one sound at a time. | r in "tortoise" 4/21; r in "word" 4/20; t in "tortoise" 20/21 | r in "tortoise" 21/21; r in "word" 21/21; t in "tortoise" 20/20 | 100 % | 17 (15 of the old words, 2 of these) | 100 % on 42 |
+| `tv_fs_run` | I'll say it the slow way, and you catch the whole word. | r in "word" 0/21 | r in "word" 20/21 | 95 % | 20 (15 of the old words, 5 of these) | 95 % on 42 ("word" 40) |
+
+- **Four lines are lightly reworded** (§9.4, docs/DECISIONS.md), because Erinome's accent depends on the whole sentence. She gave "word" an American r in all 20 takes of "Every word is made of sounds, one by one." (the F3 measure agrees: 0.54–0.75 of her usual F3, against 0.93–0.97 in "…one after another.") and in all 15 of "…You catch the whole word.", and "after" stayed in between over 20 takes of "one after another". A few raw takes of each candidate wording (6 a wording, 6 votes a word) showed which ones she says British: "…made of little sounds, one by one." in 5 of 6 (against 1 of 6 for "one by one" alone), "…says each word slowly…" and "…the slow way, and you catch the whole word." in 2 of 6 (the old wordings 0 of 6). "And now, fast…" was the best of five wordings for `tv_fs_now_fast` ("fast" at the end).
+- **`tv_ts_fast`** ("The rabbit says words fast…", §7, so its text stays): Erinome's "fast" was /æ/ or in between in all 20 takes. The best (74 % on 42 votes, 67 % on the run above) replaces the Sulafat clip, which is no better, and is still in between: one for Jonas's ear. A light rewording would be the next thing to try.
+- **`tv_opt_ask`** was 86–90 % British as it was, so it is not retaken here. It is Sulafat, and the Erinome re-record (shard 0) takes it again with the 80 % gate.
+- **`tv_fs_tortoise` is now 6.2 s** (it was 4.7 s): the British takes were the slow ones. It was already kept out of tight runs (§9.5).
+
+**The other 25 lines**, as the listening page has them (12:15, 27 Sep):
+
+| id | voice | length | British votes (21 a word) | British |
+|---|---|---|---|---|
+| `tv_fs_two_ways` | Sulafat | 3.69 s | "fast" 20/21; r in "word" 21/21 | 95 % |
+| `tv_fs_gaps` | Sulafat | 3.42 s | t in "little" 17/21 | 81 % |
+| `tv_fs_read` | Sulafat | 3.60 s | r in "first" 21/21; r in "word" 21/21 | 100 % |
+| `tv_fs_same` | Sulafat | 3.61 s | r in "tortoise" 20/21; r in "word" 21/21; t in "tortoise" 20/20 | 95 % |
+| `tv_fs_ninja` | Sulafat | 4.67 s | "fast" 18/21; r in "first" 21/21; r in "words" 21/21 | 86 % |
+| `tv_fs_mantra` | Sulafat | 4.67 s | "fast" 18/21; r in "word" 19/21 | 86 % |
+| `tv_fs_find` | Sulafat | 3.80 s | no target words | – |
+| `tv_fs_hiding` | Erinome | 3.34 s | "fast" 15/21; r in "word" 19/21 | 71 % |
+| `tv_fs_whole` | Sulafat | 2.94 s | r in "word" 21/21 | 100 % |
+| `tv_fs_push` | Erinome | 2.74 s | r in "together" 21/21; r in "word" 19/21 | 90 % |
+| `tv_fs_turn` | Sulafat | 3.43 s | r in "turn" 20/21 | 95 % |
+| `tv_fs_next` | Erinome | 4.02 s | no target words | – |
+| `tv_fs_start_end` | Sulafat | 3.12 s | no target words | – |
+| `tv_fs_count` | Sulafat | 3.37 s | no target words | – |
+| `tv_fs_say_sounds_slow` | Sulafat | 2.62 s | no target words | – |
+| `tv_fs_rabbit_read` | Sulafat | 3.49 s | "fast" 21/21; r in "word" 21/21 | 100 % |
+| `tv_fs_say_slow` | Erinome | 2.40 s | no target words | – |
+| `tv_fs_slow_tortoise` | Sulafat | 2.94 s | r in "first" 20/21; r in "tortoise" 21/21; t in "tortoise" 21/21 | 95 % |
+| `tv_fs_fast_rabbit` | Sulafat | 2.86 s | "fast" 20/21 | 95 % |
+| `tv_fs_stuck_again` | Sulafat | 3.83 s | no target words | – |
+| `tv_fs_stuck_push` | Erinome | 4.09 s | "fast" 14/21; r in "together" 21/21 | 67 % |
+| `tv_fs_praise_found` | Sulafat | 2.90 s | r in "heard" 18/21; r in "word" 18/21 | 86 % |
+| `tv_fs_praise_every` | Sulafat | 3.37 s | no target words | – |
+| `tv_fs_praise_both_3` | Sulafat | 3.71 s | "fast" 13/21 | 62 % |
+| `tv_fs_praise_found_3` | Sulafat | 3.44 s | r in "word" 21/21; t in "little" 19/21 | 90 % |
+| `tv_fs_praise_found_4` | Sulafat | 3.17 s | r in "word" 21/21 | 100 % |
+| `tv_fs_praise_every_2` | Sulafat | 4.05 s | no target words | – |
+| `tv_fs_praise_every_3` | Erinome | 4.83 s | no target words | – |
+
+Below 80 %: `tv_fs_hiding` (71 %) and `tv_fs_stuck_push` (67 %), both Erinome takes installed by the re-record at 12:05–12:10, and `tv_fs_praise_both_3` (62 %, Sulafat, not yet re-recorded). Their "fast" is in between. The re-record gates at 80 % on 21 votes, and a pick on 21 votes can be lucky, so these three want 21 fresh votes and, if they hold, a retake.
+
+**Listen.** The slow-words listening page (`playtest/slow-words/`, on R2; `upload.sh` prints its URL) has all 40 lines as the game plays them, and "For your ear: British or not?": the 15 retaken lines, old against new, with these votes.
+
+**History.** The first BATH check (the morning of 27 Sep) retook 14 lines, up to 8 rounds each, on its 3-vote judge, and two new praise lines were rewritten without "fast" rather than fight it (`tv_fs_praise_both_2` and `tv_fs_praise_found_4`); `tv_fs_start_end` ("Slowly, we hear the start, middle and end.") never came in under 3.5 s, so it now says "The slow way shows us where each sound goes." (the id stays, since `narrative.ts` uses it). Notes on the first recording (Sulafat): `tv_fs_mantra` was once heard as "sound" for "sounds"; `tv_fs_fast_rabbit`'s 6.8-semitone rise came down to 0.1; three lead-ins rose and were kept as suspended statements, under gen-audio's 8-semitone limit (`tv_fs_say_sounds_slow`, `tv_fs_stuck_again` and `tv_fs_say_slow`).
+
+---
+
+## 10. Picture reading v2 and the read slider (Jonas, 27 Sep)
+
+> **Status (27 Sep, appended by the fix workflow's integration step):** designed and built as a component (`src/ui/ReadSlider.tsx`, 47 lines recorded), **not yet in the game**. The follow-up workflow wires it into W2, W4 and W6 in one release (docs/fix-requests.md, "Picture reading v2 and the read slider"; docs/QUEUE.md 0b). Until then §3.7, §3.8, §3.10 and §3.12 are what plays.
+
+> "I don't want you to use fish dog. I want you to use other words because I don't want it to come across as stealing from Mentava. … I think you should use it as a way to introduce the slow and the fast reading, right? You could say, okay, we can also read longer words made from shorter words. … It's like rainbow, not bow rain. … I think one thing that you could ask the user to do is drag their finger from left to right … And then we can have this sort of interface also with sounds where you slide across and the sensei says, say the sounds with me."
+
+W2's and W4's picture reading are rebuilt on the **read slider** with real compound words, and W6's Sound Dots become the **Sound Slider**. The child slides the tortoise from left to right under two pictures (or under a picture's sound dots); each part is said once as the tortoise reaches it (the slow way); the rabbit's tap says the whole word (the fast way). A right-to-left slide reads nothing and gets a gentle line. Sensei's paw does every demo, slowly, in the first person, and she alone ever reads backwards ("Bow rain! It's raining bows!").
+
+- **The beats** (the anatomy tables for W2, W4 and W6): docs/PICTURE_READING.md §3–§5. **The mechanic** (its rules, the wrong way, the idle ladders, Help, demo mode, the bot contract): docs/READ_SLIDER.md. The words: `src/content/compounds.ts`. This section is the index and the list of lines.
+- **§9 (fast and slow, more often) holds**: the slider is its tortoise and rabbit made physical, and the new praise lines join §9.5's rotation (each at most once a session).
+
+### 10.1 What it replaces
+
+| Here | Rows | Becomes |
+|---|---|---|
+| §3.7 A, Ninja Reading (`rail`) | `tv_rail_frame`, `tv_rail_ido`, `fm_read_fish_dog`, `tv_rail_ready`, `tv_rail_turn`, `fm_pair_fish_dog` | PICTURE_READING §3 A–C: `pr_frame`, `pr_demo` and Sensei's slow read of rain + bow, the child's rabbit, `pr_demo_back` and her backwards show, `pr_back_rainbow` |
+| §3.7 B, the swap | `fm_l2_swap` | gone (the backwards show is the only reversal, and it is Sensei's) |
+| §3.7 C, two rows (`which`) | `tv_which_frame`, `tv_which_demo`, `tv_which_so`, `tv_which_q_*`, `fm_pair_cat_dog` | gone (Mentava's readiness check: research §2) |
+| §3.7 D, Word Squish (`compound`) | `tv_squish_frame`, `tv_squish_slow`, `tv_squish_fast`, `fm_name_star`, `fm_starfish_q`, `fm_starfish`, `tv_praise_squish` | folded into Ninja Reading; **`tv_squish_ready` stays** as the Ready ("Two little words make one big word. Now you make one. Are you ready?"), then the child's slides (§3 D–E) |
+| §3.7 E, Pocket Hunt | the 2×2 grid with fish and dog | sunflower, sock, cake and bow (no fish next to a dog anywhere) |
+| §3.8, Reward 2 | `fm_rw2_list`, `fm_rw_shiny`, `fm_rw2_s` | `pr_rw2_list`, `pr_rw_shiny` (the shiny sticker is the rainbow), `pr_rw2_s` |
+| §3.10, W4 | `tv_rail_again`, `tv_rail_yours`, `fm_triple_cat_dog_fish`, `fm_l4_swap`, `tv_which_again`, `fm_triple_fish_dog_cat`, `tv_squish_again`, `fm_rainbow`, `tv_w4_done` | PICTURE_READING §4: `pr_recap`, Sensei's canonical demo, `pr_your_turn`, raincoat (with the `coatrain` show), football, ◇ treehouse, `pr_w4_done` |
+| §3.12, W6 Sound Dots | the child taps each dot (`tv_dots_ido`, `tv_dots_word_ido`, `tv_dots_ready`) | PICTURE_READING §5, the Sound Slider: `tv_dots_frame` stays, `pr_sounds_demo`, `rs_sounds_with_me` |
+| §2's table of "first meetings" and §4's frames | `tv_rail_frame` "Ninjas always start on this side, and go this way." | `pr_frame` "Ninjas always read this way." (with the rail's light and the ninja's run on "this") |
+| §7's lists | every id above that goes | `RETIRED_LINES`, "retired: picture reading v2 (27 Sep)" (docs/fix-requests.md lists them) |
+
+### 10.2 The rules for these lines
+
+- **The idea comes first**: "Two little words can make one long word." opens Sensei's demo, and `tv_squish_ready` says it again at the hand-over (Jonas: "we can also read longer words made from shorter words").
+- **Demos**: the lead-in in the first person, and the paw sets off on "Watch" (READ_SLIDER §5). The paw is Sensei's own; the cream glove is only ever the ghost hand, "your turn".
+- **The wrong way**: three lines in turn, none says "wrong" or "No", "left to right" only in the first; the corrections lead with "Let's" (27 Sep: the rule first was heard as stern).
+- **Praise** only for the child's own fast word (the rabbit tapped), never after Sensei said it herself.
+- **"Fast"** is said only in `rs_now_fast` (a BATH word, checked /ɑː/).
+
+### 10.3 The lines and their clips
+
+Recorded in Erinome (en-GB), plain text; every clip word-perfect by Whisper, at most 3.3 words a second, −16 LUFS. **Accent**: the calibrated judge (`scripts/accent-judge.ts`: r after a vowel, t between vowels, the BATH vowel), the clip's lowest word, British share of votes (votes a word). **Warmth**: a Gemini listen, "a kind old red panda talking to a 3-year-old", 1–5 (votes). The seven fix-round-1 clips were taken on `gemini-3.8-flash-lite-tts` (the 3.8-flash quota ran out) with `playtest/read-slider/audio/retake.ts`, and pass ≥ 80 % British on every word, warmth ≥ 4.0 (≥ 4.3 with at most one "told off" for the corrections and the frame); the rest are the first round's, with the judge's 7-vote accent and 3-vote warmth.
+
+| id | text | s | words/s | accent | warmth | model |
+|---|---|---|---|---|---|---|
+| `rs_how` | Put your finger on the tortoise, and slide it this way. | 3.45 | 3.19 | 100 % (7) | 4.7 (3) | 3.8-flash |
+| `rs_back_1` | That way is backwards. We always read from left to right. | 3.83 | 2.88 | 100 % (7) | 3.3 (3) | 3.8-flash |
+| `rs_back_2` | Let's try again from the tortoise. Ninjas always start on this side. | 4.84 | 2.48 | 100 % (21) | 4.88 (8) | 3.8-flash-lite, fix round 1 |
+| `rs_back_3` | The tortoise only walks this way. Start here, and slide it along. | 4.59 | 2.61 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `rs_start_here` | Let's start on this side. Put your finger on the tortoise. | 4.11 | 2.67 | 100 % (21) | 4.75 (8) | 3.8-flash-lite, fix round 1 |
+| `rs_idle` | Put your finger on the tortoise when you're ready. | 2.76 | 3.26 | 100 % (7) | 4.7 (3) | 3.8-flash |
+| `rs_keep_going` | Keep going, all the way to the rabbit. | 2.44 | 3.28 | no target words | 4.7 (3) | 3.8-flash |
+| `rs_again` | Let's slide it again, from the very start. | 2.75 | 2.91 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `rs_sounds_with_me` | Now you slide it, and say the sounds with me. | 3.08 | 3.25 | no target words | 5.0 (3) | 3.8-flash |
+| `rs_now_fast` | That was the slow way. Now tap the rabbit, and say it fast. | 4.17 | 3.12 | 71 % (7) | 3.3 (3) | 3.8-flash |
+| `rs_slowly` | The tortoise likes to go slowly. Try it slowly, like me. | 5.74 | 1.92 | 86 % (7) | 5.0 (3) | 3.8-flash |
+| `rs_praise_1` | You read each little word, then the whole big word. | 3.61 | 2.77 | 95 % (21) | 4.75 (8) | 3.8-flash-lite, fix round 1 |
+| `rs_praise_2` | Tortoise first, then the rabbit. That's ninja reading! | 4.14 | 1.93 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `rs_praise_3` | You started at the beginning, and went all the way. | 3.27 | 3.06 | 71 % (7) | 4.0 (3) | 3.8-flash |
+| `pr_frame` | Ninjas always read this way. | 1.88 | 2.66 | no target words | 4.75 (8) | 3.8-flash-lite, fix round 1 |
+| `pr_demo` | Two little words can make one long word. I'll read this one slowly first. Watch my paw... | 6.86 | 2.48 | 90 % (21) | 4.88 (8) | 3.8-flash-lite, fix round 1 |
+| `pr_demo_back` | Now watch what happens if I start on the other side... | 3.35 | 3.28 | 100 % (7) | 4.3 (3) | 3.8-flash |
+| `pr_back_rainbow` | Bow rain! It's raining bows! We always start on this side. | 4.76 | 2.31 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `pr_back_raincoat` | Coat rain! It's raining coats! We always start on this side. | 4.10 | 2.68 | 100 % (7) | 4.7 (3) | 3.8-flash |
+| `pr_back_snowman` | Man snow! It's snowing tiny men! We always start on this side. | 5.44 | 2.02 | 100 % (21) | 4.40 (15), 0 told off | 3.8-flash, 28 Sep retake (a 3.3 s pause cut to 0.7 s) |
+| `pr_back_cupcake` | Cake cup! A cup made of cake! We always start on this side. | 4.02 | 3.23 | 100 % (21) | 4.80 (15), 0 told off | 3.8-flash, 28 Sep retake |
+| `pr_back_football` | Ball foot! A ball with toes! We always start on this side. | 4.33 | 2.77 | 100 % (21) | 4.53 (15), 1 told off | 3.8-flash, 28 Sep retake |
+| `pr_back_treehouse` | House tree! That's silly. We always start on this side. | 3.99 | 2.51 | 86 % (7) | 4.7 (3) | 3.8-flash |
+| `pr_back_cowboy` | Boy cow! That's silly. We always start on this side. | 4.56 | 2.19 | 100 % (7) | 4.7 (3) | 3.8-flash |
+| `pr_back_sunflower` | Flower sun! That's silly. We always start on this side. | 4.64 | 2.15 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `pr_back_pancake` | Cake pan! A frying pan made of cake! We always start on this side. | 6.28 | 2.23 | 100 % (21) | 5.00 (15), 0 told off | 3.8-flash, 28 Sep retake |
+| `pr_another` | Here's another long word. | 1.29 | 3.10 | 86 % (7) | 4.7 (3) | 3.8-flash |
+| `pr_sounds_too` | Words are made of sounds, too. Let me show you... | 3.19 | 3.14 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `pr_sounds_demo` | Let's say I want to read this word. I'll say its sounds first. Watch my paw... | 5.05 | 3.17 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `pr_recap` | It's Ninja Reading again. Little words make long words. | 4.02 | 2.24 | 86 % (7) | 5.0 (3) | 3.8-flash |
+| `pr_your_turn` | Now it's your turn. Slide the tortoise this way. | 3.26 | 2.76 | 100 % (7) | 3.7 (3) | 3.8-flash |
+| `pr_short` | It's Ninja Reading again. Slide the tortoise this way. | 3.83 | 2.35 | 100 % (7) | 4.7 (3) | 3.8-flash |
+| `pr_w4_done` | You read lots of long words, the ninja way. | 2.93 | 3.07 | 100 % (21) | 5 (8) | 3.8-flash-lite, fix round 1 |
+| `pr_last_word` | The last little word tells you what it is. | 2.88 | 3.13 | 86 % (7) | 5.0 (3) | 3.8-flash |
+| `pr_what_rainbow` | A rainbow is a big bow of colours in the rain. | 3.70 | 2.97 | 100 % (7) | 3.3 (3) | 3.8-flash |
+| `pr_what_snowman` | A snowman is a man made of snow. | 2.76 | 2.89 | no target words | 4.7 (3) | 3.8-flash |
+| `pr_what_cupcake` | A cupcake is a little cake in a paper cup. | 3.07 | 3.25 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `pr_what_raincoat` | A raincoat is a coat for the rain. | 2.56 | 3.12 | no target words | 3.7 (3) | 3.8-flash |
+| `pr_what_football` | A football is a ball you kick with your foot. | 3.51 | 2.85 | no target words | 3.3 (3) | 3.8-flash |
+| `pr_what_treehouse` | A treehouse is a little house up in a tree. | 3.15 | 3.17 | 86 % (21) | 4.63 (8) | 3.8-flash-lite, fix round 1 |
+| `pr_what_cowboy` | A cowboy is a boy who looks after cows. | 2.91 | 3.09 | 100 % (7) | 3.7 (3) | 3.8-flash |
+| `pr_what_sunflower` | A sunflower is a big flower that looks like the sun. | 4.13 | 2.67 | 86 % (7) | 3.7 (3) | 3.8-flash |
+| `pr_what_pancake` | A pancake is a flat cake you make in a pan. | 3.43 | 3.21 | no target words | 5.0 (3) | 3.8-flash |
+| `pr_rw2_list` | Rain, bow, snow, man, snowman, cup, cake and cupcake! | 6.62 | 1.36 | no target words | 4.0 (3) | 3.8-flash |
+| `pr_rw_shiny` | Ooh, a shiny sticker! Rainbow! | 2.56 | 1.96 | 100 % (7) | 5.0 (3) | 3.8-flash |
+| `pr_rw2_s` | Sun, sock, sausage and snowman. They all start with... | 5.61 | 1.61 | 100 % (7) | 4.3 (3) | 3.8-flash |
+| `pr_map_replay` | Do you want to play Ninja Reading again? | 2.45 | 3.26 | no target words | 4.7 (3) | 3.8-flash |
+
+Still to watch (not blocking, first-round clips): `rs_now_fast` and `rs_praise_3` at 71 % on 7 votes, `rs_back_1`, `rs_now_fast`, `pr_back_snowman` and `pr_what_rainbow` at 3.3 warmth on 3 votes, `pr_back_cupcake` (1.3 on 3 votes; 4.3 on the judge's 8); and one listener heard `pr_what_rainbow`'s "bow" as the bow of bowing down (/baʊ/): check it by ear. The next re-take on 3.8-flash (docs/fix-requests.md) should take them through `retake.ts`'s gates too.

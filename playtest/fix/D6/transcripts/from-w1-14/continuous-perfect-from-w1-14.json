@@ -1,0 +1,860 @@
+{
+ "meta": {
+  "persona": "perfect",
+  "from": "w1-14",
+  "optin": "none",
+  "fast": 4,
+  "levels": 1,
+  "base": "http://127.0.0.1:4746",
+  "at": "2026-09-27T10:16:31.074Z"
+ },
+ "evs": [
+  {
+   "t": 0.2,
+   "kind": "scene",
+   "text": "title"
+  },
+  {
+   "t": 0.2,
+   "kind": "piece",
+   "text": "title"
+  },
+  {
+   "t": 0.2,
+   "kind": "route",
+   "text": "title"
+  },
+  {
+   "t": 0.2,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 0.4,
+   "kind": "tap",
+   "text": "Start"
+  },
+  {
+   "t": 2.2,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 2.2,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 2.2,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 2.2,
+   "kind": "turn",
+   "text": "w1-14",
+   "game": null
+  },
+  {
+   "t": 2.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome back, ninja! I'm so happy to see you.",
+   "id": "tv_welcome_back",
+   "dur": 3522,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 5.7,
+   "kind": "tap",
+   "text": "level w1-14"
+  },
+  {
+   "t": 5.8,
+   "kind": "piece",
+   "text": "stone 1: w1-14"
+  },
+  {
+   "t": 6.4,
+   "kind": "scene",
+   "text": "level-wait"
+  },
+  {
+   "t": 6.4,
+   "kind": "piece",
+   "text": "level w1-14"
+  },
+  {
+   "t": 6.4,
+   "kind": "route",
+   "text": "level:w1-14"
+  },
+  {
+   "t": 8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Story time! I'll read some pages to you, and you'll read some pages to me.",
+   "id": "tv_story_frame",
+   "dur": 4793,
+   "route": "level:w1-14",
+   "mapOn": false
+  },
+  {
+   "t": 9.3,
+   "kind": "scene",
+   "text": "story"
+  },
+  {
+   "t": 9.3,
+   "kind": "game",
+   "text": "story"
+  },
+  {
+   "t": 13.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This story is called...",
+   "id": "tv_story_title",
+   "dur": 1749,
+   "route": "level:w1-14",
+   "mapOn": false
+  },
+  {
+   "t": 15,
+   "kind": "story",
+   "who": "sensei",
+   "text": "[story s1_title]",
+   "id": "story:s1_title",
+   "dur": 1378,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 17.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the green arrow, and let's begin.",
+   "id": "tv_story_begin",
+   "dur": 2462,
+   "route": "level:w1-14",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 17.2,
+   "kind": "hold",
+   "text": "ready:story",
+   "end": 19.8,
+   "how": "next"
+  },
+  {
+   "t": 18.8,
+   "kind": "story",
+   "who": "sensei",
+   "text": "In Bamboo Village, the pandas were having a terrible day. Baron Muddle had pinched their lunch pot and hidden it! But Super Ninja had a clue...",
+   "id": "story:s1_1",
+   "dur": 10194,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 18.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 29.4,
+   "kind": "hold",
+   "text": "story 1/10",
+   "end": 32.1,
+   "how": "next"
+  },
+  {
+   "t": 31.1,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 32.1,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 32.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This page is yours. Say the sounds, and read each word.",
+   "id": "tv_story_yours",
+   "dur": 3460,
+   "route": "level:w1-14",
+   "mapOn": false
+  },
+  {
+   "t": 34.7,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 36,
+   "kind": "say",
+   "who": "sensei",
+   "text": "There's a slow way to say a word, and a fast way.",
+   "id": "tv_fs_two_ways",
+   "dur": 3692,
+   "route": "level:w1-14",
+   "mapOn": false
+  },
+  {
+   "t": 37,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 39.7,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 40,
+   "kind": "say",
+   "who": "sensei",
+   "text": "If you get stuck, tap a word, and I'll help.",
+   "id": "tv_story_help",
+   "dur": 3077,
+   "route": "level:w1-14",
+   "mapOn": false
+  },
+  {
+   "t": 42.1,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 43.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "When you've read it all, tap the green tick.",
+   "id": "tv_story_tick",
+   "dur": 2737,
+   "route": "level:w1-14",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 43.7,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 45.1,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": false
+  },
+  {
+   "t": 45.1,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 45.3,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Map! Tap it!",
+   "id": "story:s1_2",
+   "dur": 1272,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 46.8,
+   "kind": "story",
+   "who": "sensei",
+   "text": "The map showed a twisty path, deep into the bamboo. Super Ninja crept along, quiet as a mouse.",
+   "id": "story:s1_3",
+   "dur": 7164,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 54.4,
+   "kind": "hold",
+   "text": "story 3/10",
+   "end": 56.6,
+   "how": "next"
+  },
+  {
+   "t": 55.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Your turn to read.",
+   "id": "story_your_turn",
+   "dur": 1327,
+   "route": "level:w1-14",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 55.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 56.6,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": false
+  },
+  {
+   "t": 56.6,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 56.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 56.8,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Tip, tap, tip, tap.",
+   "id": "story:s1_4",
+   "dur": 1601,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 58.6,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Two places to look! Where is the pot hidden?",
+   "id": "story:s1_5",
+   "dur": 2843,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 61.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you choose what happens. Read the two words, and tap one.",
+   "id": "tv_story_choice",
+   "dur": 3817,
+   "route": "level:w1-14",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 62.2,
+   "kind": "turn",
+   "text": "mat",
+   "game": "story"
+  },
+  {
+   "t": 63.7,
+   "kind": "tap",
+   "text": "mat",
+   "busy": false
+  },
+  {
+   "t": 63.7,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 63.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Let's say it the slow way...",
+   "id": "tv_fs_say_slow",
+   "dur": 2311,
+   "route": "level:w1-14",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 66.3,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 659,
+   "show": "tile",
+   "route": "level:w1-14",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 67.3,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 312,
+   "show": "tile",
+   "route": "level:w1-14",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 67.9,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w1-14",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 68.4,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "call"
+  },
+  {
+   "t": 68.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And now, fast...",
+   "id": "tv_fs_now_fast",
+   "dur": 1528,
+   "route": "level:w1-14",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 70.2,
+   "kind": "word",
+   "text": "mat",
+   "id": "word:mat",
+   "dur": 637,
+   "route": "level:w1-14",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 71.3,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 73.2,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": false
+  },
+  {
+   "t": 73.2,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 73.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well read!",
+   "id": "well_read",
+   "dur": 646,
+   "route": "level:w1-14",
+   "mapOn": false
+  },
+  {
+   "t": 74.1,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Pot! Pot on mat!",
+   "id": "story:s1_6",
+   "dur": 1874,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 75.8,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 76.2,
+   "kind": "story",
+   "who": "sensei",
+   "text": "The pandas cheered and gobbled up every last dumpling. And look! Inside the pot was a glowing sound petal.",
+   "id": "story:s1_7",
+   "dur": 7282,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 83.8,
+   "kind": "hold",
+   "text": "story 9/10",
+   "end": 85.6,
+   "how": "next"
+  },
+  {
+   "t": 85,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now a question about the story.",
+   "id": "tv_story_q",
+   "dur": 2094,
+   "route": "level:w1-14",
+   "mapOn": false
+  },
+  {
+   "t": 85,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 87.3,
+   "kind": "story",
+   "who": "sensei",
+   "text": "What did Baron Muddle hide?",
+   "id": "story:s1_q",
+   "dur": 2055,
+   "route": "level:w1-14",
+   "cut": true
+  },
+  {
+   "t": 87.6,
+   "kind": "turn",
+   "text": "pot",
+   "game": "story"
+  },
+  {
+   "t": 89,
+   "kind": "tap",
+   "text": "pot",
+   "busy": false
+  },
+  {
+   "t": 89,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 89.1,
+   "kind": "word",
+   "text": "pot",
+   "id": "word:pot",
+   "dur": 524,
+   "route": "level:w1-14"
+  },
+  {
+   "t": 89.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The end! What a story!",
+   "id": "story_end",
+   "dur": 2400,
+   "route": "level:w1-14",
+   "mapOn": false
+  },
+  {
+   "t": 91.2,
+   "kind": "tap",
+   "text": "pot",
+   "busy": true
+  },
+  {
+   "t": 91.6,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 93.1,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 93.1,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 93.1,
+   "kind": "route",
+   "text": "reward:w1-14"
+  },
+  {
+   "t": 93.1,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 93.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, you got everything right! Grown-ups, if this is too easy, you can jump ahead.",
+   "id": "tv_jump_offer",
+   "dur": 5996,
+   "route": "reward:w1-14",
+   "mapOn": true
+  },
+  {
+   "t": 99.8,
+   "kind": "hold",
+   "text": "reward",
+   "end": 101.7,
+   "how": "next"
+  },
+  {
+   "t": 101.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome to Bamboo Village!",
+   "id": "world_1",
+   "dur": 1916,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 101.1,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 101.7,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 101.7,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 101.7,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 101.7,
+   "kind": "turn",
+   "text": "w1-15",
+   "game": null
+  },
+  {
+   "t": 103.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Next is the boss of Bamboo Village. Tap the glowing stone, if you're ready.",
+   "id": "tv_map_next_boss",
+   "dur": 4555,
+   "route": "map",
+   "mapOn": true
+  }
+ ],
+ "dom": [
+  {
+   "t": 0.2,
+   "nodes": 100,
+   "fx": 0
+  },
+  {
+   "t": 11.7,
+   "nodes": 75,
+   "fx": 0
+  },
+  {
+   "t": 21.7,
+   "nodes": 84,
+   "fx": 0
+  },
+  {
+   "t": 32.1,
+   "nodes": 115,
+   "fx": 0
+  },
+  {
+   "t": 42.1,
+   "nodes": 115,
+   "fx": 0
+  },
+  {
+   "t": 52.6,
+   "nodes": 79,
+   "fx": 0
+  },
+  {
+   "t": 63.7,
+   "nodes": 98,
+   "fx": 0
+  },
+  {
+   "t": 74.1,
+   "nodes": 137,
+   "fx": 0
+  },
+  {
+   "t": 85.6,
+   "nodes": 82,
+   "fx": 0
+  },
+  {
+   "t": 96.2,
+   "nodes": 121,
+   "fx": 0
+  }
+ ],
+ "stones": 1,
+ "navlog": [
+  {
+   "t": 16.4,
+   "kind": "step",
+   "id": "ready:story",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 18.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 18.8,
+   "kind": "ready",
+   "id": "ready:story",
+   "how": "next"
+  },
+  {
+   "t": 18.8,
+   "kind": "step",
+   "id": "ready:story",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 18.8,
+   "kind": "step",
+   "id": "story",
+   "from": null,
+   "to": 0,
+   "via": "next"
+  },
+  {
+   "t": 31.1,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 31.1,
+   "kind": "step",
+   "id": "story",
+   "from": 0,
+   "to": 1,
+   "via": "next"
+  },
+  {
+   "t": 46.8,
+   "kind": "step",
+   "id": "story",
+   "from": 1,
+   "to": 2,
+   "via": "read"
+  },
+  {
+   "t": 55.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 55.8,
+   "kind": "step",
+   "id": "story",
+   "from": 2,
+   "to": 3,
+   "via": "next"
+  },
+  {
+   "t": 58.6,
+   "kind": "step",
+   "id": "story",
+   "from": 3,
+   "to": 4,
+   "via": "read"
+  },
+  {
+   "t": 63.7,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 68.4,
+   "kind": "speed",
+   "which": "fast",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 70.8,
+   "kind": "step",
+   "id": "story",
+   "from": 4,
+   "to": 7,
+   "via": "pick"
+  },
+  {
+   "t": 76.2,
+   "kind": "step",
+   "id": "story",
+   "from": 7,
+   "to": 8,
+   "via": "read"
+  },
+  {
+   "t": 85,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 85,
+   "kind": "step",
+   "id": "story",
+   "from": 8,
+   "to": 9,
+   "via": "next"
+  },
+  {
+   "t": 89.6,
+   "kind": "step",
+   "id": "story",
+   "from": 9,
+   "to": null,
+   "via": "answer"
+  },
+  {
+   "t": 101.1,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "noSplit": [],
+ "streakLines": []
+}

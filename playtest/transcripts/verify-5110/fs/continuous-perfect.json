@@ -1,0 +1,4201 @@
+{
+ "meta": {
+  "persona": "perfect",
+  "from": null,
+  "optin": "none",
+  "fast": 4,
+  "levels": 2,
+  "base": "http://127.0.0.1:5110",
+  "at": "2026-09-28T00:23:16.545Z"
+ },
+ "evs": [
+  {
+   "t": 0.1,
+   "kind": "scene",
+   "text": "title"
+  },
+  {
+   "t": 0.1,
+   "kind": "piece",
+   "text": "title"
+  },
+  {
+   "t": 0.1,
+   "kind": "route",
+   "text": "title"
+  },
+  {
+   "t": 0.1,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 0.2,
+   "kind": "tap",
+   "text": "Start"
+  },
+  {
+   "t": 1.5,
+   "kind": "scene",
+   "text": "film"
+  },
+  {
+   "t": 1.5,
+   "kind": "piece",
+   "text": "intro film"
+  },
+  {
+   "t": 1.5,
+   "kind": "route",
+   "text": "intro"
+  },
+  {
+   "t": 2.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Long ago, on the Island of Sounds, there grew a magic World Flower.",
+   "id": "film_1",
+   "dur": 5196,
+   "route": "intro",
+   "mapOn": true
+  },
+  {
+   "t": 7.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Every petal was a sound. With sounds, we could talk, and read, and sing!",
+   "id": "film_2",
+   "dur": 5202,
+   "route": "intro",
+   "mapOn": false
+  },
+  {
+   "t": 13.5,
+   "kind": "say",
+   "who": "baron",
+   "text": "Words, words, WORDS! How I HATE them!",
+   "id": "film_3",
+   "dur": 5162,
+   "route": "intro",
+   "mapOn": false
+  },
+  {
+   "t": 19,
+   "kind": "say",
+   "who": "baron",
+   "text": "I am Baron Muddle! Every sound on this island is MINE! Mwa-ha-ha-ha!",
+   "id": "film_4",
+   "dur": 7157,
+   "route": "intro",
+   "mapOn": false
+  },
+  {
+   "t": 26.6,
+   "kind": "hold",
+   "text": "film 1/2",
+   "end": 28.4,
+   "how": "next"
+  },
+  {
+   "t": 27.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "When you're ready to see what happens next, tap the green arrow.",
+   "id": "tv_film_arrow",
+   "dur": 3752,
+   "route": "intro",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 27.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 28.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Oh no! The petals blew away, all over the island!",
+   "id": "film_5",
+   "dur": 3888,
+   "route": "intro",
+   "mapOn": false
+  },
+  {
+   "t": 32.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The World Flower has gone dark. Now nobody can read!",
+   "id": "film_6",
+   "dur": 3427,
+   "route": "intro",
+   "mapOn": false
+  },
+  {
+   "t": 36.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "We need a hero. We need... a Super Ninja!",
+   "id": "film_7",
+   "dur": 4330,
+   "route": "intro",
+   "mapOn": false
+  },
+  {
+   "t": 40.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Win back every petal, one sound at a time!",
+   "id": "film_8",
+   "dur": 3449,
+   "route": "intro",
+   "mapOn": false
+  },
+  {
+   "t": 45,
+   "kind": "hold",
+   "text": "film 2/2",
+   "end": 46.8,
+   "how": "next"
+  },
+  {
+   "t": 46.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Hello! I'm Sensei Maple, and I'm going to be your teacher.",
+   "id": "tv_choose_hello",
+   "dur": 4451,
+   "route": "choose",
+   "mapOn": true
+  },
+  {
+   "t": 46.2,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 46.8,
+   "kind": "tap",
+   "text": "kai",
+   "busy": true
+  },
+  {
+   "t": 46.8,
+   "kind": "scene",
+   "text": "choose"
+  },
+  {
+   "t": 46.8,
+   "kind": "piece",
+   "text": "choose"
+  },
+  {
+   "t": 46.8,
+   "kind": "route",
+   "text": "choose"
+  },
+  {
+   "t": 49.2,
+   "kind": "tap",
+   "text": "kai",
+   "busy": true
+  },
+  {
+   "t": 50.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "First, choose your ninja. Will it be Kai, or Suki?",
+   "id": "tv_choose_q",
+   "dur": 3567,
+   "route": "choose",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 51.1,
+   "kind": "turn",
+   "text": "kai",
+   "game": null
+  },
+  {
+   "t": 51.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Great choice!",
+   "id": "chose",
+   "dur": 1261,
+   "route": "choose",
+   "mapOn": false
+  },
+  {
+   "t": 51.7,
+   "kind": "tap",
+   "text": "kai",
+   "busy": false
+  },
+  {
+   "t": 51.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 53.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Baron Muddle took the sounds away. We'll win them back by playing games together.",
+   "id": "tv_choose_why",
+   "dur": 4488,
+   "route": "choose",
+   "mapOn": false
+  },
+  {
+   "t": 57.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Your ninja will play every game with you.",
+   "id": "tv_choose_ninja",
+   "dur": 2611,
+   "route": "choose",
+   "mapOn": false
+  },
+  {
+   "t": 59.7,
+   "kind": "hold",
+   "text": "choose",
+   "end": 61.5,
+   "how": "next"
+  },
+  {
+   "t": 60.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 61.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "First, let's find the right games for you.",
+   "id": "tv_opt_why",
+   "dur": 2489,
+   "route": "optin",
+   "mapOn": true
+  },
+  {
+   "t": 61.5,
+   "kind": "scene",
+   "text": "optin"
+  },
+  {
+   "t": 61.5,
+   "kind": "piece",
+   "text": "opt-in"
+  },
+  {
+   "t": 61.5,
+   "kind": "route",
+   "text": "optin"
+  },
+  {
+   "t": 61.5,
+   "kind": "turn",
+   "text": "teddy",
+   "game": null
+  },
+  {
+   "t": 64.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Do you go to big school yet?",
+   "id": "fm_opt_q1",
+   "dur": 2141,
+   "route": "optin",
+   "mapOn": false
+  },
+  {
+   "t": 66.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "If you don't go yet, tap the teddy.",
+   "id": "tv_opt_notyet",
+   "dur": 2436,
+   "route": "optin",
+   "mapOn": false
+  },
+  {
+   "t": 69.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "If you do, tap the school.",
+   "id": "tv_opt_yes",
+   "dur": 1892,
+   "route": "optin",
+   "mapOn": false
+  },
+  {
+   "t": 72.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Not yet. That's fine.",
+   "id": "tv_opt_echo_notyet",
+   "dur": 1412,
+   "route": "optin",
+   "mapOn": false
+  },
+  {
+   "t": 72.6,
+   "kind": "tap",
+   "text": "teddy"
+  },
+  {
+   "t": 73.2,
+   "kind": "hold",
+   "text": "optin",
+   "end": 75.1,
+   "how": "next"
+  },
+  {
+   "t": 74.5,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 74.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Then we'll start with some listening games, just for you.",
+   "id": "tv_opt_ok_notyet",
+   "dur": 3422,
+   "route": "optin",
+   "mapOn": false
+  },
+  {
+   "t": 75.6,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 78.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Grown-ups, you can change this later in the settings.",
+   "id": "tv_opt_grownups",
+   "dur": 3099,
+   "route": "optin",
+   "mapOn": false
+  },
+  {
+   "t": 81.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now come with me to the dojo. Tap the green arrow.",
+   "id": "tv_opt_to_dojo",
+   "dur": 3624,
+   "route": "optin",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 81.9,
+   "kind": "hold",
+   "text": "optin-confirm",
+   "end": 83.7,
+   "how": "next"
+  },
+  {
+   "t": 83.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome to my dojo. A dojo is a school for ninjas.",
+   "id": "tv_train_hello",
+   "dur": 3861,
+   "route": "training",
+   "mapOn": true
+  },
+  {
+   "t": 83.1,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 83.7,
+   "kind": "scene",
+   "text": "tut-hello"
+  },
+  {
+   "t": 83.7,
+   "kind": "piece",
+   "text": "dojo welcome"
+  },
+  {
+   "t": 83.7,
+   "kind": "route",
+   "text": "training"
+  },
+  {
+   "t": 87.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I'll teach you three ninja tricks. Each one wins a star.",
+   "id": "tv_train_tricks",
+   "dur": 3866,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 91.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Trick one is the gong. Tap it, and your ninja will kick it.",
+   "id": "tv_train_gong",
+   "dur": 4471,
+   "route": "training",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 92.4,
+   "kind": "tap",
+   "text": "gong"
+  },
+  {
+   "t": 93,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Bong! That's your first star.",
+   "id": "tv_train_gong_ok",
+   "dur": 2119,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 93,
+   "kind": "scene",
+   "text": "tut-gong-ok"
+  },
+  {
+   "t": 95.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's trick two. If you're ever stuck, tap me, down here in the corner.",
+   "id": "tv_train_help",
+   "dur": 4368,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 97.1,
+   "kind": "scene",
+   "text": "tut-help-intro"
+  },
+  {
+   "t": 100.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you tap me now?",
+   "id": "tv_train_try_help",
+   "dur": 1530,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 100.4,
+   "kind": "scene",
+   "text": "tut-help"
+  },
+  {
+   "t": 100.4,
+   "kind": "turn",
+   "text": "Help",
+   "game": null
+  },
+  {
+   "t": 103.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it! I'm always here to help.",
+   "id": "fm_help_ok",
+   "dur": 2214,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 103.4,
+   "kind": "tap",
+   "text": "Help"
+  },
+  {
+   "t": 103.4,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 104,
+   "kind": "scene",
+   "text": "tut-help-ok"
+  },
+  {
+   "t": 106,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's trick three, the speaker. First, listen to my little ninja rhyme.",
+   "id": "tv_train_speaker",
+   "dur": 5053,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 107.5,
+   "kind": "scene",
+   "text": "tut-speaker-wait"
+  },
+  {
+   "t": 111.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tip, tap, tiptoe, quiet as a mouse.",
+   "id": "tv_rhyme",
+   "dur": 3636,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 115.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker, and I'll say it again.",
+   "id": "tv_train_hear_again",
+   "dur": 2469,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 115.4,
+   "kind": "scene",
+   "text": "tut-speaker"
+  },
+  {
+   "t": 119.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tip, tap, tiptoe, quiet as a mouse.",
+   "id": "tv_rhyme",
+   "dur": 3636,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 119.1,
+   "kind": "tap",
+   "text": "Hear it again",
+   "nav": "again"
+  },
+  {
+   "t": 119.1,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 119.7,
+   "kind": "scene",
+   "text": "tut-speaker-wait"
+  },
+  {
+   "t": 122.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Three tricks, three stars. Now you're ready for your first game.",
+   "id": "tv_train_done",
+   "dur": 4345,
+   "route": "training",
+   "mapOn": false
+  },
+  {
+   "t": 123,
+   "kind": "scene",
+   "text": "tut-done"
+  },
+  {
+   "t": 127.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's a listening game, called Ninja Ears. Tap the green arrow when you're ready.",
+   "id": "tv_first_game",
+   "dur": 4752,
+   "route": "training",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 127.1,
+   "kind": "hold",
+   "text": "first-game",
+   "end": 129,
+   "how": "next"
+  },
+  {
+   "t": 128.4,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 130.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I'll say a word. Then you find its picture.",
+   "id": "tv_ears_frame",
+   "dur": 2842,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 130.8,
+   "kind": "scene",
+   "text": "warmup"
+  },
+  {
+   "t": 130.8,
+   "kind": "piece",
+   "text": "level (first minutes)"
+  },
+  {
+   "t": 130.8,
+   "kind": "route",
+   "text": "level:w1-wu1"
+  },
+  {
+   "t": 130.8,
+   "kind": "game",
+   "text": "tap"
+  },
+  {
+   "t": 133.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a sock.",
+   "id": "fm_name_sock",
+   "dur": 1271,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 135,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a cat.",
+   "id": "fm_name_cat",
+   "dur": 1328,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 136.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I'll go first. My word is sun... There it is!",
+   "id": "tv_ears_demo",
+   "dur": 4145,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 138.7,
+   "kind": "paw",
+   "text": "W1:sun"
+  },
+  {
+   "t": 140,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 141.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, your ninja is ready. Are you ready too? Tap the green arrow.",
+   "id": "tv_ready_first",
+   "dur": 4248,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 141.3,
+   "kind": "hold",
+   "text": "ready:W1:tap",
+   "end": 146.1,
+   "how": "next"
+  },
+  {
+   "t": 145.5,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 145.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Your word is sock. Can you find the sock?",
+   "id": "tv_your_word_sock",
+   "dur": 3505,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 146.1,
+   "kind": "turn",
+   "text": "sock",
+   "game": "tap"
+  },
+  {
+   "t": 150.4,
+   "kind": "tap",
+   "text": "sock",
+   "busy": false
+  },
+  {
+   "t": 150.4,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 150.9,
+   "kind": "word",
+   "text": "sock",
+   "id": "word:sock",
+   "dur": 559,
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 151.7,
+   "kind": "game",
+   "text": "fastslow"
+  },
+  {
+   "t": 152,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here are my friends, the rabbit and the tortoise.",
+   "id": "tv_ts_meet",
+   "dur": 2750,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 154.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The rabbit says words fast...",
+   "id": "tv_ts_fast",
+   "dur": 1522,
+   "route": "level:w1-wu1",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 154.8,
+   "kind": "paw",
+   "text": "W1:rabbit"
+  },
+  {
+   "t": 156.3,
+   "kind": "word",
+   "text": "sun",
+   "id": "word:sun",
+   "dur": 617,
+   "route": "level:w1-wu1",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 157.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The tortoise says them slowly...",
+   "id": "tv_ts_slow",
+   "dur": 2309,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 157.2,
+   "kind": "paw",
+   "text": "W1:tortoise"
+  },
+  {
+   "t": 159.6,
+   "kind": "stretch",
+   "text": "sun",
+   "id": "stretch:sun",
+   "dur": 1673,
+   "route": "level:w1-wu1",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 161.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Do you want to have a go now? Tap the green arrow. Or tap my paw to see it again.",
+   "id": "tv_ready_paw",
+   "dur": 6086,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 161.5,
+   "kind": "hold",
+   "text": "ready:W1:fastslow",
+   "end": 166.4,
+   "how": "next"
+  },
+  {
+   "t": 165.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 167.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you tap the tortoise, and say it slowly with me.",
+   "id": "fm_tap_tortoise",
+   "dur": 3346,
+   "route": "level:w1-wu1",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 167.6,
+   "kind": "turn",
+   "text": "tortoise",
+   "game": "fastslow"
+  },
+  {
+   "t": 172.4,
+   "kind": "stretch",
+   "text": "sun",
+   "id": "stretch:sun",
+   "dur": 1673,
+   "route": "level:w1-wu1",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 172.4,
+   "kind": "tap",
+   "text": "tortoise",
+   "busy": false
+  },
+  {
+   "t": 174.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Fast or slow, it's the same word. When I say it slowly, I can hear its sounds.",
+   "id": "tv_same_word",
+   "dur": 6336,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 180.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now tap the rabbit, and say it fast.",
+   "id": "fm_tap_rabbit",
+   "dur": 2441,
+   "route": "level:w1-wu1",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 181,
+   "kind": "turn",
+   "text": "rabbit",
+   "game": "fastslow"
+  },
+  {
+   "t": 184.8,
+   "kind": "word",
+   "text": "sun",
+   "id": "word:sun",
+   "dur": 617,
+   "route": "level:w1-wu1",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 184.8,
+   "kind": "tap",
+   "text": "rabbit",
+   "busy": false
+  },
+  {
+   "t": 186.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now let's listen for the very first sound.",
+   "id": "tv_notice_frame",
+   "dur": 2784,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 186.1,
+   "kind": "game",
+   "text": "notice"
+  },
+  {
+   "t": 188.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, your ninja has its ninja ears on. That means listening really carefully.",
+   "id": "tv_ears_on",
+   "dur": 5461,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 194.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the sun, and listen to how it starts.",
+   "id": "tv_tap_hear_sun",
+   "dur": 2737,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 194.7,
+   "kind": "turn",
+   "text": "sun",
+   "game": "notice"
+  },
+  {
+   "t": 198.9,
+   "kind": "onset",
+   "text": "sun",
+   "id": "onset:sun",
+   "dur": 1167,
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 198.9,
+   "kind": "tap",
+   "text": "sun",
+   "busy": false
+  },
+  {
+   "t": 200.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now tap the sock, and listen to how it starts.",
+   "id": "tv_now_tap_hear_sock",
+   "dur": 3428,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 200.8,
+   "kind": "turn",
+   "text": "sock",
+   "game": "notice"
+  },
+  {
+   "t": 205.1,
+   "kind": "onset",
+   "text": "sock",
+   "id": "onset:sock",
+   "dur": 1271,
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 205.1,
+   "kind": "tap",
+   "text": "sock",
+   "busy": false
+  },
+  {
+   "t": 206.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Sun and sock start with the same sound...",
+   "id": "fm_notice_sun_sock",
+   "dur": 3418,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 210.3,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "petal",
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 211.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That sound has its very own petal. Tap the petal, and say the sound with me.",
+   "id": "tv_petal_first",
+   "dur": 5620,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 211.2,
+   "kind": "turn",
+   "text": "petal s",
+   "game": "notice"
+  },
+  {
+   "t": 218.4,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "petal",
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 218.4,
+   "kind": "tap",
+   "text": "petal s",
+   "nav": "sound",
+   "busy": false
+  },
+  {
+   "t": 220.3,
+   "kind": "game",
+   "text": "tapall"
+  },
+  {
+   "t": 220.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "In Pocket Hunt, we find pictures that start with this sound.",
+   "id": "tv_pocket_frame",
+   "dur": 4160,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 224.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I'll find one first.",
+   "id": "tv_pocket_ido",
+   "dur": 1234,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 225.1,
+   "kind": "paw",
+   "text": "W1:sun"
+  },
+  {
+   "t": 225.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Sun starts with...",
+   "id": "fs_sun",
+   "dur": 1761,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 225.9,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 227.9,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "petal",
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 228.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "So into the pocket it goes!",
+   "id": "tv_so_pocket",
+   "dur": 1975,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 230.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you find the other two. Are you ready?",
+   "id": "tv_pocket_ready_two",
+   "dur": 3069,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 230.8,
+   "kind": "hold",
+   "text": "ready:W1:tapall",
+   "end": 235.6,
+   "how": "answer: sock"
+  },
+  {
+   "t": 235,
+   "kind": "tap",
+   "text": "sock",
+   "busy": true
+  },
+  {
+   "t": 235,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 235.3,
+   "kind": "onset",
+   "text": "sock",
+   "id": "onset:sock",
+   "dur": 1271,
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 236.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a sausage.",
+   "id": "fm_name_sausage",
+   "dur": 1865,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 238.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the moon.",
+   "id": "fm_name_moon",
+   "dur": 1529,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 240.6,
+   "kind": "turn",
+   "text": "sausage",
+   "game": "tapall"
+  },
+  {
+   "t": 241.9,
+   "kind": "tap",
+   "text": "sausage",
+   "busy": false
+  },
+  {
+   "t": 241.9,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 242.2,
+   "kind": "onset",
+   "text": "sausage",
+   "id": "onset:sausage",
+   "dur": 1482,
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 244,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You found them both! They both start with...",
+   "id": "fm_found_both",
+   "dur": 3225,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 247.6,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "petal",
+   "route": "level:w1-wu1"
+  },
+  {
+   "t": 248.3,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 248.7,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 249.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's the end of Ninja Ears. Now watch what happens to your pictures.",
+   "id": "tv_w1_end",
+   "dur": 3979,
+   "route": "level:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 250.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 253.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look! Your pictures are turning into stickers!",
+   "id": "fm_rw_look",
+   "dur": 2845,
+   "route": "reward:w1-wu1",
+   "mapOn": true
+  },
+  {
+   "t": 253.6,
+   "kind": "scene",
+   "text": "stickers"
+  },
+  {
+   "t": 253.6,
+   "kind": "piece",
+   "text": "sticker book"
+  },
+  {
+   "t": 253.6,
+   "kind": "route",
+   "text": "reward:w1-wu1"
+  },
+  {
+   "t": 256.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is your Sticker Book! Tap it to open it.",
+   "id": "tv_rw_book",
+   "dur": 3290,
+   "route": "reward:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 259.8,
+   "kind": "turn",
+   "text": "Sticker Book",
+   "game": null
+  },
+  {
+   "t": 261.1,
+   "kind": "tap",
+   "text": "Sticker Book",
+   "busy": false
+  },
+  {
+   "t": 261.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Every picture you play with becomes a sticker.",
+   "id": "tv_rw_every",
+   "dur": 2548,
+   "route": "reward:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 263.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap a sticker, and it will say its word.",
+   "id": "tv_rw_tap",
+   "dur": 2967,
+   "route": "reward:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 267.2,
+   "kind": "turn",
+   "text": "sticker sun",
+   "game": null
+  },
+  {
+   "t": 268.6,
+   "kind": "word",
+   "text": "sun",
+   "id": "word:sun",
+   "dur": 617,
+   "route": "reward:w1-wu1",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 268.6,
+   "kind": "tap",
+   "text": "sticker sun",
+   "busy": false
+  },
+  {
+   "t": 268.6,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "shown": false,
+   "via": "call"
+  },
+  {
+   "t": 269.5,
+   "kind": "stretch",
+   "text": "sun",
+   "id": "stretch:sun",
+   "dur": 1673,
+   "route": "reward:w1-wu1",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 269.5,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "stretch"
+  },
+  {
+   "t": 271.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Fast, then slow, like the rabbit and the tortoise!",
+   "id": "tv_rw_fast_slow",
+   "dur": 3749,
+   "route": "reward:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 275.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Next, we're going to read some pictures, the ninja way. Tap the green arrow when you're ready.",
+   "id": "tv_rw_next",
+   "dur": 5744,
+   "route": "reward:w1-wu1",
+   "mapOn": false
+  },
+  {
+   "t": 279,
+   "kind": "hold",
+   "text": "stickers-intro",
+   "end": 280.9,
+   "how": "next"
+  },
+  {
+   "t": 280.3,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 280.9,
+   "kind": "scene",
+   "text": "level-wait"
+  },
+  {
+   "t": 280.9,
+   "kind": "piece",
+   "text": "level (first minutes)"
+  },
+  {
+   "t": 280.9,
+   "kind": "route",
+   "text": "level:w1-wu2"
+  },
+  {
+   "t": 281.5,
+   "kind": "scene",
+   "text": "warmup"
+  },
+  {
+   "t": 281.5,
+   "kind": "game",
+   "text": "rail"
+  },
+  {
+   "t": 281.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Let's play Ninja Reading. Ninjas always start on this side, and go this way.",
+   "id": "tv_rail_frame",
+   "dur": 5198,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 287.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I'll read them first. Then you read them.",
+   "id": "tv_rail_ido",
+   "dur": 2469,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 289.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Fish... dog. Fish dog!",
+   "id": "fm_read_fish_dog",
+   "dur": 2745,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 293.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you read them. Do you want to have a go?",
+   "id": "tv_rail_ready",
+   "dur": 3366,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 293.2,
+   "kind": "hold",
+   "text": "ready:W2:rail",
+   "end": 298.1,
+   "how": "next"
+  },
+  {
+   "t": 297.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap each picture, starting on this side.",
+   "id": "tv_rail_turn",
+   "dur": 2703,
+   "route": "level:w1-wu2",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 297.5,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 298.1,
+   "kind": "turn",
+   "text": "fish",
+   "game": "rail"
+  },
+  {
+   "t": 299.4,
+   "kind": "word",
+   "text": "fish",
+   "id": "word:fish",
+   "dur": 565,
+   "route": "level:w1-wu2"
+  },
+  {
+   "t": 299.4,
+   "kind": "tap",
+   "text": "fish",
+   "busy": false
+  },
+  {
+   "t": 300,
+   "kind": "turn",
+   "text": "dog",
+   "game": "rail"
+  },
+  {
+   "t": 301.4,
+   "kind": "word",
+   "text": "dog",
+   "id": "word:dog",
+   "dur": 505,
+   "route": "level:w1-wu2"
+  },
+  {
+   "t": 301.4,
+   "kind": "tap",
+   "text": "dog",
+   "busy": false
+  },
+  {
+   "t": 303.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Fish dog!",
+   "id": "fm_pair_fish_dog",
+   "dur": 632,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 304.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "What a silly animal!",
+   "id": "tv_silly",
+   "dur": 1746,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 306.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "When you're ready for the next game, tap the green arrow.",
+   "id": "tv_next_game",
+   "dur": 3345,
+   "route": "level:w1-wu2",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 306.9,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 306.9,
+   "kind": "hold",
+   "text": "W2:next-game",
+   "end": 308.7,
+   "how": "next"
+  },
+  {
+   "t": 308.1,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 308.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's a new game, called Word Squish.",
+   "id": "tv_squish_frame",
+   "dur": 2855,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 308.7,
+   "kind": "game",
+   "text": "compound"
+  },
+  {
+   "t": 311.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I tap the tortoise, and say them slowly. Sun... flower.",
+   "id": "tv_squish_slow",
+   "dur": 5433,
+   "route": "level:w1-wu2",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 311.2,
+   "kind": "paw",
+   "text": "W2:tortoise"
+  },
+  {
+   "t": 316.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Then I tap the rabbit, and squish them. Sunflower!",
+   "id": "tv_squish_fast",
+   "dur": 3965,
+   "route": "level:w1-wu2",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 317,
+   "kind": "paw",
+   "text": "W2:rabbit"
+  },
+  {
+   "t": 320.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Two little words make one big word. Now you make one. Are you ready?",
+   "id": "tv_squish_ready",
+   "dur": 4507,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 321,
+   "kind": "hold",
+   "text": "ready:W2:compound",
+   "end": 325.9,
+   "how": "next"
+  },
+  {
+   "t": 325.3,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 325.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a star.",
+   "id": "fm_name_star",
+   "dur": 1509,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 327.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Star... fish. Tap the rabbit, and say them fast.",
+   "id": "fm_starfish_q",
+   "dur": 4663,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 327.7,
+   "kind": "turn",
+   "text": "rabbit",
+   "game": "compound"
+  },
+  {
+   "t": 334,
+   "kind": "tap",
+   "text": "rabbit",
+   "busy": false
+  },
+  {
+   "t": 336.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Starfish!",
+   "id": "fm_starfish",
+   "dur": 1192,
+   "route": "level:w1-wu2",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 338.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You read the pictures, just like a real reader!",
+   "id": "fm_l2_done",
+   "dur": 3307,
+   "route": "level:w1-wu2",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 338.2,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 338.3,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 339.6,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 341.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Let's put your new pictures in your Sticker Book.",
+   "id": "tv_rw_link_book",
+   "dur": 2838,
+   "route": "level:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 345.1,
+   "kind": "scene",
+   "text": "stickers"
+  },
+  {
+   "t": 345.1,
+   "kind": "piece",
+   "text": "sticker book"
+  },
+  {
+   "t": 345.1,
+   "kind": "route",
+   "text": "reward:w1-wu2"
+  },
+  {
+   "t": 345.7,
+   "kind": "turn",
+   "text": "Sticker Book",
+   "game": null
+  },
+  {
+   "t": 347,
+   "kind": "tap",
+   "text": "Sticker Book",
+   "busy": false
+  },
+  {
+   "t": 349.3,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 350,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Sun, sock, sausage and sunflower. They all start with...",
+   "id": "fm_rw2_s",
+   "dur": 7319,
+   "route": "reward:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 357.5,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "petal",
+   "route": "reward:w1-wu2"
+  },
+  {
+   "t": 358.7,
+   "kind": "hold",
+   "text": "stickers-open 1/2",
+   "end": 360.6,
+   "how": "next"
+  },
+  {
+   "t": 359.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 360.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You found your very first sound! Look, its petal is shining through the mist.",
+   "id": "fm_rw2_petal",
+   "dur": 5319,
+   "route": "reward:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 366,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap your petal, and hear its sound.",
+   "id": "tv_rw2_tap_petal",
+   "dur": 2663,
+   "route": "reward:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 369.2,
+   "kind": "turn",
+   "text": "your petal",
+   "game": null
+  },
+  {
+   "t": 370.5,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "petal",
+   "route": "reward:w1-wu2"
+  },
+  {
+   "t": 370.5,
+   "kind": "tap",
+   "text": "your petal",
+   "nav": "sound",
+   "busy": false
+  },
+  {
+   "t": 371.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the World Flower. Your sounds make it shine.",
+   "id": "tv_rw2_flower",
+   "dur": 3776,
+   "route": "reward:w1-wu2",
+   "mapOn": false
+  },
+  {
+   "t": 375.5,
+   "kind": "hold",
+   "text": "stickers-open 2/2",
+   "end": 382.3,
+   "how": "next"
+  },
+  {
+   "t": 376.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 377.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the map of Bamboo Village. Every stone is a game.",
+   "id": "tv_map_intro",
+   "dur": 4114,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 381.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Your Sticker Book lives here, on the map!",
+   "id": "fm_rw2_map",
+   "dur": 2646,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 382.3,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 382.3,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 382.3,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 382.3,
+   "kind": "turn",
+   "text": "w1-wu3",
+   "game": null
+  },
+  {
+   "t": 384.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And your World Flower lives here.",
+   "id": "tv_map_flower",
+   "dur": 2198,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 385.8,
+   "kind": "tap",
+   "text": "level w1-wu3",
+   "busy": false
+  },
+  {
+   "t": 385.8,
+   "kind": "piece",
+   "text": "stone 1: w1-wu3"
+  },
+  {
+   "t": 387,
+   "kind": "scene",
+   "text": "level-wait"
+  },
+  {
+   "t": 387,
+   "kind": "piece",
+   "text": "level w1-wu3"
+  },
+  {
+   "t": 387,
+   "kind": "route",
+   "text": "level:w1-wu3"
+  },
+  {
+   "t": 388.3,
+   "kind": "scene",
+   "text": "warmup"
+  },
+  {
+   "t": 388.3,
+   "kind": "game",
+   "text": "fastslow"
+  },
+  {
+   "t": 388.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here come the rabbit and the tortoise again.",
+   "id": "tv_ts_again",
+   "dur": 2427,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 391,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a mug.",
+   "id": "fm_name_mug",
+   "dur": 1418,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 392.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The tortoise says it slowly...",
+   "id": "tv_ts_slow_one",
+   "dur": 1888,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 392.6,
+   "kind": "paw",
+   "text": "W3:tortoise"
+  },
+  {
+   "t": 394.5,
+   "kind": "stretch",
+   "text": "mug",
+   "id": "stretch:mug",
+   "dur": 1363,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 395.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you tap the tortoise, and say it slowly with me.",
+   "id": "fm_tap_tortoise",
+   "dur": 3346,
+   "route": "level:w1-wu3",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 396.3,
+   "kind": "turn",
+   "text": "tortoise",
+   "game": "fastslow"
+  },
+  {
+   "t": 400.6,
+   "kind": "stretch",
+   "text": "mug",
+   "id": "stretch:mug",
+   "dur": 1363,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 400.6,
+   "kind": "tap",
+   "text": "tortoise",
+   "busy": false
+  },
+  {
+   "t": 402.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You said it slowly, just like the tortoise.",
+   "id": "tv_praise_slowly",
+   "dur": 3136,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 405.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now tap the rabbit, and say it fast.",
+   "id": "fm_tap_rabbit",
+   "dur": 2441,
+   "route": "level:w1-wu3",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 405.6,
+   "kind": "turn",
+   "text": "rabbit",
+   "game": "fastslow"
+  },
+  {
+   "t": 409.3,
+   "kind": "tap",
+   "text": "rabbit",
+   "busy": false
+  },
+  {
+   "t": 409.4,
+   "kind": "word",
+   "text": "mug",
+   "id": "word:mug",
+   "dur": 582,
+   "route": "level:w1-wu3",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 410.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Let's play Slow Words. I say a word slowly. You find its picture.",
+   "id": "tv_slow_frame",
+   "dur": 5899,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 410.6,
+   "kind": "game",
+   "text": "slowpick"
+  },
+  {
+   "t": 416.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's my slow word...",
+   "id": "tv_slow_demo",
+   "dur": 1949,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 418.5,
+   "kind": "stretch",
+   "text": "mug",
+   "id": "stretch:mug",
+   "dur": 1363,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 418.5,
+   "kind": "paw",
+   "text": "W3:mug"
+  },
+  {
+   "t": 419.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I can hear mug!",
+   "id": "tv_i_hear_mug",
+   "dur": 1521,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 419.9,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 421.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Do you want to have a go now?",
+   "id": "tv_ready_go",
+   "dur": 2438,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 421.7,
+   "kind": "hold",
+   "text": "ready:W3:slowpick",
+   "end": 426.5,
+   "how": "next"
+  },
+  {
+   "t": 425.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 426,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a van.",
+   "id": "fm_name_van",
+   "dur": 1501,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 427.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a bag.",
+   "id": "fm_name_bag",
+   "dur": 1284,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 429.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's your slow word...",
+   "id": "tv_slow_yours",
+   "dur": 2354,
+   "route": "level:w1-wu3",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 432,
+   "kind": "stretch",
+   "text": "van",
+   "id": "stretch:van",
+   "dur": 1612,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 432.1,
+   "kind": "turn",
+   "text": "van",
+   "game": "slowpick"
+  },
+  {
+   "t": 433.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Which picture is it?",
+   "id": "fm_which_pic",
+   "dur": 1339,
+   "route": "level:w1-wu3",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 436.9,
+   "kind": "stretch",
+   "text": "van",
+   "id": "stretch:van",
+   "dur": 1612,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 436.9,
+   "kind": "tap",
+   "text": "van",
+   "busy": false
+  },
+  {
+   "t": 436.9,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 438.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "There's a slow way to say a word, and a fast way.",
+   "id": "tv_fs_two_ways",
+   "dur": 3692,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 442.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now tap the rabbit, and say it fast.",
+   "id": "fm_tap_rabbit",
+   "dur": 2441,
+   "route": "level:w1-wu3",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 443,
+   "kind": "turn",
+   "text": "rabbit",
+   "game": "slowpick"
+  },
+  {
+   "t": 446.8,
+   "kind": "word",
+   "text": "van",
+   "id": "word:van",
+   "dur": 838,
+   "route": "level:w1-wu3",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 446.8,
+   "kind": "tap",
+   "text": "rabbit",
+   "busy": false
+  },
+  {
+   "t": 446.8,
+   "kind": "rabbit",
+   "text": "tap",
+   "how": "tap"
+  },
+  {
+   "t": 448,
+   "kind": "game",
+   "text": "tapall:in"
+  },
+  {
+   "t": 448.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's Pocket Hunt again. This time, the sound is hiding in the middle of the words.",
+   "id": "tv_pocket_middle",
+   "dur": 5417,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 454,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1013,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 455.3,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "petal",
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 455.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's a new sound. Tap its petal, and say it with me.",
+   "id": "tv_new_petal_say",
+   "dur": 3997,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 456.1,
+   "kind": "turn",
+   "text": "petal a",
+   "game": "tapall:in"
+  },
+  {
+   "t": 461.3,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "petal",
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 461.3,
+   "kind": "tap",
+   "text": "petal a",
+   "nav": "sound",
+   "busy": false
+  },
+  {
+   "t": 462.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I'll find one first.",
+   "id": "tv_pocket_ido",
+   "dur": 1234,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 463,
+   "kind": "paw",
+   "text": "W3:cat"
+  },
+  {
+   "t": 463.8,
+   "kind": "stretch",
+   "text": "cat",
+   "id": "stretch:cat",
+   "dur": 881,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 464.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I can hear it in the middle.",
+   "id": "tv_hear_middle",
+   "dur": 2225,
+   "route": "level:w1-wu3",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 466.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "So into the pocket it goes!",
+   "id": "tv_so_pocket",
+   "dur": 1975,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 466.9,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 468.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you find the other three. Are you ready?",
+   "id": "tv_pocket_ready_three",
+   "dur": 2813,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 469.4,
+   "kind": "hold",
+   "text": "ready:W3:tapall:in",
+   "end": 474.2,
+   "how": "next"
+  },
+  {
+   "t": 473.6,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 473.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is some jam.",
+   "id": "fm_name_jam",
+   "dur": 1348,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 475.5,
+   "kind": "turn",
+   "text": "bag",
+   "game": "tapall:in"
+  },
+  {
+   "t": 476.8,
+   "kind": "tap",
+   "text": "bag",
+   "busy": false
+  },
+  {
+   "t": 476.8,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 477.1,
+   "kind": "stretch",
+   "text": "bag",
+   "id": "stretch:bag",
+   "dur": 997,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 478.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The tortoise says each word slowly, one sound at a time.",
+   "id": "tv_fs_tortoise",
+   "dur": 6180,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 484.8,
+   "kind": "turn",
+   "text": "jam",
+   "game": "tapall:in"
+  },
+  {
+   "t": 486.2,
+   "kind": "tap",
+   "text": "jam",
+   "busy": false
+  },
+  {
+   "t": 486.2,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 486.5,
+   "kind": "stretch",
+   "text": "jam",
+   "id": "stretch:jam",
+   "dur": 1264,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 488,
+   "kind": "turn",
+   "text": "van",
+   "game": "tapall:in"
+  },
+  {
+   "t": 489.4,
+   "kind": "tap",
+   "text": "van",
+   "busy": false
+  },
+  {
+   "t": 489.4,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 489.7,
+   "kind": "stretch",
+   "text": "van",
+   "id": "stretch:van",
+   "dur": 1612,
+   "route": "level:w1-wu3",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 491.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You found them all!",
+   "id": "fm_found_all",
+   "dur": 1752,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 493.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "They all have the sound...",
+   "id": "t_they_all_have",
+   "dur": 1643,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 495.4,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "petal",
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 495.6,
+   "kind": "game",
+   "text": "tapall"
+  },
+  {
+   "t": 496.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "One more Pocket Hunt. Find the pictures that start with...",
+   "id": "tv_pocket_more_m",
+   "dur": 4490,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 501,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 537,
+   "show": "petal",
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 501.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's a new sound. Tap its petal, and say it with me.",
+   "id": "tv_new_petal_say",
+   "dur": 3997,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 501.7,
+   "kind": "turn",
+   "text": "petal m",
+   "game": "tapall"
+  },
+  {
+   "t": 507,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 537,
+   "show": "petal",
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 507,
+   "kind": "tap",
+   "text": "petal m",
+   "nav": "sound",
+   "busy": false
+  },
+  {
+   "t": 508.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a map.",
+   "id": "fm_name_map",
+   "dur": 1218,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 510.7,
+   "kind": "turn",
+   "text": "mug",
+   "game": "tapall"
+  },
+  {
+   "t": 512,
+   "kind": "tap",
+   "text": "mug",
+   "busy": false
+  },
+  {
+   "t": 512,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 512.3,
+   "kind": "onset",
+   "text": "mug",
+   "id": "onset:mug",
+   "dur": 1069,
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 513.9,
+   "kind": "turn",
+   "text": "moon",
+   "game": "tapall"
+  },
+  {
+   "t": 515.2,
+   "kind": "tap",
+   "text": "moon",
+   "busy": false
+  },
+  {
+   "t": 515.2,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 515.5,
+   "kind": "onset",
+   "text": "moon",
+   "id": "onset:moon",
+   "dur": 1219,
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 517.1,
+   "kind": "turn",
+   "text": "map",
+   "game": "tapall"
+  },
+  {
+   "t": 518.4,
+   "kind": "tap",
+   "text": "map",
+   "busy": false
+  },
+  {
+   "t": 518.4,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 518.7,
+   "kind": "onset",
+   "text": "map",
+   "id": "onset:map",
+   "dur": 936,
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 519.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You found them all!",
+   "id": "fm_found_all",
+   "dur": 1752,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 521.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "They all start with...",
+   "id": "fm_all_start",
+   "dur": 1590,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 523.7,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 537,
+   "show": "petal",
+   "route": "level:w1-wu3"
+  },
+  {
+   "t": 524.2,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 524.6,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 524.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You heard sounds at the start of words, and in the middle. Super listening!",
+   "id": "tv_w3_done",
+   "dur": 5035,
+   "route": "level:w1-wu3",
+   "mapOn": false
+  },
+  {
+   "t": 526.3,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 530.1,
+   "kind": "scene",
+   "text": "stickers"
+  },
+  {
+   "t": 530.1,
+   "kind": "piece",
+   "text": "sticker book"
+  },
+  {
+   "t": 530.1,
+   "kind": "route",
+   "text": "reward:w1-wu3"
+  },
+  {
+   "t": 530.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "More stickers for your Sticker Book!",
+   "id": "fm_rw_more",
+   "dur": 1831,
+   "route": "reward:w1-wu3",
+   "mapOn": true
+  },
+  {
+   "t": 533.2,
+   "kind": "hold",
+   "text": "stickers-short",
+   "end": 535,
+   "how": "next"
+  },
+  {
+   "t": 534.4,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 534.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Next is a new game, called Sound Dots. Tap the glowing stone to play.",
+   "id": "tv_map_next_dots",
+   "dur": 4909,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 535,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 535,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 535,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 535,
+   "kind": "turn",
+   "text": "w1-wu6",
+   "game": null
+  },
+  {
+   "t": 538.6,
+   "kind": "tap",
+   "text": "level w1-wu6",
+   "busy": false
+  },
+  {
+   "t": 538.6,
+   "kind": "piece",
+   "text": "stone 2: w1-wu6"
+  },
+  {
+   "t": 539.2,
+   "kind": "scene",
+   "text": "level-wait"
+  },
+  {
+   "t": 539.2,
+   "kind": "piece",
+   "text": "level w1-wu6"
+  },
+  {
+   "t": 539.2,
+   "kind": "route",
+   "text": "level:w1-wu6"
+  },
+  {
+   "t": 539.8,
+   "kind": "scene",
+   "text": "warmup"
+  },
+  {
+   "t": 539.8,
+   "kind": "game",
+   "text": "dots"
+  },
+  {
+   "t": 540.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Every dot is one sound in the word.",
+   "id": "tv_dots_frame",
+   "dur": 2468,
+   "route": "level:w1-wu6",
+   "mapOn": false
+  },
+  {
+   "t": 542.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "I start here, and go this way.",
+   "id": "tv_dots_ido",
+   "dur": 2520,
+   "route": "level:w1-wu6",
+   "mapOn": false
+  },
+  {
+   "t": 543,
+   "kind": "paw",
+   "text": "W6:dot 0"
+  },
+  {
+   "t": 545.2,
+   "kind": "paw",
+   "text": "W6:dot 0"
+  },
+  {
+   "t": 545.5,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 546.2,
+   "kind": "paw",
+   "text": "W6:dot 1"
+  },
+  {
+   "t": 546.8,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 270,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 547.1,
+   "kind": "paw",
+   "text": "W6:dot 2"
+  },
+  {
+   "t": 547.7,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 879,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 548.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Then I say the word...",
+   "id": "tv_dots_word_ido",
+   "dur": 1611,
+   "route": "level:w1-wu6",
+   "mapOn": false
+  },
+  {
+   "t": 550.8,
+   "kind": "word",
+   "text": "sun",
+   "id": "word:sun",
+   "dur": 617,
+   "route": "level:w1-wu6",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 551.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you tap the dots, and say the sounds with me. Are you ready?",
+   "id": "tv_dots_ready",
+   "dur": 4315,
+   "route": "level:w1-wu6",
+   "mapOn": false
+  },
+  {
+   "t": 551.5,
+   "kind": "hold",
+   "text": "ready:W6:dots",
+   "end": 556.3,
+   "how": "next"
+  },
+  {
+   "t": 555.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 556.3,
+   "kind": "turn",
+   "text": "dot 0",
+   "game": "dots"
+  },
+  {
+   "t": 557.7,
+   "kind": "tap",
+   "text": "dot 0",
+   "busy": false
+  },
+  {
+   "t": 557.8,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 136,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 558.3,
+   "kind": "turn",
+   "text": "dot 1",
+   "game": "dots"
+  },
+  {
+   "t": 559.6,
+   "kind": "tap",
+   "text": "dot 1",
+   "busy": false
+  },
+  {
+   "t": 559.7,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 560.2,
+   "kind": "turn",
+   "text": "dot 2",
+   "game": "dots"
+  },
+  {
+   "t": 561.6,
+   "kind": "tap",
+   "text": "dot 2",
+   "busy": false
+  },
+  {
+   "t": 561.7,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 562.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now tap the rabbit, and say it fast.",
+   "id": "fm_tap_rabbit",
+   "dur": 2441,
+   "route": "level:w1-wu6",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ],
+   "cut": true
+  },
+  {
+   "t": 562.8,
+   "kind": "turn",
+   "text": "rabbit",
+   "game": "dots"
+  },
+  {
+   "t": 564.1,
+   "kind": "tap",
+   "text": "rabbit",
+   "busy": false
+  },
+  {
+   "t": 564.1,
+   "kind": "rabbit",
+   "text": "tap",
+   "how": "tap"
+  },
+  {
+   "t": 564.5,
+   "kind": "word",
+   "text": "cat",
+   "id": "word:cat",
+   "dur": 560,
+   "route": "level:w1-wu6",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 565.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "If you say the sounds, you can hear the word.",
+   "id": "t_if_you_say_sounds",
+   "dur": 3130,
+   "route": "level:w1-wu6",
+   "mapOn": false
+  },
+  {
+   "t": 569.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is a bus.",
+   "id": "fm_name_bus",
+   "dur": 1234,
+   "route": "level:w1-wu6",
+   "mapOn": false
+  },
+  {
+   "t": 570.9,
+   "kind": "turn",
+   "text": "dot 0",
+   "game": "dots"
+  },
+  {
+   "t": 572.3,
+   "kind": "tap",
+   "text": "dot 0",
+   "busy": false
+  },
+  {
+   "t": 572.4,
+   "kind": "sound",
+   "text": "/b/",
+   "id": "sound:b",
+   "dur": 175,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 572.9,
+   "kind": "turn",
+   "text": "dot 1",
+   "game": "dots"
+  },
+  {
+   "t": 574.2,
+   "kind": "tap",
+   "text": "dot 1",
+   "busy": false
+  },
+  {
+   "t": 574.3,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 270,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 574.9,
+   "kind": "turn",
+   "text": "dot 2",
+   "game": "dots"
+  },
+  {
+   "t": 576.2,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 576.2,
+   "kind": "tap",
+   "text": "dot 2",
+   "busy": false
+  },
+  {
+   "t": 577.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now say the whole word...",
+   "id": "tv_now_say_word",
+   "dur": 1804,
+   "route": "level:w1-wu6",
+   "mapOn": false
+  },
+  {
+   "t": 580.9,
+   "kind": "word",
+   "text": "bus",
+   "id": "word:bus",
+   "dur": 903,
+   "route": "level:w1-wu6",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 582.9,
+   "kind": "turn",
+   "text": "dot 0",
+   "game": "dots"
+  },
+  {
+   "t": 584.3,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 537,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 584.3,
+   "kind": "tap",
+   "text": "dot 0",
+   "busy": false
+  },
+  {
+   "t": 585.5,
+   "kind": "turn",
+   "text": "dot 1",
+   "game": "dots"
+  },
+  {
+   "t": 586.8,
+   "kind": "tap",
+   "text": "dot 1",
+   "busy": false
+  },
+  {
+   "t": 586.9,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 270,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 587.5,
+   "kind": "turn",
+   "text": "dot 2",
+   "game": "dots"
+  },
+  {
+   "t": 588.8,
+   "kind": "tap",
+   "text": "dot 2",
+   "busy": false
+  },
+  {
+   "t": 588.9,
+   "kind": "sound",
+   "text": "/g/",
+   "id": "sound:g",
+   "dur": 190,
+   "show": "petal",
+   "route": "level:w1-wu6",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 591.2,
+   "kind": "word",
+   "text": "mug",
+   "id": "word:mug",
+   "dur": 582,
+   "route": "level:w1-wu6",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 592.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you're ready to find out how we write the sounds!",
+   "id": "fm_l6_done",
+   "dur": 3388,
+   "route": "level:w1-wu6",
+   "mapOn": false
+  },
+  {
+   "t": 592.3,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 592.5,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 593.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 596.2,
+   "kind": "scene",
+   "text": "stickers"
+  },
+  {
+   "t": 596.2,
+   "kind": "piece",
+   "text": "sticker book"
+  },
+  {
+   "t": 596.2,
+   "kind": "route",
+   "text": "reward:w1-wu6"
+  },
+  {
+   "t": 596.8,
+   "kind": "hold",
+   "text": "stickers-short",
+   "end": 598.6,
+   "how": "next"
+  },
+  {
+   "t": 598,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 598.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Next is a new game, called First Sounds. Tap the glowing stone to play.",
+   "id": "tv_map_next_firstsound",
+   "dur": 4976,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 598.6,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 598.6,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 598.6,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 598.6,
+   "kind": "turn",
+   "text": "w1-2",
+   "game": null
+  }
+ ],
+ "dom": [
+  {
+   "t": 0.1,
+   "nodes": 102,
+   "fx": 0
+  },
+  {
+   "t": 10.1,
+   "nodes": 78,
+   "fx": 0
+  },
+  {
+   "t": 20.5,
+   "nodes": 69,
+   "fx": 0
+  },
+  {
+   "t": 30.8,
+   "nodes": 81,
+   "fx": 0
+  },
+  {
+   "t": 41.3,
+   "nodes": 81,
+   "fx": 0
+  },
+  {
+   "t": 51.7,
+   "nodes": 65,
+   "fx": 0
+  },
+  {
+   "t": 62,
+   "nodes": 83,
+   "fx": 0
+  },
+  {
+   "t": 73.2,
+   "nodes": 85,
+   "fx": 0
+  },
+  {
+   "t": 83.7,
+   "nodes": 74,
+   "fx": 0
+  },
+  {
+   "t": 94.9,
+   "nodes": 89,
+   "fx": 0
+  },
+  {
+   "t": 105.2,
+   "nodes": 86,
+   "fx": 0
+  },
+  {
+   "t": 115.4,
+   "nodes": 92,
+   "fx": 0
+  },
+  {
+   "t": 125.5,
+   "nodes": 86,
+   "fx": 0
+  },
+  {
+   "t": 135.7,
+   "nodes": 93,
+   "fx": 0
+  },
+  {
+   "t": 146.1,
+   "nodes": 98,
+   "fx": 0
+  },
+  {
+   "t": 156.6,
+   "nodes": 90,
+   "fx": 0
+  },
+  {
+   "t": 167,
+   "nodes": 126,
+   "fx": 0
+  },
+  {
+   "t": 177.3,
+   "nodes": 101,
+   "fx": 0
+  },
+  {
+   "t": 187.9,
+   "nodes": 106,
+   "fx": 0
+  },
+  {
+   "t": 197.9,
+   "nodes": 95,
+   "fx": 0
+  },
+  {
+   "t": 208.1,
+   "nodes": 138,
+   "fx": 0
+  },
+  {
+   "t": 218.4,
+   "nodes": 110,
+   "fx": 0
+  },
+  {
+   "t": 228.9,
+   "nodes": 134,
+   "fx": 0
+  },
+  {
+   "t": 239.3,
+   "nodes": 142,
+   "fx": 0
+  },
+  {
+   "t": 249.9,
+   "nodes": 136,
+   "fx": 0
+  },
+  {
+   "t": 260.1,
+   "nodes": 128,
+   "fx": 0
+  },
+  {
+   "t": 270.4,
+   "nodes": 167,
+   "fx": 0
+  },
+  {
+   "t": 280.9,
+   "nodes": 39,
+   "fx": 0
+  },
+  {
+   "t": 291.4,
+   "nodes": 118,
+   "fx": 0
+  },
+  {
+   "t": 301.4,
+   "nodes": 134,
+   "fx": 0
+  },
+  {
+   "t": 311.8,
+   "nodes": 133,
+   "fx": 0
+  },
+  {
+   "t": 324.1,
+   "nodes": 157,
+   "fx": 0
+  },
+  {
+   "t": 334.6,
+   "nodes": 123,
+   "fx": 0
+  },
+  {
+   "t": 345.1,
+   "nodes": 85,
+   "fx": 0
+  },
+  {
+   "t": 355.7,
+   "nodes": 198,
+   "fx": 0
+  },
+  {
+   "t": 366.1,
+   "nodes": 298,
+   "fx": 0
+  },
+  {
+   "t": 377.3,
+   "nodes": 283,
+   "fx": 0
+  },
+  {
+   "t": 387.7,
+   "nodes": 39,
+   "fx": 0
+  },
+  {
+   "t": 397.8,
+   "nodes": 128,
+   "fx": 0
+  },
+  {
+   "t": 408,
+   "nodes": 138,
+   "fx": 0
+  },
+  {
+   "t": 418.6,
+   "nodes": 128,
+   "fx": 0
+  },
+  {
+   "t": 429,
+   "nodes": 136,
+   "fx": 0
+  },
+  {
+   "t": 439.3,
+   "nodes": 143,
+   "fx": 0
+  },
+  {
+   "t": 449.9,
+   "nodes": 167,
+   "fx": 0
+  },
+  {
+   "t": 460,
+   "nodes": 171,
+   "fx": 0
+  },
+  {
+   "t": 472.4,
+   "nodes": 193,
+   "fx": 0
+  },
+  {
+   "t": 483,
+   "nodes": 181,
+   "fx": 0
+  },
+  {
+   "t": 493.1,
+   "nodes": 212,
+   "fx": 0
+  },
+  {
+   "t": 503.2,
+   "nodes": 191,
+   "fx": 0
+  },
+  {
+   "t": 513.3,
+   "nodes": 183,
+   "fx": 0
+  },
+  {
+   "t": 523.3,
+   "nodes": 232,
+   "fx": 0
+  },
+  {
+   "t": 535,
+   "nodes": 205,
+   "fx": 0
+  },
+  {
+   "t": 545.3,
+   "nodes": 180,
+   "fx": 0
+  },
+  {
+   "t": 556.3,
+   "nodes": 204,
+   "fx": 0
+  },
+  {
+   "t": 566.6,
+   "nodes": 224,
+   "fx": 0
+  },
+  {
+   "t": 576.8,
+   "nodes": 213,
+   "fx": 0
+  },
+  {
+   "t": 586.8,
+   "nodes": 214,
+   "fx": 0
+  },
+  {
+   "t": 598.6,
+   "nodes": 201,
+   "fx": 0
+  }
+ ],
+ "stones": 2,
+ "navlog": [
+  {
+   "t": 1.2,
+   "kind": "step",
+   "id": "film",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 27.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 27.8,
+   "kind": "step",
+   "id": "film",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 46.2,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 46.2,
+   "kind": "step",
+   "id": "film",
+   "from": 1,
+   "to": null
+  },
+  {
+   "t": 60.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 74.5,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 81.7,
+   "kind": "step",
+   "id": "optin-confirm",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 83.1,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 83.1,
+   "kind": "step",
+   "id": "optin-confirm",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 119.1,
+   "kind": "tap",
+   "nav": "again"
+  },
+  {
+   "t": 127.1,
+   "kind": "step",
+   "id": "first-game",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 128.4,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 128.4,
+   "kind": "step",
+   "id": "first-game",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 138.7,
+   "kind": "paw",
+   "id": "W1:sun"
+  },
+  {
+   "t": 141,
+   "kind": "step",
+   "id": "ready:W1:tap",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 145.5,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 145.5,
+   "kind": "ready",
+   "id": "ready:W1:tap",
+   "how": "next"
+  },
+  {
+   "t": 145.5,
+   "kind": "step",
+   "id": "ready:W1:tap",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 154.8,
+   "kind": "paw",
+   "id": "W1:rabbit"
+  },
+  {
+   "t": 157.2,
+   "kind": "paw",
+   "id": "W1:tortoise"
+  },
+  {
+   "t": 161.2,
+   "kind": "step",
+   "id": "ready:W1:fastslow",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 165.7,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 165.7,
+   "kind": "ready",
+   "id": "ready:W1:fastslow",
+   "how": "next"
+  },
+  {
+   "t": 167.4,
+   "kind": "step",
+   "id": "ready:W1:fastslow",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 225.1,
+   "kind": "paw",
+   "id": "W1:sun"
+  },
+  {
+   "t": 230.6,
+   "kind": "step",
+   "id": "ready:W1:tapall",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 235,
+   "kind": "ready",
+   "id": "ready:W1:tapall",
+   "how": "answer",
+   "label": "sock"
+  },
+  {
+   "t": 235,
+   "kind": "step",
+   "id": "ready:W1:tapall",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 268.6,
+   "kind": "speed",
+   "which": "fast",
+   "via": "call",
+   "shown": false
+  },
+  {
+   "t": 269.5,
+   "kind": "speed",
+   "which": "slow",
+   "via": "stretch",
+   "shown": true
+  },
+  {
+   "t": 275.1,
+   "kind": "step",
+   "id": "stickers-intro",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 280.3,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 280.3,
+   "kind": "step",
+   "id": "stickers-intro",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 293.1,
+   "kind": "step",
+   "id": "ready:W2:rail",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 297.5,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 297.5,
+   "kind": "ready",
+   "id": "ready:W2:rail",
+   "how": "next"
+  },
+  {
+   "t": 297.5,
+   "kind": "step",
+   "id": "ready:W2:rail",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 306.7,
+   "kind": "step",
+   "id": "W2:next-game",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 308.1,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 308.1,
+   "kind": "step",
+   "id": "W2:next-game",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 311.2,
+   "kind": "paw",
+   "id": "W2:tortoise"
+  },
+  {
+   "t": 317,
+   "kind": "paw",
+   "id": "W2:rabbit"
+  },
+  {
+   "t": 320.6,
+   "kind": "step",
+   "id": "ready:W2:compound",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 325.3,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 325.3,
+   "kind": "ready",
+   "id": "ready:W2:compound",
+   "how": "next"
+  },
+  {
+   "t": 325.3,
+   "kind": "step",
+   "id": "ready:W2:compound",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 347.1,
+   "kind": "step",
+   "id": "stickers-open",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 359.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 359.9,
+   "kind": "step",
+   "id": "stickers-open",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 376.7,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 376.7,
+   "kind": "step",
+   "id": "stickers-open",
+   "from": 1,
+   "to": null
+  },
+  {
+   "t": 392.6,
+   "kind": "paw",
+   "id": "W3:tortoise"
+  },
+  {
+   "t": 418.5,
+   "kind": "paw",
+   "id": "W3:mug"
+  },
+  {
+   "t": 421.5,
+   "kind": "step",
+   "id": "ready:W3:slowpick",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 425.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 425.9,
+   "kind": "ready",
+   "id": "ready:W3:slowpick",
+   "how": "next"
+  },
+  {
+   "t": 425.9,
+   "kind": "step",
+   "id": "ready:W3:slowpick",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 446.8,
+   "kind": "rabbit",
+   "how": "tap"
+  },
+  {
+   "t": 463,
+   "kind": "paw",
+   "id": "W3:cat"
+  },
+  {
+   "t": 468.9,
+   "kind": "step",
+   "id": "ready:W3:tapall:in",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 473.6,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 473.6,
+   "kind": "ready",
+   "id": "ready:W3:tapall:in",
+   "how": "next"
+  },
+  {
+   "t": 473.6,
+   "kind": "step",
+   "id": "ready:W3:tapall:in",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 530,
+   "kind": "step",
+   "id": "stickers-short",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 534.4,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 534.4,
+   "kind": "step",
+   "id": "stickers-short",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 543,
+   "kind": "paw",
+   "id": "W6:dot 0"
+  },
+  {
+   "t": 545.2,
+   "kind": "paw",
+   "id": "W6:dot 0"
+  },
+  {
+   "t": 546.2,
+   "kind": "paw",
+   "id": "W6:dot 1"
+  },
+  {
+   "t": 547.1,
+   "kind": "paw",
+   "id": "W6:dot 2"
+  },
+  {
+   "t": 551.4,
+   "kind": "step",
+   "id": "ready:W6:dots",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 555.7,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 555.7,
+   "kind": "ready",
+   "id": "ready:W6:dots",
+   "how": "next"
+  },
+  {
+   "t": 555.7,
+   "kind": "step",
+   "id": "ready:W6:dots",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 564.1,
+   "kind": "rabbit",
+   "how": "tap"
+  },
+  {
+   "t": 595.7,
+   "kind": "step",
+   "id": "stickers-short",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 598,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 598,
+   "kind": "step",
+   "id": "stickers-short",
+   "from": 0,
+   "to": null
+  }
+ ],
+ "noSplit": [],
+ "streakLines": []
+}

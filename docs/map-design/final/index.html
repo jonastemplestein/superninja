@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+<title>Map Redesign Mockup</title>
+<meta name="description" content="A working mockup of the redesigned world map (docs/MAP_DESIGN.md): the glowing stone, the ninja beside it, the idle ladder and the replay question." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Luckiest+Guy&display=block" rel="stylesheet" />
+<!-- the Confirm's own stylesheet, so the question drawn here is the component's look (MAP_DESIGN §3, §7) -->
+<link href="../../../src/styles/confirm.css" rel="stylesheet" />
+<style>
+/* The game's tokens (src/styles.css) */
+:root {
+  --ink: #2b1d14; --ink-soft: #5a4636; --paper: #fff4dc; --paper-2: #f6e3bb; --gold: #ffc53d; --gold-deep: #c98a00; --good: #3fbf6a; --good-deep: #1f7a41;
+  --indigo: #3b3a8f; --blossom: #ff7aa2; --blossom-deep: #d9477a;
+  --font-display: "Luckiest Guy", "Baloo 2", system-ui, sans-serif; --font-ui: "Baloo 2", "Andika", system-ui, sans-serif;
+  --beat: 1.2s; /* one rhythm for the glowing stone, its glow, the ninja and the hand */
+  color-scheme: light;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #1d1230; font-family: var(--font-ui); color: var(--ink); user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+img { -webkit-user-drag: none; user-select: none; }
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
+.viewport { position: fixed; inset: 0; background: radial-gradient(ellipse at center, color-mix(in srgb, var(--world, #6cc04a) 45%, #1d1230) 0%, #1d1230 75%); }
+.stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: 0 0; overflow: hidden; background: #222; contain: layout paint; touch-action: none; }
+.scene { position: absolute; inset: 0; }
+.bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.88) brightness(1.04); pointer-events: none; }
+.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(43, 29, 20, 0.35) 100%); }
+
+/* ---------- the game's round buttons (src/styles.css .btn-round) */
+.btn-round { position: absolute; width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--gold) 45%, var(--gold-deep) 100%); border: 5px solid var(--ink); box-shadow: 0 6px 0 var(--ink); }
+.btn-round svg { width: 54%; height: 54%; }
+.btn-round.calm { background: radial-gradient(circle at 35% 30%, #fffdf6 0%, var(--paper) 55%, #d9c49a 100%); }
+.home { left: 18px; top: 16px; width: 100px; height: 100px; z-index: 88; }
+.gear { right: 18px; top: 18px; background: #d8cfc0; }
+.side { right: 18px; width: 96px; height: 96px; z-index: 8; }
+.side.book { top: 124px; background: radial-gradient(circle at 35% 30%, #ffd9c9 0%, #c9553f 55%, #7a2e2a 100%); }
+.side.book img { width: 92%; height: 92%; object-fit: contain; }
+.side.flower { top: 234px; background: radial-gradient(circle at 35% 30%, #ffe3ee 0%, var(--blossom) 50%, var(--blossom-deep) 100%); }
+/* Sensei's Challenge: no longer gold (the glowing stone is the one gold, glowing, bouncing thing): an indigo disc */
+.side.challenge { top: 344px; background: radial-gradient(circle at 35% 30%, #8e8ce0 0%, var(--indigo) 60%, #22215c 100%); }
+.side.challenge svg { width: 84%; height: 84%; }
+.side.challenge img { position: absolute; width: 50%; right: 4%; top: 2%; rotate: 18deg; filter: drop-shadow(0 3px 0 rgba(43, 29, 20, 0.4)); }
+.again { right: 18px; top: 454px; width: 100px; height: 100px; z-index: 84; }
+.again svg { width: 58%; height: 58%; }
+.help { position: absolute; right: 14px; bottom: 14px; z-index: 85; width: 124px; height: 124px; border-radius: 50%; overflow: visible;
+  background: radial-gradient(circle at 40% 35%, #fff8e6, #ffd98a 70%, #e0a53a); border: 6px solid var(--ink); box-shadow: 0 7px 0 var(--ink), 0 0 0 6px rgba(255, 244, 220, .8); }
+.help img { position: absolute; inset: 5px; width: calc(100% - 10px); height: calc(100% - 10px); border-radius: 50%; object-fit: cover; }
+.help .q { position: absolute; left: -10px; top: -10px; width: 46px; height: 46px; border-radius: 50%; background: var(--good); border: 5px solid var(--ink); color: #fff; font-family: var(--font-display); font-size: 30px; line-height: 38px; text-align: center; text-shadow: 0 2px 0 var(--ink); }
+.help.talking { animation: helptalk .5s ease-in-out infinite alternate; }
+@keyframes helptalk { from { scale: 1; } to { scale: 1.07; } }
+.help .waves { position: absolute; right: 100%; top: 50%; translate: -6px -50%; scale: -1 1; width: 44px; height: 70px; pointer-events: none; opacity: 0; }
+.help.talking .waves { opacity: 1; }
+.help .waves i { position: absolute; inset: 0; animation: wave .9s ease-out infinite; opacity: 0; }
+.help .waves i:nth-child(2) { animation-delay: -.75s; } .help .waves i:nth-child(3) { animation-delay: -.6s; }
+.help .waves svg { width: 100%; height: 100%; fill: none; stroke: #ffc53d; stroke-width: 7; stroke-linecap: round; filter: drop-shadow(0 2px 0 #2b1d14); }
+@keyframes wave { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
+.bubble { position: absolute; right: 18px; bottom: 158px; z-index: 84; width: fit-content; max-width: 460px; padding: 14px 22px; font-weight: 700; font-size: 25px; line-height: 1.2;
+  background: #fffdf6; border: 4px solid var(--ink); border-radius: 26px; box-shadow: 0 6px 0 var(--ink); pointer-events: none; }
+.bubble::before { content: ""; position: absolute; right: 46px; bottom: -19px; width: 30px; height: 30px; background: inherit; border-right: 4px solid var(--ink); border-bottom: 4px solid var(--ink); transform: rotate(45deg); border-radius: 0 0 6px 0; }
+.bubble[hidden] { display: none; }
+
+/* ---------- the banner: the land's name; ◀ ▶ are calm signposts (paper), never gold */
+.banner { position: absolute; top: 18px; left: 0; right: 0; height: 100px; display: flex; justify-content: center; align-items: center; gap: 18px; pointer-events: none; z-index: 8; }
+.banner > * { pointer-events: auto; }
+.banner .btn-round { position: relative; }
+.banner .gap { width: 92px; height: 92px; }
+.panel { background: var(--paper); border: 5px solid var(--ink); border-radius: 28px; box-shadow: 0 8px 0 var(--ink), 0 18px 30px rgba(0, 0, 0, 0.25); padding: 6px 34px; min-width: 460px; text-align: center; }
+.display { font-family: var(--font-display); color: var(--paper); letter-spacing: 2px; -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; text-shadow: 0 6px 0 var(--ink); font-size: 54px; }
+
+/* ---------- the path: walked (solid) up to the ninja, misty ahead */
+.mapx-path { position: absolute; inset: 0; pointer-events: none; }
+.mapx-path .ahead { opacity: .5; }
+
+/* ---------- stones. Each sits in an anchor at its centre (transform: translate), so a walk moves them on the compositor */
+.anchor { position: absolute; left: 0; top: 0; width: 0; height: 0; transition: transform .7s cubic-bezier(.4, 0, .2, 1); }
+.stone { position: absolute; border-radius: 50%; display: grid; place-items: center; }
+.stone .disc { position: relative; border-radius: 50%; display: grid; place-items: center; }
+.stone .disc img { width: 84%; height: 84%; object-fit: contain; }
+/* a finished stone: smaller and calm (the land's colour, a thin rim, no glow, no motion); its tap circle is bigger
+   than its disc (≥ 44 CSS px); a tap asks first (the Confirm) */
+.stone.done .disc { background: radial-gradient(circle at 40% 30%, #fffaf0, var(--land) 78%); border: 4px solid var(--ink); box-shadow: 0 4px 0 var(--ink); }
+.stone.done .disc img { filter: saturate(.8); }
+.stone.done .stars { position: absolute; left: 50%; bottom: -13px; translate: -50% 0; display: flex; padding: 0 4px; border-radius: 12px; background: rgba(255, 244, 220, .92); border: 3px solid var(--ink); }
+.stone.done .stars svg { width: 19px; height: 19px; display: block; }
+.stone.done:active .disc { transform: translateY(3px); }
+/* a locked stone: small, grey and misty; not a button (no taps, no role) */
+.stone.locked { pointer-events: none; }
+.stone.locked .disc { background: radial-gradient(circle at 40% 30%, #eceef4, #a4a8ba); border: 4px solid rgba(43, 29, 20, .62); box-shadow: 0 3px 0 rgba(43, 29, 20, .5); }
+.stone.locked .disc img { filter: grayscale(1) contrast(.9) opacity(.62); }
+.stone.locked .disc::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 45% 70%, rgba(255, 255, 255, .5), rgba(255, 255, 255, .18) 55%, rgba(255, 255, 255, 0) 80%); }
+.stone.locked .lock { position: absolute; right: -9px; bottom: -9px; width: 30px; height: 30px; z-index: 1; }
+.stone.locked.puff .disc { animation: puff .5s ease-out; }
+@keyframes puff { 0% { transform: scale(1); } 30% { transform: scale(.88) rotate(-6deg); } 60% { transform: scale(1.05) rotate(4deg); } 100% { transform: scale(1); } }
+/* the glowing stone: the one gold, glowing, bouncing thing, with its game's picture */
+.stone.next .disc { background: radial-gradient(circle at 40% 30%, #fffbe6, #ffc53d 70%, #c98a00); border: 7px solid var(--ink); box-shadow: 0 8px 0 var(--ink); animation: bounce var(--beat) ease-in-out infinite; will-change: transform; }
+.stone.next .disc img { width: 86%; height: 86%; }
+@keyframes bounce { 0%, 100% { transform: translateY(0) scale(1); } 45% { transform: translateY(-10px) scale(1.05); } 70% { transform: translateY(0) scale(1.02, .98); } }
+.stone.next.flash .disc { animation: flash .6s ease-out, bounce var(--beat) ease-in-out .6s infinite; }
+@keyframes flash { 0% { transform: scale(1); } 35% { transform: scale(1.14); } 100% { transform: scale(1); } }
+/* its light, under the stones and the ninja: slow rays, a halo that breathes on the beat, a ripple every two beats */
+.map-glow { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.map-glow .rays { position: absolute; left: -160px; top: -160px; width: 320px; height: 320px; border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 246, 200, .9) 0deg 8deg, rgba(255, 246, 200, 0) 8deg 22.5deg);
+  -webkit-mask: radial-gradient(closest-side, #000 30%, rgba(0, 0, 0, .6) 60%, transparent 100%); mask: radial-gradient(closest-side, #000 30%, rgba(0, 0, 0, .6) 60%, transparent 100%);
+  animation: rays 18s linear infinite; will-change: transform; }
+@keyframes rays { to { transform: rotate(360deg); } }
+.map-glow .halo { position: absolute; left: -125px; top: -125px; width: 250px; height: 250px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 236, 150, 1), rgba(255, 214, 90, .7) 55%, rgba(255, 214, 90, 0)); animation: halo var(--beat) ease-in-out infinite; will-change: opacity, transform; }
+@keyframes halo { 0%, 100% { opacity: .7; transform: scale(.94); } 45% { opacity: 1; transform: scale(1.04); } }
+.map-glow .ripple { position: absolute; left: calc(var(--s) / -2); top: calc(var(--s) / -2); width: var(--s); height: var(--s); border-radius: 50%; border: 9px solid rgba(255, 220, 110, .95);
+  animation: ripple calc(var(--beat) * 2) ease-out infinite; will-change: transform, opacity; }
+@keyframes ripple { 0% { transform: scale(1); opacity: .95; } 100% { transform: scale(1.75); opacity: 0; } }
+.map-glow.strong .halo { animation-name: halo-strong; }
+@keyframes halo-strong { 0%, 100% { opacity: .9; transform: scale(1); } 45% { opacity: 1; transform: scale(1.18); } }
+.map-glow.strong .ripple { animation-duration: var(--beat); border-width: 12px; }
+.map-glow.burst::after { content: ""; position: absolute; left: -90px; top: -90px; width: 180px; height: 180px; border-radius: 50%; border: 14px solid #fff4b0; animation: burst .7s ease-out forwards; }
+@keyframes burst { from { transform: scale(.6); opacity: 1; } to { transform: scale(2.2); opacity: 0; } }
+
+/* ---------- the pointing hand (MapHand, MAP_DESIGN §5.4): its own element in the scene at z 9 (not inside the stone),
+   placed in stage px with its fingertip on the glowing stone's rim, on the side away from the ninja. Its painted path
+   takes taps while it shows, and a tap plays the level, like the stone. The outer box is placed and rotated (about the
+   fingertip); the inner .tap box carries the tap motion on the stone's beat (an HTML box, so it runs on the compositor) */
+.hand { position: absolute; left: 0; top: 0; z-index: 9; transform-origin: 48% 10%; opacity: 0; transition: opacity .25s; pointer-events: none; }
+.hand.on { opacity: 1; }
+.hand .tap { position: absolute; inset: 0; transform-origin: 48% 10%; animation: taphand var(--beat) ease-in-out infinite; }
+.hand svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.hand.on svg path { pointer-events: visiblePainted; cursor: pointer; }
+@keyframes taphand { 0%, 100% { transform: translateY(9px); } 45% { transform: translateY(0) scale(.96); } 60% { transform: translateY(1px) scale(.98); } }
+
+/* ---------- the child's ninja: beside the glowing stone, facing it, on the path; never over it */
+.ninja { position: absolute; left: 0; top: 0; z-index: 6; transition: transform .9s cubic-bezier(.45, 0, .25, 1); cursor: pointer; }
+.ninja .face { position: absolute; inset: 0; }
+.ninja .bob { position: absolute; inset: 0; transform-origin: 50% 100%; animation: bob var(--beat) ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: scale(1, 1); } 45% { transform: scale(.985, 1.02) translateY(-2px); } }
+.ninja img { position: absolute; left: 0; bottom: 0; width: 100%; filter: drop-shadow(0 5px 3px rgba(43, 29, 20, .35)); transition: opacity .12s; }
+.ninja img.point, .ninja img.run, .ninja img.cheer { opacity: 0; }
+.ninja.pointing img.idle, .ninja.running img.idle, .ninja.cheering img.idle { opacity: 0; }
+.ninja.pointing img.point, .ninja.running img.run, .ninja.cheering img.cheer { opacity: 1; }
+.ninja .shadow { position: absolute; left: 12%; right: 12%; bottom: -8px; height: 18px; border-radius: 50%; background: radial-gradient(closest-side, rgba(43, 29, 20, .45), rgba(43, 29, 20, 0)); }
+.ninja.hop .bob { animation: hop .6s cubic-bezier(.3, .8, .4, 1); }
+@keyframes hop { 0% { transform: translateY(0) scale(1.1, .9); } 35% { transform: translateY(-48px) scale(.95, 1.06); } 70% { transform: translateY(0) scale(1.08, .92); } 100% { transform: none; } }
+.ninja.leap .bob { animation: leap .5s cubic-bezier(.3, .8, .4, 1); }
+@keyframes leap { 0% { transform: translateY(0); } 40% { transform: translateY(-70px); } 100% { transform: translateY(0); } }
+/* the star the ninja throws at the glowing stone (the 16 s rung, Help, a tap on the ninja) */
+.star-fly { position: absolute; left: 0; top: 0; z-index: 10; pointer-events: none; width: 0; height: 0; }
+.star-fly .x { position: absolute; animation: sx .55s linear forwards; }
+.star-fly .y { width: 46px; height: 46px; margin: -23px 0 0 -23px; animation: sy .55s cubic-bezier(.2, .6, .4, 1) forwards; }
+.star-fly svg { width: 100%; height: 100%; animation: spin .55s linear infinite; }
+@keyframes sx { from { transform: translateX(0); } to { transform: translateX(var(--dx)); } }
+@keyframes sy { 0% { transform: translateY(0); } 45% { transform: translateY(calc(var(--dy) * .5 - 70px)); } 100% { transform: translateY(var(--dy)); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- another land: the way back to the ninja is the one glowing thing: "the glowing arrow" (tv_map_away), a gold
+   disc filled by a big arrow pointing towards the child's land, with the ninja's face as a small badge on the side the
+   arrow points to (your ninja is that way). The badge is part of the button */
+.way { position: relative; width: 116px; height: 116px; margin-top: 12px; }
+.way .map-glow { left: 58px; top: 58px; }
+.way .map-glow .rays { left: -130px; top: -130px; width: 260px; height: 260px; }
+.way .map-glow .halo { left: -100px; top: -100px; width: 200px; height: 200px; }
+.way button { position: absolute; inset: 0; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 40% 30%, #fffbe6, #ffc53d 70%, #c98a00); border: 7px solid var(--ink); box-shadow: 0 8px 0 var(--ink); animation: bounce var(--beat) ease-in-out infinite; }
+.way button .arrow { width: 80%; height: 80%; overflow: visible; }
+.way.left button .arrow { transform: scaleX(-1); }
+.way .face { position: absolute; top: -14px; width: 54px; height: 54px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 40% 30%, #fffdf6, var(--paper-2)); border: 5px solid var(--ink); box-shadow: 0 3px 0 var(--ink); }
+.way.right .face { right: -18px; } .way.left .face { left: -18px; }
+.way .face img { position: absolute; left: 50%; top: 2px; width: 150%; translate: -50% 0; }
+
+/* ---------- the Confirm, as the map uses it. It is drawn with the component's own stylesheet (src/styles/confirm.css,
+   linked above) and the DOM that ConfirmView (src/ui/Confirm.tsx) renders, with its layout constants: Sensei's face 168
+   at x 410, the bubble 400 × 272 at x 700, its speaker at x 968; two answers of 216 at x 490 and 830, below the
+   question or above it, away from the tap. One layer at z 87: it dims the map, the side column and Help (z 85), and
+   only Home (z 88) stays above it. The map passes no bubble picture, so the bubble shows Sensei's "?", and the only
+   picture on screen is YES: the old stone's picture ("pic" look). NO is the green ▶ ("next" look: your next game), the
+   safe answer. While it is up, the nav layer shows only Home (a modal entry), so the side column's speaker goes and
+   the question's own speaker says it again. These two rules are the game's (src/styles.css), which confirm.css uses */
+@keyframes popin { from { transform: scale(0.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes taphint { 0%, 100% { transform: translate(0, 0) scale(1); } 45% { transform: translate(-10px, -18px) scale(1.05); } 60% { transform: translate(0, 0) scale(.92); } }
+@keyframes fadein { from { opacity: 0; } }
+.stage.cf-open .again { display: none; }
+.cf-root .nav-again-wrap .btn-round { left: 0; top: 0; }
+
+/* ---------- the "level" veil in the live mockup (a level plays; you win; back to the map) */
+.veil { position: absolute; inset: 0; z-index: 95; display: grid; place-items: center; background: rgba(29, 18, 48, .88); color: var(--paper); font-family: var(--font-display); font-size: 58px; text-align: center; animation: fadein .25s both; }
+.veil small { display: block; font-family: var(--font-ui); font-size: 26px; font-weight: 700; opacity: .8; margin-top: 10px; letter-spacing: 0; }
+.toast { position: absolute; left: 50%; top: 150px; translate: -50% 0; z-index: 96; padding: 10px 22px; border-radius: 18px; background: rgba(29, 18, 48, .9); color: #fff; font-weight: 700; font-size: 24px; pointer-events: none; animation: fadein .2s both; }
+.start { position: absolute; inset: 0; z-index: 97; display: grid; place-items: center; background: rgba(29, 18, 48, .72); color: var(--paper); font-family: var(--font-display); font-size: 64px; text-align: center; cursor: pointer; }
+.start small { display: block; font-family: var(--font-ui); font-size: 24px; font-weight: 700; letter-spacing: 0; margin-top: 8px; }
+
+/* ---------- mockup controls (outside the game; ?clean=1 hides them) */
+.mock { position: fixed; left: 50%; bottom: 2px; translate: -50% 0; z-index: 200; display: flex; gap: 6px; align-items: center; font: 600 11px system-ui, sans-serif; color: #fff; }
+.mock select, .mock button { font: inherit; padding: 2px 6px; border-radius: 8px; border: 1px solid #fff5; background: #2d2046cc; color: #fff; }
+.debug-svg { position: absolute; inset: 0; z-index: 99; pointer-events: none; }
+.debug-note { position: absolute; left: 140px; top: 124px; z-index: 99; padding: 6px 10px; background: rgba(0, 0, 0, .75); color: #fff; font: 600 18px/1.3 ui-monospace, monospace; border-radius: 8px; pointer-events: none; white-space: pre; }
+</style>
+</head>
+<body>
+<div class="viewport" id="vp"><div class="stage" id="stage"></div></div>
+<div class="mock" id="mock"></div>
+<script src="worlds.js"></script>
+<script src="lines.js"></script>
+<script src="layout.js"></script>
+<script>
+// ------------------------------------------------------------------------------------------------ setup
+const Q = new URLSearchParams(location.search);
+const A = Q.get("assets") || "../../../public/a/";
+const img = (n) => `${A}i/${n}.webp`;
+const FAST = +(Q.get("fast") || 1);
+const CHILDREN = { new: "w1-wu3", bamboo: "w1-7", w3: "w3-6" };
+const child = Q.get("child") || "bamboo";
+const hero = Q.get("hero") || "kai";
+const STILL = Q.get("state"); // a still for the screenshots: rest, hint, idle8, idle16, confirm, confirm8, locked, help, away, ninja
+const DEBUG = Q.has("debug");
+const CAPTIONS = Q.get("captions") !== "0";
+const WORLDS = MAP_WORLDS;
+const LEVELS = WORLDS.flatMap((w) => w.levels.map((l) => ({ ...l, world: w.id })));
+// dojo: its own picture, a little dojo hall (MAP_DESIGN §10 decision 7), no longer Sensei, who is also the Help button
+const KIND_ICON = { dojo: "item_dojo", run: "item_gong", swap: "item_scroll", sort: "item_chest", story: "item_lantern", listen: "pic_sun", firstsound: "pic_mat", soundhunt: "pic_pig", ears: "ui_tortoise", picread: "pic_fishdog" };
+const iconOf = (l) => (l.kind === "battle" || l.kind === "boss" ? `mon_${l.monster}` : KIND_ICON[l.kind]);
+// the map previews by stone (TEACHER_SCRIPT §5.8): said once per save, before a game the child has never played
+const PREVIEW = { "w1-wu5": "tv_map_next_sounds", "w1-wu6": "tv_map_next_dots", "w1-2": "tv_map_next_firstsound", "w1-4": "tv_map_next_build", "w1-6": "tv_map_next_battle", "w1-7": "tv_map_next_soundhunt", "w1-8": "tv_map_next_swap", "w1-9": "tv_map_next_run", "w1-14": "tv_map_next_story", "w1-15": "tv_map_next_boss", "w2-1": "tv_map_next_learn", "w6-br1": "tv_map_next_sort" };
+const GAME_NAME = { ears: "Ninja Ears", picread: "Picture Reading", firstsound: "First Sounds", soundhunt: "Sound Hunt", dojo: "the Dojo", battle: "Monster Battle", boss: "the Boss", run: "Ninja Run", swap: "Sound Swap", story: "Story Time", sort: "Sorting" };
+
+let cur = Math.max(0, LEVELS.findIndex((l) => l.id === (Q.get("next") || CHILDREN[child] || "w1-7")));
+const stars = {};
+LEVELS.forEach((l, i) => { if (i < cur) stars[l.id] = l.warmup ? 1 : [3, 3, 2, 3, 3][i % 5]; });
+const curLevel = () => LEVELS[cur];
+let land = +(Q.get("land") || curLevel().world);
+const heard = new Set();
+
+const stage = document.getElementById("stage");
+function fit() {
+  const touch = matchMedia("(pointer: coarse)").matches;
+  const top = touch ? 10 : 0, bottom = touch ? 26 : 0, left = touch ? 8 : 0, right = touch ? 8 : 0;
+  const aw = innerWidth - left - right, ah = innerHeight - top - bottom;
+  const s = Math.min(aw / 1280, ah / 720);
+  stage.style.left = `${left + aw / 2}px`;
+  stage.style.top = `${top + ah / 2}px`;
+  stage.style.transform = `scale(${s}) translate(-50%, -50%)`;
+  window.__scale = s;
+}
+addEventListener("resize", fit);
+fit();
+
+// ------------------------------------------------------------------------------------------------ icons
+const P = 'fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"';
+const ICON = {
+  home: `<svg viewBox="0 0 64 64"><path ${P} fill="#fff4dc" d="M10 30 32 11l22 19v23H40V39H24v14H10z"/></svg>`,
+  back: `<svg viewBox="0 0 64 64"><path ${P} d="M38 14 20 32l18 18"/></svg>`,
+  next: `<svg viewBox="0 0 64 64"><path ${P} d="M26 14l18 18-18 18"/></svg>`,
+  gear: `<svg viewBox="0 0 64 64"><circle ${P} cx="32" cy="32" r="9"/><path ${P} d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l6 6M43 43l6 6M15 49l6-6M43 21l6-6"/></svg>`,
+  speaker: `<svg viewBox="0 0 64 64"><path ${P} fill="#fff4dc" d="M10 25h10l13-11v36L20 39H10z"/><path ${P} d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34"/></svg>`,
+  lock: `<svg viewBox="0 0 64 64"><rect ${P} fill="#fff4dc" x="14" y="28" width="36" height="26" rx="6"/><path ${P} d="M22 28v-8a10 10 0 0 1 20 0v8"/></svg>`,
+  star: (on) => `<svg viewBox="0 0 64 64"><path stroke="#2b1d14" stroke-width="5" stroke-linejoin="round" fill="${on ? "#ffc53d" : "rgba(255,244,220,.5)"}" d="M32 6l7.6 16 17.4 2.2-12.8 12 3.3 17.3L32 45l-15.5 8.5 3.3-17.3L7 24.2 24.4 22z"/></svg>`,
+  again: `<svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M48 34a16 16 0 1 1-6-13M44 10v12H32"/></svg>`,
+  play: `<svg viewBox="0 0 64 64"><path ${P} fill="#fff4dc" d="M22 12l30 20-30 20z"/></svg>`,
+  hand: `<svg viewBox="0 0 64 64"><path d="M26 30V12a5 5 0 0 1 10 0v16l3-1a5 5 0 0 1 6 3l1 1a5 5 0 0 1 6 4v8c0 9-6 16-15 16h-3c-6 0-10-3-13-8l-7-11a4 4 0 0 1 6-5l6 6z" fill="#fff4dc" stroke="#2b1d14" stroke-width="4" stroke-linejoin="round"/></svg>`,
+  // the way back's big arrow (points right; the left one is mirrored)
+  wayArrow: `<svg class="arrow" viewBox="0 0 64 64"><path d="M8 23h24V10l24 22-24 22V41H8z" fill="#fff4dc" stroke="#2b1d14" stroke-width="5" stroke-linejoin="round"/></svg>`,
+  flower: `<svg viewBox="-60 -60 120 120">${["#e8312f", "#f7a23b", "#f3c74a", "#2fa65a", "#2ec4b6", "#4a7dff", "#8a3be0", "#f0226b"].map((c, i) => `<path d="M0,20 C-2.88,11.2 -12,2.4 -12,-8 A12,12 0 0 1 12,-8 C12,2.4 2.88,11.2 0,20 Z" transform="rotate(${i * 45}) translate(0 -34)" fill="${c}" stroke="#2b1d14" stroke-width="4"/>`).join("")}<circle r="17" fill="#ffc53d" stroke="#2b1d14" stroke-width="5"/></svg>`,
+  target: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="#fff4dc" stroke="#2b1d14" stroke-width="4"/><circle cx="32" cy="32" r="18.5" fill="#e8453c" stroke="#2b1d14" stroke-width="3"/><circle cx="32" cy="32" r="11" fill="#fff4dc" stroke="#2b1d14" stroke-width="3"/><circle cx="32" cy="32" r="4.5" fill="#e8453c" stroke="#2b1d14" stroke-width="2.5"/></svg>`,
+  wave: `<svg viewBox="0 0 44 70"><path d="M8 12c14 12 14 34 0 46"/></svg>`,
+};
+const h = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstChild; };
+
+// ------------------------------------------------------------------------------------------------ speech
+const audio = new Audio();
+let speaking = false, sayToken = 0;
+let CF = null; // the replay question while it is up (askReplay)
+const bubble = () => document.getElementById("bubble");
+function caption(id) {
+  const b = bubble();
+  if (!b) return;
+  if (!id || !CAPTIONS || CF) { b.hidden = true; return; } // (under the question, its own caption is in its bubble)
+  b.textContent = MAP_LINES[id] ?? id;
+  b.hidden = false;
+}
+function talking(on) {
+  document.querySelector(".help")?.classList.toggle("talking", on && !CF);
+  document.querySelector(".cf-face")?.classList.toggle("talking", on && !!CF); // under the question, Sensei's face talks
+}
+async function say(ids) {
+  const my = ++sayToken;
+  speaking = true;
+  for (const id of [].concat(ids)) {
+    if (my !== sayToken) return false;
+    if (typeof id === "number") { await wait(id); continue; }
+    caption(id);
+    talking(true);
+    (window.__said ??= []).push({ t: Math.round(performance.now()), id });
+    await new Promise((res) => {
+      audio.src = `${A}l/${id}.mp3`;
+      audio.playbackRate = FAST; // (&fast=N speeds speech too, as the game's FAST does)
+      audio.onended = audio.onerror = () => res();
+      audio.onplaying = () => CF?.onClip(id, (audio.duration || 0) * 1000); // the question spotlights each answer as it's named
+      audio.play().catch(() => setTimeout(res, 2200 / FAST));
+    });
+    talking(false);
+  }
+  if (my !== sayToken) return false;
+  speaking = false;
+  setTimeout(() => { if (!speaking) caption(null); }, 600);
+  ladder.spoke();
+  return true;
+}
+function hush() { sayToken++; audio.pause(); speaking = false; talking(false); caption(null); }
+const wait = (ms) => new Promise((r) => setTimeout(r, ms / FAST));
+
+// ------------------------------------------------------------------------------------------------ the idle ladder
+// NAVIGATION.md §3.2 on the map: 8 s the glow grows and the hand comes; 16 s "The glowing stone is your next game…"
+// and the ninja throws a star at it; 40 s the line once more; then quiet. Any tap starts it again; speech pauses it.
+const ladder = {
+  t: 0, rung: 0, timer: 0, on: false,
+  start() { this.on = true; this.rung = 0; this.t = performance.now(); this.arm(); },
+  stop() { this.on = false; clearTimeout(this.timer); },
+  reset() { if (!this.on) return; this.rung = 0; this.t = performance.now(); setGlow(false); showHand(false); this.arm(); },
+  spoke() { if (this.on) { this.t = performance.now() - [0, 8000, 16000, 40000][this.rung] / FAST; this.arm(); } },
+  arm() {
+    clearTimeout(this.timer);
+    const at = [8000, 16000, 40000][this.rung];
+    if (at == null) return;
+    const due = this.t + at / FAST - performance.now();
+    this.timer = setTimeout(() => {
+      if (speaking) { this.timer = setTimeout(() => this.arm(), 300); return; }
+      this.rung++;
+      window.__rung = [0, 8, 16, 40][this.rung];
+      if (!isHere()) { this.rung === 1 ? showHand(true, "way") : say("tv_map_away"); return this.arm(); }
+      if (this.rung === 1) { setGlow(true); showHand(true); ninjaPoint(); }
+      else { ninjaStar(); say("tv_map_hint"); }
+      this.arm();
+    }, Math.max(0, due));
+  },
+};
+
+// ------------------------------------------------------------------------------------------------ the map
+let L = null; // the current layout
+const els = {};
+const isHere = () => land === curLevel().world;
+function stateOf(worldLevels) {
+  return (i) => {
+    const g = LEVELS.findIndex((l) => l.id === worldLevels[i].id);
+    return g < cur ? "done" : g === cur ? "next" : "locked";
+  };
+}
+function build() {
+  hush();
+  ladder.stop();
+  stage.innerHTML = "";
+  const w = WORLDS[land - 1];
+  document.getElementById("vp").style.setProperty("--world", w.colour);
+  const scene = h(`<div class="scene map" style="--land:${w.colour}"></div>`);
+  stage.append(scene);
+  scene.append(h(`<img class="bg-img" src="${img(`bg_${w.key}`)}" alt="">`), h(`<div class="vignette"></div>`));
+  L = MapLayout.layout(w.levels, stateOf(w.levels));
+  // the path
+  const pd = MapLayout.pathD(L);
+  const strokes = (d, cls) => d ? `<g class="${cls}"><path d="${d}" fill="none" stroke="rgba(43,29,20,.55)" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#f6e3bb" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="#2b1d14" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 22" opacity=".5"/></g>` : "";
+  scene.append(h(`<svg class="mapx-path" width="1280" height="720">${strokes(pd.ahead, "ahead")}${strokes(pd.walked, "walked")}</svg>`));
+  // the glowing stone's light (under everything else on the map)
+  if (L.next) {
+    els.glow = h(`<div class="map-glow" style="--s:${L.next.size}px; transform: translate(${L.next.x}px, ${L.next.y}px); z-index:4"><div class="rays"></div><div class="halo"></div><div class="ripple"></div></div>`);
+    scene.append(els.glow);
+  }
+  // the stones
+  els.stones = {};
+  for (const s of L.stones) {
+    const a = h(`<div class="anchor" style="transform: translate(${s.x}px, ${s.y}px); z-index:${s.state === "next" ? 7 : 5}"></div>`);
+    const tag = s.state === "locked" ? "div" : "button";
+    const sz = s.hit || s.size; // the tap circle (a finished stone's is bigger than its disc; the glowing stone's has a ring)
+    const st = stars[s.id] && !s.warmup ? `<span class="stars">${[1, 2, 3].map((k) => ICON.star(k <= stars[s.id])).join("")}</span>` : "";
+    const el = h(`<${tag} class="stone ${s.state}" ${tag === "button" ? `aria-label="level ${s.id}"` : `aria-hidden="true" data-level="${s.id}"`} ${s.state === "next" ? "data-map-next" : s.state === "done" ? "data-map-done" : "data-map-locked"} style="left:${-sz / 2}px; top:${-sz / 2}px; width:${sz}px; height:${sz}px">
+      <span class="disc" style="width:${s.size}px; height:${s.size}px"><img src="${img(iconOf(s))}" alt="">${s.state === "locked" ? `<span class="lock">${ICON.lock}</span>` : ""}${s.state === "done" ? st : ""}</span></${tag}>`);
+    a.append(el);
+    scene.append(a);
+    els.stones[s.id] = el;
+    if (s.state === "next") el.addEventListener("pointerdown", (e) => { e.stopPropagation(); play(); });
+    if (s.state === "done") el.addEventListener("pointerdown", (e) => { e.stopPropagation(); askReplay(s, e); });
+  }
+  // the hand (MapHand, MAP_DESIGN §5.4): its own element in the scene at z 9, placed in stage px with its fingertip on
+  // the stone's rim; its painted path takes taps while it shows, and a tap plays, like the stone
+  if (L.next && L.hand) {
+    const H = L.hand;
+    els.hand = h(`<div class="hand" data-map-hand style="width:${H.size}px; height:${H.size}px; transform: translate(${H.tip.x - 0.48 * H.size}px, ${H.tip.y - 0.1 * H.size}px) rotate(${H.rot}deg)"><div class="tap">${ICON.hand}</div></div>`);
+    els.hand.addEventListener("pointerdown", (e) => { e.stopPropagation(); play(); });
+    scene.append(els.hand);
+  }
+  // the ninja: beside the glowing stone, facing it
+  if (L.ninja) {
+    const N = L.ninja;
+    els.ninja = h(`<div class="ninja" data-map-ninja style="width:${N.w}px; height:${N.h}px; transform: translate(${N.box.l}px, ${N.box.t}px)">
+      <div class="shadow"></div><div class="face" style="transform: scaleX(${N.face})"><div class="bob">
+      <img class="idle" src="${img(`hero_${hero}_idle`)}" alt=""><img class="point" src="${img(`hero_${hero}_throw`)}" alt=""><img class="run" src="${img(`hero_${hero}_run`)}" alt=""><img class="cheer" src="${img(`hero_${hero}_cheer`)}" alt="">
+      </div></div></div>`);
+    els.ninja.addEventListener("pointerdown", (e) => { e.stopPropagation(); ladder.reset(); ninjaPoint(); ninjaStar(); flashStone(); hintOnce(); });
+    scene.append(els.ninja);
+  }
+  // the banner: ◀ and ▶ are calm signposts; on another land, the way back to the ninja glows instead
+  const banner = h(`<div class="banner"></div>`);
+  const prevOpen = land > 1, nextOpen = land < WORLDS.length && LEVELS.findIndex((l) => l.id === WORLDS[land].levels[0].id) <= cur;
+  const wayLeft = !isHere() && curLevel().world < land, wayRight = !isHere() && curLevel().world > land;
+  banner.append(wayLeft ? wayBtn("left") : prevOpen ? arrowBtn("previous land", ICON.back, () => page(-1)) : h(`<span class="gap"></span>`));
+  banner.append(h(`<div class="panel" style="background:${w.colour}"><span class="display">${w.name}</span></div>`));
+  banner.append(wayRight ? wayBtn("right") : nextOpen ? arrowBtn("next land", ICON.next, () => page(1)) : h(`<span class="gap"></span>`));
+  scene.append(banner);
+  // the side column (as today, but Sensei's Challenge is indigo, not gold) and the corners
+  const side = (cls, label, inner, fn) => { const b = h(`<button class="btn-round side ${cls}" aria-label="${label}">${inner}</button>`); b.addEventListener("pointerdown", (e) => { e.stopPropagation(); ladder.reset(); fn(); }); scene.append(b); };
+  side("book", "Sticker Book", `<img src="${img("item_sticker_book")}" alt="">`, () => toast("the Sticker Book"));
+  side("flower", "World Flower", ICON.flower, () => toast("the World Flower"));
+  if (cur >= LEVELS.findIndex((l) => l.id === "w1-4")) side("challenge", "Sensei's Challenge", `${ICON.target}<img src="${img("item_shuriken")}" alt="">`, () => toast("Sensei's Challenge (a review level)"));
+  const gear = h(`<button class="btn-round gear" aria-label="Grown-ups (hold)">${ICON.gear}</button>`);
+  gear.addEventListener("pointerdown", (e) => { e.stopPropagation(); toast("Grown-ups: press and hold"); });
+  scene.append(gear);
+  // the nav layer's controls (gold everywhere in the game: Home, Hear it again) and Sensei's Help
+  const home = h(`<button class="btn-round home" data-nav="home" aria-label="Home">${ICON.home}</button>`);
+  home.addEventListener("pointerdown", (e) => { e.stopPropagation(); if (CF) { CF.tap("home"); return; } toast("Home → the title (nothing lost: no question)"); });
+  const again = h(`<button class="btn-round again" data-nav="again" aria-label="Hear it again">${ICON.speaker}</button>`);
+  again.addEventListener("pointerdown", (e) => { e.stopPropagation(); ladder.reset(); say(arrival.length ? arrival : [isHere() ? "tv_map_hint" : "tv_map_away"]); });
+  const help = h(`<button class="help" aria-label="Help"><img src="${img("sensei_face_idle")}" alt=""><span class="q">?</span><span class="waves"><i>${ICON.wave}</i><i>${ICON.wave}</i><i>${ICON.wave}</i></span></button>`);
+  help.addEventListener("pointerdown", (e) => { e.stopPropagation(); ladder.reset(); doHelp(); });
+  scene.append(home, again, help, h(`<div class="bubble" id="bubble" hidden></div>`));
+  // a tap anywhere else on the map (the background, a locked stone, the huts) shows the way
+  scene.addEventListener("pointerdown", (e) => { ladder.reset(); showTheWay(e); });
+  window.__snState = snState();
+  if (DEBUG) drawDebug(scene);
+}
+function arrowBtn(label, icon, fn) {
+  const b = h(`<button class="btn-round calm" aria-label="${label}">${icon}</button>`);
+  b.addEventListener("pointerdown", (e) => { e.stopPropagation(); fn(); });
+  return b;
+}
+function wayBtn(side) {
+  const wrap = h(`<div class="way ${side}"><div class="map-glow" style="--s:116px"><div class="rays"></div><div class="halo"></div><div class="ripple"></div></div>
+    <button aria-label="back to your ninja" data-map-way>${ICON.wayArrow}<span class="face"><img src="${img(`hero_${hero}_idle`)}" alt=""></span></button>
+    <div class="hand" style="width:100px; height:100px; left:${side === "right" ? 30 : 0}px; top:100px; transform: rotate(${side === "right" ? -20 : 20}deg)"><div class="tap">${ICON.hand}</div></div></div>`);
+  wrap.querySelector("button").addEventListener("pointerdown", (e) => { e.stopPropagation(); land = curLevel().world; build(); arrive([]); });
+  els.way = wrap;
+  return wrap;
+}
+function snState() {
+  const s = window.__scale || 1;
+  return {
+    scene: "map", world: land, next: curLevel().id, here: isHere(),
+    target: L.next ? { x: L.next.x, y: L.next.y, r: L.next.size / 2 } : null,
+    ninja: L.ninja ? L.ninja.box : null,
+    way: isHere() ? "stone" : curLevel().world > land ? "forward" : "back",
+    rung: window.__rung ?? 0, confirm: CF ? { id: "replay", ready: CF.ready() } : null, scale: s,
+  };
+}
+
+// ------------------------------------------------------------------------------------------------ behaviours
+let arrival = [];
+function setGlow(on) { els.glow?.classList.toggle("strong", on); }
+function showHand(on, where) {
+  const hd = where === "way" ? els.way?.querySelector(".hand") : els.hand;
+  hd?.classList.toggle("on", on);
+}
+function ninjaPoint(ms = 1600) {
+  const n = els.ninja;
+  if (!n) return;
+  n.classList.add("pointing");
+  clearTimeout(n._pt);
+  n._pt = setTimeout(() => n.classList.remove("pointing"), ms / FAST);
+}
+function ninjaStar() {
+  if (!L.ninja || !L.next) return;
+  const N = L.ninja, nx = L.next;
+  const hx = N.face > 0 ? N.box.r - 8 : N.box.l + 8, hy = N.box.t + N.h * 0.42;
+  els.ninja.classList.remove("leap"); void els.ninja.offsetWidth; els.ninja.classList.add("leap");
+  ninjaPoint();
+  const s = h(`<div class="star-fly" style="transform: translate(${hx}px, ${hy}px); --dx:${nx.x - hx}px; --dy:${nx.y - hy}px"><div class="x"><div class="y">${ICON.star(true)}</div></div></div>`);
+  stage.querySelector(".scene").append(s);
+  setTimeout(() => { s.remove(); flashStone(); }, 560);
+}
+function flashStone() {
+  const el = document.querySelector(".stone.next");
+  if (!el) return;
+  el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+  els.glow?.classList.remove("burst"); void els.glow?.offsetWidth; els.glow?.classList.add("burst");
+}
+let lastHint = -1e9;
+function hintOnce(id = "tv_map_hint") {
+  if (speaking || performance.now() - lastHint < 8000 / FAST) return;
+  lastHint = performance.now();
+  say(isHere() ? id : "tv_map_away");
+}
+function showTheWay(e) {
+  if (CF) return;
+  if (!isHere()) { showHand(true, "way"); hintOnce(); return; }
+  const r = stage.getBoundingClientRect(), s = r.width / 1280;
+  const x = (e.clientX - r.left) / s, y = (e.clientY - r.top) / s;
+  const locked = L.stones.find((st) => st.state === "locked" && Math.hypot(st.x - x, st.y - y) <= st.size / 2 + 6);
+  if (locked) {
+    const el = document.querySelector(`[data-level="${locked.id}"]`);
+    el.classList.remove("puff"); void el.offsetWidth; el.classList.add("puff");
+  }
+  flashStone();
+  showHand(true);
+  ninjaPoint();
+  hintOnce(locked ? "tv_map_locked" : "tv_map_hint");
+}
+let helpN = 0;
+function doHelp() {
+  helpN++;
+  if (!isHere()) { showHand(true, "way"); say("tv_map_away"); return; }
+  showHand(true); setGlow(true); ninjaPoint(); flashStone();
+  if (helpN > 1) ninjaStar();
+  say(helpN === 1 ? ["tv_map_help"] : ["tv_map_help", 250, "tv_map_hint"]);
+}
+function toast(t) {
+  const el = h(`<div class="toast">${t}</div>`);
+  stage.append(el);
+  setTimeout(() => el.remove(), 1800);
+}
+function page(d) { land = Math.min(WORLDS.length, Math.max(1, land + d)); build(); arrive([`world_${land}`]); }
+
+// ------------------------------------------------------------------------------------------------ the replay question
+// The map calls confirmWith() (src/ui/Confirm.tsx; MAP_DESIGN §7). This draws what its ConfirmView draws, with its own
+// stylesheet (src/styles/confirm.css) and its layout constants (mirrored in CFK below), and keeps its rules:
+// - YES is the old stone's picture in a cream circle (216, left); NO is the green ▶ (252, right, where Next lives), the
+//   safe answer, with the child's ninja beside it giving a thumbs up. The bubble shows Sensei's "?", because the map
+//   gives its stone's picture to YES and the component never draws the same picture twice;
+// - taps on the answers are ignored for 700 ms; Home is ignored for 2.5 s and then counts as NO (the map's question:
+//   Home stays on the map);
+// - a tap off the answers (the backdrop, Sensei's face, her bubble) shows the way: the hand and the glow come onto NO,
+//   and Sensei names the answers again if she is quiet (at most every 6 s); the dimmed Help corner is Help;
+// - the idle ladder, in quiet time: 8 s NO glows and hops with the hand on it; 16 s the question again; 40 s it closes as
+//   NO (the map stays as it was). Any tap starts it again;
+// - each answer is spotlit as Sensei names it ("the picture", "the green arrow"), and says what it does when tapped.
+const CFK = { yes: { x: 480, d: 216 }, no: { x: 830, d: 252 }, ansY: { low: 540, high: 206 }, askY: { low: 196, high: 522 }, face: { x: 400, d: 168 }, bubble: { x: 680, w: 300, h: 210 }, speaker: { x: 930, d: 100 }, ninjaW: 150 };
+/** when a word is first said in a line, in ms from the clip's start: estimated from the text, as Confirm.tsx does
+ *  without measured word times (letters, with a pause at each full stop or comma) */
+function wordMs(id, words, durMs) {
+  const toks = (MAP_LINES[id] ?? "").split(/\s+/).filter(Boolean);
+  const norm = (t) => t.toLowerCase().replace(/[^a-z']/g, "");
+  const i = toks.findIndex((t) => words.includes(norm(t)));
+  if (i < 0) return null;
+  const weight = (t) => t.replace(/[^A-Za-z']/g, "").length + (/[.!?…]$/.test(t) ? 7 : /[,;:]$/.test(t) ? 3 : 1);
+  const all = toks.reduce((n, t) => n + weight(t), 0), before = toks.slice(0, i).reduce((n, t) => n + weight(t), 0);
+  return all ? (durMs * before) / all : null;
+}
+function askReplay(s, e, opts = {}) {
+  ladder.stop();
+  hush();
+  const r = stage.getBoundingClientRect(), sc = r.width / 1280;
+  const tap = e ? { x: (e.clientX - r.left) / sc, y: (e.clientY - r.top) / sc } : null;
+  // pickLayout(): the answers go where the tap wasn't (the layout whose nearest answer's edge is farthest from it)
+  const slotsOf = (lay) => ({ yes: { x: CFK.yes.x, y: CFK.ansY[lay] }, no: { x: CFK.no.x, y: CFK.ansY[lay] } });
+  const clear = (lay) => { const q = slotsOf(lay); return Math.min(Math.hypot(q.yes.x - tap.x, q.yes.y - tap.y) - CFK.yes.d / 2, Math.hypot(q.no.x - tap.x, q.no.y - tap.y) - CFK.no.d / 2); };
+  const lay = !tap ? "low" : clear("high") > clear("low") + 1 ? "high" : "low";
+  const sl = slotsOf(lay), askY = CFK.askY[lay];
+  const q1 = `tv_map_replay_${s.kind}`;
+  const ask = [q1, 250, "tv_map_replay_how"];
+  // (its caption is the game's grown-ups setting, off by default, as a child sees it: &captions=1 shows it)
+  const cap = Q.get("captions") === "1" ? `${MAP_LINES[q1] ?? ""} ${MAP_LINES.tv_map_replay_how}` : "";
+  const at = (x, y, w, hh = w) => `left:${x - w / 2}px; top:${y - hh / 2}px; width:${w}px; height:${hh}px`;
+  const root = h(`<div class="cf-root ${lay} guard" role="dialog" aria-modal="true" aria-label="Sensei is asking" data-modal data-confirm-id="replay">
+    <div class="cf-dim"></div>
+    <button class="cf-face" aria-label="Sensei" style="${at(CFK.face.x, askY, CFK.face.d)}"><img src="${img("sensei_mouth_base")}" alt=""><img class="cf-m cf-m1" src="${img("sensei_mouth_ah")}" alt=""><img class="cf-m cf-m2" src="${img("sensei_mouth_oh")}" alt=""></button>
+    <div class="cf-bubble" data-confirm-bubble style="${at(CFK.bubble.x, askY, CFK.bubble.w, CFK.bubble.h)}"><span class="cf-q">?</span>${cap ? `<span class="cf-cap">${cap}</span>` : ""}</div>
+    <div class="nav-again-wrap cf-speaker" style="${at(CFK.speaker.x, askY, CFK.speaker.d)}"><button class="btn-round nav-again" data-nav="again" aria-label="Hear it again" style="width:${CFK.speaker.d}px; height:${CFK.speaker.d}px">${ICON.speaker}</button></div>
+    <div class="cf-ans no" style="${at(sl.no.x, sl.no.y, CFK.no.d)}"><div class="cf-bob"><button class="cf-btn next" data-confirm="no" aria-label="No">${ICON.next}</button></div></div>
+    <div class="cf-ans yes" style="${at(sl.yes.x, sl.yes.y, CFK.yes.d)}"><div class="cf-bob"><button class="cf-btn pic" data-confirm="yes" aria-label="Yes"><img class="cf-btn-pic" src="${img(iconOf(s))}" alt=""></button></div></div>
+  </div>`);
+  const ninja = h(`<img class="cf-ninja" src="${img(`hero_${hero}_thumbsup`)}" alt="" style="left:${sl.no.x + CFK.no.d / 2 + 4}px; top:${sl.no.y + CFK.no.d / 2 + 14 - CFK.ninjaW * 1.43}px; width:${CFK.ninjaW}px">`);
+  const t0 = performance.now();
+  const timers = new Set();
+  const later = (ms, f) => { const t = setTimeout(() => (timers.delete(t), f()), ms / FAST); timers.add(t); return t; };
+  let chosen = null, over = false, helpN = 0, point = null, showSaidAt = -1e9;
+  const ready = () => performance.now() - t0 >= 700 / FAST;
+  // the hand and the glow on one answer (TapHint as ConfirmView places it: its fingertip just below the answer's centre)
+  const setPoint = (p) => {
+    if (point === p) return;
+    point = p;
+    root.classList.remove("point-no", "point-yes");
+    root.querySelector(".cf-hint")?.remove();
+    if (!p) return;
+    root.classList.add(`point-${p}`);
+    root.append(h(`<div class="cf-hint" style="width:110px; height:110px; pointer-events:none; z-index:3; animation: taphint 1.4s ease-in-out infinite; left:${sl[p].x - 53 + 34}px; top:${sl[p].y - 20 + 40}px">${ICON.hand}</div>`));
+  };
+  let spotN = 0;
+  const spot = (k, ms) => later(Math.max(0, ms) * FAST, () => {
+    if (over || chosen) return;
+    const my = ++spotN, el = root.querySelector(`.cf-ans.${k}`);
+    root.querySelectorAll(".cf-ans.spot").forEach((x) => x.classList.remove("spot"));
+    el.classList.add("spot");
+    later(1400, () => my === spotN && el.classList.remove("spot"));
+  });
+  // the idle ladder (quiet time: while Sensei talks it waits, then carries on from the step it had reached)
+  const STEPS = [8000, 16000, 40000];
+  const lad = {
+    step: 0, t: 0, timer: 0,
+    start() { this.step = 0; this.t = performance.now(); this.arm(); },
+    spoke() { if (!over) { this.t = performance.now() - (this.step ? STEPS[this.step - 1] : 0) / FAST; this.arm(); } },
+    arm() {
+      clearTimeout(this.timer);
+      const due = STEPS[this.step];
+      if (due == null || over) return;
+      this.timer = setTimeout(() => {
+        if (over) return;
+        if (speaking) { this.timer = setTimeout(() => this.arm(), 300); return; }
+        this.step++;
+        if (due === 40000) return finish("timeout");
+        if (due === 16000) speak(ask);
+        setPoint("no");
+        this.arm();
+      }, Math.max(0, this.t + due / FAST - performance.now()));
+    },
+    reset() { if (over || chosen) return; setPoint(null); this.start(); },
+  };
+  const speak = (items) => say(items).then((ok) => (lad.spoke(), ok));
+  // a tap off the answers: the hand and the glow onto NO; the answers named again if she's quiet (at most every 6 s)
+  function show(where) {
+    if (over || chosen || !ready()) return;
+    setPoint("no");
+    if (speaking || performance.now() - showSaidAt < 6000 / FAST) return;
+    showSaidAt = performance.now();
+    speak(where === "face" ? ask : ["tv_map_replay_how"]);
+  }
+  function answer(which) {
+    if (over || chosen || !ready()) return;
+    chosen = which;
+    clearTimeout(lad.timer);
+    setPoint(null);
+    root.classList.add("chose", `chose-${which}`);
+    root.querySelector(`.cf-ans.${which}`).classList.add("picked");
+    const said = speak([which === "yes" ? "tv_map_replay_yes" : "tv_map_replay_next"]);
+    Promise.race([said, new Promise((res) => later(2000, res))]).then(() => finish(which));
+  }
+  function finish(how) {
+    if (over) return;
+    over = true;
+    clearTimeout(lad.timer);
+    timers.forEach(clearTimeout);
+    if (how !== "yes" && how !== "no") hush();
+    root.classList.add("closing");
+    setTimeout(() => root.remove(), 180);
+    stage.classList.remove("cf-open");
+    CF = null;
+    window.__snState = snState();
+    (window.__cf ??= []).push(how);
+    if (how === "yes") playLevel(s.id, true);
+    else if (how === "no") play(); // ▶ starts the next game
+    else ladder.start(); // Home, 40 s of quiet: the map as it was
+  }
+  CF = {
+    ready,
+    tap(which) {
+      if (which === "home") { if (performance.now() - t0 >= 2500 / FAST && !chosen) finish("home"); return; }
+      answer(which);
+    },
+    onClip(id, durMs) {
+      const y = wordMs(id, ["picture", "house", "flower", "book", "tick"], durMs), n = wordMs(id, ["arrow"], durMs);
+      if (y != null) spot("yes", y);
+      if (n != null) spot("no", n);
+    },
+  };
+  // any finger down starts the ladder again (the component listens on the window, in the capture phase)
+  root.addEventListener("pointerdown", () => lad.reset(), true);
+  root.addEventListener("pointerdown", (ev) => ev.stopPropagation()); // nothing under the question takes a tap
+  root.querySelector(".cf-dim").addEventListener("pointerdown", (ev) => {
+    const x = (ev.clientX - r.left) / sc, y = (ev.clientY - r.top) / sc;
+    if (x < 1116 || y < 556) return show("backdrop");
+    // the dimmed Help corner (x ≥ 1116, y ≥ 556) is Help: the question again, then the hand on NO too
+    if (!ready() || chosen) return;
+    helpN++;
+    if (helpN > 1) setPoint("no");
+    speak(ask);
+  });
+  root.querySelector(".cf-bubble").addEventListener("pointerdown", () => show("bubble"));
+  root.querySelector(".cf-face").addEventListener("pointerdown", () => show("face"));
+  root.querySelector(".cf-speaker button").addEventListener("pointerdown", () => { if (!chosen) speak(ask); });
+  root.querySelector(".cf-btn.pic").addEventListener("pointerdown", () => answer("yes"));
+  root.querySelector(".cf-btn.next").addEventListener("pointerdown", () => answer("no"));
+  later(700, () => root.classList.remove("guard"));
+  stage.querySelector(".scene").append(root);
+  stage.classList.add("cf-open");
+  window.__snState = snState();
+  CF.setPoint = setPoint;
+  if (opts.still) { root.append(ninja); return root; }
+  later(260, () => root.append(ninja)); // the thumbs-up ninja pops in once the answers have
+  speak(ask);
+  lad.start();
+  return root;
+}
+
+// playing the glowing stone: the level plays (a veil here), the child wins, and the map comes back with the walk
+function play() { playLevel(curLevel().id, false); }
+function playLevel(id, replay) {
+  hush();
+  ladder.stop();
+  const l = LEVELS.find((x) => x.id === id);
+  const v = h(`<div class="veil"><div>▶ ${GAME_NAME[l.kind] ?? l.kind}<small>${replay ? "a replay of" : "the level"} ${id} plays here… (tap to win it)</small></div></div>`);
+  stage.append(v);
+  const done = () => {
+    v.remove();
+    if (replay) { build(); arrive([]); return; }
+    stars[id] = 3;
+    const from = cur;
+    cur = Math.min(LEVELS.length - 1, cur + 1);
+    if (LEVELS[from].world !== curLevel().world) { land = curLevel().world; build(); arrive([`world_${land}`]); return; }
+    walkFrom(from);
+  };
+  v.addEventListener("pointerdown", done);
+  setTimeout(() => v.isConnected && done(), 2200 / FAST);
+}
+// the walk: the stones make room (they slide, on the compositor), the ninja runs to its new place, hops, and the next
+// stone lights up
+function walkFrom(from) {
+  const w = WORLDS[land - 1];
+  const oldL = MapLayout.layout(w.levels, (i) => { const g = LEVELS.findIndex((l) => l.id === w.levels[i].id); return g < from ? "done" : g === from ? "next" : "locked"; });
+  build();
+  const newL = L;
+  // start from the old places
+  for (const s of newL.stones) {
+    const a = els.stones[s.id].parentElement;
+    const o = oldL.stones[s.i];
+    a.style.transition = "none";
+    a.style.transform = `translate(${o.x}px, ${o.y}px)`;
+  }
+  const n = els.ninja;
+  n.style.transition = "none";
+  n.style.transform = `translate(${oldL.ninja.box.l}px, ${oldL.ninja.box.t}px)`;
+  n.classList.add("running");
+  els.glow.style.opacity = "0";
+  showHand(false);
+  void stage.offsetWidth;
+  requestAnimationFrame(() => {
+    for (const s of newL.stones) { const a = els.stones[s.id].parentElement; a.style.transition = ""; a.style.transform = `translate(${s.x}px, ${s.y}px)`; }
+    n.style.transition = "";
+    n.style.transform = `translate(${newL.ninja.box.l}px, ${newL.ninja.box.t}px)`;
+  });
+  setTimeout(() => {
+    n.classList.remove("running");
+    n.classList.add("cheering", "hop");
+    els.glow.style.transition = "opacity .4s"; els.glow.style.opacity = "1";
+    flashStone();
+    setTimeout(() => { n.classList.remove("cheering", "hop"); ninjaPoint(1200); }, 700 / FAST);
+    const pv = PREVIEW[curLevel().id];
+    arrive(pv && !heard.has(pv) ? [pv] : []);
+  }, 950);
+}
+// the arrival lines (B1's arrivalLines: a lead or the land's welcome once a session, then the preview or the hint);
+// during a hint or a preview the hand is on the stone and the ninja points
+function arrive(lines) {
+  arrival = lines;
+  lines.forEach((l) => heard.add(l));
+  window.__snState = snState();
+  if (!lines.length) { ladder.start(); return; }
+  const hinting = lines.some((l) => /tv_map_(hint|next_)/.test(l));
+  setTimeout(() => {
+    if (hinting && isHere()) { showHand(true); ninjaPoint(2600); }
+    if (!isHere()) showHand(true, "way");
+    say(lines).then(() => { setTimeout(() => { if (!ladder.rung) showHand(false); }, 2500 / FAST); ladder.start(); });
+  }, 300);
+}
+
+// ------------------------------------------------------------------------------------------------ debug overlay
+function drawDebug(scene) {
+  const parts = [];
+  for (const s of L.stones) if (s.hit) parts.push(`<circle cx="${s.x}" cy="${s.y}" r="${s.hit / 2}" fill="rgba(255,140,0,.18)" stroke="#ff8c00" stroke-width="2"/>`);
+  let note = "";
+  if (L.next) {
+    const b = MapLayout.nextBox(L.next), n = L.ninja.box, hb = L.hand.box;
+    parts.push(`<rect x="${b.l}" y="${b.t}" width="${b.r - b.l}" height="${b.b - b.t}" fill="none" stroke="#00e676" stroke-width="3"/>`);
+    parts.push(`<rect x="${n.l}" y="${n.t}" width="${n.r - n.l}" height="${n.b - n.t}" fill="none" stroke="#ff1744" stroke-width="3" stroke-dasharray="8 5"/>`);
+    parts.push(`<rect x="${hb.l}" y="${hb.t}" width="${hb.r - hb.l}" height="${hb.b - hb.t}" fill="none" stroke="#2979ff" stroke-width="2" stroke-dasharray="4 4"/>`);
+    const ov = MapLayout.rectOverlap(n, b);
+    const css = (L.next.size * (window.__scale || 1)).toFixed(1);
+    note = `ninja box ∩ stone box: ${ov.w} × ${ov.h} px\nglowing stone: ${L.next.size} stage px = ${css} CSS px\nhand: ${L.hand.place}, over other taps: ${Math.max(0, L.hand.overlap)} px`;
+  }
+  scene.append(h(`<svg class="debug-svg" width="1280" height="720">${parts.join("")}</svg>`));
+  if (note) scene.append(h(`<div class="debug-note">${note}</div>`));
+}
+
+// ------------------------------------------------------------------------------------------------ stills for screenshots
+async function still(state) {
+  build();
+  const freeze = (ms = 480) => {
+    for (const a of document.getAnimations()) {
+      const t = a.effect?.getTiming?.();
+      if (t && t.iterations === Infinity) { a.pause(); a.currentTime = ms; } else a.finish?.();
+    }
+  };
+  const quietSay = (id) => { caption(id); talking(true); };
+  if (state === "hint") { showHand(true); ninjaPoint(1e9); quietSay("tv_map_hint"); }
+  if (state === "idle8") { setGlow(true); showHand(true); }
+  if (state === "idle16") { setGlow(true); showHand(true); quietSay("tv_map_hint"); ninjaPoint(1e9); els.ninja.classList.add("leap");
+    const N = L.ninja, nx = L.next, hx = N.face > 0 ? N.box.r - 8 : N.box.l + 8, hy = N.box.t + N.h * 0.42;
+    const t = 0.55; const sx = hx + (nx.x - hx) * t, sy = hy + (nx.y - hy) * t - 70;
+    stage.querySelector(".scene").append(h(`<div class="star-fly" style="transform: translate(${sx}px, ${sy}px)"><div class="y" style="animation:none">${ICON.star(true)}</div></div>`)); }
+  if (state === "help") { setGlow(true); showHand(true); ninjaPoint(1e9); quietSay("tv_map_help"); }
+  if (state === "locked") {
+    const lk = L.stones.find((s) => s.state === "locked" && s.row === L.next.row) || L.stones.find((s) => s.state === "locked");
+    showHand(true); ninjaPoint(1e9); quietSay("tv_map_locked");
+    els.glow.classList.add("burst");
+    if (lk) document.querySelector(`[data-level="${lk.id}"]`).classList.add("puff");
+  }
+  if (state === "ninja") { ninjaPoint(1e9); showHand(true); quietSay("tv_map_hint"); }
+  if (state === "confirm" || state === "confirm8") {
+    // the finished stone next to the ninja, tapped: the question as it opens (Sensei asking), or at 8 s of quiet (the
+    // green ▶, NO, glows and hops with the hand on it)
+    const done = L.stones.filter((s) => s.state === "done");
+    const s = done[done.length - 1];
+    if (s) {
+      const el = els.stones[s.id], r = el.getBoundingClientRect();
+      const root = askReplay(s, { clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 }, { still: true });
+      root.classList.remove("guard");
+      if (state === "confirm") talking(true);
+      else CF.setPoint("no");
+    }
+  }
+  if (state === "away") {
+    land = Math.max(1, curLevel().world - 1);
+    if (land === curLevel().world) land = 2; // (the first land has nothing before it: show the land after, as with Unlock every level)
+    build();
+    showHand(true, "way"); quietSay("tv_map_away");
+  }
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((i) => (i.complete ? 0 : new Promise((r) => (i.onload = i.onerror = r)))));
+  freeze(state === "rest" ? 300 : 480);
+  if (state === "locked") for (const a of document.getAnimations()) if (a.animationName === "puff") { a.pause(); a.currentTime = 150; }
+  window.__snState = snState();
+  window.__ready = true;
+}
+
+// ------------------------------------------------------------------------------------------------ mockup controls
+if (!Q.has("clean")) {
+  const m = document.getElementById("mock");
+  const sel = (name, opts, v) => `<select data-k="${name}">${opts.map((o) => `<option ${o === v ? "selected" : ""}>${o}</option>`).join("")}</select>`;
+  m.innerHTML = `${sel("child", ["new", "bamboo", "w3"], child)}${sel("state", ["live", "rest", "hint", "idle8", "idle16", "help", "locked", "ninja", "confirm", "confirm8", "away"], STILL || "live")}${sel("hero", ["kai", "suki"], hero)}<button data-k="debug">${DEBUG ? "hide boxes" : "boxes"}</button>`;
+  m.addEventListener("change", (e) => { const k = e.target.dataset.k; const q = new URLSearchParams(location.search); q.set(k, e.target.value); if (k === "state" && e.target.value === "live") q.delete("state"); if (k === "child") q.delete("next"); location.search = q; });
+  m.querySelector("button").addEventListener("click", () => { const q = new URLSearchParams(location.search); DEBUG ? q.delete("debug") : q.set("debug", "1"); location.search = q; });
+}
+if (STILL) still(STILL);
+else {
+  build();
+  const go = h(`<div class="start">Tap to start<small>the map as a child arrives on it (sound on)</small></div>`);
+  stage.append(go);
+  go.addEventListener("pointerdown", (e) => { e.stopPropagation(); go.remove(); arrive(child === "new" ? ["tv_welcome_back", 250, "tv_map_hint"] : [`world_${land}`, 200, PREVIEW[curLevel().id] && !heard.has(PREVIEW[curLevel().id]) ? PREVIEW[curLevel().id] : "tv_map_hint"]); });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,4459 @@
+{
+ "w1-tap": {
+  "id": "w1-tap",
+  "case": "w1-wu1",
+  "game": "tap",
+  "title": "W1 Ninja Ears: tap the sun",
+  "from": 8.35,
+  "to": 12.97,
+  "actions": [
+   {
+    "t": 9707,
+    "actor": "paw",
+    "what": "the paw appears over sun",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Tap the sun!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 9454,
+     "words": 4,
+     "gap": 253
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 10459,
+    "actor": "ninja",
+    "what": "ninja kick at (599, 181)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "before": {
+     "text": "Tap the sun!",
+     "id": "fm_tap_sun",
+     "end": 10418,
+     "words": 3,
+     "gap": 41
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 10460,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "before": {
+     "text": "Tap the sun!",
+     "id": "fm_tap_sun",
+     "end": 10418,
+     "words": 3,
+     "gap": 42
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 10460,
+    "actor": "board",
+    "what": "sun +right",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "before": {
+     "text": "Tap the sun!",
+     "id": "fm_tap_sun",
+     "end": 10418,
+     "words": 3,
+     "gap": 42
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 10838,
+    "actor": "board",
+    "what": "sun +struck",
+    "flags": [
+     "ANNOUNCED-GENERIC"
+    ],
+    "before": {
+     "text": "Tap the sun!",
+     "id": "fm_tap_sun",
+     "end": 10418,
+     "words": 3,
+     "gap": 420
+    },
+    "announce": "Let me show you!"
+   }
+  ],
+  "cells": [
+   {
+    "t": 8472,
+    "label": "+0.00 s  Sensei: Let me show you!",
+    "prio": 2,
+    "say": "Let me show you!"
+   },
+   {
+    "t": 9606,
+    "label": "+1.14 s  Sensei: Tap the sun!",
+    "prio": 2,
+    "say": "Tap the sun!"
+   },
+   {
+    "t": 9767,
+    "label": "+1.36 s  the paw pops in over the sun",
+    "flag": "sudden",
+    "prio": 1,
+    "say": "Tap the sun!"
+   },
+   {
+    "t": 10500,
+    "label": "+2.11 s  the ninja: kick; the paw taps and vanishes; sun turns green",
+    "prio": 1,
+    "flag": "the ninja acts"
+   },
+   {
+    "t": 10898,
+    "label": "+2.49 s  the ninja's move lands on the sun (a star stamp)",
+    "prio": 3
+   },
+   {
+    "t": 11081,
+    "label": "+2.61 s  Sensei: Now you try!",
+    "prio": 2,
+    "say": "Now you try!"
+   },
+   {
+    "t": 12008,
+    "label": "+3.54 s  Sensei: Tap the sock!",
+    "prio": 2,
+    "say": "Tap the sock!"
+   },
+   {
+    "t": 13170,
+    "label": "+4.62 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w1-fastslow": {
+  "id": "w1-fastslow",
+  "case": "w1-wu1",
+  "game": "fastslow",
+  "title": "W1 the rabbit and the tortoise",
+  "from": 16.29,
+  "to": 35.67,
+  "max": 12,
+  "actions": [
+   {
+    "t": 17622,
+    "actor": "paw",
+    "what": "the paw appears over rabbit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 17618,
+     "words": 3,
+     "gap": 4
+    },
+    "announce": "Watch me first!"
+   },
+   {
+    "t": 18372,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [],
+    "during": "I can say a word fast. Sun!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 17618,
+     "words": 3,
+     "gap": 754
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 18372,
+    "actor": "board",
+    "what": "rabbit +flash",
+    "flags": [],
+    "during": "I can say a word fast. Sun!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 17618,
+     "words": 3,
+     "gap": 754
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 19074,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [],
+    "during": "I can say a word fast. Sun!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 17618,
+     "words": 3,
+     "gap": 1456
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 19074,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [],
+    "during": "I can say a word fast. Sun!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 17618,
+     "words": 3,
+     "gap": 1456
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 19074,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [],
+    "during": "I can say a word fast. Sun!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 17618,
+     "words": 3,
+     "gap": 1456
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 19074,
+    "actor": "board",
+    "what": "wu-ribbon zip +zip",
+    "flags": [],
+    "during": "I can say a word fast. Sun!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 17618,
+     "words": 3,
+     "gap": 1456
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 19166,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "NINJA"
+    ],
+    "during": "I can say a word fast. Sun!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 17618,
+     "words": 3,
+     "gap": 1548
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 20160,
+    "actor": "paw",
+    "what": "the paw appears over tortoise",
+    "flags": [],
+    "before": {
+     "text": "I can say a word fast. Sun!",
+     "id": "fm_fast_sun",
+     "end": 20157,
+     "words": 7,
+     "gap": 3
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 20911,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [],
+    "during": "Or I can say it slowly...",
+    "before": {
+     "text": "I can say a word fast. Sun!",
+     "id": "fm_fast_sun",
+     "end": 20157,
+     "words": 7,
+     "gap": 754
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 20911,
+    "actor": "board",
+    "what": "tortoise +flash",
+    "flags": [],
+    "during": "Or I can say it slowly...",
+    "before": {
+     "text": "I can say a word fast. Sun!",
+     "id": "fm_fast_sun",
+     "end": 20157,
+     "words": 7,
+     "gap": 754
+    },
+    "announce": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 21970,
+    "actor": "ninja",
+    "what": "ninja cast at (730, 490)",
+    "flags": [
+     "NINJA"
+    ],
+    "before": {
+     "text": "Or I can say it slowly...",
+     "id": "fm_slow",
+     "end": 21847,
+     "words": 6,
+     "gap": 123
+    },
+    "announce": "Or I can say it slowly..."
+   },
+   {
+    "t": 22787,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [
+     "SUDDEN"
+    ],
+    "during": "\"sun\", slowly",
+    "before": {
+     "text": "Or I can say it slowly...",
+     "id": "fm_slow",
+     "end": 21847,
+     "words": 6,
+     "gap": 940
+    },
+    "announce": "Or I can say it slowly..."
+   },
+   {
+    "t": 23601,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [
+     "SUDDEN"
+    ],
+    "before": {
+     "text": "\"sun\", slowly",
+     "id": "slow:sun",
+     "end": 23599,
+     "words": 1,
+     "gap": 2
+    },
+    "announce": "Or I can say it slowly..."
+   },
+   {
+    "t": 27119,
+    "actor": "board",
+    "what": "wu-ribbon zip +zip",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Fast or slow, it's the same word. Sun!",
+    "before": {
+     "text": "\"sun\", slowly",
+     "id": "slow:sun",
+     "end": 23599,
+     "words": 1,
+     "gap": 3520
+    }
+   },
+   {
+    "t": 27209,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "Fast or slow, it's the same word. Sun!",
+    "before": {
+     "text": "\"sun\", slowly",
+     "id": "slow:sun",
+     "end": 23599,
+     "words": 1,
+     "gap": 3610
+    }
+   },
+   {
+    "t": 29283,
+    "actor": "board",
+    "what": "wu-dot on pulse +pulse",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Slowly, I hear its sounds. Words are made of sounds!",
+    "before": {
+     "text": "Fast or slow, it's the same word. Sun!",
+     "id": "fm_same_word",
+     "end": 27777,
+     "words": 8,
+     "gap": 1506
+    }
+   },
+   {
+    "t": 29624,
+    "actor": "board",
+    "what": "wu-dot on pulse +pulse",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Slowly, I hear its sounds. Words are made of sounds!",
+    "before": {
+     "text": "Fast or slow, it's the same word. Sun!",
+     "id": "fm_same_word",
+     "end": 27777,
+     "words": 8,
+     "gap": 1847
+    }
+   },
+   {
+    "t": 29967,
+    "actor": "board",
+    "what": "wu-dot on pulse +pulse",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Slowly, I hear its sounds. Words are made of sounds!",
+    "before": {
+     "text": "Fast or slow, it's the same word. Sun!",
+     "id": "fm_same_word",
+     "end": 27777,
+     "words": 8,
+     "gap": 2190
+    }
+   },
+   {
+    "t": 32207,
+    "actor": "board",
+    "what": "tortoise +pulse",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "Slowly, I hear its sounds. Words are made of sounds!",
+     "id": "fm_hear_sounds_short",
+     "end": 32202,
+     "words": 10,
+     "gap": 5
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 16414,
+    "label": "+0.00 s  Sensei: Watch me first!",
+    "prio": 2,
+    "say": "Watch me first!"
+   },
+   {
+    "t": 17682,
+    "label": "+1.33 s  the paw pops in over the rabbit",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 17913,
+    "label": "+1.50 s  Sensei: I can say a word fast. Sun!",
+    "prio": 2,
+    "say": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 18412,
+    "label": "+2.08 s  the paw taps and vanishes; rabbit flashes",
+    "prio": 3,
+    "say": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 19316,
+    "label": "+2.88 s  the ninja dashes along",
+    "flag": "the ninja acts",
+    "prio": 2,
+    "say": "I can say a word fast. Sun!"
+   },
+   {
+    "t": 20220,
+    "label": "+3.87 s  the paw pops in over the tortoise; Sensei: Or I can say it slowly...",
+    "prio": 1,
+    "say": "Or I can say it slowly..."
+   },
+   {
+    "t": 22123,
+    "label": "+5.68 s  the ninja: cast; Sensei: \"sun\", slowly",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "\"sun\", slowly"
+   },
+   {
+    "t": 24573,
+    "label": "+8.16 s  Sensei: Fast or slow, it's the same word. Sun!",
+    "prio": 2,
+    "say": "Fast or slow, it's the same word. Sun!"
+   },
+   {
+    "t": 27359,
+    "label": "+10.92 s  the ninja dashes along",
+    "flag": "the ninja acts",
+    "prio": 2,
+    "say": "Fast or slow, it's the same word. Sun!"
+   },
+   {
+    "t": 27932,
+    "label": "+11.52 s  Sensei: Slowly, I hear its sounds. Words are made of sounds!",
+    "prio": 2,
+    "say": "Slowly, I hear its sounds. Words are made of sounds!"
+   },
+   {
+    "t": 32359,
+    "label": "+15.95 s  Sensei: Now you tap the tortoise, and say it slowly with me.",
+    "prio": 2,
+    "say": "Now you tap the tortoise, and say it slowly with me."
+   },
+   {
+    "t": 35871,
+    "label": "+19.38 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w1-notice": {
+  "id": "w1-notice",
+  "case": "w1-wu1",
+  "game": "notice",
+  "title": "W1 the first sound (a show, no paw)",
+  "from": 43.73,
+  "to": 55.97,
+  "actions": [],
+  "cells": [
+   {
+    "t": 43885,
+    "label": "+0.04 s  Sensei: Listen to the very first sound.",
+    "prio": 2,
+    "say": "Listen to the very first sound."
+   },
+   {
+    "t": 46060,
+    "label": "+2.21 s  Sensei: \"sun\", first sound held",
+    "prio": 2,
+    "say": "\"sun\", first sound held"
+   },
+   {
+    "t": 47377,
+    "label": "+3.53 s  Sensei: \"sock\", first sound held",
+    "prio": 2,
+    "say": "\"sock\", first sound held"
+   },
+   {
+    "t": 48518,
+    "label": "+4.67 s  Sensei: Sun and sock start with the same sound...",
+    "prio": 2,
+    "say": "Sun and sock start with the same sound..."
+   },
+   {
+    "t": 52564,
+    "label": "+8.71 s  Sensei: Say that sound with me!",
+    "prio": 2,
+    "say": "Say that sound with me!"
+   }
+  ]
+ },
+ "w1-tapall": {
+  "id": "w1-tapall",
+  "case": "w1-wu1",
+  "game": "tapall",
+  "title": "W1 Pocket Hunt: tap all that start with /s/",
+  "from": 60.23,
+  "to": 67.17,
+  "actions": [
+   {
+    "t": 63648,
+    "actor": "paw",
+    "what": "the paw appears over sun",
+    "flags": [
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Tap all the pictures that start with...",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 61337,
+     "words": 4,
+     "gap": 2311
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 64399,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "/s/",
+    "before": {
+     "text": "Tap all the pictures that start with...",
+     "id": "fm_tap_all_start",
+     "end": 63896,
+     "words": 7,
+     "gap": 503
+    }
+   },
+   {
+    "t": 65082,
+    "actor": "ninja",
+    "what": "ninja throw at (556, 102)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "/s/",
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 65083,
+     "words": 1,
+     "gap": -1
+    }
+   },
+   {
+    "t": 65083,
+    "actor": "board",
+    "what": "sun +found",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "\"sun\", first sound held",
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 65083,
+     "words": 1,
+     "gap": 0
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 60355,
+    "label": "+0.01 s  Sensei: Let me show you!",
+    "prio": 2,
+    "say": "Let me show you!"
+   },
+   {
+    "t": 61487,
+    "label": "+1.14 s  Sensei: Tap all the pictures that start with...",
+    "prio": 2,
+    "say": "Tap all the pictures that start with..."
+   },
+   {
+    "t": 63708,
+    "label": "+3.42 s  the paw pops in over the sun",
+    "prio": 1,
+    "say": "Tap all the pictures that start with..."
+   },
+   {
+    "t": 64439,
+    "label": "+4.17 s  the paw taps and vanishes",
+    "prio": 3,
+    "say": "/s/"
+   },
+   {
+    "t": 65143,
+    "label": "+4.85 s  the ninja: throw; Sensei: \"sun\", first sound held; sun is found",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "\"sun\", first sound held"
+   },
+   {
+    "t": 66434,
+    "label": "+6.08 s  Sensei: Your turn!",
+    "prio": 2,
+    "say": "Your turn!"
+   },
+   {
+    "t": 67371,
+    "label": "+6.94 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w2-rail": {
+  "id": "w2-rail",
+  "case": "w1-wu2",
+  "game": "rail",
+  "title": "W2 Ninja Reading: the reading rail",
+  "from": 1.09,
+  "to": 16.27,
+  "max": 12,
+  "actions": [
+   {
+    "t": 1966,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "Ninjas read this way!"
+   },
+   {
+    "t": 7057,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Fish... dog. Fish dog!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 7017,
+     "words": 4,
+     "gap": 40
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 7057,
+    "actor": "board",
+    "what": "w:fish +lit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Fish... dog. Fish dog!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 7017,
+     "words": 4,
+     "gap": 40
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 7636,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Fish... dog. Fish dog!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 7017,
+     "words": 4,
+     "gap": 619
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 7637,
+    "actor": "board",
+    "what": "w:dog +lit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Fish... dog. Fish dog!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 7017,
+     "words": 4,
+     "gap": 620
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 8698,
+    "actor": "board",
+    "what": "w:fish +lit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Fish... dog. Fish dog!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 7017,
+     "words": 4,
+     "gap": 1681
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 9686,
+    "actor": "ninja",
+    "what": "ninja cast (a launch)",
+    "flags": [
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "before": {
+     "text": "Fish... dog. Fish dog!",
+     "id": "fm_read_fish_dog",
+     "end": 9180,
+     "words": 4,
+     "gap": 506
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 14176,
+    "actor": "board",
+    "what": "fish +glow",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Your turn! Tap them the ninja way.",
+    "before": {
+     "text": "Fish dog!",
+     "id": "fm_pair_fish_dog",
+     "end": 12110,
+     "words": 2,
+     "gap": 2066
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 1209,
+    "label": "+0.00 s  Sensei: Ninjas read this way!",
+    "prio": 2,
+    "say": "Ninjas read this way!"
+   },
+   {
+    "t": 2116,
+    "label": "+0.88 s  the ninja dashes along",
+    "flag": "the ninja acts",
+    "prio": 2,
+    "say": "Ninjas read this way!"
+   },
+   {
+    "t": 3452,
+    "label": "+2.24 s  Sensei: This is a fish.",
+    "prio": 2,
+    "say": "This is a fish."
+   },
+   {
+    "t": 5010,
+    "label": "+3.80 s  Sensei: This is a dog.",
+    "prio": 2,
+    "say": "This is a dog."
+   },
+   {
+    "t": 6035,
+    "label": "+4.83 s  Sensei: Let me show you!",
+    "prio": 2,
+    "say": "Let me show you!"
+   },
+   {
+    "t": 7136,
+    "label": "+5.93 s  Sensei: Fish... dog. Fish dog!; the ninja dashes along",
+    "prio": 2,
+    "flag": "the ninja acts",
+    "say": "Fish... dog. Fish dog!"
+   },
+   {
+    "t": 9886,
+    "label": "+8.60 s  the ninja: cast (a spell or launch)",
+    "flag": "the ninja acts",
+    "prio": 1
+   },
+   {
+    "t": 10888,
+    "label": "+9.68 s  Sensei: Fish dog!",
+    "prio": 2,
+    "say": "Fish dog!"
+   },
+   {
+    "t": 14296,
+    "label": "+13.09 s  Sensei: Your turn! Tap them the ninja way.",
+    "prio": 2,
+    "say": "Your turn! Tap them the ninja way."
+   },
+   {
+    "t": 16469,
+    "label": "+15.18 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w2-which": {
+  "id": "w2-which",
+  "case": "w1-wu2",
+  "game": "which",
+  "title": "W2 two rows: which did I read?",
+  "from": 25.27,
+  "to": 36.07,
+  "actions": [
+   {
+    "t": 27883,
+    "actor": "paw",
+    "what": "the paw appears over rail 0",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Fish... dog. Fish dog!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 26597,
+     "words": 3,
+     "gap": 1286
+    },
+    "announce": "Watch me first!"
+   },
+   {
+    "t": 28635,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Fish... dog. Fish dog!",
+    "before": {
+     "text": "Watch me first!",
+     "id": "fm_show_me_2",
+     "end": 26597,
+     "words": 3,
+     "gap": 2038
+    },
+    "announce": "Watch me first!"
+   },
+   {
+    "t": 28767,
+    "actor": "board",
+    "what": "rail 0 +lit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Now you try!",
+    "before": {
+     "text": "Fish... dog. Fish dog!",
+     "id": "fm_read_fish_dog",
+     "end": 28764,
+     "words": 4,
+     "gap": 3
+    },
+    "announce": "Watch me first!"
+   },
+   {
+    "t": 28767,
+    "actor": "board",
+    "what": "rail 0 +flash",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Now you try!",
+    "before": {
+     "text": "Fish... dog. Fish dog!",
+     "id": "fm_read_fish_dog",
+     "end": 28764,
+     "words": 4,
+     "gap": 3
+    },
+    "announce": "Watch me first!"
+   },
+   {
+    "t": 28767,
+    "actor": "ninja",
+    "what": "ninja cast (a launch)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Now you try!",
+    "before": {
+     "text": "Fish... dog. Fish dog!",
+     "id": "fm_read_fish_dog",
+     "end": 28764,
+     "words": 4,
+     "gap": 3
+    },
+    "announce": "Watch me first!"
+   },
+   {
+    "t": 29029,
+    "actor": "board",
+    "what": "rail 0 +lit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Now you try!",
+    "before": {
+     "text": "Fish... dog. Fish dog!",
+     "id": "fm_read_fish_dog",
+     "end": 28764,
+     "words": 4,
+     "gap": 265
+    },
+    "announce": "Watch me first!"
+   },
+   {
+    "t": 29290,
+    "actor": "board",
+    "what": "rail 0 +glow",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "Now you try!",
+    "before": {
+     "text": "Fish... dog. Fish dog!",
+     "id": "fm_read_fish_dog",
+     "end": 28764,
+     "words": 4,
+     "gap": 526
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 25393,
+    "label": "+0.00 s  Sensei: Watch me first!",
+    "prio": 2,
+    "say": "Watch me first!"
+   },
+   {
+    "t": 26720,
+    "label": "+1.33 s  Sensei: Fish... dog. Fish dog!",
+    "prio": 2,
+    "say": "Fish... dog. Fish dog!"
+   },
+   {
+    "t": 27943,
+    "label": "+2.61 s  the paw pops in over the row 1",
+    "flag": "sudden",
+    "prio": 1,
+    "say": "Fish... dog. Fish dog!"
+   },
+   {
+    "t": 28675,
+    "label": "+3.37 s  the paw taps and vanishes",
+    "prio": 3,
+    "say": "Fish... dog. Fish dog!"
+   },
+   {
+    "t": 28827,
+    "label": "+3.50 s  the ninja: cast (a spell or launch); Sensei: Now you try!; rail 0 flashes",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "Now you try!"
+   },
+   {
+    "t": 30366,
+    "label": "+4.98 s  Sensei: This is a cat.",
+    "prio": 2,
+    "say": "This is a cat."
+   },
+   {
+    "t": 31734,
+    "label": "+6.34 s  Sensei: Listen. Cat... dog. Which one did I read?",
+    "prio": 2,
+    "say": "Listen. Cat... dog. Which one did I read?"
+   },
+   {
+    "t": 36269,
+    "label": "+10.80 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w2-compound": {
+  "id": "w2-compound",
+  "case": "w1-wu2",
+  "game": "compound",
+  "title": "W2 Word Squish: sun + flower",
+  "from": 40.38,
+  "to": 60.97,
+  "pawOver": [
+   "tortoise",
+   "rabbit"
+  ],
+  "max": 12,
+  "actions": [
+   {
+    "t": 46586,
+    "actor": "board",
+    "what": "tortoise +flash",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 149
+    }
+   },
+   {
+    "t": 46587,
+    "actor": "paw",
+    "what": "the paw appears over scene early streak-0 wu",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 150
+    }
+   },
+   {
+    "t": 47337,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Say them slowly: sun... flower. Say them fast: sunflower!",
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 900
+    }
+   },
+   {
+    "t": 48107,
+    "actor": "board",
+    "what": "w:sun +lit",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Say them slowly: sun... flower. Say them fast: sunflower!",
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 1670
+    }
+   },
+   {
+    "t": 49187,
+    "actor": "board",
+    "what": "w:flower +lit",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Say them slowly: sun... flower. Say them fast: sunflower!",
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 2750
+    }
+   },
+   {
+    "t": 50349,
+    "actor": "board",
+    "what": "rabbit +flash",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Say them slowly: sun... flower. Say them fast: sunflower!",
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 3912
+    }
+   },
+   {
+    "t": 50349,
+    "actor": "paw",
+    "what": "the paw appears over scene early streak-0 wu",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Say them slowly: sun... flower. Say them fast: sunflower!",
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 3912
+    }
+   },
+   {
+    "t": 50698,
+    "actor": "ninja",
+    "what": "ninja cast at (730, 380)",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "Say them slowly: sun... flower. Say them fast: sunflower!",
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 4261
+    }
+   },
+   {
+    "t": 51100,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Say them slowly: sun... flower. Say them fast: sunflower!",
+    "before": {
+     "text": "This is a flower.",
+     "id": "fm_name_flower",
+     "end": 46437,
+     "words": 4,
+     "gap": 4663
+    }
+   },
+   {
+    "t": 56223,
+    "actor": "board",
+    "what": "w:star +lit",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "This is a star.",
+     "id": "fm_name_star",
+     "end": 56048,
+     "words": 4,
+     "gap": 175
+    }
+   },
+   {
+    "t": 57424,
+    "actor": "board",
+    "what": "w:fish +lit",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Star... fish. Tap the rabbit, and say them fast.",
+    "before": {
+     "text": "This is a star.",
+     "id": "fm_name_star",
+     "end": 56048,
+     "words": 4,
+     "gap": 1376
+    }
+   },
+   {
+    "t": 60594,
+    "actor": "board",
+    "what": "rabbit +pulse",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Star... fish. Tap the rabbit, and say them fast.",
+    "before": {
+     "text": "This is a star.",
+     "id": "fm_name_star",
+     "end": 56048,
+     "words": 4,
+     "gap": 4546
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 40497,
+    "label": "+0.00 s  Sensei: Two little words can make one big word!",
+    "prio": 2,
+    "say": "Two little words can make one big word!"
+   },
+   {
+    "t": 43563,
+    "label": "+3.06 s  Sensei: This is the sun.",
+    "prio": 2,
+    "say": "This is the sun."
+   },
+   {
+    "t": 45328,
+    "label": "+4.83 s  Sensei: This is a flower.",
+    "prio": 2,
+    "say": "This is a flower."
+   },
+   {
+    "t": 46646,
+    "label": "+6.21 s  the paw pops in over the tortoise; tortoise flashes; Sensei: Say them slowly: sun... flower. Say them fast: sunflower!",
+    "prio": 1,
+    "flag": "sudden",
+    "say": "Say them slowly: sun... flower. Say them fast: sunflower!"
+   },
+   {
+    "t": 47377,
+    "label": "+6.96 s  the paw taps and vanishes",
+    "prio": 3,
+    "say": "Say them slowly: sun... flower. Say them fast: sunflower!"
+   },
+   {
+    "t": 50409,
+    "label": "+9.97 s  the paw pops in over the rabbit; rabbit flashes",
+    "prio": 1,
+    "flag": "not announced",
+    "say": "Say them slowly: sun... flower. Say them fast: sunflower!"
+   },
+   {
+    "t": 50878,
+    "label": "+10.32 s  the ninja: cast",
+    "flag": "the ninja acts",
+    "prio": 1,
+    "say": "Say them slowly: sun... flower. Say them fast: sunflower!"
+   },
+   {
+    "t": 51140,
+    "label": "+10.72 s  the paw taps and vanishes",
+    "prio": 3,
+    "say": "Say them slowly: sun... flower. Say them fast: sunflower!"
+   },
+   {
+    "t": 54509,
+    "label": "+14.01 s  Sensei: This is a star.",
+    "prio": 2,
+    "say": "This is a star."
+   },
+   {
+    "t": 56352,
+    "label": "+15.85 s  Sensei: Star... fish. Tap the rabbit, and say them fast.",
+    "prio": 2,
+    "say": "Star... fish. Tap the rabbit, and say them fast."
+   },
+   {
+    "t": 61170,
+    "label": "+20.59 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w3-fastslow": {
+  "id": "w3-fastslow",
+  "case": "w1-wu3",
+  "game": "fastslow",
+  "title": "W3 the rabbit and the tortoise again (recap)",
+  "from": 5.04,
+  "to": 14.38,
+  "actions": [
+   {
+    "t": 6149,
+    "actor": "paw",
+    "what": "the paw appears over rabbit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 6147,
+     "words": 4,
+     "gap": 2
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 6903,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "\"mug\"",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 6147,
+     "words": 4,
+     "gap": 756
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 6903,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "\"mug\"",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 6147,
+     "words": 4,
+     "gap": 756
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 6903,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "\"mug\"",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 6147,
+     "words": 4,
+     "gap": 756
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 6903,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "\"mug\"",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 6147,
+     "words": 4,
+     "gap": 756
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 6903,
+    "actor": "board",
+    "what": "wu-ribbon zip +zip",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "\"mug\"",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 6147,
+     "words": 4,
+     "gap": 756
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 6903,
+    "actor": "board",
+    "what": "rabbit +flash",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "\"mug\"",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 6147,
+     "words": 4,
+     "gap": 756
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 6992,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "\"mug\"",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 6147,
+     "words": 4,
+     "gap": 845
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 7541,
+    "actor": "paw",
+    "what": "the paw appears over tortoise",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "before": {
+     "text": "\"mug\"",
+     "id": "word:mug",
+     "end": 7541,
+     "words": 1,
+     "gap": 0
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 8291,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [],
+    "during": "Or I can say it slowly...",
+    "before": {
+     "text": "\"mug\"",
+     "id": "word:mug",
+     "end": 7541,
+     "words": 1,
+     "gap": 750
+    },
+    "announce": "Or I can say it slowly..."
+   },
+   {
+    "t": 8291,
+    "actor": "board",
+    "what": "tortoise +flash",
+    "flags": [],
+    "during": "Or I can say it slowly...",
+    "before": {
+     "text": "\"mug\"",
+     "id": "word:mug",
+     "end": 7541,
+     "words": 1,
+     "gap": 750
+    },
+    "announce": "Or I can say it slowly..."
+   },
+   {
+    "t": 9346,
+    "actor": "ninja",
+    "what": "ninja cast at (730, 490)",
+    "flags": [
+     "NINJA"
+    ],
+    "before": {
+     "text": "Or I can say it slowly...",
+     "id": "fm_slow",
+     "end": 9225,
+     "words": 6,
+     "gap": 121
+    },
+    "announce": "Or I can say it slowly..."
+   },
+   {
+    "t": 9848,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [
+     "SUDDEN"
+    ],
+    "during": "\"mug\", slowly",
+    "before": {
+     "text": "Or I can say it slowly...",
+     "id": "fm_slow",
+     "end": 9225,
+     "words": 6,
+     "gap": 623
+    },
+    "announce": "Or I can say it slowly..."
+   },
+   {
+    "t": 10350,
+    "actor": "board",
+    "what": "wu-dot on  +on",
+    "flags": [
+     "SUDDEN"
+    ],
+    "during": "\"mug\", slowly",
+    "before": {
+     "text": "Or I can say it slowly...",
+     "id": "fm_slow",
+     "end": 9225,
+     "words": 6,
+     "gap": 1125
+    },
+    "announce": "Or I can say it slowly..."
+   },
+   {
+    "t": 10853,
+    "actor": "board",
+    "what": "tortoise +pulse",
+    "flags": [
+     "SUDDEN"
+    ],
+    "before": {
+     "text": "\"mug\", slowly",
+     "id": "slow:mug",
+     "end": 10767,
+     "words": 1,
+     "gap": 86
+    },
+    "announce": "Or I can say it slowly..."
+   }
+  ],
+  "cells": [
+   {
+    "t": 5165,
+    "label": "+0.00 s  Sensei: Let me show you!",
+    "prio": 2,
+    "say": "Let me show you!"
+   },
+   {
+    "t": 6209,
+    "label": "+1.11 s  the paw pops in over the rabbit",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 6943,
+    "label": "+1.86 s  the paw taps and vanishes; rabbit flashes; Sensei says the word \"mug\"",
+    "prio": 3,
+    "say": "\"mug\""
+   },
+   {
+    "t": 7142,
+    "label": "+1.95 s  the ninja dashes along",
+    "flag": "the ninja acts",
+    "prio": 2,
+    "say": "\"mug\""
+   },
+   {
+    "t": 7601,
+    "label": "+2.50 s  the paw pops in over the tortoise; Sensei: Or I can say it slowly...",
+    "flag": "sudden",
+    "prio": 1,
+    "say": "Or I can say it slowly..."
+   },
+   {
+    "t": 8331,
+    "label": "+3.25 s  the paw taps and vanishes; tortoise flashes",
+    "prio": 3,
+    "say": "Or I can say it slowly..."
+   },
+   {
+    "t": 9526,
+    "label": "+4.31 s  the ninja: cast; Sensei: \"mug\", slowly",
+    "flag": "the ninja acts",
+    "prio": 1,
+    "say": "\"mug\", slowly"
+   },
+   {
+    "t": 11002,
+    "label": "+5.84 s  Sensei: Now you tap the tortoise, and say it slowly with me.",
+    "prio": 2,
+    "say": "Now you tap the tortoise, and say it slowly with me."
+   },
+   {
+    "t": 14575,
+    "label": "+9.34 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w3-slowpick": {
+  "id": "w3-slowpick",
+  "case": "w1-wu3",
+  "game": "slowpick",
+  "title": "W3 Slow Words: which picture is it?",
+  "from": 24.83,
+  "to": 42.27,
+  "max": 12,
+  "actions": [
+   {
+    "t": 31876,
+    "actor": "paw",
+    "what": "the paw appears over mug",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "Which picture is it?",
+    "before": {
+     "text": "Which picture is it?",
+     "id": "fm_which_pic",
+     "end": 31877,
+     "words": 4,
+     "gap": -1
+    }
+   },
+   {
+    "t": 32627,
+    "actor": "ninja",
+    "what": "ninja punch at (599, 181)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "\"mug\", slowly",
+    "before": {
+     "text": "Which picture is it?",
+     "id": "fm_which_pic",
+     "end": 31877,
+     "words": 4,
+     "gap": 750
+    }
+   },
+   {
+    "t": 32627,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "\"mug\", slowly",
+    "before": {
+     "text": "Which picture is it?",
+     "id": "fm_which_pic",
+     "end": 31877,
+     "words": 4,
+     "gap": 750
+    }
+   },
+   {
+    "t": 32627,
+    "actor": "board",
+    "what": "mug +right",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "\"mug\", slowly",
+    "before": {
+     "text": "Which picture is it?",
+     "id": "fm_which_pic",
+     "end": 31877,
+     "words": 4,
+     "gap": 750
+    }
+   },
+   {
+    "t": 33508,
+    "actor": "board",
+    "what": "mug +struck",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "\"mug\", slowly",
+    "before": {
+     "text": "Which picture is it?",
+     "id": "fm_which_pic",
+     "end": 31877,
+     "words": 4,
+     "gap": 1631
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 24947,
+    "label": "+0.00 s  Sensei: Watch me first!",
+    "prio": 2,
+    "say": "Watch me first!"
+   },
+   {
+    "t": 26300,
+    "label": "+1.35 s  Sensei: Listen to my slow word...",
+    "prio": 2,
+    "say": "Listen to my slow word..."
+   },
+   {
+    "t": 29196,
+    "label": "+4.25 s  Sensei: \"mug\", slowly",
+    "prio": 2,
+    "say": "\"mug\", slowly"
+   },
+   {
+    "t": 30766,
+    "label": "+5.82 s  Sensei: Which picture is it?",
+    "prio": 2,
+    "say": "Which picture is it?"
+   },
+   {
+    "t": 31936,
+    "label": "+7.05 s  the paw pops in over the mug",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 32667,
+    "label": "+7.80 s  the ninja: punch; Sensei: \"mug\", slowly; the paw taps and vanishes; mug turns green",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "\"mug\", slowly"
+   },
+   {
+    "t": 33568,
+    "label": "+8.68 s  the ninja's move lands on the mug (a star stamp)",
+    "prio": 3,
+    "say": "\"mug\", slowly"
+   },
+   {
+    "t": 35011,
+    "label": "+10.06 s  Sensei: Now you try!",
+    "prio": 2,
+    "say": "Now you try!"
+   },
+   {
+    "t": 35941,
+    "label": "+10.99 s  Sensei: Here's another slow word...",
+    "prio": 2,
+    "say": "Here's another slow word..."
+   },
+   {
+    "t": 39118,
+    "label": "+14.17 s  Sensei: \"van\", slowly",
+    "prio": 2,
+    "say": "\"van\", slowly"
+   },
+   {
+    "t": 41139,
+    "label": "+16.19 s  Sensei: Which picture is it?",
+    "prio": 2,
+    "say": "Which picture is it?"
+   },
+   {
+    "t": 42475,
+    "label": "+17.45 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w3-tapall-in": {
+  "id": "w3-tapall-in",
+  "case": "w1-wu3",
+  "game": "tapall:in",
+  "title": "W3 Pocket Hunt: /a/ in the middle",
+  "from": 57.48,
+  "to": 64.08,
+  "actions": [
+   {
+    "t": 61059,
+    "actor": "paw",
+    "what": "the paw appears over cat",
+    "flags": [
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Tap all the pictures with this sound in them...",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 58579,
+     "words": 4,
+     "gap": 2480
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 61810,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "/a/",
+    "before": {
+     "text": "Tap all the pictures with this sound in them...",
+     "id": "fm_tap_all_in",
+     "end": 61309,
+     "words": 9,
+     "gap": 501
+    }
+   },
+   {
+    "t": 62020,
+    "actor": "ninja",
+    "what": "ninja throw at (556, 102)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/a/",
+     "id": "sound:a",
+     "end": 62019,
+     "words": 1,
+     "gap": 1
+    }
+   },
+   {
+    "t": 62021,
+    "actor": "board",
+    "what": "cat +found",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/a/",
+     "id": "sound:a",
+     "end": 62019,
+     "words": 1,
+     "gap": 2
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 57597,
+    "label": "+0.00 s  Sensei: Let me show you!",
+    "prio": 2,
+    "say": "Let me show you!"
+   },
+   {
+    "t": 58737,
+    "label": "+1.14 s  Sensei: Tap all the pictures with this sound in them...",
+    "prio": 2,
+    "say": "Tap all the pictures with this sound in them..."
+   },
+   {
+    "t": 61119,
+    "label": "+3.58 s  the paw pops in over the cat",
+    "prio": 1,
+    "say": "Tap all the pictures with this sound in them..."
+   },
+   {
+    "t": 61850,
+    "label": "+4.33 s  the paw taps and vanishes",
+    "prio": 3,
+    "say": "/a/"
+   },
+   {
+    "t": 62081,
+    "label": "+4.54 s  the ninja: throw; cat is found",
+    "prio": 1,
+    "flag": "the ninja acts"
+   },
+   {
+    "t": 62320,
+    "label": "+4.72 s  Sensei: \"cat\", slowly",
+    "prio": 2,
+    "say": "\"cat\", slowly"
+   },
+   {
+    "t": 63319,
+    "label": "+5.72 s  Sensei: Your turn!",
+    "prio": 2,
+    "say": "Your turn!"
+   },
+   {
+    "t": 64275,
+    "label": "+6.60 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w4-rail": {
+  "id": "w4-rail",
+  "case": "w1-wu4",
+  "game": "rail",
+  "title": "W4 Ninja Reading: three in a row",
+  "from": 1.09,
+  "to": 14.86,
+  "actions": [
+   {
+    "t": 1960,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "Ninjas read this way!"
+   },
+   {
+    "t": 8499,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Cat... dog... fish. Cat-dog-fish!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 8477,
+     "words": 4,
+     "gap": 22
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 8499,
+    "actor": "board",
+    "what": "w:cat +lit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Cat... dog... fish. Cat-dog-fish!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 8477,
+     "words": 4,
+     "gap": 22
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 9558,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Cat... dog... fish. Cat-dog-fish!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 8477,
+     "words": 4,
+     "gap": 1081
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 9558,
+    "actor": "board",
+    "what": "w:dog +lit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Cat... dog... fish. Cat-dog-fish!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 8477,
+     "words": 4,
+     "gap": 1081
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 10500,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Cat... dog... fish. Cat-dog-fish!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 8477,
+     "words": 4,
+     "gap": 2023
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 10500,
+    "actor": "board",
+    "what": "w:fish +lit",
+    "flags": [
+     "SUDDEN",
+     "ANNOUNCED-GENERIC"
+    ],
+    "during": "Cat... dog... fish. Cat-dog-fish!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 8477,
+     "words": 4,
+     "gap": 2023
+    },
+    "announce": "Let me show you!"
+   },
+   {
+    "t": 11979,
+    "actor": "board",
+    "what": "w:cat +lit",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "Cat... dog... fish. Cat-dog-fish!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 8477,
+     "words": 4,
+     "gap": 3502
+    }
+   },
+   {
+    "t": 11979,
+    "actor": "board",
+    "what": "w:dog +lit",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "Cat... dog... fish. Cat-dog-fish!",
+    "before": {
+     "text": "Let me show you!",
+     "id": "fm_show_me",
+     "end": 8477,
+     "words": 4,
+     "gap": 3502
+    }
+   },
+   {
+    "t": 12846,
+    "actor": "board",
+    "what": "cat +glow",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "Your turn! Tap them the ninja way.",
+    "before": {
+     "text": "Cat... dog... fish. Cat-dog-fish!",
+     "id": "fm_read_cat_dog_fish",
+     "end": 12842,
+     "words": 4,
+     "gap": 4
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 1212,
+    "label": "+0.00 s  Sensei: Ninjas read this way!",
+    "prio": 2,
+    "say": "Ninjas read this way!"
+   },
+   {
+    "t": 2110,
+    "label": "+0.87 s  the ninja dashes along",
+    "flag": "the ninja acts",
+    "prio": 2,
+    "say": "Ninjas read this way!"
+   },
+   {
+    "t": 3451,
+    "label": "+2.24 s  Sensei: This is a cat.",
+    "prio": 2,
+    "say": "This is a cat."
+   },
+   {
+    "t": 4916,
+    "label": "+3.71 s  Sensei: This is a dog.",
+    "prio": 2,
+    "say": "This is a dog."
+   },
+   {
+    "t": 6066,
+    "label": "+4.86 s  Sensei: This is a fish.",
+    "prio": 2,
+    "say": "This is a fish."
+   },
+   {
+    "t": 7495,
+    "label": "+6.29 s  Sensei: Let me show you!",
+    "prio": 2,
+    "say": "Let me show you!"
+   },
+   {
+    "t": 8598,
+    "label": "+7.39 s  Sensei: Cat... dog... fish. Cat-dog-fish!; the ninja dashes along",
+    "prio": 2,
+    "flag": "the ninja acts",
+    "say": "Cat... dog... fish. Cat-dog-fish!"
+   },
+   {
+    "t": 9708,
+    "label": "+8.47 s  the ninja dashes along",
+    "flag": "the ninja acts",
+    "prio": 2,
+    "say": "Cat... dog... fish. Cat-dog-fish!"
+   },
+   {
+    "t": 10650,
+    "label": "+9.41 s  the ninja dashes along",
+    "flag": "the ninja acts",
+    "prio": 2,
+    "say": "Cat... dog... fish. Cat-dog-fish!"
+   }
+  ]
+ },
+ "w5-sounds": {
+  "id": "w5-sounds",
+  "case": "w1-wu5",
+  "game": "sounds",
+  "title": "W5 Guess My Word: /s/ /u/ /n/",
+  "from": 10.4,
+  "to": 27.39,
+  "max": 12,
+  "actions": [
+   {
+    "t": 17339,
+    "actor": "paw",
+    "what": "the paw appears over sun",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/n/",
+     "id": "sound:n",
+     "end": 16916,
+     "words": 1,
+     "gap": 423
+    }
+   },
+   {
+    "t": 18091,
+    "actor": "ninja",
+    "what": "ninja kick at (704, 162)",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/n/",
+     "id": "sound:n",
+     "end": 16916,
+     "words": 1,
+     "gap": 1175
+    }
+   },
+   {
+    "t": 18091,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/n/",
+     "id": "sound:n",
+     "end": 16916,
+     "words": 1,
+     "gap": 1175
+    }
+   },
+   {
+    "t": 18091,
+    "actor": "board",
+    "what": "sun +right",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/n/",
+     "id": "sound:n",
+     "end": 16916,
+     "words": 1,
+     "gap": 1175
+    }
+   },
+   {
+    "t": 18492,
+    "actor": "board",
+    "what": "sun +struck",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "\"sun\"",
+    "before": {
+     "text": "/n/",
+     "id": "sound:n",
+     "end": 16916,
+     "words": 1,
+     "gap": 1576
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 10519,
+    "label": "+0.00 s  Sensei: Let me show you!",
+    "prio": 2,
+    "say": "Let me show you!"
+   },
+   {
+    "t": 11654,
+    "label": "+1.13 s  Sensei: I'll say the sounds. You listen for the word!",
+    "prio": 2,
+    "say": "I'll say the sounds. You listen for the word!"
+   },
+   {
+    "t": 17399,
+    "label": "+6.94 s  the paw pops in over the sun",
+    "flag": "not announced",
+    "prio": 1
+   },
+   {
+    "t": 18131,
+    "label": "+7.69 s  the ninja: kick; the paw taps and vanishes; sun turns green",
+    "prio": 1,
+    "flag": "the ninja acts"
+   },
+   {
+    "t": 18504,
+    "label": "+8.09 s  the ninja's move lands on the sun (a star stamp); Sensei says the word \"sun\"",
+    "prio": 3,
+    "say": "\"sun\""
+   },
+   {
+    "t": 19395,
+    "label": "+8.87 s  Sensei: Now you try!",
+    "prio": 2,
+    "say": "Now you try!"
+   },
+   {
+    "t": 20878,
+    "label": "+10.36 s  Sensei: This is a map.",
+    "prio": 2,
+    "say": "This is a map."
+   },
+   {
+    "t": 22116,
+    "label": "+11.60 s  Sensei: This is a mop.",
+    "prio": 2,
+    "say": "This is a mop."
+   },
+   {
+    "t": 26244,
+    "label": "+15.72 s  Sensei: Which picture is it?",
+    "prio": 2,
+    "say": "Which picture is it?"
+   },
+   {
+    "t": 27591,
+    "label": "+16.99 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w6-dots": {
+  "id": "w6-dots",
+  "case": "w1-wu6",
+  "game": "dots",
+  "title": "W6 Sound Dots",
+  "from": 2.79,
+  "to": 18.85,
+  "pawOver": [
+   "first dot",
+   "second dot",
+   "third dot"
+  ],
+  "max": 12,
+  "actions": [
+   {
+    "t": 7475,
+    "actor": "paw",
+    "what": "the paw appears over scene early streak-0 wu",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "Every dot is a sound. Ninjas tap them this way!",
+     "id": "fm_dots_intro",
+     "end": 7473,
+     "words": 10,
+     "gap": 2
+    }
+   },
+   {
+    "t": 8225,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "Every dot is a sound. Ninjas tap them this way!",
+     "id": "fm_dots_intro",
+     "end": 7473,
+     "words": 10,
+     "gap": 752
+    }
+   },
+   {
+    "t": 8225,
+    "actor": "board",
+    "what": "dot 0 +on +lit",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "Every dot is a sound. Ninjas tap them this way!",
+     "id": "fm_dots_intro",
+     "end": 7473,
+     "words": 10,
+     "gap": 752
+    }
+   },
+   {
+    "t": 9037,
+    "actor": "paw",
+    "what": "the paw appears over scene early streak-0 wu",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "/s/",
+    "before": {
+     "text": "Every dot is a sound. Ninjas tap them this way!",
+     "id": "fm_dots_intro",
+     "end": 7473,
+     "words": 10,
+     "gap": 1564
+    }
+   },
+   {
+    "t": 9789,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 9039,
+     "words": 1,
+     "gap": 750
+    }
+   },
+   {
+    "t": 9789,
+    "actor": "board",
+    "what": "dot 1 +on +lit",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 9039,
+     "words": 1,
+     "gap": 750
+    }
+   },
+   {
+    "t": 9997,
+    "actor": "paw",
+    "what": "the paw appears over scene early streak-0 wu",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/u/",
+     "id": "sound:u",
+     "end": 9994,
+     "words": 1,
+     "gap": 3
+    }
+   },
+   {
+    "t": 10749,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/u/",
+     "id": "sound:u",
+     "end": 9994,
+     "words": 1,
+     "gap": 755
+    }
+   },
+   {
+    "t": 10749,
+    "actor": "board",
+    "what": "dot 2 +on +lit",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/u/",
+     "id": "sound:u",
+     "end": 9994,
+     "words": 1,
+     "gap": 755
+    }
+   },
+   {
+    "t": 11663,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/n/",
+     "id": "sound:n",
+     "end": 11365,
+     "words": 1,
+     "gap": 298
+    }
+   },
+   {
+    "t": 12085,
+    "actor": "ninja",
+    "what": "the ninja dashes / runs along",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "\"sun\"",
+    "before": {
+     "text": "/n/",
+     "id": "sound:n",
+     "end": 11365,
+     "words": 1,
+     "gap": 720
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 2913,
+    "label": "+0.00 s  Sensei: Let me show you!",
+    "prio": 2,
+    "say": "Let me show you!"
+   },
+   {
+    "t": 4048,
+    "label": "+1.14 s  Sensei: Every dot is a sound. Ninjas tap them this way!",
+    "prio": 2,
+    "say": "Every dot is a sound. Ninjas tap them this way!"
+   },
+   {
+    "t": 7535,
+    "label": "+4.68 s  the paw pops in over the first dot",
+    "flag": "not announced",
+    "prio": 1
+   },
+   {
+    "t": 8265,
+    "label": "+5.43 s  the paw taps and vanishes",
+    "prio": 3,
+    "say": "/s/"
+   },
+   {
+    "t": 9097,
+    "label": "+6.25 s  the paw pops in over the second dot",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 9829,
+    "label": "+7.00 s  the paw taps and vanishes",
+    "prio": 3,
+    "say": "/u/"
+   },
+   {
+    "t": 10057,
+    "label": "+7.21 s  the paw pops in over the third dot",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 11813,
+    "label": "+8.87 s  the ninja dashes along",
+    "flag": "the ninja acts",
+    "prio": 2
+   },
+   {
+    "t": 12131,
+    "label": "+9.30 s  the ninja dashes along; Sensei says the word \"sun\"",
+    "prio": 2,
+    "flag": "the ninja acts",
+    "say": "\"sun\""
+   },
+   {
+    "t": 13701,
+    "label": "+10.79 s  Sensei: This is a cat.",
+    "prio": 2,
+    "say": "This is a cat."
+   },
+   {
+    "t": 15063,
+    "label": "+12.15 s  Sensei: Your turn! Tap the dots this way, and say the sounds with me.",
+    "prio": 2,
+    "say": "Your turn! Tap the dots this way, and say the sounds with me."
+   },
+   {
+    "t": 19053,
+    "label": "+16.06 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w1-2-first-m": {
+  "id": "w1-2-first-m",
+  "case": "w1-2",
+  "game": "firstsound",
+  "title": "w1-2 First Sounds: Sensei's I do for /m/",
+  "from": 5.53,
+  "to": 28.76,
+  "max": 12,
+  "actions": [
+   {
+    "t": 12373,
+    "actor": "paw",
+    "what": "the paw appears over man",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/m/",
+     "id": "sound:m",
+     "end": 12372,
+     "words": 1,
+     "gap": 1
+    }
+   },
+   {
+    "t": 13474,
+    "actor": "ninja",
+    "what": "ninja cast (a launch)",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/m/",
+     "id": "sound:m",
+     "end": 12372,
+     "words": 1,
+     "gap": 1102
+    }
+   },
+   {
+    "t": 13474,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/m/",
+     "id": "sound:m",
+     "end": 12372,
+     "words": 1,
+     "gap": 1102
+    }
+   },
+   {
+    "t": 13474,
+    "actor": "board",
+    "what": "man +right",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/m/",
+     "id": "sound:m",
+     "end": 12372,
+     "words": 1,
+     "gap": 1102
+    }
+   },
+   {
+    "t": 16084,
+    "actor": "ninja",
+    "what": "ninja cast (a launch)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/m/",
+     "id": "sound:m",
+     "end": 16084,
+     "words": 1,
+     "gap": 0
+    }
+   },
+   {
+    "t": 28675,
+    "actor": "board",
+    "what": "match +glow",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "/m/",
+    "before": {
+     "text": "/m/",
+     "id": "sound:m",
+     "end": 28676,
+     "words": 1,
+     "gap": -1
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 5649,
+    "label": "+0.00 s  Sensei: Watch me first!",
+    "prio": 2,
+    "say": "Watch me first!"
+   },
+   {
+    "t": 7342,
+    "label": "+1.69 s  Sensei: This is a man.",
+    "prio": 2,
+    "say": "This is a man."
+   },
+   {
+    "t": 8778,
+    "label": "+3.13 s  Sensei: This is a zip.",
+    "prio": 2,
+    "say": "This is a zip."
+   },
+   {
+    "t": 10286,
+    "label": "+4.64 s  Sensei: Which one starts with...",
+    "prio": 2,
+    "say": "Which one starts with..."
+   },
+   {
+    "t": 12433,
+    "label": "+6.84 s  the paw pops in over the man",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 13674,
+    "label": "+7.94 s  the ninja: cast (a spell or launch)",
+    "flag": "the ninja acts",
+    "prio": 1
+   },
+   {
+    "t": 13920,
+    "label": "+8.27 s  Sensei: Man starts with...",
+    "prio": 2,
+    "say": "Man starts with..."
+   },
+   {
+    "t": 16235,
+    "label": "+10.55 s  the ninja: cast (a spell or launch); Sensei: We hear the sound. Now look: this is how we spell it.",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "We hear the sound. Now look: this is how we spell it."
+   },
+   {
+    "t": 21406,
+    "label": "+15.76 s  Sensei: Let's do it together!",
+    "prio": 2,
+    "say": "Let's do it together!"
+   },
+   {
+    "t": 23233,
+    "label": "+17.58 s  Sensei: This is a...",
+    "prio": 2,
+    "say": "This is a..."
+   },
+   {
+    "t": 25007,
+    "label": "+19.36 s  Sensei: This is a fan.",
+    "prio": 2,
+    "say": "This is a fan."
+   },
+   {
+    "t": 26588,
+    "label": "+20.94 s  Sensei: Which one starts with...",
+    "prio": 2,
+    "say": "Which one starts with..."
+   }
+  ]
+ },
+ "w1-2-first-s": {
+  "id": "w1-2-first-s",
+  "case": "w1-2",
+  "game": "firstsound",
+  "title": "w1-2 First Sounds: the I do for /s/",
+  "from": 48.29,
+  "to": 68.96,
+  "max": 12,
+  "actions": [
+   {
+    "t": 55587,
+    "actor": "paw",
+    "what": "the paw appears over soap",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 55587,
+     "words": 1,
+     "gap": 0
+    }
+   },
+   {
+    "t": 56688,
+    "actor": "ninja",
+    "what": "ninja throw at (694, 134)",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 55587,
+     "words": 1,
+     "gap": 1101
+    }
+   },
+   {
+    "t": 56689,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 55587,
+     "words": 1,
+     "gap": 1102
+    }
+   },
+   {
+    "t": 56689,
+    "actor": "board",
+    "what": "soap +right",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 55587,
+     "words": 1,
+     "gap": 1102
+    }
+   },
+   {
+    "t": 57122,
+    "actor": "board",
+    "what": "soap +struck",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "\"soap\"",
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 55587,
+     "words": 1,
+     "gap": 1535
+    }
+   },
+   {
+    "t": 59961,
+    "actor": "ninja",
+    "what": "ninja cast (a launch)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "This is how we spell...",
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 59959,
+     "words": 1,
+     "gap": 2
+    }
+   },
+   {
+    "t": 68862,
+    "actor": "board",
+    "what": "sit +glow",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "/s/",
+    "before": {
+     "text": "/s/",
+     "id": "sound:s",
+     "end": 68863,
+     "words": 1,
+     "gap": -1
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 48410,
+    "label": "+0.00 s  Sensei: Watch me first!",
+    "prio": 2,
+    "say": "Watch me first!"
+   },
+   {
+    "t": 50097,
+    "label": "+1.69 s  Sensei: This is a...",
+    "prio": 2,
+    "say": "This is a..."
+   },
+   {
+    "t": 51914,
+    "label": "+3.50 s  Sensei: This is a web.",
+    "prio": 2,
+    "say": "This is a web."
+   },
+   {
+    "t": 53380,
+    "label": "+4.97 s  Sensei: Which one starts with...",
+    "prio": 2,
+    "say": "Which one starts with..."
+   },
+   {
+    "t": 55647,
+    "label": "+7.30 s  the paw pops in over the soap",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 56729,
+    "label": "+8.40 s  the ninja: throw; the paw taps and vanishes; soap turns green",
+    "prio": 1,
+    "flag": "the ninja acts"
+   },
+   {
+    "t": 57968,
+    "label": "+9.56 s  Sensei: starts with...",
+    "prio": 2,
+    "say": "starts with..."
+   },
+   {
+    "t": 60080,
+    "label": "+11.67 s  the ninja: cast (a spell or launch); Sensei: This is how we spell...",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "This is how we spell..."
+   },
+   {
+    "t": 62894,
+    "label": "+14.48 s  Sensei: Let's do it together!",
+    "prio": 2,
+    "say": "Let's do it together!"
+   },
+   {
+    "t": 64722,
+    "label": "+16.31 s  Sensei: Look, she can sit.",
+    "prio": 2,
+    "say": "Look, she can sit."
+   },
+   {
+    "t": 66655,
+    "label": "+18.24 s  Sensei: Which one starts with...",
+    "prio": 2,
+    "say": "Which one starts with..."
+   },
+   {
+    "t": 69157,
+    "label": "+20.67 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w1-4-build": {
+  "id": "w1-4-build",
+  "case": "w1-4",
+  "game": "build",
+  "title": "w1-4 Word Building: Sensei's I do (am)",
+  "from": 9.26,
+  "to": 41.47,
+  "max": 12,
+  "pawOver": [
+   "a tile",
+   "m tile"
+  ],
+  "actions": [
+   {
+    "t": 24170,
+    "actor": "paw",
+    "what": "the paw appears over a",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"am\", slowly",
+     "id": "slow:am",
+     "end": 24165,
+     "words": 1,
+     "gap": 5
+    }
+   },
+   {
+    "t": 24873,
+    "actor": "ninja",
+    "what": "ninja cast (a launch)",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"am\", slowly",
+     "id": "slow:am",
+     "end": 24165,
+     "words": 1,
+     "gap": 708
+    }
+   },
+   {
+    "t": 24873,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"am\", slowly",
+     "id": "slow:am",
+     "end": 24165,
+     "words": 1,
+     "gap": 708
+    }
+   },
+   {
+    "t": 26687,
+    "actor": "paw",
+    "what": "the paw appears over m",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"am\", slowly",
+     "id": "slow:am",
+     "end": 26687,
+     "words": 1,
+     "gap": 0
+    }
+   },
+   {
+    "t": 27390,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"am\", slowly",
+     "id": "slow:am",
+     "end": 26687,
+     "words": 1,
+     "gap": 703
+    }
+   },
+   {
+    "t": 27481,
+    "actor": "ninja",
+    "what": "ninja throw (a launch)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "/m/",
+    "before": {
+     "text": "\"am\", slowly",
+     "id": "slow:am",
+     "end": 26687,
+     "words": 1,
+     "gap": 794
+    }
+   },
+   {
+    "t": 31204,
+    "actor": "board",
+    "what": "a +lit",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "/a/",
+    "before": {
+     "text": "Say the sounds, and read the word.",
+     "id": "say_sounds_read",
+     "end": 31204,
+     "words": 7,
+     "gap": 0
+    }
+   },
+   {
+    "t": 31770,
+    "actor": "board",
+    "what": "m +lit",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "/m/",
+    "before": {
+     "text": "/a/",
+     "id": "sound:a",
+     "end": 31516,
+     "words": 1,
+     "gap": 254
+    }
+   },
+   {
+    "t": 36084,
+    "actor": "ninja",
+    "what": "ninja cheer",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"am\"",
+     "id": "word:am",
+     "end": 36084,
+     "words": 1,
+     "gap": 0
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 9376,
+    "label": "+0.00 s  Sensei: Watch me first!",
+    "prio": 2,
+    "say": "Watch me first!"
+   },
+   {
+    "t": 11064,
+    "label": "+1.68 s  Sensei: I say the word...",
+    "prio": 2,
+    "say": "I say the word..."
+   },
+   {
+    "t": 13418,
+    "label": "+4.04 s  Sensei: I say it slowly...",
+    "prio": 2,
+    "say": "I say it slowly..."
+   },
+   {
+    "t": 15033,
+    "label": "+5.65 s  Sensei: \"am\", slowly",
+    "prio": 2,
+    "say": "\"am\", slowly"
+   },
+   {
+    "t": 16382,
+    "label": "+7.00 s  Sensei: Ninjas read this way!",
+    "prio": 2,
+    "say": "Ninjas read this way!"
+   },
+   {
+    "t": 17988,
+    "label": "+8.61 s  Sensei: We start here, and go this way.",
+    "prio": 2,
+    "say": "We start here, and go this way."
+   },
+   {
+    "t": 20217,
+    "label": "+10.84 s  Sensei: Now I find each sound, one at a time.",
+    "prio": 2,
+    "say": "Now I find each sound, one at a time."
+   },
+   {
+    "t": 24230,
+    "label": "+14.91 s  the paw pops in over the a tile",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 25073,
+    "label": "+15.61 s  the ninja: cast (a spell or launch)",
+    "flag": "the ninja acts",
+    "prio": 1,
+    "say": "/a/"
+   },
+   {
+    "t": 26747,
+    "label": "+17.43 s  the paw pops in over the m tile",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 27681,
+    "label": "+18.22 s  the ninja: throw (a spell or launch)",
+    "flag": "the ninja acts",
+    "prio": 1,
+    "say": "/m/"
+   },
+   {
+    "t": 36233,
+    "label": "+26.82 s  the ninja: cheer; Sensei: Let's do it together!",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "Let's do it together!"
+   }
+  ]
+ },
+ "w1-7-hunt": {
+  "id": "w1-7-hunt",
+  "case": "w1-7",
+  "game": "soundhunt",
+  "title": "w1-7 Sound Hunt: Sensei's I do (pin or pan)",
+  "from": 9.14,
+  "to": 36.27,
+  "max": 12,
+  "actions": [
+   {
+    "t": 19730,
+    "actor": "paw",
+    "what": "the paw appears over pin",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "\"pan\", slowly",
+    "before": {
+     "text": "\"pin\", slowly",
+     "id": "slow:pin",
+     "end": 18021,
+     "words": 1,
+     "gap": 1709
+    }
+   },
+   {
+    "t": 20832,
+    "actor": "ninja",
+    "what": "ninja punch at (694, 134)",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"pan\", slowly",
+     "id": "slow:pan",
+     "end": 19732,
+     "words": 1,
+     "gap": 1100
+    }
+   },
+   {
+    "t": 20834,
+    "actor": "paw",
+    "what": "the paw taps and goes",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"pan\", slowly",
+     "id": "slow:pan",
+     "end": 19732,
+     "words": 1,
+     "gap": 1102
+    }
+   },
+   {
+    "t": 20834,
+    "actor": "board",
+    "what": "pin +right",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"pan\", slowly",
+     "id": "slow:pan",
+     "end": 19732,
+     "words": 1,
+     "gap": 1102
+    }
+   },
+   {
+    "t": 21183,
+    "actor": "board",
+    "what": "pin +struck",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "during": "Pin has this sound in the middle...",
+    "before": {
+     "text": "\"pan\", slowly",
+     "id": "slow:pan",
+     "end": 19732,
+     "words": 1,
+     "gap": 1451
+    }
+   },
+   {
+    "t": 23661,
+    "actor": "ninja",
+    "what": "ninja cast (a launch)",
+    "flags": [
+     "SUDDEN",
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "/i/",
+    "before": {
+     "text": "Pin has this sound in the middle...",
+     "id": "mid_pin",
+     "end": 23295,
+     "words": 7,
+     "gap": 366
+    }
+   },
+   {
+    "t": 36204,
+    "actor": "board",
+    "what": "tin +glow",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "\"tap\", slowly",
+     "id": "slow:tap",
+     "end": 36203,
+     "words": 1,
+     "gap": 1
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 9261,
+    "label": "+0.00 s  Sensei: Watch me first!",
+    "prio": 2,
+    "say": "Watch me first!"
+   },
+   {
+    "t": 10949,
+    "label": "+1.69 s  Sensei: This is a pin.",
+    "prio": 2,
+    "say": "This is a pin."
+   },
+   {
+    "t": 12531,
+    "label": "+3.27 s  Sensei: This is a pan.",
+    "prio": 2,
+    "say": "This is a pan."
+   },
+   {
+    "t": 13982,
+    "label": "+4.72 s  Sensei: Which one has this sound in it?",
+    "prio": 2,
+    "say": "Which one has this sound in it?"
+   },
+   {
+    "t": 16850,
+    "label": "+7.59 s  Sensei: \"pin\", slowly",
+    "prio": 2,
+    "say": "\"pin\", slowly"
+   },
+   {
+    "t": 18493,
+    "label": "+9.23 s  Sensei: \"pan\", slowly",
+    "prio": 2,
+    "say": "\"pan\", slowly"
+   },
+   {
+    "t": 19790,
+    "label": "+10.59 s  the paw pops in over the pin",
+    "flag": "sudden",
+    "prio": 1
+   },
+   {
+    "t": 20874,
+    "label": "+11.69 s  the ninja: punch; the paw taps and vanishes; pin turns green",
+    "prio": 1,
+    "flag": "the ninja acts"
+   },
+   {
+    "t": 21243,
+    "label": "+12.03 s  Sensei: Pin has this sound in the middle...; the ninja's move lands on the pin (a star stamp)",
+    "prio": 2,
+    "say": "Pin has this sound in the middle..."
+   },
+   {
+    "t": 23812,
+    "label": "+14.52 s  the ninja: cast (a spell or launch); Sensei: This is how we spell...",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "This is how we spell..."
+   },
+   {
+    "t": 26127,
+    "label": "+16.87 s  Sensei: Let's do it together!",
+    "prio": 2,
+    "say": "Let's do it together!"
+   },
+   {
+    "t": 27956,
+    "label": "+18.70 s  Sensei: This is a tin.",
+    "prio": 2,
+    "say": "This is a tin."
+   }
+  ]
+ },
+ "w1-2-find": {
+  "id": "w1-2-find",
+  "case": "w1-2",
+  "game": "find",
+  "title": "w1-2 Ninja Eyes: the first meeting (no demo)",
+  "from": 111.98,
+  "to": 114.16,
+  "intro": true,
+  "actions": [],
+  "cells": [
+   {
+    "t": 112101,
+    "label": "+0.00 s  Sensei: Find this sound...",
+    "prio": 2,
+    "say": "Find this sound..."
+   },
+   {
+    "t": 114357,
+    "label": "+2.18 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w1-4-readcheck": {
+  "id": "w1-4-readcheck",
+  "case": "w1-4",
+  "game": "readcheck",
+  "title": "w1-4 Kai and Suki: the first meeting (guided, no demo)",
+  "from": 97.92,
+  "to": 112.67,
+  "intro": true,
+  "max": 9,
+  "actions": [],
+  "cells": [
+   {
+    "t": 98042,
+    "label": "+0.00 s  Sensei: Who read it right? Listen to Kai and Suki!",
+    "prio": 2,
+    "say": "Who read it right? Listen to Kai and Suki!"
+   },
+   {
+    "t": 100748,
+    "label": "+2.71 s  Sensei: Tap each sound, and say it.",
+    "prio": 2,
+    "say": "Tap each sound, and say it."
+   },
+   {
+    "t": 107218,
+    "label": "+9.18 s  Sensei: Who read it right?",
+    "prio": 2,
+    "say": "Who read it right?"
+   },
+   {
+    "t": 108543,
+    "label": "+10.50 s  Sensei: Kai says...",
+    "prio": 2,
+    "say": "Kai says..."
+   },
+   {
+    "t": 109828,
+    "label": "+11.83 s  Sensei says the word \"am\"",
+    "prio": 4,
+    "say": "\"am\""
+   },
+   {
+    "t": 110710,
+    "label": "+12.67 s  Sensei: Suki says...",
+    "prio": 2,
+    "say": "Suki says..."
+   },
+   {
+    "t": 111769,
+    "label": "+13.77 s  Sensei says the word \"at\"",
+    "prio": 4,
+    "say": "\"at\""
+   },
+   {
+    "t": 112867,
+    "label": "+14.75 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w1-6-battle": {
+  "id": "w1-6-battle",
+  "case": "w1-6",
+  "game": "battle",
+  "title": "w1-6 the first Monster Battle (no demo)",
+  "from": 0.2,
+  "to": 12.52,
+  "intro": true,
+  "add": [
+   {
+    "t": 0.95,
+    "label": "the monster crashes in (boom, shake); the ninja shouts “!”"
+   }
+  ],
+  "actions": [
+   {
+    "t": 1018,
+    "actor": "ninja",
+    "what": "ninja say",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ]
+   }
+  ],
+  "cells": [
+   {
+    "t": 950,
+    "label": "+0.75 s  the monster crashes in (boom, shake); the ninja shouts “!”",
+    "prio": 0
+   },
+   {
+    "t": 1193,
+    "label": "+0.82 s  the ninja: say; Sensei: Baron Muddle hid the sounds. Let's win them back from his monsters.",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "Baron Muddle hid the sounds. Let's win them back from his monsters."
+   },
+   {
+    "t": 5558,
+    "label": "+5.24 s  Sensei: Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!",
+    "prio": 2,
+    "say": "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!"
+   },
+   {
+    "t": 10669,
+    "label": "+10.35 s  Sensei: Spell...",
+    "prio": 2,
+    "say": "Spell..."
+   },
+   {
+    "t": 11942,
+    "label": "+11.66 s  Sensei says the word \"mat\"",
+    "prio": 4,
+    "say": "\"mat\""
+   },
+   {
+    "t": 12718,
+    "label": "+12.32 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w1-8-swap": {
+  "id": "w1-8-swap",
+  "case": "w1-8",
+  "game": "swap",
+  "title": "w1-8 Sound Swap (no demo)",
+  "from": 0.5,
+  "to": 16.19,
+  "intro": true,
+  "actions": [],
+  "cells": [
+   {
+    "t": 872,
+    "label": "+0.25 s  Sensei: Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time.",
+    "prio": 2,
+    "say": "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time."
+   },
+   {
+    "t": 7071,
+    "label": "+6.45 s  Sensei: This is...",
+    "prio": 2,
+    "say": "This is..."
+   },
+   {
+    "t": 7918,
+    "label": "+7.34 s  Sensei says the word \"mat\"",
+    "prio": 4,
+    "say": "\"mat\""
+   },
+   {
+    "t": 8642,
+    "label": "+8.02 s  Sensei: Change it to make...",
+    "prio": 2,
+    "say": "Change it to make..."
+   },
+   {
+    "t": 9656,
+    "label": "+9.08 s  Sensei says the word \"sat\"",
+    "prio": 4,
+    "say": "\"sat\""
+   },
+   {
+    "t": 10733,
+    "label": "+10.11 s  Sensei: \"mat\", slowly",
+    "prio": 2,
+    "say": "\"mat\", slowly"
+   },
+   {
+    "t": 12431,
+    "label": "+11.81 s  Sensei: \"sat\", slowly",
+    "prio": 2,
+    "say": "\"sat\", slowly"
+   },
+   {
+    "t": 14028,
+    "label": "+13.41 s  Sensei: What changed? Listen here.",
+    "prio": 2,
+    "say": "What changed? Listen here."
+   },
+   {
+    "t": 16389,
+    "label": "+15.69 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w1-9-run": {
+  "id": "w1-9-run",
+  "case": "w1-9",
+  "game": "run",
+  "title": "w1-9 Ninja Run (no demo)",
+  "from": 0.3,
+  "to": 12,
+  "intro": true,
+  "add": [
+   {
+    "t": 1.2,
+    "label": "the run starts: the ninja runs, lanterns come"
+   }
+  ],
+  "actions": [],
+  "cells": [
+   {
+    "t": 1200,
+    "label": "+0.90 s  the run starts: the ninja runs, lanterns come",
+    "prio": 0
+   },
+   {
+    "t": 3425,
+    "label": "+3.01 s  Sensei: Ninja Run! Tap to jump, and catch the right word!",
+    "prio": 2,
+    "say": "Ninja Run! Tap to jump, and catch the right word!"
+   },
+   {
+    "t": 6946,
+    "label": "+6.53 s  Sensei: Listen to the sounds. What word do they make?",
+    "prio": 2,
+    "say": "Listen to the sounds. What word do they make?"
+   }
+  ]
+ },
+ "w1-14-story": {
+  "id": "w1-14-story",
+  "case": "w1-14",
+  "game": "story",
+  "title": "w1-14 Story Time (no demo)",
+  "from": 0.18,
+  "to": 18.81,
+  "intro": true,
+  "max": 9,
+  "actions": [
+   {
+    "t": 303,
+    "actor": "ninja",
+    "what": "ninja flip (a launch)",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ]
+   },
+   {
+    "t": 1141,
+    "actor": "ninja",
+    "what": "ninja jump (a launch)",
+    "flags": [
+     "NINJA"
+    ],
+    "during": "Story time! I'll read, and you read too.",
+    "announce": "Story time! I'll read, and you read too."
+   },
+   {
+    "t": 8949,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 4209
+    }
+   },
+   {
+    "t": 9533,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 4793
+    }
+   },
+   {
+    "t": 9883,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 5143
+    }
+   },
+   {
+    "t": 10283,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 5543
+    }
+   },
+   {
+    "t": 10749,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 6009
+    }
+   },
+   {
+    "t": 11049,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 6309
+    }
+   },
+   {
+    "t": 11566,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 6826
+    }
+   },
+   {
+    "t": 11967,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 7227
+    }
+   },
+   {
+    "t": 12382,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 7642
+    }
+   },
+   {
+    "t": 12666,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 7926
+    }
+   },
+   {
+    "t": 12965,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 8225
+    }
+   },
+   {
+    "t": 13433,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 8693
+    }
+   },
+   {
+    "t": 13717,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 8977
+    }
+   },
+   {
+    "t": 14017,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 9277
+    }
+   },
+   {
+    "t": 14417,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 9677
+    }
+   },
+   {
+    "t": 14832,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 10092
+    }
+   },
+   {
+    "t": 15117,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 10377
+    }
+   },
+   {
+    "t": 15282,
+    "actor": "board",
+    "what": "on +on",
+    "flags": [
+     "SUDDEN",
+     "UNANNOUNCED"
+    ],
+    "during": "[story page s1_1]",
+    "before": {
+     "text": "[story page s1_title]",
+     "id": "story:s1_title",
+     "end": 4740,
+     "words": 1,
+     "gap": 10542
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 476,
+    "label": "+0.12 s  the ninja: flip (a spell or launch); Sensei: Story time! I'll read, and you read too.",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "Story time! I'll read, and you read too."
+   },
+   {
+    "t": 1341,
+    "label": "+0.96 s  the ninja: jump (a spell or launch)",
+    "flag": "the ninja acts",
+    "prio": 1,
+    "say": "Story time! I'll read, and you read too."
+   },
+   {
+    "t": 3723,
+    "label": "+3.42 s  Sensei: [story page s1_title]",
+    "prio": 2,
+    "say": "[story page s1_title]"
+   },
+   {
+    "t": 6035,
+    "label": "+5.74 s  Sensei: [story page s1_1]",
+    "prio": 2,
+    "say": "[story page s1_1]"
+   },
+   {
+    "t": 16009,
+    "label": "+15.71 s  Sensei: Your turn to read.",
+    "prio": 2,
+    "say": "Your turn to read."
+   },
+   {
+    "t": 18993,
+    "label": "+18.63 s  the ninja: jump",
+    "flag": "the ninja acts",
+    "prio": 1,
+    "say": "Well read!"
+   }
+  ]
+ },
+ "w1-15-boss": {
+  "id": "w1-15-boss",
+  "case": "w1-15",
+  "game": "boss",
+  "title": "w1-15 the first boss (no demo)",
+  "from": 0.2,
+  "to": 12.89,
+  "intro": true,
+  "add": [
+   {
+    "t": 0.95,
+    "label": "the boss crashes in; the ninja shouts “!”"
+   }
+  ],
+  "actions": [
+   {
+    "t": 1005,
+    "actor": "ninja",
+    "what": "ninja say",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ]
+   },
+   {
+    "t": 6377,
+    "actor": "ninja",
+    "what": "ninja power",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "during": "So... a little ninja wants to stop me? My sumo panda will squash you!"
+   }
+  ],
+  "cells": [
+   {
+    "t": 950,
+    "label": "+0.75 s  the boss crashes in; the ninja shouts “!”",
+    "prio": 0
+   },
+   {
+    "t": 1181,
+    "label": "+0.80 s  the ninja: say; Baron: So... a little ninja wants to stop me? My sumo panda will squash you!",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "So... a little ninja wants to stop me? My sumo panda will squash you!"
+   },
+   {
+    "t": 6557,
+    "label": "+6.18 s  the ninja: power",
+    "flag": "the ninja acts",
+    "prio": 1,
+    "say": "So... a little ninja wants to stop me? My sumo panda will squash you!"
+   },
+   {
+    "t": 7381,
+    "label": "+7.06 s  Sensei: A big boss monster! Listen carefully, and spell your best!",
+    "prio": 2,
+    "say": "A big boss monster! Listen carefully, and spell your best!"
+   },
+   {
+    "t": 12457,
+    "label": "+12.18 s  Sensei says the word \"on\"",
+    "prio": 4,
+    "say": "\"on\""
+   },
+   {
+    "t": 13088,
+    "label": "+12.69 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "w2-1-learn": {
+  "id": "w2-1-learn",
+  "case": "w2-1",
+  "game": "learn",
+  "title": "w2-1 the first Dojo lesson: New Sounds (/b/)",
+  "from": 0.4,
+  "to": 13.92,
+  "intro": true,
+  "max": 12,
+  "add": [
+   {
+    "t": 7.22,
+    "label": "/b/ (the first of two)"
+   },
+   {
+    "t": 8.63,
+    "label": "the petal steps aside"
+   },
+   {
+    "t": 9.47,
+    "label": "the letter b pops in where the ninja's spell landed"
+   }
+  ],
+  "actions": [
+   {
+    "t": 8612,
+    "actor": "board",
+    "what": "dj-badge aside +aside",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/b/",
+     "id": "sound:b",
+     "end": 8209,
+     "words": 1,
+     "gap": 403
+    }
+   },
+   {
+    "t": 8733,
+    "actor": "ninja",
+    "what": "ninja cast at dj-spot",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/b/",
+     "id": "sound:b",
+     "end": 8209,
+     "words": 1,
+     "gap": 524
+    }
+   },
+   {
+    "t": 9448,
+    "actor": "board",
+    "what": "center dj-learn dj-front +dj-front",
+    "flags": [
+     "UNANNOUNCED"
+    ],
+    "before": {
+     "text": "/b/",
+     "id": "sound:b",
+     "end": 8209,
+     "words": 1,
+     "gap": 1239
+    }
+   }
+  ],
+  "cells": [
+   {
+    "t": 788,
+    "label": "+0.27 s  Sensei: This is the dojo. A dojo is where ninjas practise! Let's practise some sounds.",
+    "prio": 2,
+    "say": "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds."
+   },
+   {
+    "t": 6410,
+    "label": "+5.89 s  Sensei: Listen...",
+    "prio": 2,
+    "say": "Listen..."
+   },
+   {
+    "t": 7220,
+    "label": "+6.82 s  /b/ (the first of two)",
+    "prio": 0,
+    "say": "/b/"
+   },
+   {
+    "t": 8630,
+    "label": "+8.23 s  the petal steps aside",
+    "prio": 0
+   },
+   {
+    "t": 8913,
+    "label": "+8.33 s  the ninja: cast at the dj-spot",
+    "flag": "the ninja acts",
+    "prio": 1
+   },
+   {
+    "t": 9470,
+    "label": "+9.07 s  the letter b pops in where the ninja's spell landed; Sensei: And this is how we spell it.",
+    "prio": 0,
+    "say": "And this is how we spell it."
+   },
+   {
+    "t": 9696,
+    "label": "+9.10 s  the child's turn",
+    "prio": 2,
+    "say": "And this is how we spell it."
+   },
+   {
+    "t": 12049,
+    "label": "+11.53 s  Sensei: Tap it, and say it with me!",
+    "prio": 2,
+    "say": "Tap it, and say it with me!"
+   }
+  ]
+ },
+ "w6-br1-sort": {
+  "id": "w6-br1-sort",
+  "case": "w6-br1",
+  "game": "sort",
+  "title": "w6-br1 Sorting (no demo)",
+  "from": 0.2,
+  "to": 22.09,
+  "intro": true,
+  "max": 12,
+  "actions": [],
+  "cells": [
+   {
+    "t": 1614,
+    "label": "+1.29 s  Sensei: You know this sound! Now let's look at the different ways we spell it.",
+    "prio": 2,
+    "say": "You know this sound! Now let's look at the different ways we spell it."
+   },
+   {
+    "t": 5656,
+    "label": "+5.34 s  Sensei: Sorting time! These words have the same sound, but it's spelt in different ways.",
+    "prio": 2,
+    "say": "Sorting time! These words have the same sound, but it's spelt in different ways."
+   },
+   {
+    "t": 10997,
+    "label": "+10.68 s  Sensei: This sound can be spelt in three ways.",
+    "prio": 2,
+    "say": "This sound can be spelt in three ways."
+   },
+   {
+    "t": 15875,
+    "label": "+15.56 s  Sensei: It's two letters, but it's one sound.",
+    "prio": 2,
+    "say": "It's two letters, but it's one sound."
+   },
+   {
+    "t": 19178,
+    "label": "+18.86 s  Sensei: Tap the chest with the same spelling as the word.",
+    "prio": 2,
+    "say": "Tap the chest with the same spelling as the word."
+   },
+   {
+    "t": 22286,
+    "label": "+21.89 s  the child's turn",
+    "prio": 2,
+    "say": "\"desk\""
+   }
+  ]
+ },
+ "trial": {
+  "id": "trial",
+  "case": "trial",
+  "game": "trial",
+  "title": "a Gem Trial, the first one (no demo)",
+  "from": 0.2,
+  "to": 4.87,
+  "intro": true,
+  "add": [
+   {
+    "t": 0.9,
+    "label": "the monster crashes in; the ninja shouts “!”"
+   }
+  ],
+  "actions": [
+   {
+    "t": 945,
+    "actor": "ninja",
+    "what": "ninja say",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ]
+   }
+  ],
+  "cells": [
+   {
+    "t": 900,
+    "label": "+0.70 s  the monster crashes in; the ninja shouts “!”",
+    "prio": 0
+   },
+   {
+    "t": 1116,
+    "label": "+0.74 s  the ninja: say; Sensei: Your gem is ready. Spell the words to win it.",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "Your gem is ready. Spell the words to win it."
+   },
+   {
+    "t": 4383,
+    "label": "+4.10 s  Sensei says the word \"nap\"",
+    "prio": 4,
+    "say": "\"nap\""
+   },
+   {
+    "t": 5074,
+    "label": "+4.67 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ },
+ "review": {
+  "id": "review",
+  "case": "review",
+  "game": "review",
+  "title": "Sensei's Challenge (no demo)",
+  "from": 0.5,
+  "to": 8.47,
+  "intro": true,
+  "add": [
+   {
+    "t": 1.05,
+    "label": "the monster crashes in; the ninja shouts “!”"
+   }
+  ],
+  "actions": [
+   {
+    "t": 1118,
+    "actor": "ninja",
+    "what": "ninja say",
+    "flags": [
+     "NINJA",
+     "UNANNOUNCED"
+    ]
+   }
+  ],
+  "cells": [
+   {
+    "t": 1050,
+    "label": "+0.55 s  the monster crashes in; the ninja shouts “!”",
+    "prio": 0
+   },
+   {
+    "t": 1285,
+    "label": "+0.62 s  the ninja: say; Sensei: Practice time with Sensei! Let's try the sounds you found tricky. You can do it!",
+    "prio": 1,
+    "flag": "the ninja acts",
+    "say": "Practice time with Sensei! Let's try the sounds you found tricky. You can do it!"
+   },
+   {
+    "t": 6535,
+    "label": "+5.92 s  Sensei: Spell...",
+    "prio": 2,
+    "say": "Spell..."
+   },
+   {
+    "t": 7811,
+    "label": "+7.23 s  Sensei says the word \"at\"",
+    "prio": 4,
+    "say": "\"at\""
+   },
+   {
+    "t": 8673,
+    "label": "+7.97 s  the child's turn",
+    "prio": 2
+   }
+  ]
+ }
+}

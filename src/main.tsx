@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./styles.css";
 import App from "./App";
 import { CrashGuard } from "./ui/Crash";
+import { installCheatGesture } from "./cheat/gesture";
 declare global {
   const __APP_VERSION__: string;
 }
@@ -25,6 +26,10 @@ createRoot(document.getElementById("root")!).render(
     <App />
   </CrashGuard>,
 );
+
+// The grown-ups' cheat menu (docs/CHEATS.md): five taps in the top-right corner, the ` key, or ?cheat=1. Only two event
+// listeners run until it is opened; the menu itself is a separate chunk.
+installCheatGesture();
 
 if ("serviceWorker" in navigator && location.hostname !== "localhost") {
   window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));

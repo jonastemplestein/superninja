@@ -1,0 +1,222 @@
+{
+ "case": "sounds",
+ "speed": "slow",
+ "videoStart": 1790513146806.087,
+ "frames": 2085,
+ "events": [
+  {
+   "t": 0.276,
+   "kind": "http",
+   "status": 404,
+   "url": "http://127.0.0.1:4973/a/i/hero_kai_bow.webp"
+  },
+  {
+   "t": 0.28,
+   "kind": "http",
+   "status": 404,
+   "url": "http://127.0.0.1:4973/a/i/hero_suki_bow.webp"
+  },
+  {
+   "t": 1.213,
+   "kind": "tap",
+   "why": "start"
+  },
+  {
+   "t": 1.774,
+   "kind": "http",
+   "status": 404,
+   "url": "http://127.0.0.1:4973/a/l/pr_sounds_too.words.json"
+  },
+  {
+   "t": 15.997,
+   "kind": "tap",
+   "why": "rabbit"
+  },
+  {
+   "t": 25.471,
+   "kind": "drag",
+   "why": "a slow slide",
+   "x0": 400,
+   "x1": 985,
+   "ms": 3200,
+   "realMs": 3277,
+   "moves": 98
+  },
+  {
+   "t": 29.749,
+   "kind": "tap",
+   "why": "rabbit"
+  }
+ ],
+ "slider": [
+  {
+   "t": 6872,
+   "step": "part",
+   "i": 0
+  },
+  {
+   "t": 7913,
+   "step": "part",
+   "i": 1
+  },
+  {
+   "t": 8945,
+   "step": "part",
+   "i": 2
+  },
+  {
+   "t": 16475,
+   "step": "sun",
+   "how": "tap",
+   "wrongWays": 0,
+   "middles": 0,
+   "flick": false,
+   "ms": 9603.300000011921
+  },
+  {
+   "t": 22805,
+   "step": "part",
+   "i": 0
+  },
+  {
+   "t": 23738,
+   "step": "part",
+   "i": 1
+  },
+  {
+   "t": 24687,
+   "step": "part",
+   "i": 2
+  },
+  {
+   "t": 30114,
+   "step": "mop",
+   "how": "tap",
+   "wrongWays": 0,
+   "middles": 0,
+   "flick": false,
+   "ms": 7308.700000017881
+  },
+  {
+   "t": 33286,
+   "step": "end"
+  }
+ ],
+ "nav": [
+  {
+   "t": 9730,
+   "kind": "speed",
+   "which": "slow",
+   "via": "slider"
+  },
+  {
+   "t": 15856.40000000596,
+   "kind": "rabbit",
+   "how": "tap"
+  },
+  {
+   "t": 25104.90000000596,
+   "kind": "speed",
+   "which": "slow",
+   "via": "slider"
+  },
+  {
+   "t": 29604.80000001192,
+   "kind": "rabbit",
+   "how": "tap"
+  }
+ ],
+ "clips": [
+  {
+   "url": "/a/l/pr_sounds_too.mp3",
+   "at": "0.75",
+   "offset": 0,
+   "dur": null,
+   "cut": "8.80"
+  },
+  {
+   "url": "/a/x/sun.mp3#0",
+   "at": "6.00",
+   "offset": 0.018,
+   "dur": 0.492,
+   "cut": null
+  },
+  {
+   "url": "/a/x/sun.mp3#1",
+   "at": "7.04",
+   "offset": 0.718,
+   "dur": 0.22399999999999998,
+   "cut": null
+  },
+  {
+   "url": "/a/x/sun.mp3#2",
+   "at": "8.07",
+   "offset": 1.15,
+   "dur": 0.5228958333333333,
+   "cut": null
+  },
+  {
+   "url": "/a/l/rs_now_fast.mp3",
+   "at": "9.57",
+   "offset": 0,
+   "dur": null,
+   "cut": "5.42"
+  },
+  {
+   "url": "/a/w/sun.mp3",
+   "at": "14.98",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.70"
+  },
+  {
+   "url": "/a/l/rs_sounds_with_me.mp3",
+   "at": "16.69",
+   "offset": 0,
+   "dur": null,
+   "cut": "8.24"
+  },
+  {
+   "url": "/a/x/mop.mp3#0",
+   "at": "21.93",
+   "offset": 0.018,
+   "dur": 0.482,
+   "cut": null
+  },
+  {
+   "url": "/a/x/mop.mp3#1",
+   "at": "22.86",
+   "offset": 0.708,
+   "dur": 0.18800000000000017,
+   "cut": null
+  },
+  {
+   "url": "/a/x/mop.mp3#2",
+   "at": "23.81",
+   "offset": 1.104,
+   "dur": 0.16397916666666656,
+   "cut": null
+  },
+  {
+   "url": "/a/l/fm_tap_rabbit.mp3",
+   "at": "24.93",
+   "offset": 0,
+   "dur": null,
+   "cut": "3.80"
+  },
+  {
+   "url": "/a/w/mop.mp3",
+   "at": "28.73",
+   "offset": 0,
+   "dur": null,
+   "cut": "0.51"
+  },
+  {
+   "url": "/a/l/tv_fs_praise_found_4.mp3",
+   "at": "29.25",
+   "offset": 0,
+   "dur": null,
+   "cut": null
+  }
+ ]
+}

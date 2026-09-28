@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<title>Slow Words Listening</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #f4f5fa;
+    --surface: #ffffff;
+    --ink: #1b2030;
+    --muted: #5b6278;
+    --line: #dde0ec;
+    --accent: #3553c9;
+    --accent-soft: #e6ebfb;
+    --before: #9aa0b4;
+    --chip-ink: #ffffff;
+    --uk: #1d7f4e;
+    --us: #b3261e;
+    --shadow: 0 1px 2px rgba(27, 32, 48, .06), 0 4px 14px rgba(27, 32, 48, .05);
+    --display: "Baloo 2", "Nunito", "Trebuchet MS", system-ui, sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground: #10131c;
+      --surface: #171b27;
+      --ink: #e7eaf4;
+      --muted: #9aa1b8;
+      --line: #2a3148;
+      --accent: #93a8ff;
+      --accent-soft: #232b48;
+      --before: #5d647c;
+      --chip-ink: #0f121a;
+      --uk: #6fd39c;
+      --us: #ff8a80;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground: #10131c;
+    --surface: #171b27;
+    --ink: #e7eaf4;
+    --muted: #9aa1b8;
+    --line: #2a3148;
+    --accent: #93a8ff;
+    --accent-soft: #232b48;
+    --before: #5d647c;
+    --chip-ink: #0f121a;
+    --uk: #6fd39c;
+    --us: #ff8a80;
+    --shadow: none;
+  }
+  html { background: var(--ground); }
+  body { background: var(--ground); color: var(--ink); font: 16px/1.55 var(--body); padding: 0 16px; margin: 0; }
+  .wrap { max-width: 900px; margin: 0 auto; padding-block: 28px 64px; }
+  h1 { font: 700 clamp(30px, 6vw, 44px)/1.05 var(--display); margin: 0 0 10px; text-wrap: balance; letter-spacing: -.01em; }
+  .lede { max-width: 66ch; margin: 0 0 18px; color: var(--ink); }
+  .lede b { font-weight: 700; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0 0 22px; padding: 0; list-style: none; color: var(--muted); font-size: 14px; }
+  .facts b { color: var(--ink); font: 500 15px var(--mono); font-variant-numeric: tabular-nums; margin-right: 4px; }
+  .why { max-width: 70ch; font-size: 15px; color: var(--muted); border-left: 3px solid var(--accent); padding: 2px 0 2px 14px; margin: 0 0 26px; }
+  .why b { color: var(--ink); }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 14px; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--ground); padding-block: 10px; z-index: 2; }
+  .tab { font: 700 14px var(--body); border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 13px; cursor: pointer; }
+  .tab[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .spacer { flex: 1; }
+  .ghost { font: 700 14px var(--body); border: 1px solid var(--accent); color: var(--accent); background: transparent; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .list { display: grid; gap: 10px; }
+  .row { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 14px 16px; display: grid; grid-template-columns: minmax(120px, 170px) 1fr; gap: 10px 18px; align-items: center; }
+  .row.playing { border-color: var(--accent); }
+  .head { display: grid; gap: 6px; }
+  .word { font: 700 30px/1 var(--display); }
+  .kind { font-size: 12px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+  .chips { display: flex; gap: 5px; flex-wrap: wrap; }
+  .chip { font: 700 18px/1 var(--display); min-width: 30px; padding: 6px 7px 4px; border-radius: 8px; text-align: center; color: var(--chip-ink); background: var(--c); opacity: .38; transform: translateY(0); transition: opacity .08s, transform .12s; }
+  .chip.lit { opacity: 1; transform: translateY(-3px); }
+  .row.idle .chip { opacity: .9; }
+  .tracks { display: grid; gap: 7px; min-width: 0; }
+  .track { display: grid; grid-template-columns: 92px 1fr; gap: 10px; align-items: center; }
+  .play { font: 700 13px var(--body); display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--ground); color: var(--ink); border-radius: 8px; padding: 6px 9px; cursor: pointer; white-space: nowrap; }
+  .play.after { border-color: var(--accent); background: var(--accent-soft); }
+  .play svg { width: 10px; height: 10px; fill: currentColor; }
+  .lane { position: relative; height: 26px; border-radius: 6px; background: repeating-linear-gradient(90deg, transparent 0 calc(var(--sec) - 1px), var(--line) calc(var(--sec) - 1px) var(--sec)); }
+  .seg { position: absolute; top: 5px; height: 16px; border-radius: 4px; background: var(--c, var(--before)); }
+  .lane .cap { position: absolute; right: 0; top: -1px; transform: translateY(-100%); font: 400 11px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .head-pos { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ink); left: 0; display: none; }
+  .row.playing .head-pos.on { display: block; }
+  .meta { font: 400 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); margin: 26px 0 0; }
+  .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--c); margin-right: 6px; vertical-align: -1px; }
+  .h2 { font: 700 26px/1.1 var(--display); margin: 34px 0 4px; }
+  .sub { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
+  .gaps { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+  .gcell { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: grid; gap: 8px; }
+  .gcell .word { font-size: 24px; }
+  .gbtns { display: flex; gap: 6px; }
+  .gbtns .play { padding: 6px 8px; font-family: var(--mono); font-weight: 500; }
+  .gbtns .play.is250 { border-color: var(--accent); background: var(--accent-soft); }
+  .gbtns .play.on { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  footer { margin-top: 18px; font-size: 13px; color: var(--muted); max-width: 70ch; }
+  code { font: 400 13px var(--mono); }
+  .lede a, .sub a { color: var(--accent); font-weight: 700; }
+  .h2.lines-h { margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .lbar-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 6px; }
+  .lgroup { font: 700 19px/1.2 var(--display); margin: 22px 0 2px; }
+  .lnote { margin: 0 0 10px; color: var(--muted); font-size: 14px; max-width: 70ch; }
+  .lines { display: grid; gap: 8px; }
+  .lrow { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 10px 14px; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; align-items: center; }
+  .lrow.playing { border-color: var(--accent); }
+  .lrow .play { grid-row: span 2; align-self: center; }
+  .lrow.playing .play { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .ltext { font: 700 17px/1.35 var(--body); min-width: 0; }
+  .lmeta { display: flex; align-items: center; gap: 10px; font: 400 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; min-width: 0; }
+  .lmeta .lid { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lprog { flex: 1; max-width: 200px; min-width: 40px; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+  .lprog i { display: block; height: 100%; width: 0; background: var(--accent); }
+  .updated { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 0 0 16px; padding: 8px 12px; border-radius: 10px; background: var(--accent-soft); color: var(--ink); font-size: 15px; }
+  .updated a { color: var(--accent); font-weight: 700; }
+  .pill { display: inline-block; font: 700 12px/1 var(--body); letter-spacing: .05em; text-transform: uppercase; color: var(--chip-ink); background: var(--accent); border-radius: 999px; padding: 5px 9px 4px; vertical-align: 5px; margin-left: 8px; }
+  .h2.short-h { margin-top: 30px; }
+  .sgroup { font: 700 19px/1.2 var(--display); margin: 20px 0 8px; }
+  .scell { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; display: grid; gap: 8px; align-content: start; }
+  .scell .word { font-size: 24px; }
+  .scell .gbtns { flex-wrap: wrap; }
+  .scell .play { font-family: var(--body); font-weight: 700; }
+  .scell .play.on { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .heard { font-size: 13px; color: var(--muted); line-height: 1.4; }
+  .heard b { color: var(--ink); font-weight: 700; }
+  .tally { font-size: 14px; color: var(--muted); max-width: 70ch; margin: 12px 0 0; }
+  .ear { display: grid; gap: 10px; }
+  .erow { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; display: grid; gap: 8px; }
+  .erow .ltext { font-size: 18px; }
+  .erow .lid { font: 400 12px var(--mono); color: var(--muted); }
+  .etakes { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+  .etake { display: grid; gap: 4px; align-content: start; }
+  .etake .play { justify-self: start; }
+  .etake .play.on { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .votes { font-size: 13px; color: var(--muted); line-height: 1.35; }
+  .votes b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .votes .uk { color: var(--uk); }
+  .votes .us { color: var(--us); }
+  .lmeta { flex-wrap: wrap; row-gap: 4px; }
+  .voice { font: 700 11px var(--body); letter-spacing: .03em; border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px; }
+  .voice.Sulafat { color: var(--muted); border-style: dashed; }
+  .said { font-size: 13px; color: var(--muted); font-style: italic; }
+  #earlist .lgroup:first-child { margin-top: 6px; }
+  @media (max-width: 620px) {
+    .row { grid-template-columns: 1fr; }
+    .track { grid-template-columns: 84px 1fr; }
+    .bar { position: static; }
+  }
+  @media (prefers-reduced-motion: reduce) { .chip { transition: none; } .chip.lit { transform: none; } }
+</style>
+
+<div class="wrap">
+  <h1>Slow words, sound by sound</h1>
+  <p class="updated"><span class="pill" style="margin:0;vertical-align:1px">Updated</span> <span>27 Sep, later: all 40 fast and slow lines as the game plays them now, and 15 lines retaken for a British “fast”, “last”, “after”, “ask” and “word”, old against new.</span> <a href="#ear">British or not? ↓</a></p>
+  <p class="updated" style="background:transparent;padding-top:0;padding-bottom:0"><span>27 Sep: shorter /o/ and /u/, a voiced /g/ and /b/, and no peak over −1.5 dBTP.</span> <a href="#short-vowels">Before and after ↓</a></p>
+  <p class="lede">Sensei's slow way to say a word used to be one smooth, stretched take (<i>mmmaaat</i>). Now it is the game's own pure sounds said one at a time, with a <b>250 ms</b> gap between them: <i>c · a · t</i>. Tap <b>Before</b> and <b>After</b> for each word. The sound chips light up on each sound's onset from <code>SLOW_TIMES</code>, the same way a scene can light its cards. The 40 lines where Sensei explains the slow way and the fast way are <a href="#fast-slow">further down</a>, after <a href="#ear">the lines retaken for their accent</a>.</p>
+  <ul class="facts">
+    <li><b>997</b>slow words (163 before)</li>
+    <li><b>250 ms</b>gap (measured 252–269)</li>
+    <li><b>−16</b>LUFS, like the plain words (−16.3 to −15.8)</li>
+    <li><b>−1.5</b>dBTP true peak at most (was up to −0.1)</li>
+    <li><b>0</b>words with a wrong gap count</li>
+  </ul>
+  <p class="why"><b>Why 250 ms.</b> It keeps every sound clearly apart but in one steady beat, about two sounds a second (a three-sound word takes 1.1–2.0 s, 1.5 s on average), and it matches the game's own tile-by-tile blend (260 ms), so the slow word and the tiles share a rhythm. At 320 ms a quick /t/ or /k/ sits alone between two long silences, the way a hiccup does, and a five-sound word runs to 2.7 s. 180 ms works too, but it gives a three-year-old less time per sound. In a blind A/B/C test on eight words the AI listener picked 250 ms most often (7 of 16) and called 320 ms too long most often (9 of 16). Your ear decides: the three gaps are side by side below the list.</p>
+
+  <h2 class="h2 short-h" id="short-vowels">Short vowels, and a voiced /g/ and /b/<span class="pill">Updated</span></h2>
+  <p class="sub">An AI listener heard <i>hot</i> as “ought”, <i>cup</i> as “carp” and <i>bus</i> as “pass”. The pure /o/ and /u/ had been stretched to 0.41 s, and in British English length is what tells /o/ (hot) from /or/ (fork), and /u/ (cup) from /ar/ (car). They are now natural short vowels cut from Sensei's own “hop” and “up”, not stretched (0.13 s and 0.11 s), and no short vowel in a slow word runs past 0.24 s. And a /g/ or /b/ on its own was heard as /k/ or /p/, so in a slow word each now starts with a short voiced closure: 45 ms of its own voicing, quietly, before the release. Before is this morning's slow word; after is what the game plays now. Your ear decides.</p>
+  <h3 class="sgroup">The sounds</h3>
+  <div class="gaps" id="spure"></div>
+  <h3 class="sgroup">Slow words with /o/ and /u/</h3>
+  <div class="gaps" id="svowel"></div>
+  <h3 class="sgroup">Slow words with /g/ and /b/</h3>
+  <div class="gaps" id="sgb"></div>
+  <p class="tally">Blind AI listener, 3 votes a word, each clip with 400 ms of silence in front. 51 words with these sounds: named right 58% before, 92% after; /o/ heard as /or/ 10 of 48 times before, 0 after; /u/ as /ar/ 23 of 54, 0 after; /g/ as /k/ 7 of 57, 0 after; /b/ as /p/ 20 of 48, 0 after. 40 random slow words: 77% before, 93% after. What it still gets wrong is elsewhere: <i>rock</i> as “lock”, <i>twig</i> as “wig”.</p>
+
+  <h2 class="h2" id="words">All the slow words</h2>
+  <div class="bar" role="toolbar" aria-label="Word groups">
+    <button class="tab" data-g="all" aria-pressed="true" id="tab-all">All 30</button>
+    <button class="tab" data-g="cvc" aria-pressed="false" id="tab-cvc">CVC</button>
+    <button class="tab" data-g="cluster" aria-pressed="false" id="tab-cluster">Adjacent consonants</button>
+    <button class="tab" data-g="digraph" aria-pressed="false" id="tab-digraph">Two letters, one sound</button>
+    <button class="tab" data-g="long" aria-pressed="false" id="tab-long">Long vowels</button>
+    <span class="spacer"></span>
+    <button class="ghost" id="playall">Play all after</button>
+  </div>
+
+  <div class="list" id="list"></div>
+
+  <h2 class="h2" id="gaps">The three gaps</h2>
+  <p class="sub">The eight audition words at 180, 250 and 320 ms. 250 is what the game now plays.</p>
+  <div class="gaps" id="gapgrid"></div>
+
+  <div class="legend" aria-label="Chip colours">
+    <span style="--c:#5b8def">quick sounds</span>
+    <span style="--c:#35b6a8">hissing sounds</span>
+    <span style="--c:#8a6cf0">nose sounds</span>
+    <span style="--c:#2fa0d8">l, r</span>
+    <span style="--c:#ff6b8a">short vowels</span>
+    <span style="--c:#ff9f43">long vowels</span>
+  </div>
+
+  <h2 class="h2 lines-h" id="ear">For your ear: British or not?<span class="pill">New</span></h2>
+  <p class="sub">In Southern British English “fast”, “last”, “after” and “ask” have the long <i>ah</i> of “father”, not the short <i>a</i> of “cat”, and there is no r in “word” or “first”. Two AI listeners disagreed about the first seven lines: one passed them, the other heard them as American or in between. So there is now one listener, calibrated before every run on the same sentences read by British voices (ElevenLabs Alice and George) and an American one (OpenAI coral); if it can't tell them apart, it refuses to judge. Since this morning Sensei is Gemini's Erinome voice, so every new take is Erinome. Each line was taken again, up to 20 times a wording, and a take was kept only when at least 80% of 42 votes said British on every word. Erinome's accent depends on the whole sentence: she gave “word” an American r in all 20 takes of “Every word is made of sounds, one by one.”, and a British one in 5 of 6 takes with “little sounds”. So four lines are lightly reworded; the old words are under the old takes. Listen from left to right; the last one is what the game plays.</p>
+  <div id="earlist"></div>
+  <p class="tally" id="eartally"></p>
+
+  <h2 class="h2 lines-h" id="fast-slow">Fast and slow: all 40 lines</h2>
+  <p class="sub">Sensei now says far more often that there's a slow way to say a word and a fast way, with the tortoise and the rabbit on screen each time. These are all 40 lines, as the game plays them now. A line that ends in … is a lead-in: in the game the slow word or the fast word follows it as its own clip. Where a line has “fast”, an r to drop (“word”) or a t between vowels (“little”), the listener's British votes are beside it. Lines marked <i>Sulafat</i> are still in the old voice (as of 12:15 on 27 Sep): the Erinome re-record of every Sensei line is under way, with the same listener's 80% gate, and replaces them in the game, not on this page.</p>
+  <div class="lbar-top">
+    <button class="ghost" id="playlines">Play all 40 lines</button>
+  </div>
+  <div id="linelist"></div>
+
+  <footer>Before is the old stretched take where there was one (16 of these 30 words), otherwise the plain word the game said instead. After is <code>public/a/x/&lt;word&gt;.mp3</code> from <code>scripts/gen-slow-words.ts</code>. The lanes share one time scale; each grey tick is 0.5 s. The short-vowel section's clips are in <code>short/</code>: the replaced /o/ and /u/ are kept in <code>.trash/fast-slow-fixes-2026-09-27/</code>. The fast and slow lines are <code>public/a/l/tv_fs_*.mp3</code> (the last block of <code>src/content/lines.ts</code>; where each one plays is in <code>docs/TEACHER_SCRIPT.md</code> §9, and the accent check in §9.8). The listener is <code>scripts/accent-judge.ts</code>: Gemini 3.1 Pro, 21 votes a word, on the clip with 400 ms of silence in front; the r and the t are asked against a British and an American “Bird.” and “Water.”. It calibrates on ElevenLabs Alice and George (British) and OpenAI coral (American) every run, and refuses to judge if they don't separate. Old takes are in the accent-fix lane's scratchpad; the retake log is in <code>docs/TEACHER_SCRIPT.md</code> §9.8.</footer>
+</div>
+
+<script>
+const DATA = [{"w":"cat","g":"cvc","was":"stretched","b":1.327,"a":1,"t":[0.03,0.381,0.861],"s":[["c","c","#5b8def"],["a","a","#ff6b8a"],["t","t","#5b8def"]]},{"w":"sun","g":"cvc","was":"stretched","b":2.44,"a":1.596,"t":[0.03,0.73,1.086],"s":[["s","s","#35b6a8"],["u","u","#ff6b8a"],["n","n","#8a6cf0"]]},{"w":"dog","g":"cvc","was":"stretched","b":0.814,"a":1.148,"t":[0.03,0.588,0.968],"s":[["d","d","#5b8def"],["o","o","#ff6b8a"],["g","g","#5b8def"]]},{"w":"map","g":"cvc","was":"stretched","b":1.068,"a":1.359,"t":[0.03,0.73,1.21],"s":[["m","m","#8a6cf0"],["a","a","#ff6b8a"],["p","p","#5b8def"]]},{"w":"pig","g":"cvc","was":"stretched","b":1.06,"a":0.961,"t":[0.03,0.369,0.781],"s":[["p","p","#5b8def"],["i","i","#ff6b8a"],["g","g","#5b8def"]]},{"w":"bus","g":"cvc","was":"stretched","b":0.914,"a":1.32,"t":[0.03,0.454,0.81],"s":[["b","b","#5b8def"],["u","u","#ff6b8a"],["s","s","#35b6a8"]]},{"w":"fox","g":"cvc","was":"stretched","b":1.504,"a":1.48,"t":[0.03,0.73,1.11],"s":[["f","f","#35b6a8"],["o","o","#ff6b8a"],["x","cs","#5b8def"]]},{"w":"van","g":"cvc","was":"stretched","b":1.045,"a":1.72,"t":[0.03,0.73,1.21],"s":[["v","v","#35b6a8"],["a","a","#ff6b8a"],["n","n","#8a6cf0"]]},{"w":"leg","g":"cvc","was":"stretched","b":1.145,"a":1.35,"t":[0.03,0.73,1.17],"s":[["l","l","#2fa0d8"],["e","e","#ff6b8a"],["g","g","#5b8def"]]},{"w":"hat","g":"cvc","was":"stretched","b":0.974,"a":1.168,"t":[0.03,0.549,1.029],"s":[["h","h","#35b6a8"],["a","a","#ff6b8a"],["t","t","#5b8def"]]},{"w":"frog","g":"cluster","was":"stretched","b":1.921,"a":1.99,"t":[0.03,0.73,1.43,1.81],"s":[["f","f","#35b6a8"],["r","r","#2fa0d8"],["o","o","#ff6b8a"],["g","g","#5b8def"]]},{"w":"stop","g":"cluster","was":"stretched","b":1.412,"a":1.588,"t":[0.03,0.73,1.059,1.439],"s":[["s","s","#35b6a8"],["t","t","#5b8def"],["o","o","#ff6b8a"],["p","p","#5b8def"]]},{"w":"clap","g":"cluster","was":"stretched","b":0.565,"a":1.71,"t":[0.03,0.381,1.081,1.561],"s":[["c","c","#5b8def"],["l","l","#2fa0d8"],["a","a","#ff6b8a"],["p","p","#5b8def"]]},{"w":"step","g":"cluster","was":"plain","b":0.633,"a":1.648,"t":[0.03,0.73,1.059,1.499],"s":[["s","s","#35b6a8"],["t","t","#5b8def"],["e","e","#ff6b8a"],["p","p","#5b8def"]]},{"w":"clip","g":"cluster","was":"plain","b":0.558,"a":1.642,"t":[0.03,0.381,1.081,1.493],"s":[["c","c","#5b8def"],["l","l","#2fa0d8"],["i","i","#ff6b8a"],["p","p","#5b8def"]]},{"w":"stamp","g":"cluster","was":"stretched","b":1.411,"a":2.388,"t":[0.03,0.73,1.059,1.539,2.239],"s":[["s","s","#35b6a8"],["t","t","#5b8def"],["a","a","#ff6b8a"],["m","m","#8a6cf0"],["p","p","#5b8def"]]},{"w":"jump","g":"cluster","was":"stretched","b":1.455,"a":1.569,"t":[0.03,0.364,0.72,1.42],"s":[["j","j","#5b8def"],["u","u","#ff6b8a"],["m","m","#8a6cf0"],["p","p","#5b8def"]]},{"w":"milk","g":"cluster","was":"stretched","b":1.004,"a":2.003,"t":[0.03,0.73,1.142,1.842],"s":[["m","m","#8a6cf0"],["i","i","#ff6b8a"],["l","l","#2fa0d8"],["k","c","#5b8def"]]},{"w":"ship","g":"digraph","was":"plain","b":0.866,"a":1.291,"t":[0.03,0.73,1.142],"s":[["sh","sh","#35b6a8"],["i","i","#ff6b8a"],["p","p","#5b8def"]]},{"w":"chat","g":"digraph","was":"plain","b":0.7,"a":1.009,"t":[0.03,0.39,0.87],"s":[["ch","ch","#5b8def"],["a","a","#ff6b8a"],["t","t","#5b8def"]]},{"w":"shop","g":"digraph","was":"plain","b":0.643,"a":1.259,"t":[0.03,0.73,1.11],"s":[["sh","sh","#35b6a8"],["o","o","#ff6b8a"],["p","p","#5b8def"]]},{"w":"thin","g":"digraph","was":"plain","b":0.586,"a":1.644,"t":[0.03,0.722,1.134],"s":[["th","th","#35b6a8"],["i","i","#ff6b8a"],["n","n","#8a6cf0"]]},{"w":"duck","g":"digraph","was":"plain","b":0.454,"a":1.105,"t":[0.03,0.588,0.944],"s":[["d","d","#5b8def"],["u","u","#ff6b8a"],["ck","c","#5b8def"]]},{"w":"ring","g":"digraph","was":"plain","b":0.729,"a":1.63,"t":[0.03,0.73,1.142],"s":[["r","r","#2fa0d8"],["i","i","#ff6b8a"],["ng","ng","#8a6cf0"]]},{"w":"rain","g":"long","was":"plain","b":0.725,"a":1.965,"t":[0.03,0.73,1.455],"s":[["r","r","#2fa0d8"],["ai","ae","#ff9f43"],["n","n","#8a6cf0"]]},{"w":"boat","g":"long","was":"plain","b":0.622,"a":1.374,"t":[0.03,0.454,1.235],"s":[["b","b","#5b8def"],["oa","oe","#ff9f43"],["t","t","#5b8def"]]},{"w":"tree","g":"long","was":"plain","b":0.551,"a":1.758,"t":[0.03,0.359,1.059],"s":[["t","t","#5b8def"],["r","r","#2fa0d8"],["ee","ee","#ff9f43"]]},{"w":"night","g":"long","was":"plain","b":0.615,"a":1.663,"t":[0.03,0.73,1.524],"s":[["n","n","#8a6cf0"],["igh","ie","#ff9f43"],["t","t","#5b8def"]]},{"w":"moon","g":"long","was":"plain","b":0.759,"a":1.924,"t":[0.03,0.73,1.414],"s":[["m","m","#8a6cf0"],["oo","oo","#ff9f43"],["n","n","#8a6cf0"]]},{"w":"snow","g":"long","was":"plain","b":0.844,"a":2.021,"t":[0.03,0.73,1.43],"s":[["s","s","#35b6a8"],["n","n","#8a6cf0"],["ow","oe","#ff9f43"]]}];
+const KIND = { cvc: "CVC", cluster: "Adjacent consonants", digraph: "Two letters, one sound", long: "Long vowels" };
+const SCALE = 2.5; // seconds across a lane
+const list = document.getElementById("list");
+const pct = (s) => (100 * s / SCALE).toFixed(2) + "%";
+const tri = '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 0 L10 5 L1 10 Z"/></svg>';
+const rows = [];
+for (const d of DATA) {
+  const row = document.createElement("div");
+  row.className = "row idle";
+  row.dataset.g = d.g;
+  const ends = d.t.map((t, i) => (i < d.t.length - 1 ? d.t[i + 1] - 0.25 : d.a - 0.06));
+  row.innerHTML = `
+    <div class="head">
+      <div class="word">${d.w}</div>
+      <div class="chips">${d.s.map(([g, , c]) => `<span class="chip" style="--c:${c}">${g}</span>`).join("")}</div>
+      <div class="kind">${KIND[d.g]}</div>
+    </div>
+    <div class="tracks">
+      <div class="track">
+        <button class="play" data-k="b" aria-label="Before: ${d.w}">${tri} Before</button>
+        <div class="lane" style="--sec:${pct(0.5)}">
+          <div class="seg" style="left:0;width:${pct(Math.min(d.b, SCALE))}"></div>
+          <div class="head-pos" data-k="b"></div>
+        </div>
+      </div>
+      <div class="track">
+        <button class="play after" data-k="a" aria-label="After: ${d.w}">${tri} After</button>
+        <div class="lane" style="--sec:${pct(0.5)}">
+          ${d.t.map((t, i) => `<div class="seg" style="--c:${d.s[i][2]};left:${pct(t)};width:${pct(Math.max(0.03, ends[i] - t))}"></div>`).join("")}
+          <div class="head-pos" data-k="a"></div>
+        </div>
+      </div>
+      <div class="meta">before: ${d.was === "stretched" ? "stretched take" : "plain word"}, ${d.b.toFixed(2)} s · after: ${d.s.length} sounds, ${d.a.toFixed(2)} s · onsets ${d.t.map((t) => t.toFixed(2)).join(" / ")} s</div>
+    </div>`;
+  list.appendChild(row);
+  rows.push({ d, row });
+}
+
+let current = null; // { audio, row, raf }
+function stop() {
+  if (typeof gapAudio !== "undefined" && gapAudio) gapAudio.pause();
+  if (typeof shortStop !== "undefined") shortStop();
+  if (typeof earStop !== "undefined") earStop();
+  stopLine();
+  if (!current) return;
+  current.audio.pause();
+  cancelAnimationFrame(current.raf);
+  current.row.classList.remove("playing");
+  current.row.classList.add("idle");
+  current.row.querySelectorAll(".chip").forEach((c) => c.classList.remove("lit"));
+  current.row.querySelectorAll(".head-pos").forEach((h) => h.classList.remove("on"));
+  const done = current.done;
+  current = null;
+  done && done();
+}
+function play(r, k) {
+  stop();
+  return new Promise((resolve) => {
+    const audio = new Audio(`${k === "a" ? "after" : "before"}/${r.d.w}.mp3`);
+    const chips = [...r.row.querySelectorAll(".chip")];
+    const head = r.row.querySelector(`.head-pos[data-k="${k}"]`);
+    r.row.classList.add("playing");
+    r.row.classList.remove("idle");
+    head.classList.add("on");
+    current = { audio, row: r.row, raf: 0, done: resolve };
+    const tick = () => {
+      const t = audio.currentTime;
+      head.style.left = pct(Math.min(t, SCALE));
+      if (k === "a") {
+        let on = -1;
+        r.d.t.forEach((o, i) => { if (t >= o) on = i; });
+        chips.forEach((c, i) => c.classList.toggle("lit", i === on));
+      } else chips.forEach((c) => c.classList.add("lit"));
+      if (current && current.audio === audio) current.raf = requestAnimationFrame(tick);
+    };
+    audio.addEventListener("ended", () => { if (current && current.audio === audio) stop(); });
+    audio.addEventListener("error", () => { if (current && current.audio === audio) stop(); });
+    audio.play().then(() => { current && (current.raf = requestAnimationFrame(tick)); }).catch(() => stop());
+  });
+}
+list.addEventListener("click", (e) => {
+  const b = e.target.closest(".play");
+  if (!b) return;
+  const r = rows.find((x) => x.row.contains(b));
+  play(r, b.dataset.k);
+});
+document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach((x) => x.setAttribute("aria-pressed", String(x === t)));
+  for (const r of rows) r.row.hidden = !(t.dataset.g === "all" || r.d.g === t.dataset.g);
+}));
+const gapgrid = document.getElementById("gapgrid");
+for (const w of ["cat", "sun", "dog", "ship", "frog", "stamp", "rain", "boat"]) {
+  const cell = document.createElement("div");
+  cell.className = "gcell";
+  cell.innerHTML = `<div class="word">${w}</div><div class="gbtns">${[180, 250, 320].map((g) => `<button class="play${g === 250 ? " is250" : ""}" data-gap="${g}" aria-label="${w} with ${g} ms gaps">${g}</button>`).join("")}</div>`;
+  gapgrid.appendChild(cell);
+}
+let gapAudio = null;
+gapgrid.addEventListener("click", (e) => {
+  const b = e.target.closest(".play");
+  if (!b) return;
+  stop();
+  if (gapAudio) gapAudio.pause();
+  gapgrid.querySelectorAll(".play").forEach((x) => x.classList.remove("on"));
+  const w = b.closest(".gcell").querySelector(".word").textContent;
+  gapAudio = new Audio(`gaps/${b.dataset.gap}/${w}.mp3`);
+  b.classList.add("on");
+  const a = gapAudio;
+  a.addEventListener("ended", () => b.classList.remove("on"));
+  a.play().catch(() => b.classList.remove("on"));
+});
+let playingAll = false;
+document.getElementById("playall").addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  if (playingAll) { playingAll = false; stop(); btn.textContent = "Play all after"; return; }
+  playingAll = true;
+  btn.textContent = "Stop";
+  for (const r of rows.filter((x) => !x.row.hidden)) {
+    if (!playingAll) break;
+    r.row.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    await play(r, "a");
+    await new Promise((res) => setTimeout(res, 600));
+  }
+  playingAll = false;
+  btn.textContent = "Play all after";
+});
+
+// --- Short vowels, and a voiced /g/ and /b/ (short/before, short/after, short/tried)
+const SHORT = {
+  spure: [
+    { w: "/o/", id: "o", b: "Before: stretched to 0.41 s from “dog”. Heard as /o/ 0 of 6 times (/or/ all 6)", a: "After: from “hop”, 0.13 s, as said. /o/ 6 of 6", t: ["o_off", "Also tried: “off”, 0.17 s (6 of 6 alone, but Whisper hears “Oh”)"] },
+    { w: "/u/", id: "u", b: "Before: stretched to 0.41 s from “cut”. /u/ 1 of 6 (/ar/ 5)", a: "After: from “up”, 0.11 s, as said. /u/ 6 of 6", t: ["u_love", "Also tried: “love”, 0.21 s (6 of 6 alone, 76% of words named against 92%)"] },
+    { w: "/g/", id: "g", b: "Before: /g/ as a slow word played it. /g/ 0 of 6 (/k/ all 6)", a: "After: with the voiced closure. /g/ 6 of 6" },
+    { w: "/b/", id: "b", b: "Before: /b/ 6 of 6 alone, but /p/ 20 of 48 times in words", a: "After: with the voiced closure. /b/ 6 of 6, and /p/ 0 of 48 in words" },
+  ],
+  svowel: ["hot", "shop", "cup", "bus", "dog", "sun"],
+  sgb: ["pig", "cab", "bib", "crab", "log", "bag"],
+};
+const HEARD = {"hot":{"b":["ought","ought","ought"],"a":["hot","hot","hot"]},"shop":{"b":["shop","short","shop"],"a":["shop","shop","shop"]},"cup":{"b":["carp","carp","carp"],"a":["cup","cup","cup"]},"bus":{"b":["pass","pass","bus"],"a":["bus","bus","bus"]},"dog":{"b":["dog","dog","dog"],"a":["dog","dog","dog"]},"sun":{"b":["sun","sun","sun"],"a":["sun","sun","sun"]},"pig":{"b":["pig","tick","tick"],"a":["pig","pig","pig"]},"cab":{"b":["cap","cap","cap"],"a":["cab","cab","cab"]},"bib":{"b":["pip","pip","pip"],"a":["bib","bib","bib"]},"crab":{"b":["crab","cap","crab"],"a":["crab","crab","crab"]},"log":{"b":["log","log","log"],"a":["log","log","log"]},"bag":{"b":["bag","bag","bag"],"a":["bag","bag","bag"]}};
+const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+const heardLine = (w, k) => HEARD[w][k].map((h) => (h === w ? h : `<b>${esc(h)}</b>`)).join(", ");
+for (const d of SHORT.spure) {
+  const cell = document.createElement("div");
+  cell.className = "scell";
+  cell.innerHTML = `<div class="word">${d.w}</div><div class="gbtns"><button class="play" data-src="short/before/${d.id}.mp3">${tri} Before</button><button class="play after" data-src="short/after/${d.id}.mp3">${tri} After</button>${d.t ? `<button class="play" data-src="short/tried/${d.t[0]}.mp3">${tri} Also tried</button>` : ""}</div><div class="heard">${esc(d.b)}<br>${esc(d.a)}${d.t ? `<br>${esc(d.t[1])}` : ""}</div>`;
+  document.getElementById("spure").appendChild(cell);
+}
+for (const g of ["svowel", "sgb"]) for (const w of SHORT[g]) {
+  const cell = document.createElement("div");
+  cell.className = "scell";
+  cell.innerHTML = `<div class="word">${w}</div><div class="gbtns"><button class="play" data-src="short/before/${w}.mp3">${tri} Before</button><button class="play after" data-src="short/after/${w}.mp3">${tri} After</button></div><div class="heard">heard before: ${heardLine(w, "b")}<br>after: ${heardLine(w, "a")}</div>`;
+  document.getElementById(g).appendChild(cell);
+}
+let shortAudio = null, shortBtn = null;
+function shortStop() {
+  if (shortAudio) shortAudio.pause();
+  if (shortBtn) shortBtn.classList.remove("on");
+  shortAudio = shortBtn = null;
+}
+document.getElementById("short-vowels").parentElement.addEventListener("click", (e) => {
+  const b = e.target.closest(".scell .play");
+  if (!b) return;
+  const again = b === shortBtn;
+  stop();
+  if (again) return;
+  const a = new Audio(b.dataset.src);
+  shortAudio = a; shortBtn = b;
+  b.classList.add("on");
+  const done = () => { if (shortAudio === a) shortStop(); };
+  a.addEventListener("ended", done);
+  a.addEventListener("error", done);
+  a.play().catch(done);
+});
+
+// --- Fast and slow: the new lines (src/content/lines.ts, the tv_fs_* block; docs/TEACHER_SCRIPT.md §9)
+/*PAGE-DATA*/
+const LINE_DATA = [{"id":"tv_fs_two_ways","t":"There's a slow way to say a word, and a fast way.","d":3.69,"v":[["bath","fast",20,21],["r","word",21,21]],"s":"Sulafat"},{"id":"tv_fs_tortoise","t":"The tortoise says each word slowly, one sound at a time.","d":6.18,"v":[["r","tortoise",21,21],["r","word",21,21],["flap","tortoise",20,20]],"s":"Erinome"},{"id":"tv_fs_gaps","t":"The slow way has little gaps between the sounds.","d":3.42,"v":[["flap","little",17,21]],"s":"Sulafat"},{"id":"tv_fs_rabbit","t":"The rabbit pushes the sounds together, and says the word fast.","d":3.81,"v":[["bath","fast",20,21],["r","word",19,21]],"s":"Erinome"},{"id":"tv_fs_read","t":"When we read, we say the sounds first, then the word.","d":3.6,"v":[["r","first",21,21],["r","word",21,21]],"s":"Sulafat"},{"id":"tv_fs_same","t":"The tortoise and the rabbit say the very same word.","d":3.61,"v":[["r","tortoise",20,21],["r","word",21,21],["flap","tortoise",20,20]],"s":"Sulafat"},{"id":"tv_fs_made","t":"Every word is made of little sounds, one by one.","d":3.68,"v":[["r","word",20,21],["flap","little",20,21]],"s":"Erinome"},{"id":"tv_fs_ninja","t":"Slow first, then fast. That's how ninjas read words.","d":4.67,"v":[["bath","fast",18,21],["r","first",21,21],["r","words",21,21]],"s":"Sulafat"},{"id":"tv_fs_mantra","t":"We say the sounds slowly. Then we read the word fast.","d":4.67,"v":[["bath","fast",18,21],["r","word",19,21]],"s":"Sulafat"},{"id":"tv_fs_spell","t":"To build a word, we say it slowly first.","d":3.08,"v":[["r","word",21,21],["r","first",21,21]],"s":"Erinome"},{"id":"tv_fs_find","t":"Saying it slowly helps us find every sound.","d":3.8,"v":[],"s":"Sulafat"},{"id":"tv_fs_hiding","t":"There's a fast word hiding in every slow word.","d":3.34,"v":[["bath","fast",15,21],["r","word",19,21]],"s":"Erinome"},{"id":"tv_fs_whole","t":"The rabbit says the whole word, all at once.","d":2.94,"v":[["r","word",21,21]],"s":"Sulafat"},{"id":"tv_fs_push","t":"We push the sounds together to make the word.","d":2.74,"v":[["r","together",21,21],["r","word",19,21]],"s":"Erinome"},{"id":"tv_fs_turn","t":"The slow way gives every sound a turn.","d":3.43,"v":[["r","turn",20,21]],"s":"Sulafat"},{"id":"tv_fs_ninjas_can","t":"Ninjas can say a word slowly, and fast too.","d":3.5,"v":[["bath","fast",18,21],["r","word",20,21]],"s":"Erinome"},{"id":"tv_fs_next","t":"Saying it slowly tells us which sound comes next.","d":4.02,"v":[],"s":"Erinome"},{"id":"tv_fs_start_end","t":"The slow way shows us where each sound goes.","d":3.12,"v":[],"s":"Sulafat"},{"id":"tv_fs_count","t":"The slow way helps us count the sounds.","d":3.37,"v":[],"s":"Sulafat"},{"id":"tv_fs_say_sounds_slow","t":"Let's say the sounds, the slow way…","d":2.62,"v":[],"s":"Sulafat"},{"id":"tv_fs_rabbit_read","t":"Now tap the rabbit, and read the word fast.","d":3.49,"v":[["bath","fast",21,21],["r","word",21,21]],"s":"Sulafat"},{"id":"tv_fs_say_slow","t":"Let's say it the slow way…","d":2.4,"v":[],"s":"Erinome"},{"id":"tv_fs_now_fast","t":"And now, fast…","d":1.51,"v":[["bath","fast",19,21]],"s":"Erinome"},{"id":"tv_fs_slow_tortoise","t":"First the slow way, like the tortoise…","d":2.94,"v":[["r","First",20,21],["r","tortoise",21,21],["flap","tortoise",21,21]],"s":"Sulafat"},{"id":"tv_fs_fast_rabbit","t":"Now the fast way, like the rabbit…","d":2.86,"v":[["bath","fast",20,21]],"s":"Sulafat"},{"id":"tv_fs_run","t":"I'll say it the slow way, and you catch the whole word.","d":3.87,"v":[["r","word",20,21]],"s":"Erinome"},{"id":"tv_fs_stuck_slow","t":"Let's say it the slow way first…","d":2.41,"v":[["r","first",19,21]],"s":"Erinome"},{"id":"tv_fs_stuck_again","t":"Here's the slow way again, one sound at a time…","d":3.83,"v":[],"s":"Sulafat"},{"id":"tv_fs_stuck_push","t":"Say the sounds with me. Then push them together, fast.","d":4.09,"v":[["bath","fast",14,21],["r","together",21,21]],"s":"Erinome"},{"id":"tv_fs_praise_both","t":"Slow, then fast. That's real reading!","d":3.54,"v":[["bath","fast",20,21]],"s":"Erinome"},{"id":"tv_fs_praise_found","t":"You heard the slow way, and found the word.","d":2.9,"v":[["r","heard",18,21],["r","word",18,21]],"s":"Sulafat"},{"id":"tv_fs_praise_every","t":"You said it slowly, and found every sound.","d":3.37,"v":[],"s":"Sulafat"},{"id":"tv_fs_praise_both_2","t":"You said each sound slowly, then read the whole word.","d":3.45,"v":[["r","word",21,21]],"s":"Erinome"},{"id":"tv_fs_praise_both_3","t":"The slow way, then the fast way. You read it!","d":3.71,"v":[["bath","fast",13,21]],"s":"Sulafat"},{"id":"tv_fs_praise_found_2","t":"You pushed the sounds together, and heard the word.","d":3.16,"v":[["r","heard",17,21],["r","word",17,21]],"s":"Erinome"},{"id":"tv_fs_praise_found_3","t":"Those little sounds made a word, and you found it!","d":3.44,"v":[["r","word",21,21],["flap","little",19,21]],"s":"Sulafat"},{"id":"tv_fs_praise_found_4","t":"You listened to every sound, and caught the word!","d":3.17,"v":[["r","word",21,21]],"s":"Sulafat"},{"id":"tv_fs_praise_every_2","t":"Slowly does it! Every sound is in its place.","d":4.05,"v":[],"s":"Sulafat"},{"id":"tv_fs_praise_every_3","t":"Sound by sound, the slow way. Well built!","d":4.83,"v":[],"s":"Erinome"},{"id":"tv_fs_praise_every_4","t":"You listened slowly, and got the sounds in order.","d":3.5,"v":[["r","order",21,21]],"s":"Erinome"}];
+const EAR = [{"h":"The seven lines the checker heard as American or in between","rows":[{"id":"tv_fs_made","t":"Every word is made of little sounds, one by one.","takes":[{"k":"first","label":"This morning (Sulafat)","said":"Every word is made of sounds, one after another.","v":[["bath","after",0,21],["r","word",1,21],["r","another",1,21]]},{"k":"before","label":"Before this fix (Sulafat)","said":"Every word is made of sounds, one after another.","v":[["bath","after",7,21],["r","word",20,21],["r","another",21,21]]},{"k":"now","label":"Now (Erinome)","v":[["r","word",20,21],["flap","little",20,21]]}]},{"id":"tv_fs_rabbit","t":"The rabbit pushes the sounds together, and says the word fast.","takes":[{"k":"before","label":"Before this fix (Sulafat)","v":[["bath","fast",0,21],["r","word",0,21]]},{"k":"now","label":"Now (Erinome)","v":[["bath","fast",20,21],["r","word",19,21]]}]},{"id":"tv_fs_now_fast","t":"And now, fast…","takes":[{"k":"first","label":"This morning (Sulafat)","said":"And now the fast way…","v":[["bath","fast",0,21]]},{"k":"before","label":"Before this fix (Sulafat)","said":"And now the fast way…","v":[["bath","fast",14,21]]},{"k":"now","label":"Now (Erinome)","v":[["bath","fast",19,21]]}]},{"id":"tv_fs_ninjas_can","t":"Ninjas can say a word slowly, and fast too.","takes":[{"k":"before","label":"Before this fix (Sulafat)","v":[["bath","fast",7,21],["r","word",19,21]]},{"k":"now","label":"Now (Erinome)","v":[["bath","fast",18,21],["r","word",20,21]]}]},{"id":"tv_ts_fast","t":"The rabbit says words fast…","takes":[{"k":"first","label":"This morning (Sulafat)","v":[["bath","fast",8,21],["r","words",20,21]]},{"k":"before","label":"Before this fix (Sulafat)","v":[["bath","fast",14,21],["r","words",21,21]]},{"k":"now","label":"Now (Erinome)","v":[["bath","fast",14,21],["r","words",20,21]]}]},{"id":"tv_learn_last","t":"Here's the last new sound…","takes":[{"k":"first","label":"This morning (Sulafat)","v":[["bath","last",0,21]]},{"k":"before","label":"Before this fix (Sulafat)","v":[["bath","last",11,21]]},{"k":"now","label":"Now (Erinome)","v":[["bath","last",21,21]]}]},{"id":"tv_opt_ask","t":"Ask a grown-up to help you choose.","takes":[{"k":"first","label":"This morning (Sulafat)","v":[["bath","Ask",0,21]]},{"k":"before","label":"Before and now (Sulafat, kept)","v":[["bath","Ask",18,21]]}]}]},{"h":"Also retaken: an r said the American way","rows":[{"id":"tv_fs_spell","t":"To build a word, we say it slowly first.","takes":[{"k":"before","label":"Before this fix (Sulafat)","v":[["r","word",0,21],["r","first",0,21]]},{"k":"now","label":"Now (Erinome)","v":[["r","word",21,21],["r","first",21,21]]}]},{"id":"tv_fs_praise_both_2","t":"You said each sound slowly, then read the whole word.","takes":[{"k":"before","label":"Before this fix (Sulafat)","v":[["r","word",0,21]]},{"k":"now","label":"Now (Erinome)","v":[["r","word",21,21]]}]},{"id":"tv_fs_praise_found_2","t":"You pushed the sounds together, and heard the word.","takes":[{"k":"before","label":"Before this fix (Sulafat)","v":[["r","heard",0,21],["r","word",0,21]]},{"k":"now","label":"Now (Erinome)","v":[["r","heard",17,21],["r","word",17,21]]}]},{"id":"tv_fs_praise_every_4","t":"You listened slowly, and got the sounds in order.","takes":[{"k":"before","label":"Before this fix (Sulafat)","v":[["r","order",0,21]]},{"k":"now","label":"Now (Erinome)","v":[["r","order",21,21]]}]},{"id":"tv_fs_stuck_slow","t":"Let's say it the slow way first…","takes":[{"k":"before","label":"Before this fix (Sulafat)","v":[["r","first",19,21]]},{"k":"now","label":"Now (Erinome)","v":[["r","first",19,21]]}]},{"id":"tv_fs_praise_both","t":"Slow, then fast. That's real reading!","takes":[{"k":"before","label":"Before this fix (Sulafat)","v":[["bath","fast",11,21]]},{"k":"now","label":"Now (Erinome)","v":[["bath","fast",20,21]]}]},{"id":"tv_fs_tortoise","t":"The tortoise says each word slowly, one sound at a time.","takes":[{"k":"before","label":"Before this fix (Sulafat)","said":"The tortoise says a word slowly, one sound at a time.","v":[["r","tortoise",4,21],["r","word",4,20],["flap","tortoise",20,21]]},{"k":"now","label":"Now (Erinome)","v":[["r","tortoise",21,21],["r","word",21,21],["flap","tortoise",20,20]]}]},{"id":"tv_fs_run","t":"I'll say it the slow way, and you catch the whole word.","takes":[{"k":"before","label":"Before this fix (Sulafat)","said":"I'll say it the slow way. You catch the whole word.","v":[["r","word",0,21]]},{"k":"now","label":"Now (Erinome)","v":[["r","word",20,21]]}]}]}];
+/*END-PAGE-DATA*/
+const LINE_GROUPS = [
+  { h: "The idea", n: "One whole sentence, once in each game a session, taking turns so the same sentence is never said twice in a session. The last eight were added later the same day, all under 3.5 s.", ids: ["tv_fs_two_ways", "tv_fs_tortoise", "tv_fs_gaps", "tv_fs_rabbit", "tv_fs_read", "tv_fs_same", "tv_fs_made", "tv_fs_ninja", "tv_fs_mantra", "tv_fs_spell", "tv_fs_find", "tv_fs_hiding", "tv_fs_whole", "tv_fs_push", "tv_fs_turn", "tv_fs_ninjas_can", "tv_fs_next", "tv_fs_start_end", "tv_fs_count"] },
+  { h: "Reading a word back: slow, then fast", n: "Sensei says the slow way while the tortoise walks, then the fast way comes: the child taps the rabbit, or Sensei says the word herself. The pairs take turns on the 3rd and 5th words of a game.", ids: ["tv_fs_say_sounds_slow", "tv_fs_rabbit_read", "tv_fs_say_slow", "tv_fs_now_fast", "tv_fs_slow_tortoise", "tv_fs_fast_rabbit", "tv_fs_run"] },
+  { h: "When the child is stuck", n: "A first miss, or 8 seconds with no tap: back to the slow way, taking turns with the game's own line.", ids: ["tv_fs_stuck_slow", "tv_fs_stuck_again", "tv_fs_stuck_push"] },
+  { h: "Praise", n: "Once in each game a session, in the game's praise slot, and each line at most once a session. Three kinds: letters, listening and building.", ids: ["tv_fs_praise_both", "tv_fs_praise_both_2", "tv_fs_praise_both_3", "tv_fs_praise_found", "tv_fs_praise_found_2", "tv_fs_praise_found_3", "tv_fs_praise_found_4", "tv_fs_praise_every", "tv_fs_praise_every_2", "tv_fs_praise_every_3", "tv_fs_praise_every_4"] },
+];
+const FEAT = { bath: "", r: "r in ", flap: "t in " };
+/** "fast 20/21 British", coloured by the share: British at 80% or more, American at 50% or less. */
+const voteHtml = (v) => v.map(([f, w, uk, n]) => { const p = n ? uk / n : 0; return `<span class="${p >= 0.8 ? "uk" : p <= 0.5 ? "us" : ""}">${FEAT[f]}“${esc(w.toLowerCase())}” <b>${uk}/${n}</b></span>`; }).join(" · ");
+const linelist = document.getElementById("linelist");
+const lineRows = [];
+for (const g of LINE_GROUPS) {
+  const h = document.createElement("h3");
+  h.className = "lgroup";
+  h.textContent = g.h;
+  const n = document.createElement("p");
+  n.className = "lnote";
+  n.textContent = g.n;
+  const box = document.createElement("div");
+  box.className = "lines";
+  for (const id of g.ids) {
+    const d = LINE_DATA.find((x) => x.id === id);
+    const row = document.createElement("div");
+    row.className = "lrow";
+    row.innerHTML = `<button class="play after" aria-label="Play: ${d.t.replace(/"/g, "&quot;")}">${tri} Play</button><div class="ltext"></div><div class="lmeta"><span class="lid">${d.id}</span><span>${d.d.toFixed(1)} s</span><span class="voice ${d.s}">${d.s}</span>${d.v && d.v.length ? `<span class="acc votes" title="British votes of 21">${voteHtml(d.v)}</span>` : ""}<span class="lprog"><i></i></span></div>`;
+    row.querySelector(".ltext").textContent = d.t;
+    box.appendChild(row);
+    lineRows.push({ d, row });
+  }
+  linelist.append(h, n, box);
+}
+var lineCur = null; // { audio, row, raf, done }
+function stopLine(ended) {
+  if (!lineCur) return;
+  const c = lineCur;
+  lineCur = null;
+  c.audio.pause();
+  cancelAnimationFrame(c.raf);
+  c.row.classList.remove("playing");
+  c.row.querySelector(".lprog i").style.width = "0";
+  c.done(!!ended);
+}
+function playLine(r) {
+  if (playingAll) { playingAll = false; document.getElementById("playall").textContent = "Play all after"; }
+  stop();
+  gapgrid.querySelectorAll(".play").forEach((x) => x.classList.remove("on"));
+  return new Promise((resolve) => {
+    const audio = new Audio(`lines/${r.d.id}.mp3`);
+    const bar = r.row.querySelector(".lprog i");
+    lineCur = { audio, row: r.row, raf: 0, done: resolve };
+    r.row.classList.add("playing");
+    const mine = () => lineCur && lineCur.audio === audio;
+    const tick = () => {
+      if (!mine()) return;
+      bar.style.width = (100 * Math.min(1, audio.currentTime / (audio.duration || r.d.d))).toFixed(1) + "%";
+      lineCur.raf = requestAnimationFrame(tick);
+    };
+    audio.addEventListener("ended", () => { if (mine()) stopLine(true); });
+    audio.addEventListener("error", () => { if (mine()) stopLine(false); });
+    audio.play().then(() => { if (mine()) lineCur.raf = requestAnimationFrame(tick); }).catch(() => { if (mine()) stopLine(false); });
+  });
+}
+let playingLines = false;
+const plBtn = document.getElementById("playlines");
+linelist.addEventListener("click", (e) => {
+  const b = e.target.closest(".play");
+  if (!b) return;
+  const r = lineRows.find((x) => x.row.contains(b));
+  if (lineCur && lineCur.row === r.row) { playingLines = false; stopLine(false); return; }
+  playingLines = false;
+  playLine(r);
+});
+plBtn.addEventListener("click", async () => {
+  if (playingLines) { playingLines = false; stopLine(false); return; }
+  playingLines = true;
+  plBtn.textContent = "Stop";
+  for (const r of lineRows) {
+    r.row.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    const ended = await playLine(r);
+    if (!ended || !playingLines) break;
+    await new Promise((res) => setTimeout(res, 700));
+    if (!playingLines || current || lineCur || (gapAudio && !gapAudio.paused)) break;
+  }
+  playingLines = false;
+  plBtn.textContent = "Play all 40 lines";
+});
+
+// --- For your ear: British or not? (ear/<id>/first|before|now.mp3; the votes are scripts/accent-judge.ts's)
+const earlist = document.getElementById("earlist");
+const britishAll = (v) => v && v.length && v.every(([, , uk, n]) => n && uk / n >= 0.8);
+for (const g of EAR) {
+  const h = document.createElement("h3");
+  h.className = "lgroup";
+  h.textContent = g.h;
+  const box = document.createElement("div");
+  box.className = "ear";
+  for (const e of g.rows) {
+    const row = document.createElement("div");
+    row.className = "erow";
+    row.innerHTML = `<div class="ltext"></div><div class="lid">${e.id}</div><div class="etakes">${e.takes.map((k, i) => `<div class="etake"><button class="play${i === e.takes.length - 1 ? " after" : ""}" data-src="ear/${e.id}/${k.k}.mp3">${tri} ${esc(k.label)}</button>${k.said ? `<div class="said">said “${esc(k.said)}”</div>` : ""}<div class="votes">${k.v ? voteHtml(k.v) + " British" : "not judged"}</div></div>`).join("")}</div>`;
+    row.querySelector(".ltext").textContent = e.t;
+    box.appendChild(row);
+  }
+  earlist.append(h, box);
+}
+const earRows = EAR.flatMap((g) => g.rows);
+const nowUk = earRows.filter((e) => britishAll(e.takes[e.takes.length - 1].v)).length;
+const beforeUk = earRows.filter((e) => britishAll((e.takes.find((k) => k.k === "before") || {}).v)).length;
+document.getElementById("eartally").innerHTML = `British on every word (80% of votes or more): <b>${beforeUk} of ${earRows.length}</b> lines before this fix, <b>${nowUk} of ${earRows.length}</b> now. Votes are out of 21 for each word (a few fewer where the listener gave no answer), all from one run of the listener after the takes were picked, so they are not the lucky run that picked them. “r in ‘word’” is whether Sensei dropped the r, as a British speaker does. <b>Green</b>: British on at least 80% of votes. <b>Red</b>: British on half or fewer.`;
+let earAudio = null, earBtn = null;
+function earStop() {
+  if (earAudio) earAudio.pause();
+  if (earBtn) earBtn.classList.remove("on");
+  earAudio = earBtn = null;
+}
+earlist.addEventListener("click", (e) => {
+  const b = e.target.closest(".play");
+  if (!b) return;
+  const again = b === earBtn;
+  stop();
+  if (again) return;
+  const a = new Audio(b.dataset.src);
+  earAudio = a; earBtn = b;
+  b.classList.add("on");
+  const done = () => { if (earAudio === a) earStop(); };
+  a.addEventListener("ended", done);
+  a.addEventListener("error", done);
+  a.play().catch(done);
+});
+</script>
+
+</html>

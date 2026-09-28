@@ -1,7 +1,11 @@
 // Grown-ups area: settings, progress per spelling (reading vs spelling), and how the game teaches.
 // Navigation (docs/NAVIGATION.md §5.A): Home (top-left, the nav layer's) goes back to the screen the gear was held on
 // (`onBack`, App's Home rule); the "Grown-ups" heading sits in the top bar right of it.
-import { useRef, useState } from "react";
+// Nothing here can be done by a stray double tap (docs/CONFIRM.md §1): deleting a player asks again with a different
+// button in a different place, which disarms after 5 s or on any other tap; a jump ahead names where the child lands
+// before it moves them, is logged, and can be undone ("Move back to where they were") until the child plays on.
+import { useEffect, useRef, useState } from "react";
+import { cheatMenu } from "../cheat/gesture";
 import { GRAPHEMES, PHONEMES, SPELLING_ORDER, UNITS, type PhonemeId } from "../content/phonics";
 import { LEVELS, WORLDS, startFor, worldOf, termOf } from "../content/worlds";
 import { setMusicVolume, sfx, say } from "../engine/audio";
@@ -9,13 +13,29 @@ import { mastery, store, useSave, profilesApi, logAdjust, type SchoolYear } from
 import { frontier, placeAtUnit } from "../engine/gems";
 import { useHome, TopBar } from "../ui/nav";
 import { SoundBadge } from "../ui/SoundBadge";
-import { JumpAhead } from "./JumpAhead";
+import { JumpAhead, jumpUndoOf, undoJump } from "./JumpAhead";
+
+const BTN = { marginTop: 6, marginRight: 10, padding: "10px 18px", borderRadius: 14, border: "3px solid var(--ink)", background: "#fff", fontWeight: 700, fontSize: 18 } as const;
 
 export function Grownups({ onBack }: { onBack: () => void }) {
   const s = useSave((s) => s);
   useHome(onBack);
   const [confirm, setConfirm] = useState(false);
   const [jump, setJump] = useState(false);
+  // Delete player, step two: disarms after 5 s, or on any tap that isn't the real delete button
+  useEffect(() => {
+    if (!confirm) return;
+    const t = window.setTimeout(() => setConfirm(false), 5000);
+    const off = (e: PointerEvent) => void (!(e.target as Element | null)?.closest?.("[data-delete-yes]") && setConfirm(false));
+    const arm = window.setTimeout(() => window.addEventListener("pointerdown", off, true), 0);
+    return () => {
+      clearTimeout(t);
+      clearTimeout(arm);
+      window.removeEventListener("pointerdown", off, true);
+    };
+  }, [confirm]);
+  const who = profilesApi.current()?.name ?? "this player";
+  const undo = jumpUndoOf(s);
   const set = (fn: (x: typeof s.settings) => void) => store.set((st) => fn(st.settings));
   const played = Object.keys(s.stars).length;
 
@@ -42,24 +62,42 @@ export function Grownups({ onBack }: { onBack: () => void }) {
           <p style={{ fontSize: 18, color: "var(--ink-soft)" }}>
             Levels finished: <b>{played}</b> of {LEVELS.length}. Spellings rescued: <b>{s.petals.length}</b> of {SPELLING_ORDER.length}.
           </p>
-          <button
-            onClick={() => { location.search = "?scene=placement"; }}
-            style={{ marginTop: 6, marginRight: 10, padding: "10px 18px", borderRadius: 14, border: "3px solid var(--ink)", background: "#fff", fontWeight: 700, fontSize: 18 }}
-          >
+          <button onClick={() => { location.search = "?scene=placement"; }} style={BTN}>
             Check the starting point
           </button>
-          <button
-            onClick={() => setJump(true)}
-            style={{ marginTop: 6, marginRight: 10, padding: "10px 18px", borderRadius: 14, border: "3px solid var(--ink)", background: "#fff", fontWeight: 700, fontSize: 18 }}
-          >
+          <button onClick={() => setJump(true)} style={BTN}>
             Jump ahead (Reception / Year 1 / Year 2)
           </button>
-          <button
-            onClick={() => { if (confirm) { const p = profilesApi.current(); if (p) profilesApi.remove(p.id); else store.reset(); setConfirm(false); sfx.wrong(); location.href = "/play/?scene=profiles"; } else setConfirm(true); }}
-            style={{ marginTop: 6, padding: "10px 18px", borderRadius: 14, border: "3px solid var(--ink)", background: confirm ? "#e2412f" : "#fff", color: confirm ? "#fff" : "var(--ink)", fontWeight: 700, fontSize: 18 }}
-          >
-            {confirm ? `Tap again to delete ${profilesApi.current()?.name ?? "this player"} and all their progress` : `Delete player ${profilesApi.current()?.name ?? ""}`}
+          <button onClick={() => cheatMenu(true)} style={BTN}>
+            Cheats (for testing)
           </button>
+          {undo && (
+            <button
+              onClick={() => {
+                undoJump();
+                sfx.good();
+              }}
+              style={BTN}
+            >
+              Move back to where they were (before the jump to {undo.label})
+            </button>
+          )}
+          <button onClick={() => !confirm && setConfirm(true)} style={{ ...BTN, marginRight: 0, opacity: confirm ? 0.6 : 1 }}>
+            {confirm ? "Keep this player" : `Delete player ${profilesApi.current()?.name ?? ""}`}
+          </button>
+          {/* step two: a different button, on its own line below, so a double tap can never reach it */}
+          {confirm && (
+            <div style={{ marginTop: 14, padding: "12px 14px", borderRadius: 14, border: "3px dashed #e2412f", background: "#fff0ec", display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 18, fontWeight: 700 }}>Delete {who} and all their progress? This can't be undone.</span>
+              <button
+                data-delete-yes
+                onClick={() => { const p = profilesApi.current(); if (p) profilesApi.remove(p.id); else store.reset(); setConfirm(false); sfx.wrong(); location.href = "/play/?scene=profiles"; }}
+                style={{ ...BTN, marginTop: 0, marginRight: 0, marginLeft: "auto", background: "#e2412f", color: "#fff" }}
+              >
+                Yes, delete {who}
+              </button>
+            </div>
+          )}
         </section>
 
         <SchoolYearPanel />
@@ -111,7 +149,7 @@ export function Grownups({ onBack }: { onBack: () => void }) {
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {Object.values(PHONEMES).map((ph) => (
-              <button key={ph.id} onClick={() => say({ sound: ph.id })} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "4px 12px 4px 6px", borderRadius: 12, border: "3px solid var(--ink)", background: "#fff", fontSize: 18 }}>
+              <button key={ph.id} onClick={(e) => say({ sound: ph.id as PhonemeId, show: "petal", at: e.currentTarget })} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "4px 12px 4px 6px", borderRadius: 12, border: "3px solid var(--ink)", background: "#fff", fontSize: 18 }}>
                 <SoundBadge p={ph.id as PhonemeId} size={30} still />
                 <span><b style={{ fontFamily: "var(--font-letters)", fontSize: 24 }}>{ph.label}</b> <span style={{ color: "var(--ink-soft)" }}>as in {ph.example}</span></span>
               </button>

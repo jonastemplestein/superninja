@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slider and Demo Retakes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+  :root { --ground:#f4f5fa; --surface:#fff; --ink:#1b2030; --muted:#5b6278; --line:#dde0ec; --ok:#1d7f4e; --ear:#b35c00; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme:dark; --ground:#10131c; --surface:#171b27; --ink:#e7eaf4; --muted:#9aa1b8; --line:#2a3148; --ok:#6fd39c; --ear:#ffb561; } }
+  :root[data-theme="dark"] { color-scheme:dark; --ground:#10131c; --surface:#171b27; --ink:#e7eaf4; --muted:#9aa1b8; --line:#2a3148; --ok:#6fd39c; --ear:#ffb561; }
+  body { background:var(--ground); color:var(--ink); font:16px/1.5 "Atkinson Hyperlegible", system-ui, sans-serif; margin:0; padding:0 16px 48px; }
+  main { max-width:860px; margin:0 auto; }
+  h1 { font:700 30px/1.2 "Baloo 2", system-ui, sans-serif; margin:28px 0 4px; }
+  .lede { color:var(--muted); margin:0 0 20px; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:0 0 14px; }
+  .card h2 { font-size:17px; margin:0; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .chip { font-size:12px; font-weight:700; padding:2px 8px; border-radius:99px; border:1px solid currentColor; }
+  .ok .chip { color:var(--ok); } .ear .chip { color:var(--ear); }
+  .why, .n { color:var(--muted); font-size:14px; margin:4px 0; }
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
+  @media (max-width:640px) { .pair { grid-template-columns:1fr; } }
+  h3 { font-size:13px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin:0 0 4px; }
+  audio { width:100%; max-width:100%; }
+  .t { margin:4px 0; }
+  .take { margin:6px 0; }
+</style>
+<main>
+<h1>Slider and demo retakes</h1>
+<p class="lede">28 Sep. Sensei (Erinome, en-GB). 6 of 10 passed every gate: faster-whisper word for word, ≤ 3.3 words a second, −16 LUFS, a clean lead-in tail, the rubric judge, the calibrated accent judge, and the warmth listen (≥ 4.3 with at most one “told off” in 15 for the corrections, the frame and the backwards gags).</p>
+<section class="card ear">
+  <h2><code>tv_demo_now_tap_sun</code> <span class="chip">for your ear</span></h2>
+  <p class="why">heard as “I'm gonna” · 8 takes</p>
+  <div class="pair">
+    <div><h3>Now (kept)</h3><audio controls preload="none" src="old/tv_demo_now_tap_sun.mp3"></audio><p class="t">I'm going to tap on the sun... now...</p></div>
+    <div><h3>After</h3><p class="t">I'm going to tap on the sun... now...</p><div class="take"><audio controls preload="none" src="ear/tv_demo_now_tap_sun-1.mp3"></audio><span class="n">take 1: accent – · warmth 3.25 · told off 0/8 · 2.09 w/s · -16.1 LUFS · fall -0.76 · gonna 8/8</span></div><div class="take"><audio controls preload="none" src="ear/tv_demo_now_tap_sun-2.mp3"></audio><span class="n">take 2: accent – · 3.51 w/s · -16 LUFS · fall 7.73 · failed: gate: wps 3.51 lufs -16 blip null fall 7.73 rise -5.8</span></div><div class="take"><audio controls preload="none" src="ear/tv_demo_now_tap_sun-3.mp3"></audio><span class="n">take 3: accent – · 2.69 w/s · -15.9 LUFS · fall 8.02 · failed: gate: wps 2.69 lufs -15.9 blip 0.41 fall 8.02 rise -7.75</span></div></div>
+  </div>
+</section>
+<section class="card ok">
+  <h2><code>tv_demo_now_tap_ant</code> <span class="chip">passed, installed</span></h2>
+  <p class="why">heard as “I'm gonna” · 8 takes</p>
+  <div class="pair">
+    <div><h3>Before</h3><audio controls preload="none" src="old/tv_demo_now_tap_ant.mp3"></audio><p class="t">I'm going to tap on the ant... now...</p></div>
+    <div><h3>After</h3><audio controls preload="none" src="new/tv_demo_now_tap_ant.mp3"></audio><p class="t">I'm going to tap on the ant... now...</p><p class="n">accent – · warmth 4.63 · told off 0/8 · 2.48 w/s · -16.5 LUFS · fall 1.07 · gonna 0/8</p></div>
+  </div>
+</section>
+<section class="card ok">
+  <h2><code>tv_demo_rule_tapall</code> <span class="chip">passed, installed</span></h2>
+  <p class="why">heard as “I say as sound” · 2 takes</p>
+  <div class="pair">
+    <div><h3>Before</h3><audio controls preload="none" src="old/tv_demo_rule_tapall.mp3"></audio><p class="t">Let's pretend I say a sound. Then you find every picture that starts with it.</p></div>
+    <div><h3>After</h3><audio controls preload="none" src="new/tv_demo_rule_tapall.mp3"></audio><p class="t">Let's pretend I say a sound. Then you find every picture that starts with it.</p><p class="n">accent 95 % · warmth 4.88 · told off 0/8 · 3.13 w/s · -16 LUFS</p></div>
+  </div>
+</section>
+<section class="card ok">
+  <h2><code>pr_back_snowman</code> <span class="chip">passed, installed</span></h2>
+  <p class="why">stern (“That's silly.”): reworded · 8 takes · the take's 3.3 s pause after “men!” cut to 0.7 s (8.0 s → 5.4 s)</p>
+  <div class="pair">
+    <div><h3>Before</h3><audio controls preload="none" src="old/pr_back_snowman.mp3"></audio><p class="t">Man snow! That's silly. We always start on this side.</p></div>
+    <div><h3>After</h3><audio controls preload="none" src="new/pr_back_snowman.mp3"></audio><p class="t">Man snow! It's snowing tiny men! We always start on this side.</p><p class="n">accent 100 % · warmth 4.4 · told off 0/15 · 1.49 w/s · -16.1 LUFS</p></div>
+  </div>
+</section>
+<section class="card ok">
+  <h2><code>pr_back_cupcake</code> <span class="chip">passed, installed</span></h2>
+  <p class="why">stern (“That's silly.”): reworded · 2 takes</p>
+  <div class="pair">
+    <div><h3>Before</h3><audio controls preload="none" src="old/pr_back_cupcake.mp3"></audio><p class="t">Cake cup! That's silly. We always start on this side.</p></div>
+    <div><h3>After</h3><audio controls preload="none" src="new/pr_back_cupcake.mp3"></audio><p class="t">Cake cup! A cup made of cake! We always start on this side.</p><p class="n">accent 100 % · warmth 4.8 · told off 0/15 · 3.23 w/s · -15.9 LUFS</p></div>
+  </div>
+</section>
+<section class="card ok">
+  <h2><code>pr_back_football</code> <span class="chip">passed, installed</span></h2>
+  <p class="why">stern (“That's silly.”): reworded · 6 takes</p>
+  <div class="pair">
+    <div><h3>Before</h3><audio controls preload="none" src="old/pr_back_football.mp3"></audio><p class="t">Ball foot! That's silly. We always start on this side.</p></div>
+    <div><h3>After</h3><audio controls preload="none" src="new/pr_back_football.mp3"></audio><p class="t">Ball foot! A ball with toes! We always start on this side.</p><p class="n">accent 100 % · warmth 4.53 · told off 1/15 · 2.77 w/s · -16.2 LUFS</p></div>
+  </div>
+</section>
+<section class="card ok">
+  <h2><code>pr_back_pancake</code> <span class="chip">passed, installed</span></h2>
+  <p class="why">stern (“That's silly.”): reworded · 4 takes</p>
+  <div class="pair">
+    <div><h3>Before</h3><audio controls preload="none" src="old/pr_back_pancake.mp3"></audio><p class="t">Cake pan! That's silly. We always start on this side.</p></div>
+    <div><h3>After</h3><audio controls preload="none" src="new/pr_back_pancake.mp3"></audio><p class="t">Cake pan! A frying pan made of cake! We always start on this side.</p><p class="n">accent 100 % · warmth 5 · told off 0/15 · 2.23 w/s · -16.1 LUFS</p></div>
+  </div>
+</section>
+<section class="card ear">
+  <h2><code>rs_back_1</code> <span class="chip">for your ear</span></h2>
+  <p class="why">warmth 4.0, 2 of 15 “told off” · 8 takes</p>
+  <div class="pair">
+    <div><h3>Now (kept)</h3><audio controls preload="none" src="old/rs_back_1.mp3"></audio><p class="t">That way is backwards. We always read from left to right.</p></div>
+    <div><h3>After</h3><p class="t">That way is backwards. We always read from left to right.</p><div class="take"><audio controls preload="none" src="ear/rs_back_1-1.mp3"></audio><span class="n">take 1: accent 100 % · warmth 3.27 · told off 6/15 · 2.64 w/s · -16 LUFS</span></div><div class="take"><audio controls preload="none" src="ear/rs_back_1-2.mp3"></audio><span class="n">take 2: accent 100 % · warmth 3.13 · told off 6/15 · 2.94 w/s · -16.1 LUFS</span></div><div class="take"><audio controls preload="none" src="ear/rs_back_1-3.mp3"></audio><span class="n">take 3: accent 100 % · warmth 2.47 · told off 11/15 · 2.77 w/s · -16 LUFS</span></div></div>
+  </div>
+</section>
+<section class="card ear">
+  <h2><code>pr_frame</code> <span class="chip">for your ear</span></h2>
+  <p class="why">warmth 4.2 (borderline) · 8 takes</p>
+  <div class="pair">
+    <div><h3>Now (kept)</h3><audio controls preload="none" src="old/pr_frame.mp3"></audio><p class="t">Ninjas always read this way.</p></div>
+    <div><h3>After</h3><p class="t">Ninjas always read this way.</p><div class="take"><audio controls preload="none" src="ear/pr_frame-1.mp3"></audio><span class="n">take 1: accent – · warmth 4.2 · told off 1/15 · 2.21 w/s · -16 LUFS</span></div><div class="take"><audio controls preload="none" src="ear/pr_frame-2.mp3"></audio><span class="n">take 2: accent – · warmth 4.13 · told off 1/15 · 2.3 w/s · -16 LUFS</span></div><div class="take"><audio controls preload="none" src="ear/pr_frame-3.mp3"></audio><span class="n">take 3: accent – · warmth 4.13 · told off 1/15 · 2.58 w/s · -16.2 LUFS</span></div></div>
+  </div>
+</section>
+<section class="card ear">
+  <h2><code>pr_what_football</code> <span class="chip">for your ear</span></h2>
+  <p class="why">American r in “your” (20 % British) · 8 takes</p>
+  <div class="pair">
+    <div><h3>Now (kept)</h3><audio controls preload="none" src="old/pr_what_football.mp3"></audio><p class="t">A football is a ball you kick with your foot.</p></div>
+    <div><h3>After</h3><p class="t">A football is a ball you kick with your foot.</p><div class="take"><audio controls preload="none" src="ear/pr_what_football-1.mp3"></audio><span class="n">take 1: accent 100 % · warmth 3.63 · told off 0/8 · 3.23 w/s · -16 LUFS</span></div><div class="take"><audio controls preload="none" src="ear/pr_what_football-2.mp3"></audio><span class="n">take 2: accent – · 3.55 w/s · -16.4 LUFS · failed: gate: wps 3.55 lufs -16.4 blip null fall null rise null</span></div><div class="take"><audio controls preload="none" src="ear/pr_what_football-3.mp3"></audio><span class="n">take 3: accent – · 3.62 w/s · -16 LUFS · failed: gate: wps 3.62 lufs -16 blip null fall null rise null</span></div></div>
+  </div>
+</section>
+</main>
+</html>

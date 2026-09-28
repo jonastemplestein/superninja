@@ -1,0 +1,488 @@
+[
+ {
+  "sig": "script:letters-60s",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:letters-60s: the same letters sentence never twice in 60 s",
+  "detail": "Target 0. C5-L 5; C6-L 15; C5-P 5; C6-P 14; C5-S 5. w5-1 @0:32.2 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s; w5-1 @0:45.8 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s; w5-3 @7:13.4 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:same-sound-after-reveal",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:same-sound-after-reveal: `same_sound_new` after the reveal",
+  "detail": "Target 0. C5-L 2; C6-L 4; C5-P 2; C6-P 4; C5-S 2. w5-3 @7:06.5 ‹same_sound_new› \"Ooh! You already know this sound. Here's another way to spell it! Same\"; w5-6 @15:44.6 ‹same_sound_new› \"Ooh! You already know this sound. Here's another way to spell it! Same\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:world-welcomes",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:world-welcomes: world welcomes: 1 per land",
+  "detail": "Target ≤ 1 per land. C5-L world_5 ×10, world_6 ×2; C6-L world_6 ×13; C-L world_1 ×12; C5-P world_5 ×10, world_6 ×2; C6-P world_6 ×13; C-P world_1 ×11; C5-S world_5 ×8; C-W world_1 ×14, world_2 ×4. world_1 \"Welcome to Bamboo Village!\" said 14 times; world_2 \"Welcome to Blossom Hills!\" said 4 times",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:did-it-after-praise",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:did-it-after-praise: \"You did it!\" straight after another praise line",
+  "detail": "Target 0. C5-L 10; C6-L 12; C-L 8; C5-P 10; C6-P 12; C-P 10; C5-S 7; C-W 15. sticker book @7:38.7; reward @9:32.9; reward @12:19.2",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:speaker-tip",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:speaker-tip: \"Tap the speaker…\": ≤ 2 a save, 0 cut",
+  "detail": "Target ≤ 2, 0 cut. C5-L 10 (10 cut); C6-L 8 (8 cut); C5-S 10 (10 cut); C-W 2 (2 cut). w2-1 @40:15.4 cut; w2-1 @40:22.2 cut",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:map-hint-cut",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:map-hint-cut: map hint cut by the next level",
+  "detail": "Target 0. C5-L 1 of 2; C6-L 1 of 2; C-L 10 of 13; C5-P 1 of 2; C6-P 1 of 2; C-P 9 of 12; C5-S 1 of 2; C-W 12 of 19. map @7:43.8 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut; map @10:47.7 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut; map @12:54.7 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:over-map",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:over-map: level lines started over the map",
+  "detail": "Target 0. C5-L 6; C6-L 10; C-L 6; C5-P 11; C6-P 9; C-P 7; C5-S 5; C-W 9. w1-wu3 @5:19.0 ‹fm_l1_hello› \"Ninja ears on! Let's listen to some words.\"; w1-2 @7:45.9 ‹first_intro› \"Every word starts with a sound. Let's listen for the very first sound!\"; w1-3 @10:49.8 ‹first_intro› \"Every word starts with a sound. Let's listen for the very first sound!\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:swap-place-heard",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:swap-place-heard: swap place lines heard to the end",
+  "detail": "Target all. C5-L 0 of 5; C-L 0 of 3; C5-P 0 of 5; C-P 0 of 3; C5-S 1 of 4; C-W 0 of 6. w1-8 @21:19.9 ‹audit_swap_first› \"Yes, the first sound changes! Now pick the new sound.\" cut; w1-8 @21:33.0 ‹audit_swap_middle› \"Yes, the middle sound changes! Now pick the new sound.\" cut; w1-8 @22:14.7 ‹audit_swap_last› \"Yes, the last sound changes! Now pick the new sound.\" cut",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:praise-rate",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:praise-rate: praise lines a minute",
+  "detail": "Target ≤ 1.5. C5-L 3.19; C6-L 3.35; C-L 2.01; C5-P 3.86; C6-P 3.31; C-P 1.96; C5-S 4.12; C-W 2.70. 124 praise lines in 46.0 min",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:praise-stacks",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:praise-stacks: praise stacks within 5 s",
+  "detail": "Target 0. C5-L 20; C6-L 20; C-L 7; C5-P 20; C6-P 17; C-P 11; C5-S 18; C-W 20. w1-wu1 @3:00.4: \"You found them both! They both start with...\" → \"You can hear the sounds in words. Brilliant listening!\"; w1-wu3 @6:36.7: \"You found them all!\" → \"You can hear the sounds in words. Brilliant listening!\"; w1-2 @9:24.3: \"Well done.\" → \"Lovely!\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:line-60s",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:line-60s: any line more than twice in 60 s (bar the §5.1 routines)",
+  "detail": "Target 0. C5-L 17 lines; C6-L 5 lines; C-L 9 lines; C5-P 18 lines; C6-P 6 lines; C-P 5 lines; C5-S 14 lines; C-W 15 lines. ‹first_q› \"Which one starts with...\" from w1-2 @7:54.9; ‹how_we_spell› \"This is how we spell...\" from w1-2 @8:16.1; ‹hunt_q› \"Which one has this sound in it?\" from w1-7 @18:34.4",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:cut-explanations",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:cut-explanations: cut-off explanations (not prompts)",
+  "detail": "Target 0. C5-L 17; C6-L 9; C-L 13; C5-P 6; C6-P 1; C-P 12; C5-S 14; C-W 20. map @7:43.8 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"; map @10:47.7 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"; map @12:54.7 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:unframed-turn",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:unframed-turn: every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+  "detail": "Target 0 missing. C5-L 1 of 1 games; C6-L 1 of 1 games; C-L 19 of 19 games; C5-P 1 of 1 games; C6-P 1 of 1 games; C-P 18 of 18 games; C-W 21 of 21 games. tap (w1-wu1 1:49.7): no frame line (tv_ears_frame), no narrated demo, no Ready hold, no hand-over. Opens: \"Ninja ears on! Let's listen to some words.\" · \"This is the sun.\"; fastslow (w1-wu1 1:56.7): no frame line (tv_ts_meet), no narrated demo, no Ready hold. Opens: \"Watch me first!\" · \"I can say a word fast. Sun!\"; notice (w1-wu1 2:26.8): no frame line (tv_notice_frame/tv_ears_on), no hand-over. Opens: \"Listen to the very first sound.\" · \"Sun and sock start with the same sound...\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:over-framed",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:over-framed: a replay that plays a full frame again",
+  "detail": "Target 0. C5-L 4; C6-L 1; C-L 9; C5-P 4; C6-P 1; C-P 9; C5-S 3; C-W 13. ‹fm_l1_hello› \"Ninja ears on! Let's listen to some words.\" at w1-wu3 @5:19.0, again after w1-wu1 @1:41.6; ‹fm_tap_all_start› \"Tap all the pictures that start with...\" at w1-wu3 @6:22.6, again after w1-wu1 @2:46.8; ‹first_intro› \"Every word starts with a sound. Let's listen for the very first sound!\" at w1-3 @10:49.8, again after w1-2 @7:45.9",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:bare-command",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:bare-command: bare-command lines (under 4 words, an instruction)",
+  "detail": "Target 0. C5-L 17 said (2 lines); C6-L 11 said (2 lines); C-L 35 said (11 lines); C5-P 14 said (2 lines); C6-P 9 said (2 lines); C-P 31 said (9 lines); C5-S 15 said (2 lines); C-W 39 said (12 lines). ‹ido› \"Watch me first!\" ×13; ‹find_q› \"Find this sound...\" ×6; ‹listen› \"Listen...\" ×4",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:bare-listen",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:bare-listen: a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+  "detail": "Target 0. C5-L 11; 3 after quiet or before the level's first tap; C6-L 8; 4 after quiet or before the level's first tap; C5-P 11; 3 after quiet or before the level's first tap; C6-P 8; 4 after quiet or before the level's first tap; C5-S 11; 3 after quiet or before the level's first tap; C-W 4 (4 in w2-1); 1 after quiet or before the level's first tap. w2-1 @39:30.5 after dojo_hello: \"Listen…\" /b/ /b/; w2-1 @39:41.0 after tv_yay_lovely: \"Listen…\" /k/ /k/; w2-1 @39:51.2 after yay_8: \"Listen…\" /g/ /g/",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:talk-before-action",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:talk-before-action: talk before a child action, first meetings",
+  "detail": "Target ≤ 12 s (named runs 12.5 s). C5-L max 17.6 s (sort w6-br1); 1 over; C6-L max 17.6 s (sort w6-br1); 1 over; C-L max 29.5 s (build w1-4); 10 over; C5-P max 17.6 s (sort w6-br1); 1 over; C6-P max 17.6 s (sort w6-br1); 1 over; C-P max 29.3 s (build w1-4); 9 over; C-W max 29.4 s (build w1-4); 8 over. build (w1-4) 29.4 s from ‹two_sounds› \"This word has two sounds!\" to ‹first_sound_q› \"What's the first sound?\"; soundhunt (w1-7) 26.3 s from ‹audit_middle_place› \"The middle sound comes after the first sound, and before the last soun\" to ‹hunt_q› \"Which one has this sound in it?\"; firstsound (w1-2) 23.2 s from ‹fs_mop› \"Mop starts with...\" to ‹first_q› \"Which one starts with...\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:turn-median",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:turn-median: the median Sensei turn (all talk between two child actions)",
+  "detail": "Target 8–25 words. C5-L 7 words (median line 5 words; 153 turns); C6-L 7 words (median line 7 words; 116 turns); C5-P 7 words (median line 4 words; 137 turns); C6-P 7 words (median line 6 words; 108 turns). turns under 8 words: 66 of 108",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:rhetorical-question",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:rhetorical-question: rhetorical questions (a ? with no hold or turn that can answer it)",
+  "detail": "Target 0. C5-L 2 said (1 lines); C6-L 2 said (2 lines); C-L 16 said (5 lines); C5-P 3 said (2 lines); C6-P 2 said (2 lines); C-P 15 said (4 lines); C5-S 3 said (2 lines); C-W 29 said (4 lines). ‹what_changed› \"What changed? Listen here.\" ×19; ‹read_intro› \"Who read it right? Listen to Kai and Suki!\" ×4; ‹read_who› \"Who read it right?\" ×4",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:shouted-instruction",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:shouted-instruction: instructions that end in \"!\"",
+  "detail": "Target 0. C5-L 19 said (5 lines); C6-L 13 said (5 lines); C-L 46 said (25 lines); C5-P 18 said (5 lines); C6-P 13 said (5 lines); C-P 47 said (24 lines); C5-S 16 said (4 lines); C-W 59 said (28 lines). ‹ido› \"Watch me first!\" ×13; ‹audit_sounds_again› \"Listen to the sounds, and catch the word they make!\" ×5; ‹read_intro› \"Who read it right? Listen to Kai and Suki!\" ×4",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:letters-echo",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:letters-echo: \"/X/ two letters · /X/ two letters\" echoes",
+  "detail": "Target 0. C6-L 2; C6-P 2. level w6-2 @5:50.6 (one breath): This sound can be spelt in two ways. /ae/ It's two letters, but it's one sound. /ae/ It's two letters, but it's one sound. Tap the chest with the same spelling as the word. \"spray\"; level w6-4 @10:02.3 (one breath): This sound can be spelt in two ways. /ee/ It's two letters, but it's one sound. /ee/ It's two letters, but it's one sound. Tap the chest with the same spelling as the word. \"green\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:how-we-spell",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:how-we-spell: \"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+  "detail": "Target once per spelling per level. C-L 10 (4 repeats); C-P 16 (7 repeats); C-W 16 (7 repeats). w1-2 /s/: 2×; w1-3 /a/: 2×; w1-3 /t/: 2×",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:demo-command",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:demo-command: a line addressed to the child during Sensei's own demo",
+  "detail": "Target 0. C-L 11; C-P 14; C-W 14. w1-wu1 @1:50.7 ‹fm_tap_sun› \"Tap the sun!\" during ‹fm_show_me› \"Let me show you!\"; w1-wu1 @2:46.8 ‹fm_tap_all_start› \"Tap all the pictures that start with...\" during ‹fm_show_me› \"Let me show you!\"; w1-wu3 @5:40.8 ‹fm_slow_listen› \"Listen to my slow word...\" during ‹fm_show_me_2› \"Watch me first!\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:letters-twice",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:letters-twice: no spelling's full letters line twice in a session",
+  "detail": "Target 0. C5-P 2 sounds; C6-P 6 sounds. /ch/: 2× (w6-br2 1:53.0, w6-br2 1:56.9); /ae/: 3× (w6-1 3:17.5, w6-2 5:54.4, w6-2 5:58.7); ?/: 12× (w6-1 3:39.3, world flower 5:06.9, world flower 5:28.2, w6-3 7:41.5, world flower 9:17.5, world flower 9:39.8, w6-6 13:28.9, world flower 15:02.0, world flower 15:24.2, w6-ec11 17:35.0, world flower 19:09.5, world flower 19:33.7)",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:letters-lines",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:letters-lines: letters lines in C6-P (25 min) ≤ 12",
+  "detail": "Target ≤ 12. C6-P 28. w6-br1 @0:20.2 ‹t_two_letters› \"It's two letters, but it's one sound.\"; w6-br2 @1:53.0 ‹t_two_letters› \"It's two letters, but it's one sound.\"; w6-br2 @1:56.9 ‹t_three_letters› \"It's three letters, but it's just one sound.\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:split-correction",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:split-correction: split-spelling errors with the two-letter correction (splitter)",
+  "detail": "Target 100%. C5-S 4 of 6 (67%). w5-4 @11:52.9 tapped < n > for < ng >: then \"Now pick the new sound.\" · \"Keep going, ninja.\" · \"Listen...\"; w5-8 @22:14.4 tapped < h > for < tch >: then \"Yes, the last sound changes! Now pick the new sound.\" · \"Keep going, ninja.\" · \"Listen...\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ },
+ {
+  "sig": "script:first-dojo-opening",
+  "source": "script",
+  "severity": "major",
+  "case": "script",
+  "title": "script:first-dojo-opening: w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+  "detail": "Target yes. C-W no. w2-1 opens: ‹dojo_hello› \"This is the dojo. A dojo is where ninjas practise! Let's practise some sounds.\" · ‹listen› \"Listen...\" · /b/ · /b/ · ‹audit_spell_it› \"And this is how we spell it.\"",
+  "evidence": [
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-learner.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect-from-w6-br1.json",
+   "playtest/fix/baseline/transcripts/continuous-perfect.json",
+   "playtest/fix/baseline/transcripts/continuous-splitter-from-w5-1.json",
+   "playtest/fix/baseline/transcripts/continuous-watcher.json"
+  ]
+ }
+]

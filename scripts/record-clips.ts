@@ -1,61 +1,70 @@
-// Record gameplay clips for the landing page: headless Chromium at iPhone-landscape size, a bot plays each scene.
-// Usage: bun scripts/record-clips.ts [base-url] [clip...]   (default base: http://localhost:5173)
-// Output: public/media/clips/<name>.mp4 + <name>.jpg (poster)
-import { chromium, type Page } from "playwright";
-import { mkdirSync, readdirSync, renameSync, rmSync, existsSync, writeFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+// Record gameplay clips for the landing page: the bot (scripts/treadmill/bot.ts, which knows every scene and taps the
+// green Next arrow at a held step) plays each scene, and the camera rig in scripts/tweet-clips.ts films it: a CDP
+// screencast rebuilt to a steady 30 fps, with the game's real soundtrack (the base's own sound files and sfx, at the
+// times they played, speech cut where the game cut it, lined up with the picture).
+// Usage: bun scripts/record-clips.ts [base-url] [clip...] [--recut] [--gpu]   (default base: http://localhost:5173; no names:
+// every clip; --recut: cut the clip again from its last master, e.g. after changing its window, without filming;
+// --gpu: render on the GPU, when a busy machine makes SwiftShader stutter)
+//   bun scripts/record-clips.ts https://superninja.templestein.com battle run dojo swap story boss map flower trial
+// Output: public/media/clips/<name>.mp4 + <name>.jpg (poster): 1280×720 H.264 High, yuv420p, faststart, 30 fps.
+// Trailer footage (tr_*) is 1920×1080 in assets-src/trailer/clips/. The masters, their timelines (what was said and
+// tapped when, which sound files) and contact sheets stay in assets-src/clips-raw/.
+// Each clip is filmed in its own bun process (under bun, a second browser in one process can hang). Nothing is
+// deleted: a file that is replaced goes to .trash/.
+import type { Page } from "playwright";
+import { spawnSync } from "node:child_process";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { contactSheet, record, trim, tweetSave, type RecordResult, type Rig } from "./tweet-clips";
+import { step } from "./treadmill/bot";
+import { LEVELS } from "../src/content/worlds";
 
-const BASE = process.argv[2]?.startsWith("http") ? process.argv[2] : "http://localhost:5173";
-const only = process.argv.slice(2).filter((a) => !a.startsWith("http"));
+const args = process.argv.slice(2);
+const BASE = args[0]?.startsWith("http") ? args[0].replace(/\/$/, "") : "http://localhost:5173";
+const oneAt = args.indexOf("--one");
+const recut = args.includes("--recut");
+// --gpu: draw on the GPU (ANGLE Metal) instead of SwiftShader, for a busy machine (see tweet-clips.ts)
+const gpu = args.includes("--gpu");
+const only = args.filter((a, i) => !a.startsWith("http") && !a.startsWith("--") && i !== oneAt + 1);
 const OUT = "public/media/clips";
-const TMP = "assets-src/clips-raw";
-mkdirSync(OUT, { recursive: true });
-mkdirSync(TMP, { recursive: true });
+const TRAILER = "assets-src/trailer/clips"; // trailer footage stays out of public/
+const RAW = "assets-src/clips-raw";
 
-// The game's own 16:9 stage fills the frame (no phone letterbox bars), shown inside a phone mockup on the page.
-const VIEW = { width: 1280, height: 720 };
-const SCALE = 1;
+/** The filming save: the bot's (every level open, the first-time explanations seen), captions off as before (the page
+ *  plays the clips small and muted), and the first-streak explanation already heard (it would fill a battle clip). */
+const clipSave = (extra: Record<string, any> = {}) => tweetSave({ seenStreak: true, ...extra, settings: { captions: false, ...(extra.settings ?? {}) } });
+/** A child coming back to the game who has played every level before `id`, as the old clips showed it: each game
+ *  already introduced (the game migrates a save with stars to the games' short openings), and the once-per-save
+ *  explanations of the first land (the Baron's motive, the dojo's welcome, the first gem, the first Ready hold...) heard. */
+const returning = (id: string, extra: Record<string, any> = {}) => {
+  const before = LEVELS.slice(0, LEVELS.findIndex((l) => l.id === id));
+  const heard = ["gem-energy", "gem-battle", "ready:first", "ready:paw", "story:choice", "baron-motive", "dojo:welcome", "dojo:first", "made-of-sounds", "left-right:build", "hear-see:w1", "place:middle", "place:last"];
+  return clipSave({ stars: Object.fromEntries(before.map((l) => [l.id, 3])), narr: Object.fromEntries(heard.map((k) => [k, { n: 1, at: [0], s: [0] }])), ...extra });
+};
+const level = (id: string) => ({ url: `/play/?level=${id}`, save: returning(id) });
 
-type Save = Record<string, unknown>;
-const baseSave = (extra: Save = {}): Save => ({
-  v: 1, hero: "kai", seenIntro: true, seenPlacement: true, seenFlower: true, seenTimer: true, captionsV2: true,
-  stars: {}, read: {}, spell: {}, words: {}, petals: [], energy: {}, gems: [], placed: [],
-  settings: { relaxed: false, music: 0.3, captions: false, unlockAll: true }, minutes: 0, sessions: 1, ...extra,
-});
-
-/** One bot step: tap the right answer in whatever scene is showing (mirrors scripts/bot.js). */
-async function botStep(page: Page, opts: { mistakes?: boolean } = {}) {
-  const st: any = await page.evaluate(() => (window as any).__snState || {});
-  const down = async (sel: string) => {
-    const el = page.locator(sel).first();
-    if (!(await el.count())) return false;
-    await el.dispatchEvent("pointerdown").catch(() => {});
-    return true;
-  };
-  if (["battle", "build", "find", "learn"].includes(st.scene) && st.next) {
-    // occasionally make a deliberate mistake so the correction shows up in the clip
-    if (opts.mistakes && Math.random() < 0.18) {
-      const wrong = await page.locator(".row .tile").evaluateAll((els, n) => els.map((e) => e.getAttribute("aria-label")).find((a) => a && a !== n), st.next);
-      if (wrong) return down(`.row .tile[aria-label="${wrong}"]`);
-    }
-    return (await down(`.row button[aria-label="${st.next}"]`)) || down(`button[aria-label="${st.next}"]`);
-  }
-  if (st.scene === "swap" && !st.busy) {
-    if (st.picked === null || st.picked === undefined) return down(`.slots .tile >> nth=${st.pos}`);
-    return down(`.row .tile[aria-label="${st.next}"]`);
-  }
-  if (st.scene === "sort" && st.next) return down(`button[aria-label="basket ${st.next}"]`);
-  if (st.scene === "run") return page.evaluate(() => (window as any).__snRun?.());
-  for (const l of ["Next page", "I read it!"]) if (await down(`button[aria-label="${l}"]`)) return true;
-  if (await down("button.tile.lg")) return true;
-  return down("button.card");
+interface Clip {
+  name: string;
+  url: string;
+  save?: Record<string, unknown>;
+  /** the clip's length, and how far into the game (after the page has loaded) it starts */
+  seconds: number;
+  skip?: number;
+  /** now and then a deliberately wrong tile in a battle, so the correction shows */
+  mistakes?: boolean;
+  /** plays the moment (default: the bot plays) */
+  drive?: (page: Page, rig: Rig) => Promise<void>;
+  /** start the clip `lead` seconds before the first event of this kind (and id) on the master's timeline (a speech
+   *  line, a tap: see <name>.timeline.json), instead of `skip` seconds into the game; if there is none, `skip` */
+  from?: { kind: string; id?: RegExp; lead: number };
+  /** how long to film from the page starting to load (default: 3 + skip + seconds + 1) */
+  film?: number;
+  /** seconds into the clip for the poster (default min(3, seconds / 2)) */
+  poster?: number;
 }
-
-interface Clip { name: string; url: string; save?: Save; seconds: number; skip?: number; mistakes?: boolean; script?: (page: Page) => Promise<void> }
 
 /** A child part-way through Blossom Hills who has met ai and ay: a flower with some petals home, gems charging and
  *  one ready, and words found (the World Flower clips). */
-const FLOWER_SAVE = baseSave({
+const FLOWER_SAVE = clipSave({
   petals: ["a", "i", "m", "s", "t", "n", "o", "p", "b", "c", "g", "h", "d", "e", "f", "v", "k", "l", "r", "u", "ff", "ll", "ss", "ai", "ay"],
   gems: ["a>a", "t>t", "p>p", "m>m", "i>i", "s>s", "n>n", "ay>ae"],
   energy: { "o>o": 5, "c>k": 3, "b>b": 6, "ai>ae": 8, "ss>s": 4, "l>l": 7 },
@@ -74,22 +83,55 @@ async function swipeScroll(page: Page, dx: number) {
   }
   await page.mouse.up();
 }
+const bot = (mistakes = false) => (_: Page, rig: Rig) => rig.bot({ mistakes: mistakes ? 0.18 : 0 });
+/** The Ninja Run as a child plays it: listen to Sensei's sounds first, then (a moment later) tap the right lantern.
+ *  (The bot's shortcut flies at it as soon as it is on screen, and the run then holds the ninja in mid-air while the
+ *  sounds are said.) Anything else on screen (a Ready hold, the green arrow) is the bot's. */
+async function runDrive(page: Page, rig: Rig) {
+  let heardAt = 0;
+  while (rig.live()) {
+    const s = await page
+      .evaluate(() => {
+        const w = window as any;
+        if (w.__snState?.scene !== "run" || !w.__runLanterns) return null;
+        const r = w.__runLanterns();
+        return { cueDone: !!r.cueDone, ready: r.lanterns.some((l: any) => l.correct && !l.popped && l.x < 1280 - 150) };
+      })
+      .catch(() => null);
+    if (!s) await step(page).catch(() => {});
+    else if (!s.cueDone || !s.ready) heardAt = 0;
+    else if (!heardAt) heardAt = Date.now();
+    else if (Date.now() - heardAt > 350 + Math.random() * 300) {
+      await page.evaluate(() => (window as any).__snRun?.()).catch(() => {});
+      heardAt = 0;
+    }
+    await rig.wait(200);
+  }
+}
+
+// Levels as the game has them since the Sounds~Write order (27 Sep): unit 1 is a m s t i, unit 2 n o p, unit 3 b c g h.
 const CLIPS: Clip[] = [
-  { name: "battle", url: "/play/?level=w1-6", seconds: 16, skip: 3, mistakes: true },
-  { name: "run", url: "/play/?level=w1-4", seconds: 16, skip: 4 },
-  { name: "dojo", url: "/play/?level=w2-1", seconds: 15, skip: 1 },
-  { name: "swap", url: "/play/?level=w1-5", seconds: 14, skip: 5 },
-  { name: "story", url: "/play/?level=w1-7", seconds: 14, skip: 4 },
-  { name: "boss", url: "/play/?level=w2-8", seconds: 16, skip: 6 },
+  // Bamboo Village, the bamboo bandit, unit 2 words (nap, pot...)
+  { name: "battle", ...level("w1-13"), seconds: 16, from: { kind: "speech", id: /^battle_spell$/, lead: 0 }, film: 30, mistakes: true },
+  // a run with unit 2 and 3 words (the pure /b/ and /k/), from the first word's sounds: two catches and the running between
+  { name: "run", ...level("w2-3"), seconds: 16, skip: 3, from: { kind: "speech", id: /^sound:/, lead: 0.4 }, film: 27, drive: runDrive, poster: 2.7 },
+  // the dojo teaching b c g h: hear the sound, see how it is written, tap it and say it (/b/, then /k/)
+  { name: "dojo", ...level("w2-1"), seconds: 15, skip: 1, from: { kind: "speech", id: /^listen$/, lead: 0 }, film: 28, poster: 4.5 },
+  // from the first tap: one word changed, Sensei setting up the next, and the next changed
+  { name: "swap", ...level("w1-12"), seconds: 15, skip: 4, from: { kind: "tap", lead: 0.5 }, film: 34 },
+  // the first story: the end of a page Sensei reads, then the child's pages (Map! Tap it!...), a few seconds on each
+  { name: "story", ...level("w1-14"), seconds: 14, skip: 3, from: { kind: "speech", id: /^story_your_turn$/, lead: 2.5 }, film: 34, drive: (_, rig) => rig.bot({ every: 3200 }) },
+  // the oni, Blossom Hills' boss, from its first word (the Baron's taunt before it is long)
+  { name: "boss", ...level("w2-8"), seconds: 16, skip: 5, from: { kind: "speech", id: /^word:/, lead: 1 }, film: 34, poster: 4.4 },
   {
-    name: "map", url: "/play/?scene=map", seconds: 7, skip: 1,
-    save: baseSave({ hero: "suki", stars: { "w1-wu1": 1, "w1-wu2": 1, "w1-wu3": 1, "w1-wu4": 1, "w1-wu5": 1, "w1-wu6": 1, "w1-2": 2, "w1-3": 3 }, settings: { relaxed: false, music: 0.3, captions: false, unlockAll: false } }),
+    name: "map", url: "/play/?scene=map", seconds: 7, skip: 1, from: { kind: "speech", id: /^map_hint$/, lead: 0 },
+    save: clipSave({ hero: "suki", stars: { "w1-wu1": 1, "w1-wu2": 1, "w1-wu3": 1, "w1-wu4": 1, "w1-wu5": 1, "w1-wu6": 1, "w1-2": 2, "w1-3": 3 }, settings: { unlockAll: false } }),
   },
   {
     // the World Flower, then the petal chart as a ninja scroll (swiped both ways), then one petal up close with Sensei
-    name: "flower", url: "/play/?scene=tree", seconds: 20, skip: 1,
+    name: "flower", url: "/play/?scene=tree", seconds: 13, skip: 0, from: { kind: "tap", id: /^Petal chart$/, lead: 2 }, film: 24, poster: 0.5,
     save: FLOWER_SAVE,
-    script: async (page) => {
+    drive: async (page) => {
       await page.waitForTimeout(3000);
       await page.locator('[aria-label="Petal chart"]').dispatchEvent("pointerdown");
       await page.waitForTimeout(1500);
@@ -103,40 +145,37 @@ const CLIPS: Clip[] = [
       await page.waitForTimeout(8000);
     },
   },
-  // a gem won: the victory music, the gem flying into its petal, the bloom, and Sensei's explanation
+  // a gem won: the victory music, the gem flying into its petal, the bloom, and Sensei's explanation (not on the page)
   { name: "victory", url: "/play/?scene=tree&gem=ai>ae&celebrate=1", seconds: 21, skip: 0, save: FLOWER_SAVE },
   {
-    name: "trial", url: "/play/?scene=tree", seconds: 16, skip: 2,
-    save: baseSave({ petals: ["a", "i", "m", "s", "t", "n", "o", "p"], stars: { "w1-wu1": 1, "w1-wu2": 1, "w1-wu3": 1, "w1-wu4": 1, "w1-wu5": 1, "w1-wu6": 1, "w1-2": 3, "w1-3": 3 }, energy: { "m>m": 8 } }),
-    script: async (page) => {
+    name: "trial", url: "/play/?scene=tree", seconds: 16, skip: 1, film: 22,
+    save: clipSave({ petals: ["a", "i", "m", "s", "t", "n", "o", "p"], stars: { "w1-wu1": 1, "w1-wu2": 1, "w1-wu3": 1, "w1-wu4": 1, "w1-wu5": 1, "w1-wu6": 1, "w1-2": 3, "w1-3": 3 }, energy: { "m>m": 8 } }),
+    drive: async (page, rig) => {
       await page.waitForTimeout(1200);
       await page.locator('[aria-label="petal m"]').dispatchEvent("pointerdown");
       await page.waitForTimeout(900);
       await page.locator('[aria-label="gem m ready"]').dispatchEvent("pointerdown");
-      await page.waitForTimeout(8000);
-      for (let i = 0; i < 30; i++) {
-        await botStep(page);
-        await page.waitForTimeout(700);
-      }
+      await page.waitForTimeout(3500);
+      await rig.bot({ every: 700 });
     },
   },
-  // --- Trailer footage (trailer/trailer.config.ts). Not used on the landing page; `bun scripts/record-clips.ts tr_boss_baron` etc.
-  { name: "tr_boss_panda", url: "/play/?level=w1-8", seconds: 16, skip: 1 },
+  // --- Trailer footage (trailer/trailer.config.ts). Not used on the landing page; `bun scripts/record-clips.ts tr_boss_magpie` etc. (tr_boss_baron.mp4, the old w6-11, is what trailer.config.ts still cuts from: MARKETING_PLAN §4.1)
+  { name: "tr_boss_panda", url: "/play/?level=w1-15", seconds: 16, skip: 1 },
   { name: "tr_boss_yeti", url: "/play/?level=w3-12", seconds: 16, skip: 1 },
   { name: "tr_boss_serpent", url: "/play/?level=w4-9", seconds: 16, skip: 1 },
   { name: "tr_boss_knight", url: "/play/?level=w5-11", seconds: 16, skip: 1 },
-  { name: "tr_boss_baron", url: "/play/?level=w6-11", seconds: 70, skip: 1 },
+  { name: "tr_boss_magpie", url: "/play/?level=w6-11", seconds: 70, skip: 1 },
   { name: "tr_run_mountain", url: "/play/?level=w3-5", seconds: 12, skip: 3 },
   { name: "tr_run_sky", url: "/play/?level=w6-9", seconds: 12, skip: 3 },
   { name: "tr_battle_castle", url: "/play/?level=w5-9", seconds: 14, skip: 3 },
   {
     name: "tr_flower_full", url: "/play/?scene=tree", seconds: 14, skip: 1,
-    save: baseSave({
+    save: clipSave({
       petals: ["a", "i", "m", "s", "t", "n", "o", "p", "b", "c", "g", "h", "d", "e", "f", "v", "k", "l", "r", "u", "j", "w", "z", "x", "y", "sh", "ch", "th"],
       gems: ["a>a", "t>t", "p>p", "m>m", "i>i", "s>s", "n>n", "o>o", "b>b", "g>g", "h>h", "d>d", "e>e", "f>f"],
       energy: { "c>k": 8, "u>u": 6, "r>r": 7, "l>l": 5, "sh>sh": 4, "k>k": 3, "v>v": 8 },
     }),
-    script: async (page) => {
+    drive: async (page) => {
       await page.waitForTimeout(3000);
       await page.locator('[aria-label="petal c"]').dispatchEvent("pointerdown").catch(() => {});
       await page.waitForTimeout(4000);
@@ -153,72 +192,52 @@ for (const n of ["battle", "run", "dojo", "swap", "story", "boss", "flower", "tr
   CLIPS.push({ ...c, name: `tr_${n}` });
 }
 
-const browser = await chromium.launch({ args: ["--autoplay-policy=no-user-gesture-required"] });
-for (const clip of CLIPS.filter((c) => !only.length || only.includes(c.name))) {
-  const dir = `${TMP}/${clip.name}`;
-  rmSync(dir, { recursive: true, force: true });
-  // Trailer footage is recorded at 1920×1080: a bigger viewport (the game scales its stage to fit).
-  // deviceScaleFactor would not help: Playwright records at CSS-pixel size.
-  const view = clip.name.startsWith("tr_") ? { width: 1920, height: 1080 } : VIEW;
-  const ctx = await browser.newContext({
-    viewport: view, deviceScaleFactor: SCALE, hasTouch: false, isMobile: false,
-    recordVideo: { dir, size: { width: view.width * SCALE, height: view.height * SCALE } },
-  });
-  const page = await ctx.newPage();
-  const videoStart = Date.now();
-  await page.addInitScript(() => ((window as any).__audioLog = []));
-  await page.goto(BASE + "/play/");
-  await page.evaluate((s) => localStorage.setItem("superninja.save.v1", JSON.stringify(s)), clip.save ?? baseSave());
-  const t0 = Date.now();
-  await page.goto(BASE + clip.url);
-  await page.mouse.click(2, 2);
-  const end = t0 + ((clip.skip ?? 0) + clip.seconds + 2) * 1000;
-  if (clip.script) await clip.script(page);
-  while (Date.now() < end) {
-    await botStep(page, { mistakes: clip.mistakes });
-    await page.waitForTimeout(900);
+/** Film one clip (in this process) and cut it. */
+async function film(clip: Clip) {
+  const tr = clip.name.startsWith("tr_");
+  const skip = clip.skip ?? 0;
+  mkdirSync(RAW, { recursive: true });
+  // --recut: cut again from the last master (a new window or encoding) without filming again
+  const tl = `${RAW}/${clip.name}.timeline.json`;
+  const rec: Pick<RecordResult, "master" | "game" | "events" | "timeline" | "frames" | "sync" | "advice"> = recut && existsSync(tl)
+    ? { ...JSON.parse(readFileSync(tl, "utf8")), master: `${RAW}/${clip.name}.master.mp4`, timeline: tl }
+    : await record({
+        name: clip.name, url: clip.url, base: BASE, outDir: RAW, save: clip.save ?? clipSave(),
+        // (from the page starting to load: the head clapper takes about 2 s, then the game, then a spare second)
+        seconds: clip.film ?? 3 + skip + clip.seconds + 1,
+        size: tr ? "1080p" : "720p",
+        drive: clip.drive ?? bot(clip.mistakes),
+        gpu,
+      });
+  const out = `${tr ? TRAILER : OUT}/${clip.name}.mp4`;
+  mkdirSync(tr ? TRAILER : OUT, { recursive: true });
+  let start = rec.game.start + skip;
+  if (clip.from) {
+    const f = clip.from;
+    const e = rec.events.find((e) => e.kind === f.kind && (!f.id || f.id.test(e.id)) && e.t >= rec.game.start);
+    if (e) start = Math.max(rec.game.start, e.t - f.lead);
+    else console.warn(`[record-clips] ${clip.name}: no ${f.kind} ${f.id ?? ""} on the timeline; starting ${skip} s into the game`);
   }
-  // collect everything the game played, so the clip gets its real soundtrack
-  const log: { t: number; url: string; kind: string }[] = await page.evaluate(() => (window as any).__audioLog ?? []);
-  mkdirSync("assets-src/sfx", { recursive: true });
-  for (const name of new Set(log.filter((e) => e.kind === "sfx").map((e) => e.url.slice(4)))) {
-    const f = `assets-src/sfx/${name}.wav`;
-    if (!existsSync(f)) writeFileSync(f, Buffer.from(await page.evaluate((n) => (window as any).__renderSfx(n), name)));
-  }
-  await ctx.close(); // flushes the video
-  const raw = readdirSync(dir).find((f) => f.endsWith(".webm"))!;
-  renameSync(`${dir}/${raw}`, `${dir}/raw.webm`);
-  const ss = String(clip.skip ?? 0);
-  // mix the soundtrack: speech + sfx at their real times, music looped from when it started
-  const inputs: string[] = [];
-  const chains: string[] = [];
-  const total = (clip.skip ?? 0) + clip.seconds + 1;
-  log.forEach((e, n) => {
-    const at = Math.max(0, e.t - videoStart);
-    if (at / 1000 > total || e.kind === "music-stop") return;
-    const file = e.kind === "sfx" ? `assets-src/sfx/${e.url.slice(4)}.wav` : `public${e.url}`;
-    if (!existsSync(file)) return;
-    if (e.kind === "music") inputs.push("-stream_loop", "-1", "-i", file);
-    else inputs.push("-i", file);
-    const idx = chains.length + 1;
-    // background music loops until the next music starts (or the game stops it, e.g. for the gem victory's sting)
-    const next = e.kind === "music" ? log.slice(n + 1).find((x) => x.kind === "music" || x.kind === "music-stop") : undefined;
-    const end = next ? Math.max(0, next.t - videoStart) + 800 : total * 1000;
-    const vol = e.kind === "music" ? 0.22 : e.kind === "sting" ? 0.5 : e.kind === "sfx" ? 0.5 : 1.0;
-    const fade = next ? `,afade=t=out:st=${(end - 800) / 1000}:d=0.8` : "";
-    chains.push(`[${idx}:a]aresample=44100,aformat=channel_layouts=stereo,adelay=${at}|${at},volume=${vol},atrim=0:${Math.min(total, end / 1000)}${fade}[a${idx}]`);
-  });
-  const outDir = clip.name.startsWith("tr_") ? "assets-src/trailer/clips" : OUT; // trailer footage stays out of public/
-  mkdirSync(outDir, { recursive: true });
-  const out = `${outDir}/${clip.name}.mp4`;
-  const vargs = ["-vf", `scale=${view.width}:-2,fps=30`, "-c:v", "libx264", "-preset", "slow", "-crf", view.width > 1280 ? "18" : "27", "-pix_fmt", "yuv420p"];
-  if (chains.length) {
-    const mix = `${chains.join(";")};${chains.map((_, i) => `[a${i + 1}]`).join("")}amix=inputs=${chains.length}:normalize=0:duration=longest,atrim=${ss}:${total},asetpts=PTS-STARTPTS,alimiter=limit=0.9,loudnorm=I=-18:TP=-1.5[aout]`;
-    execFileSync("ffmpeg", ["-loglevel", "error", "-y", "-ss", ss, "-i", `${dir}/raw.webm`, ...inputs, "-filter_complex", mix, "-map", "0:v", "-map", "[aout]", "-t", String(clip.seconds), ...vargs, "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart", out]);
-  } else {
-    execFileSync("ffmpeg", ["-loglevel", "error", "-y", "-ss", ss, "-i", `${dir}/raw.webm`, "-t", String(clip.seconds), "-an", ...vargs, "-movflags", "+faststart", out]);
-  }
-  execFileSync("ffmpeg", ["-loglevel", "error", "-y", "-ss", String(Math.min(3, clip.seconds / 2)), "-i", out, "-frames:v", "1", "-q:v", "4", out.replace(/\.mp4$/, ".jpg")]);
-  console.log("✓", clip.name);
+  start = Math.max(rec.game.start, Math.min(start, rec.game.end - clip.seconds));
+  const cut = trim(rec.master, start, start + clip.seconds, out, { posterAt: clip.poster ?? Math.min(3, clip.seconds / 2), crf: tr ? 18 : 27, lufs: -18 });
+  const sheet = contactSheet(out, 1, `${RAW}/${clip.name}.clip.sheet.jpg`);
+  // what is said and tapped in the clip, on the clip's own clock (for checking its soundtrack)
+  const end = start + clip.seconds;
+  const inClip = rec.events.filter((e) => e.t < end && e.t + (e.dur ?? 0) > start && !["slate", "mark"].includes(e.kind));
+  writeFileSync(`${RAW}/${clip.name}.clip.json`, JSON.stringify({ clip: out, master: rec.master, window: [start, end], events: inClip.map((e) => ({ ...e, t: Math.round((e.t - start) * 1000) / 1000 })) }, null, 1));
+  console.log(JSON.stringify({ clip: clip.name, out, poster: cut.poster, ...cut.spec, seconds: cut.duration, warnings: cut.warnings, fps: rec.frames?.fps, sync: rec.sync.residualMedianMs, advice: rec.advice, timeline: rec.timeline, sheet }));
 }
-await browser.close();
+
+if (oneAt >= 0) {
+  const clip = CLIPS.find((c) => c.name === args[oneAt + 1]);
+  if (!clip) throw new Error(`no clip ${args[oneAt + 1]}`);
+  await film(clip);
+  process.exit(0); // (a browser that never finished closing would keep bun alive)
+}
+let failed = 0;
+for (const clip of CLIPS.filter((c) => !only.length || only.includes(c.name))) {
+  const r = spawnSync(process.execPath, [process.argv[1], BASE, "--one", clip.name, ...(recut ? ["--recut"] : []), ...(gpu ? ["--gpu"] : [])], { stdio: "inherit" });
+  if (r.status === 0) console.log("✓", clip.name);
+  else (failed++, console.error("✗", clip.name));
+}
+process.exit(failed ? 1 : 0);

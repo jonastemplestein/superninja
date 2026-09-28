@@ -229,3 +229,12 @@
 /* four or more sounds: narrower "how we write it" lines (Early.tsx RevealAt), so the row keeps clear of the ninja */
 .early .reveal-narrow .sound-lines { gap: 12px; }
 .early .reveal-narrow .sound-line { width: 124px; }
+
+/* the "how we write it" lines under a chosen picture (Early.tsx RevealAt) sit on the light dojo floor: a soft dark board
+   behind them, and whiter lines with an ink edge, so the child sees one line per sound and the letter on its line */
+.early .navc-reveal::before { content: ""; position: absolute; inset: 20px -14px -10px; border-radius: 24px; background: rgba(43, 29, 20, 0.34); box-shadow: inset 0 0 0 3px rgba(255, 248, 232, 0.22); pointer-events: none; }
+.early .navc-reveal .sound-line { border-bottom-color: #fffaf0; filter: drop-shadow(0 4px 0 var(--ink)); }
+/* the slow word before the fast/slow idea (Early.tsx useReveal's slow): each line lights gold and lifts on its sound,
+   the tortoise stepping with it. The colour changes at once; only the lift moves (translate: no paint animation) */
+.early .navc-reveal .sound-line { transition: translate 0.12s ease-out; }
+.early .navc-reveal .sound-line.lit { border-bottom-color: var(--gold); translate: 0 -8px; }

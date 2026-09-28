@@ -1,160 +1,1313 @@
 {
+  "_doc": "Pure sounds, Erinome (27 Sep): how each public/a/p clip was made (scripts/phonemes/erinome-*.{ts,py}). The Sulafat recipes that these replace are under _sulafat; the clips in .trash/sulafat-2026-09-27/public/a/p/.",
+  "a": {
+    "voice": "Erinome",
+    "method": "the vowel of \"at.\" (take 1, attack-240-end30); natural length, no processing",
+    "text": "at.",
+    "take": "1",
+    "mode": "vowel",
+    "variant": "attack-240-end30",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/at_d.1.wav",
+    "cut_s": [
+      0.205,
+      0.34
+    ],
+    "natural_s": 0.121,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "short vowel",
+      "target_block_lufs": -14.81,
+      "gain_db": 2.32,
+      "peak_limited_db": 0.91,
+      "block_lufs": -15.65,
+      "true_peak_dbtp": -1.47,
+      "dur_s": 0.209
+    }
+  },
   "i": {
-    "carrier": "ih.",
-    "start_s": 0.03,
-    "end_s": 0.2,
-    "target_s": null,
-    "method": "steady vowel of a TTS 'ih.' take, unstretched (re-audit r3: stretched /\u026a/ is heard as 'ee', the 'pig' vowel as 'pen')"
+    "voice": "Erinome",
+    "method": "the vowel of \"in.\" (take 1, attack-240-end30); natural length, no processing",
+    "text": "in.",
+    "take": "1",
+    "mode": "vowel",
+    "variant": "attack-240-end30",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/in_d.1.wav",
+    "cut_s": [
+      0.145,
+      0.29
+    ],
+    "natural_s": 0.145,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "short vowel",
+      "target_block_lufs": -14.81,
+      "gain_db": 1.82,
+      "peak_limited_db": 0.4,
+      "block_lufs": -15.11,
+      "true_peak_dbtp": -1.53,
+      "dur_s": 0.232
+    }
+  },
+  "m": {
+    "voice": "Erinome",
+    "method": "the take \"mmmm.\" said on its own (take 2, whole); natural length, no processing",
+    "text": "mmmm.",
+    "take": "2",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/mmmm_d.2.wav",
+    "cut_s": [
+      0.225,
+      0.715
+    ],
+    "natural_s": 0.458,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": -2.12,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.18,
+      "true_peak_dbtp": -5.09,
+      "dur_s": 0.537
+    }
+  },
+  "s": {
+    "voice": "Erinome",
+    "method": "the take \"sss\" said on its own (take 1, whole); natural length, no processing",
+    "text": "sss",
+    "take": "1",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/sss.1.wav",
+    "cut_s": [
+      0.275,
+      0.94
+    ],
+    "natural_s": 0.61,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "unvoiced continuant",
+      "target_block_lufs": -15.97,
+      "gain_db": -3.46,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.96,
+      "true_peak_dbtp": -5.43,
+      "dur_s": 0.683
+    }
   },
   "t": {
-    "carrier": "tip",
-    "start_s": 0.02,
-    "end_s": 0.105,
-    "target_s": null,
-    "method": "stop"
+    "voice": "Erinome",
+    "method": "the take \"t.\" said on its own (take 2, to-voicing-10ms); natural length, no processing",
+    "text": "t.",
+    "take": "2",
+    "mode": "iso",
+    "variant": "to-voicing-10ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/t_d.2.wav",
+    "cut_s": [
+      0.293,
+      0.42
+    ],
+    "natural_s": 0.127,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": 2.74,
+      "peak_limited_db": 2.41,
+      "block_lufs": -17.24,
+      "true_peak_dbtp": -1.4,
+      "dur_s": 0.211
+    }
+  },
+  "n": {
+    "voice": "Erinome",
+    "method": "the take \"nnn\" said on its own (take 2, whole); natural length, no processing",
+    "text": "nnn",
+    "take": "2",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/nnn.2.wav",
+    "cut_s": [
+      0.22,
+      1.045
+    ],
+    "natural_s": 0.807,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": -4.01,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.19,
+      "true_peak_dbtp": -6.95,
+      "dur_s": 0.879
+    }
   },
   "o": {
-    "carrier": "dog",
-    "start_s": 0.1,
-    "end_s": 0.21,
-    "target_s": 0.4,
-    "method": "vowel"
+    "voice": "Erinome",
+    "method": "the vowel of \"off.\" (take 2, attack-160-end30); natural length, no processing",
+    "text": "off.",
+    "take": "2",
+    "mode": "vowel",
+    "variant": "attack-160-end30",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/off_d.2.wav",
+    "cut_s": [
+      0.105,
+      0.255
+    ],
+    "natural_s": 0.145,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "short vowel",
+      "target_block_lufs": -14.81,
+      "gain_db": 0.67,
+      "peak_limited_db": 0.0,
+      "block_lufs": -14.8,
+      "true_peak_dbtp": -2.25,
+      "dur_s": 0.231
+    }
   },
   "p": {
-    "carrier": "pig",
-    "start_s": 0.02,
-    "end_s": 0.105,
-    "target_s": null,
-    "method": "stop"
+    "voice": "Erinome",
+    "method": "the take \"p.\" said on its own (take 1, to-voicing-0ms); natural length, no processing",
+    "text": "p.",
+    "take": "1",
+    "mode": "iso",
+    "variant": "to-voicing-0ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/p_d.1.wav",
+    "cut_s": [
+      0.221,
+      0.31
+    ],
+    "natural_s": 0.089,
+    "why": "score 0.46 against 0.1 for the 'up' release, equally clean (heard pʰ/p/pʰ, naturalness 9.67, no artefacts), but the 'up' burst is a spike (crest 24.9 dB) that the -1.5 dBTP ceiling holds to -26 LUFS, 10 dB under the old /p/; this one (crest 12.7 dB) levels to about -14",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": 1.12,
+      "peak_limited_db": 0.0,
+      "block_lufs": -14.87,
+      "true_peak_dbtp": -1.64,
+      "dur_s": 0.178
+    }
   },
   "b": {
-    "carrier": "grab",
-    "start_s": 0.085,
-    "end_s": 0.26,
-    "target_s": null,
-    "method": "final release (re-audit r3: heard as a pure /b/; the initial 'bed' cut was heard as 'buh')"
+    "voice": "Erinome",
+    "method": "the released stop at the end of \"job.\" (take 1, voicebar-60ms-release-35ms); natural length, no processing",
+    "text": "job.",
+    "take": "1",
+    "mode": "stop_final",
+    "variant": "voicebar-60ms-release-35ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/job_d.1.wav",
+    "cut_s": [
+      0.535,
+      0.62
+    ],
+    "natural_s": 0.085,
+    "why": "tied on score (6.1); heard as bilabial /pʰ/ by all 3 votes (the other ties were heard as s/t/ʌ and i/t/θ), naturalness 9.67, 60 ms of voicing before the release like the /d/ from 'bed' that the judge heard as [d]",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": 9.87,
+      "peak_limited_db": 8.39,
+      "block_lufs": -23.28,
+      "true_peak_dbtp": -1.51,
+      "dur_s": 0.175
+    }
   },
   "k": {
-    "carrier": "k",
-    "start_s": 0,
-    "end_s": 0.186,
-    "target_s": null,
-    "method": "TTS 'k' take (re-audit r3: 12 of 12 judges heard a pure /k/; the 'kit' cut sometimes 'kuh')"
+    "voice": "Erinome",
+    "method": "the release at the start of \"cup.\", before the vowel (take 1, to-voicing-0ms); natural length, no processing",
+    "text": "cup.",
+    "take": "1",
+    "mode": "stop_init",
+    "variant": "to-voicing-0ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/cup_d.1.wav",
+    "cut_s": [
+      0.293,
+      0.34
+    ],
+    "natural_s": 0.046,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": 6.6,
+      "peak_limited_db": 5.28,
+      "block_lufs": -20.04,
+      "true_peak_dbtp": -1.4,
+      "dur_s": 0.136
+    }
   },
   "g": {
-    "carrier": "gap",
-    "start_s": 0.02,
-    "end_s": 0.095,
-    "target_s": null,
-    "method": "stop"
+    "voice": "Erinome",
+    "method": "the released stop at the end of \"bag.\" (take 2, voicebar-60ms-release-40ms); natural length, no processing",
+    "text": "bag.",
+    "take": "2",
+    "mode": "stop_final",
+    "variant": "voicebar-60ms-release-40ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/bag_d.2.wav",
+    "cut_s": [
+      0.655,
+      0.755
+    ],
+    "natural_s": 0.1,
+    "why": "tied on score with 'pig' (6.1 vs 6.0), heard as velar by all 3 votes, naturalness 9.67; Whisper wrote 'Okay.' for the 'pig' cut and nothing for this one",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": 7.33,
+      "peak_limited_db": 5.96,
+      "block_lufs": -20.85,
+      "true_peak_dbtp": -1.51,
+      "dur_s": 0.19
+    }
   },
   "h": {
-    "carrier": "hat",
-    "start_s": 0.02,
-    "end_s": 0.145,
-    "target_s": 0.27,
-    "method": "unvoiced"
+    "voice": "Erinome",
+    "method": "the start of \"hut.\", up to the voicing (take 2, to-voicing-0ms); natural length, no processing",
+    "text": "hut.",
+    "take": "2",
+    "mode": "init_vl",
+    "variant": "to-voicing-0ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/hut_d.2.wav",
+    "cut_s": [
+      0.095,
+      0.265
+    ],
+    "natural_s": 0.17,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "unvoiced continuant",
+      "target_block_lufs": -15.97,
+      "gain_db": 1.79,
+      "peak_limited_db": 0.81,
+      "block_lufs": -16.76,
+      "true_peak_dbtp": -1.57,
+      "dur_s": 0.256
+    }
   },
   "d": {
-    "method": "kept-original",
-    "note": "Jonas, 27 Sep: the rebuilt /d/ (cut from \"dog\") sounded like \"duh\"; the original clip is back. Do not rebuild without his ear.",
-    "previous": {
+    "voice": "Erinome",
+    "method": "the released stop at the end of \"bed.\" (take 1, voicebar-60ms-release-55ms); natural length, no processing",
+    "text": "bed.",
+    "take": "1",
+    "mode": "stop_final",
+    "variant": "voicebar-60ms-release-55ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/bed_d.1.wav",
+    "cut_s": [
+      0.475,
+      0.576
+    ],
+    "natural_s": 0.101,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": 4.78,
+      "peak_limited_db": 3.52,
+      "block_lufs": -18.43,
+      "true_peak_dbtp": -1.51,
+      "dur_s": 0.19
+    }
+  },
+  "e": {
+    "voice": "Erinome",
+    "method": "the vowel of \"egg.\" (take 1, attack-240-end30); natural length, no processing",
+    "text": "egg.",
+    "take": "1",
+    "mode": "vowel",
+    "variant": "attack-240-end30",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/egg_d.1.wav",
+    "cut_s": [
+      0.225,
+      0.405
+    ],
+    "natural_s": 0.18,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "short vowel",
+      "target_block_lufs": -14.81,
+      "gain_db": 0.77,
+      "peak_limited_db": 0.0,
+      "block_lufs": -14.83,
+      "true_peak_dbtp": -2.2,
+      "dur_s": 0.266
+    }
+  },
+  "f": {
+    "voice": "Erinome",
+    "method": "the take \"fffff\" said on its own (take 1, whole); natural length, no processing",
+    "text": "fffff",
+    "take": "1",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/fffff.1.wav",
+    "cut_s": [
+      0.39,
+      1.475
+    ],
+    "natural_s": 1.06,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "unvoiced continuant",
+      "target_block_lufs": -15.97,
+      "gain_db": -1.09,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.93,
+      "true_peak_dbtp": -2.5,
+      "dur_s": 0.885
+    }
+  },
+  "v": {
+    "voice": "Erinome",
+    "method": "the take \"vvvvv\" said on its own (take 1, whole); natural length, no processing",
+    "text": "vvvvv",
+    "take": "1",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/vvvvv.1.wav",
+    "cut_s": [
+      0.2,
+      2.045
+    ],
+    "natural_s": 1.815,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": -1.52,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.16,
+      "true_peak_dbtp": -4.32,
+      "dur_s": 0.872
+    }
+  },
+  "l": {
+    "voice": "Erinome",
+    "method": "the held start of \"llllip.\", before the vowel (take 1, hold-20ms); lengthened by WORLD resynthesis with natural pitch drift",
+    "text": "llllip.",
+    "take": "1",
+    "mode": "init_hold",
+    "variant": "hold-20ms",
+    "processing": "world",
+    "source": "playtest/runs/pure-sounds-erinome/src/llllip_d.1.wav",
+    "cut_s": [
+      0.31,
+      0.49
+    ],
+    "natural_s": 0.17,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": -3.69,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.18,
+      "true_peak_dbtp": -6.69,
+      "dur_s": 0.637
+    }
+  },
+  "r": {
+    "voice": "Erinome",
+    "method": "the /r/ of \"red.\" (found by its low F3) (take 2, f3dip); natural length, no processing",
+    "text": "red.",
+    "take": "2",
+    "mode": "f3dip",
+    "variant": "f3dip",
+    "processing": "natural-short",
+    "source": "playtest/runs/pure-sounds-erinome/src/red_d.2.wav",
+    "cut_s": [
+      0.25,
+      0.425
+    ],
+    "natural_s": 0.175,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": 0.68,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.19,
+      "true_peak_dbtp": -2.36,
+      "dur_s": 0.261
+    }
+  },
+  "u": {
+    "voice": "Erinome",
+    "method": "the take \"uh.\" said on its own (take 3, voiced); natural length, no processing",
+    "text": "uh.",
+    "take": "3",
+    "mode": "iso",
+    "variant": "voiced",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/uh_d.3.wav",
+    "cut_s": [
+      0.255,
+      0.44
+    ],
+    "natural_s": 0.182,
+    "why": "Erinome saying 'uh', 0.215 s; score 3.0 against 2.0 for take 4, but naturalness 8.33 against 6.67 ('synthetic, abrupt end'); heard ʌ/ʌ/a",
+    "levelled": {
+      "class": "short vowel",
+      "target_block_lufs": -14.81,
+      "gain_db": 2.53,
+      "peak_limited_db": 1.28,
+      "block_lufs": -16.11,
+      "true_peak_dbtp": -1.44,
+      "dur_s": 0.27
+    }
+  },
+  "j": {
+    "voice": "Erinome",
+    "method": "the released stop at the end of \"badge.\" (take 2, voicebar-60ms-release-45ms); natural length, no processing",
+    "text": "badge.",
+    "take": "2",
+    "mode": "stop_final",
+    "variant": "voicebar-60ms-release-45ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/badge_d.2.wav",
+    "cut_s": [
+      0.671,
+      0.776
+    ],
+    "natural_s": 0.105,
+    "why": "every Erinome /dʒ/ is heard as /tʃ/ by the judge, and the few it heard as /dʒ/ all had a vowel after ('juh'); of the clean ones (score 6.1-6.2) this has the voice bar and the shortest frication (45 ms), the cues that set /dʒ/ apart from /tʃ/",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": 3.18,
+      "peak_limited_db": 1.69,
+      "block_lufs": -16.55,
+      "true_peak_dbtp": -1.62,
+      "dur_s": 0.196
+    }
+  },
+  "w": {
+    "voice": "Erinome",
+    "method": "the take \"wwwoo.\" (school form) (take 1, cap620); natural length, no processing",
+    "text": "wwwoo.",
+    "take": "1",
+    "mode": "glide",
+    "variant": "cap620",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/wwwoo_d.1.wav",
+    "cut_s": [
+      0.355,
+      0.975
+    ],
+    "natural_s": 0.62,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "glide",
+      "target_block_lufs": -15.14,
+      "gain_db": -2.73,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.14,
+      "true_peak_dbtp": -5.73,
+      "dur_s": 0.708
+    }
+  },
+  "z": {
+    "voice": "Erinome",
+    "method": "the held start of \"zzzzip.\", before the vowel (take 1, hold-20ms); lengthened by WORLD resynthesis with natural pitch drift",
+    "text": "zzzzip.",
+    "take": "1",
+    "mode": "init_hold",
+    "variant": "hold-20ms",
+    "processing": "world",
+    "source": "playtest/runs/pure-sounds-erinome/src/zzzzip_d.1.wav",
+    "cut_s": [
+      0.285,
+      0.455
+    ],
+    "natural_s": 0.136,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": -1.68,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.18,
+      "true_peak_dbtp": -3.34,
+      "dur_s": 0.637
+    }
+  },
+  "ks": {
+    "voice": "Erinome",
+    "method": "the take \"cks\" said on its own (take 2, whole); natural length, no processing",
+    "text": "cks",
+    "take": "2",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/cks.2.wav",
+    "cut_s": [
+      0.065,
+      0.85
+    ],
+    "natural_s": 0.785,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": -0.2,
+      "peak_limited_db": 0.0,
+      "block_lufs": -14.91,
+      "true_peak_dbtp": -2.46,
+      "dur_s": 0.87
+    }
+  },
+  "y": {
+    "voice": "Erinome",
+    "method": "the take \"yy\" (school form) (take 2, whole); natural length, no processing",
+    "text": "yy",
+    "take": "2",
+    "mode": "glide",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/yy.2.wav",
+    "cut_s": [
+      0.355,
+      0.645
+    ],
+    "natural_s": 0.27,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "glide",
+      "target_block_lufs": -15.14,
+      "gain_db": -0.42,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.15,
+      "true_peak_dbtp": -3.36,
+      "dur_s": 0.35
+    }
+  },
+  "sh": {
+    "voice": "Erinome",
+    "method": "the take \"shhh\" said on its own (take 2, whole); natural length, no processing",
+    "text": "shhh",
+    "take": "2",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/shhh.2.wav",
+    "cut_s": [
+      0.375,
+      1.08
+    ],
+    "natural_s": 0.682,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "unvoiced continuant",
+      "target_block_lufs": -15.97,
+      "gain_db": -2.03,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.95,
+      "true_peak_dbtp": -4.74,
+      "dur_s": 0.761
+    }
+  },
+  "ch": {
+    "voice": "Erinome",
+    "method": "the release at the start of \"chin.\", before the vowel (take 2, to-voicing-10ms); natural length, no processing",
+    "text": "chin.",
+    "take": "2",
+    "mode": "stop_init",
+    "variant": "to-voicing-10ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/chin_d.2.wav",
+    "cut_s": [
+      0.238,
+      0.36
+    ],
+    "natural_s": 0.121,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": -0.95,
+      "peak_limited_db": 0.0,
+      "block_lufs": -14.86,
+      "true_peak_dbtp": -2.88,
+      "dur_s": 0.211
+    }
+  },
+  "th": {
+    "voice": "Erinome",
+    "method": "the end of \"moth.\", after the voicing (take 2, after-voicing-35ms); lengthened with fresh noise of its own spectrum (no stretching)",
+    "text": "moth.",
+    "take": "2",
+    "mode": "final_vl",
+    "variant": "after-voicing-35ms",
+    "processing": "noise-shaped",
+    "source": "playtest/runs/pure-sounds-erinome/src/moth_d.2.wav",
+    "cut_s": [
+      0.55,
+      0.915
+    ],
+    "natural_s": 0.351,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "unvoiced continuant",
+      "target_block_lufs": -15.97,
+      "gain_db": 1.6,
+      "peak_limited_db": 0.11,
+      "block_lufs": -15.99,
+      "true_peak_dbtp": -1.39,
+      "dur_s": 0.665
+    }
+  },
+  "dh": {
+    "voice": "Erinome",
+    "method": "the take \"ðððð\" said on its own (take 2, whole); natural length, no processing",
+    "text": "ðððð",
+    "take": "2",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/_uf0_uf0_uf0_uf0.2.wav",
+    "cut_s": [
+      0.19,
+      2.005
+    ],
+    "natural_s": 1.802,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": -2.73,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.17,
+      "true_peak_dbtp": -5.84,
+      "dur_s": 0.888
+    }
+  },
+  "ng": {
+    "voice": "Erinome",
+    "method": "the take \"ŋŋŋ\" said on its own (take 1, whole); natural length, no processing",
+    "text": "ŋŋŋ",
+    "take": "1",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/_u14b_u14b_u14b.1.wav",
+    "cut_s": [
+      0.185,
+      0.815
+    ],
+    "natural_s": 0.615,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": -4.1,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.16,
+      "true_peak_dbtp": -7.0,
+      "dur_s": 0.694
+    }
+  },
+  "kw": {
+    "voice": "Erinome",
+    "method": "the release at the start of \"queen.\", before the vowel (take 1, voicing+60ms); natural length, no processing",
+    "text": "queen.",
+    "take": "1",
+    "mode": "stop_init",
+    "variant": "voicing+60ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/queen_d.1.wav",
+    "cut_s": [
+      0.253,
+      0.35
+    ],
+    "natural_s": 0.097,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "stop",
+      "target_block_lufs": -14.89,
+      "gain_db": 5.7,
+      "peak_limited_db": 4.26,
+      "block_lufs": -19.14,
+      "true_peak_dbtp": -1.46,
+      "dur_s": 0.187
+    }
+  },
+  "ae": {
+    "voice": "Erinome",
+    "method": "the last vowel of \"say.\" (take 1, tail+30ms); natural length, no processing",
+    "text": "say.",
+    "take": "1",
+    "mode": "tail_vowel",
+    "variant": "tail+30ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/say_d.1.wav",
+    "cut_s": [
+      0.505,
+      0.835
+    ],
+    "natural_s": 0.29,
+    "why": "score 2.1 against 1.9 for 'way', but naturalness 9.67 and no artefacts against 7.0 and severity 2",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": 2.84,
+      "peak_limited_db": 1.62,
+      "block_lufs": -17.05,
+      "true_peak_dbtp": -1.49,
+      "dur_s": 0.377
+    }
+  },
+  "ee": {
+    "voice": "Erinome",
+    "method": "the take \"ee.\" said on its own (take 2, whole); natural length, no processing",
+    "text": "ee.",
+    "take": "2",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/ee_d.2.wav",
+    "cut_s": [
+      0.105,
+      0.69
+    ],
+    "natural_s": 0.528,
+    "why": "score 2.95 against 2.23 for take 1, but naturalness 9.0 and no artefacts against 7.0 and severity 2.67; its objective penalty is only mild edge clicks (-23 to -25 dB) the judge did not hear",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": 3.19,
+      "peak_limited_db": 1.78,
+      "block_lufs": -17.25,
+      "true_peak_dbtp": -1.59,
+      "dur_s": 0.604
+    }
+  },
+  "ie": {
+    "voice": "Erinome",
+    "method": "the take \"eye.\" said on its own (take 2, whole); natural length, no processing",
+    "text": "eye.",
+    "take": "2",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/eye_d.2.wav",
+    "cut_s": [
+      0.115,
+      0.75
+    ],
+    "natural_s": 0.573,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": 4.02,
+      "peak_limited_db": 2.53,
+      "block_lufs": -17.96,
+      "true_peak_dbtp": -1.43,
+      "dur_s": 0.651
+    }
+  },
+  "oe": {
+    "voice": "Erinome",
+    "method": "the take \"owe.\" said on its own (take 4, whole); natural length, no processing",
+    "text": "owe.",
+    "take": "4",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/owe_d.4.wav",
+    "cut_s": [
+      0.22,
+      0.685
+    ],
+    "natural_s": 0.426,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": -1.46,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.43,
+      "true_peak_dbtp": -4.22,
+      "dur_s": 0.509
+    }
+  },
+  "oo": {
+    "voice": "Erinome",
+    "method": "the take \"ooh.\" said on its own (take 2, whole); natural length, no processing",
+    "text": "ooh.",
+    "take": "2",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/ooh_d.2.wav",
+    "cut_s": [
+      0.2,
+      0.79
+    ],
+    "natural_s": 0.55,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": -2.76,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.45,
+      "true_peak_dbtp": -5.77,
+      "dur_s": 0.629
+    }
+  },
+  "ar": {
+    "voice": "Erinome",
+    "method": "the last vowel of \"spa.\" (take 1, tail+30ms); natural length, no processing",
+    "text": "spa.",
+    "take": "1",
+    "mode": "tail_vowel",
+    "variant": "tail+30ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/spa_d.1.wav",
+    "cut_s": [
+      0.605,
+      0.96
+    ],
+    "natural_s": 0.355,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": -2.17,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.4,
+      "true_peak_dbtp": -5.15,
+      "dur_s": 0.438
+    }
+  },
+  "or": {
+    "voice": "Erinome",
+    "method": "the take \"or.\" said on its own (take 1, whole); natural length, no processing",
+    "text": "or.",
+    "take": "1",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/or_d.1.wav",
+    "cut_s": [
+      0.1,
+      0.55
+    ],
+    "natural_s": 0.422,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": 0.12,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.45,
+      "true_peak_dbtp": -2.91,
+      "dur_s": 0.502
+    }
+  },
+  "er": {
+    "voice": "Erinome",
+    "method": "the vowel of \"bird.\" (take 1, nucleus+30ms); natural length, no processing",
+    "text": "bird.",
+    "take": "1",
+    "mode": "vowel",
+    "variant": "nucleus+30ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/bird_d.1.wav",
+    "cut_s": [
+      0.405,
+      0.725
+    ],
+    "natural_s": 0.286,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": -1.0,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.43,
+      "true_peak_dbtp": -3.56,
+      "dur_s": 0.374
+    }
+  },
+  "ou": {
+    "voice": "Erinome",
+    "method": "the last vowel of \"cow.\" (take 1, tail+0ms); natural length, no processing",
+    "text": "cow.",
+    "take": "1",
+    "mode": "tail_vowel",
+    "variant": "tail+0ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/cow_d.1.wav",
+    "cut_s": [
+      0.34,
+      0.755
+    ],
+    "natural_s": 0.412,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": 0.57,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.45,
+      "true_peak_dbtp": -2.27,
+      "dur_s": 0.495
+    }
+  },
+  "oy": {
+    "voice": "Erinome",
+    "method": "the last vowel of \"toy.\" (take 2, tail+0ms); natural length, no processing",
+    "text": "toy.",
+    "take": "2",
+    "mode": "tail_vowel",
+    "variant": "tail+0ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/toy_d.2.wav",
+    "cut_s": [
+      0.36,
+      0.745
+    ],
+    "natural_s": 0.385,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": -0.13,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.43,
+      "true_peak_dbtp": -3.02,
+      "dur_s": 0.468
+    }
+  },
+  "ue": {
+    "voice": "Erinome",
+    "method": "the take \"you.\" said on its own (take 1, whole); natural length, no processing",
+    "text": "you.",
+    "take": "1",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/you_d.1.wav",
+    "cut_s": [
+      0.145,
+      0.585
+    ],
+    "natural_s": 0.415,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": -2.02,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.43,
+      "true_peak_dbtp": -4.88,
+      "dur_s": 0.495
+    }
+  },
+  "uu": {
+    "voice": "Erinome",
+    "method": "the take \"ʊ\" said on its own (take 3, voiced); natural length, no processing",
+    "text": "ʊ",
+    "take": "3",
+    "mode": "iso",
+    "variant": "voiced",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/_u28a.3.wav",
+    "cut_s": [
+      0.265,
+      0.47
+    ],
+    "natural_s": 0.203,
+    "why": "Erinome saying /ʊ/, 0.225 s; score 2.2 against 1.9 for the same take whole, but naturalness 9.33 and no artefacts against 7.0 and severity 2",
+    "levelled": {
+      "class": "short vowel",
+      "target_block_lufs": -14.81,
+      "gain_db": -1.82,
+      "peak_limited_db": 0.0,
+      "block_lufs": -14.78,
+      "true_peak_dbtp": -4.75,
+      "dur_s": 0.286
+    }
+  },
+  "air": {
+    "voice": "Erinome",
+    "method": "the last vowel of \"bear.\" (take 1, tail+30ms); natural length, no processing",
+    "text": "bear.",
+    "take": "1",
+    "mode": "tail_vowel",
+    "variant": "tail+30ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/bear_d.1.wav",
+    "cut_s": [
+      0.305,
+      0.695
+    ],
+    "natural_s": 0.36,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": 2.1,
+      "peak_limited_db": 0.63,
+      "block_lufs": -16.06,
+      "true_peak_dbtp": -1.36,
+      "dur_s": 0.445
+    }
+  },
+  "eer": {
+    "voice": "Erinome",
+    "method": "the last vowel of \"here.\" (take 2, tail+30ms); natural length, no processing",
+    "text": "here.",
+    "take": "2",
+    "mode": "tail_vowel",
+    "variant": "tail+30ms",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/here_d.2.wav",
+    "cut_s": [
+      0.38,
+      0.705
+    ],
+    "natural_s": 0.325,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "long vowel",
+      "target_block_lufs": -15.44,
+      "gain_db": -0.11,
+      "peak_limited_db": 0.0,
+      "block_lufs": -15.49,
+      "true_peak_dbtp": -3.08,
+      "dur_s": 0.409
+    }
+  },
+  "zh": {
+    "voice": "Erinome",
+    "method": "the take \"ʒʒʒ\" said on its own (take 1, whole); natural length, no processing",
+    "text": "ʒʒʒ",
+    "take": "1",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/_u292_u292_u292.1.wav",
+    "cut_s": [
+      0.235,
+      2.315
+    ],
+    "natural_s": 2.03,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "voiced continuant",
+      "target_block_lufs": -16.18,
+      "gain_db": -1.93,
+      "peak_limited_db": 0.0,
+      "block_lufs": -16.15,
+      "true_peak_dbtp": -4.63,
+      "dur_s": 0.835
+    }
+  },
+  "schwa": {
+    "voice": "Erinome",
+    "method": "the take \"ə\" said on its own (take 1, whole); natural length, no processing",
+    "text": "ə",
+    "take": "1",
+    "mode": "iso",
+    "variant": "whole",
+    "processing": "natural",
+    "source": "playtest/runs/pure-sounds-erinome/src/_u259.1.wav",
+    "cut_s": [
+      0.01,
+      0.82
+    ],
+    "natural_s": 0.757,
+    "why": "best by the measures and the blind judge",
+    "levelled": {
+      "class": "short vowel",
+      "target_block_lufs": -14.81,
+      "gain_db": -1.55,
+      "peak_limited_db": 0.0,
+      "block_lufs": -14.81,
+      "true_peak_dbtp": -4.48,
+      "dur_s": 0.326
+    }
+  },
+  "_sulafat": {
+    "i": {
+      "carrier": "ih.",
+      "start_s": 0.03,
+      "end_s": 0.2,
+      "target_s": null,
+      "method": "steady vowel of a TTS 'ih.' take, unstretched (re-audit r3: stretched /ɪ/ is heard as 'ee', the 'pig' vowel as 'pen')"
+    },
+    "t": {
+      "carrier": "tip",
+      "start_s": 0.02,
+      "end_s": 0.105,
+      "target_s": null,
+      "method": "stop"
+    },
+    "o": {
       "carrier": "dog",
+      "start_s": 0.1,
+      "end_s": 0.21,
+      "target_s": 0.4,
+      "method": "vowel"
+    },
+    "p": {
+      "carrier": "pig",
+      "start_s": 0.02,
+      "end_s": 0.105,
+      "target_s": null,
+      "method": "stop"
+    },
+    "b": {
+      "carrier": "grab",
+      "start_s": 0.085,
+      "end_s": 0.26,
+      "target_s": null,
+      "method": "final release (re-audit r3: heard as a pure /b/; the initial 'bed' cut was heard as 'buh')"
+    },
+    "k": {
+      "carrier": "k",
+      "start_s": 0,
+      "end_s": 0.186,
+      "target_s": null,
+      "method": "TTS 'k' take (re-audit r3: 12 of 12 judges heard a pure /k/; the 'kit' cut sometimes 'kuh')"
+    },
+    "g": {
+      "carrier": "gap",
       "start_s": 0.02,
       "end_s": 0.095,
       "target_s": null,
       "method": "stop"
+    },
+    "h": {
+      "carrier": "hat",
+      "start_s": 0.02,
+      "end_s": 0.145,
+      "target_s": 0.27,
+      "method": "unvoiced"
+    },
+    "d": {
+      "method": "kept-original",
+      "note": "Jonas, 27 Sep: the rebuilt /d/ (cut from \"dog\") sounded like \"duh\"; the original clip is back. Do not rebuild without his ear.",
+      "previous": {
+        "carrier": "dog",
+        "start_s": 0.02,
+        "end_s": 0.095,
+        "target_s": null,
+        "method": "stop"
+      }
+    },
+    "r": {
+      "carrier": "red",
+      "start_s": 0.025,
+      "end_s": 0.084,
+      "target_s": 0.5,
+      "method": "continuant"
+    },
+    "u": {
+      "carrier": "cut",
+      "start_s": 0.1,
+      "end_s": 0.205,
+      "target_s": 0.4,
+      "method": "vowel"
+    },
+    "j": {
+      "carrier": "jam",
+      "start_s": 0.02,
+      "end_s": 0.105,
+      "target_s": null,
+      "method": "stop"
+    },
+    "w": {
+      "carrier": "wwwoo",
+      "start_s": 0,
+      "end_s": 0.62,
+      "target_s": null,
+      "method": "TTS 'wwwoo' take, trimmed (re-audit r3: the school's 'wwwoo, not wuh'; heard as a clear /w/ after 'Can you find...' and 'Listen...', where the held-w cut sounded like a glottal 'oo')"
+    },
+    "ks": {
+      "carrier": "cks",
+      "start_s": 0,
+      "end_s": 0.367,
+      "target_s": null,
+      "method": "TTS 'cks' take (re-audit r3: the 'box' cut was once heard as a faint click)"
+    },
+    "ch": {
+      "carrier": "chip",
+      "start_s": 0.02,
+      "end_s": 0.135,
+      "target_s": null,
+      "method": "stop"
+    },
+    "kw": {
+      "carrier": "quick",
+      "start_s": 0.02,
+      "end_s": 0.105,
+      "target_s": null,
+      "method": "pair"
+    },
+    "oo": {
+      "carrier": "food",
+      "start_s": 0.26,
+      "end_s": 0.48,
+      "target_s": 0.43,
+      "method": "vowel"
+    },
+    "ou": {
+      "carrier": "cow",
+      "start_s": 0.12,
+      "end_s": 0.51,
+      "target_s": 0.45,
+      "method": "diphthong"
+    },
+    "air": {
+      "carrier": "chair",
+      "start_s": 0.19,
+      "end_s": 0.45,
+      "target_s": 0.43,
+      "method": "diphthong"
+    },
+    "schwa": {
+      "carrier": "sofa",
+      "start_s": 0.44,
+      "end_s": 0.555,
+      "target_s": 0.4,
+      "method": "vowel"
+    },
+    "th": {
+      "carrier": "thhhhhing",
+      "start_s": 0,
+      "end_s": 0.46,
+      "target_s": null,
+      "method": "initial unvoiced fricative (re-audit r3: the old take began like a /t/)"
+    },
+    "y": {
+      "carrier": "yy",
+      "start_s": 0,
+      "end_s": 0.47,
+      "target_s": null,
+      "method": "TTS 'yy' take (re-audit r3: the school's 'yyee, not yuh', short, 6 of 6)"
     }
-  },
-  "r": {
-    "carrier": "red",
-    "start_s": 0.025,
-    "end_s": 0.084,
-    "target_s": 0.5,
-    "method": "continuant"
-  },
-  "u": {
-    "carrier": "cut",
-    "start_s": 0.1,
-    "end_s": 0.205,
-    "target_s": 0.4,
-    "method": "vowel"
-  },
-  "j": {
-    "carrier": "jam",
-    "start_s": 0.02,
-    "end_s": 0.105,
-    "target_s": null,
-    "method": "stop"
-  },
-  "w": {
-    "carrier": "wwwoo",
-    "start_s": 0,
-    "end_s": 0.62,
-    "target_s": null,
-    "method": "TTS 'wwwoo' take, trimmed (re-audit r3: the school's 'wwwoo, not wuh'; heard as a clear /w/ after 'Can you find...' and 'Listen...', where the held-w cut sounded like a glottal 'oo')"
-  },
-  "ks": {
-    "carrier": "cks",
-    "start_s": 0,
-    "end_s": 0.367,
-    "target_s": null,
-    "method": "TTS 'cks' take (re-audit r3: the 'box' cut was once heard as a faint click)"
-  },
-  "ch": {
-    "carrier": "chip",
-    "start_s": 0.02,
-    "end_s": 0.135,
-    "target_s": null,
-    "method": "stop"
-  },
-  "kw": {
-    "carrier": "quick",
-    "start_s": 0.02,
-    "end_s": 0.105,
-    "target_s": null,
-    "method": "pair"
-  },
-  "oo": {
-    "carrier": "food",
-    "start_s": 0.26,
-    "end_s": 0.48,
-    "target_s": 0.43,
-    "method": "vowel"
-  },
-  "ou": {
-    "carrier": "cow",
-    "start_s": 0.12,
-    "end_s": 0.51,
-    "target_s": 0.45,
-    "method": "diphthong"
-  },
-  "air": {
-    "carrier": "chair",
-    "start_s": 0.19,
-    "end_s": 0.45,
-    "target_s": 0.43,
-    "method": "diphthong"
-  },
-  "schwa": {
-    "carrier": "sofa",
-    "start_s": 0.44,
-    "end_s": 0.555,
-    "target_s": 0.4,
-    "method": "vowel"
-  },
-  "th": {
-    "carrier": "thhhhhing",
-    "start_s": 0,
-    "end_s": 0.46,
-    "target_s": null,
-    "method": "initial unvoiced fricative (re-audit r3: the old take began like a /t/)"
-  },
-  "y": {
-    "carrier": "yy",
-    "start_s": 0,
-    "end_s": 0.47,
-    "target_s": null,
-    "method": "TTS 'yy' take (re-audit r3: the school's 'yyee, not yuh', short, 6 of 6)"
   }
 }

@@ -6,10 +6,17 @@ import { store, useSave } from "../engine/store";
 import { useViseme, VISEMES } from "../engine/lipsync";
 import { LINES } from "../content/lines";
 import { poseSrc, usePoseVersion } from "./poses";
+import { mix, petalColour, petalImg, teardropAt } from "./petal";
+import { PHONEMES, type PhonemeId } from "../content/phonics";
+import { chartOf } from "../content/flower";
 
 export const W = 1280;
 export const H = 720;
 export const img = (id: string) => `/a/i/${id}.webp`;
+/** The play area's side margins (docs/NAVIGATION.md §3.1: x 340–1120, between the ninja zone and the Help zone) and its
+ *  centre line, where a screen's board is centred. (Early.tsx has its own copies; it should re-export these.) */
+export const PLAY = { left: 340, right: 160 } as const;
+export const PLAY_CX = (W - PLAY.right + PLAY.left) / 2;
 
 // ---------- endless CSS animations must not wake the main thread (docs/PERF.md)
 // Once any `animationiteration` listener exists in a document, Chrome has to wake the main thread (a style pass) at
@@ -271,10 +278,9 @@ export const heroImg = (hero: string, pose: string) => img(`hero_${hero}_${pose}
 
 // ---------- icons (hand-drawn-ish SVG, ink stroke)
 const P = { fill: "none", stroke: "#2b1d14", strokeWidth: 7, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+// (no ear: a bare pulsing ear that nobody explained was the first Dojo's "Listen!" opening; a sound is always its petal,
+// docs/teacher-voice/mechanics.md §7)
 export const Icon = {
-  ear: () => (
-    <svg viewBox="0 0 64 64"><path {...P} d="M20 26a14 14 0 1 1 26 7c-3 5-8 6-8 12a7 7 0 0 1-12 4" /><path {...P} d="M28 27a5 5 0 1 1 9 3" /></svg>
-  ),
   speaker: () => (
     <svg viewBox="0 0 64 64"><path {...P} fill="#fff4dc" d="M10 25h10l13-11v36L20 39H10z" /><path {...P} d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34" /></svg>
   ),
@@ -362,7 +368,52 @@ export function SenseiDock({ hidden }: { hidden?: boolean }) {
     return onCaption(setCap);
   }, []);
   if (hidden) return null;
-  return cap && captions ? <div className={`bubble ${cap.who === "baron" ? "baron" : ""}`} key={cap.text}>{cap.text}</div> : null;
+  if (!cap || !captions) return null;
+  return (
+    <div className={`bubble ${cap.who === "baron" ? "baron" : ""}`} key={cap.text}>
+      {cap.parts ? cap.parts.map((p, i) => ("sound" in p ? <CaptionSound key={i} p={p.sound} /> : <span key={i}>{p.text} </span>)) : cap.text}
+    </div>
+  );
+}
+/** A sound in a caption: its petal picture, 34 px (SD §4.2 "Caption", r62), never letters; < x > is /k/ + /s/ (Dec7).
+ *  Drawn here rather than as a still SoundBadge, which carries data-p: a caption's tiny petal must never count as the
+ *  sound's petal on screen (SoundPops would let it swell instead of popping one the child can see, and the sweep's
+ *  sound-without-petal check would pass on it). */
+function CaptionSound({ p }: { p: PhonemeId }) {
+  const pair = p === "ks" ? (["k", "s"] as PhonemeId[]) : p === "kw" ? (["k", "w"] as PhonemeId[]) : null;
+  if (pair)
+    return (
+      <span className="cap-pair" title={`/${PHONEMES[p]?.label ?? p}/`}>
+        <CaptionPetal p={pair[0]} />
+        <b>+</b>
+        <CaptionPetal p={pair[1]} />
+      </span>
+    );
+  return <CaptionPetal p={p} />;
+}
+function CaptionPetal({ p }: { p: PhonemeId }) {
+  const w = 34, h = 47;
+  const known = !!PHONEMES[p] && !!chartOf(p);
+  const ink = 2.6, line = 1.6;
+  const tw = w - ink, th = h - ink;
+  const d = teardropAt(tw, th, w / 2, h / 2);
+  const cy = h / 2 - th / 2 + tw / 2; // the round part's centre
+  const pic = w * 0.7;
+  const colour = known ? petalColour(p) : "#a99cbf";
+  return (
+    <span className="cap-petal" title={`/${PHONEMES[p]?.label ?? p}/`} aria-label={`/${PHONEMES[p]?.label ?? p}/`}>
+      <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} aria-hidden="true">
+        <path d={d} fill="#fff" stroke="#2b1d14" strokeWidth={ink} strokeLinejoin="round" />
+        <path d={d} fill={known ? mix(colour, "#ffffff", 0.82) : "#d9d2e6"} stroke={colour} strokeWidth={line} strokeLinejoin="round" />
+        {!known && (
+          <text x={w / 2} y={cy + 6} textAnchor="middle" fontFamily="var(--font-display)" fontSize={18} fill="#5a4a72">
+            ?
+          </text>
+        )}
+      </svg>
+      {known && <img src={petalImg(p)} alt="" draggable={false} style={{ left: (w - pic) / 2, top: cy - pic / 2, width: pic, height: pic }} onError={(e) => (e.currentTarget.style.visibility = "hidden")} />}
+    </span>
+  );
 }
 
 // ---------- letter tile
@@ -486,8 +537,8 @@ function glowSprite(color: string) {
   }
   return c;
 }
-/** Round blossom petals (Dec6: a teardrop always means a sound, so decoration falls as blossoms): a pink petal with a
- *  notch at its tip, drawn once per shade and reused. */
+/** Round blossom petals (Dec6: a teardrop always means a sound, so decoration falls as blossoms): a round pink petal
+ *  with a notch at its tip, drawn once per shade and reused. */
 const BLOSSOM_SHADES = ["#ffb7cf", "#ff9dbd", "#ffd0e0", "#ff85ab"];
 const blossomCache: HTMLCanvasElement[] = [];
 function blossomSprite(k: number) {
@@ -497,14 +548,14 @@ function blossomSprite(k: number) {
     c = document.createElement("canvas");
     c.width = c.height = 64;
     const g = c.getContext("2d")!;
+    // round all over, with the cherry blossom's notch at the tip: never a point, so it can't be read as a teardrop
     g.beginPath();
-    g.moveTo(32, 60);
-    g.bezierCurveTo(11, 52, 5, 26, 15, 12);
-    g.quadraticCurveTo(22, 3, 29, 9);
-    g.lineTo(32, 16);
-    g.lineTo(35, 9);
-    g.quadraticCurveTo(42, 3, 49, 12);
-    g.bezierCurveTo(59, 26, 53, 52, 32, 60);
+    g.moveTo(32, 17);
+    g.lineTo(36.5, 8.5);
+    g.bezierCurveTo(45, 3, 56, 11, 55, 29);
+    g.bezierCurveTo(54, 45, 44, 58, 32, 59);
+    g.bezierCurveTo(20, 58, 10, 45, 9, 29);
+    g.bezierCurveTo(8, 11, 19, 3, 27.5, 8.5);
     g.closePath();
     const grad = g.createLinearGradient(32, 60, 32, 6);
     grad.addColorStop(0, "#e2537f");
@@ -516,14 +567,29 @@ function blossomSprite(k: number) {
     g.strokeStyle = "rgba(160, 40, 80, 0.55)";
     g.stroke();
     g.beginPath(); // a soft vein
-    g.moveTo(32, 54);
-    g.quadraticCurveTo(30, 36, 32, 22);
+    g.moveTo(32, 53);
+    g.quadraticCurveTo(30, 38, 32, 23);
     g.lineWidth = 2;
     g.strokeStyle = "rgba(255, 255, 255, 0.6)";
     g.stroke();
     blossomCache[i] = c;
   }
   return c;
+}
+/** The same blossom petal as an image URL (an inline SVG), for decoration drawn in the DOM rather than on the particle
+ *  canvas, e.g. the title's drifting petals (Dec6). `k` picks the shade. */
+export function blossomUrl(k = 0): string {
+  const shade = BLOSSOM_SHADES[Math.abs(k) % BLOSSOM_SHADES.length];
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="b" x1="0" y1="1" x2="0" y2="0.09">` +
+    `<stop offset="0" stop-color="#e2537f"/><stop offset="0.35" stop-color="${shade}"/><stop offset="1" stop-color="#fff1f6"/></linearGradient></defs>` +
+    `<path d="M32 17L36.5 8.5C45 3 56 11 55 29C54 45 44 58 32 59C20 58 10 45 9 29C8 11 19 3 27.5 8.5Z" fill="url(#b)" stroke="rgba(160,40,80,.55)" stroke-width="2.5"/>` +
+    `<path d="M32 53Q30 38 32 23" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"/></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+/** A blossom petal as an <img> (see blossomUrl). */
+export function Blossom({ k = 0, size = 32, className, style }: { k?: number; size?: number; className?: string; style?: CSSProperties }) {
+  return <img className={className} src={blossomUrl(k)} alt="" draggable={false} style={{ width: size, height: size, ...style }} />;
 }
 function star4(g: CanvasRenderingContext2D, s: number) {
   g.beginPath();
@@ -535,6 +601,9 @@ function star4(g: CanvasRenderingContext2D, s: number) {
   g.closePath();
   g.fill();
 }
+type Burst = "petals" | "blossoms" | "rainbow" | "stars" | "sparks" | "confetti" | "dust";
+/** "petals" was the rainbow teardrop until Dec6; it now falls as blossoms, like "blossoms". */
+const kindOf = (k: Burst): Burst => (k === "petals" ? "blossoms" : k);
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 const easeIn = (t: number) => t * t * t;
 /** The DOM effects layer (projectiles, impact stars, flashes), in stage coordinates. Mounted by FxLayer. */
@@ -549,27 +618,30 @@ function getImg(id: string) {
   return imgs[id];
 }
 export const fx = {
-  /** `blossoms`: round pink blossom petals (decoration); `petals`: the rainbow sound petals (item_petal), for the moments
-   *  that mean all the sounds (Dec6). */
-  burst(x: number, y: number, kind: "petals" | "blossoms" | "stars" | "sparks" | "confetti" | "dust" = "sparks", n = 18, spread = 1) {
+  /** `petals` (or its alias `blossoms`): round pink blossom petals, the decoration. `rainbow`: the rainbow teardrop
+   *  (item_petal), only for the moments that mean all the sounds, the film and the flower's heart. Dec6: a teardrop
+   *  always means a sound, so decoration never falls as teardrops. */
+  burst(x: number, y: number, kind: Burst = "sparks", n = 18, spread = 1) {
+    kind = kindOf(kind);
     for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2;
       const sp = (kind === "dust" ? 2 : 4 + Math.random() * 7) * spread;
       add({
         x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - (kind === "confetti" ? 6 : 2),
         r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.3, life: 0,
-        max: kind === "petals" || kind === "blossoms" || kind === "confetti" ? 80 + Math.random() * 50 : kind === "dust" ? 30 : 40 + Math.random() * 25,
-        size: kind === "petals" || kind === "blossoms" ? 26 + Math.random() * 18 : kind === "stars" ? 22 + Math.random() * 20 : kind === "dust" ? 16 + Math.random() * 14 : 6 + Math.random() * 8,
+        max: kind === "rainbow" || kind === "blossoms" || kind === "confetti" ? 80 + Math.random() * 50 : kind === "dust" ? 30 : 40 + Math.random() * 25,
+        size: kind === "rainbow" || kind === "blossoms" ? 26 + Math.random() * 18 : kind === "stars" ? 22 + Math.random() * 20 : kind === "dust" ? 16 + Math.random() * 14 : 6 + Math.random() * 8,
         kind,
         color: kind === "confetti" ? ["#ff7aa2", "#ffc53d", "#5ec8f2", "#6cc04a", "#9b6cf0", "#fff4dc"][i % 6] : kind === "sparks" ? ["#fff4dc", "#ffc53d", "#ffe38a"][i % 3] : undefined,
       });
     }
   },
-  rain(kind: "petals" | "blossoms" | "confetti" = "confetti", n = 60) {
+  rain(kind: "petals" | "blossoms" | "rainbow" | "confetti" = "confetti", n = 60) {
+    kind = kindOf(kind) as typeof kind;
     for (let i = 0; i < n; i++) {
       add({
         x: Math.random() * W, y: -40 - Math.random() * 300, vx: (Math.random() - 0.5) * 2, vy: 2 + Math.random() * 3,
-        r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.2, life: 0, max: 260, size: kind === "petals" || kind === "blossoms" ? 28 + Math.random() * 16 : 8 + Math.random() * 8, kind,
+        r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.2, life: 0, max: 260, size: kind === "rainbow" || kind === "blossoms" ? 28 + Math.random() * 16 : 8 + Math.random() * 8, kind,
         color: ["#ff7aa2", "#ffc53d", "#5ec8f2", "#6cc04a", "#9b6cf0", "#fff4dc"][i % 6],
       });
     }
@@ -693,7 +765,7 @@ export function FxLayer() {
         p.x += p.vx * k;
         p.y += p.vy * k;
         p.r += p.vr * k;
-        if (p.kind === "petals" || p.kind === "blossoms" || p.kind === "confetti") {
+        if (p.kind === "rainbow" || p.kind === "blossoms" || p.kind === "confetti") {
           p.vx *= Math.pow(0.97, k);
           p.vy = p.vy * Math.pow(0.97, k) + 0.18 * k;
           p.x += Math.sin(p.life / 9 + i) * 0.8 * k;
@@ -776,7 +848,7 @@ export function FxLayer() {
         }
         g.translate(p.x, p.y);
         g.rotate(p.r);
-        if (p.kind === "petals" && petal.complete) g.drawImage(petal, -p.size / 2, -p.size / 2, p.size, p.size);
+        if (p.kind === "rainbow" && petal.complete) g.drawImage(petal, -p.size / 2, -p.size / 2, p.size, p.size);
         else if (p.kind === "blossoms") {
           // a blossom tumbles as it falls: it narrows and widens as it turns over
           g.scale(0.35 + 0.65 * Math.abs(Math.cos(p.life * 0.07 + p.size)), 1);

@@ -1,0 +1,4136 @@
+[
+ {
+  "id": "gemini-sulafat-engb",
+  "provider": "gemini",
+  "voice": "Sulafat",
+  "label": "Gemini Sulafat (warm), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Sulafat",
+   "character": "warm",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "current": [
+   "sensei",
+   "narrator"
+  ],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-6.mp3"
+   ],
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/narrator-1.take3.mp3"
+   ],
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.2,
+  "americanFeatures": [
+   "sensei: r-coloured \"dear\" (acoustic, sensei-5 take 1, F3 ratio 0.7)",
+   "sensei: r-coloured \"together\" (acoustic, sensei-5 take 1, F3 ratio 0.7)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.07)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.41)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.87)",
+   "sensei: flat TRAP vowel in \"past\" (acoustic, sensei-6 take 1, BATH index 0.71)",
+   "sensei: flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 0.86)",
+   "narrator: r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.58)",
+   "narrator: r-coloured \"flower\" (acoustic, narrator-1 take 3, F3 ratio 0.57)"
+  ],
+  "warmth": 8.3,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 7,
+     "rhotic": "2/18 r-coloured",
+     "bath": "5/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.4,
+       -0.11,
+       0.19
+      ],
+      "bath": [
+       0.24,
+       0.13,
+       0.07
+      ],
+      "fast": [
+       0.23,
+       1.07,
+       1.41,
+       0.87
+      ],
+      "tomato": [
+       0.25,
+       0.25,
+       0.29
+      ],
+      "dance": [
+       0.51,
+       0.86,
+       0.42
+      ],
+      "can't": [
+       -0.07,
+       0,
+       -0.1
+      ],
+      "half": [
+       0.11,
+       0,
+       0.07
+      ],
+      "past": [
+       0.71,
+       -0.05,
+       0.04
+      ]
+     }
+    },
+    "accent10": 9.3,
+    "warmth": 8.3,
+    "clarity": 8.8,
+    "natural": 8.9,
+    "fitNotes": [
+     "Warm, engaging, and beautifully paced for early learners with a clear, friendly tone.",
+     "A wonderfully gentle, warm, and clearly articulated delivery that sounds perfectly suited to an infant school phonics lesson.",
+     "A calm, gentle, and clear delivery with a friendly tone, though slightly restrained in playful energy for preschool learners."
+    ],
+    "wpsMax": 3.54,
+    "americanFeatures": [
+     "r-coloured \"dear\" (acoustic, sensei-5 take 1, F3 ratio 0.7)",
+     "r-coloured \"together\" (acoustic, sensei-5 take 1, F3 ratio 0.7)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.07)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.41)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.87)",
+     "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 1, BATH index 0.71)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 0.86)"
+    ],
+    "overall": 8.8
+   },
+   "narrator": {
+    "britishScore": 10,
+    "britishVotes": "9/9 \"Southern British\"",
+    "abxBritish": "9/9",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 2,
+     "rhotic": "2/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.4,
+       -0.11,
+       0.19
+      ],
+      "bath": [
+       0.24,
+       0.13,
+       0.07
+      ],
+      "fast": [
+       0.23,
+       1.07,
+       1.41,
+       0.87
+      ],
+      "tomato": [
+       0.25,
+       0.25,
+       0.29
+      ],
+      "dance": [
+       0.51,
+       0.86,
+       0.42
+      ],
+      "can't": [
+       -0.07,
+       0,
+       -0.1
+      ],
+      "half": [
+       0.11,
+       0,
+       0.07
+      ],
+      "past": [
+       0.71,
+       -0.05,
+       0.04
+      ]
+     }
+    },
+    "accent10": 9,
+    "storytelling": 8.7,
+    "clarity": 9.3,
+    "natural": 9.3,
+    "fitNotes": [
+     "A wonderfully warm, gentle, and captivating delivery with excellent pacing and clear enunciation perfectly suited for young children.",
+     "Wonderfully paced and expressive with a warm, magical bedtime-story tone and immaculate clarity.",
+     "Wonderful theatrical suspense and pacing that immediately hooks the listener while maintaining crystal-clear enunciation."
+    ],
+    "wpsMax": 3.06,
+    "americanFeatures": [
+     "r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.58)",
+     "r-coloured \"flower\" (acoustic, narrator-1 take 3, F3 ratio 0.57)"
+    ],
+    "overall": 8.9
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Today's sensei and narrator voice. The game's Sensei today: no re-recording needed. Its shipped clips have known American slips (playtest/voice-picker/audit.md). Faster than the game's 3.3 words a second: sensei-2 t1 3.34 words/s, sensei-2 t2 3.54 words/s, sensei-2 t3 3.34 words/s."
+ },
+ {
+  "id": "gemini-vindemiatrix-engb",
+  "provider": "gemini",
+  "voice": "Vindemiatrix",
+  "label": "Gemini Vindemiatrix (gentle), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Vindemiatrix",
+   "character": "gentle",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-vindemiatrix-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.3,
+  "americanFeatures": [
+   "r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.61)",
+   "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.63)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.76)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.69)",
+   "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 1.67)",
+   "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 0.94)",
+   "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 2, BATH index 1.34)"
+  ],
+  "warmth": 7.7,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 51,
+     "flags": 7,
+     "rhotic": "2/18 r-coloured",
+     "bath": "5/21 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       -0.26,
+       -0.08,
+       0.2
+      ],
+      "bath": [
+       -0.29,
+       -0.06,
+       0.14
+      ],
+      "fast": [
+       -0.07,
+       0.76,
+       0.69
+      ],
+      "tomato": [
+       0.43,
+       0.25,
+       -0.45
+      ],
+      "dance": [
+       1.67,
+       0.94,
+       0.51
+      ],
+      "can't": [
+       -0.09,
+       -0.01,
+       -0.54
+      ],
+      "half": [
+       -0.52,
+       -0.08,
+       -0.72
+      ],
+      "past": [
+       -0.24,
+       1.34,
+       -0.48
+      ]
+     }
+    },
+    "accent10": 9.3,
+    "warmth": 7.7,
+    "clarity": 8.7,
+    "natural": 8.5,
+    "fitNotes": [
+     "A wonderfully warm, smiling, and clear delivery with an engaging CBeebies-style tone perfectly suited for young children.",
+     "Engaging, gentle, and smiling delivery that perfectly captures the tone of an encouraging preschool educator.",
+     "Clear, gentle, and pleasantly paced pronunciation, though delivered more as a calm list than with lively pedagogical warmth."
+    ],
+    "wpsMax": 3.22,
+    "americanFeatures": [
+     "r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.61)",
+     "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.63)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.76)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.69)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 1.67)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 0.94)",
+     "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 2, BATH index 1.34)"
+    ],
+    "overall": 8.5
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words."
+ },
+ {
+  "id": "gemini-achernar-engb",
+  "provider": "gemini",
+  "voice": "Achernar",
+  "label": "Gemini Achernar (soft), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Achernar",
+   "character": "soft",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-achernar-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 9.9,
+  "accentScore": 9.3,
+  "americanFeatures": [
+   "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.62)",
+   "r-coloured \"water\" (acoustic, sensei-6 take 1, F3 ratio 0.65)",
+   "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 2, BATH index 0.68)",
+   "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 3, BATH index 1.27)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-3 take 1, BATH index 0.73)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 2.38)",
+   "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 1, BATH index 0.76)"
+  ],
+  "warmth": 8.3,
+  "byRole": {
+   "sensei": {
+    "britishScore": 9.9,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 7,
+     "rhotic": "2/18 r-coloured",
+     "bath": "5/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.41,
+       0.68,
+       0.56
+      ],
+      "bath": [
+       0.12,
+       0.04,
+       1.27
+      ],
+      "fast": [
+       0.73,
+       0.3,
+       0.35,
+       2.38
+      ],
+      "tomato": [
+       0.29,
+       0.17,
+       0.06
+      ],
+      "dance": [
+       0.39,
+       0.5,
+       0.31
+      ],
+      "can't": [
+       0.13,
+       -0.23,
+       -0.26
+      ],
+      "half": [
+       0.02,
+       -0.18,
+       0.25
+      ],
+      "past": [
+       0.76,
+       -0.1,
+       0.17
+      ]
+     }
+    },
+    "accent10": 9.3,
+    "warmth": 8.3,
+    "clarity": 8.9,
+    "natural": 8.7,
+    "fitNotes": [
+     "Very clearly enunciated and well-paced, though the delivery sounds like a neutral vocabulary reading rather than an engaging, warm teacher persona.",
+     "The enunciation and unhurried pacing are fantastic for phonics instruction, though reading the list sounds slightly clinical and could benefit from more smiling, playful warmth.",
+     "Exceptionally warm, encouraging, and clear, with an engaging CBeebies-style tone perfect for early years learning."
+    ],
+    "wpsMax": 3.96,
+    "americanFeatures": [
+     "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.62)",
+     "r-coloured \"water\" (acoustic, sensei-6 take 1, F3 ratio 0.65)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 2, BATH index 0.68)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 3, BATH index 1.27)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-3 take 1, BATH index 0.73)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 2.38)",
+     "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 1, BATH index 0.76)"
+    ],
+    "overall": 8.8
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-1 t1 3.48 words/s, sensei-2 t1 3.96 words/s, sensei-2 t2 3.53 words/s, sensei-2 t3 3.47 words/s."
+ },
+ {
+  "id": "gemini-aoede-engb",
+  "provider": "gemini",
+  "voice": "Aoede",
+  "label": "Gemini Aoede (breezy), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Aoede",
+   "character": "breezy",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-aoede-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.7,
+  "americanFeatures": [
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.86)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 0.93)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.8)"
+  ],
+  "warmth": 7.4,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 3,
+     "rhotic": "0/18 r-coloured",
+     "bath": "3/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.03,
+       -0.03,
+       0.14
+      ],
+      "bath": [
+       -0.04,
+       0.04,
+       0.22
+      ],
+      "fast": [
+       0.06,
+       0.86,
+       0.93,
+       0.8
+      ],
+      "tomato": [
+       -0.05,
+       -0.02,
+       0.05
+      ],
+      "dance": [
+       -0.05,
+       0.16,
+       0.1
+      ],
+      "can't": [
+       -0.17,
+       0.01,
+       0.04
+      ],
+      "half": [
+       -0.12,
+       -0.04,
+       -0.25
+      ],
+      "past": [
+       0.09,
+       0.05,
+       -0.1
+      ]
+     }
+    },
+    "accent10": 9.7,
+    "warmth": 7.4,
+    "clarity": 8.5,
+    "natural": 8.3,
+    "fitNotes": [
+     "The delivery is cheerful, bright, and well-paced for young learners, though there is a slightly synthetic cadence in the intonation.",
+     "Engaging and warmly delivered with a smiling tone and clear pacing that fits an educational presenter well.",
+     "The pronunciation is very clear and distinct, but the delivery is purely neutral and list-like, lacking the warmth, smile, and engagement needed for young children."
+    ],
+    "wpsMax": 3.77,
+    "americanFeatures": [
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.86)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 0.93)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.8)"
+    ],
+    "overall": 8.6
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-2 t1 3.49 words/s, sensei-2 t2 3.77 words/s, sensei-2 t3 3.43 words/s, sensei-5 t1 3.47 words/s."
+ },
+ {
+  "id": "gemini-callirrhoe-engb",
+  "provider": "gemini",
+  "voice": "Callirrhoe",
+  "label": "Gemini Callirrhoe (easy-going), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Callirrhoe",
+   "character": "easy-going",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-callirrhoe-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.6,
+  "americanFeatures": [
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.61)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.18)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.72)",
+   "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 0.62)"
+  ],
+  "warmth": 7.4,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 51,
+     "flags": 4,
+     "rhotic": "0/18 r-coloured",
+     "bath": "4/21 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.04,
+       -0.24,
+       0.1
+      ],
+      "bath": [
+       0.12,
+       -0.2,
+       -0.06
+      ],
+      "fast": [
+       0.61,
+       1.18,
+       1.72
+      ],
+      "tomato": [
+       0.29,
+       -0.06,
+       -0.12
+      ],
+      "dance": [
+       0.62,
+       0.26,
+       0.19
+      ],
+      "can't": [
+       0.14,
+       -0.04,
+       -0.08
+      ],
+      "half": [
+       0.09,
+       -0.1,
+       -0.08
+      ],
+      "past": [
+       0.12,
+       -0.02,
+       -0.24
+      ]
+     }
+    },
+    "accent10": 9.6,
+    "warmth": 7.4,
+    "clarity": 8.7,
+    "natural": 8.6,
+    "fitNotes": [
+     "Clear, cheerful, and engaging delivery, though slightly brisk rather than deeply gentle and nurturing.",
+     "The delivery is clear and well-enunciated, but the tone is slightly formal and instructional rather than deeply warm or playful.",
+     "Exceptionally gentle, comforting, and well-paced delivery that perfectly embodies a supportive infant-school teacher."
+    ],
+    "wpsMax": 3.86,
+    "americanFeatures": [
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.61)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.18)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.72)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 0.62)"
+    ],
+    "overall": 8.5
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-2 t1 3.34 words/s, sensei-2 t3 3.86 words/s."
+ },
+ {
+  "id": "gemini-despina-engb",
+  "provider": "gemini",
+  "voice": "Despina",
+  "label": "Gemini Despina (smooth), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Despina",
+   "character": "smooth",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-despina-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.4,
+  "americanFeatures": [
+   "r-coloured \"car\" (acoustic, sensei-2 take 2, F3 ratio 0.63)",
+   "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.55)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.82)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.2)",
+   "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 0.93)",
+   "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 0.66)"
+  ],
+  "warmth": 8,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 6,
+     "rhotic": "2/18 r-coloured",
+     "bath": "4/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       -0.11,
+       -0.2,
+       -0.23
+      ],
+      "bath": [
+       0.01,
+       -0.08,
+       -0.03
+      ],
+      "fast": [
+       -0.11,
+       0.82,
+       1.2,
+       -0.05
+      ],
+      "tomato": [
+       -0.25,
+       0.26,
+       -0.51
+      ],
+      "dance": [
+       0.93,
+       0.66,
+       -0.05
+      ],
+      "can't": [
+       -0.37,
+       -0.18,
+       -0.59
+      ],
+      "half": [
+       -0.28,
+       -0.31,
+       -0.63
+      ],
+      "past": [
+       -0.28,
+       -0.27,
+       -0.6
+      ]
+     }
+    },
+    "accent10": 9.4,
+    "warmth": 8,
+    "clarity": 8.8,
+    "natural": 8.6,
+    "fitNotes": [
+     "A wonderfully cheerful, encouraging, and clear delivery with an audible smile that perfectly suits early years educational content.",
+     "Engaging and cheerful with a smiling tone, though slightly brisk in pacing for younger listeners.",
+     "The delivery is exceptionally clear and well-paced for early phonics, but feels more like a standard instructional prompt than a deeply warm, playful CBeebies-style teacher."
+    ],
+    "wpsMax": 3.27,
+    "americanFeatures": [
+     "r-coloured \"car\" (acoustic, sensei-2 take 2, F3 ratio 0.63)",
+     "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.55)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.82)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.2)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 0.93)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 0.66)"
+    ],
+    "overall": 8.7
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words."
+ },
+ {
+  "id": "gemini-leda-engb",
+  "provider": "gemini",
+  "voice": "Leda",
+  "label": "Gemini Leda (youthful), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Leda",
+   "character": "youthful",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-leda-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.6,
+  "americanFeatures": [
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.53)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.48)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.48)",
+   "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 0.71)"
+  ],
+  "warmth": 7.2,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 4,
+     "rhotic": "0/18 r-coloured",
+     "bath": "4/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.25,
+       0.22,
+       0.23
+      ],
+      "bath": [
+       -0.31,
+       0.08,
+       -0.09
+      ],
+      "fast": [
+       0.49,
+       1.53,
+       1.48,
+       1.48
+      ],
+      "tomato": [
+       -0.23,
+       0.24,
+       -0.13
+      ],
+      "dance": [
+       -0.11,
+       0.71,
+       0.36
+      ],
+      "can't": [
+       0.14,
+       -0.6,
+       0
+      ],
+      "half": [
+       -0.53,
+       -0.93,
+       0.02
+      ],
+      "past": [
+       -0.94,
+       -0.35,
+       -0.14
+      ]
+     }
+    },
+    "accent10": 9.6,
+    "warmth": 7.2,
+    "clarity": 8.6,
+    "natural": 7.8,
+    "fitNotes": [
+     "Warm, encouraging, and clearly articulated with a friendly tone well-suited to young learners.",
+     "Gentle, patient, and delightfully encouraging delivery with clear articulation well-suited for early years phonics.",
+     "Clear and properly articulated with a gentle tone, but reads strictly like a list without much teacherly warmth or engaging energy."
+    ],
+    "wpsMax": 3.2,
+    "americanFeatures": [
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.53)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.48)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.48)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 0.71)"
+    ],
+    "overall": 8.4
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words."
+ },
+ {
+  "id": "gemini-gacrux-engb",
+  "provider": "gemini",
+  "voice": "Gacrux",
+  "label": "Gemini Gacrux (mature), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Gacrux",
+   "character": "mature",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-6.mp3"
+   ],
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/narrator-1.take3.mp3"
+   ],
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.8,
+  "americanFeatures": [
+   "sensei: r-coloured \"water\" (acoustic, sensei-6 take 3, F3 ratio 0.7)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.14)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.18)",
+   "sensei: flapped t in \"butter\" (acoustic, sensei-6 take 2, 0 ms gap)"
+  ],
+  "warmth": 7.8,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 51,
+     "flags": 4,
+     "rhotic": "1/18 r-coloured",
+     "bath": "2/21 flat",
+     "t": "1/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       -0.31,
+       -0.2,
+       -0.17
+      ],
+      "bath": [
+       -0.19,
+       -0.24
+      ],
+      "fast": [
+       0.38,
+       1.14,
+       1.18,
+       0.48
+      ],
+      "tomato": [
+       0.55,
+       0.08,
+       -0.27
+      ],
+      "dance": [
+       -0.05,
+       0.35,
+       0.12
+      ],
+      "can't": [
+       -0.23,
+       -0.34,
+       -0.58
+      ],
+      "half": [
+       -0.24,
+       -0.17,
+       -0.53
+      ],
+      "past": [
+       -0.35,
+       0.25,
+       -0.37
+      ]
+     }
+    },
+    "accent10": 9.6,
+    "warmth": 7.8,
+    "clarity": 8.5,
+    "natural": 8.5,
+    "fitNotes": [
+     "Wonderfully warm, smiling, and encouraging delivery with great clarity and an authentic CBeebies presenter feel.",
+     "Wonderfully warm, cheerful, and encouraging with the exact inviting energy of a CBeebies presenter.",
+     "A wonderfully gentle, smiling delivery with crystal-clear articulation perfectly suited for young children."
+    ],
+    "wpsMax": 3.78,
+    "americanFeatures": [
+     "r-coloured \"water\" (acoustic, sensei-6 take 3, F3 ratio 0.7)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.14)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.18)",
+     "flapped t in \"butter\" (acoustic, sensei-6 take 2, 0 ms gap)"
+    ],
+    "overall": 8.7
+   },
+   "narrator": {
+    "britishScore": 10,
+    "britishVotes": "9/9 \"Southern British\"",
+    "abxBritish": "9/9",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 7,
+     "flags": 0,
+     "rhotic": "0/7 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {
+      "grass": [
+       -0.31,
+       -0.2,
+       -0.17
+      ],
+      "bath": [
+       -0.19,
+       -0.24
+      ],
+      "fast": [
+       0.38,
+       1.14,
+       1.18,
+       0.48
+      ],
+      "tomato": [
+       0.55,
+       0.08,
+       -0.27
+      ],
+      "dance": [
+       -0.05,
+       0.35,
+       0.12
+      ],
+      "can't": [
+       -0.23,
+       -0.34,
+       -0.58
+      ],
+      "half": [
+       -0.24,
+       -0.17,
+       -0.53
+      ],
+      "past": [
+       -0.35,
+       0.25,
+       -0.37
+      ]
+     }
+    },
+    "accent10": 10,
+    "storytelling": 8.5,
+    "clarity": 9,
+    "natural": 9,
+    "fitNotes": [
+     "A wonderfully warm, engaging reading with lovely fairy-tale pacing and expressive emphasis on key words.",
+     "Warm, engaging, and beautifully paced with an inviting storybook tone perfect for young listeners.",
+     "Wonderful dramatic pacing and suspenseful vocal modulation that perfectly engages young listeners."
+    ],
+    "wpsMax": 3,
+    "americanFeatures": [],
+    "overall": 9.3
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-1 t1 3.44 words/s, sensei-2 t1 3.55 words/s, sensei-2 t3 3.78 words/s."
+ },
+ {
+  "id": "gemini-autonoe-engb",
+  "provider": "gemini",
+  "voice": "Autonoe",
+  "label": "Gemini Autonoe (bright), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Autonoe",
+   "character": "bright",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-autonoe-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 9.1,
+  "accentScore": 8.4,
+  "americanFeatures": [
+   "r-coloured \"word\" (acoustic, sensei-1 take 1, F3 ratio 0.57)",
+   "r-coloured \"car\" (acoustic, sensei-2 take 3, F3 ratio 0.64)",
+   "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 3, BATH index 0.86)",
+   "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 3, BATH index 0.9)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.1)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 0.8)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.99)",
+   "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 3, BATH index 0.69)",
+   "trap vowel in \"grass\" (judge, 2/18 votes)",
+   "trap vowel in \"bath\" (judge, 2/18 votes)",
+   "rhotic r in \"car\" (judge, 1/18 votes)"
+  ],
+  "warmth": 7.3,
+  "byRole": {
+   "sensei": {
+    "britishScore": 9.1,
+    "britishVotes": "16/18 \"Southern British\"",
+    "abxBritish": "15/18",
+    "abxBritishPct": 83,
+    "abxAmericanReasons": [
+     "sensei-2 t3: Clip X shares General American features with Clip A, including a rhotic 'car' and the TRAP vowel /æ/ in 'grass' and 'bath', contrasting with",
+     "sensei-2 t3: Speaker X shares Speaker A's rhotic pronunciation of 'car' and the short TRAP vowel [æ] in 'grass' and 'bath', unlike the non-rhotic, broad-",
+     "sensei-2 t3: Clip X exhibits a rhotic 'car' and the flat TRAP vowel in 'grass' and 'bath', matching Clip B rather than the non-rhotic, broad-A pronunciat"
+    ],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 8,
+     "rhotic": "2/18 r-coloured",
+     "bath": "6/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.07,
+       0.6,
+       0.86
+      ],
+      "bath": [
+       0.02,
+       0.17,
+       0.9
+      ],
+      "fast": [
+       -0.17,
+       1.1,
+       0.8,
+       0.99
+      ],
+      "tomato": [
+       -0.11,
+       -0.05,
+       0.68
+      ],
+      "dance": [
+       0.04,
+       0.08,
+       0.69
+      ],
+      "can't": [
+       -0.13,
+       -0.18,
+       0.14
+      ],
+      "half": [
+       -0.17,
+       0.16,
+       0.09
+      ],
+      "past": [
+       -0.11,
+       0.09,
+       0.42
+      ]
+     }
+    },
+    "accent10": 8.4,
+    "warmth": 7.3,
+    "clarity": 8.5,
+    "natural": 8.3,
+    "fitNotes": [
+     "Engaging, bright, and warmly delivered with excellent articulation and pacing suited for young children.",
+     "A bright, energetic, and engaging delivery with clear articulation and plenty of friendly warmth for young learners.",
+     "Delightfully warm, encouraging, and clearly enunciated with an authentic preschool teacher feel."
+    ],
+    "wpsMax": 3.72,
+    "americanFeatures": [
+     "r-coloured \"word\" (acoustic, sensei-1 take 1, F3 ratio 0.57)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 3, F3 ratio 0.64)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 3, BATH index 0.86)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 3, BATH index 0.9)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.1)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 0.8)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.99)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 3, BATH index 0.69)",
+     "trap vowel in \"grass\" (judge, 2/18 votes)",
+     "trap vowel in \"bath\" (judge, 2/18 votes)",
+     "rhotic r in \"car\" (judge, 1/18 votes)"
+    ],
+    "overall": 7.9
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-2 t1 3.42 words/s, sensei-2 t2 3.72 words/s. Whisper heard these takes differently from the script: sensei-4 take 2 heard as \"Shay mat slowly. Now say it fast.\"."
+ },
+ {
+  "id": "gemini-erinome-engb",
+  "provider": "gemini",
+  "voice": "Erinome",
+  "label": "Gemini Erinome (clear), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Erinome",
+   "character": "clear",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-erinome-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.9,
+  "americanFeatures": [
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1)"
+  ],
+  "warmth": 8.2,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 1,
+     "rhotic": "0/18 r-coloured",
+     "bath": "1/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.09,
+       0.01,
+       -0.03
+      ],
+      "bath": [
+       0.27,
+       -0.03,
+       0.21
+      ],
+      "fast": [
+       0.13,
+       0.36,
+       1,
+       0.34
+      ],
+      "tomato": [
+       0.2,
+       0.45,
+       0.12
+      ],
+      "dance": [
+       0.4,
+       0.19,
+       0.09
+      ],
+      "can't": [
+       0.14,
+       -0.04,
+       0.04
+      ],
+      "half": [
+       0.05,
+       -0.11,
+       -0.02
+      ],
+      "past": [
+       0.19,
+       0.08,
+       -0.02
+      ]
+     }
+    },
+    "accent10": 9.9,
+    "warmth": 8.2,
+    "clarity": 8.8,
+    "natural": 8.8,
+    "fitNotes": [
+     "Exceptionally gentle, supportive, and clearly articulated, perfectly capturing the reassuring tone of an infant-school teacher.",
+     "Exceptionally warm, gentle, and encouraging with ideal pacing and clarity for young learners.",
+     "The delivery is pleasantly encouraging with clear diction and a lovely, playful tempo shift between slowly and fast."
+    ],
+    "wpsMax": 3.16,
+    "americanFeatures": [
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1)"
+    ],
+    "overall": 9.1
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words."
+ },
+ {
+  "id": "gemini-laomedeia-engb",
+  "provider": "gemini",
+  "voice": "Laomedeia",
+  "label": "Gemini Laomedeia (upbeat), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Laomedeia",
+   "character": "upbeat",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-laomedeia-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.9,
+  "americanFeatures": [
+   "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 2)"
+  ],
+  "warmth": 7.8,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 1,
+     "rhotic": "0/18 r-coloured",
+     "bath": "1/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.23,
+       0.57,
+       0.07
+      ],
+      "bath": [
+       -0.11,
+       -0.14,
+       -0.06
+      ],
+      "fast": [
+       0.46,
+       -0.6,
+       0.16,
+       0.16
+      ],
+      "tomato": [
+       0.1,
+       0.54,
+       0.46
+      ],
+      "dance": [
+       2,
+       0.36,
+       0.17
+      ],
+      "can't": [
+       0.59,
+       0.02,
+       -0.44
+      ],
+      "half": [
+       0.38,
+       0.33,
+       -0.25
+      ],
+      "past": [
+       0.15,
+       0.22,
+       -0.3
+      ]
+     }
+    },
+    "accent10": 9.9,
+    "warmth": 7.8,
+    "clarity": 8.9,
+    "natural": 8.3,
+    "fitNotes": [
+     "Clear, friendly, and well-paced for young children with an encouraging and natural tone.",
+     "The delivery is warm, friendly, and very clearly articulated at an ideal pace for young children.",
+     "A delightfully bright, smiling delivery with wonderful warmth and clear pacing perfectly tailored for young children."
+    ],
+    "wpsMax": 3.46,
+    "americanFeatures": [
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 2)"
+    ],
+    "overall": 8.9
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-1 t1 3.46 words/s, sensei-2 t2 3.44 words/s."
+ },
+ {
+  "id": "gemini-zephyr-engb",
+  "provider": "gemini",
+  "voice": "Zephyr",
+  "label": "Gemini Zephyr (bright), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Zephyr",
+   "character": "bright",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-zephyr-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.7,
+  "americanFeatures": [
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.67)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.67)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.23)"
+  ],
+  "warmth": 6.5,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 51,
+     "flags": 3,
+     "rhotic": "0/17 r-coloured",
+     "bath": "3/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       -0.62,
+       -0.57,
+       -0.22
+      ],
+      "bath": [
+       -0.25,
+       -0.44,
+       -0.35
+      ],
+      "fast": [
+       0.13,
+       1.67,
+       1.67,
+       1.23
+      ],
+      "tomato": [
+       -0.59,
+       -0.53,
+       -0.23
+      ],
+      "dance": [
+       -0.26,
+       -0.21,
+       0.6
+      ],
+      "can't": [
+       -0.42,
+       -0.28,
+       0.01
+      ],
+      "half": [
+       -0.51,
+       -0.63,
+       -0.53
+      ],
+      "past": [
+       -0.46,
+       -0.21,
+       -0.69
+      ]
+     }
+    },
+    "accent10": 9.7,
+    "warmth": 6.5,
+    "clarity": 8,
+    "natural": 8,
+    "fitNotes": [
+     "Gentle, friendly delivery with clear enunciation and a calm, well-paced cadence ideal for young learners.",
+     "Clear and well-paced, but lacks the smiling warmth and engaging enthusiasm typical of an infant teacher.",
+     "Gently encouraging and softly spoken, offering a reassuring and natural tone ideal for young children."
+    ],
+    "wpsMax": 3.67,
+    "americanFeatures": [
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.67)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.67)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.23)"
+    ],
+    "overall": 8.1
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-2 t1 3.63 words/s, sensei-2 t2 3.67 words/s, sensei-2 t3 3.48 words/s."
+ },
+ {
+  "id": "gemini-kore-engb",
+  "provider": "gemini",
+  "voice": "Kore",
+  "label": "Gemini Kore (firm), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Kore",
+   "character": "firm",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-kore-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.3,
+  "americanFeatures": [
+   "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.56)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.67)",
+   "flapped t in \"butter\" (acoustic, sensei-6 take 3, 0 ms gap)"
+  ],
+  "warmth": 7.2,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "17/18",
+    "abxBritishPct": 94,
+    "abxAmericanReasons": [
+     "sensei-2 t3: Clip X shares the broad-A pronunciation in 'grass' and 'bath' with Clip B, whereas Clip A uses the short TRAP vowel."
+    ],
+    "acoustic": {
+     "tokens": 50,
+     "flags": 4,
+     "rhotic": "1/18 r-coloured",
+     "bath": "2/20 flat",
+     "t": "1/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       -0.1,
+       0.02,
+       -0.05
+      ],
+      "bath": [
+       -0.1,
+       -0.19,
+       -0.1
+      ],
+      "fast": [
+       1,
+       0.67
+      ],
+      "tomato": [
+       -0.18,
+       -0.21,
+       -0.17
+      ],
+      "dance": [
+       0.07,
+       0.54,
+       0.31
+      ],
+      "can't": [
+       -0.29,
+       -0.3,
+       -0.09
+      ],
+      "half": [
+       -0.35,
+       -0.25,
+       -0.26
+      ],
+      "past": [
+       -0.14,
+       -0.22,
+       -0.26
+      ]
+     }
+    },
+    "accent10": 9.3,
+    "warmth": 7.2,
+    "clarity": 8.5,
+    "natural": 8.3,
+    "fitNotes": [
+     "Wonderfully gentle, warm, and supportive delivery that feels perfectly attuned to encouraging a young child after a mistake.",
+     "Exceptionally gentle, warm, and encouraging tone perfectly suited for a supportive infant teacher correcting a mistake.",
+     "The words are articulated clearly, but the delivery sounds like a clinical dictionary word list rather than a warm, smiling teacher speaking to a child."
+    ],
+    "wpsMax": 3.51,
+    "americanFeatures": [
+     "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.56)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 0.67)",
+     "flapped t in \"butter\" (acoustic, sensei-6 take 3, 0 ms gap)"
+    ],
+    "overall": 8.3
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-2 t1 3.51 words/s, sensei-2 t2 3.5 words/s, sensei-2 t3 3.32 words/s."
+ },
+ {
+  "id": "gemini-pulcherrima-engb",
+  "provider": "gemini",
+  "voice": "Pulcherrima",
+  "label": "Gemini Pulcherrima (forward), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Pulcherrima",
+   "character": "forward",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-6.mp3"
+   ]
+  },
+  "takes": {
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-pulcherrima-engb/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 7.8,
+  "americanFeatures": [
+   "r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.61)",
+   "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.71)",
+   "r-coloured \"together\" (acoustic, sensei-5 take 1, F3 ratio 0.7)",
+   "r-coloured \"water\" (acoustic, sensei-6 take 1, F3 ratio 0.62)",
+   "r-coloured \"butter\" (acoustic, sensei-6 take 1, F3 ratio 0.6)",
+   "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 1, BATH index 0.68)",
+   "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 2, BATH index 1.02)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-3 take 1, BATH index 0.86)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.96)",
+   "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 0.73)",
+   "flapped t in \"water\" (acoustic, sensei-6 take 2, 0 ms gap)",
+   "flapped t in \"butter\" (acoustic, sensei-6 take 2, 0 ms gap)",
+   "flapped t in \"tomato\" (acoustic, sensei-6 take 2, 0 ms gap)",
+   "flapped t in \"water\" (acoustic, sensei-6 take 3, 0 ms gap)",
+   "flapped t in \"butter\" (acoustic, sensei-6 take 3, 0 ms gap)",
+   "flapped t in \"tomato\" (acoustic, sensei-6 take 3, 0 ms gap)"
+  ],
+  "warmth": 5.3,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "16/18",
+    "abxBritishPct": 89,
+    "abxAmericanReasons": [
+     "sensei-2 t1: Clip X shares Clip A's rhotic pronunciation of 'car' and the flat TRAP vowel in 'grass' and 'bath', differing from Clip B's non-rhotic, broa",
+     "sensei-2 t1: Speaker X shares the rhotic pronunciation in 'car' and the short TRAP vowel [æ] in 'grass' and 'bath' with Speaker A."
+    ],
+    "acoustic": {
+     "tokens": 48,
+     "flags": 16,
+     "rhotic": "5/16 r-coloured",
+     "bath": "5/20 flat",
+     "t": "6/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.55,
+       0.26,
+       0.37
+      ],
+      "bath": [
+       0.68,
+       1.02
+      ],
+      "fast": [
+       0.86,
+       0.96,
+       0.73
+      ],
+      "tomato": [
+       0.45,
+       -0.01,
+       -0.04
+      ],
+      "dance": [
+       0.46,
+       0.43,
+       0.29
+      ],
+      "can't": [
+       0.29,
+       0.26,
+       0.09
+      ],
+      "half": [
+       0.16,
+       0.03,
+       -0.05
+      ],
+      "past": [
+       0.17,
+       0.06,
+       -0.08
+      ]
+     }
+    },
+    "accent10": 7.8,
+    "warmth": 5.3,
+    "clarity": 7.6,
+    "natural": 6.4,
+    "fitNotes": [
+     "The delivery is clear and natural, but it sounds like a neutral, detached reading of a word list rather than a warm, engaging infant-school teacher.",
+     "The articulation is very clear and precise, but the delivery is quite neutral and flat, lacking the warm, smiling, encouraging tone of an infant school teacher.",
+     "The delivery is clear and well-paced, but it sounds more like a neutral instructional prompt than a warm, smiling teacher."
+    ],
+    "wpsMax": 4.07,
+    "americanFeatures": [
+     "r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.61)",
+     "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.71)",
+     "r-coloured \"together\" (acoustic, sensei-5 take 1, F3 ratio 0.7)",
+     "r-coloured \"water\" (acoustic, sensei-6 take 1, F3 ratio 0.62)",
+     "r-coloured \"butter\" (acoustic, sensei-6 take 1, F3 ratio 0.6)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 1, BATH index 0.68)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 2, BATH index 1.02)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-3 take 1, BATH index 0.86)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.96)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 0.73)",
+     "flapped t in \"water\" (acoustic, sensei-6 take 2, 0 ms gap)",
+     "flapped t in \"butter\" (acoustic, sensei-6 take 2, 0 ms gap)",
+     "flapped t in \"tomato\" (acoustic, sensei-6 take 2, 0 ms gap)",
+     "flapped t in \"water\" (acoustic, sensei-6 take 3, 0 ms gap)",
+     "flapped t in \"butter\" (acoustic, sensei-6 take 3, 0 ms gap)",
+     "flapped t in \"tomato\" (acoustic, sensei-6 take 3, 0 ms gap)"
+    ],
+    "overall": 6.6
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-1 t1 3.79 words/s, sensei-2 t1 3.68 words/s, sensei-2 t2 3.59 words/s, sensei-2 t3 3.72 words/s, sensei-5 t1 4.07 words/s."
+ },
+ {
+  "id": "gemini-charon-engb",
+  "provider": "gemini",
+  "voice": "Charon",
+  "label": "Gemini Charon (informative), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Charon",
+   "character": "informative",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-charon-engb/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-charon-engb/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-charon-engb/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-charon-engb/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-charon-engb/narrator-1.take3.mp3"
+   ]
+  },
+  "britishScore": 7,
+  "accentScore": 7.8,
+  "americanFeatures": [
+   "r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.64)",
+   "rhotic r in \"far\" (judge, 3/9 votes)",
+   "rhotic r in \"world\" (judge, 3/9 votes)",
+   "rhotic r in \"flower\" (judge, 3/9 votes)"
+  ],
+  "warmth": null,
+  "byRole": {
+   "narrator": {
+    "britishScore": 7,
+    "britishVotes": "6/9 \"Southern British\"",
+    "abxBritish": "6/9",
+    "abxBritishPct": 67,
+    "abxAmericanReasons": [
+     "narrator-1 t1: Clip X shares Clip A's rhotic pronunciation in words like 'far', 'world', and 'flower', unlike the non-rhotic British pronunciation in Clip ",
+     "narrator-1 t1: Clip X exhibits rhotic pronunciation in words like 'far' and 'world', matching the American accent of Clip A rather than the non-rhotic Brit",
+     "narrator-1 t1: Speaker X exhibits rhotic pronunciation in words like 'far' and 'world', which matches Speaker B rather than non-rhotic Speaker A."
+    ],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 1,
+     "rhotic": "1/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 7.8,
+    "storytelling": 7.5,
+    "clarity": 9,
+    "natural": 8.7,
+    "fitNotes": [
+     "A wonderfully warm, atmospheric delivery with great pacing and suspense suited for young listeners.",
+     "Engaging, dramatic delivery with excellent suspenseful pacing and crystal-clear diction tailored for young children.",
+     "A wonderfully warm, classic storybook delivery with gentle pacing and crystal-clear diction ideal for young listeners."
+    ],
+    "wpsMax": 2.9,
+    "americanFeatures": [
+     "r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.64)",
+     "rhotic r in \"far\" (judge, 3/9 votes)",
+     "rhotic r in \"world\" (judge, 3/9 votes)",
+     "rhotic r in \"flower\" (judge, 3/9 votes)"
+    ],
+    "overall": 7.7
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-sadaltager-engb",
+  "provider": "gemini",
+  "voice": "Sadaltager",
+  "label": "Gemini Sadaltager (knowledgeable), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Sadaltager",
+   "character": "knowledgeable",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-sadaltager-engb/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sadaltager-engb/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sadaltager-engb/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-sadaltager-engb/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sadaltager-engb/narrator-1.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 10,
+  "americanFeatures": [],
+  "warmth": null,
+  "byRole": {
+   "narrator": {
+    "britishScore": 10,
+    "britishVotes": "9/9 \"Southern British\"",
+    "abxBritish": "9/9",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 0,
+     "rhotic": "0/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 10,
+    "storytelling": 8,
+    "clarity": 9,
+    "natural": 9,
+    "fitNotes": [
+     "A wonderfully theatrical and rich reading with excellent articulation, leaning slightly epic and dramatic rather than soft and gentle.",
+     "A wonderfully warm, magical, and classic storybook delivery with excellent pacing and clarity for young listeners.",
+     "Engaging, dramatic delivery with good suspenseful pacing that suits a children's villain introduction well."
+    ],
+    "wpsMax": 2.68,
+    "americanFeatures": [],
+    "overall": 9
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-algieba-engb",
+  "provider": "gemini",
+  "voice": "Algieba",
+  "label": "Gemini Algieba (smooth), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Algieba",
+   "character": "smooth",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-algieba-engb/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algieba-engb/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algieba-engb/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-algieba-engb/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algieba-engb/narrator-1.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.4,
+  "americanFeatures": [],
+  "warmth": null,
+  "byRole": {
+   "narrator": {
+    "britishScore": 10,
+    "britishVotes": "9/9 \"Southern British\"",
+    "abxBritish": "8/9",
+    "abxBritishPct": 89,
+    "abxAmericanReasons": [
+     "narrator-1 t2: Clip X shares Clip A's rhotic pronunciation with clear r-coloring in words like 'far' and 'world', whereas Clip B is non-rhotic."
+    ],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 0,
+     "rhotic": "0/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 9.4,
+    "storytelling": 8.2,
+    "clarity": 9,
+    "natural": 9.2,
+    "fitNotes": [
+     "A wonderfully warm, gentle delivery with classic storybook cadence and clear articulation perfect for young listeners.",
+     "A delightfully warm and well-paced delivery with expressive emphasis that feels tailor-made for a children's audiobook.",
+     "A wonderfully theatrical and suspenseful delivery with rich tone and clear enunciation that would captivate young listeners."
+    ],
+    "wpsMax": 2.73,
+    "americanFeatures": [],
+    "overall": 8.8
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-iapetus-engb",
+  "provider": "gemini",
+  "voice": "Iapetus",
+  "label": "Gemini Iapetus (clear), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Iapetus",
+   "character": "clear",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-iapetus-engb/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-iapetus-engb/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-iapetus-engb/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-iapetus-engb/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-iapetus-engb/narrator-1.take3.mp3"
+   ]
+  },
+  "britishScore": 9.1,
+  "accentScore": 6.4,
+  "americanFeatures": [
+   "r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.66)",
+   "r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.63)",
+   "r-coloured \"flower\" (acoustic, narrator-1 take 1, F3 ratio 0.7)",
+   "r-coloured \"far\" (acoustic, narrator-1 take 2, F3 ratio 0.59)",
+   "r-coloured \"world\" (acoustic, narrator-1 take 2, F3 ratio 0.57)",
+   "r-coloured \"stormy\" (acoustic, narrator-2 take 1, F3 ratio 0.7)",
+   "rhotic r in \"world\" (judge, 1/9 votes)"
+  ],
+  "warmth": null,
+  "byRole": {
+   "narrator": {
+    "britishScore": 9.1,
+    "britishVotes": "8/9 \"Southern British\"",
+    "abxBritish": "8/9",
+    "abxBritishPct": 89,
+    "abxAmericanReasons": [
+     "narrator-1 t2: Speaker X shares Speaker B's rhotic pronunciation of 'far' and 'world', whereas Speaker A is non-rhotic."
+    ],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 6,
+     "rhotic": "6/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 6.4,
+    "storytelling": 7.7,
+    "clarity": 9,
+    "natural": 8.7,
+    "fitNotes": [
+     "The delivery is very clear but lacks the warmth, wonder, and celebratory pacing suited for a children's story resolution.",
+     "A wonderfully warm, engaging, and clear delivery with a classic storybook cadence.",
+     "Warm, beautifully paced, and engaging with a classic storybook tone that is exceptionally clear for young listeners."
+    ],
+    "wpsMax": 3.04,
+    "americanFeatures": [
+     "r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.66)",
+     "r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.63)",
+     "r-coloured \"flower\" (acoustic, narrator-1 take 1, F3 ratio 0.7)",
+     "r-coloured \"far\" (acoustic, narrator-1 take 2, F3 ratio 0.59)",
+     "r-coloured \"world\" (acoustic, narrator-1 take 2, F3 ratio 0.57)",
+     "r-coloured \"stormy\" (acoustic, narrator-2 take 1, F3 ratio 0.7)",
+     "rhotic r in \"world\" (judge, 1/9 votes)"
+    ],
+    "overall": 7.1
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-enceladus-engb",
+  "provider": "gemini",
+  "voice": "Enceladus",
+  "label": "Gemini Enceladus (breathy), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Enceladus",
+   "character": "breathy",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-enceladus-engb/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-enceladus-engb/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-enceladus-engb/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-enceladus-engb/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-enceladus-engb/narrator-1.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.5,
+  "americanFeatures": [
+   "r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.65)"
+  ],
+  "warmth": null,
+  "byRole": {
+   "narrator": {
+    "britishScore": 10,
+    "britishVotes": "9/9 \"Southern British\"",
+    "abxBritish": "9/9",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 1,
+     "rhotic": "1/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 9.5,
+    "storytelling": 7.5,
+    "clarity": 8.8,
+    "natural": 9,
+    "fitNotes": [
+     "Warm, measured, and engaging with classical storybook phrasing that is easy for young listeners to follow.",
+     "Delivered with classic, warm storybook charm and excellent pacing that creates a gentle sense of wonder for young listeners.",
+     "Warm, resonant tone with clear diction and a gentle storytelling cadence suited to a bedtime tale."
+    ],
+    "wpsMax": 3.07,
+    "americanFeatures": [
+     "r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.65)"
+    ],
+    "overall": 8.5
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-algenib-engb",
+  "provider": "gemini",
+  "voice": "Algenib",
+  "label": "Gemini Algenib (gravelly), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Algenib",
+   "character": "gravelly",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "baron"
+  ],
+  "current": [
+   "baron"
+  ],
+  "files": {
+   "baron": [
+    "playtest/voice-picker/audio/gemini/gemini-algenib-engb/baron-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algenib-engb/baron-2.mp3"
+   ]
+  },
+  "takes": {
+   "baron-1": [
+    "playtest/voice-picker/audio/gemini/gemini-algenib-engb/baron-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algenib-engb/baron-1.take3.mp3"
+   ],
+   "baron-2": [
+    "playtest/voice-picker/audio/gemini/gemini-algenib-engb/baron-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algenib-engb/baron-2.take3.mp3"
+   ]
+  },
+  "britishScore": 9.2,
+  "accentScore": 10,
+  "americanFeatures": [],
+  "warmth": null,
+  "byRole": {
+   "baron": {
+    "britishScore": 9.2,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 9,
+     "flags": 0,
+     "rhotic": "0/9 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 10,
+    "villain": 8.3,
+    "clarity": 9,
+    "natural": 9,
+    "fitNotes": [
+     "Delightfully theatrical and cartoonish with great enunciation and just the right amount of playful pantomime menace.",
+     "A wonderfully theatrical pantomime delivery with an exaggerated growl on 'MINE!' that strikes the perfect balance of delightfully menacing and fun for young children.",
+     "A wonderfully theatrical, playfully grumpy delivery with great vocal dynamics and crisp enunciation for young listeners."
+    ],
+    "wpsMax": 2.19,
+    "americanFeatures": [],
+    "overall": 9.2
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Today's baron voice."
+ },
+ {
+  "id": "gemini-fenrir-engb",
+  "provider": "gemini",
+  "voice": "Fenrir",
+  "label": "Gemini Fenrir (excitable), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Fenrir",
+   "character": "excitable",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "baron"
+  ],
+  "current": [],
+  "files": {
+   "baron": [
+    "playtest/voice-picker/audio/gemini/gemini-fenrir-engb/baron-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-fenrir-engb/baron-2.mp3"
+   ]
+  },
+  "takes": {
+   "baron-1": [
+    "playtest/voice-picker/audio/gemini/gemini-fenrir-engb/baron-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-fenrir-engb/baron-1.take3.mp3"
+   ],
+   "baron-2": [
+    "playtest/voice-picker/audio/gemini/gemini-fenrir-engb/baron-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-fenrir-engb/baron-2.take3.mp3"
+   ]
+  },
+  "britishScore": 9.4,
+  "accentScore": 10,
+  "americanFeatures": [],
+  "warmth": null,
+  "byRole": {
+   "baron": {
+    "britishScore": 9.4,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 9,
+     "flags": 0,
+     "rhotic": "0/9 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 10,
+    "villain": 6.5,
+    "clarity": 9,
+    "natural": 8.3,
+    "fitNotes": [
+     "The diction is delightfully clear and measured for young listeners, but the villainous characterisation is quite subdued and lacks theatrical pantomime energy.",
+     "The diction is very clear and child-friendly, but the delivery is a bit restrained and needs far more over-the-top, theatrical pantomime energy.",
+     "Good comedic, kid-friendly pantomime energy and crisp enunciation, though the delivery feels slightly stiff rather than fully inhabited."
+    ],
+    "wpsMax": 2.35,
+    "americanFeatures": [],
+    "overall": 8.3
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-sadachbia-engb",
+  "provider": "gemini",
+  "voice": "Sadachbia",
+  "label": "Gemini Sadachbia (lively), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Sadachbia",
+   "character": "lively",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "baron"
+  ],
+  "current": [],
+  "files": {
+   "baron": [
+    "playtest/voice-picker/audio/gemini/gemini-sadachbia-engb/baron-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sadachbia-engb/baron-2.mp3"
+   ]
+  },
+  "takes": {
+   "baron-1": [
+    "playtest/voice-picker/audio/gemini/gemini-sadachbia-engb/baron-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sadachbia-engb/baron-1.take3.mp3"
+   ],
+   "baron-2": [
+    "playtest/voice-picker/audio/gemini/gemini-sadachbia-engb/baron-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sadachbia-engb/baron-2.take3.mp3"
+   ]
+  },
+  "britishScore": 9,
+  "accentScore": 9.4,
+  "americanFeatures": [],
+  "warmth": null,
+  "byRole": {
+   "baron": {
+    "britishScore": 9,
+    "britishVotes": "17/18 \"Southern British\"",
+    "abxBritish": "16/18",
+    "abxBritishPct": 89,
+    "abxAmericanReasons": [
+     "baron-1 t2: Clip X exhibits strong rhoticity in the vowel of 'words', matching the American accent of Clip A rather than the non-rhotic British pronunci",
+     "baron-1 t2: Speaker X clearly pronounces the rhotic 'r' sound in 'words', which matches the American pronunciation of Speaker A rather than the non-rhot"
+    ],
+    "acoustic": {
+     "tokens": 9,
+     "flags": 0,
+     "rhotic": "0/9 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 9.4,
+    "villain": 5.5,
+    "clarity": 8.5,
+    "natural": 7.8,
+    "fitNotes": [
+     "The escalation is there, but the delivery lacks the juicy, playful pantomime flair needed for a children's villain and leans slightly stiff.",
+     "A wonderfully theatrical delivery with a playful crescendo and dramatic growl that fits a classic pantomime villain perfectly.",
+     "The delivery is clear and deep, but it plays the villain too straight and serious rather than embracing the comic, theatrical energy of a pantomime baddie."
+    ],
+    "wpsMax": 2.3,
+    "americanFeatures": [],
+    "overall": 7.5
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-alnilam-engb",
+  "provider": "gemini",
+  "voice": "Alnilam",
+  "label": "Gemini Alnilam (firm), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Alnilam",
+   "character": "firm",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "baron"
+  ],
+  "current": [],
+  "files": {
+   "baron": [
+    "playtest/voice-picker/audio/gemini/gemini-alnilam-engb/baron-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-alnilam-engb/baron-2.mp3"
+   ]
+  },
+  "takes": {
+   "baron-1": [
+    "playtest/voice-picker/audio/gemini/gemini-alnilam-engb/baron-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-alnilam-engb/baron-1.take3.mp3"
+   ],
+   "baron-2": [
+    "playtest/voice-picker/audio/gemini/gemini-alnilam-engb/baron-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-alnilam-engb/baron-2.take3.mp3"
+   ]
+  },
+  "britishScore": 9.3,
+  "accentScore": 10,
+  "americanFeatures": [],
+  "warmth": null,
+  "byRole": {
+   "baron": {
+    "britishScore": 9.3,
+    "britishVotes": "17/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 9,
+     "flags": 0,
+     "rhotic": "0/9 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 10,
+    "villain": 6.3,
+    "clarity": 8.8,
+    "natural": 8.3,
+    "fitNotes": [
+     "The delivery is clear and natural, but lacks the flamboyant, energetic theatricality needed for a fun pantomime villain.",
+     "Clear and nicely spoken, but it lacks the larger-than-life theatrical relish and comical pomp needed for a delightful pantomime villain.",
+     "Delightfully theatrical and cartoonish with great comedic pacing and relish on the words, making him deliciously fun to boo."
+    ],
+    "wpsMax": 2.37,
+    "americanFeatures": [],
+    "overall": 8.2
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-puck-engb",
+  "provider": "gemini",
+  "voice": "Puck",
+  "label": "Gemini Puck (upbeat), en-GB",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Puck",
+   "character": "upbeat",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "baron"
+  ],
+  "current": [],
+  "files": {
+   "baron": [
+    "playtest/voice-picker/audio/gemini/gemini-puck-engb/baron-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-puck-engb/baron-2.mp3"
+   ]
+  },
+  "takes": {
+   "baron-1": [
+    "playtest/voice-picker/audio/gemini/gemini-puck-engb/baron-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-puck-engb/baron-1.take3.mp3"
+   ],
+   "baron-2": [
+    "playtest/voice-picker/audio/gemini/gemini-puck-engb/baron-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-puck-engb/baron-2.take3.mp3"
+   ]
+  },
+  "britishScore": 4.8,
+  "accentScore": 3.6,
+  "americanFeatures": [
+   "r-coloured \"words\" (acoustic, baron-1 take 1, F3 ratio 0.58)",
+   "r-coloured \"words\" (acoustic, baron-1 take 1, F3 ratio 0.57)",
+   "r-coloured \"words\" (acoustic, baron-1 take 1, F3 ratio 0.65)",
+   "r-coloured \"words\" (acoustic, baron-1 take 3, F3 ratio 0.71)",
+   "r-coloured \"words\" (acoustic, baron-1 take 3, F3 ratio 0.63)",
+   "rhotic r in \"words\" (judge, 2/18 votes)",
+   "a rhotic r in \"words\" (judge, 1/18 votes)"
+  ],
+  "warmth": null,
+  "byRole": {
+   "baron": {
+    "britishScore": 4.8,
+    "britishVotes": "8/18 \"Southern British\"",
+    "abxBritish": "5/18",
+    "abxBritishPct": 28,
+    "abxAmericanReasons": [
+     "baron-2 t3: Speaker X shares Speaker A's General American pronunciation, particularly heard in the vowel sounds of 'on', 'sound', and 'island', contrast",
+     "baron-2 t3: Clip X exhibits an American accent with the unrounded vowel in 'on' and American diphthongs in 'sound' and 'mine', matching Clip B rather th",
+     "baron-2 t3: Clip X and Clip A share General American pronunciation features across words like 'sound', 'island', and 'mine', whereas Clip B has a Britis",
+     "baron-1 t1: Clip X is rhotic with a clear retroflex vowel in 'words', matching Clip A rather than the non-rhotic pronunciation in Clip B."
+    ],
+    "acoustic": {
+     "tokens": 9,
+     "flags": 5,
+     "rhotic": "5/9 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 3.6,
+    "villain": 5.8,
+    "clarity": 8.8,
+    "natural": 7.8,
+    "fitNotes": [
+     "Clear and energetic, but the tone sounds like an enthusiastic young hero rather than a pompous, theatrical pantomime villain.",
+     "The delivery is too restrained and conversational, lacking the theatrical gusto, eccentricity, and boisterous comic flair needed for a pantomime villain.",
+     "Great energy and dynamic buildup across the repeated words, though it leans slightly more raspy/sinister than delightfully comic and campy for a pantomime villain."
+    ],
+    "wpsMax": 2.71,
+    "americanFeatures": [
+     "r-coloured \"words\" (acoustic, baron-1 take 1, F3 ratio 0.58)",
+     "r-coloured \"words\" (acoustic, baron-1 take 1, F3 ratio 0.57)",
+     "r-coloured \"words\" (acoustic, baron-1 take 1, F3 ratio 0.65)",
+     "r-coloured \"words\" (acoustic, baron-1 take 3, F3 ratio 0.71)",
+     "r-coloured \"words\" (acoustic, baron-1 take 3, F3 ratio 0.63)",
+     "rhotic r in \"words\" (judge, 2/18 votes)",
+     "a rhotic r in \"words\" (judge, 1/18 votes)"
+    ],
+    "overall": 4.7
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": ""
+ },
+ {
+  "id": "gemini-sulafat-nolang",
+  "provider": "gemini",
+  "voice": "Sulafat",
+  "label": "Gemini Sulafat (warm), no language code",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": null,
+   "voiceName": "Sulafat",
+   "character": "warm",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-6.mp3"
+   ],
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/narrator-1.take3.mp3"
+   ],
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-nolang/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 9,
+  "accentScore": 4.2,
+  "americanFeatures": [
+   "sensei: r-coloured \"word\" (acoustic, sensei-1 take 1, F3 ratio 0.61)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.61)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 2, F3 ratio 0.61)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 3, F3 ratio 0.61)",
+   "sensei: r-coloured \"dear\" (acoustic, sensei-5 take 1, F3 ratio 0.66)",
+   "sensei: r-coloured \"water\" (acoustic, sensei-6 take 2, F3 ratio 0.66)",
+   "sensei: r-coloured \"butter\" (acoustic, sensei-6 take 2, F3 ratio 0.69)",
+   "sensei: r-coloured \"water\" (acoustic, sensei-6 take 3, F3 ratio 0.7)",
+   "sensei: r-coloured \"butter\" (acoustic, sensei-6 take 3, F3 ratio 0.69)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 1, BATH index 0.77)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 2, BATH index 1.04)",
+   "sensei: flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 2, BATH index 1.05)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 3, BATH index 0.84)",
+   "sensei: flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 3, BATH index 0.86)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-3 take 1, BATH index 1.07)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.18)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.3)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.12)",
+   "sensei: flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 3, BATH index 2.09)",
+   "sensei: flat TRAP vowel in \"can't\" (acoustic, sensei-6 take 3, BATH index 0.75)",
+   "sensei: flat TRAP vowel in \"half\" (acoustic, sensei-6 take 3, BATH index 0.79)",
+   "sensei: flat TRAP vowel in \"past\" (acoustic, sensei-6 take 3, BATH index 0.65)",
+   "sensei: flapped t in \"tomato\" (acoustic, sensei-6 take 3, 0 ms gap)",
+   "sensei: a flapped t in \"water\" (judge, 1/18 votes)",
+   "sensei: a rhotic r in \"water\" (judge, 1/18 votes)",
+   "sensei: a flapped t in \"butter\" (judge, 1/18 votes)",
+   "sensei: a rhotic r in \"butter\" (judge, 1/18 votes)",
+   "sensei: 'tomayto' (the face vowel in tomato) in \"tomato\" (judge, 1/18 votes)",
+   "sensei: a flapped t in \"tomato\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in dance in \"dance\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in can't in \"can't\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in half in \"half\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in past in \"past\" (judge, 1/18 votes)",
+   "sensei: a rhotic r in \"four\" (judge, 1/18 votes)",
+   "sensei: a rhotic r in \"car\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in bath, grass, dance, fa in \"grass\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in bath, grass, dance, fa in \"bath\" (judge, 1/18 votes)",
+   "narrator: r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.58)",
+   "narrator: r-coloured \"world\" (acoustic, narrator-1 take 2, F3 ratio 0.61)",
+   "narrator: r-coloured \"far\" (acoustic, narrator-1 take 3, F3 ratio 0.66)",
+   "narrator: r-coloured \"world\" (acoustic, narrator-1 take 3, F3 ratio 0.62)",
+   "narrator: r-coloured \"stormy\" (acoustic, narrator-2 take 1, F3 ratio 0.57)",
+   "narrator: a rhotic r in \"far\" (judge, 1/9 votes)",
+   "narrator: a rhotic r in \"world\" (judge, 1/9 votes)"
+  ],
+  "warmth": 7.7,
+  "byRole": {
+   "sensei": {
+    "britishScore": 9,
+    "britishVotes": "16/18 \"Southern British\"",
+    "abxBritish": "7/18",
+    "abxBritishPct": 39,
+    "abxAmericanReasons": [
+     "sensei-2 t1: Clip X shares Clip B's rhotic pronunciation of 'car' and the short 'ae' vowel in 'grass' and 'bath', unlike Clip A's non-rhotic pronunciatio",
+     "sensei-2 t1: Speaker X shares Speaker A's rhotic pronunciation of 'car' and the flat TRAP vowel in 'grass' and 'bath', unlike Speaker B's non-rhotic broa",
+     "sensei-2 t1: Clip X exhibits a rhotic 'car' and the flat TRAP vowel in 'grass' and 'bath', matching Clip B rather than the non-rhotic, broad-A pronunciat",
+     "sensei-6 t3: Speaker X shares Speaker A's General American pronunciation, using flapping in 'water' and 'butter', an /eɪ/ vowel in 'tomato', /æ/ in 'danc"
+    ],
+    "acoustic": {
+     "tokens": 51,
+     "flags": 23,
+     "rhotic": "9/17 r-coloured",
+     "bath": "13/22 flat",
+     "t": "1/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.77,
+       1.04,
+       0.84
+      ],
+      "bath": [
+       0.55,
+       1.05,
+       0.86
+      ],
+      "fast": [
+       1.07,
+       1.18,
+       1.3,
+       1.12
+      ],
+      "tomato": [
+       0.2,
+       0.34,
+       1
+      ],
+      "dance": [
+       0.58,
+       0.2,
+       2.09
+      ],
+      "can't": [
+       0.47,
+       0.24,
+       0.75
+      ],
+      "half": [
+       -0.04,
+       0.31,
+       0.79
+      ],
+      "past": [
+       0.26,
+       0.46,
+       0.65
+      ]
+     }
+    },
+    "accent10": 4.7,
+    "warmth": 7.7,
+    "clarity": 8.8,
+    "natural": 8.4,
+    "fitNotes": [
+     "The delivery is exceptionally clear and well-enunciated, but it sounds like a sterile dictionary word list rather than a warm, engaging children's teacher.",
+     "The delivery is exceptionally clear and well-paced for phonics instruction, but it sounds clinical and detached like a dictionary reading rather than a warm, engaging teacher.",
+     "Gentle, friendly delivery with clear pacing and great modeling for a young learner."
+    ],
+    "wpsMax": 3.46,
+    "americanFeatures": [
+     "r-coloured \"word\" (acoustic, sensei-1 take 1, F3 ratio 0.61)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.61)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 2, F3 ratio 0.61)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 3, F3 ratio 0.61)",
+     "r-coloured \"dear\" (acoustic, sensei-5 take 1, F3 ratio 0.66)",
+     "r-coloured \"water\" (acoustic, sensei-6 take 2, F3 ratio 0.66)",
+     "r-coloured \"butter\" (acoustic, sensei-6 take 2, F3 ratio 0.69)",
+     "r-coloured \"water\" (acoustic, sensei-6 take 3, F3 ratio 0.7)",
+     "r-coloured \"butter\" (acoustic, sensei-6 take 3, F3 ratio 0.69)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 1, BATH index 0.77)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 2, BATH index 1.04)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 2, BATH index 1.05)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 3, BATH index 0.84)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 3, BATH index 0.86)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-3 take 1, BATH index 1.07)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 1.18)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 1.3)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.12)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 3, BATH index 2.09)",
+     "flat TRAP vowel in \"can't\" (acoustic, sensei-6 take 3, BATH index 0.75)",
+     "flat TRAP vowel in \"half\" (acoustic, sensei-6 take 3, BATH index 0.79)",
+     "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 3, BATH index 0.65)",
+     "flapped t in \"tomato\" (acoustic, sensei-6 take 3, 0 ms gap)",
+     "a flapped t in \"water\" (judge, 1/18 votes)",
+     "a rhotic r in \"water\" (judge, 1/18 votes)",
+     "a flapped t in \"butter\" (judge, 1/18 votes)",
+     "a rhotic r in \"butter\" (judge, 1/18 votes)",
+     "'tomayto' (the face vowel in tomato) in \"tomato\" (judge, 1/18 votes)",
+     "a flapped t in \"tomato\" (judge, 1/18 votes)",
+     "the trap vowel in dance in \"dance\" (judge, 1/18 votes)",
+     "the trap vowel in can't in \"can't\" (judge, 1/18 votes)",
+     "the trap vowel in half in \"half\" (judge, 1/18 votes)",
+     "the trap vowel in past in \"past\" (judge, 1/18 votes)",
+     "a rhotic r in \"four\" (judge, 1/18 votes)",
+     "a rhotic r in \"car\" (judge, 1/18 votes)",
+     "the trap vowel in bath, grass, dance, fa in \"grass\" (judge, 1/18 votes)",
+     "the trap vowel in bath, grass, dance, fa in \"bath\" (judge, 1/18 votes)"
+    ],
+    "overall": 6.2
+   },
+   "narrator": {
+    "britishScore": 9,
+    "britishVotes": "8/9 \"Southern British\"",
+    "abxBritish": "2/9",
+    "abxBritishPct": 22,
+    "abxAmericanReasons": [
+     "narrator-1 t3: Clip X exhibits a rhotic American accent matching Clip A, clearly pronouncing the 'r' in 'far' and 'world', whereas Clip B is non-rhotic.",
+     "narrator-1 t3: Both Clip B and Clip X exhibit rhotic pronunciations in words like 'far' and 'world', whereas Clip A is non-rhotic.",
+     "narrator-1 t3: Speaker X exhibits rhotic pronunciation in words like 'far' and 'world', aligning closely with Speaker A's American accent rather than Speak",
+     "narrator-1 t2: Clip X exhibits rhotic pronunciation in words like 'far', 'world', and 'flower', matching the rhotic American accent of Clip A rather than t"
+    ],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 5,
+     "rhotic": "5/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.77,
+       1.04,
+       0.84
+      ],
+      "bath": [
+       0.55,
+       1.05,
+       0.86
+      ],
+      "fast": [
+       1.07,
+       1.18,
+       1.3,
+       1.12
+      ],
+      "tomato": [
+       0.2,
+       0.34,
+       1
+      ],
+      "dance": [
+       0.58,
+       0.2,
+       2.09
+      ],
+      "can't": [
+       0.47,
+       0.24,
+       0.75
+      ],
+      "half": [
+       -0.04,
+       0.31,
+       0.79
+      ],
+      "past": [
+       0.26,
+       0.46,
+       0.65
+      ]
+     }
+    },
+    "accent10": 3.6,
+    "storytelling": 8,
+    "clarity": 8.8,
+    "natural": 9,
+    "fitNotes": [
+     "Excellent suspenseful pacing and dramatic vocal acting on words like 'crept', making it engaging and well-suited for young listeners.",
+     "Engaging and suspenseful delivery with great theatrical whispering on 'crept', though slightly breathy.",
+     "Delivers an engaging, warm fairy-tale opening with great pacing and clear articulation, though the phrasing is slightly breathy."
+    ],
+    "wpsMax": 2.85,
+    "americanFeatures": [
+     "r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.58)",
+     "r-coloured \"world\" (acoustic, narrator-1 take 2, F3 ratio 0.61)",
+     "r-coloured \"far\" (acoustic, narrator-1 take 3, F3 ratio 0.66)",
+     "r-coloured \"world\" (acoustic, narrator-1 take 3, F3 ratio 0.62)",
+     "r-coloured \"stormy\" (acoustic, narrator-2 take 1, F3 ratio 0.57)",
+     "a rhotic r in \"far\" (judge, 1/9 votes)",
+     "a rhotic r in \"world\" (judge, 1/9 votes)"
+    ],
+    "overall": 5.8
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Rendered with no languageCode, to compare with the en-GB candidate of the same voice. Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-2 t2 3.46 words/s."
+ },
+ {
+  "id": "gemini-gacrux-nolang",
+  "provider": "gemini",
+  "voice": "Gacrux",
+  "label": "Gemini Gacrux (mature), no language code",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": null,
+   "voiceName": "Gacrux",
+   "character": "mature",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-6.mp3"
+   ],
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/narrator-1.take3.mp3"
+   ],
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-gacrux-nolang/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 4.8,
+  "accentScore": 4.1,
+  "americanFeatures": [
+   "sensei: r-coloured \"word\" (acoustic, sensei-1 take 1, F3 ratio 0.59)",
+   "sensei: r-coloured \"are\" (acoustic, sensei-1 take 1, F3 ratio 0.7)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.64)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 2, F3 ratio 0.66)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 3, F3 ratio 0.6)",
+   "sensei: r-coloured \"dear\" (acoustic, sensei-5 take 1, F3 ratio 0.61)",
+   "sensei: r-coloured \"together\" (acoustic, sensei-5 take 1, F3 ratio 0.65)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 1, BATH index 0.84)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 2, BATH index 1.02)",
+   "sensei: flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 2, BATH index 1.15)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 3, BATH index 0.64)",
+   "sensei: flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 3, BATH index 0.63)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-3 take 1, BATH index 0.85)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.8)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 0.9)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.22)",
+   "sensei: flat TRAP vowel in \"half\" (acoustic, sensei-6 take 3, BATH index 0.7)",
+   "sensei: flat TRAP vowel in \"past\" (acoustic, sensei-6 take 3, BATH index 0.78)",
+   "sensei: rhotic r in \"car\" (judge, 4/18 votes)",
+   "sensei: trap vowel in \"grass\" (judge, 2/18 votes)",
+   "sensei: trap vowel in \"bath\" (judge, 2/18 votes)",
+   "sensei: trap vowel in bath/grass/path in \"grass\" (judge, 1/18 votes)",
+   "sensei: trap vowel in bath/grass/path in \"path\" (judge, 1/18 votes)",
+   "sensei: trap vowel in grass in \"grass\" (judge, 1/18 votes)",
+   "sensei: trap vowel in path in \"path\" (judge, 1/18 votes)",
+   "sensei: a rhotic r in \"car\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in \"grass\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in \"path\" (judge, 1/18 votes)",
+   "narrator: r-coloured \"far\" (acoustic, narrator-1 take 2, F3 ratio 0.68)",
+   "narrator: r-coloured \"world\" (acoustic, narrator-1 take 2, F3 ratio 0.65)",
+   "narrator: r-coloured \"far\" (acoustic, narrator-1 take 3, F3 ratio 0.61)",
+   "narrator: r-coloured \"stormy\" (acoustic, narrator-2 take 1, F3 ratio 0.66)",
+   "narrator: a rhotic r in \"world\" (judge, 5/9 votes)",
+   "narrator: a rhotic r in \"flower\" (judge, 5/9 votes)",
+   "narrator: a rhotic r in \"far\" (judge, 4/9 votes)",
+   "narrator: rhotic r in \"world\" (judge, 3/9 votes)",
+   "narrator: rhotic r in \"flower\" (judge, 3/9 votes)",
+   "narrator: rhotic r in \"far\" (judge, 2/9 votes)"
+  ],
+  "warmth": 6.6,
+  "byRole": {
+   "sensei": {
+    "britishScore": 7.5,
+    "britishVotes": "13/18 \"Southern British\"",
+    "abxBritish": "9/18",
+    "abxBritishPct": 50,
+    "abxAmericanReasons": [
+     "sensei-2 t3: Clip X has rhotic pronunciation in 'car' and uses the short /æ/ vowel in 'grass' and 'bath', matching speaker B's General American accent ra",
+     "sensei-2 t3: Speaker X shares Speaker B's rhotic pronunciation of 'car' and the short 'a' vowel in 'grass' and 'bath', unlike Speaker A's broad vowels an",
+     "sensei-2 t3: Clip X exhibits rhoticity in 'car' and uses the flat TRAP vowel in 'grass' and 'bath', matching speaker A's American accent rather than spea",
+     "sensei-2 t1: Clip X exhibits rhoticity in 'car' and the short 'a' (TRAP vowel) in 'grass' and 'path', matching the North American pronunciation of Clip A"
+    ],
+    "acoustic": {
+     "tokens": 50,
+     "flags": 18,
+     "rhotic": "7/17 r-coloured",
+     "bath": "11/21 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.84,
+       1.02,
+       0.64
+      ],
+      "bath": [
+       1.15,
+       0.63
+      ],
+      "fast": [
+       0.85,
+       0.8,
+       0.9,
+       1.22
+      ],
+      "tomato": [
+       0.24,
+       0.17,
+       0.12
+      ],
+      "dance": [
+       0.28,
+       0.15,
+       0.06
+      ],
+      "can't": [
+       0.41,
+       0.11,
+       0
+      ],
+      "half": [
+       0.56,
+       0.02,
+       0.7
+      ],
+      "past": [
+       0.54,
+       0.19,
+       0.78
+      ]
+     }
+    },
+    "accent10": 5.7,
+    "warmth": 6.6,
+    "clarity": 8.3,
+    "natural": 7.3,
+    "fitNotes": [
+     "Genuinely warm, gentle, and encouraging with an unhurried, engaging delivery perfectly suited for preschool learners.",
+     "A very cheerful, clear, and engaging presenter delivery that perfectly suits an educational children's game.",
+     "The delivery is upbeat, warm, and clearly articulated for young children, though she reads the final word as 'path' rather than 'bath'."
+    ],
+    "wpsMax": 3.34,
+    "americanFeatures": [
+     "r-coloured \"word\" (acoustic, sensei-1 take 1, F3 ratio 0.59)",
+     "r-coloured \"are\" (acoustic, sensei-1 take 1, F3 ratio 0.7)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.64)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 2, F3 ratio 0.66)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 3, F3 ratio 0.6)",
+     "r-coloured \"dear\" (acoustic, sensei-5 take 1, F3 ratio 0.61)",
+     "r-coloured \"together\" (acoustic, sensei-5 take 1, F3 ratio 0.65)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 1, BATH index 0.84)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 2, BATH index 1.02)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 2, BATH index 1.15)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 3, BATH index 0.64)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 3, BATH index 0.63)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-3 take 1, BATH index 0.85)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.8)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 2, BATH index 0.9)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 3, BATH index 1.22)",
+     "flat TRAP vowel in \"half\" (acoustic, sensei-6 take 3, BATH index 0.7)",
+     "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 3, BATH index 0.78)",
+     "rhotic r in \"car\" (judge, 4/18 votes)",
+     "trap vowel in \"grass\" (judge, 2/18 votes)",
+     "trap vowel in \"bath\" (judge, 2/18 votes)",
+     "trap vowel in bath/grass/path in \"grass\" (judge, 1/18 votes)",
+     "trap vowel in bath/grass/path in \"path\" (judge, 1/18 votes)",
+     "trap vowel in grass in \"grass\" (judge, 1/18 votes)",
+     "trap vowel in path in \"path\" (judge, 1/18 votes)",
+     "a rhotic r in \"car\" (judge, 1/18 votes)",
+     "the trap vowel in \"grass\" (judge, 1/18 votes)",
+     "the trap vowel in \"path\" (judge, 1/18 votes)"
+    ],
+    "overall": 6.2
+   },
+   "narrator": {
+    "britishScore": 2,
+    "britishVotes": "1/9 \"Southern British\"",
+    "abxBritish": "0/9",
+    "abxBritishPct": 0,
+    "abxAmericanReasons": [
+     "narrator-1 t3: Clip X exhibits rhotic pronunciation in words like 'far' and 'world', closely matching the rhotic American accent of Clip B rather than the ",
+     "narrator-1 t3: Speaker X exhibits rhoticity in words like 'far' and 'world', matching the American accent of Speaker A rather than the non-rhotic pronuncia",
+     "narrator-1 t3: Clip X exhibits rhoticity in words like 'far' and 'world', closely matching the American accent features heard in Clip A rather than the non",
+     "narrator-1 t2: Speaker X shares the rhotic pronunciation heard in speaker B on words like 'far' and 'world', whereas speaker A is non-rhotic."
+    ],
+    "acoustic": {
+     "tokens": 8,
+     "flags": 4,
+     "rhotic": "4/8 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.84,
+       1.02,
+       0.64
+      ],
+      "bath": [
+       1.15,
+       0.63
+      ],
+      "fast": [
+       0.85,
+       0.8,
+       0.9,
+       1.22
+      ],
+      "tomato": [
+       0.24,
+       0.17,
+       0.12
+      ],
+      "dance": [
+       0.28,
+       0.15,
+       0.06
+      ],
+      "can't": [
+       0.41,
+       0.11,
+       0
+      ],
+      "half": [
+       0.56,
+       0.02,
+       0.7
+      ],
+      "past": [
+       0.54,
+       0.19,
+       0.78
+      ]
+     }
+    },
+    "accent10": 2.5,
+    "storytelling": 8.2,
+    "clarity": 8.8,
+    "natural": 8.8,
+    "fitNotes": [
+     "A wonderfully expressive, warm, and theatrical delivery with excellent pacing that captures the magical storybook tone perfectly.",
+     "A wonderfully warm and expressive delivery with classic bedtime-story pacing that immediately draws the listener in.",
+     "Engaging dramatic pacing and clear enunciation create an effective sense of suspense for young listeners."
+    ],
+    "wpsMax": 2.87,
+    "americanFeatures": [
+     "r-coloured \"far\" (acoustic, narrator-1 take 2, F3 ratio 0.68)",
+     "r-coloured \"world\" (acoustic, narrator-1 take 2, F3 ratio 0.65)",
+     "r-coloured \"far\" (acoustic, narrator-1 take 3, F3 ratio 0.61)",
+     "r-coloured \"stormy\" (acoustic, narrator-2 take 1, F3 ratio 0.66)",
+     "a rhotic r in \"world\" (judge, 5/9 votes)",
+     "a rhotic r in \"flower\" (judge, 5/9 votes)",
+     "a rhotic r in \"far\" (judge, 4/9 votes)",
+     "rhotic r in \"world\" (judge, 3/9 votes)",
+     "rhotic r in \"flower\" (judge, 3/9 votes)",
+     "rhotic r in \"far\" (judge, 2/9 votes)"
+    ],
+    "overall": 5.4
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Rendered with no languageCode, to compare with the en-GB candidate of the same voice. Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-2 t1 3.34 words/s. Whisper heard these takes differently from the script: sensei-2 take 1 heard as \"Can you find the car? It's by the grass, next to the path.\"."
+ },
+ {
+  "id": "gemini-charon-nolang",
+  "provider": "gemini",
+  "voice": "Charon",
+  "label": "Gemini Charon (informative), no language code",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": null,
+   "voiceName": "Charon",
+   "character": "informative",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-charon-nolang/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-charon-nolang/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-charon-nolang/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-charon-nolang/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-charon-nolang/narrator-1.take3.mp3"
+   ]
+  },
+  "britishScore": 4,
+  "accentScore": 4.7,
+  "americanFeatures": [
+   "r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.62)",
+   "r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.64)",
+   "r-coloured \"far\" (acoustic, narrator-1 take 2, F3 ratio 0.62)",
+   "r-coloured \"flower\" (acoustic, narrator-1 take 3, F3 ratio 0.71)",
+   "rhotic r in \"far\" (judge, 3/9 votes)",
+   "rhotic r in \"world\" (judge, 3/9 votes)",
+   "a rhotic r in \"far\" (judge, 3/9 votes)",
+   "a rhotic r in \"world\" (judge, 3/9 votes)",
+   "a rhotic r in \"flower\" (judge, 3/9 votes)",
+   "rhotic r in \"flower\" (judge, 2/9 votes)"
+  ],
+  "warmth": null,
+  "byRole": {
+   "narrator": {
+    "britishScore": 4,
+    "britishVotes": "3/9 \"Southern British\"",
+    "abxBritish": "3/9",
+    "abxBritishPct": 33,
+    "abxAmericanReasons": [
+     "narrator-1 t1: Both Speaker A and Speaker X have rhotic accents, pronouncing the 'r' sounds distinctly in 'far' and 'world', whereas Speaker B has a non-rh",
+     "narrator-1 t1: Speaker X exhibits a rhotic accent matching Clip A on words like 'far' and 'world', in contrast to the non-rhotic pronunciation in Clip B.",
+     "narrator-1 t1: Clip X exhibits a rhotic accent with pronounced r-coloring in 'far' and 'world', closely matching Clip A rather than the non-rhotic Clip B.",
+     "narrator-1 t2: Speaker X exhibits rhotic pronunciation in words like 'far' and 'world', closely matching the rhotic accent of Speaker B rather than the non"
+    ],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 4,
+     "rhotic": "4/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 4.7,
+    "storytelling": 7.3,
+    "clarity": 8.3,
+    "natural": 8.7,
+    "fitNotes": [
+     "Delivered with a warm, measured fairy-tale cadence and clear enunciation that invites young listeners into the story.",
+     "Warm, engaging, and beautifully paced with an inviting bedtime-story quality that suits young listeners well.",
+     "A wonderfully theatrical and suspenseful delivery that draws the listener in, though the hushed whisper slightly softens clarity on the final words."
+    ],
+    "wpsMax": 3.56,
+    "americanFeatures": [
+     "r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.62)",
+     "r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.64)",
+     "r-coloured \"far\" (acoustic, narrator-1 take 2, F3 ratio 0.62)",
+     "r-coloured \"flower\" (acoustic, narrator-1 take 3, F3 ratio 0.71)",
+     "rhotic r in \"far\" (judge, 3/9 votes)",
+     "rhotic r in \"world\" (judge, 3/9 votes)",
+     "a rhotic r in \"far\" (judge, 3/9 votes)",
+     "a rhotic r in \"world\" (judge, 3/9 votes)",
+     "a rhotic r in \"flower\" (judge, 3/9 votes)",
+     "rhotic r in \"flower\" (judge, 2/9 votes)"
+    ],
+    "overall": 6
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Rendered with no languageCode, to compare with the en-GB candidate of the same voice. Faster than the game's 3.3 words a second: narrator-3 t1 3.56 words/s."
+ },
+ {
+  "id": "gemini-algenib-nolang",
+  "provider": "gemini",
+  "voice": "Algenib",
+  "label": "Gemini Algenib (gravelly), no language code",
+  "settings": {
+   "model": "gemini-3.8-flash-tts",
+   "languageCode": null,
+   "voiceName": "Algenib",
+   "character": "gravelly",
+   "sex": "m",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "baron"
+  ],
+  "current": [],
+  "files": {
+   "baron": [
+    "playtest/voice-picker/audio/gemini/gemini-algenib-nolang/baron-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algenib-nolang/baron-2.mp3"
+   ]
+  },
+  "takes": {
+   "baron-1": [
+    "playtest/voice-picker/audio/gemini/gemini-algenib-nolang/baron-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algenib-nolang/baron-1.take3.mp3"
+   ],
+   "baron-2": [
+    "playtest/voice-picker/audio/gemini/gemini-algenib-nolang/baron-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-algenib-nolang/baron-2.take3.mp3"
+   ]
+  },
+  "britishScore": 4.8,
+  "accentScore": 4.4,
+  "americanFeatures": [
+   "r-coloured \"words\" (acoustic, baron-1 take 1, F3 ratio 0.61)",
+   "r-coloured \"words\" (acoustic, baron-1 take 2, F3 ratio 0.62)",
+   "r-coloured \"words\" (acoustic, baron-1 take 2, F3 ratio 0.62)",
+   "r-coloured \"words\" (acoustic, baron-1 take 2, F3 ratio 0.65)",
+   "a rhotic r in \"words\" (judge, 4/18 votes)",
+   "rhotic r in \"words\" (judge, 2/18 votes)",
+   "unrounded lot vowel in \"on\" (judge, 1/18 votes)"
+  ],
+  "warmth": null,
+  "byRole": {
+   "baron": {
+    "britishScore": 4.8,
+    "britishVotes": "8/18 \"Southern British\"",
+    "abxBritish": "6/18",
+    "abxBritishPct": 33,
+    "abxAmericanReasons": [
+     "baron-2 t1: Speaker X shares Speaker B's General American vowels, particularly in the diphthongs of 'sound' and 'mine' as well as the vowel in 'on', con",
+     "baron-2 t1: Clip X shares Clip A's General American vowel qualities in 'sound', 'on', and 'mine', contrasting with the British pronunciation in Clip B.",
+     "baron-1 t2: Speaker X clearly pronounces the rhotic 'r' in 'words', matching Speaker A's rhotic pronunciation rather than Speaker B's non-rhotic pronunc",
+     "baron-1 t2: Speaker X and Speaker A both use a rhotic vowel in 'words', unlike the non-rhotic pronunciation in Clip B."
+    ],
+    "acoustic": {
+     "tokens": 9,
+     "flags": 4,
+     "rhotic": "4/9 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {}
+    },
+    "accent10": 4.4,
+    "villain": 7.5,
+    "clarity": 8.5,
+    "natural": 8,
+    "fitNotes": [
+     "A solid, raspy cartoon villain delivery that kids would happily boo, though it leans slightly more menacing than playful pantomime.",
+     "A fun, theatrical pantomime growl with clear enunciation that strikes a good balance between villainous and playfully comic.",
+     "Delivers a delightfully grumpy, cartoonish villain tone with a fun vocal growl on the third 'words' that fits a pantomime baddie well."
+    ],
+    "wpsMax": 2.67,
+    "americanFeatures": [
+     "r-coloured \"words\" (acoustic, baron-1 take 1, F3 ratio 0.61)",
+     "r-coloured \"words\" (acoustic, baron-1 take 2, F3 ratio 0.62)",
+     "r-coloured \"words\" (acoustic, baron-1 take 2, F3 ratio 0.62)",
+     "r-coloured \"words\" (acoustic, baron-1 take 2, F3 ratio 0.65)",
+     "a rhotic r in \"words\" (judge, 4/18 votes)",
+     "rhotic r in \"words\" (judge, 2/18 votes)",
+     "unrounded lot vowel in \"on\" (judge, 1/18 votes)"
+    ],
+    "overall": 6
+   }
+  },
+  "costPerMinuteUSD": 0.0135,
+  "notes": "Rendered with no languageCode, to compare with the en-GB candidate of the same voice."
+ },
+ {
+  "id": "gemini-sulafat-engb-pro25",
+  "provider": "gemini",
+  "voice": "Sulafat",
+  "label": "Gemini Sulafat (warm), en-GB, gemini-2.5-pro-preview-tts",
+  "settings": {
+   "model": "gemini-2.5-pro-preview-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Sulafat",
+   "character": "warm",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-6.mp3"
+   ],
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/narrator-1.take3.mp3"
+   ],
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-pro25/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 7.8,
+  "accentScore": 3.8,
+  "americanFeatures": [
+   "sensei: r-coloured \"word\" (acoustic, sensei-1 take 1, F3 ratio 0.6)",
+   "sensei: r-coloured \"are\" (acoustic, sensei-1 take 1, F3 ratio 0.6)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.68)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 2, F3 ratio 0.7)",
+   "sensei: r-coloured \"car\" (acoustic, sensei-2 take 3, F3 ratio 0.62)",
+   "sensei: r-coloured \"dear\" (acoustic, sensei-5 take 1, F3 ratio 0.68)",
+   "sensei: r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.7)",
+   "sensei: r-coloured \"together\" (acoustic, sensei-5 take 1, F3 ratio 0.64)",
+   "sensei: r-coloured \"water\" (acoustic, sensei-6 take 1, F3 ratio 0.66)",
+   "sensei: r-coloured \"butter\" (acoustic, sensei-6 take 1, F3 ratio 0.67)",
+   "sensei: r-coloured \"water\" (acoustic, sensei-6 take 2, F3 ratio 0.61)",
+   "sensei: r-coloured \"butter\" (acoustic, sensei-6 take 2, F3 ratio 0.63)",
+   "sensei: r-coloured \"water\" (acoustic, sensei-6 take 3, F3 ratio 0.62)",
+   "sensei: r-coloured \"butter\" (acoustic, sensei-6 take 3, F3 ratio 0.61)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 1, BATH index 0.98)",
+   "sensei: flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 1, BATH index 1.25)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 2, BATH index 1.11)",
+   "sensei: flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 3, BATH index 0.99)",
+   "sensei: flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 0.64)",
+   "sensei: flat TRAP vowel in \"can't\" (acoustic, sensei-6 take 1, BATH index 2.01)",
+   "sensei: flat TRAP vowel in \"half\" (acoustic, sensei-6 take 1, BATH index 0.94)",
+   "sensei: flat TRAP vowel in \"past\" (acoustic, sensei-6 take 1, BATH index 0.75)",
+   "sensei: flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 2.18)",
+   "sensei: flat TRAP vowel in \"can't\" (acoustic, sensei-6 take 2, BATH index 2.41)",
+   "sensei: flat TRAP vowel in \"half\" (acoustic, sensei-6 take 2, BATH index 0.89)",
+   "sensei: flat TRAP vowel in \"past\" (acoustic, sensei-6 take 2, BATH index 0.88)",
+   "sensei: flat TRAP vowel in \"half\" (acoustic, sensei-6 take 3, BATH index 0.97)",
+   "sensei: flat TRAP vowel in \"past\" (acoustic, sensei-6 take 3, BATH index 0.96)",
+   "sensei: flapped t in \"water\" (acoustic, sensei-6 take 1, 0 ms gap)",
+   "sensei: flapped t in \"butter\" (acoustic, sensei-6 take 1, 0 ms gap)",
+   "sensei: flapped t in \"tomato\" (acoustic, sensei-6 take 1, 0 ms gap)",
+   "sensei: flapped t in \"tomato\" (acoustic, sensei-6 take 2, 0 ms gap)",
+   "sensei: flapped t in \"water\" (acoustic, sensei-6 take 3, 0 ms gap)",
+   "sensei: flapped t in \"butter\" (acoustic, sensei-6 take 3, 0 ms gap)",
+   "sensei: flapped t in \"tomato\" (acoustic, sensei-6 take 3, 0 ms gap)",
+   "sensei: \"tomayto\" (acoustic, sensei-6 take 2, index 1.56)",
+   "sensei: a flapped t in \"water\" (judge, 2/18 votes)",
+   "sensei: a flapped t in \"butter\" (judge, 2/18 votes)",
+   "sensei: a flapped t in \"tomato\" (judge, 2/18 votes)",
+   "sensei: a rhotic r in \"water\" (judge, 2/18 votes)",
+   "sensei: a rhotic r in \"butter\" (judge, 2/18 votes)",
+   "sensei: a rhotic r in \"four\" (judge, 2/18 votes)",
+   "sensei: 'tomayto' (the face vowel in tomato) in \"tomato\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in dance in \"dance\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in can't in \"can't\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in half, past in \"half\" (judge, 1/18 votes)",
+   "sensei: flapped t in \"water\" (judge, 1/18 votes)",
+   "sensei: flapped t in \"butter\" (judge, 1/18 votes)",
+   "sensei: rhotic r in \"water\" (judge, 1/18 votes)",
+   "sensei: rhotic r in \"butter\" (judge, 1/18 votes)",
+   "sensei: rhotic r in \"four\" (judge, 1/18 votes)",
+   "sensei: 'tomayto' (face vowel) in \"tomato\" (judge, 1/18 votes)",
+   "sensei: trap vowel in \"dance\" (judge, 1/18 votes)",
+   "sensei: trap vowel in \"can't\" (judge, 1/18 votes)",
+   "sensei: trap vowel in \"half\" (judge, 1/18 votes)",
+   "sensei: trap vowel in \"past\" (judge, 1/18 votes)",
+   "sensei: 'tomayto' in \"tomato\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in \"dance\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in \"can't\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in \"half\" (judge, 1/18 votes)",
+   "sensei: the trap vowel in \"past\" (judge, 1/18 votes)",
+   "narrator: r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.61)",
+   "narrator: r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.64)",
+   "narrator: r-coloured \"world\" (acoustic, narrator-1 take 3, F3 ratio 0.62)",
+   "narrator: r-coloured \"flower\" (acoustic, narrator-1 take 3, F3 ratio 0.66)",
+   "narrator: a rhotic r in \"far\" (judge, 3/9 votes)",
+   "narrator: a rhotic r in \"world\" (judge, 3/9 votes)",
+   "narrator: a rhotic r in \"flower\" (judge, 2/9 votes)"
+  ],
+  "warmth": 7.8,
+  "byRole": {
+   "sensei": {
+    "britishScore": 8.5,
+    "britishVotes": "15/18 \"Southern British\"",
+    "abxBritish": "0/18",
+    "abxBritishPct": 0,
+    "abxAmericanReasons": [
+     "sensei-2 t2: Clip X shares Clip B's rhotic pronunciation of 'car' and the short TRAP vowel /æ/ in 'grass' and 'bath', unlike Clip A's non-rhotic broad-A ",
+     "sensei-2 t2: Clip X shares Clip B's rhotic pronunciation of 'car' and the flat TRAP vowel /æ/ in 'grass' and 'bath', unlike Clip A's non-rhotic pronuncia",
+     "sensei-2 t2: Clip X shares Clip A's rhotic pronunciation of 'car' and the short 'a' vowel [æ] in 'grass' and 'bath', unlike Clip B's broad-a and non-rhot",
+     "sensei-6 t1: Speaker X shares Speaker A's General American features, including rhoticity in 'water', 'butter', and 'four', intervocalic t-flapping, and t"
+    ],
+    "acoustic": {
+     "tokens": 47,
+     "flags": 36,
+     "rhotic": "14/17 r-coloured",
+     "bath": "14/18 flat",
+     "t": "7/9 flapped",
+     "tomato": "1/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.98,
+       1.11,
+       0.99
+      ],
+      "bath": [
+       1.25,
+       0.27,
+       0.18
+      ],
+      "tomato": [
+       0.97,
+       1.56,
+       0.93
+      ],
+      "dance": [
+       0.64,
+       2.18,
+       0.58
+      ],
+      "can't": [
+       2.01,
+       2.41,
+       -0.16
+      ],
+      "half": [
+       0.94,
+       0.89,
+       0.97
+      ],
+      "past": [
+       0.75,
+       0.88,
+       0.96
+      ]
+     }
+    },
+    "accent10": 1.2,
+    "warmth": 7.8,
+    "clarity": 8.9,
+    "natural": 8.3,
+    "fitNotes": [
+     "The delivery is crisp and clear, but reads purely like an emotionally detached vocabulary word list rather than a warm, engaging infant-school teacher.",
+     "Delivered with clear, unhurried enunciation and a pleasant tone, though it reads primarily as a neutral pronunciation list rather than direct, engaging teacher-to-child speech.",
+     "Delightfully warm, encouraging, and clear praise that sounds perfectly suited to a young child's learning game."
+    ],
+    "wpsMax": 6.73,
+    "americanFeatures": [
+     "r-coloured \"word\" (acoustic, sensei-1 take 1, F3 ratio 0.6)",
+     "r-coloured \"are\" (acoustic, sensei-1 take 1, F3 ratio 0.6)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 1, F3 ratio 0.68)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 2, F3 ratio 0.7)",
+     "r-coloured \"car\" (acoustic, sensei-2 take 3, F3 ratio 0.62)",
+     "r-coloured \"dear\" (acoustic, sensei-5 take 1, F3 ratio 0.68)",
+     "r-coloured \"another\" (acoustic, sensei-5 take 1, F3 ratio 0.7)",
+     "r-coloured \"together\" (acoustic, sensei-5 take 1, F3 ratio 0.64)",
+     "r-coloured \"water\" (acoustic, sensei-6 take 1, F3 ratio 0.66)",
+     "r-coloured \"butter\" (acoustic, sensei-6 take 1, F3 ratio 0.67)",
+     "r-coloured \"water\" (acoustic, sensei-6 take 2, F3 ratio 0.61)",
+     "r-coloured \"butter\" (acoustic, sensei-6 take 2, F3 ratio 0.63)",
+     "r-coloured \"water\" (acoustic, sensei-6 take 3, F3 ratio 0.62)",
+     "r-coloured \"butter\" (acoustic, sensei-6 take 3, F3 ratio 0.61)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 1, BATH index 0.98)",
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 1, BATH index 1.25)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 2, BATH index 1.11)",
+     "flat TRAP vowel in \"grass\" (acoustic, sensei-2 take 3, BATH index 0.99)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 0.64)",
+     "flat TRAP vowel in \"can't\" (acoustic, sensei-6 take 1, BATH index 2.01)",
+     "flat TRAP vowel in \"half\" (acoustic, sensei-6 take 1, BATH index 0.94)",
+     "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 1, BATH index 0.75)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 2, BATH index 2.18)",
+     "flat TRAP vowel in \"can't\" (acoustic, sensei-6 take 2, BATH index 2.41)",
+     "flat TRAP vowel in \"half\" (acoustic, sensei-6 take 2, BATH index 0.89)",
+     "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 2, BATH index 0.88)",
+     "flat TRAP vowel in \"half\" (acoustic, sensei-6 take 3, BATH index 0.97)",
+     "flat TRAP vowel in \"past\" (acoustic, sensei-6 take 3, BATH index 0.96)",
+     "flapped t in \"water\" (acoustic, sensei-6 take 1, 0 ms gap)",
+     "flapped t in \"butter\" (acoustic, sensei-6 take 1, 0 ms gap)",
+     "flapped t in \"tomato\" (acoustic, sensei-6 take 1, 0 ms gap)",
+     "flapped t in \"tomato\" (acoustic, sensei-6 take 2, 0 ms gap)",
+     "flapped t in \"water\" (acoustic, sensei-6 take 3, 0 ms gap)",
+     "flapped t in \"butter\" (acoustic, sensei-6 take 3, 0 ms gap)",
+     "flapped t in \"tomato\" (acoustic, sensei-6 take 3, 0 ms gap)",
+     "\"tomayto\" (acoustic, sensei-6 take 2, index 1.56)",
+     "a flapped t in \"water\" (judge, 2/18 votes)",
+     "a flapped t in \"butter\" (judge, 2/18 votes)",
+     "a flapped t in \"tomato\" (judge, 2/18 votes)",
+     "a rhotic r in \"water\" (judge, 2/18 votes)",
+     "a rhotic r in \"butter\" (judge, 2/18 votes)",
+     "a rhotic r in \"four\" (judge, 2/18 votes)",
+     "'tomayto' (the face vowel in tomato) in \"tomato\" (judge, 1/18 votes)",
+     "the trap vowel in dance in \"dance\" (judge, 1/18 votes)",
+     "the trap vowel in can't in \"can't\" (judge, 1/18 votes)",
+     "the trap vowel in half, past in \"half\" (judge, 1/18 votes)",
+     "flapped t in \"water\" (judge, 1/18 votes)",
+     "flapped t in \"butter\" (judge, 1/18 votes)",
+     "rhotic r in \"water\" (judge, 1/18 votes)",
+     "rhotic r in \"butter\" (judge, 1/18 votes)",
+     "rhotic r in \"four\" (judge, 1/18 votes)",
+     "'tomayto' (face vowel) in \"tomato\" (judge, 1/18 votes)",
+     "trap vowel in \"dance\" (judge, 1/18 votes)",
+     "trap vowel in \"can't\" (judge, 1/18 votes)",
+     "trap vowel in \"half\" (judge, 1/18 votes)",
+     "trap vowel in \"past\" (judge, 1/18 votes)",
+     "'tomayto' in \"tomato\" (judge, 1/18 votes)",
+     "the trap vowel in \"dance\" (judge, 1/18 votes)",
+     "the trap vowel in \"can't\" (judge, 1/18 votes)",
+     "the trap vowel in \"half\" (judge, 1/18 votes)",
+     "the trap vowel in \"past\" (judge, 1/18 votes)"
+    ],
+    "overall": 4.5
+   },
+   "narrator": {
+    "britishScore": 7.1,
+    "britishVotes": "6/9 \"Southern British\"",
+    "abxBritish": "6/9",
+    "abxBritishPct": 67,
+    "abxAmericanReasons": [
+     "narrator-1 t1: Clip X shares Clip A's rhotic pronunciation in words like 'far' and 'world', whereas Clip B is non-rhotic.",
+     "narrator-1 t1: Clip X is rhotic like Clip B, pronouncing the 'r' sounds distinctly in 'far', 'world', and 'flower', whereas Clip A is non-rhotic.",
+     "narrator-1 t1: Speaker X exhibits rhotic pronunciation in words like 'far' and 'world', closely matching the American accent of Speaker A rather than the n"
+    ],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 4,
+     "rhotic": "4/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {
+      "grass": [
+       0.98,
+       1.11,
+       0.99
+      ],
+      "bath": [
+       1.25,
+       0.27,
+       0.18
+      ],
+      "tomato": [
+       0.97,
+       1.56,
+       0.93
+      ],
+      "dance": [
+       0.64,
+       2.18,
+       0.58
+      ],
+      "can't": [
+       2.01,
+       2.41,
+       -0.16
+      ],
+      "half": [
+       0.94,
+       0.89,
+       0.97
+      ],
+      "past": [
+       0.75,
+       0.88,
+       0.96
+      ]
+     }
+    },
+    "accent10": 6.3,
+    "storytelling": 8,
+    "clarity": 8.8,
+    "natural": 8.3,
+    "fitNotes": [
+     "Warm, beautifully paced, and engaging, with an enchanting tone that is easy for young children to follow.",
+     "Deliberate, warm, and fairy-tale paced, this delivery is exceptionally clear and well-suited for young learners, though slightly segmented.",
+     "The suspenseful, dramatic tone is well-suited for a children's story, though the segmented pacing feels slightly stilted."
+    ],
+    "wpsMax": 2.27,
+    "americanFeatures": [
+     "r-coloured \"far\" (acoustic, narrator-1 take 1, F3 ratio 0.61)",
+     "r-coloured \"world\" (acoustic, narrator-1 take 1, F3 ratio 0.64)",
+     "r-coloured \"world\" (acoustic, narrator-1 take 3, F3 ratio 0.62)",
+     "r-coloured \"flower\" (acoustic, narrator-1 take 3, F3 ratio 0.66)",
+     "a rhotic r in \"far\" (judge, 3/9 votes)",
+     "a rhotic r in \"world\" (judge, 3/9 votes)",
+     "a rhotic r in \"flower\" (judge, 2/9 votes)"
+    ],
+    "overall": 7.2
+   }
+  },
+  "costPerMinuteUSD": 0.03,
+  "notes": "Model gemini-2.5-pro-preview-tts instead of the game's gemini-3.8-flash-tts: the same voice name, a different rendering. Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-3 t1 4.85 words/s, sensei-4 t1 6.31 words/s, sensei-4 t2 6.73 words/s. Whisper heard these takes differently from the script: sensei-3 take 1 heard as \"Brilliant, you did it!\"; sensei-4 take 1 heard as \"mat.\"; sensei-4 take 2 heard as \"Mat.\"; sensei-4 take 3 heard as \"Mat. Mat.\". This model acts on teaching lines instead of reading them: given \"Say mat slowly. Now say it fast.\" it just says \"mat\", and it drops \"Let's say it the slow way first, then the fast way.\" That rules it out for Sensei, whose script is full of such lines."
+ },
+ {
+  "id": "gemini-sulafat-engb-lite",
+  "provider": "gemini",
+  "voice": "Sulafat",
+  "label": "Gemini Sulafat (warm), en-GB, gemini-3.8-flash-lite-tts",
+  "settings": {
+   "model": "gemini-3.8-flash-lite-tts",
+   "languageCode": "en-GB",
+   "voiceName": "Sulafat",
+   "character": "warm",
+   "sex": "f",
+   "input": "plain text (Gemini TTS reads style instructions aloud)",
+   "finish": "trimmed, 25 ms fades, -16 LUFS two-pass, -1.5 dBTP, 112 kbps CBR mono MP3, 44.1 kHz"
+  },
+  "roles": [
+   "sensei",
+   "narrator"
+  ],
+  "current": [],
+  "files": {
+   "sensei": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-3.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-4.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-5.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-6.mp3"
+   ],
+   "narrator": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/narrator-1.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/narrator-2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/narrator-3.mp3"
+   ]
+  },
+  "takes": {
+   "narrator-1": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/narrator-1.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/narrator-1.take3.mp3"
+   ],
+   "sensei-2": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-2.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-2.take3.mp3"
+   ],
+   "sensei-4": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-4.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-4.take3.mp3"
+   ],
+   "sensei-6": [
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-6.take2.mp3",
+    "playtest/voice-picker/audio/gemini/gemini-sulafat-engb-lite/sensei-6.take3.mp3"
+   ]
+  },
+  "britishScore": 10,
+  "accentScore": 9.6,
+  "americanFeatures": [
+   "sensei: flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 2, BATH index 1.03)",
+   "sensei: flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.91)",
+   "sensei: flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 0.97)",
+   "sensei: flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 3, BATH index 0.85)",
+   "narrator: r-coloured \"stormy\" (acoustic, narrator-2 take 1, F3 ratio 0.7)"
+  ],
+  "warmth": 8.1,
+  "byRole": {
+   "sensei": {
+    "britishScore": 10,
+    "britishVotes": "18/18 \"Southern British\"",
+    "abxBritish": "18/18",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 52,
+     "flags": 4,
+     "rhotic": "0/18 r-coloured",
+     "bath": "4/22 flat",
+     "t": "0/9 flapped",
+     "tomato": "0/3 tomayto",
+     "bathIndex": {
+      "grass": [
+       -0.17,
+       -0.38,
+       0.13
+      ],
+      "bath": [
+       -0.01,
+       1.03,
+       0.01
+      ],
+      "fast": [
+       0.31,
+       0.91,
+       0.31,
+       0.28
+      ],
+      "tomato": [
+       0.01,
+       -0.16,
+       0.07
+      ],
+      "dance": [
+       0.97,
+       -0.03,
+       0.85
+      ],
+      "can't": [
+       0.22,
+       -0.39,
+       0.02
+      ],
+      "half": [
+       -0.12,
+       -0.32,
+       -0.07
+      ],
+      "past": [
+       0,
+       -0.12,
+       0.46
+      ]
+     }
+    },
+    "accent10": 9.6,
+    "warmth": 8.1,
+    "clarity": 8.9,
+    "natural": 8.8,
+    "fitNotes": [
+     "Engaging, warm, and wonderfully paced with a friendly smile in the voice that feels perfectly suited for young children.",
+     "Delightfully warm, encouraging, and clear, with an inviting CBeebies-style infant teacher delivery.",
+     "Exceptionally warm, smiling, and encouraging with an ideal gentle pace and clear diction for young children."
+    ],
+    "wpsMax": 3.37,
+    "americanFeatures": [
+     "flat TRAP vowel in \"bath\" (acoustic, sensei-2 take 2, BATH index 1.03)",
+     "flat TRAP vowel in \"fast\" (acoustic, sensei-4 take 1, BATH index 0.91)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 1, BATH index 0.97)",
+     "flat TRAP vowel in \"dance\" (acoustic, sensei-6 take 3, BATH index 0.85)"
+    ],
+    "overall": 8.9
+   },
+   "narrator": {
+    "britishScore": 10,
+    "britishVotes": "9/9 \"Southern British\"",
+    "abxBritish": "9/9",
+    "abxBritishPct": 100,
+    "abxAmericanReasons": [],
+    "acoustic": {
+     "tokens": 10,
+     "flags": 1,
+     "rhotic": "1/10 r-coloured",
+     "bath": "0/0 flat",
+     "t": "0/0 flapped",
+     "tomato": "0/0 tomayto",
+     "bathIndex": {
+      "grass": [
+       -0.17,
+       -0.38,
+       0.13
+      ],
+      "bath": [
+       -0.01,
+       1.03,
+       0.01
+      ],
+      "fast": [
+       0.31,
+       0.91,
+       0.31,
+       0.28
+      ],
+      "tomato": [
+       0.01,
+       -0.16,
+       0.07
+      ],
+      "dance": [
+       0.97,
+       -0.03,
+       0.85
+      ],
+      "can't": [
+       0.22,
+       -0.39,
+       0.02
+      ],
+      "half": [
+       -0.12,
+       -0.32,
+       -0.07
+      ],
+      "past": [
+       0,
+       -0.12,
+       0.46
+      ]
+     }
+    },
+    "accent10": 9.5,
+    "storytelling": 8.3,
+    "clarity": 9,
+    "natural": 8.8,
+    "fitNotes": [
+     "Warm and clearly articulated with a gentle, engaging bedtime-story cadence.",
+     "Warm, uplifting tone with gentle pacing and clear articulation that suits a storybook resolution nicely.",
+     "Wonderfully atmospheric and suspenseful delivery with excellent vocal dynamics and clarity tailored perfectly for young children."
+    ],
+    "wpsMax": 2.79,
+    "americanFeatures": [
+     "r-coloured \"stormy\" (acoustic, narrator-2 take 1, F3 ratio 0.7)"
+    ],
+    "overall": 8.9
+   }
+  },
+  "costPerMinuteUSD": 0.009,
+  "notes": "Model gemini-3.8-flash-lite-tts instead of the game's gemini-3.8-flash-tts: the same voice name, a different rendering. Switching Sensei to this voice means re-recording every line (~1,250 in public/a/l, 65 story pages in public/a/s), every word (~1,240 in public/a/w, ~1,000 stretched words in public/a/x, the held first sounds in public/a/o), and rebuilding all 46 pure sounds in public/a/p from the new voice, because they are cut from Sulafat words. Faster than the game's 3.3 words a second: sensei-2 t3 3.37 words/s."
+ }
+]

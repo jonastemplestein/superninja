@@ -1,0 +1,66 @@
+{
+ "base": "http://127.0.0.1:4823",
+ "fast": 3,
+ "secs": 25,
+ "results": {
+  "tree-world": {
+   "ok": true,
+   "secs": 8,
+   "findings": 0
+  },
+  "finale": {
+   "ok": true,
+   "secs": 7,
+   "findings": 0
+  },
+  "tree": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "idle-next": {
+   "ok": true,
+   "secs": 11,
+   "findings": 0
+  },
+  "home-film": {
+   "ok": true,
+   "secs": 7,
+   "findings": 1
+  },
+  "home-finale": {
+   "ok": true,
+   "secs": 6,
+   "findings": 0
+  },
+  "tree-found": {
+   "ok": true,
+   "secs": 17,
+   "findings": 0
+  },
+  "home-trip": {
+   "ok": true,
+   "secs": 6,
+   "findings": 0
+  },
+  "intro": {
+   "ok": true,
+   "secs": 21,
+   "findings": 0
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:home-film:zone-conflict:button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "source": "invariant",
+   "severity": "major",
+   "case": "home-film",
+   "title": "zone-conflict: button.t-chip[aria-label=\"Who's playing? Ninja\"] (after Home)",
+   "detail": "centre at stage 102,63 is in the Home zone (x 0-130, y 0-130)",
+   "evidence": [
+    "cases/home-film/f_02_after-Home.png"
+   ],
+   "repro": "http://127.0.0.1:4823/play/?scene=intro"
+  }
+ ]
+}

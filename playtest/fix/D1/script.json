@@ -1,0 +1,78 @@
+[
+ {
+  "sig": "script:world-welcomes",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:world-welcomes: world welcomes: 1 per land",
+  "detail": "Target ≤ 1 per land. C5-S world_5 ×3. world_5 \"Welcome to Shadow Castle. Don't worry, I'm right beside you.\" said 3 times",
+  "evidence": [
+   "playtest/fix/D1/transcripts-final/splitter/continuous-splitter-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w2-1/continuous-learner-from-w2-1.json",
+   "playtest/fix/D1/transcripts-final/w2-1/continuous-perfect-from-w2-1.json",
+   "playtest/fix/D1/transcripts-final/w3-6/continuous-learner-from-w3-6.json",
+   "playtest/fix/D1/transcripts-final/w3-6/continuous-perfect-from-w3-6.json",
+   "playtest/fix/D1/transcripts-final/w5-1/continuous-learner-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w5-1/continuous-perfect-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w6-1/continuous-learner-from-w6-1.json",
+   "playtest/fix/D1/transcripts-final/w6-1/continuous-perfect-from-w6-1.json"
+  ]
+ },
+ {
+  "sig": "script:line-60s",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:line-60s: any line more than twice in 60 s (bar the §5.1 routines)",
+  "detail": "Target 0. C5-S 1 lines; C(w2-1)-L 1 lines; C(w2-1)-P 1 lines; C(w3-6)-L 2 lines; C(w3-6)-P 2 lines; C5-L 1 lines; C5-P 1 lines. ‹tv_here_sound› \"Here's the sound...\" from world flower @4:53.7",
+  "evidence": [
+   "playtest/fix/D1/transcripts-final/splitter/continuous-splitter-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w2-1/continuous-learner-from-w2-1.json",
+   "playtest/fix/D1/transcripts-final/w2-1/continuous-perfect-from-w2-1.json",
+   "playtest/fix/D1/transcripts-final/w3-6/continuous-learner-from-w3-6.json",
+   "playtest/fix/D1/transcripts-final/w3-6/continuous-perfect-from-w3-6.json",
+   "playtest/fix/D1/transcripts-final/w5-1/continuous-learner-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w5-1/continuous-perfect-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w6-1/continuous-learner-from-w6-1.json",
+   "playtest/fix/D1/transcripts-final/w6-1/continuous-perfect-from-w6-1.json"
+  ]
+ },
+ {
+  "sig": "script:cut-explanations",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:cut-explanations: cut-off explanations (not prompts)",
+  "detail": "Target 0. C5-S 5; C(w3-6)-P 1; C5-L 2; C5-P 2; C(w6-1)-L 3; C(w6-1)-P 3. w6-1 @0:29.5 ‹t_two_letters› \"It's two letters, but it's one sound.\"; w6-1 @0:55.1 ‹st_two_letters_too› \"This one's two letters too, but it's just one sound.\"; reward @3:40.8 ‹audit_gem_first› \"Look, a gem! Each gem holds a way to spell a sound. When you get words\"",
+  "evidence": [
+   "playtest/fix/D1/transcripts-final/splitter/continuous-splitter-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w2-1/continuous-learner-from-w2-1.json",
+   "playtest/fix/D1/transcripts-final/w2-1/continuous-perfect-from-w2-1.json",
+   "playtest/fix/D1/transcripts-final/w3-6/continuous-learner-from-w3-6.json",
+   "playtest/fix/D1/transcripts-final/w3-6/continuous-perfect-from-w3-6.json",
+   "playtest/fix/D1/transcripts-final/w5-1/continuous-learner-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w5-1/continuous-perfect-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w6-1/continuous-learner-from-w6-1.json",
+   "playtest/fix/D1/transcripts-final/w6-1/continuous-perfect-from-w6-1.json"
+  ]
+ },
+ {
+  "sig": "script:fs-talk",
+  "source": "script",
+  "severity": "minor",
+  "case": "script",
+  "title": "script:fs-talk: talk before a child action, in runs with a fast/slow line",
+  "detail": "Target ≤ 12 s. C5-S max 16.6 s (build w5-1); 1 over; C(w2-1)-L max 12.6 s (build w2-1); 1 over; C(w2-1)-P max 26.2 s (build w2-1); 1 over; C(w3-6)-P max 31.0 s (build w3-6); 1 over; C5-P max 28.1 s (build w5-1); 1 over; C(w6-1)-L max 13.4 s (build w6-1); 1 over; C(w6-1)-P max 16.1 s (build w6-1); 1 over. build (w6-1) 16.1 s from ‹tv_to_reward› \"Let's see what you won back from Baron Muddle.\" to ‹tv_to_flower_first› \"Now let's go and see where your sounds live. Tap the green arrow.\", with ‹tv_fs_slow_tortoise› \"First the slow way, like the tortoise...\"",
+  "evidence": [
+   "playtest/fix/D1/transcripts-final/splitter/continuous-splitter-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w2-1/continuous-learner-from-w2-1.json",
+   "playtest/fix/D1/transcripts-final/w2-1/continuous-perfect-from-w2-1.json",
+   "playtest/fix/D1/transcripts-final/w3-6/continuous-learner-from-w3-6.json",
+   "playtest/fix/D1/transcripts-final/w3-6/continuous-perfect-from-w3-6.json",
+   "playtest/fix/D1/transcripts-final/w5-1/continuous-learner-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w5-1/continuous-perfect-from-w5-1.json",
+   "playtest/fix/D1/transcripts-final/w6-1/continuous-learner-from-w6-1.json",
+   "playtest/fix/D1/transcripts-final/w6-1/continuous-perfect-from-w6-1.json"
+  ]
+ }
+]

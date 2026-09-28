@@ -12,7 +12,11 @@
 import { chromium, type Page } from "playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { LINES } from "../../src/content/lines";
+import { decodeForTranscript } from "../../src/content/templates-decode";
 import { step } from "./bot";
+import { warmupScript } from "../../src/content/warmups";
+import { helpGuard } from "../lib/help";
+helpGuard(import.meta.url); // --help prints the usage above and exits, before anything runs
 
 const arg = (k: string, d?: string) => {
   const i = process.argv.indexOf(`--${k}`);
@@ -30,22 +34,39 @@ const VIEW = (arg("view", "844x390")!).split("x").map(Number) as [number, number
 mkdirSync(OUT, { recursive: true });
 const LINE = new Map(LINES.map((l) => [l.id, l]));
 
-/** The spec's budgets (§2, §14): target and hard cap, in seconds. */
-const BUDGET: Record<string, { target: number; cap?: number; bot?: number }> = {
+/** The spec's budgets (§2, §14): target and hard cap, in seconds. A warm-up lesson's are the game's own, its time
+ *  governor's (src/content/warmups.ts targetS and capS, the Reception version's schoolBudget for a Reception child: W1
+ *  115/130, W2 95/110 since the teacher's voice); these are for a lesson that isn't a warm-up (the Year One dojo cut). */
+const BUDGET: Record<string, { target: number; cap?: number }> = {
   "title": { target: 3 },
   "intro film": { target: 45 },
   "choose": { target: 6 },
   "opt-in": { target: OPTIN === "none" || OPTIN === "unsure" ? 16 : 28, cap: 30 },
   "dojo welcome": { target: 12 },
-  "lesson 1": { target: 85, cap: 100, bot: 80 },
+  "lesson 1": { target: 85, cap: 100 },
   "reward 1": { target: 21, cap: 26 },
-  "lesson 2": { target: 65, cap: 75, bot: 66 }, // (target 65, bot 66 since the merged pictures hold clean: docs/DECISIONS.md)
+  "lesson 2": { target: 60, cap: 75 },
   "reward 2": { target: 26, cap: 30 },
 };
+/** A lesson's budget: the warm-up's own (what the lesson recorded as window.__snWarmup: its key and version), else BUDGET. */
+function lessonBudget(piece: string, result: any): { target: number; cap?: number } | undefined {
+  if (result?.key) {
+    try {
+      const w = warmupScript(result.key, result.version === "R" ? "R" : undefined);
+      return { target: w.targetS, cap: w.capS };
+    } catch {}
+  }
+  return BUDGET[piece];
+}
+/** Title to the map (FIRST_MINUTES §14): target 4:34, hard cap 5:30 (was 5:00; TEACHER_SCRIPT T22, 27 Sep). */
+const TO_MAP = { target: "4:34", cap: "5:30" };
 
 type Ev = { t: number; kind: "say" | "sound" | "word" | "stretch" | "tap" | "piece" | "beat"; who?: string; text: string };
 function decode(url: string): Omit<Ev, "t"> | null {
   let m;
+  // a templated clip (/a/t/, docs/SPEECH_TEMPLATES.md): its text, from the template registry
+  const tpl = decodeForTranscript(url);
+  if (tpl) return tpl;
   if ((m = url.match(/\/a\/l\/([^/]+)\.mp3/))) {
     const l = LINE.get(m[1]);
     return { kind: "say", who: l?.who ?? "sensei", text: `${l?.text ?? `[line ${m[1]}]`}  ‹${m[1]}›` };
@@ -221,12 +242,12 @@ async function play(page: Page, persona: "perfect" | "learner", shots?: string) 
 }
 
 function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
-  const out = [`# The first five minutes (${persona} child${OPTIN !== "none" ? `, opt-in: ${OPTIN}` : ""})`, "", `Game seconds from the title tap (played at ${FAST}× and converted). Budgets from docs/FIRST_MINUTES.md §2 and §14.`, ""];
+  const out = [`# The first five minutes (${persona} child${OPTIN !== "none" ? `, opt-in: ${OPTIN}` : ""})`, "", `Game seconds from the title tap (played at ${FAST}× and converted). Budgets from docs/FIRST_MINUTES.md §2 and §14; a warm-up lesson's from its time governor (src/content/warmups.ts).`, ""];
   out.push("| Piece | Starts | Took | Holds on Next | Ready | Target | Hard cap | Verdict |", "|---|---|---|---|---|---|---|---|");
   let total = 0;
   for (const s of r.spans) {
     const base = s.piece.replace(/ \d$/, (m) => m);
-    const b = BUDGET[base] ?? BUDGET[s.piece];
+    const b = s.piece.startsWith("lesson") ? lessonBudget(s.piece, (r.beats[s.piece] as any)?.result) : BUDGET[base] ?? BUDGET[s.piece];
     if (s.piece !== "map" && s.piece !== "profiles") total += s.secs;
     const verdict = !b ? "" : s.piece === "opt-in" && r.optinSettledS != null ? (r.optinSettledS > 30 ? "settled after the cap" : `settled in ${r.optinSettledS} s`) : b.cap && s.secs > b.cap ? "over the cap" : s.secs > b.target ? "over target" : "within target";
     const held = r.holds[s.piece];
@@ -235,7 +256,7 @@ function render(persona: string, r: Awaited<ReturnType<typeof play>>): string {
   }
   const mapAt = r.spans.find((s) => s.piece === "map")?.start;
   if (r.optinSettledS != null) out.push("", `The opt-in's cap is 30 s from first sight to a settled choice: **settled after ${r.optinSettledS} s** (the rest of the piece is Sensei confirming it and saying that grown-ups can change it).`);
-  out.push("", `**Title to the map: ${mapAt != null ? fmt(mapAt) : "not reached"}** (target 4:34, cap 5:00).`, "");
+  out.push("", `**Title to the map: ${mapAt != null ? fmt(mapAt) : "not reached"}** (target ${TO_MAP.target}, cap ${TO_MAP.cap}).`, "");
   out.push("After the session the save holds:", "", "```json", JSON.stringify(r.save, null, 1), "```", "");
   out.push("## Beats in each lesson (lesson seconds; the governor's skips)", "");
   for (const [k, v] of Object.entries(r.beats)) out.push(`- **${k}**: ${JSON.stringify(v)}`);

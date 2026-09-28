@@ -1,0 +1,9299 @@
+{
+ "meta": {
+  "persona": "splitter",
+  "from": "w5-1",
+  "optin": "none",
+  "fast": 4,
+  "levels": 6,
+  "base": "http://127.0.0.1:4702",
+  "at": "2026-09-27T05:21:24.957Z"
+ },
+ "evs": [
+  {
+   "t": 0,
+   "kind": "scene",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "piece",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "route",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 0.1,
+   "kind": "tap",
+   "text": "Start"
+  },
+  {
+   "t": 0.7,
+   "kind": "tap",
+   "text": "player Ninja"
+  },
+  {
+   "t": 0.7,
+   "kind": "piece",
+   "text": "profiles"
+  },
+  {
+   "t": 0.7,
+   "kind": "route",
+   "text": "profiles"
+  },
+  {
+   "t": 0.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 1.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome back, Super Ninja! Ready for more training?",
+   "id": "welcome_back",
+   "dur": 2656,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 1.3,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 1.3,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 1.3,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 1.3,
+   "kind": "turn",
+   "text": "w5-1",
+   "game": null
+  },
+  {
+   "t": 4.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the glowing stone to start your next adventure.",
+   "id": "map_hint",
+   "dur": 3252,
+   "route": "map",
+   "mapOn": true,
+   "cut": true
+  },
+  {
+   "t": 4.8,
+   "kind": "tap",
+   "text": "level w5-1"
+  },
+  {
+   "t": 4.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds.",
+   "id": "dojo_hello",
+   "dur": 5373,
+   "route": "level:w5-1",
+   "mapOn": true
+  },
+  {
+   "t": 4.9,
+   "kind": "piece",
+   "text": "stone 1: w5-1"
+  },
+  {
+   "t": 5.5,
+   "kind": "scene",
+   "text": "learn"
+  },
+  {
+   "t": 5.5,
+   "kind": "piece",
+   "text": "level w5-1"
+  },
+  {
+   "t": 5.5,
+   "kind": "route",
+   "text": "level:w5-1"
+  },
+  {
+   "t": 5.5,
+   "kind": "game",
+   "text": "learn"
+  },
+  {
+   "t": 10.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 11.4,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 12.6,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 14.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "We hear the sound. Now look: this is how we spell it.",
+   "id": "audit_hear_see",
+   "dur": 4027,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 14.9,
+   "kind": "turn",
+   "text": "sh",
+   "game": "learn"
+  },
+  {
+   "t": 17.6,
+   "kind": "tap",
+   "text": "sh"
+  },
+  {
+   "t": 18.8,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 19.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 20.1,
+   "kind": "tap",
+   "text": "sh"
+  },
+  {
+   "t": 22.6,
+   "kind": "tap",
+   "text": "sh"
+  },
+  {
+   "t": 22.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 24.9,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1",
+   "cut": true
+  },
+  {
+   "t": 25.1,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 25.1,
+   "kind": "tap",
+   "text": "sh"
+  },
+  {
+   "t": 25.7,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 25.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, great listening!",
+   "id": "yay_8",
+   "dur": 1607,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 27.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 28.3,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 29,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 30.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 30.7,
+   "kind": "turn",
+   "text": "ch",
+   "game": "learn"
+  },
+  {
+   "t": 32.4,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 32.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 33.4,
+   "kind": "tap",
+   "text": "ch"
+  },
+  {
+   "t": 35.9,
+   "kind": "tap",
+   "text": "ch"
+  },
+  {
+   "t": 36.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 38.1,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 38.4,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 38.4,
+   "kind": "tap",
+   "text": "ch"
+  },
+  {
+   "t": 38.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Brilliant!",
+   "id": "yay_1",
+   "dur": 1126,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 38.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 39.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 40.7,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 41.7,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 43.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 44,
+   "kind": "turn",
+   "text": "th",
+   "game": "learn"
+  },
+  {
+   "t": 45.4,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 46.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 46.7,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 49.1,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 49.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 51.4,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-1",
+   "cut": true
+  },
+  {
+   "t": 51.6,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 51.6,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 52.1,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 52.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 53,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 53.9,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 54.9,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 56.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 57.2,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 57.2,
+   "kind": "turn",
+   "text": "th",
+   "game": "learn"
+  },
+  {
+   "t": 58.5,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 59.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The same spelling can sometimes be...",
+   "id": "t_same_spelling_sometimes",
+   "dur": 2919,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 59.7,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 62.2,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 62.4,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "petal",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 63,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in moth, and sometimes...",
+   "id": "st_th_moth_sometimes",
+   "dur": 2049,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 64.7,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 65.2,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "petal",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 65.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in this.",
+   "id": "tg_th_dh_in",
+   "dur": 722,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 66.7,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 66.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 68.8,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 69.2,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 69.8,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 70.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 70.3,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 71.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 71.7,
+   "kind": "scene",
+   "text": "find"
+  },
+  {
+   "t": 71.7,
+   "kind": "game",
+   "text": "find"
+  },
+  {
+   "t": 71.7,
+   "kind": "turn",
+   "text": "sh",
+   "game": "find"
+  },
+  {
+   "t": 73.1,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 74,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-1",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 74.4,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 74.4,
+   "kind": "tap",
+   "text": "sh"
+  },
+  {
+   "t": 74.4,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 75.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 76.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 76.2,
+   "kind": "turn",
+   "text": "ch",
+   "game": "find"
+  },
+  {
+   "t": 77.6,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 78,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-1",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 78.9,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 78.9,
+   "kind": "tap",
+   "text": "ch"
+  },
+  {
+   "t": 78.9,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 79.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninja power!",
+   "id": "streak_3",
+   "dur": 1128,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 80.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 80.9,
+   "kind": "tap",
+   "text": "ch"
+  },
+  {
+   "t": 81.5,
+   "kind": "turn",
+   "text": "th",
+   "game": "find"
+  },
+  {
+   "t": 82.4,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 83.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-1",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 84.2,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 84.2,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 84.2,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 84.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Brilliant!",
+   "id": "yay_1",
+   "dur": 1126,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 86,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-1",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 86.1,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 86.1,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 86.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 86.7,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 88.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now let's make words! First, listen to the word. Then tap its sounds, one at a time.",
+   "id": "dojo_build",
+   "dur": 6158,
+   "route": "level:w5-1",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 88.6,
+   "kind": "scene",
+   "text": "build"
+  },
+  {
+   "t": 88.6,
+   "kind": "game",
+   "text": "build"
+  },
+  {
+   "t": 88.6,
+   "kind": "turn",
+   "text": "b",
+   "game": "build"
+  },
+  {
+   "t": 91.2,
+   "kind": "tap",
+   "text": "b"
+  },
+  {
+   "t": 91.3,
+   "kind": "sound",
+   "text": "/b/",
+   "id": "sound:b",
+   "dur": 254,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 91.9,
+   "kind": "turn",
+   "text": "e",
+   "game": "build"
+  },
+  {
+   "t": 94.6,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 94.6,
+   "kind": "tap",
+   "text": "e"
+  },
+  {
+   "t": 95.2,
+   "kind": "turn",
+   "text": "n",
+   "game": "build"
+  },
+  {
+   "t": 97.9,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 97.9,
+   "kind": "tap",
+   "text": "n"
+  },
+  {
+   "t": 98.5,
+   "kind": "turn",
+   "text": "ch",
+   "game": "build"
+  },
+  {
+   "t": 101.2,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 101.2,
+   "kind": "tap",
+   "text": "ch"
+  },
+  {
+   "t": 102.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow! Super ninja streak!",
+   "id": "streak_6",
+   "dur": 2618,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 104.8,
+   "kind": "sound",
+   "text": "/b/",
+   "id": "sound:b",
+   "dur": 254,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 105.3,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 106.3,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 107.1,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 107.8,
+   "kind": "word",
+   "text": "bench",
+   "id": "word:bench",
+   "dur": 685,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 108.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!",
+   "id": "yay_2",
+   "dur": 729,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 108.5,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 109.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up.",
+   "id": "audit_gem_first",
+   "dur": 7366,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 116.7,
+   "kind": "hold",
+   "text": "gem-energy",
+   "end": 120,
+   "how": "next"
+  },
+  {
+   "t": 119.3,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 119.4,
+   "kind": "word",
+   "text": "tell",
+   "id": "word:tell",
+   "dur": 488,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 120,
+   "kind": "turn",
+   "text": "t",
+   "game": "build"
+  },
+  {
+   "t": 122.6,
+   "kind": "tap",
+   "text": "t"
+  },
+  {
+   "t": 122.7,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 165,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 123.3,
+   "kind": "turn",
+   "text": "e",
+   "game": "build"
+  },
+  {
+   "t": 125.9,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 125.9,
+   "kind": "tap",
+   "text": "e"
+  },
+  {
+   "t": 126.6,
+   "kind": "turn",
+   "text": "ll",
+   "game": "build"
+  },
+  {
+   "t": 129.2,
+   "kind": "tap",
+   "text": "ll"
+  },
+  {
+   "t": 129.3,
+   "kind": "sound",
+   "text": "/l/",
+   "id": "sound:l",
+   "dur": 798,
+   "show": "unclassified",
+   "route": "level:w5-1",
+   "cut": true
+  },
+  {
+   "t": 129.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ten in a row! Look how your ninja is glowing!",
+   "id": "tv_streak_10",
+   "dur": 3476,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 133.3,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 133.7,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 134.7,
+   "kind": "sound",
+   "text": "/l/",
+   "id": "sound:l",
+   "dur": 798,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 135.9,
+   "kind": "word",
+   "text": "tell",
+   "id": "word:tell",
+   "dur": 488,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 136.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 139.9,
+   "kind": "sound",
+   "text": "/l/",
+   "id": "sound:l",
+   "dur": 798,
+   "show": "petal",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 140.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 140.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 141.6,
+   "kind": "word",
+   "text": "chin",
+   "id": "word:chin",
+   "dur": 517,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 141.7,
+   "kind": "turn",
+   "text": "ch",
+   "game": "build"
+  },
+  {
+   "t": 144.4,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 144.4,
+   "kind": "tap",
+   "text": "ch"
+  },
+  {
+   "t": 145,
+   "kind": "turn",
+   "text": "i",
+   "game": "build"
+  },
+  {
+   "t": 147.7,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 147.7,
+   "kind": "tap",
+   "text": "i"
+  },
+  {
+   "t": 148.3,
+   "kind": "turn",
+   "text": "n",
+   "game": "build"
+  },
+  {
+   "t": 151,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 151,
+   "kind": "tap",
+   "text": "n"
+  },
+  {
+   "t": 151.8,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 152.3,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 152.8,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 153.8,
+   "kind": "word",
+   "text": "chin",
+   "id": "word:chin",
+   "dur": 517,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 154.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Brilliant!",
+   "id": "yay_1",
+   "dur": 1126,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 154.3,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 155.5,
+   "kind": "word",
+   "text": "rush",
+   "id": "word:rush",
+   "dur": 573,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 156,
+   "kind": "turn",
+   "text": "r",
+   "game": "build"
+  },
+  {
+   "t": 158.7,
+   "kind": "sound",
+   "text": "/r/",
+   "id": "sound:r",
+   "dur": 580,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 158.7,
+   "kind": "tap",
+   "text": "r"
+  },
+  {
+   "t": 159.3,
+   "kind": "turn",
+   "text": "u",
+   "game": "build"
+  },
+  {
+   "t": 162,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 162,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 162.6,
+   "kind": "turn",
+   "text": "sh",
+   "game": "build"
+  },
+  {
+   "t": 165.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Keep going, ninja.",
+   "id": "streak_lost",
+   "dur": 1424,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 165.3,
+   "kind": "tap",
+   "text": "s"
+  },
+  {
+   "t": 165.3,
+   "kind": "sfx",
+   "text": "wrong"
+  },
+  {
+   "t": 165.3,
+   "kind": "split",
+   "text": "s for sh",
+   "next": "sh",
+   "tapped": "s"
+  },
+  {
+   "t": 167,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's...",
+   "id": "thats",
+   "dur": 478,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 167.6,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 783,
+   "show": "petal",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 168.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "We need...",
+   "id": "we_need",
+   "dur": 737,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 169.5,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "petal",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 170.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 174.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Which sound comes next?",
+   "id": "which_sound",
+   "dur": 1723,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 176.1,
+   "kind": "word",
+   "text": "rush",
+   "id": "word:rush",
+   "dur": 573,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 179.1,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 179.1,
+   "kind": "tap",
+   "text": "sh"
+  },
+  {
+   "t": 179.7,
+   "kind": "sound",
+   "text": "/r/",
+   "id": "sound:r",
+   "dur": 580,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 180.6,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 181.3,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 182.4,
+   "kind": "word",
+   "text": "rush",
+   "id": "word:rush",
+   "dur": 573,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 183,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Lovely!",
+   "id": "tv_yay_lovely",
+   "dur": 1145,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 183,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 184.2,
+   "kind": "word",
+   "text": "shop",
+   "id": "word:shop",
+   "dur": 643,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 184.7,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 184.7,
+   "kind": "tap",
+   "text": "sh"
+  },
+  {
+   "t": 184.7,
+   "kind": "turn",
+   "text": "sh",
+   "game": "build"
+  },
+  {
+   "t": 185.3,
+   "kind": "turn",
+   "text": "o",
+   "game": "build"
+  },
+  {
+   "t": 188,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 188,
+   "kind": "tap",
+   "text": "o"
+  },
+  {
+   "t": 188.6,
+   "kind": "turn",
+   "text": "p",
+   "game": "build"
+  },
+  {
+   "t": 191.3,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "unclassified",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 191.3,
+   "kind": "tap",
+   "text": "p"
+  },
+  {
+   "t": 191.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninja power!",
+   "id": "streak_3",
+   "dur": 1128,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 192.9,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 193.9,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 194.6,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-1"
+  },
+  {
+   "t": 195.2,
+   "kind": "word",
+   "text": "shop",
+   "id": "word:shop",
+   "dur": 643,
+   "route": "level:w5-1"
+  },
+  {
+   "t": 195.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 195.9,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 196.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done! You practised so hard!",
+   "id": "dojo_done",
+   "dur": 3239,
+   "route": "level:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 197.6,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 200,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 200,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 200,
+   "kind": "route",
+   "text": "reward:w5-1"
+  },
+  {
+   "t": 200,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 200.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You did it!",
+   "id": "yay_7",
+   "dur": 744,
+   "route": "reward:w5-1",
+   "mapOn": true
+  },
+  {
+   "t": 201.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You won back some sounds!",
+   "id": "petals_got",
+   "dur": 1543,
+   "route": "reward:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 203.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "More stickers for your Sticker Book!",
+   "id": "fm_rw_more",
+   "dur": 1768,
+   "route": "reward:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 206,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, this gem has filled a little more.",
+   "id": "audit_gem_more",
+   "dur": 2401,
+   "route": "reward:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 208.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow! You got everything right. Is this too easy? You can jump ahead!",
+   "id": "jump_offer",
+   "dur": 4367,
+   "route": "reward:w5-1",
+   "mapOn": false
+  },
+  {
+   "t": 213.7,
+   "kind": "hold",
+   "text": "reward",
+   "end": 217,
+   "how": "next"
+  },
+  {
+   "t": 216.3,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 216.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You found some new sounds! Look, here are their petals, shining through the mist.",
+   "id": "st_found_new_sounds",
+   "dur": 4853,
+   "route": "tree",
+   "mapOn": true
+  },
+  {
+   "t": 217,
+   "kind": "scene",
+   "text": "tree"
+  },
+  {
+   "t": 217,
+   "kind": "piece",
+   "text": "world flower"
+  },
+  {
+   "t": 217,
+   "kind": "route",
+   "text": "tree"
+  },
+  {
+   "t": 222,
+   "kind": "hold",
+   "text": "gem-found 1/7",
+   "end": 225.2,
+   "how": "next"
+  },
+  {
+   "t": 224.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 224.6,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 226.1,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 227.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in shop.",
+   "id": "tg_sh_sh_way",
+   "dur": 2763,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 230.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 233.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "We see this spelling in shed and shell.",
+   "id": "tg_sh_sh_see",
+   "dur": 3170,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 236.9,
+   "kind": "hold",
+   "text": "gem-found 2/7",
+   "end": 240.1,
+   "how": "next"
+  },
+  {
+   "t": 239.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And here's another new sound...",
+   "id": "tv_another_sound",
+   "dur": 1746,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 239.5,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 241.4,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 242,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in chick.",
+   "id": "tg_ch_ch_way",
+   "dur": 2761,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 245.1,
+   "kind": "hold",
+   "text": "gem-found 3/7",
+   "end": 248.3,
+   "how": "next"
+  },
+  {
+   "t": 247.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 247.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 249.1,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 250.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in moth.",
+   "id": "tg_th_th_way",
+   "dur": 2767,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 253.2,
+   "kind": "hold",
+   "text": "gem-found 4/7",
+   "end": 256.5,
+   "how": "next"
+  },
+  {
+   "t": 255.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The same spelling can sometimes be...",
+   "id": "t_same_spelling_sometimes",
+   "dur": 2919,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 255.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 258.8,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 259.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in...",
+   "id": "t_in",
+   "dur": 485,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 259.9,
+   "kind": "word",
+   "text": "this",
+   "id": "word:this",
+   "dur": 693,
+   "route": "tree"
+  },
+  {
+   "t": 260.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...and sometimes...",
+   "id": "t_and_sometimes",
+   "dur": 965,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 262,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 262.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in...",
+   "id": "t_in",
+   "dur": 485,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 263.1,
+   "kind": "word",
+   "text": "moth",
+   "id": "word:moth",
+   "dur": 644,
+   "route": "tree"
+  },
+  {
+   "t": 263.9,
+   "kind": "hold",
+   "text": "gem-found 5/7",
+   "end": 267.1,
+   "how": "next"
+  },
+  {
+   "t": 266.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 266.5,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 267.9,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 268.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in this.",
+   "id": "tg_th_dh_way",
+   "dur": 2766,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 272,
+   "kind": "hold",
+   "text": "gem-found 6/7",
+   "end": 275.3,
+   "how": "next"
+  },
+  {
+   "t": 274.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The same spelling can sometimes be...",
+   "id": "t_same_spelling_sometimes",
+   "dur": 2919,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 274.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 277.7,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 278.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in moth, and sometimes...",
+   "id": "st_th_moth_sometimes",
+   "dur": 2049,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 280.4,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 280.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in this.",
+   "id": "tg_th_dh_in",
+   "dur": 722,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 282.1,
+   "kind": "hold",
+   "text": "gem-found 7/7",
+   "end": 288.6,
+   "how": "next"
+  },
+  {
+   "t": 284.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 288,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+   "id": "world_5",
+   "dur": 4216,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 288,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 288.6,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 288.6,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 288.6,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 288.6,
+   "kind": "turn",
+   "text": "w5-2",
+   "game": null
+  },
+  {
+   "t": 292.1,
+   "kind": "tap",
+   "text": "level w5-2"
+  },
+  {
+   "t": 292.2,
+   "kind": "piece",
+   "text": "stone 2: w5-2"
+  },
+  {
+   "t": 292.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Baron Muddle hid the sounds. Let's win them back from his monsters.",
+   "id": "audit_baron_first",
+   "dur": 4119,
+   "route": "level:w5-2",
+   "mapOn": true
+  },
+  {
+   "t": 292.8,
+   "kind": "scene",
+   "text": "battle"
+  },
+  {
+   "t": 292.8,
+   "kind": "piece",
+   "text": "level w5-2"
+  },
+  {
+   "t": 292.8,
+   "kind": "route",
+   "text": "level:w5-2"
+  },
+  {
+   "t": 292.8,
+   "kind": "game",
+   "text": "battle"
+  },
+  {
+   "t": 295.5,
+   "kind": "tap",
+   "text": "ch",
+   "busy": true
+  },
+  {
+   "t": 297.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!",
+   "id": "battle_start",
+   "dur": 5080,
+   "route": "level:w5-2",
+   "mapOn": false
+  },
+  {
+   "t": 298,
+   "kind": "tap",
+   "text": "ch",
+   "busy": true
+  },
+  {
+   "t": 300.5,
+   "kind": "tap",
+   "text": "ch",
+   "busy": true
+  },
+  {
+   "t": 302.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Spell...",
+   "id": "battle_spell",
+   "dur": 811,
+   "route": "level:w5-2",
+   "mapOn": false
+  },
+  {
+   "t": 303,
+   "kind": "tap",
+   "text": "ch",
+   "busy": true
+  },
+  {
+   "t": 303.6,
+   "kind": "word",
+   "text": "chat",
+   "id": "word:chat",
+   "dur": 700,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 304.9,
+   "kind": "turn",
+   "text": "ch",
+   "game": "battle"
+  },
+  {
+   "t": 305.5,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 305.5,
+   "kind": "tap",
+   "text": "ch",
+   "busy": false
+  },
+  {
+   "t": 306.1,
+   "kind": "turn",
+   "text": "a",
+   "game": "battle"
+  },
+  {
+   "t": 308.8,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 312,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 308.8,
+   "kind": "tap",
+   "text": "a",
+   "busy": false
+  },
+  {
+   "t": 309.4,
+   "kind": "turn",
+   "text": "t",
+   "game": "battle"
+  },
+  {
+   "t": 312.2,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 165,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 312.2,
+   "kind": "tap",
+   "text": "t",
+   "busy": false
+  },
+  {
+   "t": 312.6,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 313,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 312,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 313.6,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 314.2,
+   "kind": "word",
+   "text": "chat",
+   "id": "word:chat",
+   "dur": 700,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 315.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow! Super ninja streak!",
+   "id": "streak_6",
+   "dur": 2618,
+   "route": "level:w5-2",
+   "mapOn": false
+  },
+  {
+   "t": 318.6,
+   "kind": "word",
+   "text": "this",
+   "id": "word:this",
+   "dur": 693,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 319.4,
+   "kind": "turn",
+   "text": "th",
+   "game": "battle"
+  },
+  {
+   "t": 321.4,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 321.4,
+   "kind": "tap",
+   "text": "th",
+   "busy": false
+  },
+  {
+   "t": 322.1,
+   "kind": "turn",
+   "text": "i",
+   "game": "battle"
+  },
+  {
+   "t": 324.8,
+   "kind": "tap",
+   "text": "i",
+   "busy": false
+  },
+  {
+   "t": 324.9,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 325.5,
+   "kind": "turn",
+   "text": "s",
+   "game": "battle"
+  },
+  {
+   "t": 328.2,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 783,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 328.2,
+   "kind": "tap",
+   "text": "s",
+   "busy": false
+  },
+  {
+   "t": 329,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 329.7,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 330.2,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 783,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 331.4,
+   "kind": "word",
+   "text": "this",
+   "id": "word:this",
+   "dur": 693,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 333.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!",
+   "id": "yay_2",
+   "dur": 729,
+   "route": "level:w5-2",
+   "mapOn": false
+  },
+  {
+   "t": 334.3,
+   "kind": "word",
+   "text": "log",
+   "id": "word:log",
+   "dur": 561,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 334.9,
+   "kind": "turn",
+   "text": "l",
+   "game": "battle"
+  },
+  {
+   "t": 337.3,
+   "kind": "sound",
+   "text": "/l/",
+   "id": "sound:l",
+   "dur": 798,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 337.3,
+   "kind": "tap",
+   "text": "l",
+   "busy": false
+  },
+  {
+   "t": 337.9,
+   "kind": "turn",
+   "text": "o",
+   "game": "battle"
+  },
+  {
+   "t": 340.7,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 340.7,
+   "kind": "tap",
+   "text": "o",
+   "busy": false
+  },
+  {
+   "t": 341.3,
+   "kind": "turn",
+   "text": "g",
+   "game": "battle"
+  },
+  {
+   "t": 344,
+   "kind": "tap",
+   "text": "g",
+   "busy": false
+  },
+  {
+   "t": 344.1,
+   "kind": "sound",
+   "text": "/g/",
+   "id": "sound:g",
+   "dur": 155,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 344.4,
+   "kind": "sound",
+   "text": "/l/",
+   "id": "sound:l",
+   "dur": 798,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 345.5,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 346.2,
+   "kind": "sound",
+   "text": "/g/",
+   "id": "sound:g",
+   "dur": 155,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 346.8,
+   "kind": "word",
+   "text": "log",
+   "id": "word:log",
+   "dur": 561,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 348.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ten in a row! Look how your ninja is glowing!",
+   "id": "tv_streak_10",
+   "dur": 3476,
+   "route": "level:w5-2",
+   "mapOn": false
+  },
+  {
+   "t": 352,
+   "kind": "word",
+   "text": "moth",
+   "id": "word:moth",
+   "dur": 644,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 352.9,
+   "kind": "turn",
+   "text": "m",
+   "game": "battle"
+  },
+  {
+   "t": 354.9,
+   "kind": "tap",
+   "text": "m",
+   "busy": false
+  },
+  {
+   "t": 355,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 659,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 355.6,
+   "kind": "turn",
+   "text": "o",
+   "game": "battle"
+  },
+  {
+   "t": 358.3,
+   "kind": "tap",
+   "text": "o",
+   "busy": false
+  },
+  {
+   "t": 358.4,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 359,
+   "kind": "turn",
+   "text": "th",
+   "game": "battle"
+  },
+  {
+   "t": 361.7,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 361.7,
+   "kind": "tap",
+   "text": "th",
+   "busy": false
+  },
+  {
+   "t": 362.2,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 659,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 363.1,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 363.9,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 364.8,
+   "kind": "word",
+   "text": "moth",
+   "id": "word:moth",
+   "dur": 644,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 366.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-2",
+   "mapOn": false
+  },
+  {
+   "t": 368.2,
+   "kind": "word",
+   "text": "cash",
+   "id": "word:cash",
+   "dur": 581,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 369.1,
+   "kind": "turn",
+   "text": "c",
+   "game": "battle"
+  },
+  {
+   "t": 370.8,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 370.8,
+   "kind": "tap",
+   "text": "c",
+   "busy": false
+  },
+  {
+   "t": 371.4,
+   "kind": "turn",
+   "text": "a",
+   "game": "battle"
+  },
+  {
+   "t": 374.1,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 312,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 374.1,
+   "kind": "tap",
+   "text": "a",
+   "busy": false
+  },
+  {
+   "t": 374.7,
+   "kind": "turn",
+   "text": "sh",
+   "game": "battle"
+  },
+  {
+   "t": 377.5,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 377.5,
+   "kind": "tap",
+   "text": "sh",
+   "busy": false
+  },
+  {
+   "t": 378.1,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 378.6,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 312,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 379.2,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-2"
+  },
+  {
+   "t": 380.3,
+   "kind": "word",
+   "text": "cash",
+   "id": "word:cash",
+   "dur": 581,
+   "route": "level:w5-2"
+  },
+  {
+   "t": 382.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Hooray! The monster ran away!",
+   "id": "battle_win",
+   "dur": 2523,
+   "route": "level:w5-2",
+   "mapOn": false
+  },
+  {
+   "t": 382.2,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 383.1,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 385.1,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 385.1,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 385.1,
+   "kind": "route",
+   "text": "reward:w5-2"
+  },
+  {
+   "t": 385.1,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 385.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You did it!",
+   "id": "yay_7",
+   "dur": 744,
+   "route": "reward:w5-2",
+   "mapOn": true
+  },
+  {
+   "t": 388.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "More stickers for your Sticker Book!",
+   "id": "fm_rw_more",
+   "dur": 1768,
+   "route": "reward:w5-2",
+   "mapOn": false
+  },
+  {
+   "t": 390.2,
+   "kind": "hold",
+   "text": "reward",
+   "end": 393.4,
+   "how": "next"
+  },
+  {
+   "t": 392.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+   "id": "world_5",
+   "dur": 4216,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 392.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 393.4,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 393.4,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 393.4,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 393.4,
+   "kind": "turn",
+   "text": "w5-3",
+   "game": null
+  },
+  {
+   "t": 396.9,
+   "kind": "tap",
+   "text": "level w5-3"
+  },
+  {
+   "t": 397,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the dojo. A dojo is where ninjas practise! Let's practise some sounds.",
+   "id": "dojo_hello",
+   "dur": 5373,
+   "route": "level:w5-3",
+   "mapOn": true
+  },
+  {
+   "t": 397,
+   "kind": "piece",
+   "text": "stone 3: w5-3"
+  },
+  {
+   "t": 397.6,
+   "kind": "scene",
+   "text": "learn"
+  },
+  {
+   "t": 397.6,
+   "kind": "piece",
+   "text": "level w5-3"
+  },
+  {
+   "t": 397.6,
+   "kind": "route",
+   "text": "level:w5-3"
+  },
+  {
+   "t": 397.6,
+   "kind": "game",
+   "text": "learn"
+  },
+  {
+   "t": 402.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 403.5,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 404.2,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 405.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 405.9,
+   "kind": "turn",
+   "text": "ck",
+   "game": "learn"
+  },
+  {
+   "t": 407.6,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 408.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.",
+   "id": "same_sound_new",
+   "dur": 6578,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 408.7,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 411.1,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 413.1,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 414.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 415.6,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 418.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 418.2,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 420.1,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 420.7,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 421.4,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 421.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, great listening!",
+   "id": "yay_8",
+   "dur": 1607,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 421.5,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 423.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 424.1,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 425.1,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 426.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 427.1,
+   "kind": "turn",
+   "text": "ng",
+   "game": "learn"
+  },
+  {
+   "t": 428.8,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 429.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 430,
+   "kind": "tap",
+   "text": "ng"
+  },
+  {
+   "t": 432.5,
+   "kind": "tap",
+   "text": "ng"
+  },
+  {
+   "t": 432.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 434.8,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "unclassified",
+   "route": "level:w5-3",
+   "cut": true
+  },
+  {
+   "t": 435,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 435,
+   "kind": "tap",
+   "text": "ng"
+  },
+  {
+   "t": 435.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!",
+   "id": "yay_2",
+   "dur": 729,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 435.5,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 436.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 437.1,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 438.3,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 440.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 440.6,
+   "kind": "turn",
+   "text": "wh",
+   "game": "learn"
+  },
+  {
+   "t": 442.2,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 443.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Same sound, different spellings!",
+   "id": "same_sound_diff",
+   "dur": 2438,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 443.3,
+   "kind": "tap",
+   "text": "wh"
+  },
+  {
+   "t": 445.8,
+   "kind": "tap",
+   "text": "wh"
+  },
+  {
+   "t": 445.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 448.3,
+   "kind": "tap",
+   "text": "wh"
+  },
+  {
+   "t": 449.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 450.8,
+   "kind": "tap",
+   "text": "wh"
+  },
+  {
+   "t": 451,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 452.1,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 452.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Lovely!",
+   "id": "tv_yay_lovely",
+   "dur": 1145,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 452.8,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 453.3,
+   "kind": "tap",
+   "text": "wh"
+  },
+  {
+   "t": 453.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 453.9,
+   "kind": "scene",
+   "text": "find"
+  },
+  {
+   "t": 453.9,
+   "kind": "game",
+   "text": "find"
+  },
+  {
+   "t": 453.9,
+   "kind": "turn",
+   "text": "ck",
+   "game": "find"
+  },
+  {
+   "t": 455.4,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 455.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-3",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 456.6,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 456.6,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 456.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 457,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 457.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 457.9,
+   "kind": "turn",
+   "text": "ng",
+   "game": "find"
+  },
+  {
+   "t": 459.4,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 460.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-3",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 460.6,
+   "kind": "tap",
+   "text": "ng"
+  },
+  {
+   "t": 460.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 460.7,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 461.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Brilliant!",
+   "id": "yay_1",
+   "dur": 1126,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 462.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 462.5,
+   "kind": "turn",
+   "text": "wh",
+   "game": "find"
+  },
+  {
+   "t": 464,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 464.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-3",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 465.2,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 465.2,
+   "kind": "tap",
+   "text": "wh"
+  },
+  {
+   "t": 465.2,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 466.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Lovely!",
+   "id": "tv_yay_lovely",
+   "dur": 1145,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 467.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now let's make words! First, listen to the word. Then tap its sounds, one at a time.",
+   "id": "dojo_build",
+   "dur": 6158,
+   "route": "level:w5-3",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 467.7,
+   "kind": "scene",
+   "text": "build"
+  },
+  {
+   "t": 467.7,
+   "kind": "game",
+   "text": "build"
+  },
+  {
+   "t": 467.7,
+   "kind": "turn",
+   "text": "k",
+   "game": "build"
+  },
+  {
+   "t": 470.6,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 470.6,
+   "kind": "tap",
+   "text": "k"
+  },
+  {
+   "t": 471.2,
+   "kind": "turn",
+   "text": "i",
+   "game": "build"
+  },
+  {
+   "t": 473.9,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 473.9,
+   "kind": "tap",
+   "text": "i"
+  },
+  {
+   "t": 474.6,
+   "kind": "turn",
+   "text": "ck",
+   "game": "build"
+  },
+  {
+   "t": 477.3,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 477.3,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 478.2,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 478.6,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 479.2,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 479.8,
+   "kind": "word",
+   "text": "kick",
+   "id": "word:kick",
+   "dur": 779,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 480.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Brilliant!",
+   "id": "yay_1",
+   "dur": 1126,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 480.5,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 481.7,
+   "kind": "word",
+   "text": "jug",
+   "id": "word:jug",
+   "dur": 604,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 481.8,
+   "kind": "turn",
+   "text": "j",
+   "game": "build"
+  },
+  {
+   "t": 484.5,
+   "kind": "sound",
+   "text": "/j/",
+   "id": "sound:j",
+   "dur": 165,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 484.5,
+   "kind": "tap",
+   "text": "j"
+  },
+  {
+   "t": 485.1,
+   "kind": "turn",
+   "text": "u",
+   "game": "build"
+  },
+  {
+   "t": 487.8,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 487.8,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 488.5,
+   "kind": "turn",
+   "text": "g",
+   "game": "build"
+  },
+  {
+   "t": 491.2,
+   "kind": "sound",
+   "text": "/g/",
+   "id": "sound:g",
+   "dur": 155,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 491.2,
+   "kind": "tap",
+   "text": "g"
+  },
+  {
+   "t": 492.1,
+   "kind": "sound",
+   "text": "/j/",
+   "id": "sound:j",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 492.5,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 493.2,
+   "kind": "sound",
+   "text": "/g/",
+   "id": "sound:g",
+   "dur": 155,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 493.8,
+   "kind": "word",
+   "text": "jug",
+   "id": "word:jug",
+   "dur": 604,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 494.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Lovely!",
+   "id": "tv_yay_lovely",
+   "dur": 1145,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 494.4,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 495.6,
+   "kind": "word",
+   "text": "whip",
+   "id": "word:whip",
+   "dur": 689,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 495.7,
+   "kind": "turn",
+   "text": "wh",
+   "game": "build"
+  },
+  {
+   "t": 498.4,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 498.4,
+   "kind": "tap",
+   "text": "wh"
+  },
+  {
+   "t": 499,
+   "kind": "turn",
+   "text": "i",
+   "game": "build"
+  },
+  {
+   "t": 501.7,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 501.7,
+   "kind": "tap",
+   "text": "i"
+  },
+  {
+   "t": 502.4,
+   "kind": "turn",
+   "text": "p",
+   "game": "build"
+  },
+  {
+   "t": 505.1,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 505.1,
+   "kind": "tap",
+   "text": "p"
+  },
+  {
+   "t": 505.9,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 506.9,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 507.4,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 508,
+   "kind": "word",
+   "text": "whip",
+   "id": "word:whip",
+   "dur": 689,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 508.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 508.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 509.5,
+   "kind": "word",
+   "text": "thud",
+   "id": "word:thud",
+   "dur": 630,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 509.6,
+   "kind": "turn",
+   "text": "th",
+   "game": "build"
+  },
+  {
+   "t": 512.4,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 512.4,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 513,
+   "kind": "turn",
+   "text": "u",
+   "game": "build"
+  },
+  {
+   "t": 515.7,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 515.7,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 516.3,
+   "kind": "turn",
+   "text": "d",
+   "game": "build"
+  },
+  {
+   "t": 519.1,
+   "kind": "tap",
+   "text": "d"
+  },
+  {
+   "t": 519.2,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 520,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 520.8,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 521.5,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 522.3,
+   "kind": "word",
+   "text": "thud",
+   "id": "word:thud",
+   "dur": 630,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 523,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Lovely!",
+   "id": "tv_yay_lovely",
+   "dur": 1145,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 523,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 524.1,
+   "kind": "word",
+   "text": "duck",
+   "id": "word:duck",
+   "dur": 454,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 526.1,
+   "kind": "turn",
+   "text": "d",
+   "game": "build"
+  },
+  {
+   "t": 526.2,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 526.2,
+   "kind": "tap",
+   "text": "d"
+  },
+  {
+   "t": 526.9,
+   "kind": "turn",
+   "text": "u",
+   "game": "build"
+  },
+  {
+   "t": 529.7,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 529.7,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 530.9,
+   "kind": "turn",
+   "text": "ck",
+   "game": "build"
+  },
+  {
+   "t": 533.7,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 533.7,
+   "kind": "tap",
+   "text": "ck"
+  },
+  {
+   "t": 534.5,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 535.2,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 535.9,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "tile",
+   "route": "level:w5-3"
+  },
+  {
+   "t": 536.5,
+   "kind": "word",
+   "text": "duck",
+   "id": "word:duck",
+   "dur": 454,
+   "route": "level:w5-3"
+  },
+  {
+   "t": 537,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 537,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 538.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done! You practised so hard!",
+   "id": "dojo_done",
+   "dur": 3239,
+   "route": "level:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 539.2,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 541.9,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 541.9,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 541.9,
+   "kind": "route",
+   "text": "reward:w5-3"
+  },
+  {
+   "t": 541.9,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 542.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You did it!",
+   "id": "yay_7",
+   "dur": 744,
+   "route": "reward:w5-3",
+   "mapOn": true
+  },
+  {
+   "t": 543.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You won back some sounds!",
+   "id": "petals_got",
+   "dur": 1543,
+   "route": "reward:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 545.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "More stickers for your Sticker Book!",
+   "id": "fm_rw_more",
+   "dur": 1768,
+   "route": "reward:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 547.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, these gems have filled a little more.",
+   "id": "r2_gems_more",
+   "dur": 2920,
+   "route": "reward:w5-3",
+   "mapOn": false
+  },
+  {
+   "t": 551.5,
+   "kind": "hold",
+   "text": "reward",
+   "end": 556.1,
+   "how": "next"
+  },
+  {
+   "t": 554.2,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 554.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.",
+   "id": "same_sound_new",
+   "dur": 6578,
+   "route": "tree",
+   "mapOn": true
+  },
+  {
+   "t": 556.1,
+   "kind": "scene",
+   "text": "tree"
+  },
+  {
+   "t": 556.1,
+   "kind": "piece",
+   "text": "world flower"
+  },
+  {
+   "t": 556.1,
+   "kind": "route",
+   "text": "tree"
+  },
+  {
+   "t": 561.1,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 561.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 562.6,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 563.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in duck.",
+   "id": "tg_ck_k_way",
+   "dur": 3022,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 566.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 569.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "We see this spelling in sock and rock.",
+   "id": "tg_ck_k_see",
+   "dur": 3140,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 573.2,
+   "kind": "hold",
+   "text": "gem-found 2/7",
+   "end": 576.6,
+   "how": "next"
+  },
+  {
+   "t": 575.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 576,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you know three ways to spell...",
+   "id": "t_ways_3",
+   "dur": 2563,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 578.7,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 579.1,
+   "kind": "hold",
+   "text": "gem-found 3/7",
+   "end": 582.5,
+   "how": "next"
+  },
+  {
+   "t": 581.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 582.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You found a new sound! Look, here is its petal, shining through the mist.",
+   "id": "wf_found_sound",
+   "dur": 5511,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 587.6,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 587.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 589.1,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 590,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in ring.",
+   "id": "tg_ng_ng_way",
+   "dur": 2853,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 593.5,
+   "kind": "hold",
+   "text": "gem-found 5/7",
+   "end": 597.1,
+   "how": "next"
+  },
+  {
+   "t": 596.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.",
+   "id": "same_sound_new",
+   "dur": 6578,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 596.2,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 603.2,
+   "kind": "hold",
+   "text": "gem-found 6/7",
+   "end": 606.7,
+   "how": "next"
+  },
+  {
+   "t": 605.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 605.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 607.3,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 608.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in whisk.",
+   "id": "tg_wh_w_way",
+   "dur": 2764,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 611.8,
+   "kind": "hold",
+   "text": "gem-found 7/7",
+   "end": 618.7,
+   "how": "next"
+  },
+  {
+   "t": 614.4,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 617.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 618,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+   "id": "world_5",
+   "dur": 4216,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 618.7,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 618.7,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 618.7,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 618.7,
+   "kind": "turn",
+   "text": "w5-4",
+   "game": null
+  },
+  {
+   "t": 622.2,
+   "kind": "tap",
+   "text": "level w5-4"
+  },
+  {
+   "t": 622.5,
+   "kind": "piece",
+   "text": "stone 4: w5-4"
+  },
+  {
+   "t": 622.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time.",
+   "id": "swap_start",
+   "dur": 5995,
+   "route": "level:w5-4",
+   "mapOn": true
+  },
+  {
+   "t": 623.1,
+   "kind": "scene",
+   "text": "swap"
+  },
+  {
+   "t": 623.1,
+   "kind": "piece",
+   "text": "level w5-4"
+  },
+  {
+   "t": 623.1,
+   "kind": "route",
+   "text": "level:w5-4"
+  },
+  {
+   "t": 623.1,
+   "kind": "game",
+   "text": "swap"
+  },
+  {
+   "t": 626.2,
+   "kind": "tap",
+   "text": "ck",
+   "busy": true
+  },
+  {
+   "t": 628.9,
+   "kind": "tap",
+   "text": "ck",
+   "busy": true
+  },
+  {
+   "t": 629.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is...",
+   "id": "this_is",
+   "dur": 886,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 630,
+   "kind": "word",
+   "text": "lock",
+   "id": "word:lock",
+   "dur": 617,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 630.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Change it to make...",
+   "id": "swap_make",
+   "dur": 950,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 631.1,
+   "kind": "tap",
+   "text": "ck",
+   "busy": true
+  },
+  {
+   "t": 631.8,
+   "kind": "word",
+   "text": "long",
+   "id": "word:long",
+   "dur": 897,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 633,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Which sound needs to change?",
+   "id": "swap_which",
+   "dur": 2065,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 633.8,
+   "kind": "tap",
+   "text": "ck",
+   "busy": true
+  },
+  {
+   "t": 635.6,
+   "kind": "turn",
+   "text": "ng",
+   "game": "swap"
+  },
+  {
+   "t": 636.4,
+   "kind": "tap",
+   "text": "ck",
+   "busy": false
+  },
+  {
+   "t": 637.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Yes, the last sound changes! Now pick the new sound.",
+   "id": "audit_swap_last",
+   "dur": 3857,
+   "route": "level:w5-4",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 637.6,
+   "kind": "tap",
+   "text": "ng",
+   "busy": false
+  },
+  {
+   "t": 638.5,
+   "kind": "sound",
+   "text": "/l/",
+   "id": "sound:l",
+   "dur": 798,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 639.6,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 640.3,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 640.8,
+   "kind": "tap",
+   "text": "ng",
+   "busy": true
+  },
+  {
+   "t": 641.2,
+   "kind": "word",
+   "text": "long",
+   "id": "word:long",
+   "dur": 897,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 642.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 642.2,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 642.8,
+   "kind": "tap",
+   "text": "ng",
+   "busy": true
+  },
+  {
+   "t": 643,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Change it to make...",
+   "id": "swap_make",
+   "dur": 950,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 644.1,
+   "kind": "word",
+   "text": "song",
+   "id": "word:song",
+   "dur": 659,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 644.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Which sound needs to change?",
+   "id": "swap_which",
+   "dur": 2065,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 647.1,
+   "kind": "turn",
+   "text": "s",
+   "game": "swap"
+  },
+  {
+   "t": 647.3,
+   "kind": "tap",
+   "text": "l",
+   "busy": false
+  },
+  {
+   "t": 648.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Yes, the first sound changes! Now pick the new sound.",
+   "id": "audit_swap_first",
+   "dur": 4237,
+   "route": "level:w5-4",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 648.7,
+   "kind": "tap",
+   "text": "s",
+   "busy": false
+  },
+  {
+   "t": 649.6,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 783,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 650.1,
+   "kind": "tap",
+   "text": "ng",
+   "busy": true
+  },
+  {
+   "t": 650.7,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 651.4,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 652.4,
+   "kind": "word",
+   "text": "song",
+   "id": "word:song",
+   "dur": 659,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 652.7,
+   "kind": "tap",
+   "text": "ng",
+   "busy": true
+  },
+  {
+   "t": 653,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Brilliant!",
+   "id": "yay_1",
+   "dur": 1126,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 653,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 654.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Change it to make...",
+   "id": "swap_make",
+   "dur": 950,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 655.2,
+   "kind": "word",
+   "text": "sock",
+   "id": "word:sock",
+   "dur": 559,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 656,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Which sound needs to change?",
+   "id": "swap_which",
+   "dur": 2065,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 658.5,
+   "kind": "tap",
+   "text": "ng",
+   "busy": false
+  },
+  {
+   "t": 659.6,
+   "kind": "turn",
+   "text": "ck",
+   "game": "swap"
+  },
+  {
+   "t": 659.8,
+   "kind": "tap",
+   "text": "ck",
+   "busy": false
+  },
+  {
+   "t": 660.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now pick the new sound.",
+   "id": "swap_pick",
+   "dur": 1571,
+   "route": "level:w5-4",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 660.6,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 783,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 661.7,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 662.4,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 662.9,
+   "kind": "tap",
+   "text": "ck",
+   "busy": true
+  },
+  {
+   "t": 663.1,
+   "kind": "word",
+   "text": "sock",
+   "id": "word:sock",
+   "dur": 559,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 663.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 663.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 664.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Change it to make...",
+   "id": "swap_make",
+   "dur": 950,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 666,
+   "kind": "word",
+   "text": "shock",
+   "id": "word:shock",
+   "dur": 741,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 666.5,
+   "kind": "tap",
+   "text": "ck",
+   "busy": true
+  },
+  {
+   "t": 666.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Which sound needs to change?",
+   "id": "swap_which",
+   "dur": 2065,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 669.1,
+   "kind": "turn",
+   "text": "sh",
+   "game": "swap"
+  },
+  {
+   "t": 670.4,
+   "kind": "tap",
+   "text": "s",
+   "busy": false
+  },
+  {
+   "t": 671.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now pick the new sound.",
+   "id": "swap_pick",
+   "dur": 1571,
+   "route": "level:w5-4",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 671.8,
+   "kind": "tap",
+   "text": "h",
+   "busy": false
+  },
+  {
+   "t": 671.8,
+   "kind": "sfx",
+   "text": "wrong"
+  },
+  {
+   "t": 671.9,
+   "kind": "split",
+   "text": "h for sh",
+   "next": "sh",
+   "tapped": "h"
+  },
+  {
+   "t": 672.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Keep going, ninja.",
+   "id": "streak_lost",
+   "dur": 1424,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 673.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 674.4,
+   "kind": "word",
+   "text": "sock",
+   "id": "word:sock",
+   "dur": 559,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 675.3,
+   "kind": "word",
+   "text": "shock",
+   "id": "word:shock",
+   "dur": 741,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 678.7,
+   "kind": "tap",
+   "text": "sh",
+   "busy": false
+  },
+  {
+   "t": 679.6,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 680.5,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 681.2,
+   "kind": "tap",
+   "text": "ck",
+   "busy": true
+  },
+  {
+   "t": 681.3,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 681.9,
+   "kind": "word",
+   "text": "shock",
+   "id": "word:shock",
+   "dur": 741,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 682.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, great listening!",
+   "id": "yay_8",
+   "dur": 1607,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 682.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 684.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Change it to make...",
+   "id": "swap_make",
+   "dur": 950,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 684.8,
+   "kind": "tap",
+   "text": "ck",
+   "busy": true
+  },
+  {
+   "t": 685.3,
+   "kind": "word",
+   "text": "shop",
+   "id": "word:shop",
+   "dur": 643,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 686.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Which sound needs to change?",
+   "id": "swap_which",
+   "dur": 2065,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 688.5,
+   "kind": "tap",
+   "text": "ck",
+   "busy": false
+  },
+  {
+   "t": 688.5,
+   "kind": "turn",
+   "text": "p",
+   "game": "swap"
+  },
+  {
+   "t": 689.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now pick the new sound.",
+   "id": "swap_pick",
+   "dur": 1571,
+   "route": "level:w5-4",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 689.3,
+   "kind": "tap",
+   "text": "p",
+   "busy": false
+  },
+  {
+   "t": 690.2,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 691.1,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 691.8,
+   "kind": "tap",
+   "text": "p",
+   "busy": true
+  },
+  {
+   "t": 691.9,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-4"
+  },
+  {
+   "t": 692.4,
+   "kind": "word",
+   "text": "shop",
+   "id": "word:shop",
+   "dur": 643,
+   "route": "level:w5-4"
+  },
+  {
+   "t": 693.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!",
+   "id": "yay_2",
+   "dur": 729,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 693.1,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 694.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You fixed them all!",
+   "id": "swap_done",
+   "dur": 1375,
+   "route": "level:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 694.6,
+   "kind": "tap",
+   "text": "p",
+   "busy": true
+  },
+  {
+   "t": 694.9,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 696.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You did it!",
+   "id": "yay_7",
+   "dur": 744,
+   "route": "reward:w5-4",
+   "mapOn": true
+  },
+  {
+   "t": 698,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 698,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 698,
+   "kind": "route",
+   "text": "reward:w5-4"
+  },
+  {
+   "t": 698,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 699.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "More stickers for your Sticker Book!",
+   "id": "fm_rw_more",
+   "dur": 1768,
+   "route": "reward:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 701.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, this gem has filled a little more.",
+   "id": "audit_gem_more",
+   "dur": 2401,
+   "route": "reward:w5-4",
+   "mapOn": false
+  },
+  {
+   "t": 705.2,
+   "kind": "hold",
+   "text": "reward",
+   "end": 708.6,
+   "how": "next"
+  },
+  {
+   "t": 707.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+   "id": "world_5",
+   "dur": 4216,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 707.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 708.6,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 708.6,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 708.6,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 708.6,
+   "kind": "turn",
+   "text": "w5-5",
+   "game": null
+  },
+  {
+   "t": 712.3,
+   "kind": "tap",
+   "text": "level w5-5"
+  },
+  {
+   "t": 712.5,
+   "kind": "piece",
+   "text": "stone 5: w5-5"
+  },
+  {
+   "t": 713.3,
+   "kind": "scene",
+   "text": "run"
+  },
+  {
+   "t": 713.3,
+   "kind": "piece",
+   "text": "level w5-5"
+  },
+  {
+   "t": 713.3,
+   "kind": "route",
+   "text": "level:w5-5"
+  },
+  {
+   "t": 713.3,
+   "kind": "game",
+   "text": "run"
+  },
+  {
+   "t": 723.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninja Run! Tap to jump, and catch the right word!",
+   "id": "run_start",
+   "dur": 3218,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 727,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen to the sounds. What word do they make?",
+   "id": "run_blend",
+   "dur": 3197,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 730.2,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 731,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 731.5,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 734.1,
+   "kind": "tap",
+   "text": "lantern \"dish\""
+  },
+  {
+   "t": 735.5,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 736.1,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 736.1,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 736.6,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 737.7,
+   "kind": "word",
+   "text": "dish",
+   "id": "word:dish",
+   "dur": 562,
+   "route": "level:w5-5"
+  },
+  {
+   "t": 738.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninja power!",
+   "id": "streak_3",
+   "dur": 1128,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 746.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninjas read this way!",
+   "id": "fm_l2_way",
+   "dur": 1404,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 748.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Read the word, and catch the matching picture.",
+   "id": "run_read",
+   "dur": 2842,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 749.7,
+   "kind": "tap",
+   "text": "lantern \"shell\""
+  },
+  {
+   "t": 751.1,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 751.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 752.1,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 753.1,
+   "kind": "sound",
+   "text": "/l/",
+   "id": "sound:l",
+   "dur": 798,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 754.3,
+   "kind": "word",
+   "text": "shell",
+   "id": "word:shell",
+   "dur": 642,
+   "route": "level:w5-5"
+  },
+  {
+   "t": 754.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, great listening!",
+   "id": "yay_8",
+   "dur": 1607,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 763.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen to the sounds, and catch the word they make!",
+   "id": "audit_sounds_again",
+   "dur": 2898,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 766.3,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 659,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 767.3,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 768.1,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 773.7,
+   "kind": "tap",
+   "text": "lantern \"moth\""
+  },
+  {
+   "t": 775.1,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 659,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 775.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 776.1,
+   "kind": "sound",
+   "text": "/o/",
+   "id": "sound:o",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 776.8,
+   "kind": "sound",
+   "text": "/th/",
+   "id": "sound:th",
+   "dur": 514,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 777.7,
+   "kind": "word",
+   "text": "moth",
+   "id": "word:moth",
+   "dur": 644,
+   "route": "level:w5-5"
+  },
+  {
+   "t": 778.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 786.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen to the sounds. What word do they make?",
+   "id": "run_blend",
+   "dur": 3197,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 789.6,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 790.6,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 791.6,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 796.5,
+   "kind": "tap",
+   "text": "lantern \"end\""
+  },
+  {
+   "t": 798,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 798.6,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 799,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 799.9,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 800.6,
+   "kind": "word",
+   "text": "end",
+   "id": "word:end",
+   "dur": 587,
+   "route": "level:w5-5"
+  },
+  {
+   "t": 801.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow! Super ninja streak!",
+   "id": "streak_6",
+   "dur": 2618,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 810.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen to the sounds, and catch the word they make!",
+   "id": "audit_sounds_again",
+   "dur": 2898,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 813.5,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 814.3,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 814.9,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 783,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 817.7,
+   "kind": "tap",
+   "text": "lantern \"this\""
+  },
+  {
+   "t": 819.1,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 819.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 819.9,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 820.4,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 783,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 821.6,
+   "kind": "word",
+   "text": "this",
+   "id": "word:this",
+   "dur": 693,
+   "route": "level:w5-5"
+  },
+  {
+   "t": 822.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, great listening!",
+   "id": "yay_8",
+   "dur": 1607,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 830.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninjas read this way!",
+   "id": "fm_l2_way",
+   "dur": 1404,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 832.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Read the word, and catch the matching picture.",
+   "id": "run_read",
+   "dur": 2842,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 837.6,
+   "kind": "tap",
+   "text": "lantern \"wing\""
+  },
+  {
+   "t": 839.1,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 839.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 840,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 840.5,
+   "kind": "sound",
+   "text": "/ng/",
+   "id": "sound:ng",
+   "dur": 491,
+   "show": "tile",
+   "route": "level:w5-5"
+  },
+  {
+   "t": 841.5,
+   "kind": "word",
+   "text": "wing",
+   "id": "word:wing",
+   "dur": 842,
+   "route": "level:w5-5"
+  },
+  {
+   "t": 842.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 851.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Bong! You made it to the gong!",
+   "id": "run_end",
+   "dur": 2349,
+   "route": "level:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 855,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 860.1,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 860.1,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 860.1,
+   "kind": "route",
+   "text": "reward:w5-5"
+  },
+  {
+   "t": 860.1,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 860.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You did it!",
+   "id": "yay_7",
+   "dur": 744,
+   "route": "reward:w5-5",
+   "mapOn": true
+  },
+  {
+   "t": 863.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "More stickers for your Sticker Book!",
+   "id": "fm_rw_more",
+   "dur": 1768,
+   "route": "reward:w5-5",
+   "mapOn": false
+  },
+  {
+   "t": 865.3,
+   "kind": "hold",
+   "text": "reward",
+   "end": 868.5,
+   "how": "next"
+  },
+  {
+   "t": 867.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+   "id": "world_5",
+   "dur": 4216,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 867.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 868.5,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 868.5,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 868.5,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 868.5,
+   "kind": "turn",
+   "text": "w5-6",
+   "game": null
+  },
+  {
+   "t": 872.1,
+   "kind": "tap",
+   "text": "level w5-6"
+  },
+  {
+   "t": 872.1,
+   "kind": "piece",
+   "text": "stone 6: w5-6"
+  },
+  {
+   "t": 872.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Back to the dojo! Let's learn some new sounds.",
+   "id": "audit_dojo_back",
+   "dur": 3165,
+   "route": "level:w5-6",
+   "mapOn": true
+  },
+  {
+   "t": 872.7,
+   "kind": "scene",
+   "text": "learn"
+  },
+  {
+   "t": 872.7,
+   "kind": "piece",
+   "text": "level w5-6"
+  },
+  {
+   "t": 872.7,
+   "kind": "route",
+   "text": "level:w5-6"
+  },
+  {
+   "t": 872.7,
+   "kind": "game",
+   "text": "learn"
+  },
+  {
+   "t": 875.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 876.5,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 877.2,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 878.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 879.1,
+   "kind": "turn",
+   "text": "q",
+   "game": "learn"
+  },
+  {
+   "t": 880.6,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 881.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.",
+   "id": "same_sound_new",
+   "dur": 6578,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 881.9,
+   "kind": "tap",
+   "text": "q"
+  },
+  {
+   "t": 883.9,
+   "kind": "tap",
+   "text": "q"
+  },
+  {
+   "t": 886.4,
+   "kind": "tap",
+   "text": "q"
+  },
+  {
+   "t": 887.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 888.9,
+   "kind": "tap",
+   "text": "q"
+  },
+  {
+   "t": 889.9,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 891.1,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 891.1,
+   "kind": "tap",
+   "text": "q"
+  },
+  {
+   "t": 891.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!",
+   "id": "yay_2",
+   "dur": 729,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 891.3,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 892,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 892.9,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 894.2,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 896.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 896.4,
+   "kind": "turn",
+   "text": "u",
+   "game": "learn"
+  },
+  {
+   "t": 898,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 899,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Same sound, different spellings!",
+   "id": "same_sound_diff",
+   "dur": 2438,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 899.2,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 901.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 901.8,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 903.7,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 904.4,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 904.4,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 905.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "That's it!",
+   "id": "tv_yay_thats_it",
+   "dur": 835,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 905.1,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 906,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 906.9,
+   "kind": "sound",
+   "text": "/v/",
+   "id": "sound:v",
+   "dur": 714,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 908.1,
+   "kind": "sound",
+   "text": "/v/",
+   "id": "sound:v",
+   "dur": 714,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 910.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 910.3,
+   "kind": "turn",
+   "text": "ve",
+   "game": "learn"
+  },
+  {
+   "t": 912,
+   "kind": "sound",
+   "text": "/v/",
+   "id": "sound:v",
+   "dur": 714,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 913,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Same sound, different spellings!",
+   "id": "same_sound_diff",
+   "dur": 2438,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 913.1,
+   "kind": "tap",
+   "text": "ve"
+  },
+  {
+   "t": 915.1,
+   "kind": "tap",
+   "text": "ve"
+  },
+  {
+   "t": 915.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 917.6,
+   "kind": "tap",
+   "text": "ve"
+  },
+  {
+   "t": 918.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 920.1,
+   "kind": "tap",
+   "text": "ve"
+  },
+  {
+   "t": 920.9,
+   "kind": "sound",
+   "text": "/v/",
+   "id": "sound:v",
+   "dur": 714,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 922,
+   "kind": "sound",
+   "text": "/v/",
+   "id": "sound:v",
+   "dur": 714,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 922.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 922.7,
+   "kind": "tap",
+   "text": "ve"
+  },
+  {
+   "t": 922.7,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 924.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen...",
+   "id": "listen",
+   "dur": 756,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 925,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 925.7,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 927.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And this is how we spell it.",
+   "id": "audit_spell_it",
+   "dur": 1739,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 927.9,
+   "kind": "turn",
+   "text": "tch",
+   "game": "learn"
+  },
+  {
+   "t": 929.1,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 929.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Same sound, different spellings!",
+   "id": "same_sound_diff",
+   "dur": 2438,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 930.7,
+   "kind": "tap",
+   "text": "tch"
+  },
+  {
+   "t": 932.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's three letters, but it's just one sound.",
+   "id": "t_three_letters",
+   "dur": 2378,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 933.2,
+   "kind": "tap",
+   "text": "tch"
+  },
+  {
+   "t": 935,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap it, and say it with me!",
+   "id": "dojo_tap_say",
+   "dur": 1993,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 935.7,
+   "kind": "tap",
+   "text": "tch"
+  },
+  {
+   "t": 937,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 938.2,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 938.2,
+   "kind": "tap",
+   "text": "tch"
+  },
+  {
+   "t": 938.4,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 938.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, great listening!",
+   "id": "yay_8",
+   "dur": 1607,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 940.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 940.2,
+   "kind": "scene",
+   "text": "find"
+  },
+  {
+   "t": 940.2,
+   "kind": "game",
+   "text": "find"
+  },
+  {
+   "t": 940.2,
+   "kind": "turn",
+   "text": "q",
+   "game": "find"
+  },
+  {
+   "t": 941.6,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 942,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-6",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 942.9,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 942.9,
+   "kind": "tap",
+   "text": "q"
+  },
+  {
+   "t": 942.9,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 943.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ten in a row! Look how your ninja is glowing!",
+   "id": "tv_streak_10",
+   "dur": 3476,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 945,
+   "kind": "tap",
+   "text": "q"
+  },
+  {
+   "t": 947.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 947.5,
+   "kind": "turn",
+   "text": "u",
+   "game": "find"
+  },
+  {
+   "t": 948.9,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 949.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-6",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 950.3,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 950.3,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 950.3,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 951.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Brilliant!",
+   "id": "yay_1",
+   "dur": 1126,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 952.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 952.8,
+   "kind": "turn",
+   "text": "ve",
+   "game": "find"
+  },
+  {
+   "t": 953.8,
+   "kind": "sound",
+   "text": "/v/",
+   "id": "sound:v",
+   "dur": 714,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 954.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-6",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 955.6,
+   "kind": "sound",
+   "text": "/v/",
+   "id": "sound:v",
+   "dur": 714,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 955.6,
+   "kind": "tap",
+   "text": "ve"
+  },
+  {
+   "t": 955.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 956.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!",
+   "id": "yay_2",
+   "dur": 729,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 957.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Can you find...",
+   "id": "dojo_find",
+   "dur": 1053,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 957.6,
+   "kind": "turn",
+   "text": "tch",
+   "game": "find"
+  },
+  {
+   "t": 958.8,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 959.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the speaker to hear the sound again.",
+   "id": "tut_speaker",
+   "dur": 2195,
+   "route": "level:w5-6",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 960.4,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 960.4,
+   "kind": "tap",
+   "text": "tch"
+  },
+  {
+   "t": 960.4,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 960.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 962.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now let's make words! First, listen to the word. Then tap its sounds, one at a time.",
+   "id": "dojo_build",
+   "dur": 6158,
+   "route": "level:w5-6",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 962.4,
+   "kind": "scene",
+   "text": "build"
+  },
+  {
+   "t": 962.4,
+   "kind": "game",
+   "text": "build"
+  },
+  {
+   "t": 962.4,
+   "kind": "turn",
+   "text": "sh",
+   "game": "build"
+  },
+  {
+   "t": 965.2,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 965.2,
+   "kind": "tap",
+   "text": "sh"
+  },
+  {
+   "t": 965.8,
+   "kind": "turn",
+   "text": "e",
+   "game": "build"
+  },
+  {
+   "t": 968.6,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 968.6,
+   "kind": "tap",
+   "text": "e"
+  },
+  {
+   "t": 969.3,
+   "kind": "turn",
+   "text": "d",
+   "game": "build"
+  },
+  {
+   "t": 972,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 972,
+   "kind": "tap",
+   "text": "d"
+  },
+  {
+   "t": 972.9,
+   "kind": "sound",
+   "text": "/sh/",
+   "id": "sound:sh",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 973.8,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 974.8,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 975.6,
+   "kind": "word",
+   "text": "shed",
+   "id": "word:shed",
+   "dur": 562,
+   "route": "level:w5-6"
+  },
+  {
+   "t": 976.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, great listening!",
+   "id": "yay_8",
+   "dur": 1607,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 976.2,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 977.9,
+   "kind": "word",
+   "text": "then",
+   "id": "word:then",
+   "dur": 341,
+   "route": "level:w5-6"
+  },
+  {
+   "t": 978.1,
+   "kind": "turn",
+   "text": "th",
+   "game": "build"
+  },
+  {
+   "t": 981.1,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 981.1,
+   "kind": "tap",
+   "text": "th"
+  },
+  {
+   "t": 981.7,
+   "kind": "turn",
+   "text": "e",
+   "game": "build"
+  },
+  {
+   "t": 984.5,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 984.5,
+   "kind": "tap",
+   "text": "e"
+  },
+  {
+   "t": 985.1,
+   "kind": "turn",
+   "text": "n",
+   "game": "build"
+  },
+  {
+   "t": 987.9,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 987.9,
+   "kind": "tap",
+   "text": "n"
+  },
+  {
+   "t": 988.7,
+   "kind": "sound",
+   "text": "/dh/",
+   "id": "sound:dh",
+   "dur": 466,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 989.4,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 990.4,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 991.4,
+   "kind": "word",
+   "text": "then",
+   "id": "word:then",
+   "dur": 341,
+   "route": "level:w5-6"
+  },
+  {
+   "t": 991.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done.",
+   "id": "yay_4",
+   "dur": 1282,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 991.8,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 993.1,
+   "kind": "word",
+   "text": "match",
+   "id": "word:match",
+   "dur": 715,
+   "route": "level:w5-6"
+  },
+  {
+   "t": 993.2,
+   "kind": "turn",
+   "text": "m",
+   "game": "build"
+  },
+  {
+   "t": 996,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 659,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 996,
+   "kind": "tap",
+   "text": "m"
+  },
+  {
+   "t": 996.6,
+   "kind": "turn",
+   "text": "a",
+   "game": "build"
+  },
+  {
+   "t": 999.3,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 312,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 999.3,
+   "kind": "tap",
+   "text": "a"
+  },
+  {
+   "t": 1000,
+   "kind": "turn",
+   "text": "tch",
+   "game": "build"
+  },
+  {
+   "t": 1002.7,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1002.7,
+   "kind": "tap",
+   "text": "tch"
+  },
+  {
+   "t": 1003.3,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 659,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1004.2,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 312,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1004.7,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1005.4,
+   "kind": "word",
+   "text": "match",
+   "id": "word:match",
+   "dur": 715,
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1006.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!",
+   "id": "yay_2",
+   "dur": 729,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 1006.1,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 1006.8,
+   "kind": "word",
+   "text": "chip",
+   "id": "word:chip",
+   "dur": 577,
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1007.4,
+   "kind": "turn",
+   "text": "ch",
+   "game": "build"
+  },
+  {
+   "t": 1010.2,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1010.2,
+   "kind": "tap",
+   "text": "ch"
+  },
+  {
+   "t": 1010.8,
+   "kind": "turn",
+   "text": "i",
+   "game": "build"
+  },
+  {
+   "t": 1013.6,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1013.6,
+   "kind": "tap",
+   "text": "i"
+  },
+  {
+   "t": 1014.2,
+   "kind": "turn",
+   "text": "p",
+   "game": "build"
+  },
+  {
+   "t": 1017,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1017,
+   "kind": "tap",
+   "text": "p"
+  },
+  {
+   "t": 1017.8,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1018.3,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 250,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1018.8,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1019.4,
+   "kind": "word",
+   "text": "chip",
+   "id": "word:chip",
+   "dur": 577,
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1020,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, great listening!",
+   "id": "yay_8",
+   "dur": 1607,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 1020,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 1021.6,
+   "kind": "word",
+   "text": "puff",
+   "id": "word:puff",
+   "dur": 578,
+   "route": "level:w5-6",
+   "cut": true
+  },
+  {
+   "t": 1021.7,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1021.7,
+   "kind": "tap",
+   "text": "p"
+  },
+  {
+   "t": 1021.7,
+   "kind": "turn",
+   "text": "p",
+   "game": "build"
+  },
+  {
+   "t": 1022.4,
+   "kind": "turn",
+   "text": "u",
+   "game": "build"
+  },
+  {
+   "t": 1025.2,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1025.2,
+   "kind": "tap",
+   "text": "u"
+  },
+  {
+   "t": 1025.9,
+   "kind": "turn",
+   "text": "ff",
+   "game": "build"
+  },
+  {
+   "t": 1028.7,
+   "kind": "tap",
+   "text": "ff"
+  },
+  {
+   "t": 1028.8,
+   "kind": "sound",
+   "text": "/f/",
+   "id": "sound:f",
+   "dur": 672,
+   "show": "unclassified",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1029.6,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1030,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1030.7,
+   "kind": "sound",
+   "text": "/f/",
+   "id": "sound:f",
+   "dur": 672,
+   "show": "tile",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1031.8,
+   "kind": "word",
+   "text": "puff",
+   "id": "word:puff",
+   "dur": 578,
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1032.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "It's two letters, but it's one sound.",
+   "id": "t_two_letters",
+   "dur": 2861,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 1036,
+   "kind": "sound",
+   "text": "/f/",
+   "id": "sound:f",
+   "dur": 672,
+   "show": "petal",
+   "route": "level:w5-6"
+  },
+  {
+   "t": 1036.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Super!",
+   "id": "yay_2",
+   "dur": 729,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 1036.6,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 1037.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Well done! You practised so hard!",
+   "id": "dojo_done",
+   "dur": 3239,
+   "route": "level:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 1038.3,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 1041.2,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 1041.2,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 1041.2,
+   "kind": "route",
+   "text": "reward:w5-6"
+  },
+  {
+   "t": 1041.2,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 1041.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You did it!",
+   "id": "yay_7",
+   "dur": 744,
+   "route": "reward:w5-6",
+   "mapOn": true
+  },
+  {
+   "t": 1042.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "You won back some sounds!",
+   "id": "petals_got",
+   "dur": 1543,
+   "route": "reward:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 1044.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "More stickers for your Sticker Book!",
+   "id": "fm_rw_more",
+   "dur": 1768,
+   "route": "reward:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 1046.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, these gems have filled a little more.",
+   "id": "r2_gems_more",
+   "dur": 2920,
+   "route": "reward:w5-6",
+   "mapOn": false
+  },
+  {
+   "t": 1050.2,
+   "kind": "hold",
+   "text": "reward",
+   "end": 1054.2,
+   "how": "next"
+  },
+  {
+   "t": 1052.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 1052.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.",
+   "id": "same_sound_new",
+   "dur": 6578,
+   "route": "tree",
+   "mapOn": true
+  },
+  {
+   "t": 1054.2,
+   "kind": "scene",
+   "text": "tree"
+  },
+  {
+   "t": 1054.2,
+   "kind": "piece",
+   "text": "world flower"
+  },
+  {
+   "t": 1054.2,
+   "kind": "route",
+   "text": "tree"
+  },
+  {
+   "t": 1060,
+   "kind": "hold",
+   "text": "gem-found 1/10",
+   "end": 1063.6,
+   "how": "next"
+  },
+  {
+   "t": 1062.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1062.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1064.2,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 1064.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in queen.",
+   "id": "tg_q_k_way",
+   "dur": 2764,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1067.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "We see this spelling in quiz and quit.",
+   "id": "tg_q_k_see",
+   "dur": 3411,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1071.9,
+   "kind": "hold",
+   "text": "gem-found 2/10",
+   "end": 1075.3,
+   "how": "next"
+  },
+  {
+   "t": 1074.5,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1074.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now you know four ways to spell...",
+   "id": "t_ways_4",
+   "dur": 2173,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1076.9,
+   "kind": "sound",
+   "text": "/k/",
+   "id": "sound:k",
+   "dur": 186,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 1077.4,
+   "kind": "hold",
+   "text": "gem-found 3/10",
+   "end": 1080.9,
+   "how": "next"
+  },
+  {
+   "t": 1080.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.",
+   "id": "same_sound_new",
+   "dur": 6578,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1080.2,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1087.3,
+   "kind": "hold",
+   "text": "gem-found 4/10",
+   "end": 1090.8,
+   "how": "next"
+  },
+  {
+   "t": 1090,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1090.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell...",
+   "id": "t_way_we_spell",
+   "dur": 1721,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1092,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 1092.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in...",
+   "id": "t_in",
+   "dur": 485,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1093.3,
+   "kind": "word",
+   "text": "squid",
+   "id": "word:squid",
+   "dur": 843,
+   "route": "tree"
+  },
+  {
+   "t": 1094.7,
+   "kind": "hold",
+   "text": "gem-found 5/10",
+   "end": 1097.9,
+   "how": "next"
+  },
+  {
+   "t": 1097.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The same spelling can sometimes be...",
+   "id": "t_same_spelling_sometimes",
+   "dur": 2919,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1097.3,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1100.3,
+   "kind": "sound",
+   "text": "/u/",
+   "id": "sound:u",
+   "dur": 480,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 1100.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in...",
+   "id": "t_in",
+   "dur": 485,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1101.4,
+   "kind": "word",
+   "text": "jug",
+   "id": "word:jug",
+   "dur": 604,
+   "route": "tree"
+  },
+  {
+   "t": 1102.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...and sometimes...",
+   "id": "t_and_sometimes",
+   "dur": 965,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1103.4,
+   "kind": "sound",
+   "text": "/w/",
+   "id": "sound:w",
+   "dur": 700,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 1104.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "...in...",
+   "id": "t_in",
+   "dur": 485,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1104.8,
+   "kind": "word",
+   "text": "queen",
+   "id": "word:queen",
+   "dur": 709,
+   "route": "tree"
+  },
+  {
+   "t": 1105.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.",
+   "id": "same_sound_new",
+   "dur": 6578,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1105.6,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1112.8,
+   "kind": "hold",
+   "text": "gem-found 7/10",
+   "end": 1116.1,
+   "how": "next"
+  },
+  {
+   "t": 1115.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1115.4,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1116.9,
+   "kind": "sound",
+   "text": "/v/",
+   "id": "sound:v",
+   "dur": 714,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 1118,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in have.",
+   "id": "tg_ve_v_way",
+   "dur": 2766,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1121.1,
+   "kind": "hold",
+   "text": "gem-found 8/10",
+   "end": 1124.5,
+   "how": "next"
+  },
+  {
+   "t": 1123.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ooh! You already know this sound. Here's another way to spell it! Same sound, different spelling.",
+   "id": "same_sound_new",
+   "dur": 6578,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1123.8,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1131,
+   "kind": "hold",
+   "text": "gem-found 9/10",
+   "end": 1134.3,
+   "how": "next"
+  },
+  {
+   "t": 1133.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Here's the sound...",
+   "id": "tv_here_sound",
+   "dur": 1328,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1133.6,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1135.1,
+   "kind": "sound",
+   "text": "/ch/",
+   "id": "sound:ch",
+   "dur": 195,
+   "show": "petal",
+   "route": "tree"
+  },
+  {
+   "t": 1135.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is the way we spell it in match.",
+   "id": "tg_tch_ch_way",
+   "dur": 2762,
+   "route": "tree",
+   "mapOn": false
+  },
+  {
+   "t": 1138.5,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 1139.2,
+   "kind": "hold",
+   "text": "tree",
+   "end": 1142.7,
+   "how": "next"
+  },
+  {
+   "t": 1141.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+   "id": "world_5",
+   "dur": 4216,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 1141.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 1142.7,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 1142.7,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 1142.7,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 1142.7,
+   "kind": "turn",
+   "text": "w5-7",
+   "game": null
+  },
+  {
+   "t": 1146.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the glowing stone to start your next adventure.",
+   "id": "map_hint",
+   "dur": 3252,
+   "route": "map",
+   "mapOn": true
+  }
+ ],
+ "dom": [
+  {
+   "t": 0,
+   "nodes": 60,
+   "fx": 0
+  },
+  {
+   "t": 10.5,
+   "nodes": 91,
+   "fx": 0
+  },
+  {
+   "t": 20.7,
+   "nodes": 95,
+   "fx": 0
+  },
+  {
+   "t": 31,
+   "nodes": 102,
+   "fx": 0
+  },
+  {
+   "t": 41.5,
+   "nodes": 98,
+   "fx": 0
+  },
+  {
+   "t": 51.6,
+   "nodes": 93,
+   "fx": 0
+  },
+  {
+   "t": 62.2,
+   "nodes": 114,
+   "fx": 0
+  },
+  {
+   "t": 72.3,
+   "nodes": 101,
+   "fx": 0
+  },
+  {
+   "t": 82.5,
+   "nodes": 121,
+   "fx": 0
+  },
+  {
+   "t": 92.9,
+   "nodes": 136,
+   "fx": 0
+  },
+  {
+   "t": 103,
+   "nodes": 174,
+   "fx": 0
+  },
+  {
+   "t": 113.6,
+   "nodes": 206,
+   "fx": 0
+  },
+  {
+   "t": 123.9,
+   "nodes": 178,
+   "fx": 0
+  },
+  {
+   "t": 134.2,
+   "nodes": 187,
+   "fx": 0
+  },
+  {
+   "t": 144.4,
+   "nodes": 175,
+   "fx": 0
+  },
+  {
+   "t": 154.7,
+   "nodes": 208,
+   "fx": 0
+  },
+  {
+   "t": 164.9,
+   "nodes": 181,
+   "fx": 0
+  },
+  {
+   "t": 179.1,
+   "nodes": 85,
+   "fx": 0
+  },
+  {
+   "t": 189.3,
+   "nodes": 99,
+   "fx": 0
+  },
+  {
+   "t": 199.4,
+   "nodes": 130,
+   "fx": 0
+  },
+  {
+   "t": 210,
+   "nodes": 260,
+   "fx": 0
+  },
+  {
+   "t": 220.1,
+   "nodes": 1710,
+   "fx": 0
+  },
+  {
+   "t": 230.1,
+   "nodes": 1742,
+   "fx": 0
+  },
+  {
+   "t": 240.1,
+   "nodes": 1710,
+   "fx": 0
+  },
+  {
+   "t": 250.1,
+   "nodes": 1690,
+   "fx": 0
+  },
+  {
+   "t": 260.2,
+   "nodes": 1695,
+   "fx": 0
+  },
+  {
+   "t": 270.2,
+   "nodes": 1689,
+   "fx": 0
+  },
+  {
+   "t": 280.2,
+   "nodes": 1695,
+   "fx": 0
+  },
+  {
+   "t": 292.8,
+   "nodes": 135,
+   "fx": 0
+  },
+  {
+   "t": 303,
+   "nodes": 135,
+   "fx": 0
+  },
+  {
+   "t": 313.5,
+   "nodes": 150,
+   "fx": 0
+  },
+  {
+   "t": 323.8,
+   "nodes": 154,
+   "fx": 0
+  },
+  {
+   "t": 333.9,
+   "nodes": 195,
+   "fx": 0
+  },
+  {
+   "t": 344,
+   "nodes": 174,
+   "fx": 0
+  },
+  {
+   "t": 354.3,
+   "nodes": 194,
+   "fx": 0
+  },
+  {
+   "t": 364.8,
+   "nodes": 215,
+   "fx": 0
+  },
+  {
+   "t": 375.1,
+   "nodes": 267,
+   "fx": 0
+  },
+  {
+   "t": 385.1,
+   "nodes": 354,
+   "fx": 0
+  },
+  {
+   "t": 397.6,
+   "nodes": 187,
+   "fx": 0
+  },
+  {
+   "t": 408,
+   "nodes": 191,
+   "fx": 0
+  },
+  {
+   "t": 418.1,
+   "nodes": 194,
+   "fx": 0
+  },
+  {
+   "t": 428.5,
+   "nodes": 191,
+   "fx": 0
+  },
+  {
+   "t": 438.7,
+   "nodes": 187,
+   "fx": 0
+  },
+  {
+   "t": 448.9,
+   "nodes": 194,
+   "fx": 0
+  },
+  {
+   "t": 459.2,
+   "nodes": 190,
+   "fx": 0
+  },
+  {
+   "t": 469.5,
+   "nodes": 186,
+   "fx": 0
+  },
+  {
+   "t": 479.8,
+   "nodes": 187,
+   "fx": 0
+  },
+  {
+   "t": 490.2,
+   "nodes": 182,
+   "fx": 0
+  },
+  {
+   "t": 500.4,
+   "nodes": 178,
+   "fx": 0
+  },
+  {
+   "t": 510.6,
+   "nodes": 175,
+   "fx": 0
+  },
+  {
+   "t": 521.2,
+   "nodes": 187,
+   "fx": 0
+  },
+  {
+   "t": 531.8,
+   "nodes": 182,
+   "fx": 0
+  },
+  {
+   "t": 542.5,
+   "nodes": 354,
+   "fx": 0
+  },
+  {
+   "t": 556.3,
+   "nodes": 1807,
+   "fx": 0
+  },
+  {
+   "t": 566.3,
+   "nodes": 1839,
+   "fx": 0
+  },
+  {
+   "t": 576.6,
+   "nodes": 1839,
+   "fx": 0
+  },
+  {
+   "t": 586.9,
+   "nodes": 1752,
+   "fx": 0
+  },
+  {
+   "t": 597.1,
+   "nodes": 1786,
+   "fx": 0
+  },
+  {
+   "t": 607.3,
+   "nodes": 1784,
+   "fx": 0
+  },
+  {
+   "t": 618.7,
+   "nodes": 188,
+   "fx": 0
+  },
+  {
+   "t": 629.9,
+   "nodes": 183,
+   "fx": 0
+  },
+  {
+   "t": 640,
+   "nodes": 230,
+   "fx": 0
+  },
+  {
+   "t": 651.3,
+   "nodes": 230,
+   "fx": 0
+  },
+  {
+   "t": 661.9,
+   "nodes": 231,
+   "fx": 0
+  },
+  {
+   "t": 678.6,
+   "nodes": 102,
+   "fx": 0
+  },
+  {
+   "t": 689.3,
+   "nodes": 118,
+   "fx": 0
+  },
+  {
+   "t": 700.9,
+   "nodes": 243,
+   "fx": 0
+  },
+  {
+   "t": 713.3,
+   "nodes": 55,
+   "fx": 0
+  },
+  {
+   "t": 723.8,
+   "nodes": 70,
+   "fx": 0
+  },
+  {
+   "t": 734,
+   "nodes": 59,
+   "fx": 0
+  },
+  {
+   "t": 744.5,
+   "nodes": 55,
+   "fx": 0
+  },
+  {
+   "t": 755.1,
+   "nodes": 66,
+   "fx": 0
+  },
+  {
+   "t": 765.2,
+   "nodes": 70,
+   "fx": 0
+  },
+  {
+   "t": 775.6,
+   "nodes": 55,
+   "fx": 0
+  },
+  {
+   "t": 786.1,
+   "nodes": 55,
+   "fx": 0
+  },
+  {
+   "t": 796.5,
+   "nodes": 59,
+   "fx": 0
+  },
+  {
+   "t": 806.8,
+   "nodes": 55,
+   "fx": 0
+  },
+  {
+   "t": 817,
+   "nodes": 59,
+   "fx": 0
+  },
+  {
+   "t": 827.3,
+   "nodes": 55,
+   "fx": 0
+  },
+  {
+   "t": 837.6,
+   "nodes": 60,
+   "fx": 0
+  },
+  {
+   "t": 847.9,
+   "nodes": 55,
+   "fx": 0
+  },
+  {
+   "t": 858.2,
+   "nodes": 55,
+   "fx": 0
+  },
+  {
+   "t": 868.5,
+   "nodes": 200,
+   "fx": 0
+  },
+  {
+   "t": 879.1,
+   "nodes": 155,
+   "fx": 0
+  },
+  {
+   "t": 889.5,
+   "nodes": 158,
+   "fx": 0
+  },
+  {
+   "t": 899.8,
+   "nodes": 161,
+   "fx": 0
+  },
+  {
+   "t": 910.3,
+   "nodes": 173,
+   "fx": 0
+  },
+  {
+   "t": 920.7,
+   "nodes": 165,
+   "fx": 0
+  },
+  {
+   "t": 931.3,
+   "nodes": 162,
+   "fx": 0
+  },
+  {
+   "t": 941.5,
+   "nodes": 161,
+   "fx": 0
+  },
+  {
+   "t": 951.6,
+   "nodes": 190,
+   "fx": 0
+  },
+  {
+   "t": 961.7,
+   "nodes": 190,
+   "fx": 0
+  },
+  {
+   "t": 972,
+   "nodes": 182,
+   "fx": 0
+  },
+  {
+   "t": 982.1,
+   "nodes": 178,
+   "fx": 0
+  },
+  {
+   "t": 992.5,
+   "nodes": 213,
+   "fx": 0
+  },
+  {
+   "t": 1002.7,
+   "nodes": 182,
+   "fx": 0
+  },
+  {
+   "t": 1012.9,
+   "nodes": 178,
+   "fx": 0
+  },
+  {
+   "t": 1023.1,
+   "nodes": 178,
+   "fx": 0
+  },
+  {
+   "t": 1033.2,
+   "nodes": 203,
+   "fx": 0
+  },
+  {
+   "t": 1043.9,
+   "nodes": 355,
+   "fx": 0
+  },
+  {
+   "t": 1054.2,
+   "nodes": 1813,
+   "fx": 0
+  },
+  {
+   "t": 1064.4,
+   "nodes": 1826,
+   "fx": 0
+  },
+  {
+   "t": 1075.3,
+   "nodes": 1826,
+   "fx": 0
+  },
+  {
+   "t": 1085.8,
+   "nodes": 1752,
+   "fx": 0
+  },
+  {
+   "t": 1098,
+   "nodes": 1776,
+   "fx": 0
+  },
+  {
+   "t": 1108.8,
+   "nodes": 1746,
+   "fx": 0
+  },
+  {
+   "t": 1119.1,
+   "nodes": 1762,
+   "fx": 0
+  },
+  {
+   "t": 1129.5,
+   "nodes": 1738,
+   "fx": 0
+  },
+  {
+   "t": 1142.8,
+   "nodes": 206,
+   "fx": 0
+  }
+ ],
+ "stones": 6,
+ "navlog": [
+  {
+   "t": 116.6,
+   "kind": "step",
+   "id": "gem-energy",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 119.3,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 119.3,
+   "kind": "step",
+   "id": "gem-energy",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 216.3,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 216.4,
+   "kind": "step",
+   "id": "gem-found",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 224.6,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 224.6,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 239.5,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 239.5,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "t": 247.7,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 247.7,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "t": 255.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 255.8,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 3,
+   "to": 4
+  },
+  {
+   "t": 266.5,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 266.5,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 4,
+   "to": 5
+  },
+  {
+   "t": 274.7,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 274.7,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 5,
+   "to": 6
+  },
+  {
+   "t": 284.7,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 284.7,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 6,
+   "to": null
+  },
+  {
+   "t": 288,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 392.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 554.2,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 554.3,
+   "kind": "step",
+   "id": "gem-found",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 561.1,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 561.1,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 575.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 575.9,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "t": 581.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 581.8,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "t": 587.6,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 587.6,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 3,
+   "to": 4
+  },
+  {
+   "t": 596.2,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 596.2,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 4,
+   "to": 5
+  },
+  {
+   "t": 605.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 605.9,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 5,
+   "to": 6
+  },
+  {
+   "t": 614.4,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 614.4,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 6,
+   "to": null
+  },
+  {
+   "t": 617.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 707.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 867.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1052.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1052.9,
+   "kind": "step",
+   "id": "gem-found",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 1062.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1062.8,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "t": 1074.5,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1074.5,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "t": 1080.2,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1080.2,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "t": 1090,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1090,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 3,
+   "to": 4
+  },
+  {
+   "t": 1097.3,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1097.3,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 4,
+   "to": 5
+  },
+  {
+   "t": 1105.6,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1105.6,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 5,
+   "to": 6
+  },
+  {
+   "t": 1115.4,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1115.4,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 6,
+   "to": 7
+  },
+  {
+   "t": 1123.8,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1123.8,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 7,
+   "to": 8
+  },
+  {
+   "t": 1133.6,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1133.6,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 8,
+   "to": 9
+  },
+  {
+   "t": 1138.5,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 1138.5,
+   "kind": "step",
+   "id": "gem-found",
+   "from": 9,
+   "to": null
+  },
+  {
+   "t": 1141.9,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "noSplit": [
+  {
+   "t": 101.2,
+   "next": "ch",
+   "word": "bench",
+   "bank": [
+    "m",
+    "i",
+    "ch"
+   ]
+  },
+  {
+   "t": 129.2,
+   "next": "ll",
+   "word": "tell",
+   "bank": [
+    "ll",
+    "f",
+    "i"
+   ]
+  },
+  {
+   "t": 144.4,
+   "next": "ch",
+   "word": "chin",
+   "bank": [
+    "e",
+    "ch",
+    "n",
+    "i",
+    "sh"
+   ]
+  },
+  {
+   "t": 184.7,
+   "next": "sh",
+   "word": "shop",
+   "bank": [
+    "sh",
+    "ch",
+    "o",
+    "p",
+    "u"
+   ]
+  },
+  {
+   "t": 304.9,
+   "next": "ch",
+   "word": "chat",
+   "bank": [
+    "a",
+    "u",
+    "d",
+    "t",
+    "f",
+    "ch"
+   ]
+  },
+  {
+   "t": 321.4,
+   "next": "th",
+   "word": "this",
+   "bank": [
+    "s",
+    "th",
+    "l",
+    "i",
+    "sh",
+    "e"
+   ]
+  },
+  {
+   "t": 361.7,
+   "next": "th",
+   "word": "moth",
+   "bank": [
+    "m",
+    "o",
+    "f",
+    "u",
+    "v",
+    "th"
+   ]
+  },
+  {
+   "t": 377.4,
+   "next": "sh",
+   "word": "cash",
+   "bank": [
+    "u",
+    "sh",
+    "o",
+    "ch",
+    "c",
+    "a"
+   ]
+  },
+  {
+   "t": 477.3,
+   "next": "ck",
+   "word": "kick",
+   "bank": [
+    "l",
+    "ck",
+    "e"
+   ]
+  },
+  {
+   "t": 498.4,
+   "next": "wh",
+   "word": "whip",
+   "bank": [
+    "b",
+    "p",
+    "i",
+    "wh",
+    "l"
+   ]
+  },
+  {
+   "t": 512.3,
+   "next": "th",
+   "word": "thud",
+   "bank": [
+    "d",
+    "th",
+    "f",
+    "p",
+    "u"
+   ]
+  },
+  {
+   "t": 533.6,
+   "next": "ck",
+   "word": "duck",
+   "bank": [
+    "ck",
+    "p",
+    "o"
+   ]
+  },
+  {
+   "t": 637.5,
+   "next": "ng",
+   "word": null,
+   "bank": [
+    "l",
+    "o"
+   ]
+  },
+  {
+   "t": 659.7,
+   "next": "ck",
+   "word": null,
+   "bank": [
+    "s",
+    "o"
+   ]
+  },
+  {
+   "t": 965.2,
+   "next": "sh",
+   "word": "shed",
+   "bank": [
+    "d",
+    "b",
+    "e",
+    "sh",
+    "i"
+   ]
+  },
+  {
+   "t": 981.1,
+   "next": "th",
+   "word": "then",
+   "bank": [
+    "e",
+    "i",
+    "n",
+    "m",
+    "th"
+   ]
+  },
+  {
+   "t": 1002.7,
+   "next": "tch",
+   "word": "match",
+   "bank": [
+    "tch",
+    "w",
+    "o"
+   ]
+  },
+  {
+   "t": 1010.2,
+   "next": "ch",
+   "word": "chip",
+   "bank": [
+    "ch",
+    "l",
+    "p",
+    "i",
+    "b"
+   ]
+  },
+  {
+   "t": 1028.7,
+   "next": "ff",
+   "word": "puff",
+   "bank": [
+    "a",
+    "b",
+    "ff"
+   ]
+  }
+ ]
+}

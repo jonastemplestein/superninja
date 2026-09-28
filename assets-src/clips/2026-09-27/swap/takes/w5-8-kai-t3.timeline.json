@@ -1,0 +1,789 @@
+{
+ "name": "w5-8-kai-t3",
+ "url": "https://superninja.templestein.com/play/?level=w5-8",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 77.967,
+ "game": {
+  "start": 2.438,
+  "end": 76.204
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   35,
+   58.2,
+   36.5,
+   38.1,
+   30.3,
+   86.7,
+   65.2,
+   54.4,
+   69,
+   62.2
+  ],
+  "audioShiftMs": 65,
+  "residualMs": [
+   10.3,
+   2.3,
+   7.6,
+   5.6,
+   13.6,
+   -30,
+   -20.4,
+   4,
+   -8,
+   8
+  ],
+  "residualMedianMs": 4.8,
+  "residualMaxAbsMs": 30
+ },
+ "frames": {
+  "frames": 3618,
+  "fps": 49.4,
+  "p50": 18.6,
+  "p95": 29.3,
+  "p99": 33.9,
+  "max": 57.3,
+  "hitches": 6,
+  "repeatedSlots": 11,
+  "slots": 2197,
+  "deliveryMs": 16.5
+ },
+ "master": "w5-8-kai-t3.master.mp4",
+ "audio": "w5-8-kai-t3.master.wav",
+ "recordedAt": "2026-09-27T08:32:10.622Z",
+ "events": [
+  {
+   "t": 0.777,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.069,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.341,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.639,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.947,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.506,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.768,
+   "kind": "scene",
+   "id": "swap"
+  },
+  {
+   "t": 2.773,
+   "kind": "music",
+   "id": "world_castle",
+   "dur": 75.255
+  },
+  {
+   "t": 2.773,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 2.778,
+   "kind": "speech",
+   "id": "swap_start",
+   "dur": 5.995,
+   "text": "Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time."
+  },
+  {
+   "t": 8.979,
+   "kind": "speech",
+   "id": "this_is",
+   "dur": 0.886,
+   "text": "This is..."
+  },
+  {
+   "t": 9.865,
+   "kind": "speech",
+   "id": "word:pick",
+   "dur": 0.525
+  },
+  {
+   "t": 10.423,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 11.476,
+   "kind": "speech",
+   "id": "word:pig",
+   "dur": 0.552
+  },
+  {
+   "t": 12.234,
+   "kind": "speech",
+   "id": "swap_which",
+   "dur": 2.065,
+   "text": "Which sound needs to change?"
+  },
+  {
+   "t": 15.53,
+   "kind": "mark",
+   "id": "tap pos 2"
+  },
+  {
+   "t": 15.543,
+   "kind": "tap",
+   "id": "ck",
+   "text": "rect 724,270,132,132"
+  },
+  {
+   "t": 15.543,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 15.544,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 15.656,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 16.137,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 16.226,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 16.226,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 16.616,
+   "kind": "speech",
+   "id": "audit_swap_last",
+   "dur": 3.857,
+   "text": "Yes, the last sound changes! Now pick the new sound."
+  },
+  {
+   "t": 21.484,
+   "kind": "mark",
+   "id": "tap new g"
+  },
+  {
+   "t": 21.486,
+   "kind": "tap",
+   "id": "g",
+   "text": "rect 364,570,120,120"
+  },
+  {
+   "t": 21.486,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 21.487,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 21.922,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 21.922,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 22.114,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 22.409,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 22.836,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 23.342,
+   "kind": "speech",
+   "id": "sound:g",
+   "dur": 0.155
+  },
+  {
+   "t": 23.91,
+   "kind": "speech",
+   "id": "word:pig",
+   "dur": 0.552
+  },
+  {
+   "t": 24.463,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 24.465,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 24.664,
+   "kind": "speech",
+   "id": "yay_4",
+   "dur": 1.282,
+   "text": "Well done."
+  },
+  {
+   "t": 24.784,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 25.374,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 25.946,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 27.002,
+   "kind": "speech",
+   "id": "word:wig",
+   "dur": 0.584
+  },
+  {
+   "t": 27.791,
+   "kind": "speech",
+   "id": "swap_which",
+   "dur": 2.065,
+   "text": "Which sound needs to change?"
+  },
+  {
+   "t": 30.946,
+   "kind": "mark",
+   "id": "tap pos 0"
+  },
+  {
+   "t": 30.948,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 424,270,132,132"
+  },
+  {
+   "t": 30.948,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 30.948,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 31.044,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 31.327,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 31.327,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 31.537,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 31.726,
+   "kind": "speech",
+   "id": "audit_streak_first",
+   "dur": 3.611,
+   "text": "Three right answers in a row! Your ninja is getting stronger."
+  },
+  {
+   "t": 31.727,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 35.371,
+   "kind": "speech",
+   "id": "audit_swap_first",
+   "dur": 4.237,
+   "text": "Yes, the first sound changes! Now pick the new sound."
+  },
+  {
+   "t": 40.588,
+   "kind": "mark",
+   "id": "tap new w"
+  },
+  {
+   "t": 40.59,
+   "kind": "tap",
+   "id": "w",
+   "text": "rect 652,570,120,120"
+  },
+  {
+   "t": 40.59,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 40.591,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 41.023,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 41.023,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 41.214,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 41.501,
+   "kind": "speech",
+   "id": "sound:w",
+   "dur": 0.7
+  },
+  {
+   "t": 42.462,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 42.971,
+   "kind": "speech",
+   "id": "sound:g",
+   "dur": 0.155
+  },
+  {
+   "t": 43.546,
+   "kind": "speech",
+   "id": "word:wig",
+   "dur": 0.584
+  },
+  {
+   "t": 44.132,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 44.159,
+   "kind": "speech",
+   "id": "yay_8",
+   "dur": 1.607,
+   "text": "Wow, great listening!"
+  },
+  {
+   "t": 44.254,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 44.804,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 44.986,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 44.986,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 45.77,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 46.827,
+   "kind": "speech",
+   "id": "word:wing",
+   "dur": 0.842
+  },
+  {
+   "t": 47.87,
+   "kind": "speech",
+   "id": "swap_which",
+   "dur": 2.065,
+   "text": "Which sound needs to change?"
+  },
+  {
+   "t": 51.07,
+   "kind": "mark",
+   "id": "tap pos 2"
+  },
+  {
+   "t": 51.072,
+   "kind": "tap",
+   "id": "g",
+   "text": "rect 724,270,132,132"
+  },
+  {
+   "t": 51.072,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 51.072,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 51.185,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 51.664,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 51.758,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 51.758,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 52.139,
+   "kind": "speech",
+   "id": "swap_pick",
+   "dur": 1.571,
+   "text": "Now pick the new sound."
+  },
+  {
+   "t": 54.594,
+   "kind": "mark",
+   "id": "tap new ng"
+  },
+  {
+   "t": 54.595,
+   "kind": "tap",
+   "id": "ng",
+   "text": "rect 358,570,132,120"
+  },
+  {
+   "t": 54.595,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 54.596,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 55.044,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 55.044,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 55.235,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 55.52,
+   "kind": "speech",
+   "id": "sound:w",
+   "dur": 0.7
+  },
+  {
+   "t": 56.485,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 56.997,
+   "kind": "speech",
+   "id": "sound:ng",
+   "dur": 0.491
+  },
+  {
+   "t": 57.906,
+   "kind": "speech",
+   "id": "word:wing",
+   "dur": 0.84
+  },
+  {
+   "t": 58.947,
+   "kind": "speech",
+   "id": "t_two_letters",
+   "dur": 2.861,
+   "text": "It's two letters, but it's one sound."
+  },
+  {
+   "t": 62.211,
+   "kind": "speech",
+   "id": "sound:ng",
+   "dur": 0.491
+  },
+  {
+   "t": 62.704,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 62.705,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 62.896,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 63.023,
+   "kind": "speech",
+   "id": "streak_6",
+   "dur": 2.614,
+   "text": "Wow! Super ninja streak!"
+  },
+  {
+   "t": 63.912,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 64.228,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 64.84,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 65.637,
+   "kind": "speech",
+   "id": "swap_make",
+   "dur": 0.95,
+   "text": "Change it to make..."
+  },
+  {
+   "t": 66.692,
+   "kind": "speech",
+   "id": "word:ring",
+   "dur": 0.729
+  },
+  {
+   "t": 67.621,
+   "kind": "speech",
+   "id": "swap_which",
+   "dur": 2.065,
+   "text": "Which sound needs to change?"
+  },
+  {
+   "t": 70.915,
+   "kind": "mark",
+   "id": "tap pos 0"
+  },
+  {
+   "t": 70.927,
+   "kind": "tap",
+   "id": "w",
+   "text": "rect 418,270,132,132"
+  },
+  {
+   "t": 70.927,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 70.927,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 71.045,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 71.045,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 71.405,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 71.407,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 71.52,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 71.758,
+   "kind": "speech",
+   "id": "swap_pick",
+   "dur": 1.571,
+   "text": "Now pick the new sound."
+  },
+  {
+   "t": 74.387,
+   "kind": "mark",
+   "id": "tap new r"
+  },
+  {
+   "t": 74.389,
+   "kind": "tap",
+   "id": "r",
+   "text": "rect 345,570,120,120"
+  },
+  {
+   "t": 74.389,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 74.39,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 74.81,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 74.81,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 75.002,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 75.289,
+   "kind": "speech",
+   "id": "sound:r",
+   "dur": 0.58
+  },
+  {
+   "t": 76.129,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 76.27,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 76.613,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 76.64,
+   "kind": "speech",
+   "id": "sound:ng",
+   "dur": 0.491
+  },
+  {
+   "t": 76.904,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 77.192,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 77.508,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 77.549,
+   "kind": "speech",
+   "id": "word:ring",
+   "dur": 0.479
+  }
+ ]
+}

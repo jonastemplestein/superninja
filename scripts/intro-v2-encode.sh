@@ -7,10 +7,16 @@
 # The narrated website film (public/media/intro_film.mp4) is built afterwards by scripts/intro-film.py.
 # Everything is scaled to 1280×720 (the raws are 1080p; the trailer cuts the 1080p raws directly).
 # Usage: bash scripts/intro-v2-encode.sh
+#        bash scripts/intro-v2-encode.sh --timing-only   (after re-recording the film_N lines: rewrites intro_timing.json
+#        only; the shots and their model sound carry no narration, so they needn't be re-encoded. Then run intro-film.py.
+#        Holds only grow here: a shot keeps the hold it has unless its new line no longer fits (line delay + line + tail),
+#        so re-recording a line never re-cuts the film, and a longer take lengthens just its own shot.)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 SRC=assets-src/intro-v3
-mkdir -p public/a/v public/media "$SRC/tmp"
+ENCODE=1; [[ "${1:-}" == "--timing-only" ]] && ENCODE=0
+mkdir -p public/a/v public/media
+(( ENCODE )) && mkdir -p "$SRC/tmp"
 
 # Shots 3 and 4 are lip-synced Seedance 2.5 takes (Baron speaks film_3 / film_4): never retime them, and their line
 # delays come from assets-src/intro-v3/lipsync/retime.py (the line files are re-timed onto each take).
@@ -23,11 +29,13 @@ CUTS=(
   "3 0 6.0 419"
   "4 0 7.7 200"
   "5 0 4.0 200"
-  "6 0 4.0 200"
+  "6 0 4.0 100"   # 100 (was 200) since the Erinome film_6 (28 Sep, 3.71 s): "gone dark" still lands as the glow dies, and the
+                 # hold grows only 58 ms (4058), so the cuts to shots 7 and 8 stay within 0.17 s of the title music's beats
   "7 0 4.0 300"
   "8 0 3.35 250 0:2.85:0.85"
 )
 for c in "${CUTS[@]}"; do
+  (( ENCODE )) || break
   read -r n ss to delay ramp <<<"$c"
   raw="$SRC/shot${n}_raw.mp4"
   if [[ -n "${ramp:-}" ]]; then
@@ -50,22 +58,31 @@ for c in "${CUTS[@]}"; do
 done
 
 # per-shot timing for the game (src/scenes/IntroFilm.tsx) and scripts/intro-film.py:
-# minMs = how long the shot is held at least (video length, or the line plus a short tail if longer)
-python3 - "${CUTS[@]}" <<'PY'
-import json, subprocess, sys
+# minMs = how long the shot is held at least (video length, or the line plus a short tail if longer; with --timing-only,
+# never shorter than the hold already in intro_timing.json)
+KEEP_HOLDS=$(( 1 - ENCODE )) python3 - "${CUTS[@]}" <<'PY'
+import json, os, subprocess, sys
+keep = {}
+if os.environ.get("KEEP_HOLDS") == "1" and os.path.exists("public/a/v/intro_timing.json"):
+    keep = {t["shot"]: t["minMs"] for t in json.load(open("public/a/v/intro_timing.json"))}
 out = []
 for c in sys.argv[1:]:
     n, ss, to, delay = c.split()[:4]; n = int(n); delay = int(delay)
     vid = (float(to) - float(ss)) * 1000
     line = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", f"public/a/l/film_{n}.mp3"])) * 1000
     tail = 900 if n == len(sys.argv) - 1 else 250
-    out.append({"shot": n, "lineDelayMs": delay, "minMs": round(max(vid, delay + line + tail))})
-json.dump(out, open("public/a/v/intro_timing.json", "w"), indent=1)
+    hold = round(max(vid, delay + line + tail))
+    if n in keep and keep[n] > hold: hold = keep[n]
+    elif n in keep and hold != keep[n]: print(f"shot {n}: hold {keep[n]} -> {hold} ms (film_{n} is longer)")
+    out.append({"shot": n, "lineDelayMs": delay, "minMs": hold})
+json.dump(out, open("public/a/v/.intro_timing.json.tmp", "w"), indent=1)
+os.replace("public/a/v/.intro_timing.json.tmp", "public/a/v/intro_timing.json")  # atomic: the game fetches it
 print("timing", sum(o["minMs"] for o in out) / 1000, "s")
 PY
 
 # the finale (the World Flower blooms again; src/scenes/Intro.tsx plays it muted under the "finale" line,
 # and the trailer uses the version with sound)
+(( ENCODE )) || exit 0
 if [[ -f "$SRC/finale_raw.mp4" ]]; then
   fd=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$SRC/finale_raw.mp4"); ffo=$(awk "BEGIN{print $fd-0.3}")
   ffmpeg -loglevel error -y -i "$SRC/finale_raw.mp4" -an -vf "scale=1280:720:flags=lanczos" \

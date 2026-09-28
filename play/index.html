@@ -16,6 +16,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Luckiest+Guy&display=block" rel="stylesheet" />
+    <!-- the title's art, sized for the phone, alongside the bundle; and its dawn painted first, until React mounts
+         (docs/TITLE_DESIGN.md §9.6.1) -->
+    <link rel="preload" as="image" href="/a/i/title_key.webp" imagesrcset="/a/i/title_key_1600.webp 2x, /a/i/title_key.webp 3x" fetchpriority="high" />
+    <link rel="preload" as="image" href="/a/i/title_baron.webp" />
+    <style>html,body{background:linear-gradient(180deg,#c8e4ec 0%,#e9dccd 40%,#e7cdb7 58%,#a9bf7c 72%,#859c60 100%)}</style>
   </head>
   <body>
     <div id="root"></div>

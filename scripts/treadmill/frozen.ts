@@ -1,11 +1,12 @@
 // A frozen build: build the working tree once into a folder and serve it with `vite preview` (no HMR, no file watcher),
 // so edits made elsewhere can't reload the page under a test. Test on one of these, never on the shared dev server.
 //
-// Usage: bun scripts/treadmill/frozen.ts --port N [--out dir] [--probes [--patched]] [--no-build] [--detach] [--retry N]
+// Usage: bun scripts/treadmill/frozen.ts --port N [--out dir] [--probes] [--no-build] [--detach] [--retry N]
 //        bun scripts/treadmill/frozen.ts --port N --stop
 //   --out dir    the build folder (default playtest/runs/frozen/.build-<port>; playtest/runs is git-ignored)
 //   --probes     build with scripts/treadmill/soak.vite.config.ts: the game plus soak.ts's read-only module probes
-//                (window.__snPerfMods). Test builds only. --patched also patches in soak-fixes.ts (SOAK_FIXES=1).
+//                (window.__snPerfMods). Test builds only. (--patched, the soak-fixes.ts preview, was retired at
+//                integration: FIX_PLAN Dec10.)
 //   --no-build   serve what is already in --out
 //   --detach     leave the server running and exit (pid in <out>.pid, log in <out>.log; --stop kills it)
 //                (default: serve in the foreground until Ctrl-C)
@@ -34,15 +35,13 @@ export interface FrozenOptions {
   out?: string;
   /** build with soak.vite.config.ts (soak.ts's module probes) */
   probes?: boolean;
-  /** with probes: patch soak-fixes.ts in (SOAK_FIXES=1) */
-  patched?: boolean;
   /** false: serve what is already in `out` */
   build?: boolean;
   /** leave the server running after this process exits (pid and log next to the folder) */
   detach?: boolean;
   /** build attempts after the first one fails, 45 s apart */
   retry?: number;
-  /** extra environment for the build and the server (e.g. SOAK_FIXES_REPORT) */
+  /** extra environment for the build and the server */
   env?: Record<string, string>;
   log?: (s: string) => void;
 }
@@ -60,13 +59,13 @@ export async function frozen(o: FrozenOptions): Promise<Frozen> {
   const base = `http://127.0.0.1:${o.port}`;
   if (await up(`${base}/play/`)) throw new Error(`port ${o.port} is already serving (${base}/play/): stop that server or pick another port`);
   const cfg = o.probes ? ["--config", SOAK_CONFIG] : [];
-  const env = { ...process.env, ...(o.probes ? { SOAK_FIXES: o.patched ? "1" : "0" } : {}), ...o.env };
+  const env = { ...process.env, ...o.env };
   let built: string | null = null;
   if (o.build !== false) {
     mkdirSync(dirname(out), { recursive: true });
     for (let attempt = 0; ; attempt++) {
       const t0 = Date.now();
-      log(`frozen: building ${o.probes ? `with the soak probes${o.patched ? " and the fixes preview" : ""} ` : ""}→ ${out}`);
+      log(`frozen: building ${o.probes ? "with the soak probes " : ""}→ ${out}`);
       const r = spawnSync(VITE, ["build", ...cfg, "--outDir", out, "--emptyOutDir", "--logLevel", "warn"], { cwd: ROOT, env, stdio: ["ignore", "inherit", "pipe"], encoding: "utf8" });
       if (r.status === 0) {
         built = new Date().toISOString();
@@ -126,7 +125,7 @@ if (import.meta.main) {
   const flag = (k: string) => argv.includes(`--${k}`);
   const port = Number(arg("port"));
   if (!port) {
-    console.error("usage: bun scripts/treadmill/frozen.ts --port N [--out dir] [--probes [--patched]] [--no-build] [--detach] [--retry N] | --port N --stop");
+    console.error("usage: bun scripts/treadmill/frozen.ts --port N [--out dir] [--probes] [--no-build] [--detach] [--retry N] | --port N --stop");
     process.exit(2);
   }
   if (flag("stop")) {
@@ -135,7 +134,7 @@ if (import.meta.main) {
     process.exit(ok ? 0 : 1);
   }
   try {
-    const f = await frozen({ port, out: arg("out"), probes: flag("probes"), patched: flag("patched"), build: !flag("no-build"), detach: flag("detach"), retry: Number(arg("retry") ?? 0) });
+    const f = await frozen({ port, out: arg("out"), probes: flag("probes"), build: !flag("no-build"), detach: flag("detach"), retry: Number(arg("retry") ?? 0) });
     console.log(`frozen: ${f.base}/play/ (pid ${f.pid}${f.built ? `, built ${f.built}` : ""})`);
     if (flag("detach")) {
       console.log(`frozen: detached; stop it with bun scripts/treadmill/frozen.ts --port ${port}${arg("out") ? ` --out ${arg("out")}` : ""} --stop`);

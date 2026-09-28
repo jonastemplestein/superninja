@@ -1,0 +1,7 @@
+loop=true 6 samples; last: {"t":6004.0999999940395,"key":"||","rest":true,"raf":61,"main":{"@glow":3},"hid":{"@spin":3}}
+  raf-at-rest | ? | 60 rAF requests a second on ? at rest (the median of 3 one-second samples with no speech, tap or change of route, scene or step for 2 s; the most 61). The budget is 5 (PERF.md §5): a loop that runs wh
+  anim-main-thread | @glow | 3 endless animations the compositor can't run at once on ? (over the budget of 2 in 6 of 6 samples, on ?): @glow ×3.
+  anim-hidden | @spin | 3 endless animations running on hidden elements at once on ? (over the budget of 2 in 6 of 6 samples, on ?): @spin ×3.
+loop=false 6 samples; last: {"t":6002.300000011921,"key":"||","rest":true,"raf":0,"main":{"@glow":3},"hid":{"@spin":3}}
+  anim-main-thread | @glow | 3 endless animations the compositor can't run at once on ? (over the budget of 2 in 6 of 6 samples, on ?): @glow ×3.
+  anim-hidden | @spin | 3 endless animations running on hidden elements at once on ? (over the budget of 2 in 6 of 6 samples, on ?): @spin ×3.

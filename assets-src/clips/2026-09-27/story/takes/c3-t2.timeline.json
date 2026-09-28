@@ -1,0 +1,927 @@
+{
+ "name": "c3-t2",
+ "url": "https://superninja.templestein.com/play/?level=w5-10",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 126.9,
+ "game": {
+  "start": 2.492,
+  "end": 125.204
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   18.4,
+   22.6,
+   26.7,
+   28.1,
+   25.4,
+   83.1,
+   85.8,
+   90.2,
+   89,
+   89.6
+  ],
+  "audioShiftMs": 64.2,
+  "residualMs": [
+   24.9,
+   24.2,
+   32.3,
+   33.6,
+   19.2,
+   -30.7,
+   -16.4,
+   -37.4,
+   -19.4,
+   -37.4
+  ],
+  "residualMedianMs": 1.4,
+  "residualMaxAbsMs": 37.4
+ },
+ "frames": {
+  "frames": 6860,
+  "fps": 56.1,
+  "p50": 16.9,
+  "p95": 24.9,
+  "p99": 27.6,
+  "max": 33.3,
+  "hitches": 0,
+  "repeatedSlots": 0,
+  "slots": 3666,
+  "deliveryMs": 12.1
+ },
+ "master": "c3-t2.master.mp4",
+ "audio": "c3-t2.master.wav",
+ "recordedAt": "2026-09-27T13:06:41.483Z",
+ "events": [
+  {
+   "t": 0.758,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.124,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.432,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.7,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.019,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.311,
+   "kind": "hitch",
+   "id": "255 ms",
+   "dur": 0.255
+  },
+  {
+   "t": 2.558,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.812,
+   "kind": "scene",
+   "id": "story"
+  },
+  {
+   "t": 2.818,
+   "kind": "music",
+   "id": "story",
+   "dur": 116.474
+  },
+  {
+   "t": 2.82,
+   "kind": "speech",
+   "id": "story_start",
+   "dur": 2.996,
+   "text": "Story time! I'll read, and you read too."
+  },
+  {
+   "t": 2.822,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 3.115,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 3.115,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 3.775,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 6.065,
+   "kind": "speech",
+   "id": "story:s5_title",
+   "dur": 1.621
+  },
+  {
+   "t": 9.753,
+   "kind": "mark",
+   "id": "next (title)"
+  },
+  {
+   "t": 9.764,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 1134,404,139,139"
+  },
+  {
+   "t": 9.764,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 9.767,
+   "kind": "speech",
+   "id": "story:s5_1",
+   "dur": 9.846
+  },
+  {
+   "t": 21.6,
+   "kind": "mark",
+   "id": "next (1)"
+  },
+  {
+   "t": 21.601,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 1136,406,136,136"
+  },
+  {
+   "t": 21.601,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 21.638,
+   "kind": "speech",
+   "id": "audit_special_the",
+   "dur": 2.578,
+   "text": "This is 'the'. Just say 'the' here."
+  },
+  {
+   "t": 24.45,
+   "kind": "speech",
+   "id": "story_your_turn",
+   "dur": 1.327,
+   "text": "Your turn to read."
+  },
+  {
+   "t": 29.52,
+   "kind": "mark",
+   "id": "tick (2)"
+  },
+  {
+   "t": 29.522,
+   "kind": "tap",
+   "id": "I read it!",
+   "text": "rect 1148,408,113,113"
+  },
+  {
+   "t": 29.522,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 29.523,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 29.551,
+   "kind": "speech",
+   "id": "well_read",
+   "dur": 0.646,
+   "text": "Well read!"
+  },
+  {
+   "t": 29.644,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 30.157,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 30.157,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 30.194,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 30.358,
+   "kind": "speech",
+   "id": "story:s5_2",
+   "dur": 2.523
+  },
+  {
+   "t": 33.086,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 33.087,
+   "kind": "speech",
+   "id": "story:s5_3",
+   "dur": 4.825
+  },
+  {
+   "t": 39.809,
+   "kind": "mark",
+   "id": "next (3)"
+  },
+  {
+   "t": 39.81,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 1137,407,134,134"
+  },
+  {
+   "t": 39.81,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 39.813,
+   "kind": "speech",
+   "id": "story:s5_4",
+   "dur": 1.543
+  },
+  {
+   "t": 41.557,
+   "kind": "speech",
+   "id": "audit_story_choose_again",
+   "dur": 1.851,
+   "text": "Read the words, and tap one!"
+  },
+  {
+   "t": 43.464,
+   "kind": "sfx",
+   "id": "hmm"
+  },
+  {
+   "t": 44.891,
+   "kind": "mark",
+   "id": "pick kick (4)"
+  },
+  {
+   "t": 44.892,
+   "kind": "tap",
+   "id": "BUTTON",
+   "text": "rect 416,176,277,150"
+  },
+  {
+   "t": 44.925,
+   "kind": "speech",
+   "id": "sound:k",
+   "dur": 0.186
+  },
+  {
+   "t": 45.015,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 45.371,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 45.524,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 45.524,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 45.565,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 45.883,
+   "kind": "speech",
+   "id": "sound:k",
+   "dur": 0.186
+  },
+  {
+   "t": 46.484,
+   "kind": "speech",
+   "id": "word:kick",
+   "dur": 0.779
+  },
+  {
+   "t": 47.264,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 47.295,
+   "kind": "speech",
+   "id": "audit_special_is",
+   "dur": 2.87,
+   "text": "This is 'is'. Just say 'is' here."
+  },
+  {
+   "t": 47.784,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 48.071,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 48.071,
+   "kind": "sfx",
+   "id": "bounce"
+  },
+  {
+   "t": 48.517,
+   "kind": "sfx",
+   "id": "hmm"
+  },
+  {
+   "t": 50.369,
+   "kind": "speech",
+   "id": "story_your_turn",
+   "dur": 1.327,
+   "text": "Your turn to read."
+  },
+  {
+   "t": 54.94,
+   "kind": "mark",
+   "id": "tick (4a)"
+  },
+  {
+   "t": 54.942,
+   "kind": "tap",
+   "id": "I read it!",
+   "text": "rect 1147,407,113,113"
+  },
+  {
+   "t": 54.942,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 54.942,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 54.943,
+   "kind": "speech",
+   "id": "well_read",
+   "dur": 0.646,
+   "text": "Well read!"
+  },
+  {
+   "t": 54.944,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 55.265,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 55.59,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 55.751,
+   "kind": "speech",
+   "id": "story:s5_4a",
+   "dur": 3.24
+  },
+  {
+   "t": 59.193,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 59.194,
+   "kind": "speech",
+   "id": "story:s5_4b",
+   "dur": 5.908
+  },
+  {
+   "t": 67.19,
+   "kind": "mark",
+   "id": "next (4b)"
+  },
+  {
+   "t": 67.191,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 1134,404,140,140"
+  },
+  {
+   "t": 67.191,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 67.193,
+   "kind": "speech",
+   "id": "story:s5_4",
+   "dur": 1.543
+  },
+  {
+   "t": 68.938,
+   "kind": "speech",
+   "id": "audit_story_choose_again",
+   "dur": 1.851,
+   "text": "Read the words, and tap one!"
+  },
+  {
+   "t": 70.845,
+   "kind": "sfx",
+   "id": "hmm"
+  },
+  {
+   "t": 72.173,
+   "kind": "mark",
+   "id": "pick tap (4)"
+  },
+  {
+   "t": 72.176,
+   "kind": "tap",
+   "id": "BUTTON",
+   "text": "rect 782,176,250,150"
+  },
+  {
+   "t": 72.207,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 72.297,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 72.298,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 72.629,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 72.697,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 72.742,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 72.837,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 73.006,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 73.065,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 73.066,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 73.2,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 73.778,
+   "kind": "speech",
+   "id": "word:tap",
+   "dur": 0.59
+  },
+  {
+   "t": 74.368,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 74.371,
+   "kind": "speech",
+   "id": "story_your_turn",
+   "dur": 1.327,
+   "text": "Your turn to read."
+  },
+  {
+   "t": 74.791,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 75.112,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 75.456,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 79.014,
+   "kind": "mark",
+   "id": "tick (5)"
+  },
+  {
+   "t": 79.015,
+   "kind": "tap",
+   "id": "I read it!",
+   "text": "rect 1141,401,125,125"
+  },
+  {
+   "t": 79.016,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 79.016,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 79.017,
+   "kind": "speech",
+   "id": "well_read",
+   "dur": 0.646,
+   "text": "Well read!"
+  },
+  {
+   "t": 79.018,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 79.337,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 79.672,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 79.768,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 79.96,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 79.997,
+   "kind": "speech",
+   "id": "streak_3",
+   "dur": 1.128,
+   "text": "Ninja power!"
+  },
+  {
+   "t": 81.286,
+   "kind": "speech",
+   "id": "story:s5_5",
+   "dur": 3.076
+  },
+  {
+   "t": 84.563,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 84.594,
+   "kind": "speech",
+   "id": "audit_special_so",
+   "dur": 2.988,
+   "text": "This is 'so'. Just say 'so' here."
+  },
+  {
+   "t": 85.079,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 87.786,
+   "kind": "speech",
+   "id": "story_your_turn",
+   "dur": 1.327,
+   "text": "Your turn to read."
+  },
+  {
+   "t": 92.848,
+   "kind": "mark",
+   "id": "tick (6)"
+  },
+  {
+   "t": 92.85,
+   "kind": "tap",
+   "id": "I read it!",
+   "text": "rect 1143,403,123,123"
+  },
+  {
+   "t": 92.85,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 92.85,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 92.851,
+   "kind": "speech",
+   "id": "well_read",
+   "dur": 0.646,
+   "text": "Well read!"
+  },
+  {
+   "t": 92.972,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 92.972,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 93.371,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 93.416,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 93.511,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 93.59,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 93.628,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 93.628,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 93.66,
+   "kind": "speech",
+   "id": "story:s5_6",
+   "dur": 3.129
+  },
+  {
+   "t": 96.99,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 96.991,
+   "kind": "speech",
+   "id": "story:s5_7",
+   "dur": 9.713
+  },
+  {
+   "t": 97.505,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 108.714,
+   "kind": "mark",
+   "id": "next (7)"
+  },
+  {
+   "t": 108.716,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 1135,405,137,137"
+  },
+  {
+   "t": 108.716,
+   "kind": "sfx",
+   "id": "page"
+  },
+  {
+   "t": 108.752,
+   "kind": "speech",
+   "id": "story_question",
+   "dur": 2.788,
+   "text": "Let's think about the story..."
+  },
+  {
+   "t": 111.688,
+   "kind": "speech",
+   "id": "story:s5_q",
+   "dur": 1.289
+  },
+  {
+   "t": 113.037,
+   "kind": "sfx",
+   "id": "hmm"
+  },
+  {
+   "t": 114.406,
+   "kind": "mark",
+   "id": "answer rock"
+  },
+  {
+   "t": 114.408,
+   "kind": "tap",
+   "id": "rock",
+   "text": "rect 610,196,230,230"
+  },
+  {
+   "t": 114.408,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 114.41,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 114.435,
+   "kind": "speech",
+   "id": "yay_8",
+   "dur": 1.607,
+   "text": "Wow, great listening!"
+  },
+  {
+   "t": 114.73,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 115.107,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 116.044,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 116.07,
+   "kind": "speech",
+   "id": "story_end",
+   "dur": 2.217,
+   "text": "The end! What a story!"
+  },
+  {
+   "t": 116.224,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 116.225,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 116.864,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 116.945,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 117.164,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 117.466,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 118.29,
+   "kind": "sfx",
+   "id": "fanfare"
+  },
+  {
+   "t": 118.291,
+   "kind": "mark",
+   "id": "left story (reward)"
+  },
+  {
+   "t": 118.389,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 118.389,
+   "kind": "scene",
+   "id": "reward"
+  },
+  {
+   "t": 118.94,
+   "kind": "speech",
+   "id": "yay_7",
+   "dur": 0.744,
+   "text": "You did it!"
+  },
+  {
+   "t": 125.269,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 125.55,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 125.829,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 126.147,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 126.429,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

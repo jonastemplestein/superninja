@@ -307,7 +307,7 @@ Run everything on your own frozen build. Evidence goes in `playtest/fix-plan/<la
 
 **Transcript** (these only need F2, because the callers already exist). Run `continuous.ts --base http://127.0.0.1:4202` into `playtest/fix-plan/F2/`:
 - `--persona splitter --from w5-1 --levels 6`: on the first split in a Dojo build, you hear "That's… /s/ We need… /sh/ It's two letters, but it's one sound." with no "Listen again…" before it. It also appears at least once in a battle.
-- `--persona perfect --from w6-br1 --levels 13`: the read-back reminders (`t_two_letters` right after a word's blend) number ≤ 2, and none of them is for a spelling taught earlier in this session. Jump offers: 0.
+- `--persona perfect --from w6-br1 --levels 13`: the read-back reminders (`t_two_letters` right after a word's blend) number ≤ 2, and none of them is for a spelling taught earlier in this session. Jump offers: ≤ 1 a session (Dec9, SF A8: this child is past session 2; restated by integration, 27 Sep, from "0", which contradicted Dec9 and §11.2).
 - `--persona perfect --levels 12` (C-P, day one): jump offers 0.
 - The new lines: every Part B id has an mp3, a duration and tags, and `jev-lint-lines` is clean on them.
 
@@ -731,7 +731,7 @@ export type GameId = "tap" | "fastslow" | "notice" | "tapall" | "tapall:in" | "r
   | "review" | "swap" | "sort" | "run" | "story";
 export interface GameDef {
   id: GameId; mech: string; name: string | null;           // null: never said aloud ("which", "readcheck")
-  full: { frame: string[]; show: string | null; ready: string };            // line ids (TS §3)
+  full: { frame: string[]; show: string | null; ready: string | null };     // line ids (TS §3); ready null: no Ready hold (as games.ts has it)
   recap: { line: string[]; show: boolean };                                   // a hold only after 21 days or a struggle
   short: string[];
   demoOwnPictures: boolean;                                                   // the paw's canonical demo can play on a short form
@@ -836,3 +836,48 @@ Record in this order:
 - **TV-P1: the first session (film to Reward 2), the w2-1 lesson, and the recurring moves (about 143 ids, with the shared lines w2-1 uses).** `tv_ready_first`, `tv_ready_paw`, `tv_show_again`, `tv_ready_now`, `tv_ready_go`, `tv_ready_together`, `tv_ready_yours`, `tv_ready_to_watch`, `tv_turn_again`, `tv_offer_show`, `tv_ready_help`, `tv_film_arrow`, `tv_choose_hello`, `tv_choose_q`, `tv_choose_why`, `tv_choose_ninja`, `tv_opt_why`, `tv_opt_notyet`, `tv_opt_yes`, `tv_opt_echo_notyet`, `tv_opt_echo_school`, `tv_opt_again`, `tv_opt_ask`, `tv_opt_ok_notyet`, `tv_opt_grownups`, `tv_opt_to_dojo`, `tv_train_hello`, `tv_train_tricks`, `tv_train_gong`, `tv_train_gong_ok`, `tv_train_help`, `tv_train_try_help`, `tv_train_speaker`, `tv_rhyme`, `tv_train_hear_again`, `tv_train_speaker_ok`, `tv_train_done`, `tv_first_game`, `tv_ears_frame`, `tv_ears_demo`, `tv_your_word_<w>`, `tv_find_again_<w>`, `tv_idle_look_<w>`, `tv_show_offer`, `tv_idle_point`, `tv_fix_together`, `tv_ts_meet`, `tv_ts_fast`, `tv_ts_slow`, `tv_same_word`, `tv_ts_wrong_rabbit`, `tv_ts_wrong_tortoise`, `tv_notice_frame`, `tv_ears_on`, `tv_tap_hear_<w>`, `tv_now_tap_hear_<w>`, `tv_petal_first`, `tv_pocket_frame`, `tv_pocket_ido`, `tv_so_pocket`, `tv_pocket_ready_<n>`, `tv_fix_start`, `tv_petal_hint`, `tv_w1_end`, `tv_rw_book`, `tv_rw_every`, `tv_rw_tap`, `tv_rw_fast_slow`, `tv_rw_next`, `tv_rail_frame`, `tv_rail_ido`, `tv_rail_ready`, `tv_rail_turn`, `tv_silly`, `tv_rail_start`, `tv_next_game`, `tv_which_frame`, `tv_which_demo`, `tv_which_so`, `tv_which_q_<pair>`, `tv_which_fix_<pair>`, `tv_squish_frame`, `tv_squish_slow`, `tv_squish_fast`, `tv_squish_ready`, `tv_praise_squish`, `tv_pocket_more_<p>`, `tv_rw_link_book`, `tv_rw2_flower`, `tv_rw2_tap_petal`, `tv_map_intro`, `tv_map_flower`, `tv_map_hint`, `tv_learn_frame_<n>`, `tv_learn_how`, `tv_learn_ready`, `tv_learn_first`, `tv_here_it_comes`, `tv_petal_say`, `tv_watch_write`, `tv_how_we_write`, `tv_tap_letter_say`, `tv_once_more`, `tv_said_well`, `tv_learn_next`, `tv_petal_say_short`, `tv_and_how_we_write`, `tv_tap_it_say_short`, `tv_learn_another`, `tv_learn_last`, `tv_learn_all_<n>`, `tv_dojo_idle_say`, `tv_dojo_help_sound`, `tv_ne_new_sounds`, `tv_which_write`, `tv_find_write`, `tv_now_find`, `tv_thats_write`, `tv_build_dojo`, `tv_your_word`, `tv_learn_done`, `tv_offer_show_miss`, the praise bank (`tv_praise_*`, `tv_yay_lovely`, `tv_yay_thats_it`, `tv_streak_10`), and the idle and correction lines (`tv_listen_here`, `tv_listen_sound_again`, `tv_which_starts_it`, `tv_which_way_write_it`, `tv_both_again`, `tv_which_changes`, `tv_take_time`).
 - **TV-P2: the rest of Bamboo Village's first meetings, w1-2 to w1-15, and the rewards and map (the rest).** TS §3.9 to §3.25 and §5.6–§5.9: W3–W6, First Sounds and Ninja Eyes, the World Flower's first visit, Word Building, Kai and Suki, the first battle, Sound Hunt, Sound Swap, Ninja Run, the second meetings, Story Time, the boss, the land's end, the reward leads, the map previews (`tv_map_next_<game>`, 12), `tv_welcome_back`, `tv_rest`, `tv_jump_offer`.
 - **TV-P3: recap and short forms, and the games a preschool child doesn't meet before w2-1 (54 ids).** TS §4: every `*_recap` and `*_short` line, `tv_now_your_turn`, the gem battle, Sorting, Sensei's Challenge, Ninja Run's reading groups, a school path's first Dojo, the word hunt, Show Sensei and the practice dojo.
+
+### 13.5 Fast and slow
+
+**Added 27 September 2026.** Jonas: *"you gotta read the 'slow way to say a word' with actual little gaps between the sounds. It is too smooth now. And you need to explain more often that there are slow and fast ways to read words etc."* The script is [TEACHER_SCRIPT.md](TEACHER_SCRIPT.md) §9: five moves (the rabbit read-back, the idea, the stuck recap, the praise and Sensei's pair), placed game by game, with 24 recorded `tv_fs_*` lines and the tortoise and the rabbit on screen every time. The exact requests per lane are in [fix-requests.md](fix-requests.md), "Fast and slow (27 Sep)". IDs are `FS-<lane>.<n>`, in the existing lanes and phases, under §0.2's house rules.
+
+**Done already:**
+- the 24 lines, in a block at the end of `LINES`, recorded and checked (TS §9.8: word for word, no letter names, ≤ 3.3 words a second, −16 LUFS, suspended tails);
+- their tags, in `src/core/content/line-tags.ts`;
+- their lengths, in `durations.json`.
+
+| ID | P | TS | File (lane) | Change |
+|---|---|---|---|---|
+| FS-F2.1 | P1 | §9.5 | `src/scenes/narrate.tsx` (F2) | `fsReadback`, `fsIdea`, `fsStuck`, `fsPraise`, `fsPair` and `fsSaid`: the per-session record in memory, the rotation and the caps (2 idea lines a level, 4 a session, never one twice in a session; once per game type per session in lands 1–2, the session's first game only from land 3). Also `afterWordSay({ fs })`, so a fast/slow line can take the praise slot |
+| FS-F2.2 | P1 | §9.7 rule 6 | `src/content/instructions.ts` (its owner) | `tv_fs_praise_` and `tv_fs_stuck_` are feedback; the idea lines and lead-ins are asides (never Hear it again's instruction) |
+| FS-F3.1 | P1 | §9.6 | `src/ui/nav.tsx`, `nav.css` (F3) | `FastSlowBadges` beside the speaker (in the column, under it); `NavSpec.speed`; `navSpeed()`; the tortoise lit on any `stretch:` clip; `rabbitTap()`, the Move 1 join-in (≥ 100 px while live, the spotlight on "rabbit", 8 s hop, 12 s timeout); `navLog` kinds `speed` and `rabbit` |
+| FS-F4.1 | P1 | §9.5 | `script-audit.ts`, `sound-display.ts` (F4) | The checks below |
+| FS-X.1 | P1 | §9.1 | `public/a/x`, the slow-word generator (the slow-word audio lane) | The slow way as pure sounds with short gaps, per-sound timings, and today's stretched clips kept beside them (FS1) |
+| FS-C1.1 | P2 | §9.3 | `Early.tsx` (C1) | Word Building's Move 1 (in place of the first `say_sounds_read`), Move 5, the stuck recap and the praise; Kai and Suki's pair (no rabbit tap); First Sounds and Sound Hunt's idea in the praise slot and First Sounds' stuck recap; the badges |
+| FS-C2.1 | P2 | §9.3 | `Warmup.tsx`, `warmups.ts` (C2) | W3's recap idea (in place of `tv_praise_slowly` when both are due); Slow Words and W5's Move 1 with the scene's rabbit (W5's in place of `tv_guess_together`); W6's rabbit in place of `tv_now_say_word`; Pocket Hunt's idea at the first find; the stuck recaps; **no `tv_idle_look_<w>` in Slow Words or Guess My Word**; `secs` re-measured |
+| FS-D1.1 | P2 | §9.3 | `Dojo.tsx` (D1) | The dojo's Build, as Word Building |
+| FS-D2.1 | P2 | §9.3 | `Battle.tsx` (D2) | Move 1 with the rabbit as the finishing zap; Move 5; the stuck recap; gem battles with the badges, the stuck recap and the idea only |
+| FS-D3.1 | P2 | §9.3 | `Swap.tsx` (D3) | The start word's rabbit tap; the idea in the praise slot; no Move 5 |
+| FS-D5.1 | P2 | §9.3 | `Run.tsx` (D5) | `tv_fs_run` at the first lantern group; the first catch's pair; the stuck recap taking turns with `tv_run_fix` |
+| FS-D6.1 | P2 | §9.3 | `Story.tsx` (D6) | The idea on the session's first child page; the first help tap's pair |
+| FS-I.1 | P3 | §9.7 | `docs/DECISIONS.md` (P3) | Log FS1–FS6. FS1 (gaps segment the word in the building games' prompts, where Sounds~Write stretches without gaps) is for Jonas to see |
+
+**Acceptance: add these rows to §11.2** (C-P and C-L from the start with 12 stones, and `--from w5-1`; `script-audit --check` must exit 0):
+
+| Measure | Target | Before |
+|---|---|---|
+| **FS:** fast and slow explained in every game that says a word slowly or asks the child to blend or segment, at least once per session per game type (lands 1–2; the session's first such game from land 3): an idea line, or Move 1's rabbit read-back (`fs-per-session`) | 0 missing | W1 only (once per save), plus W5's `t_if_you_say_sounds` |
+| **FS:** an idea line said twice in a session (`fs-repeat`) | 0 | – |
+| **FS:** idea lines a level / a session | ≤ 2 / ≤ 4 | – |
+| **FS:** the first read-back of each game type in a session uses slow, then fast: a slow lead-in (`tv_fs_say_sounds_slow`, `tv_fs_say_slow`, `tv_fs_slow_tortoise`), then the sounds or the slow word, then the fast word, led by `tv_fs_rabbit_read`, `fm_tap_rabbit`, `tv_fs_now_fast` or `tv_fs_fast_rabbit` (`fs-readback`) | 100 % | – |
+| **FS:** Move 1's rabbit tap is a child action (`navLog` kind `rabbit`), and the rabbit is live only then | yes | – |
+| **FS:** the tortoise lit during every slow slot, and the rabbit during the fast word after it (`navLog` kind `speed`, or the scene's own cards in the warm-ups) (`fs-badges`) | 100 % | – |
+| **FS:** the word said before the child's answer in Slow Words, Guess My Word, Ninja Run or Kai and Suki (`tv_idle_look_<w>` there, or a fast word before the tap) (`fs-answer-leak`) | 0 | `tv_idle_look_<w>` at 8 s idle (TS §5.5) |
+| **FS:** talk before a child action, in runs with a fast/slow line | ≤ 12 s (TS §9.3 estimates ≤ 11.2 s) | – |
+| **FS:** the slow way has audible gaps: every `[w, slowly]` clip is its pure sounds with a silence between each pair, and no sound trails into a vowel (Jonas listens to a sample of 10) | 100 %; Jonas's ear | stretched, no gaps ("too smooth") |
+| **FS:** the new lines are word for word (faster-whisper), have no letter names, and are ≤ 3.3 words a second at −16 LUFS | 24 of 24 | 24 of 24 (TS §9.8) |
+
+**Frames** (`sound-shots.ts --freeze`, into `playtest/fix-plan/TV/frames/`):
+- `fs-rabbit-live.png`: Word Building's first read-back, the rabbit big, pulsing and spotlit beside the speaker;
+- `fs-tortoise-step.png`: the tortoise lit mid-step during a slow word, with the tile of the sound being said lit;
+- `fs-w5-rabbit.png`: W5, the scene's own rabbit pulsing after the sounds.

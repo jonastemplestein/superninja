@@ -1,0 +1,1199 @@
+{
+ "fast": {
+  "id": "fast-line",
+  "row": "new sentence lines faster than 3.3 words a second",
+  "value": "0 of 370",
+  "target": "0 (or re-taken)",
+  "pass": true,
+  "detail": []
+ },
+ "runs": [
+  {
+   "file": "playtest/fix/F2/perfect-cp/continuous-perfect.json",
+   "label": "C-P",
+   "persona": "perfect",
+   "from": null,
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "0",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "0 sounds",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_1 ×11",
+     "target": "≤ 1 per land",
+     "pass": false,
+     "detail": [
+      "world_1 \"Welcome to Bamboo Village!\" said 11 times"
+     ]
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "10",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "sticker book @7:31.2",
+      "reward @9:27.3",
+      "reward @12:19.6",
+      "reward @14:53.7",
+      "level w1-5 @17:09.5"
+     ]
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "0",
+     "target": "≤ 0 (day one)",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "0 (0 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": true,
+     "detail": []
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "9 of 12",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "map @7:36.3 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut",
+      "map @10:44.2 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut",
+      "map @12:56.5 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut",
+      "map @15:06.0 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut",
+      "map @17:21.7 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut"
+     ]
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "8",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w1-wu3 @5:10.8 ‹fm_l1_hello› \"Ninja ears on! Let's listen to some words.\"",
+      "w1-2 @7:38.4 ‹first_intro› \"Every word starts with a sound. Let's listen for the very first sound!\"",
+      "w1-4 @12:58.9 ‹audit_dojo_first› \"This is our dojo. Here we listen to sounds, make words, and read them.\"",
+      "w1-5 @15:08.2 ‹three_sounds› \"This word has three sounds!\"",
+      "w1-6 @17:24.5 ‹battle_start› \"Uh oh! One of Baron Muddle's monsters is in the way! Spell the words t\""
+     ]
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "16 (7 repeats)",
+     "target": "once per spelling per level",
+     "pass": false,
+     "detail": [
+      "w1-2 /s/: 2×",
+      "w1-3 /a/: 2×",
+      "w1-3 /t/: 2×",
+      "w1-7 /i/: 2×",
+      "w1-10 /n/: 2×",
+      "w1-10 /p/: 2×"
+     ]
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 of 3",
+     "target": "all",
+     "pass": false,
+     "detail": [
+      "w1-8 @21:36.9 ‹audit_swap_first› \"Yes, the first sound changes! Now pick the new sound.\" cut",
+      "w1-8 @21:49.4 ‹audit_swap_middle› \"Yes, the middle sound changes! Now pick the new sound.\" cut",
+      "w1-8 @22:33.4 ‹audit_swap_last› \"Yes, the last sound changes! Now pick the new sound.\" cut"
+     ]
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "2.04",
+     "target": "≤ 1.5",
+     "pass": false,
+     "detail": [
+      "65 praise lines in 31.8 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "14",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w1-wu1 @2:53.9: \"You found them both! They both start with...\" → \"You can hear the sounds in words. Brilliant listening!\"",
+      "w1-wu3 @6:29.1: \"You found them all!\" → \"You can hear the sounds in words. Brilliant listening!\"",
+      "w1-2 @9:18.5: \"Lovely!\" → \"Wow, great listening!\"",
+      "reward @9:27.3: \"You did it!\" → \"You won back some sounds!\"",
+      "w1-3 @12:11.8: \"Lovely!\" → \"Brilliant!\""
+     ]
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "6 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹first_q› \"Which one starts with...\" from w1-2 @7:47.8",
+      "‹how_we_spell› \"This is how we spell...\" from w1-2 @8:09.7",
+      "‹hunt_q› \"Which one has this sound in it?\" from w1-7 @18:40.4",
+      "‹swap_make› \"Change it to make...\" from w1-8 @21:27.1",
+      "‹what_changed› \"What changed? Listen here.\" from w1-8 @21:32.8",
+      "‹swap_pick› \"Now pick the new sound.\" from w1-8 @22:03.5"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "12",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "map @7:36.3 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"",
+      "map @10:44.2 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"",
+      "map @12:56.5 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"",
+      "map @15:06.0 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"",
+      "map @17:21.7 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"",
+      "map @18:24.3 ‹map_hint› \"Tap the glowing stone to start your next adventure.\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "\"You're a ninja master!\" before 7 whole answers (proxy)",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "18 of 18 games",
+     "target": "0 missing",
+     "pass": false,
+     "detail": [
+      "tap (w1-wu1 1:47.6): no frame line (tv_ears_frame), no narrated demo, no Ready hold, no hand-over. Opens: \"Ninja ears on! Let's listen to some words.\" · \"This is the sun.\"",
+      "fastslow (w1-wu1 1:54.2): no frame line (tv_ts_meet), no narrated demo, no Ready hold. Opens: \"Watch me first!\" · \"I can say a word fast. Sun!\"",
+      "notice (w1-wu1 2:22.6): no frame line (tv_notice_frame/tv_ears_on), no hand-over. Opens: \"Listen to the very first sound.\" · \"Sun and sock start with the same sound...\"",
+      "tapall (w1-wu1 2:36.7): no frame line (tv_pocket_frame), no narrated demo, no Ready hold, no hand-over. Opens: \"This is a sausage.\" · \"This is the moon.\"",
+      "rail (w1-wu2 3:23.3): no frame line (tv_rail_frame), no narrated demo, no Ready hold, no hand-over. Opens: \"Ready for the next game? Tap the big arrow!\" · \"Ninjas read this way!\"",
+      "which (w1-wu2 3:48.1): no frame line (tv_which_frame), no narrated demo, no Ready hold, no hand-over. Opens: \"Fish dog!\" · \"Watch me first!\"",
+      "compound (w1-wu2 4:01.4): no frame line (tv_squish_frame), no narrated demo, no Ready hold. Opens: \"Cat dog!\" · \"Two little words can make one big word!\"",
+      "slowpick (w1-wu3 5:27.9): no frame line (tv_slow_frame), no narrated demo, no Ready hold, no hand-over. Opens: \"This is a van.\" · \"This is a bag.\"",
+      "tapall:in (w1-wu3 5:52.5): no frame line (tv_pocket_middle), no narrated demo, no Ready hold, no hand-over. Opens: \"This is some jam.\" · \"Let me show you!\"",
+      "dots (w1-wu6 6:45.6): no frame line (tv_dots_frame), no narrated demo, no Ready hold, no hand-over. Opens: \"Let me show you!\" · \"Every dot is a sound. Ninjas tap them this way!\"",
+      "firstsound (w1-2 7:43.4): no frame line (tv_first_frame), no narrated demo, no Ready hold. Opens: \"Every word starts with a sound. Let's listen for t\" · \"Watch me first!\"",
+      "find (w1-2 9:16.5): no frame line (tv_ne_frame), no hand-over. Opens: \"Find this sound...\" · \"Lovely!\""
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "9",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹fm_l1_hello› \"Ninja ears on! Let's listen to some words.\" at w1-wu3 @5:10.8, again after w1-wu1 @1:39.6",
+      "‹fm_tap_all_start› \"Tap all the pictures that start with...\" at w1-wu3 @6:14.8, again after w1-wu1 @2:41.3",
+      "‹first_intro› \"Every word starts with a sound. Let's listen for the very first sound!\" at w1-3 @10:46.3, again after w1-2 @7:38.4",
+      "‹fm_l2_way› \"Ninjas read this way!\" at w1-4 @13:14.3, again after w1-wu2 @3:23.5",
+      "‹read_intro› \"Who read it right? Listen to Kai and Suki!\" at w1-5 @16:48.2, again after w1-4 @14:33.0",
+      "‹read_intro› \"Who read it right? Listen to Kai and Suki!\" at w1-7 @20:18.7, again after w1-5 @16:48.2",
+      "‹first_intro› \"Every word starts with a sound. Let's listen for the very first sound!\" at w1-10 @25:33.2, again after w1-3 @10:46.3",
+      "‹hunt_intro› \"Now let's listen for a sound in the middle of a word!\" at w1-11 @28:58.7, again after w1-7 @18:27.0"
+     ]
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "32 said (10 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹ido› \"Watch me first!\" ×13",
+      "‹find_q› \"Find this sound...\" ×6",
+      "‹fm_you_try› \"Now you try!\" ×3",
+      "‹fm_show_me_2› \"Watch me first!\" ×3",
+      "‹fm_you_try_2› \"Your turn!\" ×2",
+      "‹fm_tap_sun› \"Tap the sun!\" ×1",
+      "‹fm_tap_sock› \"Tap the sock!\" ×1",
+      "‹fm_rw_tap› \"Tap a sticker!\" ×1",
+      "‹fs_tap› \"Tap starts with...\" ×1",
+      "‹battle_spell› \"Spell...\" ×1"
+     ],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "0; 0 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "max 29.6 s (build w1-4); 8 over",
+     "target": "≤ 12 s (named runs 12.5 s)",
+     "pass": false,
+     "detail": [
+      "build (w1-4) 29.6 s from ‹two_sounds› \"This word has two sounds!\" to ‹first_sound_q› \"What's the first sound?\"",
+      "soundhunt (w1-7) 26.5 s from ‹audit_middle_place› \"The middle sound comes after the first sound, and before the last soun\" to ‹hunt_q› \"Which one has this sound in it?\"",
+      "firstsound (w1-2) 22.6 s from ‹fs_man› \"Man starts with...\" to ‹first_q› \"Which one starts with...\"",
+      "firstsound (w1-2) 20.8 s from ‹ido› \"Watch me first!\" to ‹first_q› \"Which one starts with...\"",
+      "fastslow (w1-wu1) 15.5 s from ‹fm_show_me_2› \"Watch me first!\" to ‹fm_tap_tortoise› \"Now you tap the tortoise, and say it slowly with me.\"",
+      "compound (w1-wu2) 15.2 s from ‹fm_pair_cat_dog› \"Cat dog!\" to ‹fm_starfish_q› \"Star... fish. Tap the rabbit, and say them fast.\"",
+      "slowpick (w1-wu3) 13.8 s from ‹fm_name_van› \"This is a van.\" to ‹fm_slow_another› \"Here's another slow word...\"",
+      "rail (w1-wu2) 13.0 s from ‹fm_l2_way› \"Ninjas read this way!\" to ‹fm_l2_turn› \"Your turn! Tap them the ninja way.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "16 words (median line 4 words; 96 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 27 of 96"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "15 said (4 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹what_changed› \"What changed? Listen here.\" ×6",
+      "‹read_intro› \"Who read it right? Listen to Kai and Suki!\" ×4",
+      "‹read_who› \"Who read it right?\" ×4",
+      "‹swap_start› \"Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time.\" ×1"
+     ]
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "47 said (24 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹ido› \"Watch me first!\" ×13",
+      "‹read_intro› \"Who read it right? Listen to Kai and Suki!\" ×4",
+      "‹fm_you_try› \"Now you try!\" ×3",
+      "‹fm_show_me_2› \"Watch me first!\" ×3",
+      "‹audit_sounds_again› \"Listen to the sounds, and catch the word they make!\" ×3",
+      "‹fm_l1_hello› \"Ninja ears on! Let's listen to some words.\" ×2",
+      "‹fm_you_try_2› \"Your turn!\" ×2",
+      "‹intro_8› \"I am Sensei Maple. I will train you. Now, choose your ninja!\" ×1",
+      "‹fm_opt_notyet› \"Not yet? Tap the teddy!\" ×1",
+      "‹fm_opt_yes› \"Yes? Tap the school!\" ×1"
+     ],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "14",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w1-wu1 @1:48.3 ‹fm_tap_sun› \"Tap the sun!\" during ‹fm_show_me› \"Let me show you!\"",
+      "w1-wu1 @2:41.3 ‹fm_tap_all_start› \"Tap all the pictures that start with...\" during ‹fm_show_me› \"Let me show you!\"",
+      "w1-wu3 @5:32.8 ‹fm_slow_listen› \"Listen to my slow word...\" during ‹fm_show_me_2› \"Watch me first!\"",
+      "w1-wu3 @5:37.1 ‹fm_which_pic› \"Which picture is it?\" during ‹fm_show_me_2› \"Watch me first!\"",
+      "w1-wu3 @5:55.6 ‹fm_tap_all_in› \"Tap all the pictures with this sound in them...\" during ‹fm_show_me› \"Let me show you!\"",
+      "w1-2 @7:47.8 ‹first_q› \"Which one starts with...\" during ‹ido› \"Watch me first!\"",
+      "w1-2 @7:53.7 ‹audit_hear_see› \"We hear the sound. Now look: this is how we spell it.\" during ‹ido› \"Watch me first!\"",
+      "w1-2 @8:28.6 ‹first_q› \"Which one starts with...\" during ‹ido› \"Watch me first!\""
+     ],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/F2/perfect-w6-br1/continuous-perfect-from-w6-br1.json",
+   "label": "C6-P",
+   "persona": "perfect",
+   "from": "w6-br1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "28",
+     "target": "≤ 12",
+     "pass": false,
+     "detail": [
+      "w6-br1 @0:19.9 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w6-br2 @1:47.0 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w6-br2 @1:50.9 ‹t_three_letters› \"It's three letters, but it's just one sound.\"",
+      "w6-1 @3:11.1 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w6-1 @3:31.7 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "world flower @5:05.8 ‹t_two_letters› \"It's two letters, but it's one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "14",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w6-1 @3:31.7 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "world flower @5:27.2 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "w6-2 @5:53.6 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "w6-2 @5:57.9 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "w6-3 @7:43.9 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "world flower @9:34.7 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s"
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "6 sounds",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "/ch/: 2× (w6-br2 1:47.0, w6-br2 1:50.9)",
+      "/ae/: 3× (w6-1 3:11.1, w6-2 5:53.6, w6-2 5:57.9)",
+      "?/: 12× (w6-1 3:31.7, world flower 5:05.8, world flower 5:27.2, w6-3 7:43.9, world flower 9:12.4, world flower 9:34.7, w6-6 13:15.4, world flower 14:54.9, world flower 15:17.2, w6-ec11 17:30.1, world flower 19:01.2, world flower 19:25.7)",
+      "/ee/: 3× (w6-3 7:21.8, w6-4 10:00.5, w6-4 10:04.9)",
+      "/oe/: 3× (w6-6 12:54.2, w6-8 15:43.9, w6-8 15:48.3)",
+      "/ie/: 3× (w6-ec11 17:09.1, w6-7 19:52.9, w6-7 19:56.8)"
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "2",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "level w6-2 @5:49.8 (one breath): This sound can be spelt in two ways. /ae/ It's two letters, but it's one sound. /ae/ It's two letters, but it's one sound. Tap the chest with the same spelling as the word. \"day\"",
+      "level w6-4 @9:56.5 (one breath): This sound can be spelt in two ways. /ee/ It's two letters, but it's one sound. /ee/ It's two letters, but it's one sound. Tap the chest with the same spelling as the word. \"dream\""
+     ],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "4",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w6-1 @3:24.8 ‹same_sound_new› \"Ooh! You already know this sound. Here's another way to spell it! Same\"",
+      "w6-3 @7:37.0 ‹same_sound_new› \"Ooh! You already know this sound. Here's another way to spell it! Same\"",
+      "w6-6 @13:08.5 ‹same_sound_new› \"Ooh! You already know this sound. Here's another way to spell it! Same\"",
+      "w6-ec11 @17:23.3 ‹same_sound_new› \"Ooh! You already know this sound. Here's another way to spell it! Same\""
+     ]
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_6 ×13",
+     "target": "≤ 1 per land",
+     "pass": false,
+     "detail": [
+      "world_6 \"Welcome to the Sky Temple! Baron Muddle is hiding up here somewhere!\" said 13 times"
+     ]
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "12",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "reward @1:21.0",
+      "reward @2:46.6",
+      "reward @4:47.0",
+      "reward @6:54.5",
+      "reward @8:53.8"
+     ]
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "1",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": [
+      "reward @1:29.3"
+     ]
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "1 (1 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": false,
+     "detail": [
+      "w6-6 @13:24.8 cut"
+     ]
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "1 of 2",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "map @0:04.3 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut"
+     ]
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "10",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w6-br1 @0:05.6 ‹audit_bridging_first› \"You know this sound! Now let's look at the different ways we spell it.\"",
+      "w6-br2 @1:39.7 ‹audit_sort_again› \"Sorting time! Same sound, different spellings.\"",
+      "w6-1 @2:56.6 ‹dojo_hello› \"This is the dojo. A dojo is where ninjas practise! Let's practise some\"",
+      "w6-2 @5:46.0 ‹audit_sort_again› \"Sorting time! Same sound, different spellings.\"",
+      "w6-4 @9:52.8 ‹audit_sort_again› \"Sorting time! Same sound, different spellings.\""
+     ]
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 said",
+     "target": "all",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "3.05",
+     "target": "≤ 1.5",
+     "pass": false,
+     "detail": [
+      "83 praise lines in 27.2 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "20",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w6-1 @3:37.8: \"Super!\" → \"That's it!\"",
+      "w6-1 @3:41.1: \"That's it!\" → \"Brilliant!\"",
+      "w6-1 @4:42.2: \"That's it!\" → \"Well done! You practised so hard!\"",
+      "reward @4:47.0: \"You did it!\" → \"You won back some sounds!\"",
+      "w6-3 @7:50.5: \"Well done.\" → \"Super!\""
+     ]
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "6 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹t_two_letters› \"It's two letters, but it's one sound.\" from world flower @5:05.8",
+      "‹yay_1› \"Brilliant!\" from w6-3 @7:28.9",
+      "‹yay_4› \"Well done.\" from w6-3 @7:50.5",
+      "‹yay_2› \"Super!\" from w6-ec11 @17:41.3",
+      "‹story_your_turn› \"Your turn to read.\" from w6-10 @23:59.4",
+      "‹help_read› \"Read each word, then tap the green tick.\" from w6-10 @24:54.9"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "2",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "map @0:04.3 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"",
+      "w6-6 @13:24.8 ‹tut_speaker› \"Tap the speaker to hear the sound again.\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "n/a",
+     "target": "100%",
+     "pass": null,
+     "detail": [
+      "no splitter taps in this transcript (continuous.ts --persona splitter)"
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "\"You're a ninja master!\" before 7 whole answers (proxy)",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "1 of 1 games",
+     "target": "0 missing",
+     "pass": false,
+     "detail": [
+      "sort (w6-br1 0:05.5): no narrated demo, no Ready hold. Opens: \"Tap the glowing stone to start your next adventure\" · \"You know this sound! Now let's look at the differe\""
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "1",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹dojo_hello› \"This is the dojo. A dojo is where ninjas practise! Let's practise some\" at w6-3 @7:09.2, again after w6-1 @2:56.6"
+     ]
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "9 said (2 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹listen› \"Listen...\" ×8",
+      "‹battle_spell› \"Spell...\" ×1"
+     ],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "8; 4 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w6-1 @3:02.2 after dojo_hello: \"Listen…\" /ae/",
+      "w6-1 @3:18.3 after yay_1: \"Listen…\" /ae/ /ae/",
+      "w6-3 @7:14.9 after dojo_hello: \"Listen…\" /ee/",
+      "w6-3 @7:30.0 after yay_1: \"Listen…\" /ee/",
+      "w6-6 @12:47.5 after audit_dojo_back: \"Listen…\" /oe/",
+      "w6-6 @13:01.8 after tv_yay_lovely: \"Listen…\" /oe/",
+      "w6-ec11 @17:02.3 after audit_dojo_back: \"Listen…\" /ie/",
+      "w6-ec11 @17:16.5 after yay_1: \"Listen…\" /ie/"
+     ],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "max 17.7 s (sort w6-br1); 1 over",
+     "target": "≤ 15 s (named runs 15 s)",
+     "pass": false,
+     "detail": [
+      "sort (w6-br1) 17.7 s from ‹audit_bridging_first› \"You know this sound! Now let's look at the different ways we spell it.\" to ‹help_sort› \"Tap the chest with the same spelling as the word.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "7 words (median line 6 words; 110 turns)",
+     "target": "8–25 words",
+     "pass": false,
+     "detail": [
+      "turns under 8 words: 65 of 110"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "2 said (2 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹jump_offer› \"Wow! You got everything right. Is this too easy? You can jump ahead!\" ×1",
+      "‹story:s6_3› \"Why are you so grumpy, Baron? asked Super Ninja. The Baron sniffed. Nobody ever reads ME a story...\" ×1"
+     ]
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "13 said (5 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹dojo_tap_say› \"Tap it, and say it with me!\" ×8",
+      "‹audit_sounds_again› \"Listen to the sounds, and catch the word they make!\" ×2",
+      "‹battle_start› \"Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!\" ×1",
+      "‹t_everyone_say› \"Say that sound with me!\" ×1",
+      "‹run_start› \"Ninja Run! Tap to jump, and catch the right word!\" ×1"
+     ],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    }
+   ]
+  },
+  {
+   "file": "playtest/fix/F2/splitter-w5-1/continuous-splitter-from-w5-1.json",
+   "label": "C5-S",
+   "persona": "splitter",
+   "from": "w5-1",
+   "metrics": [
+    {
+     "id": "letters-lines",
+     "row": "letters lines in C6-P (25 min) ≤ 12",
+     "value": "13",
+     "target": "≤ 12 (C6-P only; info here)",
+     "pass": null,
+     "detail": [
+      "w5-1 @0:19.7 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @0:32.9 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @0:46.2 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @2:16.6 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "w5-1 @2:50.5 ‹t_two_letters› \"It's two letters, but it's one sound.\"",
+      "world flower @3:50.3 ‹t_two_letters› \"It's two letters, but it's one sound.\""
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-60s",
+     "row": "the same letters sentence never twice in 60 s",
+     "value": "6",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w5-1 @0:32.9 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "w5-1 @0:46.2 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "w5-1 @2:50.5 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "world flower @3:50.3 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "w5-3 @7:09.6 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s",
+      "w5-3 @7:25.9 ‹t_two_letters› \"It's two letters, but it's one sound.\" again within 60 s"
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-twice",
+     "row": "no spelling's full letters line twice in a session",
+     "value": "3 sounds",
+     "target": "0 (perfect runs only; info here)",
+     "pass": null,
+     "detail": [
+      "/sh/: 2× (w5-1 0:19.7, w5-1 2:50.5)",
+      "/ch/: 2× (w5-1 0:32.9, w5-6 15:32.3)",
+      "?/: 3× (world flower 3:50.3, w5-3 6:54.9, world flower 9:26.6)"
+     ],
+     "major": true
+    },
+    {
+     "id": "letters-echo",
+     "row": "\"/X/ two letters · /X/ two letters\" echoes",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "same-sound-after-reveal",
+     "row": "`same_sound_new` after the reveal",
+     "value": "2",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w5-3 @6:48.1 ‹same_sound_new› \"Ooh! You already know this sound. Here's another way to spell it! Same\"",
+      "w5-6 @14:41.1 ‹same_sound_new› \"Ooh! You already know this sound. Here's another way to spell it! Same\""
+     ]
+    },
+    {
+     "id": "world-welcomes",
+     "row": "world welcomes: 1 per land",
+     "value": "world_5 ×6",
+     "target": "≤ 1 per land",
+     "pass": false,
+     "detail": [
+      "world_5 \"Welcome to Shadow Castle. Don't worry, I'm right beside you.\" said 6 times"
+     ]
+    },
+    {
+     "id": "did-it-after-praise",
+     "row": "\"You did it!\" straight after another praise line",
+     "value": "5",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "reward @3:20.6",
+      "reward @6:25.3",
+      "reward @9:02.2",
+      "level w5-4 @11:36.6",
+      "reward @17:21.3"
+     ]
+    },
+    {
+     "id": "jump-offers",
+     "row": "jump offers: 0 on day one, ≤ 1 a session",
+     "value": "1",
+     "target": "≤ 1 (one session)",
+     "pass": true,
+     "detail": [
+      "reward @3:28.8"
+     ]
+    },
+    {
+     "id": "speaker-tip",
+     "row": "\"Tap the speaker…\": ≤ 2 a save, 0 cut",
+     "value": "10 (10 cut)",
+     "target": "≤ 2, 0 cut",
+     "pass": false,
+     "detail": [
+      "w5-1 @1:14.0 cut",
+      "w5-1 @1:18.0 cut",
+      "w5-1 @1:23.2 cut",
+      "w5-3 @7:35.9 cut",
+      "w5-3 @7:40.1 cut"
+     ]
+    },
+    {
+     "id": "map-hint-cut",
+     "row": "map hint cut by the next level",
+     "value": "1 of 2",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "map @0:04.2 ‹map_hint› \"Tap the glowing stone to start your next adventure.\" cut"
+     ]
+    },
+    {
+     "id": "over-map",
+     "row": "level lines started over the map",
+     "value": "5",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w5-1 @0:04.9 ‹dojo_hello› \"This is the dojo. A dojo is where ninjas practise! Let's practise some\"",
+      "w5-2 @4:52.8 ‹audit_baron_first› \"Baron Muddle hid the sounds. Let's win them back from his monsters.\"",
+      "w5-3 @6:37.0 ‹dojo_hello› \"This is the dojo. A dojo is where ninjas practise! Let's practise some\"",
+      "w5-4 @10:22.9 ‹swap_start› \"Baron Muddle has mixed up these words! Can you fix them? Change one so\"",
+      "w5-6 @14:32.2 ‹audit_dojo_back› \"Back to the dojo! Let's learn some new sounds.\""
+     ]
+    },
+    {
+     "id": "how-we-spell",
+     "row": "\"This is how we spell…\" once per spelling per level (C-P ≤ 5)",
+     "value": "0 (0 repeats)",
+     "target": "once per spelling per level",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "swap-place-heard",
+     "row": "swap place lines heard to the end",
+     "value": "0 of 2",
+     "target": "all",
+     "pass": false,
+     "detail": [
+      "w5-4 @10:37.6 ‹audit_swap_last› \"Yes, the last sound changes! Now pick the new sound.\" cut",
+      "w5-4 @10:48.5 ‹audit_swap_first› \"Yes, the first sound changes! Now pick the new sound.\" cut"
+     ]
+    },
+    {
+     "id": "praise-rate",
+     "row": "praise lines a minute",
+     "value": "3.77",
+     "target": "≤ 1.5",
+     "pass": false,
+     "detail": [
+      "72 praise lines in 19.1 min"
+     ]
+    },
+    {
+     "id": "praise-stacks",
+     "row": "praise stacks within 5 s",
+     "value": "16",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w5-1 @1:10.3: \"Well done.\" → \"That's it!\"",
+      "w5-1 @1:15.2: \"That's it!\" → \"Ninja power!\"",
+      "w5-1 @1:24.9: \"Brilliant!\" → \"Well done.\"",
+      "w5-1 @3:11.8: \"Ninja power!\" → \"That's it!\"",
+      "w5-1 @3:15.9: \"That's it!\" → \"Well done! You practised so hard!\""
+     ]
+    },
+    {
+     "id": "line-60s",
+     "row": "any line more than twice in 60 s (bar the §5.1 routines)",
+     "value": "14 lines",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹listen› \"Listen...\" from w5-1 @0:10.5",
+      "‹t_two_letters› \"It's two letters, but it's one sound.\" from w5-1 @0:19.7",
+      "‹dojo_tap_say› \"Tap it, and say it with me!\" from w5-1 @0:22.9",
+      "‹audit_spell_it› \"And this is how we spell it.\" from w5-1 @0:30.5",
+      "‹dojo_find› \"Can you find...\" from w5-1 @1:11.6",
+      "‹tut_speaker› \"Tap the speaker to hear the sound again.\" from w5-1 @1:14.0"
+     ]
+    },
+    {
+     "id": "cut-explanations",
+     "row": "cut-off explanations (not prompts)",
+     "value": "13",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "map @0:04.2 ‹map_hint› \"Tap the glowing stone to start your next adventure.\"",
+      "w5-1 @1:14.0 ‹tut_speaker› \"Tap the speaker to hear the sound again.\"",
+      "w5-1 @1:18.0 ‹tut_speaker› \"Tap the speaker to hear the sound again.\"",
+      "w5-1 @1:23.2 ‹tut_speaker› \"Tap the speaker to hear the sound again.\"",
+      "w5-3 @7:35.9 ‹tut_speaker› \"Tap the speaker to hear the sound again.\"",
+      "w5-3 @7:40.1 ‹tut_speaker› \"Tap the speaker to hear the sound again.\""
+     ]
+    },
+    {
+     "id": "split-correction",
+     "row": "split-spelling errors with the two-letter correction (splitter)",
+     "value": "1 of 2 (50%)",
+     "target": "100%",
+     "pass": false,
+     "detail": [
+      "w5-4 @11:11.9 tapped < h > for < sh >: then \"Keep going, ninja.\" · \"Listen...\""
+     ],
+     "major": true
+    },
+    {
+     "id": "master-early",
+     "row": "\"You're a ninja master!\" before 7 whole answers (proxy)",
+     "value": "0 of 0",
+     "target": "0",
+     "pass": null,
+     "detail": []
+    },
+    {
+     "id": "unframed-turn",
+     "row": "every game's first meeting: frame, demo, Ready hold, hand-over, in order",
+     "value": "n/a",
+     "target": "0 missing",
+     "pass": null,
+     "detail": [
+      "no game is met for the first time in this run"
+     ],
+     "major": true
+    },
+    {
+     "id": "over-framed",
+     "row": "a replay that plays a full frame again",
+     "value": "2",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹dojo_hello› \"This is the dojo. A dojo is where ninjas practise! Let's practise some\" at w5-3 @6:37.0, again after w5-1 @0:04.9",
+      "‹fm_l2_way› \"Ninjas read this way!\" at w5-5 @13:50.6, again after w5-5 @12:26.5"
+     ]
+    },
+    {
+     "id": "bare-command",
+     "row": "bare-command lines (under 4 words, an instruction)",
+     "value": "13 said (2 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹listen› \"Listen...\" ×12",
+      "‹battle_spell› \"Spell...\" ×1"
+     ],
+     "major": true
+    },
+    {
+     "id": "bare-listen",
+     "row": "a one-word \"Listen…\" opening a game, a beat, a level or a turn",
+     "value": "11; 3 after quiet or before the level's first tap",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "w5-1 @0:10.5 after dojo_hello: \"Listen…\" /sh/",
+      "w5-1 @0:27.4 after yay_8: \"Listen…\" /ch/ /ch/",
+      "w5-1 @0:39.7 after yay_1: \"Listen…\" /th/",
+      "w5-1 @0:53.0 after tv_yay_thats_it: \"Listen…\" /dh/ /dh/",
+      "w5-3 @6:42.6 after dojo_hello: \"Listen…\" /k/ /k/",
+      "w5-3 @7:03.2 after yay_8: \"Listen…\" /ng/ /ng/",
+      "w5-3 @7:16.2 after yay_2: \"Listen…\" /w/",
+      "w5-6 @14:35.6 after audit_dojo_back: \"Listen…\" /k/ /k/"
+     ],
+     "major": true
+    },
+    {
+     "id": "talk-before-action",
+     "row": "talk before a child action, first meetings",
+     "value": "n/a",
+     "target": "≤ 15 s",
+     "pass": null,
+     "detail": [
+      "no first-meeting runs recognised"
+     ],
+     "major": true
+    },
+    {
+     "id": "turn-median",
+     "row": "the median Sensei turn (all talk between two child actions)",
+     "value": "10 words (median line 4 words; 85 turns)",
+     "target": "8–25 words",
+     "pass": true,
+     "detail": [
+      "turns under 8 words: 38 of 85"
+     ],
+     "major": true
+    },
+    {
+     "id": "rhetorical-question",
+     "row": "rhetorical questions (a ? with no hold or turn that can answer it)",
+     "value": "2 said (2 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹jump_offer› \"Wow! You got everything right. Is this too easy? You can jump ahead!\" ×1",
+      "‹swap_start› \"Baron Muddle has mixed up these words! Can you fix them? Change one sound at a time.\" ×1"
+     ]
+    },
+    {
+     "id": "shouted-instruction",
+     "row": "instructions that end in \"!\"",
+     "value": "15 said (4 lines)",
+     "target": "0",
+     "pass": false,
+     "detail": [
+      "‹dojo_tap_say› \"Tap it, and say it with me!\" ×11",
+      "‹audit_sounds_again› \"Listen to the sounds, and catch the word they make!\" ×2",
+      "‹battle_start› \"Uh oh! One of Baron Muddle's monsters is in the way! Spell the words to zap it!\" ×1",
+      "‹run_start› \"Ninja Run! Tap to jump, and catch the right word!\" ×1"
+     ],
+     "major": true
+    },
+    {
+     "id": "demo-command",
+     "row": "a line addressed to the child during Sensei's own demo",
+     "value": "0",
+     "target": "0",
+     "pass": true,
+     "detail": [],
+     "major": true
+    },
+    {
+     "id": "first-dojo-opening",
+     "row": "w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound",
+     "value": "n/a",
+     "target": "yes",
+     "pass": null,
+     "detail": [
+      "no w2-1 in this transcript"
+     ],
+     "major": true
+    },
+    {
+     "id": "ready-auto-advance",
+     "row": "a Ready hold that ends without the child",
+     "value": "n/a",
+     "target": "0",
+     "pass": null,
+     "detail": [
+      "no Ready holds recorded"
+     ],
+     "major": false
+    },
+    {
+     "id": "watcher-replay",
+     "row": "the paw at a Ready: the demo, tv_ready_now, and a hold that waits",
+     "value": "n/a",
+     "target": "all",
+     "pass": null,
+     "detail": [
+      "no paw taps at a Ready hold (continuous.ts --persona watcher, once Ready holds exist)"
+     ],
+     "major": false
+    },
+    {
+     "id": "handover-once",
+     "row": "a hand-over Ready answered on the board isn't asked again",
+     "value": "n/a",
+     "target": "0 re-asked",
+     "pass": null,
+     "detail": [
+      "no Ready answered on the board"
+     ],
+     "major": false
+    }
+   ]
+  }
+ ]
+}

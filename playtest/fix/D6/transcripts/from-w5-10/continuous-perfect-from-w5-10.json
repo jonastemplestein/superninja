@@ -1,0 +1,824 @@
+{
+ "meta": {
+  "persona": "perfect",
+  "from": "w5-10",
+  "optin": "none",
+  "fast": 4,
+  "levels": 1,
+  "base": "http://127.0.0.1:4746",
+  "at": "2026-09-27T10:16:35.853Z"
+ },
+ "evs": [
+  {
+   "t": 0,
+   "kind": "scene",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "piece",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "route",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 0.1,
+   "kind": "tap",
+   "text": "Start"
+  },
+  {
+   "t": 1.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome back, ninja! I'm so happy to see you.",
+   "id": "tv_welcome_back",
+   "dur": 3522,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 1.7,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 1.7,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 1.7,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 1.7,
+   "kind": "turn",
+   "text": "w5-10",
+   "game": null
+  },
+  {
+   "t": 5.2,
+   "kind": "tap",
+   "text": "level w5-10"
+  },
+  {
+   "t": 5.2,
+   "kind": "piece",
+   "text": "stone 1: w5-10"
+  },
+  {
+   "t": 6.1,
+   "kind": "scene",
+   "text": "level-wait"
+  },
+  {
+   "t": 6.1,
+   "kind": "piece",
+   "text": "level w5-10"
+  },
+  {
+   "t": 6.1,
+   "kind": "route",
+   "text": "level:w5-10"
+  },
+  {
+   "t": 7.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Story time!",
+   "id": "tv_story_short",
+   "dur": 976,
+   "route": "level:w5-10",
+   "mapOn": false
+  },
+  {
+   "t": 9,
+   "kind": "scene",
+   "text": "story"
+  },
+  {
+   "t": 9,
+   "kind": "game",
+   "text": "story"
+  },
+  {
+   "t": 9.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This story is called...",
+   "id": "tv_story_title",
+   "dur": 1749,
+   "route": "level:w5-10",
+   "mapOn": false
+  },
+  {
+   "t": 11.1,
+   "kind": "story",
+   "who": "sensei",
+   "text": "[story s5_title]",
+   "id": "story:s5_title",
+   "dur": 1621,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 12.7,
+   "kind": "hold",
+   "text": "ready:story",
+   "end": 14.9,
+   "how": "next"
+  },
+  {
+   "t": 13.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the green arrow, and let's begin.",
+   "id": "tv_story_begin",
+   "dur": 2462,
+   "route": "level:w5-10",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 14.3,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Deep inside Shadow Castle, Baron Muddle kept his treasure chest, stuffed full of stolen sound petals. Super Ninja crept in through a window...",
+   "id": "story:s5_1",
+   "dur": 9846,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 14.3,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 26.4,
+   "kind": "hold",
+   "text": "story 1/10",
+   "end": 28.4,
+   "how": "next"
+  },
+  {
+   "t": 27.6,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 27.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is 'the'. Just say 'the' here.",
+   "id": "audit_special_the",
+   "dur": 2578,
+   "route": "level:w5-10",
+   "mapOn": false
+  },
+  {
+   "t": 28.5,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 30.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Your turn to read.",
+   "id": "story_your_turn",
+   "dur": 1327,
+   "route": "level:w5-10",
+   "mapOn": false
+  },
+  {
+   "t": 30.9,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 31.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "There's a slow way to say a word, and a fast way.",
+   "id": "tv_fs_two_ways",
+   "dur": 3692,
+   "route": "level:w5-10",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 32.4,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": false
+  },
+  {
+   "t": 32.4,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 32.5,
+   "kind": "story",
+   "who": "sensei",
+   "text": "The chest is on a big black rock.",
+   "id": "story:s5_2",
+   "dur": 2523,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 35.2,
+   "kind": "story",
+   "who": "sensei",
+   "text": "But the chest was locked with a muddle-lock. How could Super Ninja open it?",
+   "id": "story:s5_3",
+   "dur": 5112,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 40.8,
+   "kind": "hold",
+   "text": "story 3/10",
+   "end": 44,
+   "how": "next"
+  },
+  {
+   "t": 42.1,
+   "kind": "story",
+   "who": "sensei",
+   "text": "What should Super Ninja do?",
+   "id": "story:s5_4",
+   "dur": 1543,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 42.1,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 44,
+   "kind": "turn",
+   "text": "tap",
+   "game": "story"
+  },
+  {
+   "t": 46.1,
+   "kind": "tap",
+   "text": "tap",
+   "busy": false
+  },
+  {
+   "t": 46.1,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 46.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Let's say it the slow way...",
+   "id": "tv_fs_say_slow",
+   "dur": 2311,
+   "route": "level:w5-10",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 48.7,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-10",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 49.2,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 312,
+   "show": "tile",
+   "route": "level:w5-10",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 49.8,
+   "kind": "sound",
+   "text": "/p/",
+   "id": "sound:p",
+   "dur": 165,
+   "show": "tile",
+   "route": "level:w5-10",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 50.3,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "call"
+  },
+  {
+   "t": 50.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And now, fast...",
+   "id": "tv_fs_now_fast",
+   "dur": 1528,
+   "route": "level:w5-10",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 52.1,
+   "kind": "word",
+   "text": "tap",
+   "id": "word:tap",
+   "dur": 590,
+   "route": "level:w5-10",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 52.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is 'the'. Just say 'the' here.",
+   "id": "audit_special_the",
+   "dur": 2578,
+   "route": "level:w5-10",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 53.4,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 56.1,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 57.5,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": false
+  },
+  {
+   "t": 57.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 57.7,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Tap, tap, tap. The lock went click!",
+   "id": "story:s5_5",
+   "dur": 3076,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 60.1,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 62.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is 'so'. Just say 'so' here.",
+   "id": "audit_special_so",
+   "dur": 2988,
+   "route": "level:w5-10",
+   "mapOn": false
+  },
+  {
+   "t": 62.7,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 64.9,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 65.5,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 65.6,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 65.7,
+   "kind": "story",
+   "who": "sensei",
+   "text": "The lid pops up. So much stuff!",
+   "id": "story:s5_6",
+   "dur": 3129,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 67.3,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 68.8,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Petals whooshed out of the chest like a rainbow snowstorm, flying home to the World Flower. Now only the Sky Temple is left...",
+   "id": "story:s5_7",
+   "dur": 9713,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 78.5,
+   "kind": "hold",
+   "text": "story 9/10",
+   "end": 80.4,
+   "how": "next"
+  },
+  {
+   "t": 79.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 79.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now a question about the story.",
+   "id": "tv_story_q",
+   "dur": 2094,
+   "route": "level:w5-10",
+   "mapOn": false
+  },
+  {
+   "t": 82,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Where was the chest?",
+   "id": "story:s5_q",
+   "dur": 1289,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 82.7,
+   "kind": "turn",
+   "text": "rock",
+   "game": "story"
+  },
+  {
+   "t": 83.9,
+   "kind": "tap",
+   "text": "rock",
+   "busy": false
+  },
+  {
+   "t": 83.9,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 84,
+   "kind": "word",
+   "text": "rock",
+   "id": "word:rock",
+   "dur": 565,
+   "route": "level:w5-10"
+  },
+  {
+   "t": 84.6,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The end! What a story!",
+   "id": "story_end",
+   "dur": 2400,
+   "route": "level:w5-10",
+   "mapOn": false
+  },
+  {
+   "t": 85.8,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 86.5,
+   "kind": "tap",
+   "text": "rock",
+   "busy": true
+  },
+  {
+   "t": 87.6,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 87.6,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 87.6,
+   "kind": "route",
+   "text": "reward:w5-10"
+  },
+  {
+   "t": 87.6,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 87.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, you got everything right! Grown-ups, if this is too easy, you can jump ahead.",
+   "id": "tv_jump_offer",
+   "dur": 5996,
+   "route": "reward:w5-10",
+   "mapOn": true
+  },
+  {
+   "t": 94.5,
+   "kind": "hold",
+   "text": "reward",
+   "end": 96.4,
+   "how": "next"
+  },
+  {
+   "t": 95.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The glowing stone is your next game. Tap it when you're ready.",
+   "id": "tv_map_hint",
+   "dur": 3656,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 95.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 96.4,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 96.4,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 96.4,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 96.4,
+   "kind": "turn",
+   "text": "w5-11",
+   "game": null
+  }
+ ],
+ "dom": [
+  {
+   "t": 0,
+   "nodes": 100,
+   "fx": 0
+  },
+  {
+   "t": 10.2,
+   "nodes": 75,
+   "fx": 0
+  },
+  {
+   "t": 20.4,
+   "nodes": 81,
+   "fx": 0
+  },
+  {
+   "t": 30.9,
+   "nodes": 155,
+   "fx": 0
+  },
+  {
+   "t": 44,
+   "nodes": 91,
+   "fx": 0
+  },
+  {
+   "t": 54.4,
+   "nodes": 164,
+   "fx": 0
+  },
+  {
+   "t": 64.9,
+   "nodes": 157,
+   "fx": 0
+  },
+  {
+   "t": 75.2,
+   "nodes": 91,
+   "fx": 0
+  },
+  {
+   "t": 85.6,
+   "nodes": 115,
+   "fx": 0
+  },
+  {
+   "t": 96.4,
+   "nodes": 235,
+   "fx": 0
+  }
+ ],
+ "stones": 1,
+ "navlog": [
+  {
+   "t": 12.6,
+   "kind": "step",
+   "id": "ready:story",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 14.3,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 14.3,
+   "kind": "ready",
+   "id": "ready:story",
+   "how": "next"
+  },
+  {
+   "t": 14.3,
+   "kind": "step",
+   "id": "ready:story",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 14.3,
+   "kind": "step",
+   "id": "story",
+   "from": null,
+   "to": 0,
+   "via": "next"
+  },
+  {
+   "t": 27.6,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 27.6,
+   "kind": "step",
+   "id": "story",
+   "from": 0,
+   "to": 1,
+   "via": "next"
+  },
+  {
+   "t": 35.2,
+   "kind": "step",
+   "id": "story",
+   "from": 1,
+   "to": 2,
+   "via": "read"
+  },
+  {
+   "t": 42.1,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 42.1,
+   "kind": "step",
+   "id": "story",
+   "from": 2,
+   "to": 3,
+   "via": "next"
+  },
+  {
+   "t": 46.1,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 50.3,
+   "kind": "speed",
+   "which": "fast",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 52.7,
+   "kind": "step",
+   "id": "story",
+   "from": 3,
+   "to": 6,
+   "via": "pick"
+  },
+  {
+   "t": 62.1,
+   "kind": "step",
+   "id": "story",
+   "from": 6,
+   "to": 7,
+   "via": "read"
+  },
+  {
+   "t": 68.8,
+   "kind": "step",
+   "id": "story",
+   "from": 7,
+   "to": 8,
+   "via": "read"
+  },
+  {
+   "t": 79.7,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 79.7,
+   "kind": "step",
+   "id": "story",
+   "from": 8,
+   "to": 9,
+   "via": "next"
+  },
+  {
+   "t": 84.5,
+   "kind": "step",
+   "id": "story",
+   "from": 9,
+   "to": null,
+   "via": "answer"
+  },
+  {
+   "t": 95.7,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "noSplit": [],
+ "streakLines": []
+}

@@ -2,9 +2,37 @@
 
 26 September 2026. What to change so the game speaks the way [SCRIPT_STYLE.md](SCRIPT_STYLE.md) says. Each fix names the file, the function, the change, any new lines (whole sentences, Sounds~Write wording) and what the transcript should say afterwards. The evidence (runs C-P, C-L, C5-P, C5-L, C6-P, C6-L, J-P, J-L) is described in SCRIPT_STYLE §1.
 
-**Who applies these.** Nothing here has been applied: another workflow is editing `src/scenes`, `src/App.tsx` and `src/ui` right now. The helpers in Part A are pure content (`src/content/narrative.ts`, tested in `src/content/narrative.test.ts`) and can land first; the scene changes land after the current scene work, one small change each. Line numbers are for the source at about 21:30 on 26 Sep; search for the quoted code if they have moved.
+**Who applies these.** (Written before the fix workflow; see the status above.) Nothing here had been applied: another workflow is editing `src/scenes`, `src/App.tsx` and `src/ui` right now. The helpers in Part A are pure content (`src/content/narrative.ts`, tested in `src/content/narrative.test.ts`) and can land first; the scene changes land after the current scene work, one small change each. Line numbers are for the source at about 21:30 on 26 Sep; search for the quoted code if they have moved.
 
 **How this fits the architecture.** ARCHITECTURE §4.2 and §6.2 give each notion a dosage (full explanations, their spacing in sessions, reminders, a per-session cap), counted by the ledger from *completed* explanations only. Until the director owns dosage (stage 7), the game's interim ledger is the per-save `narr` map in `src/scenes/narrate.tsx`. These fixes make that interim ledger behave like the designed one: spacing counted in **sessions**, short forms after the full ones, reminders only on errors once the full explanations are done, and never re-queuing an explanation that was cut off. Part E says what to change in the core so the director inherits the same rules.
+
+> **Status, 27 Sep (after the fix workflow; integration, [FIX_PLAN](FIX_PLAN_PERF_SCRIPT_SOUNDS.md) §10).** Everything below has been applied, in the lanes the plan names, with TEACHER_SCRIPT's teacher voice on top: where the two differ, TEACHER_SCRIPT wins, and the notes marked *Superseded* say so. The acceptance results are in `playtest/fix/final/` (`script-compare.md`: every script check before and after; `sound-check.md`; `contact.html`) and the integration step's report.
+>
+> | Fix | Done by | Status |
+> |---|---|---|
+> | A1–A9 (helpers) | F2 (`narrative.ts`, tested) | done |
+> | Part B (new lines) | F2 | done, except `st_speaker_ok`, `st_like_this_in` and `st_and_like_this_in`, which TEACHER_SCRIPT §7.3 dropped (not recorded) |
+> | C1 the sort's introduction | D4 | done: one sentence per chest with its own example ("This is the way we spell it in cat.", "In kit, it's spelt like this."), the letters line on the due chest only, ending on the sound (Dec4) |
+> | C2 the Dojo's Learn | D1 (with F2's `lettersFor`, `sameSpellingSay`) | done, in TEACHER_SCRIPT §3.26's words (the Ready-held lesson, the petal join-ins) |
+> | C3 the trip | F2 (`teach.ts`) + B3 (`GemFound`) | done: `justTaught`, a shared `used` set, `world`; "…in mat." at most once a trip; the `_way` family (T11) |
+> | C4 read-back reminders | F2 + D1, D2, D5, D6 (callers) | done: sessions, one a level, `afterWordSay`, ending on the sound (Dec4) |
+> | C5 the two-letter correction | F2 (`correctionFor`) + D1, D2, D3 | done; the splitter's runs show it in the Dojo, battles and Sound Swap |
+> | C6 the map | B1 | done: welcome once a session, the hint on the first two arrivals, then an 8/16/40 s ladder |
+> | C7 the reward | B1 + B4 | done: `rewardLead`, "More stickers…" twice a session, the jump offer from `shouldOfferJump` (Dec9) |
+> | C8 the first World Flower visit | B3 + B2 + B1 | done: the child's own petal, three held steps |
+> | C9 first sounds and sound hunt | C1 | done, with TEACHER_SCRIPT's narrated I do |
+> | C10 Dojo Find | D1 | done: `tv_petal_hint` before the question, rotating stems |
+> | C11 Sound Swap | D3 | done in TEACHER_SCRIPT §3.20's form (see the note in C11) |
+> | C12 Dojo Build | D1 | done |
+> | C13 early word building | C1 | done |
+> | C14 who read it right | C1 | done (the readers read before the question) |
+> | C15 praise | F2 (`praiseFor`, `fsPraise`) + every scene | done: ≤ 1.5 a minute and no stacks in each lane's runs |
+> | C16 Ninja Run | D5 | done (`runBlendCue`) |
+> | C17 the warm-ups | C2 | done (`beginLevel`, the closes of TS §5.6) |
+> | C18 speak when the screen is there | B1 (`LevelHost`, Dec5) | done |
+> | C19 the Hear it again lesson | A | *superseded*: the speaker says a rhyme (TEACHER_SCRIPT T18) |
+> | C20 concept 4 | F2 | done |
+> | C21 a petal whenever a sound is said | F3 + every scene, then `DEFAULT_SHOW = "petal"` at integration | done |
 
 Priorities: **P1** is Jonas's complaint (the two-letter family and the sort); **P2** is everything else a child hears every few minutes; **P3** is rarer or smaller.
 
@@ -187,8 +215,8 @@ One new owned block at the end of `LINES` in `src/content/lines.ts`: `// --- Scr
 |---|---|---|---|
 | `st_two_letters_too` | This one's two letters too, but it's just one sound. | Dojo Learn, the second two-letter spelling within two minutes | SW "It's two letters but it's just one sound" [15][101], with "too" pointing back |
 | `st_know_this_sound` | Ooh, you already know this sound! | Dojo Learn, before the spell, for a new spelling of a known sound | the news before the reveal; the reveal then uses the official `t_another_way` |
-| `st_like_this_in` | …like this, in… | Sort, a middle chest | a teacher pointing along the chests |
-| `st_and_like_this_in` | …and like this, in… | Sort, the last chest | |
+| `st_like_this_in` | …like this, in… | Sort, a middle chest | a teacher pointing along the chests. *Not recorded: TEACHER_SCRIPT §7.3 dropped it.* |
+| `st_and_like_this_in` | …and like this, in… | Sort, the last chest | *Not recorded: TEACHER_SCRIPT §7.3 dropped it.* |
 | `st_what_change` | What do we need to change? | Sound Swap | SW "What do you think we need to change?" [77] |
 | `st_first_changes` | Yes, the first sound changes! | Sound Swap (split from `audit_swap_first`) | protected half of the old line |
 | `st_middle_changes` | Yes, the middle sound changes! | Sound Swap | |
@@ -203,7 +231,7 @@ One new owned block at the end of `LINES` in `src/content/lines.ts`: `// --- Scr
 | `st_find_q3` | Now find… | Dojo Find (A5) | |
 | `st_last_one` | Last one! | Dojo Learn, the last of three or more spellings | series shape (SCRIPT_STYLE §5) |
 | `st_th_moth_sometimes` | …in moth, and sometimes… | concept 4 for < th > (with `t_same_spelling_sometimes`, /th/, /dh/ and the existing `tg_th_dh_in` "…in this.") | 5 clips, no bare "…in…" |
-| `st_speaker_ok` | That's it! I'll always say it again. | the dojo welcome's speaker step (C19) | |
+| `st_speaker_ok` | That's it! I'll always say it again. | the dojo welcome's speaker step (C19) | *Not recorded: TEACHER_SCRIPT §7.3 dropped it.* |
 | `fm_fast_mug` | I can say a word fast. Mug! | W3's fast and slow recap | same shape as `fm_fast_sun`; `Warmup.tsx` already looks for `fm_fast_${word}` |
 
 No new line is needed for the two-letter error correction (`thats`, `we_need`, `t_two_letters`) or the speaker tip (`tut_speaker`, moved).
@@ -219,6 +247,7 @@ No new line is needed for the two-letter error correction (`thats`, `we_need`, `
 **Change**
 - Say the sound once, with the petal (it is already on screen, `Sort.tsx:802`), in the lead.
 - Each chest, as it lights and hops, gets one example word in a sentence: the first "This is the way we spell…" /ae/ "…in rain." (`t_way_we_spell`, sound, `tg_<g>_<p>_in` or `t_in` + word), the middle ones "…like this, in…" + word (`st_like_this_in`), the last "…and like this, in…" + word (`st_and_like_this_in`). The example word is each spelling's canonical first example (`exampleWords(p, g)[0]`, which has a recorded "…in *word*." clip for the first chest); no two chests share a word (`freshWords()`).
+- *Superseded (TEACHER_SCRIPT T11, §4.3; 27 Sep):* the chests say "This is the way we spell it in cat." and "In kit, it's spelt like this." (`tv_spelt_like_this_<w>`), so the sound ends its sentence. `st_like_this_in` and `st_and_like_this_in` were never recorded, and `tg_<g>_<p>_in` tails retire for `tg_<g>_<p>_way`.
 - The letters fact is said only on the chest whose spelling is **due** under A1 (`dueInSessions(narr[lettersKey(g)], session, SESSIONS.reminder)`), at most one chest per sort, and recorded with the session. For a child who met < ai > and < ay > in the dojo a minute ago, none is due.
 - `told(lettersKey(g), LETTERS)` at 395 moves to that one chest.
 
@@ -236,7 +265,7 @@ No new line is needed for the two-letter error correction (`thats`, `we_need`, `
 1. Pass the series position: `index={phase.i}`, `count={teach.length}`.
 2. `letters` (412): compute the form with `lettersForm(t, recentLetters(), gameNow())` (A2), where `recentLetters()` is a small module-level list in `narrate.tsx` that `Learn`, `Build`'s reminder and `correctionFor` push to (`{ at, form, n }`, game time = `performance.now() * FAST`, `n` the spelling's letters). `full` → `lettersSay(t)`; `too` → `[{ line: "st_two_letters_too" }]`; `none` → `[]`.
 3. A new spelling of a known sound (`alsoSpelt`, 416): don't put `same_sound_new` / `same_sound_diff` in `about`. Instead, in the `intro` (443), after the sound twice: `{ line: "st_know_this_sound" }` (every time `alsoSpelt` is set; it is short). After the spell, `spellIt` (463) leads with `t_another_way` + sound in place of `audit_spell_it` + sound.
-4. `dojo_tap_say` (463, 420 `recap`, 490 idle prompt): for `index > 0` use `fm_you_try_2` ("Your turn!"). The idle prompt and Help keep `dojo_tap_say` (they are for a child who didn't act).
+4. `dojo_tap_say` (463, 420 `recap`, 490 idle prompt): for `index > 0` use `fm_you_try_2` ("Your turn!"). The idle prompt and Help keep `dojo_tap_say` (they are for a child who didn't act). *Superseded (TEACHER_SCRIPT T7, TV-D1.2): no instruction under four words, so the Learn says `tv_tap_letter_say` / `tv_tap_it_say_short` ("Now you tap it, and say the sound."), not "Your turn!".*
 5. The last of three or more (`index === count - 1 && count >= 3`): `st_last_one` before "Listen…".
 6. Record the letters telling with the session (`heard(lettersKey(g))` at 470 passes the session through A1's `told`).
 
@@ -262,6 +291,7 @@ Letters lines in the Learn: 2 (was 3) in w5-1, 2 in w6-1, and never the same sen
 3. Two or more new sounds in one trip: the first lead is `st_found_new_sounds`; the second new sound gets `st_another_new_sound`; the third and later get no lead (their petal appearing is enough).
 4. Example words: pass a `used` set through the gems of one trip and pick with `freshWords()`; and in the generated examples (`scripts/gen-teach-lines.ts` → `teach-lines.gen.ts`), give `gem:t>t` a first example that isn't "mat" (for example "tap"), so the recorded "…in…" clips don't repeat a word within a level's trip (C-P 12:01 and 12:09 both say "…in mat.").
 5. `GemFound` passes `justTaught` = the level's `teach` keys when the trip follows that level (`flowerVisitAfter` → `{ kind: "spelling" }`).
+6. *Superseded in part (TEACHER_SCRIPT T11, TV-F2.5):* the found sound is said as "Here's the sound…" /ae/ · "This is the way we spell it in rain." (`tv_here_sound` + the sound + `tg_<g>_<p>_way`), not "This is the way we spell…" /ae/ "…in rain." (the `tg_<g>_<p>_in` tail). Before land 2 the trips leave out "We see this spelling in…" (T21).
 
 **Transcript after** (C6-P 5:00, after w6-1):
 > You found a new sound! Look, here is its petal, shining through the mist. · This is the way we spell… /ae/ …in rain. · We see this spelling in tail and nail. · You found a new gem! It's a spelling of the sound… /ae/ · …like in tray, day and say. · Now you know two ways to spell… /ae/
@@ -377,7 +407,7 @@ and the callers reveal and glow the right tile for it on the first miss (they al
 **File** `src/scenes/Swap.tsx`, `ask()` (283-297), `sayPick()` (335-347), the correction (407).
 
 **Change**
-1. `ask()`, early swaps: `[swap_make, to-word, gap 300, listen, stretch(from), gap 350, stretch(to), gap 250, st_what_change]`. Later swaps unchanged (`swap_which`).
+1. `ask()`, early swaps: `[swap_make, to-word, gap 300, listen, stretch(from), gap 350, stretch(to), gap 250, st_what_change]`. Later swaps unchanged (`swap_which`). *Superseded (TEACHER_SCRIPT §3.20, TV-D3.1): the turn is `tv_swap_now_change` + the word, `tv_swap_both` with the slow pair, `st_what_change`, then the protected `st_*_changes` and `tv_swap_pick`; `swap_make` and the bare "Listen…" are gone.*
 2. From the third step, once the child has got two steps right first time in a row (`fadeForm`, A6): just `[swap_make, to-word]`; the stretched pair and the question come back after a miss.
 3. `sayPick()`: say the place line **protected** and the prompt after it: `await say({ line: st_<place>_changes }, { protect: true })` (tiles for the new sound become tappable as it ends), then `say({ line: "swap_pick" })`. `audit_swap_*` stay for Hear it again until `st_*_changes` are recorded.
 4. 407: the correction `[thats, sound, stays_same, listen, from, to]` gets a petal on screen for "That's /s/" (C21).
@@ -461,6 +491,8 @@ Place lines heard to the end: 3 of 3 (was 0 of 3).
 **Change** Give the speaker something to say again: the speaker step opens with the ninja's word, then the instruction; the tap says the word again, then Sensei confirms. Lines: `fm_name_sun` ("This is the sun."), `fm_speaker` ("And when you tap the speaker, I'll say it again!"), and on the tap `fm_name_sun` again, then `st_speaker_ok` ("That's it! I'll always say it again.", Part B).
 
 **Transcript after**: "This is the sun. · And when you tap the speaker, I'll say it again! · *(tap)* This is the sun. · That's it! I'll always say it again." (was the same instruction twice, C-P 1:32–1:36).
+
+*Superseded (TEACHER_SCRIPT T18, TV-A.1, 27 Sep):* the speaker says a rhyme, "Tip, tap, tiptoe, quiet as a mouse." (`tv_rhyme`), which the first story echoes; `st_speaker_ok` was not recorded.
 
 ### C20 (P3). Concept 4 as fewer fragments
 

@@ -222,3 +222,18 @@ The other constants are as in §§2–5: `mechanicSlip` 0.2; `eliminationFactor`
 18. **Priors:** Reception declared in March: the expected unit is IC5 (FIRST_MINUTES §4's start), so IC1–IC3 KCs are assumed at 0.6 and IC4–IC5 at 0.4. Three real wrong answers on `gpc:m>m:read` turn it `observed` with pKnown < 0.4.
 19. **Purity:** `apply` never mutates (deep-freeze the input); unknown events return the same object; `fold(all) == fold(tail, fold(head))` for every split point.
 20. **Energy:** 8 grades ≥ 2 give 1.0; only helped grades give < 0.3.
+
+
+## Foundation skills (27 September 2026)
+
+`foundations` is shared by `LearnerState` and the per-child browser `Save`. The pure reducer and queries live in `src/core/learner/foundations.ts`; `Attempt.foundations` carries explicit observations through replay. `recordFoundation` is the current React adapter. Older saves begin with unknown skills; legacy aggregate word/GPC counters are not converted into invented direct assessments.
+
+- Directionality: `start-left`, `track-order`, `return-sweep` (next line). Each is independent.
+- Joining: slow and fast, each with separate recognition and spoken-production records.
+- Letters: visual recognition plus a map of specific sounds. Each pair separately records letter→spoken sound and spoken sound→letter. Case and digraphs remain distinct. `alphabetKnowledge()` returns all 26 lower-case letters, including unseen ones. `hasSecureSoundBothWays` requires at least one *same* sound to be secure in both directions.
+
+Every record retains practice, correct/incorrect assessments, independent attempts, a bounded recent accuracy window, and successful sessions. Secure means at least five recent independent attempts, at least 80% correct, across two successful sessions. This foundation status is a conservative observational summary, separate from the existing BKT/forgetting estimate; it does not itself unlock Sounds~Write units.
+
+The browser records sound→letter choices in Ninja Eyes and Dojo, ordering evidence in the rail activities, joining recognition in listening activities, and unassessed speaking practice in guided fast/slow and letter turns. Glows, pointing, retries, forced taps and automated answers cannot establish independent mastery. Visual-only letter recognition, return-sweep and actual spoken production remain unknown until explicitly assessed; there is no speech recogniser or adult scoring UI in these scenes. `adult-observed`/`speech-assessed` observations can update production, while a playback tap cannot.
+
+Encouragement now defaults to each eligible correct answer (warm-ups: first, then every other answer), still yielding to streak/closing feedback. Existing recorded prompts invite the child to say sounds/words on the first and every third relevant interaction, with 1.2 seconds left for their voice. Word-building read-back explicitly asks them to say the whole word.

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stretched clips</title>
+<style>
+  :root { --bg: #fffdf6; --ink: #2b1d14; --soft: #6b5a4c; --line: #e8dcc4; --bad: #b3261e; --ok: #1f7a3f; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #1d1712; --ink: #f4ead8; --soft: #b9a88f; --line: #3a2f25; --bad: #ff8a80; --ok: #7ad19a; } }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.45 system-ui, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  h2 { font-size: 17px; margin: 28px 0 8px; }
+  p { margin: 6px 0; color: var(--soft); }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+  .id { font: 600 13px ui-monospace, monospace; }
+  .x { font: 600 13px ui-monospace, monospace; text-align: right; }
+  .t { grid-column: 1 / -1; }
+  audio { grid-column: 1 / -1; width: 100%; height: 34px; }
+  .bad .x { color: var(--bad); } .ok .x { color: var(--ok); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Stretched clips: listen for artefacts</h1>
+  <p>gen-audio slows a word-perfect take that is still faster than 3.3 words a second with Praat's PSOLA (up to ×1.5). The Gemini judge can't hear stretching: it gave 10/10 to every clip below, including the two deliberately ruined calibration clips (playtest/confirm/logs/listen.json). So a person has to listen. Play the calibration clips first, then note any clip that sounds warbly, metallic, buzzy or drawn out. Open this file from the repo (<code>open playtest/confirm/listen.html</code>).</p>
+
+  <h2>Calibration: what stretching sounds like</h2>
+  <div class="row bad"><span class="id">bad: PSOLA ×2.2</span><span class="x">×2.2</span><span class="t">"Do you want to stop the gem battle? Your gem will wait for you." (far past the ×1.5 cap)</span><audio controls preload="none" src="listen/bad_psola_x2.2.mp3"></audio></div>
+  <div class="row bad"><span class="id">bad: ffmpeg atempo 0.55</span><span class="x">×1.8</span><span class="t">"Tap the house to go home. Or tap the green arrow to keep playing." (a tempo filter, not PSOLA)</span><audio controls preload="none" src="listen/bad_atempo_0.55.mp3"></audio></div>
+  <div class="row"><span class="id">the same line, PSOLA ×1.36</span><span class="x">×1.36</span><span class="t">The most any clip below was stretched: compare with the natural original under "Controls".</span><audio controls preload="none" src="listen/psola_x1.36.mp3"></audio></div>
+
+  <h2>The confirm's clips</h2>
+  <div id="confirm"></div>
+  <h2>The map's clips (the map lane's)</h2>
+  <div id="map"></div>
+  <h2>Controls: never stretched</h2>
+  <div id="controls"></div>
+</main>
+<script>
+  const L = (id) => "../../public/a/l/" + id + ".mp3";
+  const rows = {
+    confirm: [
+      ["tv_confirm_leave", "Do you want to stop this game and go home?", 1.254, "in use: every leave question"],
+      ["tv_confirm_leave_boss", "Do you want to leave the boss battle? You can come back any time.", 1.096, "in use"],
+      ["tv_confirm_replay", "Do you want to go back and play this game again?", 1.364, "superseded (nothing calls it)"],
+    ],
+    map: [
+      ["tv_map_replay_story", "Do you want to read that story again?", 1.358],
+      ["tv_map_replay_boss", "Do you want to battle the boss again?", 1.313],
+      ["tv_map_replay_run", "Do you want to play Ninja Run again?", 1.311],
+      ["tv_map_replay_swap", "Do you want to play Sound Swap again?", 1.302],
+      ["tv_map_replay_dojo", "Do you want to do that dojo lesson again?", 1.266],
+      ["tv_map_replay_sort", "Do you want to play Sorting again?", 1.223],
+      ["tv_map_replay_next", "Off to your next game!", 1.191],
+      ["tv_map_replay_firstsound", "Do you want to play First Sounds again?", 1.176],
+      ["tv_map_replay_soundhunt", "Do you want to play Sound Hunt again?", 1.17],
+      ["tv_map_replay_how", "Tap the picture to play it again. Or tap the green arrow for your next game.", 1.074],
+      ["tv_map_replay_picread", "Do you want to play the fish-dog game again?", 1.046],
+      ["tv_map_replay_battle", "Do you want to battle that monster again?", 1.032],
+    ],
+    controls: [
+      ["tv_confirm_leave_trial", "Do you want to stop the gem battle? Your gem will wait for you.", 1, "the natural original of the calibration clips"],
+      ["tv_confirm_how_home", "Tap the house to go home. Or tap the green arrow to keep playing.", 1],
+      ["tv_confirm_play_again", "You've played that game before. Do you want to play it again?", 1],
+      ["tv_map_help", "Look next to your ninja. Tap the glowing stone.", 1],
+    ],
+  };
+  for (const [group, list] of Object.entries(rows)) {
+    const host = document.getElementById(group);
+    for (const [id, text, x, note] of list) {
+      const row = document.createElement("div");
+      row.className = "row" + (x === 1 ? " ok" : "");
+      row.innerHTML = `<span class="id"></span><span class="x"></span><span class="t"></span><audio controls preload="none"></audio>`;
+      row.querySelector(".id").textContent = id;
+      row.querySelector(".x").textContent = x === 1 ? "natural" : "×" + x;
+      row.querySelector(".t").textContent = `"${text}"` + (note ? ` (${note})` : "");
+      row.querySelector("audio").src = L(id);
+      host.appendChild(row);
+    }
+  }
+</script>
+</body>
+</html>

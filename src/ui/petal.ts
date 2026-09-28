@@ -1,8 +1,13 @@
 // The petal shape and colour helpers, shared by the World Flower (src/scenes/Tree.tsx) and the sound pictures
-// (src/ui/SoundBadge.tsx), so scenes that show a sound don't import the World Flower. docs/NAVIGATION.md §4.
-// (Tree.tsx still has its own copies of teardrop/teardropAt/mix; it should import these instead when it is next edited.)
+// (src/ui/SoundBadge.tsx), so scenes that show a sound don't import the World Flower. docs/NAVIGATION.md §4,
+// docs/SOUND_DISPLAY.md §4. (Tree.tsx still has its own copies of teardrop/teardropAt/mix; it should import these
+// instead when it is next edited.)
 import type { PhonemeId } from "../content/phonics";
-import { chartOf } from "../content/flower";
+import { chartPetal, iconWordOf } from "../content/flower";
+
+/** The word a sound's petal picture shows (/a/ "apple"), for SOUND_DISPLAY A12: never offer it as an answer card in a
+ *  turn that shows the petal. Null for a sound with no petal of its own. */
+export { iconWordOf };
 
 /** Teardrop petal (round top, point at the bottom), centred on 0,0: the shape on the school's sheet. */
 export const teardrop = (w: number, h: number) => teardropAt(w, h, 0, 0);
@@ -19,10 +24,15 @@ const hex = (c: number[]) => "#" + c.map((v) => Math.round(Math.max(0, Math.min(
 /** Mix two #rrggbb colours: t = 0 is `a`, 1 is `b`. */
 export const mix = (a: string, b: string, t: number) => hex(rgb(a).map((v, i) => v + (rgb(b)[i] - v) * t));
 
+/** Does this sound have a petal (a chart picture and colour) of its own? /ks/ and /kw/ don't: they are two sounds, shown
+ *  as a pair (Dec7). */
+export const hasPetal = (p: string): p is PhonemeId => !!chartPetal(p);
 /** The sound's chart picture (public/a/i/petal_<id>.webp): what a child sees for a sound, never letters. */
 export const petalImg = (p: PhonemeId) => `/a/i/petal_${p}.webp`;
 /** The sound's chart colour; the chart's ink-dark /or/ is painted deep bronze so it doesn't read as a hole. */
 export const petalColour = (p: PhonemeId) => {
-  const c = chartOf(p)?.colour ?? "#a08a74";
+  const c = chartPetal(p)?.colour ?? "#a08a74";
   return c === "#2b1d14" ? "#7a4a24" : c;
 };
+/** The mist of a sound not met yet (SOUND_DISPLAY §4.1): grey-lilac, with a "?" (as on the flower and the scroll). */
+export const MIST = { fill: "#8d84ad", deep: "#5d5579", line: "#4a4263", q: "#f3eeff" } as const;

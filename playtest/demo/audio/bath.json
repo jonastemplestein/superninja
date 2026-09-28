@@ -1,0 +1,999 @@
+{
+ "model": "gemini-3.1-pro-preview",
+ "votes": 21,
+ "calibration": {
+  "model": "gemini-3.1-pro-preview",
+  "ok": true,
+  "features": [
+   {
+    "feature": "bath",
+    "british": {
+     "uk": 45,
+     "n": 48,
+     "share": 0.9375
+    },
+    "american": {
+     "uk": 0,
+     "n": 48,
+     "share": 0
+    },
+    "rightSide": 0.96875,
+    "words": 32,
+    "ok": true,
+    "clips": [
+     {
+      "key": "british:eleven-alice/sensei-2.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/sensei-2.mp3",
+      "text": "Can you find the car? It's by the grass, next to the bath.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "grass",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       },
+       {
+        "feature": "bath",
+        "word": "bath",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/sensei-3.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/sensei-3.mp3",
+      "text": "Let's say it the slow way first, then the fast way. Brilliant, you did it!",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/sensei-4.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/sensei-4.mp3",
+      "text": "Say mat slowly. Now say it fast.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/sensei-6.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/sensei-6.mp3",
+      "text": "Water, butter, tomato, dance, can't, half past four.",
+      "p": 0.6666666666666666,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "dance",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       },
+       {
+        "feature": "bath",
+        "word": "can't",
+        "votes": [
+         "UK",
+         "US",
+         "UK"
+        ],
+        "uk": 2,
+        "n": 3,
+        "p": 0.6666666666666666
+       },
+       {
+        "feature": "bath",
+        "word": "half",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       },
+       {
+        "feature": "bath",
+        "word": "past",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/tv_same_word.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/tv_same_word.mp3",
+      "text": "Fast or slow, it's the same word. When I say it slowly, I can hear its sounds.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Fast",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/fm_starfish_q.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/fm_starfish_q.mp3",
+      "text": "Star... fish. Tap the rabbit, and say them fast.",
+      "p": 0.3333333333333333,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "UK",
+         "US",
+         "US"
+        ],
+        "uk": 1,
+        "n": 3,
+        "p": 0.3333333333333333
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/fm_opt_q2.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/fm_opt_q2.mp3",
+      "text": "Which class are you in? Tap your class.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "class",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/audit_middle_place.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/audit_middle_place.mp3",
+      "text": "The middle sound comes after the first sound, and before the last sound.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "after",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       },
+       {
+        "feature": "bath",
+        "word": "last",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/help_name.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/help_name.mp3",
+      "text": "Ask a grown-up to help you type your name, then tap the green tick.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Ask",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/jump_pick.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/jump_pick.mp3",
+      "text": "How far shall we jump? Ask a grown-up to help you choose.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Ask",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "british:eleven-alice/world_5.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/eleven-alice/world_5.mp3",
+      "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+      "p": 1,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Castle",
+        "votes": [
+         "UK",
+         "UK",
+         "UK"
+        ],
+        "uk": 3,
+        "n": 3,
+        "p": 1
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/sensei-2.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/sensei-2.mp3",
+      "text": "Can you find the car? It's by the grass, next to the bath.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "grass",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "bath",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/sensei-3.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/sensei-3.mp3",
+      "text": "Let's say it the slow way first, then the fast way. Brilliant, you did it!",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/sensei-4.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/sensei-4.mp3",
+      "text": "Say mat slowly. Now say it fast.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/sensei-6.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/sensei-6.mp3",
+      "text": "Water, butter, tomato, dance, can't, half past four.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "dance",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "can't",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "half",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "past",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/tv_same_word.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/tv_same_word.mp3",
+      "text": "Fast or slow, it's the same word. When I say it slowly, I can hear its sounds.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Fast",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/fm_starfish_q.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/fm_starfish_q.mp3",
+      "text": "Star... fish. Tap the rabbit, and say them fast.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "fast",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/fm_opt_q2.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/fm_opt_q2.mp3",
+      "text": "Which class are you in? Tap your class.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "class",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/audit_middle_place.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/audit_middle_place.mp3",
+      "text": "The middle sound comes after the first sound, and before the last sound.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "after",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       },
+       {
+        "feature": "bath",
+        "word": "last",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/help_name.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/help_name.mp3",
+      "text": "Ask a grown-up to help you type your name, then tap the green tick.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Ask",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/jump_pick.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/jump_pick.mp3",
+      "text": "How far shall we jump? Ask a grown-up to help you choose.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Ask",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     },
+     {
+      "key": "american:openai-coral/world_5.mp3",
+      "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/playtest/voice-picker/audio/accent-refs/openai-coral/world_5.mp3",
+      "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+      "p": 0,
+      "words": [
+       {
+        "feature": "bath",
+        "word": "Castle",
+        "votes": [
+         "US",
+         "US",
+         "US"
+        ],
+        "uk": 0,
+        "n": 3,
+        "p": 0
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "clips": [
+  {
+   "key": "tv_demo_show",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_show.mp3",
+   "text": "Let me show you.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_look",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_look.mp3",
+   "text": "Look!",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_watch_me",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_watch_me.mp3",
+   "text": "Watch my paw carefully.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_watch_write",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_watch_write.mp3",
+   "text": "Now watch me write it.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_tap",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_tap.mp3",
+   "text": "Let's pretend I say a word. Then you find its picture, and tap it.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_fastslow",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_fastslow.mp3",
+   "text": "Let's pretend you tap the tortoise. Then you say the word slowly.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_tapall",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_tapall.mp3",
+   "text": "Let's pretend I say a sound. Then you find every picture that starts with it.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_tapall_in",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_tapall_in.mp3",
+   "text": "Let's pretend I say a sound. Then you find every picture with it in the middle.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_rail",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_rail.mp3",
+   "text": "Let's pretend I show you two pictures. Then you read them, starting on this side.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_which",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_which.mp3",
+   "text": "Let's pretend I read one row. Then you tap the row I read.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_compound",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_compound.mp3",
+   "text": "Let's pretend I say two little words. Then you squish them into one big word.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_slowpick",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_slowpick.mp3",
+   "text": "Let's pretend I say a word very slowly. Then you find its picture.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_sounds",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_sounds.mp3",
+   "text": "Let's pretend I say the sounds in a word. Then you find its picture.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_dots",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_dots.mp3",
+   "text": "Let's pretend I show you a picture. Then you tap each dot, and say its sound.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_firstsound",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_firstsound.mp3",
+   "text": "Let's pretend I say a sound. Then you find the picture that starts with it.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_find",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_find.mp3",
+   "text": "Let's pretend I say a sound. Then you find how we write it.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_soundhunt",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_soundhunt.mp3",
+   "text": "Let's pretend I say a sound. Then you find the picture with that sound in the middle.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_build",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_build.mp3",
+   "text": "Let's pretend I say a word. Then you build it with its sounds, one at a time.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_readcheck",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_readcheck.mp3",
+   "text": "Let's pretend Kai and Suki read a word. Then you tap the one who read it right.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_battle",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_battle.mp3",
+   "text": "Let's pretend I say a word. Then you find its sounds, and zap the monster.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_boss",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_boss.mp3",
+   "text": "Let's pretend I say a word. Then you spell it, and zap the boss.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_trial",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_trial.mp3",
+   "text": "Let's pretend I say a word. Then you spell it before the bar is full.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_review",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_review.mp3",
+   "text": "Let's pretend I say a tricky word. Then you spell it, and zap the monster.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_swap",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_swap.mp3",
+   "text": "Let's pretend I want a new word. Then you change just one sound.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_sort",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_sort.mp3",
+   "text": "Let's pretend a word falls down. Then you tap the chest with the same spelling.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_run",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_run.mp3",
+   "text": "Let's pretend I say some sounds. Then you catch the lantern with that word.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_story",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_story.mp3",
+   "text": "Let's pretend it's your page. Then you read each word, and tap the green tick.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_learn",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_learn.mp3",
+   "text": "Let's pretend I say a new sound. Then you say it back to me.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_find_sun",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_find_sun.mp3",
+   "text": "Let's pretend I say, ‘Find the sun.’ Then you tap on the sun.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_rule_find_sausage",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_rule_find_sausage.mp3",
+   "text": "Let's pretend I say, ‘Find the sausage.’ Then you tap on the sausage.",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_sun",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_sun.mp3",
+   "text": "I'm going to tap on the sun... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_sausage",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_sausage.mp3",
+   "text": "I'm going to tap on the sausage... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_sock",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_sock.mp3",
+   "text": "I'm going to tap on the sock... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_mug",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_mug.mp3",
+   "text": "I'm going to tap on the mug... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_cat",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_cat.mp3",
+   "text": "I'm going to tap on the cat... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_map",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_map.mp3",
+   "text": "I'm going to tap on the map... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_ant",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_ant.mp3",
+   "text": "I'm going to tap on the ant... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_tent",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_tent.mp3",
+   "text": "I'm going to tap on the tent... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_nut",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_nut.mp3",
+   "text": "I'm going to tap on the nut... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_pan",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_pan.mp3",
+   "text": "I'm going to tap on the pan... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_pin",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_pin.mp3",
+   "text": "I'm going to tap on the pin... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_mop",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_mop.mp3",
+   "text": "I'm going to tap on the mop... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_rabbit",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_rabbit.mp3",
+   "text": "I'm going to tap on the rabbit... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_tortoise",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_tortoise.mp3",
+   "text": "I'm going to tap on the tortoise... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_row",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_row.mp3",
+   "text": "I'm going to tap on this row... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_chest",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_chest.mp3",
+   "text": "I'm going to tap on this chest... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_card",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_card.mp3",
+   "text": "I'm going to tap on my word card... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_tap_dots",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_tap_dots.mp3",
+   "text": "I'm going to tap each dot, starting on this side... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_read_row",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_read_row.mp3",
+   "text": "I'm going to read this row... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_first_sound",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_first_sound.mp3",
+   "text": "I'm going to find the first sound... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_next_sound",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_next_sound.mp3",
+   "text": "I'm going to find the next sound... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_last_sound",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_last_sound.mp3",
+   "text": "I'm going to find the last sound... now...",
+   "p": 0.7142857142857143,
+   "words": [
+    {
+     "feature": "bath",
+     "word": "last",
+     "votes": [
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "UK",
+      "US",
+      "UK",
+      "UK",
+      "UK",
+      "US",
+      "US",
+      "UK",
+      "US",
+      "UK",
+      "US",
+      "UK",
+      "UK",
+      "US",
+      "UK",
+      "UK",
+      "UK"
+     ],
+     "uk": 15,
+     "n": 21,
+     "p": 0.7142857142857143
+    }
+   ]
+  },
+  {
+   "key": "tv_demo_now_take_out",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_take_out.mp3",
+   "text": "I'm going to take out the old sound... now...",
+   "p": null,
+   "words": []
+  },
+  {
+   "key": "tv_demo_now_put_in",
+   "file": "/Users/jonastemplestein/src/github.com/jonastemplestein/superninja/public/a/l/tv_demo_now_put_in.mp3",
+   "text": "I'm going to put in the new sound... now...",
+   "p": null,
+   "words": []
+  }
+ ]
+}

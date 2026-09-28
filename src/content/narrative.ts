@@ -157,10 +157,13 @@ export const SWAP_POSITION_LINE: Record<Position, string> = { first: "audit_swap
 /** "Listen again" corrections, rotated so a learner who misses often doesn't hear one sentence over and over. The
  *  stretched set promises a slow word, so it is only for words with a stretched recording. TEACHER_SCRIPT §5.4:
  *  `tv_listen_here` "Let's listen again. What can you hear here?" replaces `listen_here` and `listen_again` (a line
- *  that isn't recorded yet falls back through LISTEN_FALLBACK). */
+ *  that isn't recorded yet falls back through LISTEN_FALLBACK). The plain set (a spelling game's first miss, with the
+ *  plain word: FS1) has a third sentence since every first miss now goes back to listening (verify round 1: the
+ *  stuck recap moved to the second miss), "Listen to the word again. What sound do you hear here?"; a miss on the
+ *  word's first sound skips "What sound comes next?" (feedback.ts listenLead). */
 export const LISTEN_AGAIN = {
   stretched: ["tv_listen_here", "audit_listen_slowly", "audit_listen_next"],
-  plain: ["tv_listen_here", "audit_listen_next"],
+  plain: ["tv_listen_here", "audit_listen_next", "audit_spelling_help_plain"],
 } as const;
 /** What a new lead falls back to until its audio exists. */
 export const LISTEN_FALLBACK: Readonly<Record<string, string>> = { tv_listen_here: "listen_here" };
@@ -342,3 +345,254 @@ export function gemSeg(word: Pick<Word, "segs">, teach: readonly string[] = []):
   const taught = new Set(teach.map((t) => t.split("=")[0]));
   return word.segs.find((s) => taught.has(s.g)) ?? word.segs[0];
 }
+
+// ---------------------------------------------------------------- fast and slow (TEACHER_SCRIPT §9, 27 Sep)
+// Jonas: "you need to explain more often that there are slow and fast ways to read words". Five moves (§9.2): the
+// rabbit read-back (1), the idea (2), the stuck recap (3), fast and slow praise (4) and Sensei's pair (5), dosed per
+// game type per session (§9.5). The rules are here, pure; narrate.tsx keeps the session's record (createFastSlow with
+// the save's ledger) and exports fsReadback, fsIdea, fsStuck, fsPraise, fsPair and fsSaid to the scenes.
+export type FsBank = "listen" | "read" | "build";
+export type FsReadback = "rabbit" | "sw" | "pair" | "plain";
+export type FsStuckKind = "slow" | "again" | "push";
+export type FsPraiseKind = "letters" | "listen" | "build";
+/** The idea lines (Move 2) in §9.4's order: the eleven of the first recording, then the eight short ones added later on
+ *  27 Sep (each under 3.5 s). */
+export const FS_IDEAS: readonly string[] = [
+  "tv_fs_two_ways", "tv_fs_tortoise", "tv_fs_gaps", "tv_fs_rabbit", "tv_fs_read", "tv_fs_same", "tv_fs_made", "tv_fs_ninja", "tv_fs_mantra",
+  "tv_fs_spell", "tv_fs_find", "tv_fs_hiding", "tv_fs_whole", "tv_fs_push", "tv_fs_turn", "tv_fs_ninjas_can", "tv_fs_next", "tv_fs_start_end",
+  "tv_fs_count",
+];
+const fsIds = (...xs: string[]) => xs.map((x) => `tv_fs_${x}`);
+/** Each bank in its rotation order (TEACHER_SCRIPT §9.5): long and short lines alternate, so a tight run never skips
+ *  far. Listening games: W3, Slow Words, W5, W6 and Ninja Run. Reading games: Kai and Suki and Story Time. Building and
+ *  hunting games: Word Building, the Dojo, battles, Sound Swap, First Sounds, Sound Hunt and Pocket Hunt's middle. */
+export const FS_BANKS: Readonly<Record<FsBank, readonly string[]>> = {
+  listen: fsIds("two_ways", "tortoise", "gaps", "hiding", "rabbit", "whole", "read", "turn", "same", "push", "made", "ninjas_can", "ninja"),
+  read: fsIds("two_ways", "tortoise", "gaps", "hiding", "rabbit", "whole", "read", "push", "same", "ninja", "mantra"),
+  build: fsIds("two_ways", "tortoise", "gaps", "next", "made", "start_end", "same", "turn", "spell", "count", "find"),
+};
+/** The four long idea lines (4.4–4.7 s), skipped in a tight run (§9.3's "≤ 3.9 s"). */
+export const FS_LONG: ReadonlySet<string> = new Set(["tv_fs_tortoise", "tv_fs_rabbit", "tv_fs_ninja", "tv_fs_mantra"]);
+/** Lines that count as a game's idea where they play (§9.5), without moving the rotation: W1's "Fast or slow, it's the
+ *  same word…" and S~W's "If you say the sounds, you can hear the word." (W5, W6). */
+export const FS_IDEA_ALSO: readonly string[] = ["tv_same_word", "t_if_you_say_sounds"];
+/** At most 2 idea lines a level and 4 a session (§9.5). */
+export const FS_IDEA_CAP = { level: 2, session: 4 } as const;
+/** Games whose only fast/slow telling is the idea line in the praise slot (First Sounds and Sound Hunt, TS §9.3): the
+ *  session cap doesn't hold their one line back, and their line doesn't use it up (the level cap, once per game type
+ *  and never twice a session still apply). Without this, a first session's warm-ups used the 4 before w1-2, and those
+ *  two games never told fast and slow at all, against §9.5's "every game, once a session" (integration, 27 Sep). */
+export const FS_IDEA_ONLY: ReadonlySet<string> = new Set(["firstsound", "soundhunt"]);
+/** The ledger key of the rotation's pointer (a count of rotated idea lines heard in full). */
+export const FS_IDEA_KEY = "fs:idea";
+/** The stuck recap (Move 3): building, battles and First Sounds; Slow Words and Ninja Run; Guess My Word. */
+export const FS_STUCK: Readonly<Record<FsStuckKind, string>> = { slow: "tv_fs_stuck_slow", again: "tv_fs_stuck_again", push: "tv_fs_stuck_push" };
+/** Fast and slow praise (Move 4), by kind of game: with letters (Kai and Suki, Story Time), listening (Slow Words,
+ *  Guess My Word, Sound Dots, Ninja Run), building (Word Building, the Dojo, battles). Each line at most once a session. */
+export const FS_PRAISE: Readonly<Record<FsPraiseKind, readonly string[]>> = {
+  letters: ["tv_fs_praise_both", "tv_fs_praise_both_2", "tv_fs_praise_both_3"],
+  listen: ["tv_fs_praise_found", "tv_fs_praise_found_2", "tv_fs_praise_found_3", "tv_fs_praise_found_4"],
+  build: ["tv_fs_praise_every", "tv_fs_praise_every_2", "tv_fs_praise_every_3", "tv_fs_praise_every_4"],
+};
+/** Sensei's pair (Move 5): [the slow half's lead-in, the fast half's], the two pairs taking turns. */
+export const FS_PAIRS: readonly (readonly [slow: string, fast: string])[] = [["tv_fs_say_slow", "tv_fs_now_fast"], ["tv_fs_slow_tortoise", "tv_fs_fast_rabbit"]];
+/** Move 1's own lines: the slow half's lead-in, and the rabbit prompt (a game with letters; a listening game). */
+export const FS_MOVE1: readonly string[] = ["tv_fs_say_sounds_slow", "tv_fs_rabbit_read", "fm_tap_rabbit"];
+/** The stuck recap's kind in each game that has one (§9.3). */
+export const FS_STUCK_KIND: Readonly<Record<string, FsStuckKind>> = {
+  build: "slow", battle: "slow", boss: "slow", review: "slow", trial: "slow", firstsound: "slow", slowpick: "again", run: "again", sounds: "push",
+};
+/** Spelling games (FS1, docs/DECISIONS.md): a first miss or the 8 s idle gets "Let's listen again…" and the PLAIN
+ *  word, so the child segments it; the stuck recap ("Let's say it the slow way first…" and the gapped slow word, then
+ *  the tile) comes only from a second miss, when Sensei models it (narrate.tsx correctionFor, fsStuckSay). */
+export const FS_SPELLING: ReadonlySet<string> = new Set(["build", "battle", "boss", "review", "trial"]);
+
+/** The n-th read-back (1 = the first) of a game type in a session when it isn't Move 1 (§9.2): S~W's
+ *  `say_sounds_read` on the 1st (Move 1 went elsewhere), 2nd and 4th, and after any miss; Sensei's pair on the 3rd and
+ *  5th; then the faded form. `inLevel`: the game's read-backs in this level so far, this one included (Move 1 not
+ *  counted): the routine is said on the first two of every level (SCRIPT_STYLE §5.1; pre-ship fix, 28 Sep: counted
+ *  per session only, a quick child never heard it in w1-10…w2-2), so only the pair keeps its turn there. */
+export function fsReadbackAt(n: number, o: { afterMiss?: boolean; inLevel?: number } = {}): Exclude<FsReadback, "rabbit"> {
+  if (o.afterMiss || n <= 2 || n === 4) return "sw";
+  if (n === 3 || n === 5) return "pair";
+  return o.inLevel !== undefined && o.inLevel <= 2 ? "sw" : "plain";
+}
+/** The next idea line for a bank: the save's pointer (idea lines heard) walks the bank in its order; the first line
+ *  from there that hasn't been said this session, isn't long in a tight run, isn't skipped, and is recorded. */
+export function fsNextIdea(o: { pointer: number; bank: FsBank; said: ReadonlySet<string>; tight?: boolean; skip?: readonly string[]; has?: (id: string) => boolean }): string | null {
+  const bank = FS_BANKS[o.bank];
+  for (let k = 0; k < bank.length; k++) {
+    const id = bank[(Math.max(0, o.pointer) + k) % bank.length];
+    if (o.said.has(id) || (o.tight && FS_LONG.has(id)) || o.skip?.includes(id)) continue;
+    if (o.has && !o.has(id)) continue;
+    return id;
+  }
+  return null;
+}
+/** Which kind of fast and slow praise a line is, if it is one. */
+export const fsPraiseKind = (id: string): FsPraiseKind | null =>
+  (Object.keys(FS_PRAISE) as FsPraiseKind[]).find((k) => FS_PRAISE[k].includes(id)) ?? null;
+/** Is this line a fast/slow idea (rotated, or one that counts as one)? */
+export const isFsIdea = (id: string): boolean => FS_IDEAS.includes(id) || FS_IDEA_ALSO.includes(id);
+
+/** What the fast/slow record needs from the game: the session, the land, the level being played (any value that
+ *  changes at each level), the save-wide counts (the narrative ledger) and which lines are recorded. */
+export interface FsEnv {
+  session(): number;
+  world(): number;
+  level(): number;
+  count(key: string): number;
+  bump(key: string): void;
+  has(id: string): boolean;
+}
+/**
+ * The session's fast and slow record (TEACHER_SCRIPT §9.5), kept in memory: a session is one run of the page, like the
+ * read-back reminders' `perSession`. Only what is heard counts (ARCHITECTURE §3): lines are recorded by `said()` once
+ * heard in full, so a line cut off by Home comes again. Moves 1, 2 and 4 come at most once per game type per session;
+ * from land 3, Moves 1 and 2 only in the session's first game that has one.
+ */
+export function createFastSlow(env: FsEnv) {
+  type Move1 = { level: number; done: boolean };
+  const fresh = (session: number) => ({
+    session,
+    level: env.level(),
+    /** fast/slow lines said this session (ideas and praise: never twice a session) */
+    said: new Set<string>(),
+    ideaGames: new Set<string>(),
+    ideas: 0,
+    levelIdeas: 0,
+    praised: new Set<string>(),
+    readbacks: new Map<string, number>(),
+    /** read-backs per game in the current level (Move 1 not counted) */
+    levelReadbacks: new Map<string, number>(),
+    move1: new Map<string, Move1>(),
+    /** the first game whose Move 1 was heard this session */
+    move1Game: null as string | null,
+    stuckLast: new Map<string, "fs" | "own">(),
+    stuckItems: new Set<string>(),
+    /** games whose next praise slot stays the game's own (an idea or Move 1 has just spoken) */
+    quiet: new Set<string>(),
+  });
+  let s = fresh(-1);
+  const state = () => {
+    const n = env.session();
+    if (s.session !== n) s = fresh(n);
+    const lv = env.level();
+    if (s.level !== lv) {
+      s.level = lv;
+      s.levelIdeas = 0;
+      s.levelReadbacks.clear();
+    }
+    return s;
+  };
+  let pairN = 0;
+  const lateLand = () => env.world() >= 3;
+  const move1Heard = (st: ReturnType<typeof fresh>, game: string, quiet: boolean) => {
+    st.move1.set(game, { level: env.level(), done: true });
+    st.move1Game ??= game;
+    if (quiet) st.quiet.add(game);
+  };
+
+  /** Which read-back this is, and count it (§9.2): "rabbit" (Move 1) for the first of this game type this session;
+   *  then "sw" on the 2nd and 4th (and after any miss), "pair" on the 3rd and 5th, "plain" after that, except on the
+   *  first two read-backs of each level, which are "sw" (SCRIPT_STYLE §5.1). A Move 1 that
+   *  wasn't heard (Home mid-way) comes again in the game's next level; a later read-back in the same level means it
+   *  was played. */
+  function readback(game: string, o: { afterMiss?: boolean } = {}): FsReadback {
+    const st = state();
+    const lv = env.level();
+    const m = st.move1.get(game);
+    if (m && !m.done && m.level === lv) move1Heard(st, game, false);
+    const done = st.move1.get(game)?.done;
+    const allowed = !done && env.has("tv_fs_say_sounds_slow") && (!lateLand() || st.move1Game === null || st.move1Game === game);
+    if (allowed) {
+      st.move1.set(game, { level: lv, done: false });
+      st.readbacks.set(game, 1);
+      return "rabbit";
+    }
+    const n = (st.readbacks.get(game) ?? 0) + 1;
+    st.readbacks.set(game, n);
+    const inLevel = (st.levelReadbacks.get(game) ?? 0) + 1;
+    st.levelReadbacks.set(game, inLevel);
+    const r = fsReadbackAt(n, { ...o, inLevel });
+    return r === "pair" && !FS_PAIRS.some(([a, b]) => env.has(a) && env.has(b)) ? "sw" : r;
+  }
+  /** The game's idea line (Move 2) now, or null: once per game type a session, at most 2 a level and 4 a session,
+   *  never one twice in a session; from land 3 only in the session's first game with a fast/slow moment. `tight`
+   *  skips the four long lines. Sound Swap never gets "the very same word" (Swap changes the word). */
+  function idea(game: string, bank: FsBank, o: { tight?: boolean } = {}): string | null {
+    const st = state();
+    if (st.ideaGames.has(game) || st.levelIdeas >= FS_IDEA_CAP.level || (st.ideas >= FS_IDEA_CAP.session && !FS_IDEA_ONLY.has(game))) return null;
+    if (lateLand() && (st.ideas > 0 || (st.move1Game !== null && st.move1Game !== game))) return null;
+    return fsNextIdea({ pointer: env.count(FS_IDEA_KEY), bank, said: st.said, tight: o.tight, skip: game === "swap" ? ["tv_fs_same"] : undefined, has: (id) => env.has(id) });
+  }
+  /** The stuck recap's line (Move 3) when it is its turn, or null when it is the game's own line's turn: they take
+   *  turns per game (the fast/slow line first each session), and the fast/slow line is never said twice on one item
+   *  (`item`: the word or question). `always`: its turn whatever (Guess My Word's 8 s idle). */
+  function stuck(game: string, kind: FsStuckKind, o: { item?: string; always?: boolean } = {}): string | null {
+    const id = FS_STUCK[kind];
+    if (!env.has(id)) return null;
+    const st = state();
+    const ik = o.item !== undefined ? `${game}\u0000${o.item}` : null;
+    if (o.always || (st.stuckLast.get(game) !== "fs" && !(ik && st.stuckItems.has(ik)))) {
+      st.stuckLast.set(game, "fs");
+      if (ik) st.stuckItems.add(ik);
+      return id;
+    }
+    st.stuckLast.set(game, "own");
+    return null;
+  }
+  /** The game's fast and slow praise (Move 4), or null: once per game type a session, each line at most once a
+   *  session, rotating by kind across the save; never in the praise slot straight after the game's idea or Move 1
+   *  (that slot stays the game's own, and the next one gets it). */
+  function praise(game: string, kind: FsPraiseKind): string | null {
+    const st = state();
+    if (st.praised.has(game)) return null;
+    if (st.quiet.delete(game)) return null;
+    const list = FS_PRAISE[kind];
+    const p = env.count(`fs:praise:${kind}`);
+    for (let k = 0; k < list.length; k++) {
+      const id = list[(p + k) % list.length];
+      if (env.has(id) && !st.said.has(id)) return id;
+    }
+    return null;
+  }
+  /** Sensei's pair (Move 5): [slow lead-in, fast lead-in], the two pairs taking turns. */
+  function pair(): readonly [slow: string, fast: string] {
+    const ok = FS_PAIRS.filter(([a, b]) => env.has(a) && env.has(b));
+    return ok.length ? ok[pairN++ % ok.length] : FS_PAIRS[0];
+  }
+  /** Record a fast/slow line heard in full, in `game`: an idea (counts against the caps; a rotated one moves the
+   *  save's pointer), a praise line, or Move 1 (its own lines, or Sensei's pair where fsReadback said "rabbit": Kai and
+   *  Suki, Ninja Run and Story Time have no rabbit tap). Recording the same idea or praise line twice counts once. */
+  function said(id: string, game: string) {
+    const st = state();
+    if (isFsIdea(id)) {
+      if (st.said.has(id)) return;
+      st.said.add(id);
+      st.ideaGames.add(game);
+      if (!FS_IDEA_ONLY.has(game)) st.ideas++;
+      st.levelIdeas++;
+      st.quiet.add(game);
+      if (FS_IDEAS.includes(id)) env.bump(FS_IDEA_KEY);
+      return;
+    }
+    const kind = fsPraiseKind(id);
+    if (kind) {
+      if (st.said.has(id)) return;
+      st.said.add(id);
+      st.praised.add(game);
+      env.bump(`fs:praise:${kind}`);
+      return;
+    }
+    const m = st.move1.get(game);
+    if (FS_MOVE1.includes(id) || (FS_PAIRS.some((p) => p.includes(id)) && m && !m.done)) {
+      if (!m?.done) move1Heard(st, game, true);
+    }
+    st.said.add(id);
+  }
+  /** Was this line recorded (said()) this session? (Ninja Run's `tv_fs_run`, once a session.) */
+  const heardThisSession = (id: string): boolean => state().said.has(id);
+  return { readback, idea, stuck, praise, pair, said, heardThisSession };
+}
+export type FastSlow = ReturnType<typeof createFastSlow>;

@@ -70,3 +70,21 @@ test("Dec2: a plain hit still counts as one answer; a miss starts the answers ag
   assert.equal(tierLineEarned(2, { answers: 3, levelAnswers: 3 }), false);
   assert.equal(tierLineEarned(2, { answers: 4, levelAnswers: 1 }), true);
 });
+test("window.__snStreak: the streak as data, and each tier line granted with the answers it rested on", () => {
+  fresh();
+  const probe = (globalThis as unknown as { __snStreak: import("./streak").StreakProbe }).__snStreak;
+  assert.ok(probe, "published on window");
+  for (let i = 0; i < 10; i++) streak.hit({ part: true });
+  assert.deepEqual([probe.n, probe.tier, probe.answers], [10, 3, 0], "part hits count for n, not answers");
+  streak.answer();
+  assert.deepEqual([probe.answers, probe.levelAnswers], [1, 1], "answer() is published");
+  const before = probe.lines.length;
+  assert.equal(tierLineId(3), null);
+  assert.equal(probe.lines.length, before, "a silent power-up records nothing");
+  for (let i = 0; i < 6; i++) streak.answer();
+  const id = tierLineId(3);
+  assert.notEqual(id, null);
+  assert.deepEqual(probe.lines.at(-1), { ...probe.lines.at(-1)!, id: id!, tier: 3, n: 10, answers: 7, levelAnswers: 7 });
+  streak.miss({ line: false });
+  assert.deepEqual([probe.n, probe.tier, probe.answers], [0, 0, 0]);
+});

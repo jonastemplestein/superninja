@@ -1,0 +1,184 @@
+[
+ {
+  "t": 9200.90000000596,
+  "kind": "step",
+  "id": "ready:story",
+  "from": null,
+  "to": 0
+ },
+ {
+  "t": 11827.199999988079,
+  "kind": "tap",
+  "nav": "next"
+ },
+ {
+  "t": 11827.199999988079,
+  "kind": "ready",
+  "id": "ready:story",
+  "how": "next"
+ },
+ {
+  "t": 11827.59999999404,
+  "kind": "step",
+  "id": "ready:story",
+  "from": 0,
+  "to": null
+ },
+ {
+  "t": 11828.5,
+  "kind": "step",
+  "id": "story",
+  "from": null,
+  "to": 0,
+  "via": "next"
+ },
+ {
+  "t": 22384,
+  "kind": "tap",
+  "nav": "next"
+ },
+ {
+  "t": 22384.29999998212,
+  "kind": "step",
+  "id": "story",
+  "from": 0,
+  "to": 1,
+  "via": "next"
+ },
+ {
+  "t": 45878,
+  "kind": "speed",
+  "which": "slow",
+  "via": "call",
+  "shown": true
+ },
+ {
+  "t": 50493.90000000596,
+  "kind": "speed",
+  "which": "fast",
+  "via": "call",
+  "shown": true
+ },
+ {
+  "t": 53058.59999999404,
+  "kind": "speed",
+  "which": "slow",
+  "via": "call",
+  "shown": true
+ },
+ {
+  "t": 54635.40000000596,
+  "kind": "speed",
+  "which": "fast",
+  "via": "word",
+  "shown": true
+ },
+ {
+  "t": 55450.09999999404,
+  "kind": "speed",
+  "which": "slow",
+  "via": "call",
+  "shown": true
+ },
+ {
+  "t": 56552.69999998808,
+  "kind": "speed",
+  "which": "fast",
+  "via": "word",
+  "shown": true
+ },
+ {
+  "t": 59374.90000000596,
+  "kind": "step",
+  "id": "story",
+  "from": 1,
+  "to": 2,
+  "via": "read"
+ },
+ {
+  "t": 66875.59999999404,
+  "kind": "tap",
+  "nav": "next"
+ },
+ {
+  "t": 66875.79999998212,
+  "kind": "step",
+  "id": "story",
+  "from": 2,
+  "to": 3,
+  "via": "next"
+ },
+ {
+  "t": 68733.90000000596,
+  "kind": "speed",
+  "which": "slow",
+  "via": "call",
+  "shown": true
+ },
+ {
+  "t": 70240.40000000596,
+  "kind": "speed",
+  "which": "fast",
+  "via": "word",
+  "shown": true
+ },
+ {
+  "t": 74825.29999998212,
+  "kind": "step",
+  "id": "story",
+  "from": 3,
+  "to": 4,
+  "via": "read"
+ },
+ {
+  "t": 80962.79999998212,
+  "kind": "speed",
+  "which": "slow",
+  "via": "call",
+  "shown": true
+ },
+ {
+  "t": 83035.90000000596,
+  "kind": "speed",
+  "which": "fast",
+  "via": "word",
+  "shown": true
+ },
+ {
+  "t": 83675.29999998212,
+  "kind": "step",
+  "id": "story",
+  "from": 4,
+  "to": 7,
+  "via": "pick"
+ },
+ {
+  "t": 93023.29999998212,
+  "kind": "step",
+  "id": "story",
+  "from": 7,
+  "to": 8,
+  "via": "read"
+ },
+ {
+  "t": 100626.79999998212,
+  "kind": "tap",
+  "nav": "next"
+ },
+ {
+  "t": 100626.90000000596,
+  "kind": "step",
+  "id": "story",
+  "from": 8,
+  "to": 9,
+  "via": "next"
+ },
+ {
+  "t": 108933.69999998808,
+  "kind": "step",
+  "id": "story",
+  "from": 9,
+  "to": null,
+  "via": "answer"
+ }
+]

@@ -10,6 +10,11 @@
 // streak.answer() once the whole answer (the word, the item) is done. A tier line is said only once the streak holds
 // LINE_AFTER[tier] whole answers and at least one of them came in this level; before that the tier-up is a silent
 // power-up. A plain hit() (no `part`) still counts as one answer, so scenes that haven't moved over keep working.
+//
+// Errorless taps (pre-ship fix, 28 Sep): part hits that no answer() closes (the Learn's "say it with me" taps, the
+// Training kicks) light their flames, but they don't count towards a whole answer's streak: the next plain hit()
+// takes them back off first (never below the tier already lit), so the first Ninja Eyes answer after a Learn is one
+// answer, not a "Ninja power!" (the verify round's streak_3 on the first answer).
 import { useSyncExternalStore } from "react";
 import { LINES } from "../content/lines";
 import { store } from "./store";
@@ -50,16 +55,39 @@ let n = 0;
 /** whole answers in the current streak, and in this level (Dec2) */
 let answers = 0;
 let levelAnswers = 0;
+/** part hits since the last whole answer: a word's letters until its answer(), or errorless taps no answer closes */
+let pending = 0;
 let snap = { n: 0, tier: 0 as Tier };
 let banked: { n: number; answers: number; at: number } | null = null;
 const CARRY_MS = 20 * 60_000;
 const listeners = new Set<Listener>();
 const subs = new Set<() => void>();
 
+/** For the checks (script-audit's `master-early`, the bots): the streak as plain data, kept current on every change, and
+ *  each tier line granted with the whole answers it rested on (the last 50). `window.__snStreak`. */
+export interface StreakProbe {
+  n: number;
+  tier: Tier;
+  /** whole answers in the current streak (Dec2) */
+  answers: number;
+  /** whole answers since this level started */
+  levelAnswers: number;
+  /** tier lines granted by tierLineId(), oldest first: `t` is performance.now() */
+  lines: { t: number; id: string; tier: Tier; n: number; answers: number; levelAnswers: number }[];
+}
+const probe: StreakProbe = { n: 0, tier: 0, answers: 0, levelAnswers: 0, lines: [] };
+function publish() {
+  probe.n = n;
+  probe.tier = tierOf(n);
+  probe.answers = answers;
+  probe.levelAnswers = levelAnswers;
+}
+
 function emit(type: StreakEvent["type"], prevN: number, o: { line?: boolean; defer?: boolean } = {}) {
   const prevTier = tierOf(prevN);
   const tier = tierOf(n);
   snap = { n, tier };
+  publish();
   const e: StreakEvent = { type, n, tier, prevN, prevTier, tierUp: type === "hit" && tier > prevTier, line: o.line ?? true, defer: !!o.defer };
   listeners.forEach((f) => f(e));
   subs.forEach((f) => f());
@@ -84,18 +112,25 @@ export const streak = {
   /** First-try correct answer(s). Without `part`, the call is one whole answer (whatever its `count`). */
   hit(opts: HitOpts = {}): StreakEvent {
     const p = n;
-    n += Math.max(1, opts.count ?? 1);
-    if (!opts.part) {
+    const k = Math.max(1, opts.count ?? 1);
+    if (opts.part) pending += k;
+    else {
+      // parts no answer() closed were errorless taps: they don't count towards this answer (never below the lit tier)
+      if (pending) n = Math.max(TIER_AT[tierOf(n)], n - pending);
+      pending = 0;
       answers += 1;
       levelAnswers += 1;
     }
+    n += k;
     return emit("hit", p, opts);
   },
   /** A whole answer is done (a word built with no miss, after its `part` hits): it counts towards the spoken tier
    *  lines. Call it whether or not a tier was crossed, and before the deferred ninja.streakLine(). */
   answer(): void {
+    pending = 0;
     answers += 1;
     levelAnswers += 1;
+    publish();
   },
   /** A wrong answer: the streak is gently lost (the ninja thinks; "Keep going, ninja!" if it was 3 or more, unless
    *  `line: false`, for a scene that says streak_lost itself, e.g. before its correction). */
@@ -103,6 +138,7 @@ export const streak = {
     const p = n;
     n = 0;
     answers = 0;
+    pending = 0;
     return emit("miss", p, opts);
   },
   /** Level start, silently: back to zero, or to the streak banked by the level finished just before. */
@@ -112,6 +148,7 @@ export const streak = {
     n = carry?.n ?? 0;
     answers = carry?.answers ?? 0;
     levelAnswers = 0;
+    pending = 0;
     banked = null;
     return emit("reset", p);
   },
@@ -128,6 +165,7 @@ export const streak = {
     const p = n;
     n = Math.max(0, to);
     answers = levelAnswers = n;
+    pending = 0;
     return emit(n >= p ? "hit" : "reset", p);
   },
   /** Subscribe to streak events. Returns an unsubscribe function. */
@@ -151,9 +189,11 @@ export const tierLineEarned = (tier: Tier, o: { answers: number; levelAnswers: n
  *  earned (a silent power-up, Dec2). */
 export function tierLineId(tier: Tier): string | null {
   if (!tierLineEarned(tier)) return null;
-  if (tier === 1 && !store.get().seenStreak && hasLine(FIRST_STREAK)) return FIRST_STREAK;
-  const id = tier === 3 && hasLine("tv_streak_10") ? "tv_streak_10" : `streak_${TIER_AT[tier]}`;
-  return hasLine(id) ? id : null;
+  const id = tier === 1 && !store.get().seenStreak && hasLine(FIRST_STREAK) ? FIRST_STREAK : tier === 3 && hasLine("tv_streak_10") ? "tv_streak_10" : `streak_${TIER_AT[tier]}`;
+  if (!hasLine(id)) return null;
+  probe.lines.push({ t: typeof performance !== "undefined" ? Math.round(performance.now()) : 0, id, tier, n, answers, levelAnswers });
+  if (probe.lines.length > 50) probe.lines.shift();
+  return id;
 }
 /** Call when a tier line has been said: the first-streak explanation is then never said again for this child. */
 export function tierLineSaid(id: string | null | undefined, finished = true) {
@@ -179,4 +219,7 @@ export function useStreak(): { n: number; tier: Tier } {
   );
 }
 
-if (typeof window !== "undefined") (window as any).__streak = streak;
+if (typeof window !== "undefined") {
+  (window as any).__streak = streak;
+  (window as any).__snStreak = probe;
+}

@@ -1,0 +1,808 @@
+{
+ "name": "w1-wu1-t2",
+ "url": "https://superninja.templestein.com/play/?level=w1-wu1",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 107.967,
+ "game": {
+  "start": 2.416,
+  "end": 106.203
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   36.4,
+   37,
+   37.4,
+   35.2,
+   40.7,
+   29.6,
+   16,
+   23.4,
+   21.3,
+   27.4
+  ],
+  "audioShiftMs": 41.1,
+  "residualMs": [
+   5.8,
+   8.8,
+   -9.2,
+   9.1,
+   -14.2,
+   11.8,
+   23.1,
+   -0.9,
+   16.1,
+   -6.2
+  ],
+  "residualMedianMs": 7.3,
+  "residualMaxAbsMs": 23.1
+ },
+ "frames": {
+  "frames": 6179,
+  "fps": 59.8,
+  "p50": 16.7,
+  "p95": 18.1,
+  "p99": 19.3,
+  "max": 34.8,
+  "hitches": 0,
+  "repeatedSlots": 0,
+  "slots": 3098,
+  "deliveryMs": 14.2
+ },
+ "master": "w1-wu1-t2.master.mp4",
+ "audio": "w1-wu1-t2.master.wav",
+ "recordedAt": "2026-09-27T05:31:18.392Z",
+ "events": [
+  {
+   "t": 0.739,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.042,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.324,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.609,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.919,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.459,
+   "kind": "mark",
+   "id": "reload take"
+  },
+  {
+   "t": 2.701,
+   "kind": "scene",
+   "id": "warmup"
+  },
+  {
+   "t": 2.705,
+   "kind": "music",
+   "id": "dojo",
+   "dur": 90.508
+  },
+  {
+   "t": 2.709,
+   "kind": "mark",
+   "id": "loaded take"
+  },
+  {
+   "t": 2.89,
+   "kind": "speech",
+   "id": "fm_l1_hello",
+   "dur": 3.081,
+   "text": "Ninja ears on! Let's listen to some words."
+  },
+  {
+   "t": 6.098,
+   "kind": "speech",
+   "id": "fm_name_sun",
+   "dur": 1.479,
+   "text": "This is the sun."
+  },
+  {
+   "t": 7.855,
+   "kind": "speech",
+   "id": "fm_name_sock",
+   "dur": 0.977,
+   "text": "This is a sock."
+  },
+  {
+   "t": 9.115,
+   "kind": "speech",
+   "id": "fm_name_cat",
+   "dur": 1.184,
+   "text": "This is a cat."
+  },
+  {
+   "t": 10.447,
+   "kind": "speech",
+   "id": "fm_show_me",
+   "dur": 1.102,
+   "text": "Let me show you!"
+  },
+  {
+   "t": 11.573,
+   "kind": "speech",
+   "id": "fm_tap_sun",
+   "dur": 0.932,
+   "text": "Tap the sun!"
+  },
+  {
+   "t": 12.554,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 12.555,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 12.878,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 13.058,
+   "kind": "speech",
+   "id": "fm_you_try",
+   "dur": 0.897,
+   "text": "Now you try!"
+  },
+  {
+   "t": 13.98,
+   "kind": "speech",
+   "id": "fm_tap_sock",
+   "dur": 1.064,
+   "text": "Tap the sock!"
+  },
+  {
+   "t": 15.992,
+   "kind": "tap",
+   "id": "sock",
+   "text": "rect 605,175,250,250"
+  },
+  {
+   "t": 15.993,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 16.445,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 16.595,
+   "kind": "speech",
+   "id": "fm_show_me_2",
+   "dur": 1.324,
+   "text": "Watch me first!"
+  },
+  {
+   "t": 17.949,
+   "kind": "speech",
+   "id": "fm_fast_sun",
+   "dur": 2.009,
+   "text": "I can say a word fast. Sun!"
+  },
+  {
+   "t": 18.674,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 19.377,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 19.985,
+   "kind": "speech",
+   "id": "fm_slow",
+   "dur": 1.656,
+   "text": "Or I can say it slowly..."
+  },
+  {
+   "t": 20.711,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 21.791,
+   "kind": "speech",
+   "id": "stretch:sun",
+   "dur": 2.44
+  },
+  {
+   "t": 23.561,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 24.262,
+   "kind": "speech",
+   "id": "fm_same_word",
+   "dur": 3.324,
+   "text": "Fast or slow, it's the same word. Sun!"
+  },
+  {
+   "t": 26.934,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 27.617,
+   "kind": "speech",
+   "id": "fm_hear_sounds_short",
+   "dur": 4.39,
+   "text": "Slowly, I hear its sounds. Words are made of sounds!"
+  },
+  {
+   "t": 32.037,
+   "kind": "speech",
+   "id": "fm_tap_tortoise",
+   "dur": 3.403,
+   "text": "Now you tap the tortoise, and say it slowly with me."
+  },
+  {
+   "t": 36.83,
+   "kind": "tap",
+   "id": "tortoise",
+   "text": "rect 384,214,132,132"
+  },
+  {
+   "t": 36.831,
+   "kind": "speech",
+   "id": "stretch:sun",
+   "dur": 2.44
+  },
+  {
+   "t": 38.628,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 39.552,
+   "kind": "speech",
+   "id": "fm_tap_rabbit",
+   "dur": 2.669,
+   "text": "Now tap the rabbit, and say it fast."
+  },
+  {
+   "t": 43.534,
+   "kind": "tap",
+   "id": "rabbit",
+   "text": "rect 946,216,128,128"
+  },
+  {
+   "t": 43.534,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 43.535,
+   "kind": "speech",
+   "id": "word:sun",
+   "dur": 0.553
+  },
+  {
+   "t": 44.523,
+   "kind": "speech",
+   "id": "fm_first_listen",
+   "dur": 2.084,
+   "text": "Listen to the very first sound."
+  },
+  {
+   "t": 46.692,
+   "kind": "speech",
+   "id": "onset:sun",
+   "dur": 1.227
+  },
+  {
+   "t": 48.013,
+   "kind": "speech",
+   "id": "onset:sock",
+   "dur": 1.081
+  },
+  {
+   "t": 49.159,
+   "kind": "speech",
+   "id": "fm_notice_sun_sock",
+   "dur": 2.937,
+   "text": "Sun and sock start with the same sound..."
+  },
+  {
+   "t": 52.394,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.782
+  },
+  {
+   "t": 53.2,
+   "kind": "speech",
+   "id": "t_everyone_say",
+   "dur": 1.521,
+   "text": "Say that sound with me!"
+  },
+  {
+   "t": 54.924,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 58.044,
+   "kind": "mark",
+   "id": "next"
+  },
+  {
+   "t": 58.046,
+   "kind": "tap",
+   "id": "Next",
+   "text": "rect 960,558,141,141"
+  },
+  {
+   "t": 58.425,
+   "kind": "speech",
+   "id": "fm_name_sausage",
+   "dur": 1.678,
+   "text": "This is a sausage."
+  },
+  {
+   "t": 60.383,
+   "kind": "speech",
+   "id": "fm_name_moon",
+   "dur": 1.591,
+   "text": "This is the moon."
+  },
+  {
+   "t": 62.126,
+   "kind": "speech",
+   "id": "fm_show_me",
+   "dur": 1.102,
+   "text": "Let me show you!"
+  },
+  {
+   "t": 63.256,
+   "kind": "speech",
+   "id": "fm_tap_all_start",
+   "dur": 2.529,
+   "text": "Tap all the pictures that start with..."
+  },
+  {
+   "t": 66.191,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 66.287,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 66.973,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 66.974,
+   "kind": "speech",
+   "id": "onset:sun",
+   "dur": 1.227
+  },
+  {
+   "t": 67.376,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 67.443,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 68.205,
+   "kind": "speech",
+   "id": "fm_you_try_2",
+   "dur": 0.804,
+   "text": "Your turn!"
+  },
+  {
+   "t": 69.951,
+   "kind": "tap",
+   "id": "sock",
+   "text": "rect 456,308,212,212"
+  },
+  {
+   "t": 69.951,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 70.253,
+   "kind": "speech",
+   "id": "onset:sock",
+   "dur": 1.081
+  },
+  {
+   "t": 70.326,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 70.743,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 72.404,
+   "kind": "mark",
+   "id": "slip moon"
+  },
+  {
+   "t": 72.406,
+   "kind": "tap",
+   "id": "moon",
+   "text": "rect 774,96,212,212"
+  },
+  {
+   "t": 72.406,
+   "kind": "sfx",
+   "id": "wrong"
+  },
+  {
+   "t": 72.432,
+   "kind": "speech",
+   "id": "onset:moon",
+   "dur": 1.563
+  },
+  {
+   "t": 72.47,
+   "kind": "sfx",
+   "id": "hmm"
+  },
+  {
+   "t": 74.242,
+   "kind": "speech",
+   "id": "fm_diff_moon",
+   "dur": 2.411,
+   "text": "Moon starts with a different sound."
+  },
+  {
+   "t": 76.654,
+   "kind": "speech",
+   "id": "listen_again",
+   "dur": 0.916,
+   "text": "Listen again."
+  },
+  {
+   "t": 77.771,
+   "kind": "speech",
+   "id": "fm_tap_all_start",
+   "dur": 2.529,
+   "text": "Tap all the pictures that start with..."
+  },
+  {
+   "t": 80.704,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 82.508,
+   "kind": "tap",
+   "id": "sausage",
+   "text": "rect 562,96,212,212"
+  },
+  {
+   "t": 82.508,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 82.835,
+   "kind": "speech",
+   "id": "onset:sausage",
+   "dur": 1.611
+  },
+  {
+   "t": 82.993,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 83.293,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 84.451,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 84.482,
+   "kind": "speech",
+   "id": "fm_found_both",
+   "dur": 2.91,
+   "text": "You found them both! They both start with..."
+  },
+  {
+   "t": 84.772,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 85.109,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 87.69,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.782
+  },
+  {
+   "t": 88.472,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 88.472,
+   "kind": "speech",
+   "id": "fm_l1_done",
+   "dur": 3.735,
+   "text": "You can hear the sounds in words. Brilliant listening!"
+  },
+  {
+   "t": 88.974,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 89.155,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 89.155,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 89.795,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 89.874,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 90.094,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 90.394,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 92.213,
+   "kind": "sfx",
+   "id": "gong"
+  },
+  {
+   "t": 92.243,
+   "kind": "mark",
+   "id": "lesson over"
+  },
+  {
+   "t": 92.244,
+   "kind": "speech",
+   "id": "fm_rw_look",
+   "dur": 3.128,
+   "text": "Look! Your pictures are turning into stickers!"
+  },
+  {
+   "t": 92.304,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 92.338,
+   "kind": "scene",
+   "id": "stickers"
+  },
+  {
+   "t": 93.115,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 95.373,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 96.026,
+   "kind": "sfx",
+   "id": "bounce"
+  },
+  {
+   "t": 96.052,
+   "kind": "speech",
+   "id": "fm_rw_book",
+   "dur": 1.459,
+   "text": "This is your Sticker Book!"
+  },
+  {
+   "t": 96.477,
+   "kind": "sfx",
+   "id": "pop"
+  },
+  {
+   "t": 96.478,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 96.67,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 97.512,
+   "kind": "speech",
+   "id": "fm_rw1_list",
+   "dur": 4.747,
+   "text": "Sun, sock, cat, sausage and moon!"
+  },
+  {
+   "t": 97.533,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 97.624,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 98.513,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 98.635,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 99.143,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 99.143,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 99.184,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 99.553,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 99.644,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 100.493,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 100.614,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 101.125,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 101.125,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 101.165,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 101.813,
+   "kind": "sfx",
+   "id": "place"
+  },
+  {
+   "t": 101.904,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 102.459,
+   "kind": "sfx",
+   "id": "coin"
+  },
+  {
+   "t": 102.487,
+   "kind": "speech",
+   "id": "fm_rw_every",
+   "dur": 2.705,
+   "text": "Every picture you play with becomes a sticker!"
+  },
+  {
+   "t": 105.219,
+   "kind": "speech",
+   "id": "fm_rw_tap",
+   "dur": 1.049,
+   "text": "Tap a sticker!"
+  },
+  {
+   "t": 106.245,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 106.523,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 106.799,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 107.116,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 107.427,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

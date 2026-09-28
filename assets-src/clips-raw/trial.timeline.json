@@ -1,0 +1,493 @@
+{
+ "name": "trial",
+ "url": "https://superninja.templestein.com/play/?scene=tree",
+ "capture": "cdp",
+ "gpu": true,
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 23.9,
+ "game": {
+  "start": 2.429,
+  "end": 22.206
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   23,
+   22,
+   28.3,
+   27.8,
+   23.7,
+   29.5,
+   24.4,
+   30.4,
+   34.2,
+   19.1
+  ],
+  "audioShiftMs": 34.8,
+  "residualMs": [
+   0.6,
+   19.5,
+   -4.9,
+   12.4,
+   16.8,
+   8.4,
+   -2.5,
+   7.5,
+   3.8,
+   18.8
+  ],
+  "residualMedianMs": 8,
+  "residualMaxAbsMs": 19.5
+ },
+ "frames": {
+  "frames": 1079,
+  "fps": 56.3,
+  "p50": 16.7,
+  "p95": 18.6,
+  "p99": 34.3,
+  "max": 268.1,
+  "hitches": 9,
+  "repeatedSlots": 35,
+  "slots": 578,
+  "deliveryMs": 9.6
+ },
+ "master": "trial.master.mp4",
+ "audio": "trial.master.wav",
+ "recordedAt": "2026-09-27T07:31:36.013Z",
+ "events": [
+  {
+   "t": 0.518,
+   "kind": "scene",
+   "id": "tree"
+  },
+  {
+   "t": 0.73,
+   "kind": "speech",
+   "id": "flower_tap",
+   "dur": 2.069,
+   "text": "Tap a petal to see its gems."
+  },
+  {
+   "t": 0.732,
+   "kind": "music",
+   "id": "world_blossom",
+   "dur": 4.861
+  },
+  {
+   "t": 0.734,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.053,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.362,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.646,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.917,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.77,
+   "kind": "hitch",
+   "id": "269 ms",
+   "dur": 0.269
+  },
+  {
+   "t": 3.656,
+   "kind": "hitch",
+   "id": "257 ms",
+   "dur": 0.257
+  },
+  {
+   "t": 3.679,
+   "kind": "tap",
+   "id": "petal m",
+   "text": "rect 631,426,79,159"
+  },
+  {
+   "t": 3.679,
+   "kind": "sfx",
+   "id": "petal"
+  },
+  {
+   "t": 3.714,
+   "kind": "speech",
+   "id": "sound:m",
+   "dur": 0.659
+  },
+  {
+   "t": 4.467,
+   "kind": "speech",
+   "id": "t_petal_is",
+   "dur": 0.122,
+   "text": "This petal is the sound..."
+  },
+  {
+   "t": 4.588,
+   "kind": "tap",
+   "id": "gem m ready",
+   "text": "rect 492,111,128,128"
+  },
+  {
+   "t": 4.588,
+   "kind": "sfx",
+   "id": "great"
+  },
+  {
+   "t": 4.648,
+   "kind": "music",
+   "id": "battle",
+   "dur": 19.285
+  },
+  {
+   "t": 4.671,
+   "kind": "scene",
+   "id": "battle:am"
+  },
+  {
+   "t": 5.193,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 5.194,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 5.227,
+   "kind": "speech",
+   "id": "audit_trial_first",
+   "dur": 3.154,
+   "text": "Your gem is ready. Spell the words to win it."
+  },
+  {
+   "t": 8.533,
+   "kind": "speech",
+   "id": "word:am",
+   "dur": 0.57
+  },
+  {
+   "t": 9.153,
+   "kind": "tap",
+   "id": "a",
+   "text": "rect 491,592,104,104"
+  },
+  {
+   "t": 9.154,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 9.181,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 9.637,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 9.848,
+   "kind": "tap",
+   "id": "m",
+   "text": "rect 845,592,104,104"
+  },
+  {
+   "t": 9.849,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 9.85,
+   "kind": "speech",
+   "id": "sound:m",
+   "dur": 0.659
+  },
+  {
+   "t": 9.905,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 10.509,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 10.755,
+   "kind": "hitch",
+   "id": "167 ms",
+   "dur": 0.167
+  },
+  {
+   "t": 11.087,
+   "kind": "speech",
+   "id": "sound:m",
+   "dur": 0.659
+  },
+  {
+   "t": 12.16,
+   "kind": "speech",
+   "id": "word:am",
+   "dur": 0.57
+  },
+  {
+   "t": 12.729,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 13.052,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 13.537,
+   "kind": "hitch",
+   "id": "102 ms",
+   "dur": 0.102
+  },
+  {
+   "t": 13.538,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 13.538,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 13.834,
+   "kind": "speech",
+   "id": "yay_2",
+   "dur": 0.728,
+   "text": "Super!"
+  },
+  {
+   "t": 14.572,
+   "kind": "scene",
+   "id": "battle:mist"
+  },
+  {
+   "t": 14.714,
+   "kind": "speech",
+   "id": "word:mist",
+   "dur": 0.791
+  },
+  {
+   "t": 15.455,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 15.554,
+   "kind": "hitch",
+   "id": "268 ms",
+   "dur": 0.268
+  },
+  {
+   "t": 15.558,
+   "kind": "tap",
+   "id": "m",
+   "text": "rect 668,592,104,104"
+  },
+  {
+   "t": 15.558,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 15.559,
+   "kind": "speech",
+   "id": "sound:m",
+   "dur": 0.659
+  },
+  {
+   "t": 16.294,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 786,592,104,104"
+  },
+  {
+   "t": 16.294,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 16.323,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 16.367,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 16.669,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 16.737,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 17.036,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 17.102,
+   "kind": "tap",
+   "id": "s",
+   "text": "rect 432,592,104,104"
+  },
+  {
+   "t": 17.102,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 17.132,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.75
+  },
+  {
+   "t": 17.871,
+   "kind": "hitch",
+   "id": "265 ms",
+   "dur": 0.265
+  },
+  {
+   "t": 17.882,
+   "kind": "tap",
+   "id": "t",
+   "text": "rect 904,592,104,104"
+  },
+  {
+   "t": 17.882,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 17.908,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 18.235,
+   "kind": "speech",
+   "id": "sound:m",
+   "dur": 0.659
+  },
+  {
+   "t": 19.153,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 19.661,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 20.706,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 21.285,
+   "kind": "speech",
+   "id": "word:mist",
+   "dur": 0.791
+  },
+  {
+   "t": 22.174,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 22.242,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 22.531,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 22.536,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 22.537,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 22.654,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 22.841,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 22.844,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 23.104,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 23.419,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 23.871,
+   "kind": "scene",
+   "id": "battle:mat"
+  },
+  {
+   "t": 23.92,
+   "kind": "speech",
+   "id": "word:mat",
+   "dur": 0.013
+  }
+ ]
+}

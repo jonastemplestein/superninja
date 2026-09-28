@@ -1,0 +1,430 @@
+{
+ "base": "http://localhost:5392",
+ "at": "2026-09-27T06:30:08.527Z",
+ "results": [
+  {
+   "engine": "webkit",
+   "scenario": "muted",
+   "policy": "none",
+   "soundOn": "false",
+   "clips": [
+    {
+     "name": "battle",
+     "playing": true,
+     "advanced": 1.23,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "run",
+     "playing": true,
+     "advanced": 1.25,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "dojo",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "swap",
+     "playing": true,
+     "advanced": 1.25,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "story",
+     "playing": true,
+     "advanced": 1.2,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "boss",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "flower",
+     "playing": true,
+     "advanced": 1.2,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "trial",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    }
+   ],
+   "ios": null,
+   "errors": []
+  },
+  {
+   "engine": "webkit",
+   "scenario": "button",
+   "policy": "ios",
+   "soundOn": "true",
+   "clips": [
+    {
+     "name": "battle",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "run",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "dojo",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "swap",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "story",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "boss",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "flower",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "trial",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    }
+   ],
+   "ios": {
+    "pausedOnUnmute": [],
+    "refused": [
+     "title.mp3"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "engine": "webkit",
+   "scenario": "button",
+   "policy": "ios-strict",
+   "soundOn": "true",
+   "clips": [
+    {
+     "name": "battle",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "run",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "dojo",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "swap",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "story",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "boss",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "flower",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "trial",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    }
+   ],
+   "ios": {
+    "pausedOnUnmute": [
+     "run.mp4",
+     "battle.mp4",
+     "dojo.mp4",
+     "swap.mp4",
+     "story.mp4",
+     "boss.mp4",
+     "flower.mp4",
+     "trial.mp4"
+    ],
+    "refused": [
+     "title.mp3",
+     "run.mp4",
+     "battle.mp4",
+     "dojo.mp4",
+     "swap.mp4",
+     "story.mp4",
+     "boss.mp4",
+     "flower.mp4",
+     "trial.mp4"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "engine": "webkit",
+   "scenario": "hero-tap",
+   "policy": "ios",
+   "soundOn": "true",
+   "clips": [
+    {
+     "name": "battle",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "run",
+     "playing": true,
+     "advanced": 1.29,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "dojo",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "swap",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "story",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "boss",
+     "playing": true,
+     "advanced": 1.23,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "flower",
+     "playing": true,
+     "advanced": 1.24,
+     "paused": false,
+     "muted": false,
+     "readyState": 4
+    },
+    {
+     "name": "trial",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    }
+   ],
+   "ios": {
+    "pausedOnUnmute": [],
+    "refused": [
+     "title.mp3"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "engine": "webkit",
+   "scenario": "hero-tap",
+   "policy": "ios-strict",
+   "soundOn": "true",
+   "clips": [
+    {
+     "name": "battle",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "run",
+     "playing": true,
+     "advanced": 1.27,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "dojo",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "swap",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "story",
+     "playing": true,
+     "advanced": 1.26,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "boss",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "flower",
+     "playing": true,
+     "advanced": 1.21,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    },
+    {
+     "name": "trial",
+     "playing": true,
+     "advanced": 1.22,
+     "paused": false,
+     "muted": true,
+     "readyState": 4
+    }
+   ],
+   "ios": {
+    "pausedOnUnmute": [
+     "battle.mp4",
+     "run.mp4",
+     "dojo.mp4",
+     "swap.mp4",
+     "story.mp4",
+     "boss.mp4",
+     "flower.mp4",
+     "trial.mp4"
+    ],
+    "refused": [
+     "title.mp3",
+     "battle.mp4",
+     "run.mp4",
+     "dojo.mp4",
+     "swap.mp4",
+     "story.mp4",
+     "boss.mp4",
+     "flower.mp4",
+     "trial.mp4"
+    ]
+   },
+   "errors": []
+  }
+ ]
+}

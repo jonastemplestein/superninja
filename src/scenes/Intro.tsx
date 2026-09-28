@@ -33,7 +33,8 @@ export function Intro({ onDone }: { onDone: () => void; finale?: boolean }) {
       run: async (live) => {
         await sleep(400);
         if (!live()) return;
-        fx.rain("petals", 90);
+        // every sound is home: the rainbow petals of the film come back (Dec6: the teardrop means all the sounds here)
+        fx.rain("rainbow", 90);
         sfx.fanfare();
         // the child's ninja: the biggest celebration of all as the World Flower blooms
         const party = (async () => {
@@ -54,7 +55,7 @@ export function Intro({ onDone }: { onDone: () => void; finale?: boolean }) {
       },
     },
   ];
-  const { i } = usePresentation(steps, { id: "finale", onDone, state: (k) => ({ scene: "finale", slide: k }) });
+  const { i } = usePresentation(steps, { id: "finale", onDone, state: (k, ready) => ({ scene: "finale", game: null, slide: k, busy: !ready }) });
 
   return (
     <div className="scene" style={{ background: "#1d1230" }}>

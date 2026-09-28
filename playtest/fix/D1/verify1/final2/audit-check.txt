@@ -1,0 +1,257 @@
+## Checks (FIX_PLAN §11.2: the SCRIPT_FIXES rows, then the teacher's voice rows)
+
+### C5-P: playtest/fix/D1/verify1/final2/continuous-perfect-from-w5-1.json
+
+perfect, from w5-1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 7 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 0 | pass |
+| `letters-twice` no spelling's full letters line twice in a session | 0 | 0 sounds | pass |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 0 | pass |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_5 ×1, world_6 ×1 | pass |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 0 | pass |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 1 | pass |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 0 (0 cut) | pass |
+| `map-hint-cut` map hint cut by the next level | 0 | 0 of 2 | pass |
+| `over-map` level lines started over the map | 0 | 0 | pass |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 9 of 9 | pass |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 1.19 | pass |
+| `praise-stacks` praise stacks within 5 s | 0 | 0 | pass |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 2 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 0 | pass |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` the tier-3 streak line before 7 whole answers | 0 | 0 of 0 | n/a |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | n/a | n/a |
+| `over-framed` a replay that plays a full frame again | 0 | 2 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 0 said (0 lines) | pass |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 0; 0 after quiet or before the level's first tap | pass |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s | n/a | n/a |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 8 words (median line 6 words; 113 turns) | pass |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 0 said (0 lines) | pass |
+| `shouted-instruction` instructions that end in "!" | 0 | 0 said (0 lines) | pass |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | 0 of 3 | pass |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+| `fs-per-session` fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1) | 0 missing | 0 of 1 games | pass |
+| `fs-repeat` an idea line (or a fast/slow praise line) said twice in a session | 0 | 0 | pass |
+| `fs-idea-caps` idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session | ≤ 2 / ≤ 4; 1 game from land 3 | 1 a level, 1 a session (most) | pass |
+| `fs-readback` the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead | 100% | 1 of 1 (100%) | pass |
+| `fs-badges` the tortoise lit on every slow slot, the rabbit on the fast word after it | 100% | tortoise 65 of 65, rabbit 57 of 57 | pass |
+| `fs-answer-leak` the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki) | 0 | 0 | pass |
+| `fs-rabbit` Move 1's rabbit: a child action after every rabbit prompt, and live only then | all; 0 outside | 1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt | pass |
+| `fs-talk` talk before a child action, in runs with a fast/slow line | ≤ 12 s | max 10.3 s (boss w5-11); 0 over | pass |
+
+- **line-60s**: ‹tv_here_sound› "Here's the sound..." from world flower @4:08.9; ‹wf_found_gem› "You found a new gem! It's a spelling of the sound..." from reward @16:35.5
+- **over-framed**: ‹tv_learn_frame_ways› "Today in the dojo, I'm going to teach you new ways to write a sound yo" at w5-3 @6:53.3: learn is known before w5-1; ‹tv_learn_frame_ways› "Today in the dojo, I'm going to teach you new ways to write a sound yo" at w5-6 @13:34.3, again after w5-3 @6:53.3
+
+### C5-L: playtest/fix/D1/verify1/final2/continuous-learner-from-w5-1.json
+
+learner, from w5-1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 7 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 0 | pass |
+| `letters-twice` no spelling's full letters line twice in a session | 0 (perfect runs only; info here) | 0 sounds | n/a |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 0 | pass |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_5 ×1, world_6 ×1 | pass |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 0 | pass |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 0 | pass |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 0 (0 cut) | pass |
+| `map-hint-cut` map hint cut by the next level | 0 | 0 of 2 | pass |
+| `over-map` level lines started over the map | 0 | 0 | pass |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 10 of 10 | pass |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 1.13 | pass |
+| `praise-stacks` praise stacks within 5 s | 0 | 0 | pass |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 2 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 0 | pass |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` the tier-3 streak line before 7 whole answers | 0 | 0 of 1 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | n/a | n/a |
+| `over-framed` a replay that plays a full frame again | 0 | 1 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 0 said (0 lines) | pass |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 0; 0 after quiet or before the level's first tap | pass |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s | n/a | n/a |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 8 words (median line 6 words; 185 turns) | pass |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 0 said (0 lines) | pass |
+| `shouted-instruction` instructions that end in "!" | 0 | 0 said (0 lines) | pass |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | 0 of 3 | pass |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+| `fs-per-session` fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1) | 0 missing | 0 of 1 games | pass |
+| `fs-repeat` an idea line (or a fast/slow praise line) said twice in a session | 0 | 0 | pass |
+| `fs-idea-caps` idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session | ≤ 2 / ≤ 4; 1 game from land 3 | 1 a level, 1 a session (most) | pass |
+| `fs-readback` the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead | 100% | 1 of 1 (100%) | pass |
+| `fs-badges` the tortoise lit on every slow slot, the rabbit on the fast word after it | 100% | tortoise 74 of 74, rabbit 58 of 58 | pass |
+| `fs-answer-leak` the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki) | 0 | 0 | pass |
+| `fs-rabbit` Move 1's rabbit: a child action after every rabbit prompt, and live only then | all; 0 outside | 1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt | pass |
+| `fs-talk` talk before a child action, in runs with a fast/slow line | ≤ 12 s | max 10.8 s (build w5-1); 0 over | pass |
+
+- **line-60s**: ‹tv_here_sound› "Here's the sound..." from world flower @5:12.5; ‹wf_found_gem› "You found a new gem! It's a spelling of the sound..." from reward @22:14.3
+- **over-framed**: ‹tv_learn_frame_ways› "Today in the dojo, I'm going to teach you new ways to write a sound yo" at w5-6 @17:38.0, again after w5-3 @8:58.8
+
+### C6-P: playtest/fix/D1/verify1/final2/continuous-perfect-from-w6-br1.json
+
+perfect, from w6-br1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 | 11 | pass |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 0 | pass |
+| `letters-twice` no spelling's full letters line twice in a session | 0 | 1 sounds | **FAIL** |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 0 | pass |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | 0 | pass |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 0 | pass |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 1 | pass |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 0 (0 cut) | pass |
+| `map-hint-cut` map hint cut by the next level | 0 | 0 of 2 | pass |
+| `over-map` level lines started over the map | 0 | 0 | pass |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 0 said | n/a |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 1.16 | pass |
+| `praise-stacks` praise stacks within 5 s | 0 | 0 | pass |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 0 lines | pass |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 0 | pass |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` the tier-3 streak line before 7 whole answers | 0 | 0 of 1 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | 0 of 1 games | pass |
+| `over-framed` a replay that plays a full frame again | 0 | 0 | pass |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 0 said (0 lines) | pass |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 0; 0 after quiet or before the level's first tap | pass |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s (named runs 15 s) | max 11.2 s (sort w6-br1); 0 over | pass |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 10 words (median line 7 words; 98 turns) | pass |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 0 said (0 lines) | pass |
+| `shouted-instruction` instructions that end in "!" | 0 | 0 said (0 lines) | pass |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | 0 of 3 | pass |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+| `fs-per-session` fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1) | 0 missing | 0 of 1 games | pass |
+| `fs-repeat` an idea line (or a fast/slow praise line) said twice in a session | 0 | 0 | pass |
+| `fs-idea-caps` idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session | ≤ 2 / ≤ 4; 1 game from land 3 | 1 a level, 1 a session (most) | pass |
+| `fs-readback` the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead | 100% | 1 of 1 (100%) | pass |
+| `fs-badges` the tortoise lit on every slow slot, the rabbit on the fast word after it | 100% | tortoise 32 of 32, rabbit 32 of 32 | pass |
+| `fs-answer-leak` the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki) | 0 | 0 | pass |
+| `fs-rabbit` Move 1's rabbit: a child action after every rabbit prompt, and live only then | all; 0 outside | 1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt | pass |
+| `fs-talk` talk before a child action, in runs with a fast/slow line | ≤ 12 s | max 13.5 s (battle w6-5); 1 over | **FAIL** |
+
+- **letters-twice**: /ie/: 2× (w6-ec11 19:56.0, w6-ec11 20:17.7)
+- **fs-talk**: battle (w6-5) 13.5 s from ‹tv_fs_slow_tortoise› "First the slow way, like the tortoise..." to ‹tv_battle_why› "Every monster you beat helps us win back the sounds.", with ‹tv_fs_slow_tortoise› "First the slow way, like the tortoise..."
+
+### C6-L: playtest/fix/D1/verify1/final2/continuous-learner-from-w6-br1.json
+
+learner, from w6-br1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 11 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 0 | pass |
+| `letters-twice` no spelling's full letters line twice in a session | 0 (perfect runs only; info here) | 1 sounds | n/a |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 0 | pass |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | 0 | pass |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 0 | pass |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 1 | pass |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 0 (0 cut) | pass |
+| `map-hint-cut` map hint cut by the next level | 0 | 0 of 2 | pass |
+| `over-map` level lines started over the map | 0 | 0 | pass |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 0 said | n/a |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 1.30 | pass |
+| `praise-stacks` praise stacks within 5 s | 0 | 0 | pass |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 0 lines | pass |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 0 | pass |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | n/a | n/a |
+| `master-early` the tier-3 streak line before 7 whole answers | 0 | 0 of 2 | pass |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | 0 of 1 games | pass |
+| `over-framed` a replay that plays a full frame again | 0 | 0 | pass |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 0 said (0 lines) | pass |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 0; 0 after quiet or before the level's first tap | pass |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s (named runs 15 s) | max 11.5 s (sort w6-br1); 0 over | pass |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 8 words (median line 6 words; 157 turns) | pass |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 0 said (0 lines) | pass |
+| `shouted-instruction` instructions that end in "!" | 0 | 0 said (0 lines) | pass |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | 0 of 3 | pass |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+| `fs-per-session` fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1) | 0 missing | 0 of 1 games | pass |
+| `fs-repeat` an idea line (or a fast/slow praise line) said twice in a session | 0 | 0 | pass |
+| `fs-idea-caps` idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session | ≤ 2 / ≤ 4; 1 game from land 3 | 1 a level, 1 a session (most) | pass |
+| `fs-readback` the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead | 100% | 1 of 1 (100%) | pass |
+| `fs-badges` the tortoise lit on every slow slot, the rabbit on the fast word after it | 100% | tortoise 32 of 32, rabbit 32 of 32 | pass |
+| `fs-answer-leak` the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki) | 0 | 0 | pass |
+| `fs-rabbit` Move 1's rabbit: a child action after every rabbit prompt, and live only then | all; 0 outside | 1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt | pass |
+| `fs-talk` talk before a child action, in runs with a fast/slow line | ≤ 12 s | max 10.6 s (build w6-1); 0 over | pass |
+
+### C5-S: playtest/fix/D1/verify1/final2/continuous-splitter-from-w5-1.json
+
+splitter, from w5-1, opt-in none.
+
+| Metric | Target | Value | Verdict |
+|---|---|---|---|
+| `letters-lines` letters lines in C6-P (25 min) ≤ 12 | ≤ 12 (C6-P only; info here) | 11 | n/a |
+| `letters-60s` the same letters sentence never twice in 60 s | 0 | 3 | **FAIL** |
+| `letters-twice` no spelling's full letters line twice in a session | 0 (perfect runs only; info here) | 1 sounds | n/a |
+| `letters-echo` "/X/ two letters · /X/ two letters" echoes | 0 | 0 | pass |
+| `same-sound-after-reveal` `same_sound_new` after the reveal | 0 | 0 | pass |
+| `world-welcomes` world welcomes: 1 per land | ≤ 1 per land | world_5 ×1 | pass |
+| `did-it-after-praise` "You did it!" straight after another praise line | 0 | 0 | pass |
+| `jump-offers` jump offers: 0 on day one, ≤ 1 a session | ≤ 1 (one session) | 1 | pass |
+| `speaker-tip` "Tap the speaker…": ≤ 2 a save, 0 cut | ≤ 2, 0 cut | 0 (0 cut) | pass |
+| `map-hint-cut` map hint cut by the next level | 0 | 0 of 2 | pass |
+| `over-map` level lines started over the map | 0 | 0 | pass |
+| `how-we-spell` "This is how we spell…" once per spelling per level (C-P ≤ 5) | once per spelling per level | 0 (0 repeats) | n/a |
+| `swap-place-heard` swap place lines heard to the end | all | 9 of 9 | pass |
+| `praise-rate` praise lines a minute | ≤ 1.5 | 1.19 | pass |
+| `praise-stacks` praise stacks within 5 s | 0 | 0 | pass |
+| `line-60s` any line more than twice in 60 s (bar the §5.1 routines) | 0 | 2 lines | **FAIL** |
+| `cut-explanations` cut-off explanations (not prompts) | 0 | 0 | pass |
+| `split-correction` split-spelling errors with the two-letter correction (splitter) | 100% | 5 of 5 (100%) | pass |
+| `master-early` the tier-3 streak line before 7 whole answers | 0 | 0 of 0 | n/a |
+| `unframed-turn` every game's first meeting: frame, demo, Ready hold, hand-over, in order | 0 missing | n/a | n/a |
+| `over-framed` a replay that plays a full frame again | 0 | 2 | **FAIL** |
+| `bare-command` bare-command lines (under 4 words, an instruction) | 0 | 0 said (0 lines) | pass |
+| `bare-listen` a one-word "Listen…" opening a game, a beat, a level or a turn | 0 | 0; 0 after quiet or before the level's first tap | pass |
+| `talk-before-action` talk before a child action, first meetings | ≤ 15 s | n/a | n/a |
+| `turn-median` the median Sensei turn (all talk between two child actions) | 8–25 words | 9 words (median line 6 words; 98 turns) | pass |
+| `rhetorical-question` rhetorical questions (a ? with no hold or turn that can answer it) | 0 | 0 said (0 lines) | pass |
+| `shouted-instruction` instructions that end in "!" | 0 | 0 said (0 lines) | pass |
+| `demo-command` a line addressed to the child during Sensei's own demo | 0 | 0 | pass |
+| `first-dojo-opening` w2-1 opens with the lesson's frame, tv_learn_how and the Ready hold, before any sound | yes | n/a | n/a |
+| `ready-auto-advance` a Ready hold that ends without the child | 0 | 0 of 1 | pass |
+| `watcher-replay` the paw at a Ready: the demo, tv_ready_now, and a hold that waits | all | n/a | n/a |
+| `handover-once` a hand-over Ready answered on the board isn't asked again | 0 re-asked | n/a | n/a |
+| `fs-per-session` fast and slow told once a session in every game that says a word slowly or blends (an idea line or Move 1) | 0 missing | 0 of 1 games | pass |
+| `fs-repeat` an idea line (or a fast/slow praise line) said twice in a session | 0 | 0 | pass |
+| `fs-idea-caps` idea lines ≤ 2 a level and ≤ 4 a session; from land 3, Moves 1 and 2 in one game a session | ≤ 2 / ≤ 4; 1 game from land 3 | 1 a level, 1 a session (most) | pass |
+| `fs-readback` the first read-back of each game in a session: slow lead-in, the sounds, then the word led by a fast lead | 100% | 1 of 1 (100%) | pass |
+| `fs-badges` the tortoise lit on every slow slot, the rabbit on the fast word after it | 100% | tortoise 53 of 53, rabbit 43 of 43 | pass |
+| `fs-answer-leak` the answer said before the child answers (Slow Words, Guess My Word, Ninja Run, Kai and Suki) | 0 | 0 | pass |
+| `fs-rabbit` Move 1's rabbit: a child action after every rabbit prompt, and live only then | all; 0 outside | 1 of 1 prompts answered (0 timed out); 0 rabbit taps outside a prompt | pass |
+| `fs-talk` talk before a child action, in runs with a fast/slow line | ≤ 12 s | max 9.3 s (run w5-5); 0 over | pass |
+
+- **letters-60s**: w5-2 @6:31.7 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-7 @23:04.8 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s; w5-8 @23:59.9 ‹t_two_letters› "It's two letters, but it's one sound." again within 60 s
+- **line-60s**: ‹tv_here_sound› "Here's the sound..." from world flower @4:51.0; ‹wf_found_gem› "You found a new gem! It's a spelling of the sound..." from reward @19:49.5
+- **over-framed**: ‹tv_learn_frame_ways› "Today in the dojo, I'm going to teach you new ways to write a sound yo" at w5-3 @8:22.1: learn is known before w5-1; ‹tv_learn_frame_ways› "Today in the dojo, I'm going to teach you new ways to write a sound yo" at w5-6 @15:57.3, again after w5-3 @8:22.1
+
+### Recordings
+
+| `fast-line` new sentence lines faster than 3.3 words a second | 0 (or re-taken) | 0 of 494 | pass |
+
+
+
+5 metrics failed: line-60s, over-framed, letters-twice, fs-talk, letters-60s

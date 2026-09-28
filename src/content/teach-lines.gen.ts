@@ -2,11 +2,11 @@
 export const TEACH_LINES: { id: string; text: string }[] = [
  {
   "id": "tp_ae_hear",
-  "text": "You can hear it in rain, tray and tail."
+  "text": "You can hear it in rain, tail and nail."
  },
  {
   "id": "tp_ae_list",
-  "text": "Rain, tray and tail."
+  "text": "Rain, tail and nail."
  },
  {
   "id": "tg_ai_ae_way",
@@ -42,11 +42,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_ee_hear",
-  "text": "You can hear it in bee, leaf and tree."
+  "text": "You can hear it in bee, tree and feet."
  },
  {
   "id": "tp_ee_list",
-  "text": "Bee, leaf and tree."
+  "text": "Bee, tree and feet."
  },
  {
   "id": "tg_ee_ee_way",
@@ -82,11 +82,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_ie_hear",
-  "text": "You can hear it in pie, light and tie."
+  "text": "You can hear it in pie and tie."
  },
  {
   "id": "tp_ie_list",
-  "text": "Pie, light and tie."
+  "text": "Pie and tie."
  },
  {
   "id": "tg_ie_ie_way",
@@ -122,11 +122,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_oe_hear",
-  "text": "You can hear it in boat, snow and goat."
+  "text": "You can hear it in boat, goat and coat."
  },
  {
   "id": "tp_oe_list",
-  "text": "Boat, snow and goat."
+  "text": "Boat, goat and coat."
  },
  {
   "id": "tg_oa_oe_way",
@@ -162,11 +162,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_s_hear",
-  "text": "You can hear it in sit, dress and sun."
+  "text": "You can hear it in sit, sun and sock."
  },
  {
   "id": "tp_s_list",
-  "text": "Sit, dress and sun."
+  "text": "Sit, sun and sock."
  },
  {
   "id": "tg_s_s_way",
@@ -202,11 +202,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_l_hear",
-  "text": "You can hear it in leg, doll and lid."
+  "text": "You can hear it in leg, lid and log."
  },
  {
   "id": "tp_l_list",
-  "text": "Leg, doll and lid."
+  "text": "Leg, lid and log."
  },
  {
   "id": "tg_l_l_way",
@@ -242,11 +242,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_f_hear",
-  "text": "You can hear it in fan, off and fox."
+  "text": "You can hear it in fan, fox and fish."
  },
  {
   "id": "tp_f_list",
-  "text": "Fan, off and fox."
+  "text": "Fan, fox and fish."
  },
  {
   "id": "tg_f_f_way",
@@ -426,11 +426,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_v_hear",
-  "text": "You can hear it in vet, have and van."
+  "text": "You can hear it in vet, van and vest."
  },
  {
   "id": "tp_v_list",
-  "text": "Vet, have and van."
+  "text": "Vet, van and vest."
  },
  {
   "id": "tg_v_v_way",
@@ -562,11 +562,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_k_hear",
-  "text": "You can hear it in cat, king and duck."
+  "text": "You can hear it in cat, cap and cot."
  },
  {
   "id": "tp_k_list",
-  "text": "Cat, king and duck."
+  "text": "Cat, cap and cot."
  },
  {
   "id": "tg_c_k_way",
@@ -682,11 +682,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_z_hear",
-  "text": "You can hear it in zip, buzz and zap."
+  "text": "You can hear it in zip and zap."
  },
  {
   "id": "tp_z_list",
-  "text": "Zip, buzz and zap."
+  "text": "Zip and zap."
  },
  {
   "id": "tg_z_z_way",
@@ -794,11 +794,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_w_hear",
-  "text": "You can hear it in web, whisk and quick."
+  "text": "You can hear it in web, wig and well."
  },
  {
   "id": "tp_w_list",
-  "text": "Web, whisk and quick."
+  "text": "Web, wig and well."
  },
  {
   "id": "tg_w_w_way",
@@ -898,11 +898,11 @@ export const TEACH_LINES: { id: string; text: string }[] = [
  },
  {
   "id": "tp_ch_hear",
-  "text": "You can hear it in chick, match and chest."
+  "text": "You can hear it in chick, chest and bench."
  },
  {
   "id": "tp_ch_list",
-  "text": "Chick, match and chest."
+  "text": "Chick, chest and bench."
  },
  {
   "id": "tg_ch_ch_way",
@@ -1013,8 +1013,8 @@ export const TEACH_LINES: { id: string; text: string }[] = [
 export const TEACH_EXAMPLES: Record<string, string[]> = {
  "petal:ae": [
   "rain",
-  "tray",
-  "tail"
+  "tail",
+  "nail"
  ],
  "gem:ai>ae": [
   "rain",
@@ -1028,8 +1028,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:ee": [
   "bee",
-  "leaf",
-  "tree"
+  "tree",
+  "feet"
  ],
  "gem:ee>ee": [
   "bee",
@@ -1043,7 +1043,6 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:ie": [
   "pie",
-  "light",
   "tie"
  ],
  "gem:ie>ie": [
@@ -1058,8 +1057,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:oe": [
   "boat",
-  "snow",
-  "goat"
+  "goat",
+  "coat"
  ],
  "gem:oa>oe": [
   "boat",
@@ -1073,8 +1072,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:s": [
   "sit",
-  "dress",
-  "sun"
+  "sun",
+  "sock"
  ],
  "gem:s>s": [
   "sit",
@@ -1088,8 +1087,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:l": [
   "leg",
-  "doll",
-  "lid"
+  "lid",
+  "log"
  ],
  "gem:l>l": [
   "leg",
@@ -1103,8 +1102,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:f": [
   "fan",
-  "off",
-  "fox"
+  "fox",
+  "fish"
  ],
  "gem:f>f": [
   "fan",
@@ -1178,8 +1177,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:v": [
   "vet",
-  "have",
-  "van"
+  "van",
+  "vest"
  ],
  "gem:v>v": [
   "vet",
@@ -1232,8 +1231,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:k": [
   "cat",
-  "king",
-  "duck"
+  "cap",
+  "cot"
  ],
  "gem:c>k": [
   "cat",
@@ -1277,7 +1276,6 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:z": [
   "zip",
-  "buzz",
   "zap"
  ],
  "gem:z>z": [
@@ -1322,8 +1320,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:w": [
   "web",
-  "whisk",
-  "quick"
+  "wig",
+  "well"
  ],
  "gem:w>w": [
   "web",
@@ -1362,8 +1360,8 @@ export const TEACH_EXAMPLES: Record<string, string[]> = {
  ],
  "petal:ch": [
   "chick",
-  "match",
-  "chest"
+  "chest",
+  "bench"
  ],
  "gem:ch>ch": [
   "chick",

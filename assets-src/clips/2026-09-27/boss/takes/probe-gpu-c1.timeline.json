@@ -1,0 +1,2351 @@
+{
+ "name": "probe-gpu-c1",
+ "url": "https://superninja.templestein.com/play/?level=w1-15",
+ "capture": "cdp",
+ "gpu": true,
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 75.833,
+ "game": {
+  "start": 2.561,
+  "end": 72.453
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   32.1,
+   24.5,
+   70.5,
+   24.1,
+   32.7,
+   65.2,
+   56,
+   78.3,
+   88.9,
+   128.3
+  ],
+  "audioShiftMs": 69.3,
+  "residualMs": [
+   41.9,
+   49.9,
+   -12.4,
+   49,
+   41.9,
+   -2.1,
+   -7.6,
+   -14.4,
+   -26.1,
+   -65.7
+  ],
+  "residualMedianMs": -4.8,
+  "residualMaxAbsMs": 65.7
+ },
+ "frames": {
+  "frames": 2089,
+  "fps": 30.2,
+  "p50": 16.8,
+  "p95": 132.5,
+  "p99": 383.3,
+  "max": 1615.4,
+  "hitches": 191,
+  "repeatedSlots": 904,
+  "slots": 2081,
+  "deliveryMs": 67.3
+ },
+ "master": "probe-gpu-c1.master.mp4",
+ "audio": "probe-gpu-c1.master.wav",
+ "recordedAt": "2026-09-27T09:25:14.197Z",
+ "events": [
+  {
+   "t": 0.875,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.183,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.454,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.782,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.075,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.643,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.994,
+   "kind": "scene",
+   "id": "battle:pop"
+  },
+  {
+   "t": 3.001,
+   "kind": "music",
+   "id": "boss",
+   "dur": 72.884
+  },
+  {
+   "t": 3.041,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 3.045,
+   "kind": "mark",
+   "id": "battle"
+  },
+  {
+   "t": 3.312,
+   "kind": "hitch",
+   "id": "131 ms",
+   "dur": 0.131
+  },
+  {
+   "t": 3.372,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 3.373,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 3.374,
+   "kind": "sfx",
+   "id": "thunder"
+  },
+  {
+   "t": 3.392,
+   "kind": "speech",
+   "id": "baron_w1",
+   "dur": 5.713,
+   "text": "Baron: So... a little ninja wants to stop me? My sumo panda will squash you!"
+  },
+  {
+   "t": 3.562,
+   "kind": "hitch",
+   "id": "98 ms",
+   "dur": 0.098
+  },
+  {
+   "t": 4.195,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 5.444,
+   "kind": "hitch",
+   "id": "118 ms",
+   "dur": 0.118
+  },
+  {
+   "t": 8.708,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 8.9,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 9.595,
+   "kind": "speech",
+   "id": "battle_boss",
+   "dur": 4.963,
+   "text": "A big boss monster! Listen carefully, and spell your best!"
+  },
+  {
+   "t": 10.813,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 11.311,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 11.562,
+   "kind": "hitch",
+   "id": "134 ms",
+   "dur": 0.134
+  },
+  {
+   "t": 11.944,
+   "kind": "hitch",
+   "id": "84 ms",
+   "dur": 0.084
+  },
+  {
+   "t": 13.811,
+   "kind": "hitch",
+   "id": "84 ms",
+   "dur": 0.084
+  },
+  {
+   "t": 14.708,
+   "kind": "speech",
+   "id": "word:pop",
+   "dur": 0.462
+  },
+  {
+   "t": 15.207,
+   "kind": "mark",
+   "id": "word 1 pop"
+  },
+  {
+   "t": 15.951,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 727,592,104,104"
+  },
+  {
+   "t": 15.951,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 15.957,
+   "kind": "mark",
+   "id": "tap p (pop)"
+  },
+  {
+   "t": 15.975,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 16.289,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 16.677,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 16.796,
+   "kind": "tap",
+   "id": "o",
+   "text": "rect 373,592,104,104"
+  },
+  {
+   "t": 16.796,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 16.8,
+   "kind": "mark",
+   "id": "tap o (pop)"
+  },
+  {
+   "t": 16.82,
+   "kind": "speech",
+   "id": "sound:o",
+   "dur": 0.207
+  },
+  {
+   "t": 17.124,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 17.511,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 17.625,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 727,592,104,104"
+  },
+  {
+   "t": 17.625,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 17.627,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 17.628,
+   "kind": "mark",
+   "id": "tap p (pop)"
+  },
+  {
+   "t": 17.977,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 18.403,
+   "kind": "speech",
+   "id": "sound:o",
+   "dur": 0.207
+  },
+  {
+   "t": 18.873,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 19.062,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 19.451,
+   "kind": "speech",
+   "id": "word:pop",
+   "dur": 0.462
+  },
+  {
+   "t": 19.916,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 20.234,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 20.444,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 20.662,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 20.744,
+   "kind": "sfx",
+   "id": "sparkle"
+  },
+  {
+   "t": 20.744,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 20.811,
+   "kind": "hitch",
+   "id": "132 ms",
+   "dur": 0.132
+  },
+  {
+   "t": 20.847,
+   "kind": "speech",
+   "id": "streak_3",
+   "dur": 1.128,
+   "text": "Ninja power!"
+  },
+  {
+   "t": 20.852,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 21.194,
+   "kind": "hitch",
+   "id": "166 ms",
+   "dur": 0.166
+  },
+  {
+   "t": 21.444,
+   "kind": "hitch",
+   "id": "183 ms",
+   "dur": 0.183
+  },
+  {
+   "t": 21.945,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 22.027,
+   "kind": "scene",
+   "id": "battle:tan"
+  },
+  {
+   "t": 22.127,
+   "kind": "speech",
+   "id": "word:tan",
+   "dur": 0.639
+  },
+  {
+   "t": 22.695,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 22.869,
+   "kind": "mark",
+   "id": "word 2 tan"
+  },
+  {
+   "t": 22.945,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 23.195,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 23.56,
+   "kind": "tap",
+   "id": "t",
+   "text": "rect 990,600,96,96"
+  },
+  {
+   "t": 23.56,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 23.56,
+   "kind": "hitch",
+   "id": "134 ms",
+   "dur": 0.134
+  },
+  {
+   "t": 23.57,
+   "kind": "mark",
+   "id": "tap t (tan)"
+  },
+  {
+   "t": 23.585,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 23.812,
+   "kind": "hitch",
+   "id": "131 ms",
+   "dur": 0.131
+  },
+  {
+   "t": 23.889,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 24.099,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 24.161,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 24.377,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 24.422,
+   "kind": "tap",
+   "id": "a",
+   "text": "rect 354,600,96,96"
+  },
+  {
+   "t": 24.422,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 24.429,
+   "kind": "mark",
+   "id": "tap a (tan)"
+  },
+  {
+   "t": 24.448,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 24.695,
+   "kind": "hitch",
+   "id": "332 ms",
+   "dur": 0.332
+  },
+  {
+   "t": 24.882,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 25.194,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 25.382,
+   "kind": "tap",
+   "id": "n",
+   "text": "rect 566,600,96,96"
+  },
+  {
+   "t": 25.382,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 25.384,
+   "kind": "mark",
+   "id": "tap n (tan)"
+  },
+  {
+   "t": 25.413,
+   "kind": "speech",
+   "id": "sound:n",
+   "dur": 0.59
+  },
+  {
+   "t": 25.431,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 25.444,
+   "kind": "hitch",
+   "id": "116 ms",
+   "dur": 0.116
+  },
+  {
+   "t": 25.51,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 25.51,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 26.003,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 26.059,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 26.429,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 27.007,
+   "kind": "speech",
+   "id": "sound:n",
+   "dur": 0.591
+  },
+  {
+   "t": 27.195,
+   "kind": "hitch",
+   "id": "115 ms",
+   "dur": 0.115
+  },
+  {
+   "t": 27.446,
+   "kind": "hitch",
+   "id": "116 ms",
+   "dur": 0.116
+  },
+  {
+   "t": 27.943,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 28.011,
+   "kind": "speech",
+   "id": "word:tan",
+   "dur": 0.639
+  },
+  {
+   "t": 28.193,
+   "kind": "hitch",
+   "id": "118 ms",
+   "dur": 0.118
+  },
+  {
+   "t": 28.442,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 28.693,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 28.745,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 28.943,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 29.127,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 29.127,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 29.245,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 29.425,
+   "kind": "speech",
+   "id": "streak_6",
+   "dur": 2.615,
+   "text": "Wow! Super ninja streak!"
+  },
+  {
+   "t": 29.435,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 29.443,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 30.076,
+   "kind": "hitch",
+   "id": "84 ms",
+   "dur": 0.084
+  },
+  {
+   "t": 30.429,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 30.809,
+   "kind": "hitch",
+   "id": "102 ms",
+   "dur": 0.102
+  },
+  {
+   "t": 31.076,
+   "kind": "hitch",
+   "id": "218 ms",
+   "dur": 0.218
+  },
+  {
+   "t": 31.812,
+   "kind": "hitch",
+   "id": "80 ms",
+   "dur": 0.08
+  },
+  {
+   "t": 32.075,
+   "kind": "scene",
+   "id": "battle:tip"
+  },
+  {
+   "t": 32.192,
+   "kind": "speech",
+   "id": "word:tip",
+   "dur": 0.543
+  },
+  {
+   "t": 32.195,
+   "kind": "hitch",
+   "id": "116 ms",
+   "dur": 0.116
+  },
+  {
+   "t": 32.562,
+   "kind": "hitch",
+   "id": "166 ms",
+   "dur": 0.166
+  },
+  {
+   "t": 32.795,
+   "kind": "mark",
+   "id": "word 3 tip"
+  },
+  {
+   "t": 32.945,
+   "kind": "hitch",
+   "id": "317 ms",
+   "dur": 0.317
+  },
+  {
+   "t": 33.311,
+   "kind": "hitch",
+   "id": "134 ms",
+   "dur": 0.134
+  },
+  {
+   "t": 33.513,
+   "kind": "tap",
+   "id": "t",
+   "text": "rect 990,600,96,96"
+  },
+  {
+   "t": 33.513,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 33.515,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 33.515,
+   "kind": "mark",
+   "id": "tap t (tip)"
+  },
+  {
+   "t": 33.562,
+   "kind": "hitch",
+   "id": "98 ms",
+   "dur": 0.098
+  },
+  {
+   "t": 33.676,
+   "kind": "hitch",
+   "id": "86 ms",
+   "dur": 0.086
+  },
+  {
+   "t": 33.794,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 33.794,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 33.811,
+   "kind": "hitch",
+   "id": "82 ms",
+   "dur": 0.082
+  },
+  {
+   "t": 34.227,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 34.269,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 34.31,
+   "kind": "hitch",
+   "id": "116 ms",
+   "dur": 0.116
+  },
+  {
+   "t": 34.461,
+   "kind": "hitch",
+   "id": "150 ms",
+   "dur": 0.15
+  },
+  {
+   "t": 34.502,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 566,600,96,96"
+  },
+  {
+   "t": 34.502,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 34.538,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 34.618,
+   "kind": "mark",
+   "id": "tap i (tip)"
+  },
+  {
+   "t": 34.809,
+   "kind": "hitch",
+   "id": "267 ms",
+   "dur": 0.267
+  },
+  {
+   "t": 34.938,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 34.994,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 35.049,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 35.178,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 35.326,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 35.371,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 884,600,96,96"
+  },
+  {
+   "t": 35.371,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 35.373,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 35.374,
+   "kind": "mark",
+   "id": "tap p (tip)"
+  },
+  {
+   "t": 35.376,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 35.444,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 35.676,
+   "kind": "hitch",
+   "id": "216 ms",
+   "dur": 0.216
+  },
+  {
+   "t": 35.724,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 35.927,
+   "kind": "hitch",
+   "id": "217 ms",
+   "dur": 0.217
+  },
+  {
+   "t": 36.147,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 36.243,
+   "kind": "hitch",
+   "id": "235 ms",
+   "dur": 0.235
+  },
+  {
+   "t": 36.561,
+   "kind": "hitch",
+   "id": "149 ms",
+   "dur": 0.149
+  },
+  {
+   "t": 36.653,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 36.809,
+   "kind": "hitch",
+   "id": "267 ms",
+   "dur": 0.267
+  },
+  {
+   "t": 37.178,
+   "kind": "hitch",
+   "id": "132 ms",
+   "dur": 0.132
+  },
+  {
+   "t": 37.228,
+   "kind": "speech",
+   "id": "word:tip",
+   "dur": 0.543
+  },
+  {
+   "t": 37.43,
+   "kind": "hitch",
+   "id": "130 ms",
+   "dur": 0.13
+  },
+  {
+   "t": 37.693,
+   "kind": "hitch",
+   "id": "367 ms",
+   "dur": 0.367
+  },
+  {
+   "t": 37.91,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 38.12,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 38.194,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 38.277,
+   "kind": "hitch",
+   "id": "200 ms",
+   "dur": 0.2
+  },
+  {
+   "t": 38.394,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 38.394,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 38.511,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 38.511,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 38.561,
+   "kind": "hitch",
+   "id": "215 ms",
+   "dur": 0.215
+  },
+  {
+   "t": 38.794,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 38.944,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 38.944,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 38.985,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 39.06,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 39.309,
+   "kind": "hitch",
+   "id": "151 ms",
+   "dur": 0.151
+  },
+  {
+   "t": 39.544,
+   "kind": "hitch",
+   "id": "299 ms",
+   "dur": 0.299
+  },
+  {
+   "t": 39.595,
+   "kind": "sfx",
+   "id": "thunder"
+  },
+  {
+   "t": 39.638,
+   "kind": "speech",
+   "id": "baron_taunt_3",
+   "dur": 3.565,
+   "text": "Baron: Silence! No more words! Not ever!"
+  },
+  {
+   "t": 40.195,
+   "kind": "hitch",
+   "id": "166 ms",
+   "dur": 0.166
+  },
+  {
+   "t": 40.56,
+   "kind": "hitch",
+   "id": "134 ms",
+   "dur": 0.134
+  },
+  {
+   "t": 40.929,
+   "kind": "hitch",
+   "id": "149 ms",
+   "dur": 0.149
+  },
+  {
+   "t": 41.111,
+   "kind": "hitch",
+   "id": "432 ms",
+   "dur": 0.432
+  },
+  {
+   "t": 41.577,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 41.811,
+   "kind": "hitch",
+   "id": "266 ms",
+   "dur": 0.266
+  },
+  {
+   "t": 42.178,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 42.427,
+   "kind": "hitch",
+   "id": "152 ms",
+   "dur": 0.152
+  },
+  {
+   "t": 42.811,
+   "kind": "hitch",
+   "id": "234 ms",
+   "dur": 0.234
+  },
+  {
+   "t": 43.045,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 43.16,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 43.311,
+   "kind": "hitch",
+   "id": "116 ms",
+   "dur": 0.116
+  },
+  {
+   "t": 43.326,
+   "kind": "scene",
+   "id": "battle:sip"
+  },
+  {
+   "t": 43.355,
+   "kind": "speech",
+   "id": "word:sip",
+   "dur": 0.603
+  },
+  {
+   "t": 43.561,
+   "kind": "hitch",
+   "id": "301 ms",
+   "dur": 0.301
+  },
+  {
+   "t": 43.929,
+   "kind": "hitch",
+   "id": "166 ms",
+   "dur": 0.166
+  },
+  {
+   "t": 44.161,
+   "kind": "hitch",
+   "id": "167 ms",
+   "dur": 0.167
+  },
+  {
+   "t": 44.169,
+   "kind": "mark",
+   "id": "word 4 sip"
+  },
+  {
+   "t": 44.428,
+   "kind": "hitch",
+   "id": "233 ms",
+   "dur": 0.233
+  },
+  {
+   "t": 44.694,
+   "kind": "hitch",
+   "id": "134 ms",
+   "dur": 0.134
+  },
+  {
+   "t": 44.925,
+   "kind": "tap",
+   "id": "s",
+   "text": "rect 990,600,96,96"
+  },
+  {
+   "t": 44.926,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 44.926,
+   "kind": "hitch",
+   "id": "134 ms",
+   "dur": 0.134
+  },
+  {
+   "t": 44.941,
+   "kind": "mark",
+   "id": "tap s (sip)"
+  },
+  {
+   "t": 44.955,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 45.177,
+   "kind": "hitch",
+   "id": "218 ms",
+   "dur": 0.218
+  },
+  {
+   "t": 45.544,
+   "kind": "hitch",
+   "id": "184 ms",
+   "dur": 0.184
+  },
+  {
+   "t": 45.848,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 45.911,
+   "kind": "hitch",
+   "id": "183 ms",
+   "dur": 0.183
+  },
+  {
+   "t": 46.186,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 566,600,96,96"
+  },
+  {
+   "t": 46.186,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 46.187,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 46.193,
+   "kind": "mark",
+   "id": "tap i (sip)"
+  },
+  {
+   "t": 46.193,
+   "kind": "hitch",
+   "id": "116 ms",
+   "dur": 0.116
+  },
+  {
+   "t": 46.329,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 46.428,
+   "kind": "hitch",
+   "id": "400 ms",
+   "dur": 0.4
+  },
+  {
+   "t": 46.527,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 46.552,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 46.552,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 46.926,
+   "kind": "hitch",
+   "id": "219 ms",
+   "dur": 0.219
+  },
+  {
+   "t": 46.993,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 47.026,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 47.161,
+   "kind": "hitch",
+   "id": "165 ms",
+   "dur": 0.165
+  },
+  {
+   "t": 47.388,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 885,599,96,96"
+  },
+  {
+   "t": 47.388,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 47.39,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 47.426,
+   "kind": "hitch",
+   "id": "300 ms",
+   "dur": 0.3
+  },
+  {
+   "t": 47.451,
+   "kind": "mark",
+   "id": "tap p (sip)"
+  },
+  {
+   "t": 47.74,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 47.911,
+   "kind": "hitch",
+   "id": "167 ms",
+   "dur": 0.167
+  },
+  {
+   "t": 48.277,
+   "kind": "hitch",
+   "id": "118 ms",
+   "dur": 0.118
+  },
+  {
+   "t": 48.444,
+   "kind": "hitch",
+   "id": "101 ms",
+   "dur": 0.101
+  },
+  {
+   "t": 48.782,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 48.809,
+   "kind": "hitch",
+   "id": "270 ms",
+   "dur": 0.27
+  },
+  {
+   "t": 49.195,
+   "kind": "hitch",
+   "id": "197 ms",
+   "dur": 0.197
+  },
+  {
+   "t": 49.294,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 49.444,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 49.677,
+   "kind": "hitch",
+   "id": "199 ms",
+   "dur": 0.199
+  },
+  {
+   "t": 49.871,
+   "kind": "speech",
+   "id": "word:sip",
+   "dur": 0.603
+  },
+  {
+   "t": 49.926,
+   "kind": "hitch",
+   "id": "149 ms",
+   "dur": 0.149
+  },
+  {
+   "t": 50.193,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 50.427,
+   "kind": "hitch",
+   "id": "465 ms",
+   "dur": 0.465
+  },
+  {
+   "t": 50.629,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 50.684,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 50.739,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 51.011,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 51.026,
+   "kind": "hitch",
+   "id": "151 ms",
+   "dur": 0.151
+  },
+  {
+   "t": 51.076,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 51.127,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 51.128,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 51.25,
+   "kind": "sfx",
+   "id": "jump"
+  },
+  {
+   "t": 51.25,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 51.293,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 51.426,
+   "kind": "hitch",
+   "id": "185 ms",
+   "dur": 0.185
+  },
+  {
+   "t": 51.611,
+   "kind": "hitch",
+   "id": "400 ms",
+   "dur": 0.4
+  },
+  {
+   "t": 51.65,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 51.695,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 51.741,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 51.791,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 51.994,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 52.011,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 52.044,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 52.044,
+   "kind": "hitch",
+   "id": "84 ms",
+   "dur": 0.084
+  },
+  {
+   "t": 52.094,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 52.094,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 52.094,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 52.165,
+   "kind": "hitch",
+   "id": "279 ms",
+   "dur": 0.279
+  },
+  {
+   "t": 52.202,
+   "kind": "sfx",
+   "id": "powerup"
+  },
+  {
+   "t": 52.248,
+   "kind": "speech",
+   "id": "tv_streak_10",
+   "dur": 3.472,
+   "text": "Ten in a row! Look how your ninja is glowing!"
+  },
+  {
+   "t": 52.528,
+   "kind": "hitch",
+   "id": "167 ms",
+   "dur": 0.167
+  },
+  {
+   "t": 52.727,
+   "kind": "hitch",
+   "id": "217 ms",
+   "dur": 0.217
+  },
+  {
+   "t": 52.944,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 53.026,
+   "kind": "hitch",
+   "id": "200 ms",
+   "dur": 0.2
+  },
+  {
+   "t": 53.276,
+   "kind": "hitch",
+   "id": "200 ms",
+   "dur": 0.2
+  },
+  {
+   "t": 53.527,
+   "kind": "hitch",
+   "id": "182 ms",
+   "dur": 0.182
+  },
+  {
+   "t": 53.81,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 53.91,
+   "kind": "hitch",
+   "id": "185 ms",
+   "dur": 0.185
+  },
+  {
+   "t": 54.176,
+   "kind": "hitch",
+   "id": "217 ms",
+   "dur": 0.217
+  },
+  {
+   "t": 54.428,
+   "kind": "hitch",
+   "id": "267 ms",
+   "dur": 0.267
+  },
+  {
+   "t": 54.795,
+   "kind": "hitch",
+   "id": "166 ms",
+   "dur": 0.166
+  },
+  {
+   "t": 55.062,
+   "kind": "hitch",
+   "id": "282 ms",
+   "dur": 0.282
+  },
+  {
+   "t": 55.428,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 55.561,
+   "kind": "hitch",
+   "id": "484 ms",
+   "dur": 0.484
+  },
+  {
+   "t": 55.777,
+   "kind": "scene",
+   "id": "battle:pot"
+  },
+  {
+   "t": 55.873,
+   "kind": "speech",
+   "id": "word:pot",
+   "dur": 0.524
+  },
+  {
+   "t": 56.045,
+   "kind": "hitch",
+   "id": "167 ms",
+   "dur": 0.167
+  },
+  {
+   "t": 56.245,
+   "kind": "hitch",
+   "id": "1615 ms",
+   "dur": 1.615
+  },
+  {
+   "t": 57.861,
+   "kind": "hitch",
+   "id": "383 ms",
+   "dur": 0.383
+  },
+  {
+   "t": 58.244,
+   "kind": "hitch",
+   "id": "218 ms",
+   "dur": 0.218
+  },
+  {
+   "t": 58.516,
+   "kind": "mark",
+   "id": "word 5 pot"
+  },
+  {
+   "t": 58.544,
+   "kind": "hitch",
+   "id": "300 ms",
+   "dur": 0.3
+  },
+  {
+   "t": 58.927,
+   "kind": "hitch",
+   "id": "383 ms",
+   "dur": 0.383
+  },
+  {
+   "t": 59.414,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 778,600,96,96"
+  },
+  {
+   "t": 59.414,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 59.416,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 59.426,
+   "kind": "hitch",
+   "id": "334 ms",
+   "dur": 0.334
+  },
+  {
+   "t": 59.468,
+   "kind": "mark",
+   "id": "tap p (pot)"
+  },
+  {
+   "t": 59.719,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 59.793,
+   "kind": "hitch",
+   "id": "166 ms",
+   "dur": 0.166
+  },
+  {
+   "t": 59.928,
+   "kind": "sfx",
+   "id": "swish"
+  },
+  {
+   "t": 59.992,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 60.045,
+   "kind": "hitch",
+   "id": "566 ms",
+   "dur": 0.566
+  },
+  {
+   "t": 60.193,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 60.626,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 60.675,
+   "kind": "tap",
+   "id": "o",
+   "text": "rect 990,600,96,96"
+  },
+  {
+   "t": 60.675,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 60.677,
+   "kind": "speech",
+   "id": "sound:o",
+   "dur": 0.207
+  },
+  {
+   "t": 60.793,
+   "kind": "hitch",
+   "id": "350 ms",
+   "dur": 0.35
+  },
+  {
+   "t": 60.798,
+   "kind": "mark",
+   "id": "tap o (pot)"
+  },
+  {
+   "t": 60.994,
+   "kind": "sfx",
+   "id": "spin"
+  },
+  {
+   "t": 61.176,
+   "kind": "hitch",
+   "id": "86 ms",
+   "dur": 0.086
+  },
+  {
+   "t": 61.293,
+   "kind": "hitch",
+   "id": "400 ms",
+   "dur": 0.4
+  },
+  {
+   "t": 61.475,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 61.676,
+   "kind": "sfx",
+   "id": "thwack"
+  },
+  {
+   "t": 61.785,
+   "kind": "tap",
+   "id": "t",
+   "text": "rect 344,606,96,96"
+  },
+  {
+   "t": 61.786,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 61.787,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 61.789,
+   "kind": "mark",
+   "id": "tap t (pot)"
+  },
+  {
+   "t": 61.811,
+   "kind": "hitch",
+   "id": "399 ms",
+   "dur": 0.399
+  },
+  {
+   "t": 62.138,
+   "kind": "speech",
+   "id": "sound:p",
+   "dur": 0.165
+  },
+  {
+   "t": 62.293,
+   "kind": "hitch",
+   "id": "350 ms",
+   "dur": 0.35
+  },
+  {
+   "t": 62.562,
+   "kind": "speech",
+   "id": "sound:o",
+   "dur": 0.207
+  },
+  {
+   "t": 62.661,
+   "kind": "hitch",
+   "id": "117 ms",
+   "dur": 0.117
+  },
+  {
+   "t": 62.778,
+   "kind": "hitch",
+   "id": "183 ms",
+   "dur": 0.183
+  },
+  {
+   "t": 62.993,
+   "kind": "hitch",
+   "id": "83 ms",
+   "dur": 0.083
+  },
+  {
+   "t": 63.027,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 63.161,
+   "kind": "hitch",
+   "id": "167 ms",
+   "dur": 0.167
+  },
+  {
+   "t": 63.378,
+   "kind": "hitch",
+   "id": "665 ms",
+   "dur": 0.665
+  },
+  {
+   "t": 63.602,
+   "kind": "speech",
+   "id": "word:pot",
+   "dur": 0.524
+  },
+  {
+   "t": 64.043,
+   "kind": "hitch",
+   "id": "516 ms",
+   "dur": 0.516
+  },
+  {
+   "t": 64.278,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 64.333,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 64.389,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 64.626,
+   "kind": "hitch",
+   "id": "419 ms",
+   "dur": 0.419
+  },
+  {
+   "t": 64.659,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 64.726,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 64.777,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 64.777,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 64.895,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 64.895,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 65.045,
+   "kind": "hitch",
+   "id": "98 ms",
+   "dur": 0.098
+  },
+  {
+   "t": 65.178,
+   "kind": "hitch",
+   "id": "398 ms",
+   "dur": 0.398
+  },
+  {
+   "t": 65.326,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 65.327,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 65.331,
+   "kind": "sfx",
+   "id": "charge"
+  },
+  {
+   "t": 65.576,
+   "kind": "hitch",
+   "id": "318 ms",
+   "dur": 0.318
+  },
+  {
+   "t": 65.65,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 65.91,
+   "kind": "hitch",
+   "id": "167 ms",
+   "dur": 0.167
+  },
+  {
+   "t": 66.143,
+   "kind": "hitch",
+   "id": "366 ms",
+   "dur": 0.366
+  },
+  {
+   "t": 66.16,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 66.16,
+   "kind": "sfx",
+   "id": "hit"
+  },
+  {
+   "t": 66.509,
+   "kind": "hitch",
+   "id": "165 ms",
+   "dur": 0.165
+  },
+  {
+   "t": 66.761,
+   "kind": "hitch",
+   "id": "468 ms",
+   "dur": 0.468
+  },
+  {
+   "t": 66.812,
+   "kind": "sfx",
+   "id": "thunder"
+  },
+  {
+   "t": 66.891,
+   "kind": "speech",
+   "id": "baron_grr",
+   "dur": 3.636,
+   "text": "Baron: Grrrr... You dare to fight ME?"
+  },
+  {
+   "t": 67.311,
+   "kind": "hitch",
+   "id": "100 ms",
+   "dur": 0.1
+  },
+  {
+   "t": 67.411,
+   "kind": "hitch",
+   "id": "750 ms",
+   "dur": 0.75
+  },
+  {
+   "t": 68.278,
+   "kind": "hitch",
+   "id": "84 ms",
+   "dur": 0.084
+  },
+  {
+   "t": 68.411,
+   "kind": "hitch",
+   "id": "467 ms",
+   "dur": 0.467
+  },
+  {
+   "t": 69.045,
+   "kind": "hitch",
+   "id": "416 ms",
+   "dur": 0.416
+  },
+  {
+   "t": 69.543,
+   "kind": "hitch",
+   "id": "569 ms",
+   "dur": 0.569
+  },
+  {
+   "t": 70.178,
+   "kind": "hitch",
+   "id": "417 ms",
+   "dur": 0.417
+  },
+  {
+   "t": 70.627,
+   "kind": "scene",
+   "id": "battle:sat"
+  },
+  {
+   "t": 70.628,
+   "kind": "hitch",
+   "id": "165 ms",
+   "dur": 0.165
+  },
+  {
+   "t": 70.678,
+   "kind": "speech",
+   "id": "word:sat",
+   "dur": 0.736
+  },
+  {
+   "t": 70.793,
+   "kind": "hitch",
+   "id": "418 ms",
+   "dur": 0.418
+  },
+  {
+   "t": 71.294,
+   "kind": "hitch",
+   "id": "234 ms",
+   "dur": 0.234
+  },
+  {
+   "t": 71.56,
+   "kind": "hitch",
+   "id": "350 ms",
+   "dur": 0.35
+  },
+  {
+   "t": 71.598,
+   "kind": "mark",
+   "id": "word 6 sat"
+  },
+  {
+   "t": 72.012,
+   "kind": "hitch",
+   "id": "99 ms",
+   "dur": 0.099
+  },
+  {
+   "t": 72.162,
+   "kind": "hitch",
+   "id": "333 ms",
+   "dur": 0.333
+  },
+  {
+   "t": 72.531,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 72.572,
+   "kind": "tap",
+   "id": "s",
+   "text": "rect 672,600,96,96"
+  },
+  {
+   "t": 72.572,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 72.574,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.783
+  },
+  {
+   "t": 72.886,
+   "kind": "mark",
+   "id": "tap s (sat)"
+  },
+  {
+   "t": 72.892,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 73.252,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 73.47,
+   "kind": "sfx",
+   "id": "kick"
+  },
+  {
+   "t": 73.47,
+   "kind": "sfx",
+   "id": "kiai"
+  },
+  {
+   "t": 73.909,
+   "kind": "sfx",
+   "id": "boom"
+  },
+  {
+   "t": 73.944,
+   "kind": "sfx",
+   "id": "land"
+  },
+  {
+   "t": 74.007,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 74.081,
+   "kind": "tap",
+   "id": "a",
+   "text": "rect 574,595,96,96"
+  },
+  {
+   "t": 74.082,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 74.083,
+   "kind": "speech",
+   "id": "sound:a",
+   "dur": 0.312
+  },
+  {
+   "t": 74.39,
+   "kind": "mark",
+   "id": "tap a (sat)"
+  },
+  {
+   "t": 74.549,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 74.605,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 74.661,
+   "kind": "sfx",
+   "id": "shuriken"
+  },
+  {
+   "t": 74.934,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 74.943,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 74.993,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 75.043,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 75.068,
+   "kind": "tap",
+   "id": "t",
+   "text": "rect 884,600,96,96"
+  },
+  {
+   "t": 75.068,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 75.07,
+   "kind": "speech",
+   "id": "sound:t",
+   "dur": 0.165
+  },
+  {
+   "t": 75.104,
+   "kind": "mark",
+   "id": "tap t (sat)"
+  },
+  {
+   "t": 75.422,
+   "kind": "speech",
+   "id": "sound:s",
+   "dur": 0.463
+  },
+  {
+   "t": 80.977,
+   "kind": "scene",
+   "id": "battle:pin"
+  },
+  {
+   "t": 81.734,
+   "kind": "mark",
+   "id": "word 7 pin"
+  },
+  {
+   "t": 82.727,
+   "kind": "tap",
+   "id": "p",
+   "text": "rect 672,600,96,96"
+  },
+  {
+   "t": 82.917,
+   "kind": "mark",
+   "id": "tap p (pin)"
+  },
+  {
+   "t": 83.548,
+   "kind": "tap",
+   "id": "i",
+   "text": "rect 354,600,96,96"
+  },
+  {
+   "t": 83.565,
+   "kind": "mark",
+   "id": "tap i (pin)"
+  },
+  {
+   "t": 84.481,
+   "kind": "tap",
+   "id": "n",
+   "text": "rect 458,601,96,96"
+  },
+  {
+   "t": 84.484,
+   "kind": "mark",
+   "id": "tap n (pin)"
+  },
+  {
+   "t": 98.076,
+   "kind": "scene",
+   "id": "reward"
+  }
+ ]
+}

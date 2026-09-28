@@ -9,10 +9,13 @@ import { sfx, say, isSpeaking, onCaption } from "../engine/audio";
 import { LINES } from "../content/lines";
 import { FAST } from "../engine/fast";
 import { streak, useStreak, tierLineId, tierLineSaid, FIRST_STREAK, type Tier, type StreakEvent } from "../engine/streak";
-import { poseSrc, poseFit, probePoses, usePoseVersion, BASE_POSES, FALLBACK, type Pose } from "./poses";
+import { poseSrc, poseFit, probePoses, usePoseVersion, hasPose, BASE_POSES, FALLBACK, type Pose } from "./poses";
 
-export type Move = "kick" | "punch" | "spin" | "cast" | "throw" | "jump" | "flip" | "cheer" | "think" | "hurt" | "power";
-export const MOVES: Move[] = ["kick", "punch", "spin", "cast", "throw", "jump", "flip", "cheer", "think", "hurt", "power"];
+export type Move = "kick" | "punch" | "spin" | "cast" | "throw" | "jump" | "flip" | "cheer" | "think" | "hurt" | "power" | "bow";
+export const MOVES: Move[] = ["kick", "punch", "spin", "cast", "throw", "jump", "flip", "cheer", "think", "hurt", "power", "bow"];
+/** Where the ninja can be told to face (`ninja.pose(p, { face })`): the Next arrow ▶ (found when the pose is set), an
+ *  element, or a stage point. */
+export type Face = "next" | Element | Pt;
 export type Pt = { x: number; y: number };
 export type Target = Element | Pt | null | undefined;
 export interface StrikeOpts {
@@ -48,6 +51,10 @@ interface Spot {
 let spot: Spot | null = null;
 let restOverride: Pose | null = null;
 let lastMoveAt = 0;
+/** Which way the ninja faces: 1 to the right (as every sprite is drawn), -1 mirrored to the left; and what it was told
+ *  to face (data-face: "next", "left", "right"), kept for a NinjaSpot that mounts after the pose() call. */
+let facing: 1 | -1 = 1;
+let facingTo: string | null = null;
 const restPose = (): Pose => restOverride ?? (spot && spot.rest !== "idle" ? spot.rest : streak.tier >= 1 ? "ready" : "idle");
 
 function setPose(p: Pose) {
@@ -908,7 +915,56 @@ const power: MoveFn = (_t, tier) => {
   return { hit: run.end, run };
 };
 
-const IMPL: Record<Move, MoveFn> = { kick, punch, spin, cast, throw: throwMove, jump, flip, cheer, think, hurt, power };
+/** The bow (a ninja's rei): "I'm ready", when the child taps ▶ at a readiness hold (docs/TEACHER_SCRIPT.md §2.3,
+ *  teacher-voice/mechanics.md §4.2). Quiet, because the turn's first line follows at once: a rustle, and a small "hup".
+ *  With its own art (hero_<hero>_bow) the ninja bows and straightens up; until that lands, the fallback: the ready stance
+ *  nods forward from the hips, then springs back up into a little hop, with a "hup". Resolves when done (0.9–1 s). */
+const bow: MoveFn = () => {
+  const run = begin();
+  const f = facing;
+  // a lean turns round the body's middle (play()'s pivot, 0.62 of the size above the feet); shift it so the feet stay put
+  const C = (spot?.size ?? 250) * 0.62;
+  const lean = (deg: number): [number, number, number] => {
+    const r = (deg * f * Math.PI) / 180;
+    return [C * Math.sin(r), -C * (1 - Math.cos(r)), deg * f];
+  };
+  if (spot && hasPose(spot.hero, "bow")) {
+    const [x1, y1, r1] = lean(3);
+    play(run, 980, [
+      [0, 0, 0, 0, 1, 1, "ease-out"],
+      [120, 0, 3, 0, 1.03, 0.96, "ease-in-out"],
+      [300, x1, y1 + 4, r1, 1.02, 0.97, "ease-in-out"],
+      [620, x1, y1 + 4, r1, 1.02, 0.97, "ease-out"],
+      [760, 0, -10, 0, 0.97, 1.04, IN],
+      [860, 0, 0, 0, 1.03, 0.97, "ease-out"],
+      [980, 0, 0, 0, 1, 1],
+    ]);
+    poseAt(run, 0, "ready");
+    poseAt(run, 130, "bow");
+    poseAt(run, 720, restPose);
+    run.at(130, () => sfx.bow());
+    run.at(730, () => sfx.hup());
+  } else {
+    const [x1, y1, r1] = lean(16);
+    play(run, 900, [
+      [0, 0, 0, 0, 1, 1, "ease-in-out"],
+      [160, x1, y1 + 4, r1, 1.03, 0.96, "ease-in-out"],
+      [360, x1, y1 + 4, r1, 1.03, 0.96, "ease-in-out"],
+      [450, 0, 5, 0, 1.1, 0.88, SNAP],
+      [590, 0, -36, 0, 0.94, 1.07, IN],
+      [730, 0, 0, 0, 1.08, 0.92, "ease-out"],
+      [900, 0, 0, 0, 1, 1],
+    ]);
+    poseAt(run, 0, "ready");
+    poseAt(run, 730, restPose);
+    run.at(140, () => sfx.bow());
+    run.at(460, () => sfx.hup());
+    run.at(730, () => dust(at(0.5, 0.02), 5));
+  }
+  return { hit: run.end, run };
+};
+
+const IMPL: Record<Move, MoveFn> = { kick, punch, spin, cast, throw: throwMove, jump, flip, cheer, think, hurt, power, bow };
 
 // ---------------------------------------------------------------- choosing a strike
 const POOLS: Record<Tier, Move[]> = {
@@ -1003,6 +1059,42 @@ function onStreak(e: StreakEvent) {
   }
 }
 streak.on(onStreak);
+
+// ---------------------------------------------------------------- facing
+/** Face right (1) or mirrored, left (-1); `to` marks what the ninja faces ("next": data-face="next", for the checks). */
+function setFacing(f: 1 | -1, to: string | null) {
+  facing = f;
+  facingTo = to;
+  const r = spot?.root;
+  if (!r) return;
+  // (data attributes, not classes: React owns the root's className and would drop a class at its next render)
+  if (f < 0) r.dataset.facing = "left";
+  else delete r.dataset.facing;
+  if (to) r.dataset.face = to;
+  else delete r.dataset.face;
+}
+/** Which way to face something: the sprites face right, so only a target left of the ninja's middle mirrors it. */
+function faceOf(t: Face): 1 | -1 {
+  const el = t === "next" ? document.querySelector('[data-nav="next"]') : t;
+  if (!el) return 1; // ▶ not up yet: it is always on the right (the nav row or the column)
+  const p = el instanceof Element ? pointOf(el) : el;
+  const g = geo();
+  return p.x < g.x + g.w * 0.5 - 20 ? -1 : 1;
+}
+/** Turning to face something, in the resting pose: a small dip and a hop toward it (0.5 s). An idle-kind move, so the
+ *  next pose() or move takes over at once. */
+function turnTo(f: 1 | -1) {
+  const r = begin();
+  r.idle = true;
+  play(r, 480, [
+    [0, 0, 0, 0, 1, 1, "ease-out"],
+    [100, -3 * f, 4, 0, 1.07, 0.92, SNAP],
+    [230, 6 * f, -18, 2 * f, 0.96, 1.05, IN],
+    [340, 3 * f, 0, 0, 1.05, 0.95, "ease-out"],
+    [480, 0, 0, 0, 1, 1],
+  ]);
+  poseAt(r, 0, restPose);
+}
 
 // ---------------------------------------------------------------- the controller
 export const ninja = {
@@ -1170,11 +1262,22 @@ export const ninja = {
   },
   /** Set the resting pose (e.g. "run" in the run level); null goes back to the default (idle, or ready on a streak).
    *  It shows at once unless a real move is playing (an idle fidget is stopped for it); a move ends in it.
-   *  `now`: show it this instant even mid-move (a scene driving the whole body itself, e.g. Early's letter launches). */
-  pose(p: Pose | null, opts: { now?: boolean } = {}): void {
+   *  `now`: show it this instant even mid-move (a scene driving the whole body itself, e.g. Early's letter launches).
+   *  `face`: turn to face something, with a small bounce toward it, e.g. `pose("ready", { face: "next" })` while a
+   *  readiness hold asks "Are you ready?" (docs/TEACHER_SCRIPT.md §2.3). The facing lasts until the next pose() call
+   *  (a call without `face` faces right again, as every sprite is drawn). The root gets data-face="next" for the checks. */
+  pose(p: Pose | null, opts: { now?: boolean; face?: Face } = {}): void {
     restOverride = p;
+    const f = opts.face ? faceOf(opts.face) : 1;
+    setFacing(f, opts.face === "next" ? "next" : opts.face ? (f < 0 ? "left" : "right") : null);
     if (cur && !cur.done && cur.idle) cur.stop();
-    if (opts.now || !cur || cur.done) setPose(restPose());
+    if (!opts.now && cur && !cur.done) return;
+    if (opts.face && spot?.root.isConnected) turnTo(f);
+    else setPose(restPose());
+  },
+  /** Which way the ninja faces: 1 right (as drawn), -1 left. */
+  get facing(): 1 | -1 {
+    return facing;
   },
   /** The pose showing right now. */
   get currentPose(): Pose | null {
@@ -1355,6 +1458,7 @@ export function NinjaSpot({ size = 250, x = 40, bottom = 18, pose = "idle", noFl
     handle.current = h;
     spot = h;
     setPose(restPose());
+    setFacing(facing, facingTo);
     return () => {
       if (spot === h) {
         // leaving the screen (e.g. Home mid-move): nothing more flies, lands or makes a sound, and queued lines drop
@@ -1367,6 +1471,8 @@ export function NinjaSpot({ size = 250, x = 40, bottom = 18, pose = "idle", noFl
         heldTier = 0;
         spot = null;
         restOverride = null;
+        facing = 1;
+        facingTo = null;
       }
     };
   }, []);

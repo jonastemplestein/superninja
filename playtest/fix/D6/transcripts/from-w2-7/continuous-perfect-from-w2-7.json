@@ -1,0 +1,814 @@
+{
+ "meta": {
+  "persona": "perfect",
+  "from": "w2-7",
+  "optin": "none",
+  "fast": 4,
+  "levels": 1,
+  "base": "http://127.0.0.1:4746",
+  "at": "2026-09-27T10:16:31.151Z"
+ },
+ "evs": [
+  {
+   "t": 0.1,
+   "kind": "scene",
+   "text": "title"
+  },
+  {
+   "t": 0.1,
+   "kind": "piece",
+   "text": "title"
+  },
+  {
+   "t": 0.1,
+   "kind": "route",
+   "text": "title"
+  },
+  {
+   "t": 0.1,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 0.2,
+   "kind": "tap",
+   "text": "Start"
+  },
+  {
+   "t": 1.3,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 1.3,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 1.3,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 1.3,
+   "kind": "turn",
+   "text": "w2-7",
+   "game": null
+  },
+  {
+   "t": 2.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome back, ninja! I'm so happy to see you.",
+   "id": "tv_welcome_back",
+   "dur": 3522,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 4.9,
+   "kind": "tap",
+   "text": "level w2-7"
+  },
+  {
+   "t": 4.9,
+   "kind": "piece",
+   "text": "stone 1: w2-7"
+  },
+  {
+   "t": 5.5,
+   "kind": "scene",
+   "text": "level-wait"
+  },
+  {
+   "t": 5.5,
+   "kind": "piece",
+   "text": "level w2-7"
+  },
+  {
+   "t": 5.5,
+   "kind": "route",
+   "text": "level:w2-7"
+  },
+  {
+   "t": 5.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The glowing stone is your next game. Tap it when you're ready.",
+   "id": "tv_map_hint",
+   "dur": 3656,
+   "route": "level:w2-7",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 7.7,
+   "kind": "scene",
+   "text": "story"
+  },
+  {
+   "t": 7.7,
+   "kind": "game",
+   "text": "story"
+  },
+  {
+   "t": 9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Story time!",
+   "id": "tv_story_short",
+   "dur": 976,
+   "route": "level:w2-7",
+   "mapOn": false
+  },
+  {
+   "t": 10.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This story is called...",
+   "id": "tv_story_title",
+   "dur": 1749,
+   "route": "level:w2-7",
+   "mapOn": false
+  },
+  {
+   "t": 12.2,
+   "kind": "story",
+   "who": "sensei",
+   "text": "[story s2_title]",
+   "id": "story:s2_title",
+   "dur": 1279,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 13.8,
+   "kind": "hold",
+   "text": "ready:story",
+   "end": 15.8,
+   "how": "next"
+  },
+  {
+   "t": 14.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the green arrow, and let's begin.",
+   "id": "tv_story_begin",
+   "dur": 2462,
+   "route": "level:w2-7",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 15.1,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 15.6,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Up on Blossom Hills lived a little hen called Peg. One morning, Baron Muddle blew a big grey fog over the hills, and poor Peg got lost!",
+   "id": "story:s2_1",
+   "dur": 10103,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 25.7,
+   "kind": "hold",
+   "text": "story 1/10",
+   "end": 28.3,
+   "how": "next"
+  },
+  {
+   "t": 27.3,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 27.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is 'the'. Just say 'the' here.",
+   "id": "audit_special_the",
+   "dur": 2578,
+   "route": "level:w2-7",
+   "mapOn": false
+  },
+  {
+   "t": 28.4,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 30.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Your turn to read.",
+   "id": "story_your_turn",
+   "dur": 1327,
+   "route": "level:w2-7",
+   "mapOn": false
+  },
+  {
+   "t": 30.5,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 31.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "There's a slow way to say a word, and a fast way.",
+   "id": "tv_fs_two_ways",
+   "dur": 3692,
+   "route": "level:w2-7",
+   "mapOn": false,
+   "cut": true
+  },
+  {
+   "t": 32.1,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": false
+  },
+  {
+   "t": 32.1,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 32.3,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Peg the hen is in the fog.",
+   "id": "story:s2_2",
+   "dur": 2143,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 34.6,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Super Ninja followed a trail of feathers through the fog. The trail led to two places...",
+   "id": "story:s2_3",
+   "dur": 5659,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 34.6,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 40.7,
+   "kind": "hold",
+   "text": "story 3/10",
+   "end": 43,
+   "how": "next"
+  },
+  {
+   "t": 42.1,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Where is Peg?",
+   "id": "story:s2_4",
+   "dur": 1094,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 42.1,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 43,
+   "kind": "turn",
+   "text": "den",
+   "game": "story"
+  },
+  {
+   "t": 44.4,
+   "kind": "tap",
+   "text": "den",
+   "busy": false
+  },
+  {
+   "t": 44.4,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 44.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Let's say it the slow way...",
+   "id": "tv_fs_say_slow",
+   "dur": 2311,
+   "route": "level:w2-7",
+   "mapOn": false,
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 47,
+   "kind": "sound",
+   "text": "/d/",
+   "id": "sound:d",
+   "dur": 368,
+   "show": "tile",
+   "route": "level:w2-7",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 47.7,
+   "kind": "sound",
+   "text": "/e/",
+   "id": "sound:e",
+   "dur": 716,
+   "show": "tile",
+   "route": "level:w2-7",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 48.7,
+   "kind": "sound",
+   "text": "/n/",
+   "id": "sound:n",
+   "dur": 591,
+   "show": "tile",
+   "route": "level:w2-7",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 49.6,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "call"
+  },
+  {
+   "t": 49.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And now, fast...",
+   "id": "tv_fs_now_fast",
+   "dur": 1528,
+   "route": "level:w2-7",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 51.4,
+   "kind": "word",
+   "text": "den",
+   "id": "word:den",
+   "dur": 557,
+   "route": "level:w2-7",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 52.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This is 'is'. Just say 'is' here.",
+   "id": "audit_special_is",
+   "dur": 2870,
+   "route": "level:w2-7",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 52.5,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 55.4,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 56.8,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": false
+  },
+  {
+   "t": 56.8,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 57,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Peg is in the den! Get Peg!",
+   "id": "story:s2_5",
+   "dur": 2154,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 58.8,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 59.7,
+   "kind": "turn",
+   "text": "I read it!",
+   "game": "story"
+  },
+  {
+   "t": 60.2,
+   "kind": "sfx",
+   "text": "good"
+  },
+  {
+   "t": 60.3,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Hop on, Peg. Hop on!",
+   "id": "story:s2_6",
+   "dur": 1796,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 60.8,
+   "kind": "tap",
+   "text": "I read it!",
+   "busy": true
+  },
+  {
+   "t": 62.3,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Super Ninja carried Peg all the way home. The fog melted away, and Peg was so happy that she laid a golden egg... with a sound petal inside!",
+   "id": "story:s2_7",
+   "dur": 10123,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 72.9,
+   "kind": "hold",
+   "text": "story 9/10",
+   "end": 74.8,
+   "how": "next"
+  },
+  {
+   "t": 74.2,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Now a question about the story.",
+   "id": "tv_story_q",
+   "dur": 2094,
+   "route": "level:w2-7",
+   "mapOn": false
+  },
+  {
+   "t": 74.2,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": false
+  },
+  {
+   "t": 76.5,
+   "kind": "story",
+   "who": "sensei",
+   "text": "Who was lost in the fog?",
+   "id": "story:s2_q",
+   "dur": 1760,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 76.8,
+   "kind": "turn",
+   "text": "hen",
+   "game": "story"
+  },
+  {
+   "t": 78.2,
+   "kind": "word",
+   "text": "hen",
+   "id": "word:hen",
+   "dur": 462,
+   "route": "level:w2-7"
+  },
+  {
+   "t": 78.2,
+   "kind": "tap",
+   "text": "hen",
+   "busy": false
+  },
+  {
+   "t": 78.2,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 78.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The end! What a story!",
+   "id": "story_end",
+   "dur": 2400,
+   "route": "level:w2-7",
+   "mapOn": false
+  },
+  {
+   "t": 79.9,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 80.9,
+   "kind": "tap",
+   "text": "hen",
+   "busy": true
+  },
+  {
+   "t": 81.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, you got everything right! Grown-ups, if this is too easy, you can jump ahead.",
+   "id": "tv_jump_offer",
+   "dur": 5996,
+   "route": "reward:w2-7",
+   "mapOn": true
+  },
+  {
+   "t": 81.8,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 81.8,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 81.8,
+   "kind": "route",
+   "text": "reward:w2-7"
+  },
+  {
+   "t": 81.8,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 88.3,
+   "kind": "hold",
+   "text": "reward",
+   "end": 90.1,
+   "how": "next"
+  },
+  {
+   "t": 89.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The glowing stone is your next game. Tap it when you're ready.",
+   "id": "tv_map_hint",
+   "dur": 3656,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 89.5,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 90.1,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 90.1,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 90.1,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 90.1,
+   "kind": "turn",
+   "text": "w2-8",
+   "game": null
+  }
+ ],
+ "dom": [
+  {
+   "t": 0.1,
+   "nodes": 100,
+   "fx": 0
+  },
+  {
+   "t": 10.4,
+   "nodes": 76,
+   "fx": 0
+  },
+  {
+   "t": 20.9,
+   "nodes": 85,
+   "fx": 0
+  },
+  {
+   "t": 31.2,
+   "nodes": 141,
+   "fx": 0
+  },
+  {
+   "t": 43,
+   "nodes": 98,
+   "fx": 0
+  },
+  {
+   "t": 53.3,
+   "nodes": 153,
+   "fx": 0
+  },
+  {
+   "t": 63.5,
+   "nodes": 96,
+   "fx": 0
+  },
+  {
+   "t": 74.8,
+   "nodes": 76,
+   "fx": 0
+  },
+  {
+   "t": 85.2,
+   "nodes": 107,
+   "fx": 0
+  }
+ ],
+ "stones": 1,
+ "navlog": [
+  {
+   "t": 13.5,
+   "kind": "step",
+   "id": "ready:story",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 15.1,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 15.1,
+   "kind": "ready",
+   "id": "ready:story",
+   "how": "next"
+  },
+  {
+   "t": 15.1,
+   "kind": "step",
+   "id": "ready:story",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 15.1,
+   "kind": "step",
+   "id": "story",
+   "from": null,
+   "to": 0,
+   "via": "next"
+  },
+  {
+   "t": 27.3,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 27.3,
+   "kind": "step",
+   "id": "story",
+   "from": 0,
+   "to": 1,
+   "via": "next"
+  },
+  {
+   "t": 34.6,
+   "kind": "step",
+   "id": "story",
+   "from": 1,
+   "to": 2,
+   "via": "read"
+  },
+  {
+   "t": 42.1,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 42.1,
+   "kind": "step",
+   "id": "story",
+   "from": 2,
+   "to": 3,
+   "via": "next"
+  },
+  {
+   "t": 44.4,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 49.6,
+   "kind": "speed",
+   "which": "fast",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 52,
+   "kind": "step",
+   "id": "story",
+   "from": 3,
+   "to": 6,
+   "via": "pick"
+  },
+  {
+   "t": 59.4,
+   "kind": "step",
+   "id": "story",
+   "from": 6,
+   "to": 7,
+   "via": "read"
+  },
+  {
+   "t": 62.3,
+   "kind": "step",
+   "id": "story",
+   "from": 7,
+   "to": 8,
+   "via": "read"
+  },
+  {
+   "t": 74.1,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 74.2,
+   "kind": "step",
+   "id": "story",
+   "from": 8,
+   "to": 9,
+   "via": "next"
+  },
+  {
+   "t": 78.7,
+   "kind": "step",
+   "id": "story",
+   "from": 9,
+   "to": null,
+   "via": "answer"
+  },
+  {
+   "t": 89.5,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "noSplit": [],
+ "streakLines": []
+}

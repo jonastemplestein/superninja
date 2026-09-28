@@ -8,6 +8,7 @@ const s = (id: string, text: string): Line => ({ id, text, who: "sensei" });
 const b = (id: string, text: string): Line => ({ id, text, who: "baron" });
 
 import { TEACH_LINES } from "./teach-lines.gen";
+import DURATIONS from "../../public/a/durations.json";
 
 export const LINES: Line[] = [
   // --- Title & intro
@@ -570,6 +571,11 @@ export const LINES: Line[] = [
   b("baron_w5", "Welcome to my castle, little ninja! In here, some sounds are spelt with two letters. How muddling! Mwa-ha-ha!"),
   b("baron_w6", "So. You came all this way. Same sound, different spellings? That was my best muddle of all! Grrr!"),
   b("baron_final", "Oh... Well... I suppose words ARE rather nice. Especially... stories. Sorry for all the muddle."),
+  // --- Baron final only (27 Sep, docs/fix-requests.md): the Sky Magpie's introduction and the Baron's escape
+  b("baron_intro_sky_temple", "Mwa-ha-ha! Meet my Sky Magpie, little ninja. She'll steal every gem you know!"),
+  b("baron_trick_1", "Did you think I'd turned nice? Mwa-ha-ha! It was a trick! I've still got the rarest gems!"),
+  b("baron_escape_sky", "Catch me if you can, little ninja! My Sky Isles are full of spellings you've never seen!"),
+  s("tv_trick_soon", "He tricked us! Don't worry. We'll follow his balloon to the Sky Isles soon."),
 
   // ---- Script style (docs/SCRIPT_STYLE.md, 26 Sep). Owned by the script fixes; edit only this block. SCRIPT_FIXES
   // Part B, where docs/TEACHER_SCRIPT.md keeps the line (not recorded: st_speaker_ok, st_like_this_in and
@@ -1041,12 +1047,297 @@ export const LINES: Line[] = [
   s("tv_jump_offer", "Wow, you got everything right! Grown-ups, if this is too easy, you can jump ahead."),
   // --- Map (teacher voice, TS §5.8): The map, and coming back
   s("tv_welcome_back", "Welcome back, ninja! I'm so happy to see you."),
+  // --- Fast and slow (docs/TEACHER_SCRIPT.md §9, 27 Sep)
+  // the idea (Move 2): one per game a session, rotating, never the same line twice in a session
+  s("tv_fs_two_ways", "There's a slow way to say a word, and a fast way."),
+  s("tv_fs_tortoise", "The tortoise says each word slowly, one sound at a time."),
+  s("tv_fs_gaps", "The slow way has little gaps between the sounds."),
+  s("tv_fs_rabbit", "The rabbit pushes the sounds together, and says the word fast."),
+  s("tv_fs_read", "When we read, we say the sounds first, then the word."),
+  s("tv_fs_same", "The tortoise and the rabbit say the very same word."),
+  s("tv_fs_made", "Every word is made of little sounds, one by one."),
+  s("tv_fs_ninja", "Slow first, then fast. That's how ninjas read words."),
+  s("tv_fs_mantra", "We say the sounds slowly. Then we read the word fast."),
+  s("tv_fs_spell", "To build a word, we say it slowly first."),
+  s("tv_fs_find", "Saying it slowly helps us find every sound."),
+  // more short idea lines (27 Sep, TS §9.5): each under 3.5 s, so a tight run has 8 or more to rotate through
+  s("tv_fs_hiding", "There's a fast word hiding in every slow word."),
+  s("tv_fs_whole", "The rabbit says the whole word, all at once."),
+  s("tv_fs_push", "We push the sounds together to make the word."),
+  s("tv_fs_turn", "The slow way gives every sound a turn."),
+  s("tv_fs_ninjas_can", "Ninjas can say a word slowly, and fast too."),
+  s("tv_fs_next", "Saying it slowly tells us which sound comes next."),
+  s("tv_fs_start_end", "The slow way shows us where each sound goes."),
+  s("tv_fs_count", "The slow way helps us count the sounds."),
+  // the read-back (Move 1, the child pushes it fast; Move 5, Sensei's pair): the slow slot, then the word
+  s("tv_fs_say_sounds_slow", "Let's say the sounds, the slow way..."),
+  s("tv_fs_rabbit_read", "Now tap the rabbit, and read the word fast."),
+  s("tv_fs_say_slow", "Let's say it the slow way..."),
+  s("tv_fs_now_fast", "And now, fast..."),
+  s("tv_fs_slow_tortoise", "First the slow way, like the tortoise..."),
+  s("tv_fs_fast_rabbit", "Now the fast way, like the rabbit..."),
+  s("tv_fs_run", "I'll say it the slow way, and you catch the whole word."),
+  // stuck (Move 3): a first miss or the 8 s idle, rotating with the game's own line
+  s("tv_fs_stuck_slow", "Let's say it the slow way first..."),
+  s("tv_fs_stuck_again", "Here's the slow way again, one sound at a time..."),
+  s("tv_fs_stuck_push", "Say the sounds with me. Then push them together, fast."),
+  // praise (Move 4): the game's praise slot, once a game a session
+  s("tv_fs_praise_both", "Slow, then fast. That's real reading!"),
+  s("tv_fs_praise_found", "You heard the slow way, and found the word."),
+  s("tv_fs_praise_every", "You said it slowly, and found every sound."),
+  // more praise (27 Sep, TS §9.5): 3 or 4 of each kind, and each line at most once a session
+  s("tv_fs_praise_both_2", "You said each sound slowly, then read the whole word."),
+  s("tv_fs_praise_both_3", "The slow way, then the fast way. You read it!"),
+  s("tv_fs_praise_found_2", "You pushed the sounds together, and heard the word."),
+  s("tv_fs_praise_found_3", "Those little sounds made a word, and you found it!"),
+  s("tv_fs_praise_found_4", "You listened to every sound, and caught the word!"),
+  s("tv_fs_praise_every_2", "Slowly does it! Every sound is in its place."),
+  s("tv_fs_praise_every_3", "Sound by sound, the slow way. Well built!"),
+  s("tv_fs_praise_every_4", "You listened slowly, and got the sounds in order."),
+  // --- Map redesign (docs/MAP_DESIGN.md §6, 27 Sep): one name for the target ("the glowing stone"), the way back from
+  // another land, and the map's replay question (its use of the Confirm, docs/CONFIRM.md §1.2 `replay`). The question
+  // names the stone's own picture or game (one per stone kind), then the answers line; each answer says what it does.
+  s("tv_map_help", "Look next to your ninja. Tap the glowing stone."),
+  s("tv_map_locked", "Not yet! Tap the glowing stone first."),
+  s("tv_map_away", "Your ninja isn't in this land. Tap the glowing arrow to go back."),
+  s("tv_map_replay_ears", "Do you want to play the tortoise game again?"),
+  s("tv_map_replay_picread", "Do you want to play the fish-dog game again?"),
+  s("tv_map_replay_firstsound", "Do you want to play First Sounds again?"),
+  s("tv_map_replay_soundhunt", "Do you want to play Sound Hunt again?"),
+  s("tv_map_replay_dojo", "Do you want to do that dojo lesson again?"),
+  s("tv_map_replay_battle", "Do you want to battle that monster again?"),
+  s("tv_map_replay_boss", "Do you want to battle the boss again?"),
+  s("tv_map_replay_run", "Do you want to play Ninja Run again?"),
+  s("tv_map_replay_swap", "Do you want to play Sound Swap again?"),
+  s("tv_map_replay_story", "Do you want to read that story again?"),
+  s("tv_map_replay_sort", "Do you want to play Sorting again?"),
+  s("tv_map_replay_how", "Tap the picture to play it again. Or tap the green arrow for your next game."),
+  s("tv_map_replay_yes", "Okay, let's play it again!"),
+  s("tv_map_replay_next", "Off to your next game!"),
+  // a stone the child can play but hasn't (placed past it, or Unlock every level): the same question, without "again"
+  s("tv_map_other", "Do you want to play that game instead?"),
+  s("tv_map_other_how", "Tap the picture to play it. Or tap the green arrow for your next game."),
+  // --- Confirm (docs/CONFIRM.md, 27 Sep): Sensei's question before a costly tap (src/ui/Confirm.tsx). The answers are
+  // pictures: the green tick (yes) and the blue arrow (no, go back); each says itself as it is tapped. `how` follows
+  // every question; `again` is the 16 s re-ask. The questions are CONFIRM.md §1.2's (rows 1, 2, 4 and 5).
+  s("tv_confirm_yes", "Yes, please!"),
+  s("tv_confirm_no", "No, thank you."),
+  s("tv_confirm_how", "Tap the tick for yes, or the arrow to go back."),
+  s("tv_confirm_again", "Do you want to do that? Tap the tick for yes, or the arrow to go back."),
+  s("tv_confirm_replay", "Do you want to go back and play this game again?"),
+  s("tv_confirm_leave", "Do you want to stop this game and go home?"),
+  s("tv_confirm_leave_boss", "Do you want to leave the boss battle? You can come back any time."),
+  s("tv_confirm_leave_trial", "Do you want to stop the gem battle? Your gem will wait for you."),
+  // --- Confirm, fix round (docs/CONFIRM.md §3, 27 Sep): the answers are now the map's pattern. YES is a picture of
+  // where the tap goes (the house, the World Flower, the stone's picture); NO is the green arrow, "keep playing". These
+  // replace tv_confirm_no, tv_confirm_how, tv_confirm_again and tv_confirm_replay above, whose "go back" meant YES in
+  // one line and NO in the next (nothing calls them now; retire request in docs/fix-requests.md). The nudges answer
+  // Home under a leave question: they point the child at the house instead of closing the question.
+  s("tv_confirm_play_again", "You've played that game before. Do you want to play it again?"),
+  s("tv_confirm_how_pic", "Tap the picture for yes. Or tap the green arrow to keep playing."),
+  s("tv_confirm_how_home", "Tap the house to go home. Or tap the green arrow to keep playing."),
+  s("tv_confirm_how_flower", "Tap the flower to stop for now. Or tap the green arrow to keep battling."),
+  s("tv_confirm_keep", "Let's keep going!"),
+  s("tv_confirm_bye", "Okay. See you soon!"),
+  s("tv_confirm_home_nudge", "To go home, tap this house."),
+  s("tv_confirm_flower_nudge", "To stop for now, tap this flower."),
+  // --- Picture reading v2 and the read slider (27 Sep): docs/READ_SLIDER.md, docs/PICTURE_READING.md, TS §10. No
+  // fish-dog: real compound words (src/content/compounds.ts) read with the read slider (src/ui/ReadSlider.tsx). The child
+  // slides the tortoise from left to right under the pictures, and each part is said as the tortoise reaches it (the
+  // slow way); then the rabbit's tap says the whole word (the fast way). Only rs_now_fast says "fast" (BATH-checked).
+  // The slider's own lines: how, the wrong way (three, in turn), a start in the middle, idle, a slide that stops, a
+  // fresh start, sounds with me, the fast way, too quick, and praise (three, in turn).
+  s("rs_how", "Put your finger on the tortoise, and slide it this way."),
+  s("rs_back_1", "That way is backwards. We always read from left to right."),
+  s("rs_back_2", "Let's try again from the tortoise. Ninjas always start on this side."),
+  s("rs_back_3", "The tortoise only walks this way. Start here, and slide it along."),
+  s("rs_start_here", "Let's start on this side. Put your finger on the tortoise."),
+  s("rs_idle", "Put your finger on the tortoise when you're ready."),
+  s("rs_keep_going", "Keep going, all the way to the rabbit."),
+  s("rs_again", "Let's slide it again, from the very start."),
+  s("rs_sounds_with_me", "Now you slide it, and say the sounds with me."),
+  s("rs_now_fast", "That was the slow way. Now tap the rabbit, and say it fast."),
+  s("rs_slowly", "The tortoise likes to go slowly. Try it slowly, like me."),
+  s("rs_praise_1", "You read each little word, then the whole big word."),
+  s("rs_praise_2", "Tortoise first, then the rabbit. That's ninja reading!"),
+  s("rs_praise_3", "You started at the beginning, and went all the way."),
+  // Picture reading v2's script (docs/PICTURE_READING.md §3–§6): the frame, Sensei's slow demo (the idea first, "Two
+  // little words can make one long word", then "Watch my paw..." and her paw slides the tortoise: [rain] · [bow]), her backwards gag (pr_back_<w>: the reversed words
+  // are part of one whole recording), the hand-over and recap, the bridge to sounds, and the meaning family
+  // (pr_what_<w>: "the last little word tells you what it is"). Reward 2 and the map's replay question get new ids.
+  s("pr_frame", "Ninjas always read this way."), // (short: the first run to the rabbit tap stays near 12 s, PICTURE_READING §3.2)
+  s("pr_demo", "Two little words can make one long word. I'll read this one slowly first. Watch my paw..."),
+  s("pr_demo_back", "Now watch what happens if I start on the other side..."),
+  s("pr_back_rainbow", "Bow rain! It's raining bows! We always start on this side."),
+  s("pr_back_raincoat", "Coat rain! It's raining coats! We always start on this side."),
+  s("pr_back_snowman", "Man snow! It's snowing tiny men! We always start on this side."),
+  s("pr_back_cupcake", "Cake cup! A cup made of cake! We always start on this side."),
+  s("pr_back_football", "Ball foot! A ball with toes! We always start on this side."),
+  s("pr_back_treehouse", "House tree! That's silly. We always start on this side."),
+  s("pr_back_cowboy", "Boy cow! That's silly. We always start on this side."),
+  s("pr_back_sunflower", "Flower sun! That's silly. We always start on this side."),
+  s("pr_back_pancake", "Cake pan! A frying pan made of cake! We always start on this side."),
+  s("pr_another", "Here's another long word."),
+  s("pr_sounds_too", "Words are made of sounds, too. Let me show you..."),
+  s("pr_sounds_demo", "Let's say I want to read this word. I'll say its sounds first. Watch my paw..."),
+  s("pr_recap", "It's Ninja Reading again. Little words make long words."),
+  s("pr_your_turn", "Now it's your turn. Slide the tortoise this way."),
+  s("pr_short", "It's Ninja Reading again. Slide the tortoise this way."),
+  s("pr_w4_done", "You read lots of long words, the ninja way."),
+  s("pr_last_word", "The last little word tells you what it is."),
+  s("pr_what_rainbow", "A rainbow is a big bow of colours in the rain."),
+  s("pr_what_snowman", "A snowman is a man made of snow."),
+  s("pr_what_cupcake", "A cupcake is a little cake in a paper cup."),
+  s("pr_what_raincoat", "A raincoat is a coat for the rain."),
+  s("pr_what_football", "A football is a ball you kick with your foot."),
+  s("pr_what_treehouse", "A treehouse is a little house up in a tree."),
+  s("pr_what_cowboy", "A cowboy is a boy who looks after cows."),
+  s("pr_what_sunflower", "A sunflower is a big flower that looks like the sun."),
+  s("pr_what_pancake", "A pancake is a flat cake you make in a pan."),
+  s("pr_rw2_list", "Rain, bow, snow, man, snowman, cup, cake and cupcake!"),
+  s("pr_rw_shiny", "Ooh, a shiny sticker! Rainbow!"),
+  s("pr_rw2_s", "Sun, sock, sausage and snowman. They all start with..."),
+  s("pr_map_replay", "Do you want to play Ninja Reading again?"),
+  // --- Demo choreography (docs/DEMO_CHOREOGRAPHY.md, 27 Sep)
+  // Jonas: "Let me show you. I'm gonna tap on the sausage now. Look!" Every "I do" demo: the rule as a hypothetical
+  // (tv_demo_rule_*), "Let me show you.", the action announced in the first person (tv_demo_now_*: a pause before
+  // "now", on which the paw sets off; recorded suspended, so "Look!" follows), then Sensei's own paw flies from her
+  // corner, presses, and only then does the effect happen (src/ui/SenseiDemo.tsx). The ninja only watches. Families are
+  // whole sentences, one recording per word (SPEECH_TEMPLATES adopts them as they are): tv_demo_rule_find_<w>,
+  // tv_demo_now_tap_<w>.
+  s("tv_demo_show", "Let me show you."),
+  s("tv_demo_look", "Look!"),
+  s("tv_demo_watch_me", "Watch my paw carefully."),
+  s("tv_demo_watch_write", "Now watch me write it."),
+  // the rule as a hypothetical, one per game type (TS §4.1), where the task has no variable
+  s("tv_demo_rule_tap", "Let's pretend I say a word. Then you find its picture, and tap it."),
+  s("tv_demo_rule_fastslow", "Let's pretend you tap the tortoise. Then you say the word slowly."),
+  s("tv_demo_rule_tapall", "Let's pretend I say a sound. Then you find every picture that starts with it."),
+  s("tv_demo_rule_tapall_in", "Let's pretend I say a sound. Then you find every picture with it in the middle."),
+  s("tv_demo_rule_rail", "Let's pretend I show you two pictures. Then you read them, starting on this side."),
+  s("tv_demo_rule_which", "Let's pretend I read one row. Then you tap the row I read."),
+  s("tv_demo_rule_compound", "Let's pretend I say two little words. Then you squish them into one big word."),
+  s("tv_demo_rule_slowpick", "Let's pretend I say a word very slowly. Then you find its picture."),
+  s("tv_demo_rule_sounds", "Let's pretend I say the sounds in a word. Then you find its picture."),
+  s("tv_demo_rule_dots", "Let's pretend I show you a picture. Then you tap each dot, and say its sound."),
+  s("tv_demo_rule_firstsound", "Let's pretend I say a sound. Then you find the picture that starts with it."),
+  s("tv_demo_rule_find", "Let's pretend I say a sound. Then you find how we write it."),
+  s("tv_demo_rule_soundhunt", "Let's pretend I say a sound. Then you find the picture with that sound in the middle."),
+  s("tv_demo_rule_build", "Let's pretend I say a word. Then you build it with its sounds, one at a time."),
+  s("tv_demo_rule_readcheck", "Let's pretend Kai and Suki read a word. Then you tap the one who read it right."),
+  s("tv_demo_rule_battle", "Let's pretend I say a word. Then you find its sounds, and zap the monster."),
+  s("tv_demo_rule_boss", "Let's pretend I say a word. Then you spell it, and zap the boss."),
+  s("tv_demo_rule_trial", "Let's pretend I say a word. Then you spell it before the bar is full."),
+  s("tv_demo_rule_review", "Let's pretend I say a tricky word. Then you spell it, and zap the monster."),
+  s("tv_demo_rule_swap", "Let's pretend I want a new word. Then you change just one sound."),
+  s("tv_demo_rule_sort", "Let's pretend a word falls down. Then you tap the chest with the same spelling."),
+  s("tv_demo_rule_run", "Let's pretend I say some sounds. Then you catch the lantern with that word."),
+  s("tv_demo_rule_story", "Let's pretend it's your page. Then you read each word, and tap the green tick."),
+  s("tv_demo_rule_learn", "Let's pretend I say a new sound. Then you say it back to me."),
+  // the rule with its word (Ninja Ears: the W1 demo's sun, and Jonas's sausage)
+  s("tv_demo_rule_find_sun", "Let's pretend I say, ‘Find the sun.’ Then you tap on the sun."),
+  s("tv_demo_rule_find_sausage", "Let's pretend I say, ‘Find the sausage.’ Then you tap on the sausage."),
+  // the action, announced: the paw sets off on "now" (its word timings: public/a/l/<id>.words.json). The canonical
+  // demo items: the warm-ups' demos (warmups.ts), the picture games' I do answers (Early.tsx IDO_PAIRS), the rabbit and
+  // the tortoise, a row, a chest, the word card and the dots
+  s("tv_demo_now_tap_sun", "I'm going to tap on the sun... now..."),
+  s("tv_demo_now_tap_sausage", "I'm going to tap on the sausage... now..."),
+  s("tv_demo_now_tap_sock", "I'm going to tap on the sock... now..."),
+  s("tv_demo_now_tap_mug", "I'm going to tap on the mug... now..."),
+  s("tv_demo_now_tap_cat", "I'm going to tap on the cat... now..."),
+  s("tv_demo_now_tap_map", "I'm going to tap on the map... now..."),
+  s("tv_demo_now_tap_ant", "I'm going to tap on the ant... now..."),
+  s("tv_demo_now_tap_tent", "I'm going to tap on the tent... now..."),
+  s("tv_demo_now_tap_nut", "I'm going to tap on the nut... now..."),
+  s("tv_demo_now_tap_pan", "I'm going to tap on the pan... now..."),
+  s("tv_demo_now_tap_pin", "I'm going to tap on the pin... now..."),
+  s("tv_demo_now_tap_mop", "I'm going to tap on the mop... now..."),
+  s("tv_demo_now_tap_rabbit", "I'm going to tap on the rabbit... now..."),
+  s("tv_demo_now_tap_tortoise", "I'm going to tap on the tortoise... now..."),
+  s("tv_demo_now_tap_row", "I'm going to tap on this row... now..."),
+  s("tv_demo_now_tap_chest", "I'm going to tap on this chest... now..."),
+  s("tv_demo_now_tap_card", "I'm going to tap on my word card... now..."),
+  s("tv_demo_now_tap_dots", "I'm going to tap each dot, starting on this side... now..."),
+  s("tv_demo_now_read_row", "I'm going to read this row... now..."),
+  // several actions (Word Building, a battle, Sound Swap): each one announced before the paw moves
+  s("tv_demo_now_first_sound", "I'm going to find the first sound... now..."),
+  s("tv_demo_now_next_sound", "I'm going to find the next sound... now..."),
+  s("tv_demo_now_last_sound", "I'm going to find the last sound... now..."),
+  s("tv_demo_now_take_out", "I'm going to take out the old sound... now..."),
+  s("tv_demo_now_put_in", "I'm going to put in the new sound... now..."),
 ];
 // whole-sentence example clips for the teacher language (scripts/gen-teach-lines.ts → teach-lines.gen.ts)
 LINES.push(...TEACH_LINES.map((l) => s(l.id, l.text)));
 
+// ---- Pre-ship fixes (28 Sep, lane F2; docs/tts-retakes.md "Pre-ship fixes (28 Sep)"). New lines written while the TTS
+// quota was out. A line here joins LINES only once its clip is measured (public/a/durations.json has `l/<id>`), so
+// every caller's HAS guard keeps its fallback until then and nothing plays silence. Record them with
+// `SN_PRESHIP=1 bun scripts/gen-audio.ts lines --only <ids> --force` (SN_PRESHIP lets gen-audio see them), then
+// `bun scripts/gen-durations.ts`; no code change is needed after that.
+export const PRESHIP_LINES: Line[] = [
+  // --- Teacher language (teach.ts): two sounds for one spelling as whole sentences, each pure sound ending its sentence
+  //     (SCRIPT_STYLE §7's "Never" example was the old "…/th/ …in moth, and sometimes… /dh/ …in this.")
+  s("tv_and_sometimes_be", "And sometimes, it can be..."),
+  s("tv_but_in_this_word", "But in this word, it's..."),
+  // --- Correction (feedback.ts): the first miss names the sound the child is on ("…What's the last sound in mat?")
+  s("tv_listen_word_again", "Let's listen to the word again."),
+  // --- Rewards (App.tsx toFlowerLines): one sound won, or a new spelling of a sound the child knows
+  s("tv_to_flower_one", "Let's take what you learnt to the World Flower. Tap the green arrow."),
+  // --- Dojo (Dojo.tsx frameLine): the lesson frames for the shapes that had none (TEACHER_SCRIPT §3.26 A, §4.6)
+  s("tv_learn_frame_one", "Today in the dojo, I'm going to teach you one new sound."),
+  s("tv_learn_short_one", "Back to the dojo. Today there's one new sound."),
+  s("tv_learn_frame_one_two_ways", "Today in the dojo, I'm going to teach you a new sound, and two ways to write it."),
+  s("tv_learn_short_one_two_ways", "Back to the dojo. Today there's a new sound, and two ways to write it."),
+  s("tv_learn_frame_one_three_ways", "Today in the dojo, I'm going to teach you a new sound, and three ways to write it."),
+  s("tv_learn_short_one_three_ways", "Back to the dojo. Today there's a new sound, and three ways to write it."),
+  s("tv_learn_frame_mixed", "Today in the dojo, I'm going to teach you a new sound, and new ways to write sounds you know."),
+  s("tv_learn_short_mixed", "Back to the dojo. Today there's a new sound, and new ways to write sounds you know."),
+  s("tv_learn_frame_ways_many", "Today in the dojo, I'm going to teach you new ways to write sounds you know."),
+  s("tv_learn_short_ways_many", "Back to the dojo. Today there are new ways to write sounds you know."),
+  s("tv_learn_short_ways", "Back to the dojo. Today there are new ways to write a sound you know."),
+  // --- Rewards (App.tsx Reward, lane B1): the news asks for the child's tap, so the reward is never a monologue (the
+  //     12 s rule): the won petals, then the new stickers. Until recorded: the won line + tv_rw2_tap_petal, and fm_rw_more
+  s("tv_won_tap_one", "You won back a sound! Tap its petal, and hear it."),
+  s("tv_won_tap_two", "You won back two sounds! Tap each petal, and hear its sound."),
+  s("tv_won_tap_three", "You won back three sounds! Tap each petal, and hear its sound."),
+  s("tv_won_tap_four", "You won back four sounds! Tap each petal, and hear its sound."),
+  s("tv_won_tap_many", "You won back lots of sounds! Tap each petal, and hear its sound."),
+  s("tv_rw_stickers_tap", "More stickers for your Sticker Book! Tap them, and they'll jump in."),
+  // --- Choose your ninja (App.tsx Choose, lane B1): the opt-in after it opens "First, let's find…"; one "First" only
+  s("tv_choose_q_now", "Now, choose your ninja. Will it be Kai, or Suki?"),
+  // --- Word Squish (Warmup.tsx, lane MISC): its borrowed "Tap the green arrow, and let's begin." hold went (two ▶ holds
+  //     in 14 s), so the frame is shorter to keep the frame + demo inside 12 s. Until recorded: tv_squish_frame
+  s("tv_squish_meet", "This game is called Word Squish."),
+  // ---- The big fix's lanes (27 Sep; docs/tts-retakes.md "The big fix's lanes", fix-requests "Integration status"):
+  //      every caller guards with HAS/L() and falls back until the clip exists, so they join LINES the same way
+  // --- Early learning (Early.tsx IDO_PAIRS, C1): /p/'s demo, which avoids the pig (/p/'s own petal picture)
+  s("tv_ido_pair_bus_pan", "I'll go first. Here's a bus and a pan."),
+  // --- Dojo (Dojo.tsx closingOf, D1): the close for a lesson of two or three new sounds (tv_learn_done says "four")
+  s("tv_learn_done_two", "You learnt two new sounds today, and you built words with them."),
+  s("tv_learn_done_three", "You learnt three new sounds today, and you built words with them."),
+  // --- World Flower v2 (Tree.tsx, B2; docs/SCROLL_DESIGN.md §4.4)
+  s("help_flower_fill", "Every sound you find grows a petal. When you win its gems, the petal fills up with colour!"),
+  s("petal_outline", "You found a new sound! Win its gems, and its petal fills up with colour."),
+  s("petal_caught_up", "You've won every gem you can for now. More are waiting on your adventure!"),
+  s("gem_won_shine", "You won this gem! Read and spell it in lots of words to make it sparkle."),
+  s("gem_sparkle", "This gem sparkles! You really know it."),
+  s("gem_dusty", "This gem is a little dusty. Practise it to make it shine again!"),
+  s("card_also_first", "This spelling is in other petals too. Tap here to see them!"),
+];
+{
+  const measured = DURATIONS as Readonly<Record<string, number>>;
+  const recording = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.SN_PRESHIP === "1";
+  const known = new Set(LINES.map((l) => l.id));
+  LINES.push(...PRESHIP_LINES.filter((l) => !known.has(l.id) && (recording || measured[`l/${l.id}`] != null)));
+}
+
 export const PRAISE = ["yay_1", "yay_2", "yay_3", "yay_4", "yay_5", "yay_6", "yay_7", "yay_8", "yay_9", "yay_10"];
 export const BARON_TAUNTS = ["baron_taunt_1", "baron_taunt_2", "baron_taunt_3"];
+// --- Baron final only (27 Sep, docs/fix-requests.md row 6)
+/** A boss's own words: captions with a squawk or growl, no voice (MIDGAME_ENDGAME §2.3 F14). */
+export const BOSS_CAPTIONS: Record<string, { start?: string; grr?: string; beaten?: string }> = {
+  boss_magpie: { start: "You want my gems? Come and get them!", grr: "Squawk! Hands off my shiny gems!", beaten: "My lovely gems! Oh, all right, take them." },
+};
 
 // --- Teacher voice: retired lines (docs/TEACHER_SCRIPT.md §7.3, 27 Sep). Owned by the teacher-voice lines lane.
 /** Lines the teacher's voice retires from the preschool and early paths. They stay in LINES (and keep their clips) until
@@ -1178,4 +1469,10 @@ export const RETIRED_LINES: Readonly<Record<string, string>> = {
   streak_10: "retired on these paths",
   yay_7: "as a reward lead",
   audit_hear_see: "on this path",
+  // the confirm's first wording (tick and back arrow: "go back" meant YES in one line and NO in the next), superseded by
+  // tv_confirm_how_pic / _home / _flower and QUESTIONS.replay (docs/CONFIRM.md; integration, 27 Sep). Nothing calls them.
+  tv_confirm_no: "retired on these paths",
+  tv_confirm_how: "retired on these paths",
+  tv_confirm_again: "retired on these paths",
+  tv_confirm_replay: "retired on these paths",
 };

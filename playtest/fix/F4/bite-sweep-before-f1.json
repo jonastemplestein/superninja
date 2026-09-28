@@ -1,0 +1,548 @@
+{
+ "base": "http://127.0.0.1:4804",
+ "fast": 3,
+ "secs": 64,
+ "results": {
+  "map": {
+   "ok": true,
+   "secs": 15,
+   "findings": 1
+  },
+  "w1-6": {
+   "ok": true,
+   "secs": 36,
+   "findings": 7
+  },
+  "w1-3": {
+   "ok": true,
+   "secs": 43,
+   "findings": 13
+  },
+  "w5-2": {
+   "ok": true,
+   "secs": 46,
+   "findings": 8
+  },
+  "w2-1": {
+   "ok": true,
+   "secs": 60,
+   "findings": 15
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:map:anim-main-thread:@wave",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "map",
+   "title": "anim-main-thread: @wave",
+   "detail": "3 endless animations the compositor can't run at once on map/map (over the budget of 2 in 4 of 16 samples, on map/map): @wave ×3.",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4804/play/?scene=map"
+  },
+  {
+   "sig": "bot:w1-6:sound-unclassified:after battle_spell",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-6",
+   "title": "sound-unclassified: after battle_spell",
+   "detail": "A lone sound /m/ (battle, after battle_spell) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-6/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-6"
+  },
+  {
+   "sig": "bot:w1-6:petal-too-small:/m/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-6",
+   "title": "petal-too-small: /m/ badge",
+   "detail": "The /m/ petal's picture is 30 CSS px on the 844×390 phone (want ≥ 38; the badge is 49 px wide).",
+   "evidence": [
+    "cases/w1-6/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-6"
+  },
+  {
+   "sig": "bot:w1-6:sound-unclassified:after audit_gem_first",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-6",
+   "title": "sound-unclassified: after audit_gem_first",
+   "detail": "A lone sound /s/ (battle, after audit_gem_first) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-6/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-6"
+  },
+  {
+   "sig": "bot:w1-6:sound-unclassified:after streak_6",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-6",
+   "title": "sound-unclassified: after streak_6",
+   "detail": "A lone sound /a/ (battle, after streak_6) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-6/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-6"
+  },
+  {
+   "sig": "bot:w1-6:sound-unclassified:after yay_3",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-6",
+   "title": "sound-unclassified: after yay_3",
+   "detail": "A lone sound /a/ (battle, after yay_3) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-6/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-6"
+  },
+  {
+   "sig": "bot:w1-6:anim-main-thread:@gem-slosh, @wave",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-6",
+   "title": "anim-main-thread: @gem-slosh, @wave",
+   "detail": "11 endless animations the compositor can't run at once on reward/reward (over the budget of 2 in 32 of 37 samples, on level/battle, level/gem-energy, reward/reward): @gem-slosh ×8, @wave ×3.",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-6"
+  },
+  {
+   "sig": "bot:w1-6:anim-hidden:@breathe, @bt-orbit, @bt-tremble",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-6",
+   "title": "anim-hidden: @breathe, @bt-orbit, @bt-tremble",
+   "detail": "5 endless animations running on hidden elements at once on level/battle (over the budget of 2 in 21 of 37 samples, on level/battle, level/gem-energy): @bt-orbit ×3, @bt-tremble ×1, @breathe ×1.",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-6"
+  },
+  {
+   "sig": "bot:w1-3:petal-giveaway:/a/ beside a apple card",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "petal-giveaway: /a/ beside a apple card",
+   "detail": "The /a/ petal (its picture is a apple) is on screen with an answer card \"apple\": the petal gives the answer away (SOUND_DISPLAY A12). Cards: bus, apple.",
+   "evidence": [
+    "cases/w1-3/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:petal-too-small:/a/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "petal-too-small: /a/ badge",
+   "detail": "The /a/ petal's picture is 30 CSS px on the 844×390 phone (want ≥ 38; the badge is 49 px wide).",
+   "evidence": [
+    "cases/w1-3/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after first_q",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after first_q",
+   "detail": "A lone sound /a/ (pick, after first_q) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after fs_apple",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after fs_apple",
+   "detail": "A lone sound /a/ (pick, after fs_apple) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after audit_hear_see",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after audit_hear_see",
+   "detail": "A lone sound /a/ (pick, after audit_hear_see) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after fs_ant",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after fs_ant",
+   "detail": "A lone sound /a/ (pick, after fs_ant) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after how_we_spell",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after how_we_spell",
+   "detail": "A lone sound /a/ (pick, after how_we_spell) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_6.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:petal-too-small:/t/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "petal-too-small: /t/ badge",
+   "detail": "The /t/ petal's picture is 31 CSS px on the 844×390 phone (want ≥ 38; the badge is 52 px wide).",
+   "evidence": [
+    "cases/w1-3/issue_7.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after fs_tent",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after fs_tent",
+   "detail": "A lone sound /t/ (pick, after fs_tent) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_8.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after fs_tap",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after fs_tap",
+   "detail": "A lone sound /t/ (pick, after fs_tap) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_9.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after fs_tin",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after fs_tin",
+   "detail": "A lone sound /t/ (pick, after fs_tin) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_10.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:sound-unclassified:after find_q",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "sound-unclassified: after find_q",
+   "detail": "A lone sound /a/ (pick, after find_q) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w1-3/issue_11.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w1-3:anim-main-thread:@wave",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w1-3",
+   "title": "anim-main-thread: @wave",
+   "detail": "3 endless animations the compositor can't run at once on level (over the budget of 2 in 30 of 44 samples, on level, level/pick, reward/reward): @wave ×3.",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4804/play/?level=w1-3"
+  },
+  {
+   "sig": "bot:w5-2:sound-unclassified:after battle_spell",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "sound-unclassified: after battle_spell",
+   "detail": "A lone sound /ch/ (battle, after battle_spell) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w5-2/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w5-2"
+  },
+  {
+   "sig": "bot:w5-2:petal-too-small:/ch/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "petal-too-small: /ch/ badge",
+   "detail": "The /ch/ petal's picture is 30 CSS px on the 844×390 phone (want ≥ 38; the badge is 49 px wide).",
+   "evidence": [
+    "cases/w5-2/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w5-2"
+  },
+  {
+   "sig": "bot:w5-2:sound-unclassified:after audit_gem_first",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "sound-unclassified: after audit_gem_first",
+   "detail": "A lone sound /t/ (battle, after audit_gem_first) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w5-2/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w5-2"
+  },
+  {
+   "sig": "bot:w5-2:sound-unclassified:after streak_6",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "sound-unclassified: after streak_6",
+   "detail": "A lone sound /r/ (battle, after streak_6) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w5-2/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w5-2"
+  },
+  {
+   "sig": "bot:w5-2:sound-unclassified:after t_two_letters",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "sound-unclassified: after t_two_letters",
+   "detail": "A lone sound /ch/ (battle, after t_two_letters) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w5-2/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w5-2"
+  },
+  {
+   "sig": "bot:w5-2:sound-unclassified:after yay_5",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "sound-unclassified: after yay_5",
+   "detail": "A lone sound /ch/ (battle, after yay_5) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w5-2/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w5-2"
+  },
+  {
+   "sig": "bot:w5-2:anim-main-thread:@gem-slosh, @wave",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "anim-main-thread: @gem-slosh, @wave",
+   "detail": "13 endless animations the compositor can't run at once on reward/reward (over the budget of 2 in 42 of 47 samples, on level/battle, level/gem-energy, reward/reward): @gem-slosh ×10, @wave ×3.",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4804/play/?level=w5-2"
+  },
+  {
+   "sig": "bot:w5-2:anim-hidden:@bt-orbit, @bt-tremble, @floaty",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w5-2",
+   "title": "anim-hidden: @bt-orbit, @bt-tremble, @floaty",
+   "detail": "5 endless animations running on hidden elements at once on level/battle (over the budget of 2 in 31 of 47 samples, on level/battle, level/gem-energy): @bt-orbit ×3, @bt-tremble ×1, @floaty ×1.",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4804/play/?level=w5-2"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after listen",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after listen",
+   "detail": "A lone sound /b/ (learn, after listen) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after audit_spell_it",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after audit_spell_it",
+   "detail": "A lone sound /b/ (learn, after audit_spell_it) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_1.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after dojo_tap_say",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after dojo_tap_say",
+   "detail": "A lone sound /b/ (learn, after dojo_tap_say) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_2.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:petal-too-small:/k/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "petal-too-small: /k/ badge",
+   "detail": "The /k/ petal's picture is 30 CSS px on the 844×390 phone (want ≥ 38; the badge is 49 px wide).",
+   "evidence": [
+    "cases/w2-1/issue_3.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after dojo_find",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after dojo_find",
+   "detail": "A lone sound /b/ (find, after dojo_find) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_4.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after tut_speaker",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after tut_speaker",
+   "detail": "A lone sound /b/ (find, after tut_speaker) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_5.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:petal-too-small:/g/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "petal-too-small: /g/ badge",
+   "detail": "The /g/ petal's picture is 30 CSS px on the 844×390 phone (want ≥ 38; the badge is 49 px wide).",
+   "evidence": [
+    "cases/w2-1/issue_6.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after dojo_build_word",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after dojo_build_word",
+   "detail": "A lone sound /k/ (build, after dojo_build_word) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_7.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after fm_l2_way",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after fm_l2_way",
+   "detail": "A lone sound /k/ (build, after fm_l2_way) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_8.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after audit_gem_first",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after audit_gem_first",
+   "detail": "A lone sound /k/ (build, after audit_gem_first) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_9.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after streak_10",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after streak_10",
+   "detail": "A lone sound /k/ (build, after streak_10) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_10.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after yay_3",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after yay_3",
+   "detail": "A lone sound /p/ (build, after yay_3) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_11.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after yay_9",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after yay_9",
+   "detail": "A lone sound /t/ (build, after yay_9) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_12.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:sound-unclassified:after yay_5",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "sound-unclassified: after yay_5",
+   "detail": "A lone sound /h/ (build, after yay_5) has no job (show: petal, tile or hidden).",
+   "evidence": [
+    "cases/w2-1/issue_13.png"
+   ],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  },
+  {
+   "sig": "bot:w2-1:anim-main-thread:@gem-slosh, @wave",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "w2-1",
+   "title": "anim-main-thread: @gem-slosh, @wave",
+   "detail": "13 endless animations the compositor can't run at once on reward/reward (over the budget of 2 in 33 of 62 samples, on level/learn, level/find, level/build, reward/reward): @gem-slosh ×10, @wave ×3.",
+   "evidence": [],
+   "repro": "http://127.0.0.1:4804/play/?level=w2-1"
+  }
+ ]
+}

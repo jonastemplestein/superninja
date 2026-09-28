@@ -1,0 +1,2667 @@
+{
+ "domains": {
+  "words": {
+   "R": 372,
+   "Y1": 850,
+   "Y2": 2100
+  },
+  "build-items": {
+   "R": 382,
+   "Y1": 938,
+   "Y2": 2375
+  },
+  "fixed-next-last": {
+   "R": 2,
+   "Y1": 2,
+   "Y2": 2
+  },
+  "demo-words": {
+   "R": 24,
+   "Y1": 76,
+   "Y2": 122
+  },
+  "demo-positions": {
+   "R": 72,
+   "Y1": 228,
+   "Y2": 366
+  },
+  "read-words": {
+   "R": 120,
+   "Y1": 180,
+   "Y2": 240
+  },
+  "read-wrong": {
+   "R": 36,
+   "Y1": 54,
+   "Y2": 72
+  },
+  "sort-words": {
+   "R": 90,
+   "Y1": 568,
+   "Y2": 1818
+  },
+  "sort-demos": {
+   "R": 9,
+   "Y1": 25,
+   "Y2": 35
+  },
+  "chest-examples": {
+   "R": 12,
+   "Y1": 72,
+   "Y2": 129
+  },
+  "swap-steps": {
+   "R": 137,
+   "Y1": 225,
+   "Y2": 650
+  },
+  "swap-starts": {
+   "R": 24,
+   "Y1": 45,
+   "Y2": 140
+  },
+  "swap-demo-steps": {
+   "R": 24,
+   "Y1": 45,
+   "Y2": 140
+  },
+  "pictures": {
+   "R": 128,
+   "Y1": 245,
+   "Y2": 800
+  },
+  "three-sound-pictures": {
+   "R": 79,
+   "Y1": 158,
+   "Y2": 501
+  },
+  "find-pictures": {
+   "R": 128,
+   "Y1": 128,
+   "Y2": 128
+  },
+  "demo-pictures": {
+   "R": 20,
+   "Y1": 20,
+   "Y2": 20
+  },
+  "fastslow-pictures": {
+   "R": 6,
+   "Y1": 6,
+   "Y2": 6
+  },
+  "slowpick-pictures": {
+   "R": 10,
+   "Y1": 10,
+   "Y2": 10
+  },
+  "notice-pairs": {
+   "R": 1,
+   "Y1": 1,
+   "Y2": 1
+  },
+  "demo-pairs": {
+   "R": 20,
+   "Y1": 20,
+   "Y2": 20
+  },
+  "hunt-pairs": {
+   "R": 5,
+   "Y1": 20,
+   "Y2": 24
+  },
+  "stories": {
+   "R": 6,
+   "Y1": 30,
+   "Y2": 60
+  },
+  "specials": {
+   "R": 15,
+   "Y1": 35,
+   "Y2": 60
+  },
+  "sounds": {
+   "R": 29,
+   "Y1": 42,
+   "Y2": 44
+  },
+  "spellings": {
+   "R": 41,
+   "Y1": 114,
+   "Y2": 172
+  },
+  "second-spellings": {
+   "R": 12,
+   "Y1": 72,
+   "Y2": 129
+  },
+  "multi-spelling-sounds": {
+   "R": 9,
+   "Y1": 25,
+   "Y2": 35
+  },
+  "sound-pairs": {
+   "R": 3,
+   "Y1": 49,
+   "Y2": 84
+  },
+  "letter-counts": {
+   "R": 3,
+   "Y1": 3,
+   "Y2": 3
+  },
+  "ways-counts": {
+   "R": 9,
+   "Y1": 9,
+   "Y2": 9
+  },
+  "won-counts": {
+   "R": 3,
+   "Y1": 3,
+   "Y2": 3
+  },
+  "fixed-x": {
+   "R": 1,
+   "Y1": 1,
+   "Y2": 1
+  },
+  "placement-gaps": {
+   "R": 20,
+   "Y1": 20,
+   "Y2": 20
+  },
+  "fixed": {
+   "R": 1,
+   "Y1": 1,
+   "Y2": 1
+  }
+ },
+ "cum": {
+  "R": {
+   "twoSound": 10,
+   "words": 372,
+   "chains": 24
+  },
+  "Y1": {
+   "twoSound": 82,
+   "words": 790,
+   "chains": 42
+  },
+  "Y2": {
+   "twoSound": 122,
+   "words": 933,
+   "chains": 62
+  }
+ },
+ "rows": [
+  {
+   "id": "w_position_q",
+   "tier": "whole",
+   "domain": "build-items",
+   "lane": "C1 Early, D1 Dojo, D2 Battle",
+   "inventory": [
+    1
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 382,
+    "Y1": 938,
+    "Y2": 2375
+   },
+   "recorded": 0,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "w_next_q",
+   "tier": "sequence",
+   "domain": "fixed-next-last",
+   "lane": "C1 Early, D1 Dojo, D2 Battle",
+   "inventory": [
+    1,
+    49
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 3,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "w_your_word",
+   "tier": "whole",
+   "domain": "words",
+   "lane": "D2 Battle, D1 Dojo, C1 Early, A Placement",
+   "inventory": [
+    2
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 372,
+    "Y1": 850,
+    "Y2": 2100
+   },
+   "recorded": 0,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "w_your_next_word",
+   "tier": "whole",
+   "domain": "words",
+   "lane": "D2 Battle, D1 Dojo, C1 Early",
+   "inventory": [
+    2
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 372,
+    "Y1": 850,
+    "Y2": 2100
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "w_bare_word",
+   "tier": "sequence",
+   "domain": "words",
+   "lane": "D2 Battle, D1 Dojo, C1 Early",
+   "inventory": [
+    2
+   ],
+   "pieces": 0,
+   "perMember": 0,
+   "fixed": 0,
+   "clips": {
+    "R": 0,
+    "Y1": 0,
+    "Y2": 0
+   },
+   "recorded": 0,
+   "secs": 0,
+   "kb": 0.3
+  },
+  {
+   "id": "w_listen_again",
+   "tier": "whole",
+   "domain": "words",
+   "lane": "F2 Voice (feedback.ts, narrate.tsx), D2 Battle",
+   "inventory": [
+    3
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 372,
+    "Y1": 850,
+    "Y2": 2100
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "w_say_slowly",
+   "tier": "whole",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo, D2 Battle",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 372,
+    "Y1": 850,
+    "Y2": 2100
+   },
+   "recorded": 0,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "w_i_say_slowly",
+   "tier": "whole",
+   "domain": "demo-words",
+   "lane": "C1 Early",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 24,
+    "Y1": 76,
+    "Y2": 122
+   },
+   "recorded": 0,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "ws_first_is",
+   "tier": "sound",
+   "domain": "demo-positions",
+   "lane": "C1 Early",
+   "inventory": [
+    24
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 72,
+    "Y1": 228,
+    "Y2": 366
+   },
+   "recorded": 0,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "n_reader_says",
+   "tier": "whole",
+   "domain": "read-words",
+   "lane": "C1 Early",
+   "inventory": [
+    18
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 120,
+    "Y1": 180,
+    "Y2": 240
+   },
+   "recorded": 0,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "n_reader_right",
+   "tier": "sequence",
+   "domain": "read-words",
+   "lane": "C1 Early",
+   "inventory": [
+    18
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 2,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "ws_if_it_was",
+   "tier": "sound",
+   "domain": "read-wrong",
+   "lane": "C1 Early",
+   "inventory": [
+    38
+   ],
+   "pieces": 2,
+   "perMember": 1,
+   "fixed": 1,
+   "clips": {
+    "R": 37,
+    "Y1": 55,
+    "Y2": 73
+   },
+   "recorded": 1,
+   "secs": 2.365384615384615,
+   "kb": 15.201923076923075
+  },
+  {
+   "id": "w_sort_where",
+   "tier": "whole",
+   "domain": "sort-words",
+   "lane": "D4 Sort",
+   "inventory": [
+    31
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 90,
+    "Y1": 568,
+    "Y2": 1818
+   },
+   "recorded": 0,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "w_sort_ido",
+   "tier": "whole",
+   "domain": "sort-demos",
+   "lane": "D4 Sort",
+   "inventory": [
+    2
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 9,
+    "Y1": 25,
+    "Y2": 35
+   },
+   "recorded": 0,
+   "secs": 3.7115384615384612,
+   "kb": 23.682692307692307
+  },
+  {
+   "id": "w_spelt_like",
+   "tier": "whole",
+   "domain": "chest-examples",
+   "lane": "D4 Sort",
+   "inventory": [
+    44
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 12,
+    "Y1": 72,
+    "Y2": 129
+   },
+   "recorded": 14,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "w_swap_start",
+   "tier": "whole",
+   "domain": "swap-starts",
+   "lane": "D3 Swap",
+   "inventory": [
+    25
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 24,
+    "Y1": 45,
+    "Y2": 140
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "ww_i_change",
+   "tier": "whole",
+   "domain": "swap-demo-steps",
+   "lane": "D3 Swap",
+   "inventory": [
+    4
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 24,
+    "Y1": 45,
+    "Y2": 140
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "ww_change",
+   "tier": "whole",
+   "domain": "swap-steps",
+   "lane": "D3 Swap",
+   "inventory": [
+    4
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 137,
+    "Y1": 225,
+    "Y2": 650
+   },
+   "recorded": 0,
+   "secs": 3.7115384615384612,
+   "kb": 23.682692307692307
+  },
+  {
+   "id": "ww_both",
+   "tier": "sequence",
+   "domain": "swap-steps",
+   "lane": "D3 Swap",
+   "inventory": [
+    4
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "w_name_pic",
+   "tier": "whole",
+   "domain": "pictures",
+   "lane": "C2 Warm-ups, C1 Early",
+   "inventory": [
+    6
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 128,
+    "Y1": 245,
+    "Y2": 800
+   },
+   "recorded": 56,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "w_find_pic",
+   "tier": "whole",
+   "domain": "find-pictures",
+   "lane": "C2 Warm-ups, C1 Early, A Placement",
+   "inventory": [
+    40
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 128,
+    "Y1": 128,
+    "Y2": 128
+   },
+   "recorded": 1,
+   "secs": 3.7115384615384612,
+   "kb": 23.682692307692307
+  },
+  {
+   "id": "w_find_again",
+   "tier": "whole",
+   "domain": "find-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    40
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 128,
+    "Y1": 128,
+    "Y2": 128
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "w_idle_look",
+   "tier": "whole",
+   "domain": "find-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    40
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 128,
+    "Y1": 128,
+    "Y2": 128
+   },
+   "recorded": 1,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "w_diff_start",
+   "tier": "whole",
+   "domain": "pictures",
+   "lane": "F2 Voice (feedback.ts), C2 Warm-ups",
+   "inventory": [
+    42
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 128,
+    "Y1": 245,
+    "Y2": 800
+   },
+   "recorded": 5,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "w_i_hear",
+   "tier": "whole",
+   "domain": "demo-pictures",
+   "lane": "C1 Early, C2 Warm-ups",
+   "inventory": [
+    41
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 20,
+    "Y1": 20,
+    "Y2": 20
+   },
+   "recorded": 2,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "w_tap_hear",
+   "tier": "whole",
+   "domain": "demo-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    45
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 20,
+    "Y1": 20,
+    "Y2": 20
+   },
+   "recorded": 1,
+   "secs": 3.7115384615384612,
+   "kb": 23.682692307692307
+  },
+  {
+   "id": "w_tap_tortoise",
+   "tier": "whole",
+   "domain": "fastslow-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 6,
+    "Y1": 6,
+    "Y2": 6
+   },
+   "recorded": 0,
+   "secs": 4.096153846153846,
+   "kb": 26.10576923076923
+  },
+  {
+   "id": "w_tap_rabbit",
+   "tier": "whole",
+   "domain": "fastslow-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 6,
+    "Y1": 6,
+    "Y2": 6
+   },
+   "recorded": 0,
+   "secs": 3.3269230769230766,
+   "kb": 21.259615384615383
+  },
+  {
+   "id": "w_ts_slow",
+   "tier": "whole",
+   "domain": "fastslow-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 6,
+    "Y1": 6,
+    "Y2": 6
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "w_ts_fast",
+   "tier": "whole",
+   "domain": "fastslow-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 6,
+    "Y1": 6,
+    "Y2": 6
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "w_slow_word",
+   "tier": "sequence",
+   "domain": "slowpick-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    30
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "ww_notice",
+   "tier": "sound",
+   "domain": "notice-pairs",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    47
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "ww_ido_pair",
+   "tier": "whole",
+   "domain": "demo-pairs",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    46
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 20,
+    "Y1": 20,
+    "Y2": 20
+   },
+   "recorded": 8,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "w_story_title",
+   "tier": "whole",
+   "domain": "stories",
+   "lane": "D6 Story",
+   "inventory": [
+    51
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 6,
+    "Y1": 30,
+    "Y2": 60
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "w_special",
+   "tier": "whole",
+   "domain": "specials",
+   "lane": "D6 Story",
+   "inventory": [
+    53
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 15,
+    "Y1": 35,
+    "Y2": 60
+   },
+   "recorded": 9,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "w_example_hear",
+   "tier": "whole",
+   "domain": "sounds",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    20
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 29,
+    "Y1": 42,
+    "Y2": 44
+   },
+   "recorded": 32,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "w_example_see",
+   "tier": "whole",
+   "domain": "spellings",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    20
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 41,
+    "Y1": 114,
+    "Y2": 172
+   },
+   "recorded": 47,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "s_say_the_sound",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (teach.ts), D1 Dojo",
+   "inventory": [
+    13
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "s_say_with_me",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo, C2 Warm-ups, B2 Flower, F2 Voice (teach.ts)",
+   "inventory": [
+    13
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.9807692307692306,
+   "kb": 12.778846153846153
+  },
+  {
+   "id": "s_tap_letter_say",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    13
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.9807692307692306,
+   "kb": 12.778846153846153
+  },
+  {
+   "id": "s_once_more",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    13
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 3.3269230769230766,
+   "kb": 21.259615384615383
+  },
+  {
+   "id": "s_say_here",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (teach.ts, narrate.tsx)",
+   "inventory": [
+    54
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 2,
+   "secs": 1.596153846153846,
+   "kb": 10.35576923076923
+  },
+  {
+   "id": "s_here_sound",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo, F2 Voice (teach.ts)",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "s_first_sound",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_next_sound",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_learn_first",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_learn_next",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_learn_another",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_learn_last",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_flower_recap",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "B2 Flower, F2 Voice (teach.ts)",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_sound_again",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_petal_for",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "B3 Shows, B4 Stickers",
+   "inventory": [
+    35
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "s_which_starts",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C1 Early",
+   "inventory": [
+    5
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_which_picture_starts",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C1 Early",
+   "inventory": [
+    5
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_find_starts",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C1 Early",
+   "inventory": [
+    5
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "s_which_write",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C1 Early, D1 Dojo, A Placement",
+   "inventory": [
+    7
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 3.3269230769230766,
+   "kb": 21.259615384615383
+  },
+  {
+   "id": "s_find_write",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    7
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_now_find_write",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    7
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_how_write",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C1 Early, C2 Warm-ups, D1 Dojo",
+   "inventory": [
+    9
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_and_how_write",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C1 Early, D1 Dojo",
+   "inventory": [
+    9
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "s_which_middle",
+   "tier": "sound",
+   "domain": "hunt-pairs",
+   "lane": "C1 Early",
+   "inventory": [
+    19
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "ws_middle_is",
+   "tier": "sound",
+   "domain": "three-sound-pictures",
+   "lane": "C1 Early",
+   "inventory": [
+    21
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 79,
+    "Y1": 158,
+    "Y2": 501
+   },
+   "recorded": 0,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "ws_not_in",
+   "tier": "sound",
+   "domain": "three-sound-pictures",
+   "lane": "F2 Voice (feedback.ts)",
+   "inventory": [
+    43
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 79,
+    "Y1": 158,
+    "Y2": 501
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "ws_starts_with",
+   "tier": "sound",
+   "domain": "pictures",
+   "lane": "C1 Early, F2 Voice (feedback.ts)",
+   "inventory": [
+    12
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 128,
+    "Y1": 245,
+    "Y2": 800
+   },
+   "recorded": 26,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "s_find_start",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups, A Placement",
+   "inventory": [
+    23
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "s_find_middle",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    23
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.596153846153846,
+   "kb": 10.35576923076923
+  },
+  {
+   "id": "s_find_word_with",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups, A Placement",
+   "inventory": [
+    23
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "s_pocket_frame",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    58
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 3.7115384615384612,
+   "kb": 23.682692307692307
+  },
+  {
+   "id": "s_pocket_recap",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    58
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 4.096153846153846,
+   "kb": 26.10576923076923
+  },
+  {
+   "id": "s_they_all_start",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups, B4 Stickers",
+   "inventory": [
+    28
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_they_all_have",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    28
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_look_this",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    28
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_found_both",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    28
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 3.3269230769230766,
+   "kb": 21.259615384615383
+  },
+  {
+   "id": "s_build_with",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    37
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "s_help_look",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo, D2 Battle, D3 Swap",
+   "inventory": [
+    48
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "s_listening_for",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (feedback.ts)",
+   "inventory": [
+    42,
+    43
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_letters",
+   "tier": "sound",
+   "domain": "letter-counts",
+   "lane": "F2 Voice (narrate.tsx, feedback.ts), D4 Sort",
+   "inventory": [
+    15
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 3,
+    "Y1": 3,
+    "Y2": 3
+   },
+   "recorded": 3,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "ss_x_two",
+   "tier": "sound",
+   "domain": "fixed-x",
+   "lane": "F2 Voice (narrate.tsx)",
+   "inventory": [
+    15
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "ws_way_we_spell",
+   "tier": "sound",
+   "domain": "spellings",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    11
+   ],
+   "pieces": 2,
+   "perMember": 1,
+   "fixed": 1,
+   "clips": {
+    "R": 42,
+    "Y1": 115,
+    "Y2": 173
+   },
+   "recorded": 48,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_another_way",
+   "tier": "sound",
+   "domain": "second-spellings",
+   "lane": "F2 Voice (teach.ts), D1 Dojo",
+   "inventory": [
+    27
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 3.3269230769230766,
+   "kb": 21.259615384615383
+  },
+  {
+   "id": "s_and_another_way",
+   "tier": "sound",
+   "domain": "second-spellings",
+   "lane": "F2 Voice (teach.ts), B3 Shows",
+   "inventory": [
+    27
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 3.3269230769230766,
+   "kb": 21.259615384615383
+  },
+  {
+   "id": "n_ways",
+   "tier": "sound",
+   "domain": "ways-counts",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    34
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 9,
+    "Y1": 9,
+    "Y2": 9
+   },
+   "recorded": 9,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "s_diff_spellings",
+   "tier": "sound",
+   "domain": "multi-spelling-sounds",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    33
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 3.3269230769230766,
+   "kb": 21.259615384615383
+  },
+  {
+   "id": "s_ways_list",
+   "tier": "sound",
+   "domain": "multi-spelling-sounds",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    33
+   ],
+   "pieces": 2,
+   "perMember": 1,
+   "fixed": 1,
+   "clips": {
+    "R": 10,
+    "Y1": 26,
+    "Y2": 36
+   },
+   "recorded": 1,
+   "secs": 1.9807692307692306,
+   "kb": 12.778846153846153
+  },
+  {
+   "id": "ss_can_be",
+   "tier": "sound",
+   "domain": "sound-pairs",
+   "lane": "F2 Voice (teach.ts, narrate.tsx)",
+   "inventory": [
+    29
+   ],
+   "pieces": 3,
+   "perMember": 0,
+   "fixed": 3,
+   "clips": {
+    "R": 3,
+    "Y1": 3,
+    "Y2": 3
+   },
+   "recorded": 3,
+   "secs": 1.66025641025641,
+   "kb": 10.759615384615383
+  },
+  {
+   "id": "ss_does_it_have",
+   "tier": "sound",
+   "domain": "sound-pairs",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    55
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.9807692307692306,
+   "kb": 12.778846153846153
+  },
+  {
+   "id": "ss_same_spelling",
+   "tier": "sound",
+   "domain": "sound-pairs",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    32
+   ],
+   "pieces": 3,
+   "perMember": 2,
+   "fixed": 1,
+   "clips": {
+    "R": 7,
+    "Y1": 99,
+    "Y2": 169
+   },
+   "recorded": 1,
+   "secs": 2.0448717948717943,
+   "kb": 13.182692307692305
+  },
+  {
+   "id": "ss_thats_we_need",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (feedback.ts), D1 Dojo",
+   "inventory": [
+    17
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 2,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "s_its_this_one",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (feedback.ts)",
+   "inventory": [
+    17
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 2.75,
+   "kb": 17.625
+  },
+  {
+   "id": "s_same_sound_spelling",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (feedback.ts)",
+   "inventory": [],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 6.788461538461538,
+   "kb": 43.067307692307686
+  },
+  {
+   "id": "s_stays_same",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D3 Swap",
+   "inventory": [
+    26
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.2115384615384615,
+   "kb": 7.932692307692307
+  },
+  {
+   "id": "ss_swap_sounds",
+   "tier": "sound",
+   "domain": "swap-demo-steps",
+   "lane": "D3 Swap",
+   "inventory": [
+    36
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.9807692307692306,
+   "kb": 12.778846153846153
+  },
+  {
+   "id": "ws_gap",
+   "tier": "sound",
+   "domain": "placement-gaps",
+   "lane": "A Placement",
+   "inventory": [
+    39
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 20,
+    "Y1": 20,
+    "Y2": 20
+   },
+   "recorded": 0,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "s_petal_is",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_can_you_hear",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    10
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 1,
+   "secs": 1.9807692307692306,
+   "kb": 12.778846153846153
+  },
+  {
+   "id": "s_now_you_say",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    13
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_everyone_say",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    13
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "ws_spelling_of",
+   "tier": "sound",
+   "domain": "spellings",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    20,
+    27
+   ],
+   "pieces": 2,
+   "perMember": 1,
+   "fixed": 1,
+   "clips": {
+    "R": 42,
+    "Y1": 115,
+    "Y2": 173
+   },
+   "recorded": 48,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "ws_another_way_like",
+   "tier": "sound",
+   "domain": "second-spellings",
+   "lane": "F2 Voice (teach.ts)",
+   "inventory": [
+    27
+   ],
+   "pieces": 2,
+   "perMember": 1,
+   "fixed": 1,
+   "clips": {
+    "R": 13,
+    "Y1": 73,
+    "Y2": 130
+   },
+   "recorded": 48,
+   "secs": 2.365384615384615,
+   "kb": 15.201923076923075
+  },
+  {
+   "id": "s_next_known",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "s_another_sound",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_here_it_comes",
+   "tier": "sound",
+   "domain": "sounds",
+   "lane": "F3 Petals (NavDemo), D1 Dojo",
+   "inventory": [
+    10
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "s_rw2_all_start",
+   "tier": "sound",
+   "domain": "fixed",
+   "lane": "B1 Shell, B4 Stickers",
+   "inventory": [
+    28
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 3.7115384615384612,
+   "kb": 23.682692307692307
+  },
+  {
+   "id": "fs_say_sounds_slow",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo, D2 Battle, D3 Swap",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "fs_say_slow",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo, D2 Battle",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "fs_now_fast",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo, D2 Battle",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "fs_slow_tortoise",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo, D2 Battle",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "fs_fast_rabbit",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo, D2 Battle",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "fs_stuck_slow",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo, D2 Battle",
+   "inventory": [
+    3
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "fs_stuck_again",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    3
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 4.096153846153846,
+   "kb": 26.10576923076923
+  },
+  {
+   "id": "fs_or_slowly",
+   "tier": "sound",
+   "domain": "fastslow-pictures",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    14
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.5576923076923075,
+   "kb": 16.413461538461537
+  },
+  {
+   "id": "fs_dots_ido",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    16
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "w_slow_again",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "F2 Voice (feedback.ts, narrative.ts)",
+   "inventory": [
+    3,
+    30
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "s_lets_check",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo",
+   "inventory": [
+    8
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.942307692307692,
+   "kb": 18.83653846153846
+  },
+  {
+   "id": "ww_both_again",
+   "tier": "sequence",
+   "domain": "fixed",
+   "lane": "D3 Swap, C1 Early",
+   "inventory": [
+    4,
+    19
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "s_say_read",
+   "tier": "sequence",
+   "domain": "words",
+   "lane": "C1 Early, D1 Dojo, D2 Battle, D3 Swap",
+   "inventory": [
+    8
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 3.7115384615384612,
+   "kb": 23.682692307692307
+  },
+  {
+   "id": "s_listen_for_word",
+   "tier": "sequence",
+   "domain": "words",
+   "lane": "C2 Warm-ups, D5 Run, F2 Voice (feedback.ts)",
+   "inventory": [
+    16
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.7884615384615383,
+   "kb": 11.567307692307692
+  },
+  {
+   "id": "s_my_sounds",
+   "tier": "sound",
+   "domain": "words",
+   "lane": "C2 Warm-ups",
+   "inventory": [
+    16
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "n_won_one",
+   "tier": "sequence",
+   "domain": "sounds",
+   "lane": "B1 Shell",
+   "inventory": [
+    22
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 1,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "n_won_back",
+   "tier": "sequence",
+   "domain": "won-counts",
+   "lane": "B1 Shell",
+   "inventory": [
+    22
+   ],
+   "pieces": 1,
+   "perMember": 1,
+   "fixed": 0,
+   "clips": {
+    "R": 3,
+    "Y1": 3,
+    "Y2": 3
+   },
+   "recorded": 4,
+   "secs": 2.173076923076923,
+   "kb": 13.990384615384615
+  },
+  {
+   "id": "w_catch",
+   "tier": "sequence",
+   "domain": "fixed",
+   "lane": "D5 Run",
+   "inventory": [
+    50
+   ],
+   "pieces": 1,
+   "perMember": 0,
+   "fixed": 1,
+   "clips": {
+    "R": 1,
+    "Y1": 1,
+    "Y2": 1
+   },
+   "recorded": 0,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  },
+  {
+   "id": "w_run_wrong",
+   "tier": "sequence",
+   "domain": "fixed",
+   "lane": "D5 Run",
+   "inventory": [
+    56
+   ],
+   "pieces": 2,
+   "perMember": 0,
+   "fixed": 2,
+   "clips": {
+    "R": 2,
+    "Y1": 2,
+    "Y2": 2
+   },
+   "recorded": 0,
+   "secs": 1.4038461538461537,
+   "kb": 9.144230769230768
+  }
+ ],
+ "totals": {
+  "R": {
+   "clips": 3764,
+   "newClips": 3343,
+   "mb": 51,
+   "files": 7964,
+   "renderHours": 1.3,
+   "ttsDollars": 2.39
+  },
+  "Y1": {
+   "clips": 8155,
+   "newClips": 7734,
+   "mb": 108.4,
+   "files": 12355,
+   "renderHours": 3,
+   "ttsDollars": 5.52
+  },
+  "Y2": {
+   "clips": 19505,
+   "newClips": 19084,
+   "mb": 256.2,
+   "files": 23705,
+   "renderHours": 7.4,
+   "ttsDollars": 13.63
+  }
+ }
+}

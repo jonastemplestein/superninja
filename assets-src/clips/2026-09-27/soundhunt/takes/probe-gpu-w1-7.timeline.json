@@ -1,0 +1,627 @@
+{
+ "name": "probe-gpu-w1-7",
+ "url": "https://superninja.templestein.com/play/?level=w1-7",
+ "capture": "cdp",
+ "gpu": true,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 63.933,
+ "game": {
+  "start": 2.422,
+  "end": 62.204
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   33.9,
+   32.7,
+   35.2,
+   20.5,
+   36.1
+  ],
+  "audioShiftMs": 42.5,
+  "residualMs": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   -16.1,
+   1.2,
+   -16.8,
+   -2.8,
+   -1.4
+  ],
+  "residualMedianMs": -2.8,
+  "residualMaxAbsMs": 16.8
+ },
+ "frames": {
+  "frames": 3083,
+  "fps": 52.2,
+  "p50": 16.9,
+  "p95": 23.4,
+  "p99": 47.1,
+  "max": 724.8,
+  "hitches": 30,
+  "repeatedSlots": 217,
+  "slots": 1778,
+  "deliveryMs": 25.3
+ },
+ "master": "probe-gpu-w1-7.master.mp4",
+ "audio": "probe-gpu-w1-7.master.wav",
+ "recordedAt": "2026-09-27T04:52:29.392Z",
+ "events": [
+  {
+   "t": 0.725,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.029,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.239,
+   "kind": "hitch",
+   "id": "1509 ms",
+   "dur": 1.509
+  },
+  {
+   "t": 1.301,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.613,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.914,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.466,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.748,
+   "kind": "hitch",
+   "id": "362 ms",
+   "dur": 0.362
+  },
+  {
+   "t": 2.806,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 3.04,
+   "kind": "music",
+   "id": "dojo",
+   "dur": 60.905
+  },
+  {
+   "t": 3.045,
+   "kind": "speech",
+   "id": "hunt_intro",
+   "dur": 3.337,
+   "text": "Now let's listen for a sound in the middle of a word!"
+  },
+  {
+   "t": 3.109,
+   "kind": "hitch",
+   "id": "210 ms",
+   "dur": 0.21
+  },
+  {
+   "t": 3.32,
+   "kind": "hitch",
+   "id": "167 ms",
+   "dur": 0.167
+  },
+  {
+   "t": 6.681,
+   "kind": "speech",
+   "id": "audit_middle_place",
+   "dur": 4.926,
+   "text": "The middle sound comes after the first sound, and before the last sound."
+  },
+  {
+   "t": 11.583,
+   "kind": "hitch",
+   "id": "433 ms",
+   "dur": 0.433
+  },
+  {
+   "t": 11.635,
+   "kind": "speech",
+   "id": "ido",
+   "dur": 1.438,
+   "text": "Watch me first!"
+  },
+  {
+   "t": 11.65,
+   "kind": "scene",
+   "id": "pick"
+  },
+  {
+   "t": 13.325,
+   "kind": "speech",
+   "id": "fm_name_pan",
+   "dur": 1.067,
+   "text": "This is a pan."
+  },
+  {
+   "t": 14.747,
+   "kind": "speech",
+   "id": "fm_name_pin",
+   "dur": 1.23,
+   "text": "This is a pin."
+  },
+  {
+   "t": 16.294,
+   "kind": "hitch",
+   "id": "208 ms",
+   "dur": 0.208
+  },
+  {
+   "t": 16.364,
+   "kind": "speech",
+   "id": "hunt_q",
+   "dur": 2.013,
+   "text": "Which one has this sound in it?"
+  },
+  {
+   "t": 18.628,
+   "kind": "hitch",
+   "id": "224 ms",
+   "dur": 0.224
+  },
+  {
+   "t": 18.632,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 19.231,
+   "kind": "speech",
+   "id": "stretch:pin",
+   "dur": 1.408
+  },
+  {
+   "t": 20.992,
+   "kind": "speech",
+   "id": "stretch:pan",
+   "dur": 1.095
+  },
+  {
+   "t": 23.159,
+   "kind": "hitch",
+   "id": "712 ms",
+   "dur": 0.712
+  },
+  {
+   "t": 23.194,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 23.525,
+   "kind": "speech",
+   "id": "mid_pin",
+   "dur": 2.128,
+   "text": "Pin has this sound in the middle..."
+  },
+  {
+   "t": 23.774,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 23.871,
+   "kind": "hitch",
+   "id": "273 ms",
+   "dur": 0.273
+  },
+  {
+   "t": 24.147,
+   "kind": "hitch",
+   "id": "379 ms",
+   "dur": 0.379
+  },
+  {
+   "t": 24.526,
+   "kind": "hitch",
+   "id": "205 ms",
+   "dur": 0.205
+  },
+  {
+   "t": 24.734,
+   "kind": "hitch",
+   "id": "206 ms",
+   "dur": 0.206
+  },
+  {
+   "t": 25.769,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.248
+  },
+  {
+   "t": 26.008,
+   "kind": "hitch",
+   "id": "184 ms",
+   "dur": 0.184
+  },
+  {
+   "t": 26.043,
+   "kind": "speech",
+   "id": "how_we_spell",
+   "dur": 1.577,
+   "text": "This is how we spell..."
+  },
+  {
+   "t": 26.19,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 26.193,
+   "kind": "hitch",
+   "id": "133 ms",
+   "dur": 0.133
+  },
+  {
+   "t": 26.326,
+   "kind": "hitch",
+   "id": "247 ms",
+   "dur": 0.247
+  },
+  {
+   "t": 26.657,
+   "kind": "hitch",
+   "id": "273 ms",
+   "dur": 0.273
+  },
+  {
+   "t": 26.665,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 27.041,
+   "kind": "hitch",
+   "id": "290 ms",
+   "dur": 0.29
+  },
+  {
+   "t": 27.334,
+   "kind": "hitch",
+   "id": "195 ms",
+   "dur": 0.195
+  },
+  {
+   "t": 27.767,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 27.91,
+   "kind": "hitch",
+   "id": "267 ms",
+   "dur": 0.267
+  },
+  {
+   "t": 28.352,
+   "kind": "speech",
+   "id": "wedo",
+   "dur": 1.575,
+   "text": "Let's do it together!"
+  },
+  {
+   "t": 28.359,
+   "kind": "hitch",
+   "id": "288 ms",
+   "dur": 0.288
+  },
+  {
+   "t": 30.178,
+   "kind": "speech",
+   "id": "fm_name_tin",
+   "dur": 1.003,
+   "text": "This is a tin."
+  },
+  {
+   "t": 31.536,
+   "kind": "speech",
+   "id": "fm_name_tap",
+   "dur": 1.17,
+   "text": "This is a tap."
+  },
+  {
+   "t": 33.056,
+   "kind": "speech",
+   "id": "hunt_q",
+   "dur": 2.013,
+   "text": "Which one has this sound in it?"
+  },
+  {
+   "t": 35.317,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 35.915,
+   "kind": "speech",
+   "id": "stretch:tin",
+   "dur": 1.037
+  },
+  {
+   "t": 37.308,
+   "kind": "speech",
+   "id": "stretch:tap",
+   "dur": 0.984
+  },
+  {
+   "t": 38.259,
+   "kind": "hitch",
+   "id": "210 ms",
+   "dur": 0.21
+  },
+  {
+   "t": 38.472,
+   "kind": "hitch",
+   "id": "254 ms",
+   "dur": 0.254
+  },
+  {
+   "t": 39.68,
+   "kind": "mark",
+   "id": "tap tin"
+  },
+  {
+   "t": 39.707,
+   "kind": "tap",
+   "id": "tin",
+   "text": "rect 412,128,288,288"
+  },
+  {
+   "t": 39.707,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 39.742,
+   "kind": "hitch",
+   "id": "725 ms",
+   "dur": 0.725
+  },
+  {
+   "t": 40.037,
+   "kind": "speech",
+   "id": "mid_tin",
+   "dur": 2.047,
+   "text": "Tin has this sound in the middle..."
+  },
+  {
+   "t": 40.448,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 40.467,
+   "kind": "hitch",
+   "id": "222 ms",
+   "dur": 0.222
+  },
+  {
+   "t": 40.689,
+   "kind": "hitch",
+   "id": "425 ms",
+   "dur": 0.425
+  },
+  {
+   "t": 42.201,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.248
+  },
+  {
+   "t": 42.449,
+   "kind": "speech",
+   "id": "how_we_spell",
+   "dur": 1.577,
+   "text": "This is how we spell..."
+  },
+  {
+   "t": 42.619,
+   "kind": "sfx",
+   "id": "magic"
+  },
+  {
+   "t": 42.931,
+   "kind": "sfx",
+   "id": "twinkle"
+  },
+  {
+   "t": 43.694,
+   "kind": "hitch",
+   "id": "266 ms",
+   "dur": 0.266
+  },
+  {
+   "t": 44.179,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 44.772,
+   "kind": "speech",
+   "id": "youdo",
+   "dur": 1.194,
+   "text": "Now it's your turn!"
+  },
+  {
+   "t": 46.216,
+   "kind": "speech",
+   "id": "fm_name_mat",
+   "dur": 1.175,
+   "text": "This is a mat."
+  },
+  {
+   "t": 47.744,
+   "kind": "speech",
+   "id": "fm_name_lid",
+   "dur": 1.186,
+   "text": "This is a lid."
+  },
+  {
+   "t": 49.285,
+   "kind": "speech",
+   "id": "hunt_q",
+   "dur": 2.013,
+   "text": "Which one has this sound in it?"
+  },
+  {
+   "t": 51.549,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 52.15,
+   "kind": "speech",
+   "id": "stretch:lid",
+   "dur": 0.94
+  },
+  {
+   "t": 53.446,
+   "kind": "speech",
+   "id": "stretch:mat",
+   "dur": 1.536
+  },
+  {
+   "t": 56.079,
+   "kind": "mark",
+   "id": "tap lid"
+  },
+  {
+   "t": 56.081,
+   "kind": "tap",
+   "id": "lid",
+   "text": "rect 760,128,288,288"
+  },
+  {
+   "t": 56.082,
+   "kind": "sfx",
+   "id": "good"
+  },
+  {
+   "t": 56.091,
+   "kind": "hitch",
+   "id": "229 ms",
+   "dur": 0.229
+  },
+  {
+   "t": 56.32,
+   "kind": "hitch",
+   "id": "177 ms",
+   "dur": 0.177
+  },
+  {
+   "t": 56.413,
+   "kind": "speech",
+   "id": "mid_lid",
+   "dur": 2.173,
+   "text": "Lid has this sound in the middle..."
+  },
+  {
+   "t": 56.682,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 57.549,
+   "kind": "hitch",
+   "id": "261 ms",
+   "dur": 0.261
+  },
+  {
+   "t": 58.71,
+   "kind": "speech",
+   "id": "sound:i",
+   "dur": 0.25
+  },
+  {
+   "t": 59.592,
+   "kind": "hitch",
+   "id": "222 ms",
+   "dur": 0.222
+  },
+  {
+   "t": 59.618,
+   "kind": "speech",
+   "id": "ido",
+   "dur": 1.438,
+   "text": "Watch me first!"
+  },
+  {
+   "t": 59.649,
+   "kind": "scene",
+   "id": "build:it"
+  },
+  {
+   "t": 61.309,
+   "kind": "speech",
+   "id": "build_ido_1",
+   "dur": 1.229,
+   "text": "I say the word..."
+  },
+  {
+   "t": 62.251,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.535,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 62.74,
+   "kind": "speech",
+   "id": "word:it",
+   "dur": 0.493
+  },
+  {
+   "t": 62.817,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.131,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.399,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 63.583,
+   "kind": "speech",
+   "id": "build_ido_2",
+   "dur": 0.362,
+   "text": "I say it slowly..."
+  }
+ ]
+}

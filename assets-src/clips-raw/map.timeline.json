@@ -1,0 +1,135 @@
+{
+ "name": "map",
+ "url": "https://superninja.templestein.com/play/?scene=map",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1280,
+ "height": 720,
+ "fps": 30,
+ "duration": 13.933,
+ "game": {
+  "start": 2.438,
+  "end": 12.207
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   25.6,
+   32.2,
+   33.2,
+   25.2,
+   21.9,
+   24,
+   27.4,
+   24.1,
+   29.2,
+   30.9
+  ],
+  "audioShiftMs": 35.2,
+  "residualMs": [
+   10.2,
+   -13.1,
+   -15.2,
+   -7.1,
+   -4.1,
+   10.9,
+   6.2,
+   -7.1,
+   -11.1,
+   -14.1
+  ],
+  "residualMedianMs": -7.1,
+  "residualMaxAbsMs": 15.2
+ },
+ "frames": {
+  "frames": 556,
+  "fps": 60.1,
+  "p50": 16.7,
+  "p95": 18.1,
+  "p99": 18.7,
+  "max": 18.8,
+  "hitches": 0,
+  "repeatedSlots": 0,
+  "slots": 277,
+  "deliveryMs": 10.1
+ },
+ "master": "map.master.mp4",
+ "audio": "map.master.wav",
+ "recordedAt": "2026-09-27T06:47:01.850Z",
+ "events": [
+  {
+   "t": 0.53,
+   "kind": "scene",
+   "id": "map"
+  },
+  {
+   "t": 0.71,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 0.765,
+   "kind": "speech",
+   "id": "world_1",
+   "dur": 1.916,
+   "text": "Welcome to Bamboo Village!"
+  },
+  {
+   "t": 1.02,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.051,
+   "kind": "music",
+   "id": "world_bamboo",
+   "dur": 12.906
+  },
+  {
+   "t": 1.318,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.626,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.929,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.88,
+   "kind": "speech",
+   "id": "map_hint",
+   "dur": 3.252,
+   "text": "Tap the glowing stone to start your next adventure."
+  },
+  {
+   "t": 12.244,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 12.506,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 12.826,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 13.122,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 13.419,
+   "kind": "slate",
+   "id": "clap"
+  }
+ ]
+}

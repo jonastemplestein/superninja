@@ -1,0 +1,61 @@
+{
+ "summary": {
+  "clips": 2,
+  "missing": [],
+  "exact": 1,
+  "not_exact": [
+   "pr_sounds_demo"
+  ],
+  "letters": [],
+  "fast": [],
+  "loudness_off": [],
+  "lead_blips": [],
+  "lead_falling": [],
+  "model": "small.en",
+  "exact_rate": 0.5
+ },
+ "clips": {
+  "pr_sounds_too": {
+   "text": "Words are made of sounds, too. Let me show you...",
+   "heard": "Words are made of sounds too. Let me show you.",
+   "exact": true,
+   "logprob": -0.186,
+   "diff": [],
+   "letters": [],
+   "seconds": 3.19,
+   "words": 10,
+   "wps": 3.14,
+   "fast": false,
+   "lufs": -16.0,
+   "target": -16.0,
+   "lufs_ok": true,
+   "lead": true,
+   "blip": null,
+   "fall": 0.96,
+   "fall_low": 1.48,
+   "timed": true
+  },
+  "pr_sounds_demo": {
+   "text": "Let's say I want to read this word. I'll say its sounds first. Watch my paw...",
+   "heard": "Let's say I want to read this word. I'll say it's sounds first. Watch my paw.",
+   "exact": false,
+   "logprob": -0.196,
+   "diff": [
+    "replace 'its'\u2192\"it's\""
+   ],
+   "letters": [],
+   "seconds": 5.05,
+   "words": 16,
+   "wps": 3.17,
+   "fast": false,
+   "lufs": -16.0,
+   "target": -16.0,
+   "lufs_ok": true,
+   "lead": true,
+   "blip": null,
+   "fall": -6.61,
+   "fall_low": -3.26,
+   "timed": true
+  }
+ }
+}

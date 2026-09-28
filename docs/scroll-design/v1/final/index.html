@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<meta name="theme-color" content="#efe4d1" />
+<title>Petal Chart Final</title>
+<meta name="description" content="Super Ninja's petal chart as the class's laminated sound chart, half a sheet per screen: the final working mockup." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Baloo+2:wght@500;600;700;800&display=block" rel="stylesheet" />
+<!--
+  The FINAL design for the World Flower's petal chart (docs/SCROLL_DESIGN.md). A working mockup, not game code: one
+  file, the game's own art and voice (public/a/…, by relative path) and the petal data from src/content/flower.ts
+  (CHART_PETALS / PETALS, dumped 27 Sep 2026). Serve the repo root over http (the silhouettes are CSS masks of the
+  pictures, which need the same origin), then open /docs/scroll-design/final/ with:
+    ?child=year1|reception|new   the audit's three saves (default year1)
+    &open=<petal>                open that petal's card
+    &at=<petal>                  land on that petal's half-sheet
+    &focus=<gem key>             land on it with the focus ring (a trip's ?gem=)
+    &land=<gem key>              the gem-won landing (after the gem victory), e.g. land=ai>ae
+    &unlock=<gem key>            a spelling just met (after its trip), e.g. child=reception&unlock=ai>ae
+    &slow=<n>                    the landing and the unlock n times slower (for stills)
+    &whole=1                     every sheet in one tall picture          &quiet=1  no voice on arrival
+-->
+<style>
+:root {
+  --ink: #2b1d14; --ink-soft: #5a4636;
+  --wall: #efe4d1;                  /* the classroom wall; the letterbox is painted the same, so there are no bars */
+  --paper: #fffefb;
+  --pencil: #8b8177;                /* a spelling still to find (3.8:1 on the paper) */
+  --pencil-x: #aaa095;              /* a spelling this version can't teach yet (2.5:1) */
+  --gold: #ffc53d; --gold-deep: #c98a00; --good: #3fbf6a; --good-deep: #1f7a41;
+  --blossom: #ff7aa2; --blossom-deep: #d9477a;
+  --font-letters: "Andika", "Comic Sans MS", system-ui, sans-serif;
+  --font-ui: "Baloo 2", "Andika", system-ui, sans-serif;
+  --sat: env(safe-area-inset-top); --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left); --sar: env(safe-area-inset-right);
+  color-scheme: light;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; overflow: hidden; }
+body { background: var(--wall); font-family: var(--font-ui); color: var(--ink); user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+button { font: inherit; color: inherit; border: 0; padding: 0; background: none; cursor: pointer; touch-action: manipulation; }
+img { -webkit-user-drag: none; user-select: none; }
+
+/* ---------- the stage: 1280×720, scaled as src/ui/ui.tsx Stage does. The viewport is the wall too (no bars). */
+.viewport { position: fixed; inset: 0; background: var(--wall); transition: background .2s; }
+.card-open .viewport { background: #a19485; } /* the scrim's colour over the wall: the letterbox dims with the stage */
+.stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: 0 0; overflow: hidden; contain: layout paint; background: var(--wall); }
+
+/* ---------- the chart: the whole stage scrolls, top to bottom, one half-sheet per screen (native, snapping) */
+.scroller { position: absolute; inset: 0; z-index: 1; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  scroll-snap-type: y mandatory; touch-action: pan-y; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.scroller::-webkit-scrollbar { display: none; }
+.scroller.dragging { scroll-snap-type: none; }
+.board { position: relative; width: 1280px; }
+.edge { position: absolute; left: 0; right: 0; height: 18px; z-index: 2; pointer-events: none; }
+.edge.t { top: 0; background: linear-gradient(var(--wall), rgba(239, 228, 209, 0)); }
+.edge.b { bottom: 0; background: linear-gradient(rgba(239, 228, 209, 0), var(--wall)); }
+.whole .edge { display: none; }
+
+/* a laminated A4 sheet: white paper, the film's edge, a soft shadow and two drawing pins, pinned to the wall */
+.sheet { position: relative; width: 936px; margin-left: 172px; }
+.sheet::before { content: ""; position: absolute; left: 0; right: 0; top: 16px; bottom: 16px; background: var(--paper); border-radius: 14px;
+  box-shadow: 0 0 0 7px rgba(255, 255, 255, .72), 0 0 0 8.5px rgba(128, 146, 168, .34), 0 18px 26px -14px rgba(74, 42, 20, .42); }
+.sheet::after { content: ""; position: absolute; left: 0; right: 0; top: 4px; height: 30px; pointer-events: none; z-index: 3;
+  background:
+    radial-gradient(circle at 40% 36%, rgba(255, 255, 255, .85) 0 3px, transparent 4px) left 16px top 0 / 30px 30px no-repeat,
+    radial-gradient(circle at 50% 50%, var(--pin) 0 10px, var(--pin-d) 11px 12px, transparent 13px) left 16px top 0 / 30px 30px no-repeat,
+    radial-gradient(circle at 40% 36%, rgba(255, 255, 255, .85) 0 3px, transparent 4px) right 16px top 0 / 30px 30px no-repeat,
+    radial-gradient(circle at 50% 50%, var(--pin) 0 10px, var(--pin-d) 11px 12px, transparent 13px) right 16px top 0 / 30px 30px no-repeat; }
+/* half a sheet = one screen: 2 rows × 4 petals, exactly 720 tall, a snap point; skipped when far away */
+.half { position: relative; z-index: 1; height: 720px; display: grid; grid-template-columns: repeat(4, 234px); grid-template-rows: repeat(2, 334px);
+  align-content: start; padding-top: 40px; scroll-snap-align: start; scroll-snap-stop: always;
+  content-visibility: auto; contain-intrinsic-size: auto 936px 720px; }
+.half.lo { padding-top: 12px; }
+
+/* ---------- a petal: the chart's slim downward teardrop, 136 × 296 (0.46), in a 234 × 334 cell that is the button.
+   ::after = the thin outline in the sound's colour (a CSS mask of one SVG teardrop: no SVG nodes), ::before = the
+   gold star at the point once every gem is won. Inside: nothing but the spellings, stacked, as on the chart. */
+.petal { position: relative; display: block; width: 234px; height: 334px; cursor: pointer; outline: none; }
+.petal::after { content: ""; position: absolute; left: 49px; top: 30px; width: 136px; height: 296px; pointer-events: none; background: var(--c);
+  -webkit-mask: var(--m-line) 0 0 / 100% 100% no-repeat; mask: var(--m-line) 0 0 / 100% 100% no-repeat; }
+.petal.done::before { content: ""; position: absolute; left: 97px; top: 305px; width: 40px; height: 40px; z-index: 2; pointer-events: none;
+  background: var(--star) center / contain no-repeat; }
+.petal:active .col, .petal:active .pic { transform: scale(.97); }
+.pic { position: absolute; left: 154px; top: -2px; width: 72px; height: 72px; object-fit: contain; z-index: 2; pointer-events: none; }
+.col { position: absolute; left: 49px; top: 30px; width: 136px; height: 296px; padding-top: var(--top); z-index: 1; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; }
+
+/* the spellings: Andika, regular, black when the child has met them, pencil grey while still to find */
+.ln { position: relative; flex: none; font-family: var(--font-letters); font-weight: 400; line-height: 1; white-space: nowrap;
+  font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0; }
+.ln + .ln { margin-top: var(--gap, 0px); }
+.ln.m { font-size: var(--M); height: calc(var(--M) * 1.12); color: var(--ink); }
+.ln.f { font-size: var(--F); height: calc(var(--F) * 1.2); color: var(--pencil); }
+.ln.f.x { color: var(--pencil-x); }
+.ln.hint { font-size: min(var(--F), calc(var(--M) * .6)); height: calc(min(var(--F), calc(var(--M) * .6)) * 1.3); color: var(--ink-soft); }
+.ln.hint b { font-weight: 400; color: var(--ink-c); }
+/* one small mark to the right of the column, never on the letters: won = a jewel in the petal's colour,
+   glowing (ready for a gem battle) = a gold gem with a glint. Charging has no mark on the sheet. */
+.ln.w::after, .ln.r::after { content: ""; position: absolute; left: 100%; top: 18%; margin-left: calc(var(--M) * .1);
+  width: calc(var(--M) * .52); height: calc(var(--M) * .47); background: var(--jewel) center / contain no-repeat; pointer-events: none; }
+.ln.r::after { top: -2%; margin-left: calc(var(--M) * .03); width: max(30px, calc(var(--M) * .66)); height: max(30px, calc(var(--M) * .66)); background-image: var(--gold-gem); }
+/* ready gems hop three times when their half-sheet arrives (or on Help), then rest: nothing endless */
+.half.arrive .ln.r::after { animation: hop .62s cubic-bezier(.3, .8, .4, 1) 3; }
+@keyframes hop { 0%, 100% { transform: none; } 38% { transform: translateY(-42%) scale(1.12) rotate(-8deg); } 70% { transform: translateY(4%) scale(.96); } }
+
+/* not met yet: the petal is there, in its place and its colour, dotted, with its picture as a silhouette */
+.petal.mys::after { -webkit-mask-image: var(--m-dots); mask-image: var(--m-dots); opacity: .8; }
+.sil { position: absolute; left: 154px; top: -2px; width: 72px; height: 72px; z-index: 2; pointer-events: none; background: var(--sil);
+  -webkit-mask: var(--pic) center / contain no-repeat; mask: var(--pic) center / contain no-repeat; }
+.petal.shake { animation: shake .45s ease-in-out; transform-origin: 117px 60px; }
+@keyframes shake { 0%, 100% { transform: none; } 25% { transform: rotate(-2.5deg); } 60% { transform: rotate(2deg); } }
+.petal.shake .sil { animation: peek .6s ease-in-out; }
+@keyframes peek { 0%, 100% { transform: none; } 30% { transform: translateY(-8px) rotate(-10deg) scale(1.08); } 65% { transform: rotate(6deg); } }
+
+/* the focus ring (a trip's ?gem=): three soft pulses round the spelling, then it stays */
+.ln.focus::before { content: ""; position: absolute; left: -12px; right: -12px; top: -6px; bottom: -4px; border-radius: 999px;
+  border: 4px solid var(--gold); background: rgba(255, 214, 90, .18); animation: ring3 1s ease-in-out 3; }
+@keyframes ring3 { 0%, 100% { transform: none; opacity: 1; } 50% { transform: scale(1.12); opacity: .45; } }
+
+/* grown-ups' key, under the last row of sheet 3 */
+.key { grid-column: 1 / -1; align-self: center; justify-self: center; margin-top: 40px; max-width: 820px; padding: 18px 26px; border-radius: 18px;
+  border: 3px dashed #e6ddd1; color: #6d5f53; font: 600 25px/1.35 var(--font-ui); text-align: center; }
+.key i { display: inline-block; vertical-align: -4px; width: 26px; height: 24px; background: center / contain no-repeat; margin: 0 4px; }
+.key b { font: 400 28px/1 var(--font-letters); color: var(--ink); } .key s { text-decoration: none; font: 400 28px/1 var(--font-letters); color: var(--pencil); }
+
+/* ---------- the unlock (a sound met for the first time) and a spelling inked in */
+.petal.unlock::after { animation: fadein .5s ease-out both; }
+.petal.unlock .dots { position: absolute; left: 49px; top: 30px; width: 136px; height: 296px; background: var(--c); opacity: .8; pointer-events: none;
+  -webkit-mask: var(--m-dots) 0 0 / 100% 100% no-repeat; mask: var(--m-dots) 0 0 / 100% 100% no-repeat; animation: fadeout .5s ease-out both; }
+.petal.unlock .sil { animation: fadeout .35s ease-out .25s both; }
+.petal.unlock .pic { animation: stick .7s cubic-bezier(.3, 1.6, .5, 1) .3s both; }
+.petal.unlock .ln { animation: writein .4s ease-out both; animation-delay: calc(var(--d) + 900ms); }
+@keyframes fadein { from { opacity: 0; } } @keyframes fadeout { to { opacity: 0; } }
+@keyframes stick { 0% { transform: scale(.2) rotate(-25deg); opacity: 0; } 60% { transform: scale(1.18) rotate(6deg); opacity: 1; } 100% { transform: none; } }
+@keyframes writein { from { opacity: 0; transform: translateY(8px) scale(.9); } }
+.ln.inked { animation: inked .7s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes inked { 0% { transform: scale(.6); opacity: .2; } 55% { transform: scale(1.25); opacity: 1; } 100% { transform: none; } }
+/* the landing: the won jewel arrives beside its spelling */
+.ln.pending::after { opacity: 0; }
+.ln.landed { animation: inked .6s cubic-bezier(.3, 1.6, .5, 1) both; }
+.ln.landed::after { animation: land .5s cubic-bezier(.3, 1.8, .5, 1) both; }
+@keyframes land { 0% { transform: scale(2.2); opacity: .3; } 100% { transform: none; opacity: 1; } }
+
+/* ---------- the frame: Home top-left and the World Flower under it; Hear it again top-right and the map under it;
+   Help bottom-right (docs/NAVIGATION.md §3.1). Nothing else to tap outside the sheet. */
+.btn-round { position: absolute; width: 100px; height: 100px; border-radius: 50%; display: grid; place-items: center; z-index: 30;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--gold) 45%, var(--gold-deep) 100%); border: 5px solid var(--ink); box-shadow: 0 6px 0 var(--ink); }
+.btn-round:active { transform: translateY(5px); box-shadow: 0 1px 0 var(--ink); }
+.btn-round svg { width: 54%; height: 54%; }
+.btn-round.pink { background: radial-gradient(circle at 35% 30%, #ffe3ee 0%, var(--blossom) 50%, var(--blossom-deep) 100%); }
+.btn-round.go { background: radial-gradient(circle at 35% 30%, #d9ffe4 0%, var(--good) 50%, var(--good-deep) 100%); }
+.btn-round.sm { width: 76px; height: 76px; border-width: 4px; box-shadow: 0 5px 0 var(--ink); }
+.home { left: 18px; top: 16px; z-index: 84; }
+.flower { left: 18px; top: 150px; }
+.flower svg { width: 72%; height: 72%; }
+.again { left: 1162px; top: 16px; }
+.next { left: 964px; top: 562px; width: 132px; height: 132px; z-index: 84; opacity: 0; transform: scale(.6); pointer-events: none; transition: opacity .3s, transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+.next.on { opacity: 1; transform: none; pointer-events: auto; }
+.next svg { width: 60%; height: 60%; }
+.help-btn { position: absolute; right: 14px; bottom: 14px; z-index: 85; width: 124px; height: 124px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff8e6, #ffd98a 70%, #e0a53a); border: 6px solid var(--ink); box-shadow: 0 7px 0 var(--ink), 0 0 0 6px rgba(255, 244, 220, .8); }
+.help-btn img { position: absolute; inset: 5px; width: calc(100% - 10px); height: calc(100% - 10px); border-radius: 50%; object-fit: cover; }
+.help-q { position: absolute; left: -10px; top: -10px; width: 46px; height: 46px; border-radius: 50%; background: var(--good); border: 5px solid var(--ink);
+  color: #fff; font: 800 30px/36px var(--font-ui); text-align: center; text-shadow: 0 2px 0 var(--ink); }
+
+/* the map: the three sheets in miniature (the chart-wide progress bar: a petal colours in when met, fills when
+   complete, a gold dot where a gem is glowing) and a frame round the half-sheet on screen. Tap or drag to go there. */
+.map { position: absolute; left: 1146px; top: 136px; width: 124px; height: 420px; z-index: 30; touch-action: none; }
+.msheet { position: absolute; left: 10px; width: 104px; height: 128px; background: #fffefb; border-radius: 8px;
+  box-shadow: 0 0 0 2.5px rgba(128, 146, 168, .4), 0 5px 8px -3px rgba(74, 42, 20, .4); }
+.mk { position: absolute; width: 13px; height: 25px; background: #e4ddd3; -webkit-mask: var(--m-fill) 0 0 / 100% 100%; mask: var(--m-fill) 0 0 / 100% 100%; }
+.mk.met { background: var(--mc); opacity: .5; }
+.mk.done { background: var(--mc); opacity: 1; }
+.mdot { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 1.5px var(--ink); }
+.mframe { position: absolute; left: 3px; top: 0; width: 118px; height: 70px; border: 5px solid var(--ink); border-radius: 12px; pointer-events: none;
+  background: rgba(255, 197, 61, .14); box-shadow: 0 0 0 2px rgba(255, 255, 255, .85); transition: transform .32s cubic-bezier(.3, 1.3, .5, 1); }
+.mk.pulse { animation: mkpulse .8s ease-out 2; }
+@keyframes mkpulse { 50% { transform: scale(1.7); } }
+
+/* Sensei's caption (grown-ups read it; the children hear it). Off on the chart by default, as in the game. */
+.bubble { position: absolute; right: 150px; bottom: 26px; z-index: 86; max-width: 470px; padding: 10px 18px; font: 700 24px/1.2 var(--font-ui);
+  background: #fffdf6; border: 4px solid var(--ink); border-radius: 24px; box-shadow: 0 5px 0 rgba(43, 29, 20, .35);
+  opacity: 0; transform: translateY(10px); transition: opacity .2s, transform .2s; pointer-events: none; }
+.bubble.on { opacity: 1; transform: none; }
+.bubble::after { content: ""; position: absolute; right: -22px; bottom: 22px; border: 12px solid transparent; border-left: 18px solid var(--ink); }
+
+/* ---------- the petal's card: the same petal up close on a laminated flash card, grown out of the tapped petal.
+   The scrim covers everything but Home and Help; a tap on it closes the card. */
+.scrim { position: absolute; inset: 0; z-index: 60; background: rgba(43, 29, 20, .40); opacity: 0; transition: opacity .2s; }
+.card-open .scrim { opacity: 1; }
+.card-open .again, .card-open .flower, .card-open .map { visibility: hidden; }
+.card { position: absolute; left: 150px; top: 20px; width: 980px; height: 680px; z-index: 61; background: var(--paper); border-radius: 26px;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, .75), 0 0 0 9.5px rgba(128, 146, 168, .42), 0 24px 40px -18px rgba(30, 15, 5, .6); }
+.big { position: absolute; left: 50px; top: 104px; width: 250px; height: 560px; }
+.big-line { position: absolute; inset: 0; background: var(--c); -webkit-mask: var(--m-bigline) 0 0 / 100% 100% no-repeat; mask: var(--m-bigline) 0 0 / 100% 100% no-repeat; pointer-events: none; }
+.big.done::before { content: ""; position: absolute; left: 99px; top: 532px; width: 52px; height: 52px; background: var(--star) center / contain no-repeat; z-index: 2; }
+.big-col { position: absolute; inset: 0; padding-top: var(--top); display: flex; flex-direction: column; align-items: center; }
+.big { cursor: pointer; }
+.big .ln { border-radius: 999px; padding: 0 12px; }
+.big .ln.m { font-size: var(--BM); height: calc(var(--BM) * 1.12); }
+.big .ln.f { font-size: var(--BF); height: calc(var(--BF) * 1.2); }
+.big .ln.hint { font-size: min(var(--BF), calc(var(--BM) * .6)); height: calc(min(var(--BF), calc(var(--BM) * .6)) * 1.3); pointer-events: none; }
+.big .ln.w::after, .big .ln.r::after, .big .ln.c::after { width: calc(var(--BM) * .5); height: calc(var(--BM) * .45); margin-left: calc(var(--BM) * .02); }
+.big .ln.r::after { width: calc(var(--BM) * .6); height: calc(var(--BM) * .6); top: 2%; }
+/* on the card, a charging gem shows its energy: a ring filling with gold */
+.big .ln.c::after { content: ""; position: absolute; left: 100%; top: 16%; margin-left: 4px; width: calc(var(--BM) * .5); height: calc(var(--BM) * .5); border-radius: 50%;
+  background: conic-gradient(var(--gold) calc(var(--e) * 1turn), #ded4c7 0); -webkit-mask: radial-gradient(circle, transparent 44%, #000 46%); mask: radial-gradient(circle, transparent 44%, #000 46%); }
+.big .ln.sel { background: color-mix(in srgb, var(--c) 14%, #fff); box-shadow: 0 0 0 4px var(--c); }
+.hear { position: absolute; left: 246px; top: 18px; width: 112px; height: 112px; z-index: 3; }
+.hear img { width: 100%; height: 100%; object-fit: contain; }
+.hear .spk { position: absolute; right: -10px; bottom: -6px; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fff 0%, var(--gold) 45%, var(--gold-deep) 100%); border: 4px solid var(--ink); }
+.hear .spk svg { width: 64%; height: 64%; }
+.card .close { left: 866px; top: 20px; width: 92px; height: 92px; }
+.trial { position: absolute; width: 104px; height: 104px; z-index: 4; }
+.trial svg { width: 52%; height: 52%; margin-left: 8%; }
+.trial.bob { animation: bob .7s ease-in-out 3; }
+@keyframes bob { 50% { transform: scale(1.1); } }
+.sensei { position: absolute; left: 414px; top: 30px; width: 116px; height: 116px; border-radius: 50%; border: 5px solid var(--ink); overflow: hidden;
+  background: radial-gradient(circle at 40% 35%, #fff8e6, #ffd98a 70%, #e0a53a); box-shadow: 0 6px 0 var(--ink); }
+.sensei img { width: 100%; height: 100%; object-fit: cover; }
+.sensei.talk img { animation: talk .3s ease-in-out infinite alternate; }
+@keyframes talk { to { transform: scale(1.06) translateY(-2px); } }
+.say-chip { position: absolute; left: 562px; top: 40px; min-width: 120px; height: 96px; padding: 0 26px; border-radius: 30px; background: #fff;
+  border: 5px solid var(--c); display: grid; place-items: center; font: 400 66px/1 var(--font-letters); color: var(--ink); font-variant-ligatures: none; }
+.say-chip::before { content: ""; position: absolute; left: -22px; top: 30px; border: 12px solid transparent; border-right: 18px solid var(--c); }
+.say-chip:empty { display: none; }
+.shelf { position: absolute; left: 414px; top: 166px; width: 552px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.wc { height: 150px; border-radius: 18px; background: #fff; border: 3px solid #e5ddd2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px 6px;
+  box-shadow: 0 4px 0 #e5ddd2; }
+.wc:active { transform: translateY(3px); box-shadow: 0 1px 0 #e5ddd2; }
+.wc img { width: 76px; height: 76px; object-fit: contain; flex: none; }
+.wc .wt { font: 700 50px/1.05 var(--font-letters); color: var(--ink); white-space: nowrap; font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0; }
+.wc .wt b { color: var(--ink-c); font-weight: 700; background: linear-gradient(transparent 62%, var(--wash) 62% 94%, transparent 94%); }
+.wc.spot { border-color: var(--gold); box-shadow: 0 4px 0 var(--gold-deep), 0 0 0 5px #fff4c8; transform: scale(1.06); }
+.card .gate { left: 808px; top: 530px; width: 128px; height: 128px; }
+.card .gate svg { width: 64%; height: 64%; }
+.gate-chip { position: absolute; left: 872px; top: 488px; translate: -50% 0; z-index: 32; min-width: 50px; padding: 0 12px; height: 50px; border-radius: 14px;
+  background: #fff; border: 4px solid var(--ink); box-shadow: 0 3px 0 var(--ink); font: 400 36px/42px var(--font-letters); text-align: center; font-variant-ligatures: none; }
+
+/* sparks and rings (transform and opacity only; each removes itself) */
+.ring { position: absolute; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 10px solid var(--rc, #ffd24a); z-index: 69; pointer-events: none; }
+.spark { position: absolute; width: 30px; height: 30px; margin: -15px 0 0 -15px; z-index: 70; pointer-events: none; background: var(--sc, #ffd24a);
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
+.flyer { position: absolute; left: 0; top: 0; width: 150px; height: 150px; margin: -75px 0 0 -75px; z-index: 72; pointer-events: none; }
+.flyer::before { content: ""; position: absolute; inset: -40px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 246, 200, .95), rgba(255, 214, 90, .45) 45%, transparent 70%); }
+.flyer i { position: absolute; inset: 20px; background: var(--jewel) center / contain no-repeat; }
+
+@media (prefers-reduced-motion: reduce) { .half.arrive .ln.r::after, .petal.shake, .ln.focus::before { animation: none; } }
+
+/* ---------- whole=1: every sheet in one tall picture (for the design doc) */
+html.whole, html.whole body { height: auto; overflow: visible; }
+.whole .viewport { position: static; }
+.whole .stage { height: auto; }
+.whole .scroller { position: relative; overflow: visible; height: auto; }
+.whole .half { content-visibility: visible; }
+.whole .map, .whole .again, .whole .flower, .whole .home, .whole .help-btn, .whole .bubble, .whole .next { display: none; }
+</style>
+</head>
+<body>
+<div class="viewport" id="viewport">
+  <div class="stage" id="stage">
+    <div class="scroller scrollable petal-scroll" id="scroller"><div class="board" id="board"></div></div>
+    <i class="edge t"></i><i class="edge b"></i>
+
+    <button class="btn-round home" data-nav="home" aria-label="Home" id="home"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 30 32 11l22 19v23H40V39H24v14H10z"/></svg></button>
+    <button class="btn-round pink flower" aria-label="The World Flower" id="flower"><svg viewBox="-60 -60 120 120" id="flowerIcon"></svg></button>
+    <button class="btn-round again" data-nav="again" aria-label="Hear it again" id="again"><svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 25h10l13-11v36L20 39H10z"/><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34"/></svg></button>
+    <div class="map" id="map" aria-label="Petal chart map"></div>
+    <button class="btn-round go next" data-nav="next" aria-label="Next" id="next"><svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M26 14l18 18-18 18"/></svg></button>
+    <button class="help-btn" aria-label="Help" id="help"><img src="../../../../public/a/i/sensei_face_idle.webp" alt="" /><span class="help-q">?</span></button>
+    <div class="bubble" id="bubble"></div>
+    <div id="cardLayer"></div>
+  </div>
+</div>
+
+<script type="application/json" id="data">{"P":[["ae",1,"#e8312f","train",[["ai","ai>ae",1,[["rain",1,1,"r.ai.n",1],["train",1,1,"t.r.ai.n",2],["snail",1,1,"s.n.ai.l",2],["tail",1,1,"t.ai.l",1],["nail",1,1,"n.ai.l",1],["paint",1,1,"p.ai.n.t",1]]],["ay","ay>ae",1,[["tray",1,1,"t.r.ay",2],["day",0,1,"d.ay",1],["play",0,1,"p.l.ay",2],["stay",0,1,"s.t.ay",2],["say",0,1,"s.ay",1],["spray",0,1,"s.p.r.ay",3]]],["a-e","a-e>ae",0],["ea","ea>ae",0],["ei","ei>ae",0],["ey","ey>ae",0],["eigh","eigh>ae",0]]],["ee",1,"#f5821f","tree",[["ee","ee>ee",1,[["tree",1,1,"t.r.ee",2],["bee",1,1,"b.ee",1],["feet",1,1,"f.ee.t",1],["sheep",1,1,"sh.ee.p",1],["queen",1,1,"q.u.ee.n",2],["green",0,1,"g.r.ee.n",2],["sleep",0,1,"s.l.ee.p",2]]],["ea","ea>ee",1,[["sea",1,1,"s.ea",1],["tea",1,1,"t.ea",1],["leaf",1,1,"l.ea.f",1],["beach",1,1,"b.ea.ch",1],["eat",0,1,"ea.t",0],["dream",0,1,"d.r.ea.m",2],["seat",0,1,"s.ea.t",1]]],["e","e>ee",0],["y","y>ee",0],["ey","ey>ee",0],["ie","ie>ee",0],["i","i>ee",0]]],["oy",1,"#f59ac0","toy",[["oi","oi>oy",0],["oy","oy>oy",0]]],["ie",1,"#f3c74a","kite",[["ie","ie>ie",1,[["pie",1,1,"p.ie",1],["tie",1,1,"t.ie",1],["lie",0,1,"l.ie",1]]],["igh","igh>ie",1,[["night",1,1,"n.igh.t",1],["light",1,1,"l.igh.t",1],["high",0,1,"h.igh",1],["fight",0,1,"f.igh.t",1],["bright",0,1,"b.r.igh.t",2]]],["i","i>ie",0],["i-e","i-e>ie",0],["y","y>ie",0]]],["oe",1,"#f7a23b","boat",[["oa","oa>oe",1,[["boat",1,1,"b.oa.t",1],["goat",1,1,"g.oa.t",1],["coat",1,1,"c.oa.t",1],["road",1,1,"r.oa.d",1],["soap",1,1,"s.oa.p",1],["toast",1,1,"t.oa.s.t",1]]],["ow","ow>oe",1,[["snow",1,1,"s.n.ow",2],["crow",1,1,"c.r.ow",2],["grow",0,1,"g.r.ow",2],["slow",0,1,"s.l.ow",2],["blow",0,1,"b.l.ow",2]]],["o-e","o-e>oe",0],["o","o>oe",0],["oe","oe>oe",0],["ou","ou>oe",0],["ough","ough>oe",0]]],["uu",1,"#f1e45c","book",[["oo","oo>uu",0],["u","u>uu",0],["oul","oul>uu",0]]],["er",1,"#2fa65a","bird",[["er","er>er",0],["ir","ir>er",0],["ur","ur>er",0],["or","or>er",0],["ar","ar>er",0],["ear","ear>er",0],["our","our>er",0]]],["ar",1,"#9ae29a","car",[["ar","ar>ar",0],["a","a>ar",0],["al","al>ar",0],["au","au>ar",0]]],["ou",1,"#c42fd1","mouse",[["ow","ow>ou",0],["ou","ou>ou",0]]],["oo",1,"#8a3be0","moon",[["oo","oo>oo",0],["ew","ew>oo",0],["u-e","u-e>oo",0],["o","o>oo",0],["ue","ue>oo",0],["ough","ough>oo",0],["u","u>oo",0],["ui","ui>oo",0],["ou","ou>oo",0]]],["ue",1,"#c77de8","news",[["u","u>ue",0],["ew","ew>ue",0],["u-e","u-e>ue",0],["ue","ue>ue",0]]],["or",1,"#2b1d14","corn",[["or","or>or",0],["aw","aw>or",0],["ar","ar>or",0],["al","al>or",0],["au","au>or",0],["a","a>or",0],["oar","oar>or",0],["augh","augh>or",0],["ough","ough>or",0],["ore","ore>or",0],["our","our>or",0]]],["air",1,"#6ec9f2","chair",[["air","air>air",0],["are","are>air",0],["ear","ear>air",0],["ere","ere>air",0],["eir","eir>air",0]]],["s",1,"#ee2e63","circle",[["s","s>s",1,[["sit",1,1,"s.i.t",0],["sun",1,1,"s.u.n",0],["bus",1,1,"b.u.s",2],["sand",1,1,"s.a.n.d",0],["desk",1,1,"d.e.s.k",2],["tusk",1,1,"t.u.s.k",2],["nest",1,1,"n.e.s.t",2],["vest",1,1,"v.e.s.t",2],["swim",1,1,"s.w.i.m",0],["stamp",1,1,"s.t.a.m.p",0],["stump",1,1,"s.t.u.m.p",0],["crisp",1,1,"c.r.i.s.p",3],["chest",1,1,"ch.e.s.t",2],["sock",1,1,"s.o.ck",0],["swing",1,1,"s.w.i.ng",0],["whisk",1,1,"wh.i.s.k",2],["squid",1,1,"s.q.u.i.d",0],["snail",1,1,"s.n.ai.l",0],["sea",1,1,"s.ea",0],["soap",1,1,"s.oa.p",0],["toast",1,1,"t.oa.s.t",2],["snow",1,1,"s.n.ow",0],["sat",0,1,"s.a.t",0],["sip",0,1,"s.i.p",0]]],["ss","ss>s",1,[["dress",1,1,"d.r.e.ss",3],["kiss",0,1,"k.i.ss",2],["mess",0,1,"m.e.ss",2],["boss",0,1,"b.o.ss",2],["less",0,1,"l.e.ss",2],["fuss",0,1,"f.u.ss",2],["hiss",0,1,"h.i.ss",2],["miss",0,1,"m.i.ss",2]]],["st","st>s",0],["c","c>s",0],["ce","ce>s",0],["se","se>s",0],["sc","sc>s",0],["x","x>ks",1,[["box",1,1,"b.o.x",2],["fox",1,1,"f.o.x",2],["six",0,1,"s.i.x",2],["fix",0,1,"f.i.x",2],["mix",0,1,"m.i.x",2],["wax",0,1,"w.a.x",2],["next",0,1,"n.e.x.t",2],["text",0,1,"t.e.x.t",2]]]]],["l",1,"#6b1d73","castle",[["l","l>l",1,[["leg",1,1,"l.e.g",0],["lid",1,1,"l.i.d",0],["log",1,1,"l.o.g",0],["elf",1,1,"e.l.f",1],["milk",1,1,"m.i.l.k",2],["belt",1,1,"b.e.l.t",2],["lamp",1,1,"l.a.m.p",0],["bulb",1,1,"b.u.l.b",2],["flag",1,1,"f.l.a.g",1],["plug",1,1,"p.l.u.g",1],["plum",1,1,"p.l.u.m",1],["lock",1,1,"l.o.ck",0],["clock",1,1,"c.l.o.ck",1],["quilt",1,1,"q.u.i.l.t",3],["snail",1,1,"s.n.ai.l",3],["tail",1,1,"t.ai.l",2],["nail",1,1,"n.ai.l",2],["leaf",1,1,"l.ea.f",0],["light",1,1,"l.igh.t",0],["lip",0,1,"l.i.p",0],["lap",0,1,"l.a.p",0],["let",0,1,"l.e.t",0],["lot",0,1,"l.o.t",0],["less",0,1,"l.e.ss",0]]],["ll","ll>l",1,[["doll",1,1,"d.o.ll",2],["bell",1,1,"b.e.ll",2],["hill",1,1,"h.i.ll",2],["well",1,1,"w.e.ll",2],["shell",1,1,"sh.e.ll",2],["yell",0,1,"y.e.ll",2],["fell",0,1,"f.e.ll",2],["sell",0,1,"s.e.ll",2],["tell",0,1,"t.e.ll",2],["bill",0,1,"b.i.ll",2],["spell",0,1,"s.p.e.ll",3],["smell",0,1,"s.m.e.ll",3]]],["le","le>l",0],["al","al>l",0],["el","el>l",0],["il","il>l",0],["ol","ol>l",0]]],["f",1,"#1e5f2e","dolphin",[["f","f>f",1,[["fan",1,1,"f.a.n",0],["fig",1,1,"f.i.g",0],["fog",1,1,"f.o.g",0],["fin",1,1,"f.i.n",0],["fox",1,1,"f.o.x",0],["elf",1,1,"e.l.f",2],["gift",1,1,"g.i.f.t",2],["frog",1,1,"f.r.o.g",0],["flag",1,1,"f.l.a.g",0],["fish",1,1,"f.i.sh",0],["feet",1,1,"f.ee.t",0],["leaf",1,1,"l.ea.f",2],["fit",0,1,"f.i.t",0],["fed",0,1,"f.e.d",0],["fun",0,1,"f.u.n",0],["fix",0,1,"f.i.x",0],["fell",0,1,"f.e.ll",0],["fuss",0,1,"f.u.ss",0],["fizz",0,1,"f.i.zz",0],["left",0,1,"l.e.f.t",2],["soft",0,1,"s.o.f.t",2],["lift",0,1,"l.i.f.t",2],["fist",0,1,"f.i.s.t",0],["golf",0,1,"g.o.l.f",3]]],["ff","ff>f",1,[["off",0,1,"o.ff",1],["puff",0,1,"p.u.ff",2],["huff",0,1,"h.u.ff",2],["cuff",0,1,"c.u.ff",2],["sniff",0,1,"s.n.i.ff",3],["stuff",0,1,"s.t.u.ff",3]]],["ph","ph>f",0],["gh","gh>f",0]]],["e",2,"#23208f","bread",[["e","e>e",1,[["den",1,1,"d.e.n",1],["bed",1,1,"b.e.d",1],["peg",1,1,"p.e.g",1],["pen",1,1,"p.e.n",1],["hen",1,1,"h.e.n",1],["net",1,1,"n.e.t",1],["vet",1,1,"v.e.t",1],["leg",1,1,"l.e.g",1],["jet",1,1,"j.e.t",1],["web",1,1,"w.e.b",1],["bell",1,1,"b.e.ll",1],["well",1,1,"w.e.ll",1],["elf",1,1,"e.l.f",0],["belt",1,1,"b.e.l.t",1],["tent",1,1,"t.e.n.t",1],["desk",1,1,"d.e.s.k",1],["nest",1,1,"n.e.s.t",1],["vest",1,1,"v.e.s.t",1],["dress",1,1,"d.r.e.ss",2],["shed",1,1,"sh.e.d",1],["shell",1,1,"sh.e.ll",1],["chest",1,1,"ch.e.s.t",1],["bench",1,1,"b.e.n.ch",1],["fed",0,1,"f.e.d",1]]],["ea","ea>e",0],["ai","ai>e",0]]],["u",2,"#d9482b","love",[["u","u>u",1,[["run",1,1,"r.u.n",1],["rug",1,1,"r.u.g",1],["cup",1,1,"c.u.p",1],["sun",1,1,"s.u.n",1],["bun",1,1,"b.u.n",1],["bus",1,1,"b.u.s",1],["bug",1,1,"b.u.g",1],["hug",1,1,"h.u.g",1],["mug",1,1,"m.u.g",1],["nut",1,1,"n.u.t",1],["hut",1,1,"h.u.t",1],["tub",1,1,"t.u.b",1],["pup",1,1,"p.u.p",1],["cub",1,1,"c.u.b",1],["jug",1,1,"j.u.g",1],["jump",1,1,"j.u.m.p",1],["tusk",1,1,"t.u.s.k",1],["bulb",1,1,"b.u.l.b",1],["plug",1,1,"p.l.u.g",2],["plum",1,1,"p.l.u.m",2],["drum",1,1,"d.r.u.m",2],["stump",1,1,"s.t.u.m.p",2],["duck",1,1,"d.u.ck",1],["hutch",1,1,"h.u.tch",1]]],["ou","ou>u",0],["o","o>u",0]]],["o",2,"#e0356f","wasp",[["o","o>o",1,[["pot",1,1,"p.o.t",1],["top",1,1,"t.o.p",1],["mop",1,1,"m.o.p",1],["cot",1,1,"c.o.t",1],["hop",1,1,"h.o.p",1],["hot",1,1,"h.o.t",1],["cob",1,1,"c.o.b",1],["hob",1,1,"h.o.b",1],["dog",1,1,"d.o.g",1],["dot",1,1,"d.o.t",1],["fog",1,1,"f.o.g",1],["log",1,1,"l.o.g",1],["rod",1,1,"r.o.d",1],["box",1,1,"b.o.x",1],["fox",1,1,"f.o.x",1],["doll",1,1,"d.o.ll",1],["pond",1,1,"p.o.n.d",1],["frog",1,1,"f.r.o.g",2],["shop",1,1,"sh.o.p",1],["moth",1,1,"m.o.th",1],["sock",1,1,"s.o.ck",1],["rock",1,1,"r.o.ck",1],["lock",1,1,"l.o.ck",1],["clock",1,1,"c.l.o.ck",2]]],["a","a>o",0]]],["d",2,"#e8312f","dog",[["d","d>d",1,[["dog",1,1,"d.o.g",0],["dot",1,1,"d.o.t",0],["den",1,1,"d.e.n",0],["bed",1,1,"b.e.d",2],["lid",1,1,"l.i.d",2],["rod",1,1,"r.o.d",2],["doll",1,1,"d.o.ll",0],["pond",1,1,"p.o.n.d",3],["hand",1,1,"h.a.n.d",3],["sand",1,1,"s.a.n.d",3],["desk",1,1,"d.e.s.k",0],["drum",1,1,"d.r.u.m",0],["dress",1,1,"d.r.e.ss",0],["shed",1,1,"sh.e.d",2],["duck",1,1,"d.u.ck",0],["squid",1,1,"s.q.u.i.d",4],["road",1,1,"r.oa.d",2],["dad",0,1,"d.a.d",0],["did",0,1,"d.i.d",0],["dip",0,1,"d.i.p",0],["fed",0,1,"f.e.d",2],["kid",0,1,"k.i.d",2],["red",0,1,"r.e.d",2],["dug",0,1,"d.u.g",0]]],["dd","dd>d",0],["ed","ed>d",0]]],["i",2,"#f7a23b","build",[["i","i>i",1,[["sit",1,1,"s.i.t",1],["pin",1,1,"p.i.n",1],["tin",1,1,"t.i.n",1],["bin",1,1,"b.i.n",1],["bib",1,1,"b.i.b",1],["pig",1,1,"p.i.g",1],["fig",1,1,"f.i.g",1],["fin",1,1,"f.i.n",1],["lid",1,1,"l.i.d",1],["wig",1,1,"w.i.g",1],["zip",1,1,"z.i.p",1],["hill",1,1,"h.i.ll",1],["milk",1,1,"m.i.l.k",1],["gift",1,1,"g.i.f.t",1],["swim",1,1,"s.w.i.m",2],["twig",1,1,"t.w.i.g",2],["crisp",1,1,"c.r.i.s.p",2],["ship",1,1,"sh.i.p",1],["fish",1,1,"f.i.sh",1],["chimp",1,1,"ch.i.m.p",1],["ring",1,1,"r.i.ng",1],["king",1,1,"k.i.ng",1],["wing",1,1,"w.i.ng",1],["swing",1,1,"s.w.i.ng",2]]],["ui","ui>i",0],["e","e>i",0],["y","y>i",0]]],["n",2,"#ece22a","knight",[["n","n>n",1,[["man",1,1,"m.a.n",2],["pan",1,1,"p.a.n",2],["nap",1,1,"n.a.p",0],["pin",1,1,"p.i.n",2],["tin",1,1,"t.i.n",2],["bin",1,1,"b.i.n",2],["den",1,1,"d.e.n",2],["fan",1,1,"f.a.n",2],["fin",1,1,"f.i.n",2],["pen",1,1,"p.e.n",2],["hen",1,1,"h.e.n",2],["net",1,1,"n.e.t",0],["van",1,1,"v.a.n",2],["run",1,1,"r.u.n",2],["sun",1,1,"s.u.n",2],["bun",1,1,"b.u.n",2],["nut",1,1,"n.u.t",0],["ant",1,1,"a.n.t",1],["tent",1,1,"t.e.n.t",2],["pond",1,1,"p.o.n.d",2],["hand",1,1,"h.a.n.d",2],["sand",1,1,"s.a.n.d",2],["nest",1,1,"n.e.s.t",0],["bench",1,1,"b.e.n.ch",2]]],["nn","nn>n",0],["ne","ne>n",0],["gn","gn>n",0],["kn","kn>n",0]]],["v",2,"#1f8a33","dove",[["v","v>v",1,[["vet",1,1,"v.e.t",0],["van",1,1,"v.a.n",0],["vest",1,1,"v.e.s.t",0]]],["ve","ve>v",1,[["have",0,1,"h.a.ve",2],["give",0,1,"g.i.ve",2]]],["vv","vv>v",0]]],["j",2,"#4fe34f","giraffe",[["j","j>j",1,[["jam",1,1,"j.a.m",0],["jet",1,1,"j.e.t",0],["jug",1,1,"j.u.g",0],["jump",1,1,"j.u.m.p",0],["jog",0,1,"j.o.g",0],["jab",0,1,"j.a.b",0],["jig",0,1,"j.i.g",0],["jazz",0,1,"j.a.zz",0],["just",0,1,"j.u.s.t",0]]],["g","g>j",0],["ge","ge>j",0],["dge","dge>j",0]]],["g",2,"#3a37b8","ghost",[["g","g>g",1,[["bag",1,1,"b.a.g",2],["pig",1,1,"p.i.g",2],["dog",1,1,"d.o.g",2],["fig",1,1,"f.i.g",2],["fog",1,1,"f.o.g",2],["peg",1,1,"p.e.g",2],["leg",1,1,"l.e.g",2],["log",1,1,"l.o.g",2],["rug",1,1,"r.u.g",2],["bug",1,1,"b.u.g",2],["hug",1,1,"h.u.g",2],["mug",1,1,"m.u.g",2],["jug",1,1,"j.u.g",2],["wig",1,1,"w.i.g",2],["gift",1,1,"g.i.f.t",0],["frog",1,1,"f.r.o.g",3],["flag",1,1,"f.l.a.g",3],["plug",1,1,"p.l.u.g",3],["twig",1,1,"t.w.i.g",3],["goat",1,1,"g.oa.t",0],["big",0,1,"b.i.g",2],["gap",0,1,"g.a.p",0],["gas",0,1,"g.a.s",0],["got",0,1,"g.o.t",0]]],["gg","gg>g",0],["gh","gh>g",0],["gu","gu>g",0]]],["m",2,"#7cc3f0","thumb",[["m","m>m",1,[["mat",1,1,"m.a.t",0],["man",1,1,"m.a.n",0],["map",1,1,"m.a.p",0],["mop",1,1,"m.o.p",0],["mug",1,1,"m.u.g",0],["jam",1,1,"j.a.m",2],["milk",1,1,"m.i.l.k",0],["lamp",1,1,"l.a.m.p",2],["jump",1,1,"j.u.m.p",2],["swim",1,1,"s.w.i.m",3],["plum",1,1,"p.l.u.m",3],["pram",1,1,"p.r.a.m",3],["drum",1,1,"d.r.u.m",3],["stamp",1,1,"s.t.a.m.p",3],["stump",1,1,"s.t.u.m.p",3],["chimp",1,1,"ch.i.m.p",2],["moth",1,1,"m.o.th",0],["match",1,1,"m.a.tch",0],["am",0,1,"a.m",1],["him",0,1,"h.i.m",2],["men",0,1,"m.e.n",0],["gum",0,1,"g.u.m",2],["mum",0,1,"m.u.m",0],["mix",0,1,"m.i.x",0]]],["mm","mm>m",0],["mb","mb>m",0],["mn","mn>m",0]]],["h",2,"#8c1fa8","who",[["h","h>h",1,[["hat",1,1,"h.a.t",0],["hop",1,1,"h.o.p",0],["hot",1,1,"h.o.t",0],["hob",1,1,"h.o.b",0],["hen",1,1,"h.e.n",0],["hug",1,1,"h.u.g",0],["hut",1,1,"h.u.t",0],["hill",1,1,"h.i.ll",0],["hand",1,1,"h.a.n.d",0],["hutch",1,1,"h.u.tch",0],["hit",0,1,"h.i.t",0],["him",0,1,"h.i.m",0],["hip",0,1,"h.i.p",0],["huff",0,1,"h.u.ff",0],["hiss",0,1,"h.i.ss",0],["help",0,1,"h.e.l.p",0],["hunt",0,1,"h.u.n.t",0],["hang",0,1,"h.a.ng",0],["have",0,1,"h.a.ve",0],["high",0,1,"h.igh",0]]],["wh","wh>h",0]]],["k",2,"#c77de8","anchor",[["c","c>k",1,[["cat",1,1,"c.a.t",0],["cap",1,1,"c.a.p",0],["cot",1,1,"c.o.t",0],["cab",1,1,"c.a.b",0],["cob",1,1,"c.o.b",0],["cup",1,1,"c.u.p",0],["cub",1,1,"c.u.b",0],["crab",1,1,"c.r.a.b",0],["crisp",1,1,"c.r.i.s.p",0],["clock",1,1,"c.l.o.ck",0],["coat",1,1,"c.oa.t",0],["crow",1,1,"c.r.ow",0],["can",0,1,"c.a.n",0],["cut",0,1,"c.u.t",0],["cuff",0,1,"c.u.ff",0],["camp",0,1,"c.a.m.p",0],["cost",0,1,"c.o.s.t",0],["clap",0,1,"c.l.a.p",0],["clip",0,1,"c.l.i.p",0],["scab",0,1,"s.c.a.b",1],["crust",0,1,"c.r.u.s.t",0],["scrub",0,1,"s.c.r.u.b",1],["scrap",0,1,"s.c.r.a.p",1],["crept",0,1,"c.r.e.p.t",0]]],["k","k>k",1,[["yak",1,1,"y.a.k",2],["milk",1,1,"m.i.l.k",3],["desk",1,1,"d.e.s.k",3],["tusk",1,1,"t.u.s.k",3],["king",1,1,"k.i.ng",0],["whisk",1,1,"wh.i.s.k",3],["kit",0,1,"k.i.t",0],["kid",0,1,"k.i.d",0],["kin",0,1,"k.i.n",0],["kiss",0,1,"k.i.ss",0],["kept",0,1,"k.e.p.t",0],["dusk",0,1,"d.u.s.k",3],["silk",0,1,"s.i.l.k",3],["skip",0,1,"s.k.i.p",1],["skid",0,1,"s.k.i.d",1],["brisk",0,1,"b.r.i.s.k",4],["kick",0,1,"k.i.ck",0],["sketch",0,1,"s.k.e.tch",1]]],["ck","ck>k",1,[["duck",1,1,"d.u.ck",2],["sock",1,1,"s.o.ck",2],["rock",1,1,"r.o.ck",2],["lock",1,1,"l.o.ck",2],["clock",1,1,"c.l.o.ck",3],["chick",1,1,"ch.i.ck",2],["thick",0,1,"th.i.ck",2],["kick",0,1,"k.i.ck",2],["pick",0,1,"p.i.ck",2],["back",0,1,"b.a.ck",2],["neck",0,1,"n.e.ck",2],["stuck",0,1,"s.t.u.ck",3],["snack",0,1,"s.n.a.ck",3],["black",0,1,"b.l.a.ck",3],["quick",0,1,"q.u.i.ck",3],["quack",0,1,"q.u.a.ck",3],["shock",0,1,"sh.o.ck",2],["check",0,1,"ch.e.ck",2]]],["ch","ch>k",0],["cc","cc>k",0],["q","q>k",1,[["quilt",1,1,"q.u.i.l.t",0],["squid",1,1,"s.q.u.i.d",1],["queen",1,1,"q.u.ee.n",0],["quick",0,1,"q.u.i.ck",0],["quiz",0,1,"q.u.i.z",0],["quit",0,1,"q.u.i.t",0],["quack",0,1,"q.u.a.ck",0]]],["x","x>ks",1,[["box",1,1,"b.o.x",2],["fox",1,1,"f.o.x",2],["six",0,1,"s.i.x",2],["fix",0,1,"f.i.x",2],["mix",0,1,"m.i.x",2],["wax",0,1,"w.a.x",2],["next",0,1,"n.e.x.t",2],["text",0,1,"t.e.x.t",2]]]]],["r",2,"#f0226b","rhino",[["r","r>r",1,[["rat",1,1,"r.a.t",0],["rod",1,1,"r.o.d",0],["run",1,1,"r.u.n",0],["rug",1,1,"r.u.g",0],["frog",1,1,"f.r.o.g",1],["pram",1,1,"p.r.a.m",1],["drum",1,1,"d.r.u.m",1],["crab",1,1,"c.r.a.b",1],["dress",1,1,"d.r.e.ss",1],["crisp",1,1,"c.r.i.s.p",1],["rock",1,1,"r.o.ck",0],["ring",1,1,"r.i.ng",0],["rain",1,1,"r.ai.n",0],["train",1,1,"t.r.ai.n",1],["tray",1,1,"t.r.ay",1],["tree",1,1,"t.r.ee",1],["road",1,1,"r.oa.d",0],["crow",1,1,"c.r.ow",1],["red",0,1,"r.e.d",0],["rag",0,1,"r.a.g",0],["rip",0,1,"r.i.p",0],["rub",0,1,"r.u.b",0],["rest",0,1,"r.e.s.t",0],["rust",0,1,"r.u.s.t",0]]],["rr","rr>r",0],["rh","rh>r",0],["wr","wr>r",0]]],["t",2,"#c4671f","tiger",[["t","t>t",1,[["mat",1,1,"m.a.t",2],["sit",1,1,"s.i.t",2],["tap",1,1,"t.a.p",0],["tin",1,1,"t.i.n",0],["pot",1,1,"p.o.t",2],["top",1,1,"t.o.p",0],["cat",1,1,"c.a.t",2],["cot",1,1,"c.o.t",2],["bat",1,1,"b.a.t",2],["hat",1,1,"h.a.t",2],["hot",1,1,"h.o.t",2],["dot",1,1,"d.o.t",2],["net",1,1,"n.e.t",2],["vet",1,1,"v.e.t",2],["rat",1,1,"r.a.t",2],["nut",1,1,"n.u.t",2],["hut",1,1,"h.u.t",2],["tub",1,1,"t.u.b",0],["jet",1,1,"j.e.t",2],["ant",1,1,"a.n.t",2],["belt",1,1,"b.e.l.t",3],["tent",1,1,"t.e.n.t",0],["gift",1,1,"g.i.f.t",3],["tusk",1,1,"t.u.s.k",0]]],["tt","tt>t",0],["bt","bt>t",0],["te","te>t",0]]],["z",2,"#c9ec5a","zebra",[["z","z>z",1,[["zip",1,1,"z.i.p",0],["zap",0,1,"z.a.p",0],["quiz",0,1,"q.u.i.z",3]]],["zz","zz>z",1,[["buzz",0,1,"b.u.zz",2],["fizz",0,1,"f.i.zz",2],["jazz",0,1,"j.a.zz",2]]],["ze","ze>z",0],["s","s>z",0],["se","se>z",0],["ss","ss>z",0]]],["eer",2,"#1f9a9c","ear",[["ear","ear>eer",0],["eer","eer>eer",0],["ere","ere>eer",0]]],["a",3,"#ff6b5b","apple",[["a","a>a",1,[["mat",1,1,"m.a.t",1],["man",1,1,"m.a.n",1],["pan",1,1,"p.a.n",1],["nap",1,1,"n.a.p",1],["tap",1,1,"t.a.p",1],["map",1,1,"m.a.p",1],["cat",1,1,"c.a.t",1],["cap",1,1,"c.a.p",1],["bat",1,1,"b.a.t",1],["bag",1,1,"b.a.g",1],["hat",1,1,"h.a.t",1],["cab",1,1,"c.a.b",1],["fan",1,1,"f.a.n",1],["van",1,1,"v.a.n",1],["rat",1,1,"r.a.t",1],["jam",1,1,"j.a.m",1],["yak",1,1,"y.a.k",1],["ant",1,1,"a.n.t",0],["lamp",1,1,"l.a.m.p",1],["hand",1,1,"h.a.n.d",1],["sand",1,1,"s.a.n.d",1],["flag",1,1,"f.l.a.g",2],["pram",1,1,"p.r.a.m",2],["crab",1,1,"c.r.a.b",2]]]]],["p",3,"#ff8fb8","pig",[["p","p>p",1,[["pan",1,1,"p.a.n",0],["nap",1,1,"n.a.p",2],["tap",1,1,"t.a.p",2],["map",1,1,"m.a.p",2],["pin",1,1,"p.i.n",0],["pot",1,1,"p.o.t",0],["top",1,1,"t.o.p",2],["mop",1,1,"m.o.p",2],["cap",1,1,"c.a.p",2],["hop",1,1,"h.o.p",2],["pig",1,1,"p.i.g",0],["peg",1,1,"p.e.g",0],["pen",1,1,"p.e.n",0],["cup",1,1,"c.u.p",2],["pup",1,1,"p.u.p",0],["zip",1,1,"z.i.p",2],["lamp",1,1,"l.a.m.p",3],["pond",1,1,"p.o.n.d",0],["jump",1,1,"j.u.m.p",3],["plug",1,1,"p.l.u.g",0],["plum",1,1,"p.l.u.m",0],["pram",1,1,"p.r.a.m",0],["stamp",1,1,"s.t.a.m.p",4],["stump",1,1,"s.t.u.m.p",4]]],["pp","pp>p",0]]],["b",3,"#4a7dff","ball",[["b","b>b",1,[["bat",1,1,"b.a.t",0],["bag",1,1,"b.a.g",0],["bin",1,1,"b.i.n",0],["bib",1,1,"b.i.b",0],["cab",1,1,"c.a.b",2],["cob",1,1,"c.o.b",2],["hob",1,1,"h.o.b",2],["bed",1,1,"b.e.d",0],["bun",1,1,"b.u.n",0],["bus",1,1,"b.u.s",0],["bug",1,1,"b.u.g",0],["tub",1,1,"t.u.b",2],["cub",1,1,"c.u.b",2],["web",1,1,"w.e.b",2],["box",1,1,"b.o.x",0],["bell",1,1,"b.e.ll",0],["belt",1,1,"b.e.l.t",0],["bulb",1,1,"b.u.l.b",0],["crab",1,1,"c.r.a.b",3],["bench",1,1,"b.e.n.ch",0],["bee",1,1,"b.ee",0],["beach",1,1,"b.ea.ch",0],["boat",1,1,"b.oa.t",0],["big",0,1,"b.i.g",0]]],["bb","bb>b",0]]],["w",3,"#2ec4b6","whale",[["w","w>w",1,[["web",1,1,"w.e.b",0],["wig",1,1,"w.i.g",0],["well",1,1,"w.e.ll",0],["swim",1,1,"s.w.i.m",1],["twig",1,1,"t.w.i.g",1],["wing",1,1,"w.i.ng",0],["swing",1,1,"s.w.i.ng",1],["witch",1,1,"w.i.tch",0],["wet",0,1,"w.e.t",0],["win",0,1,"w.i.n",0],["wag",0,1,"w.a.g",0],["wax",0,1,"w.a.x",0],["west",0,1,"w.e.s.t",0],["went",0,1,"w.e.n.t",0],["swam",0,1,"s.w.a.m",1],["twin",0,1,"t.w.i.n",1],["twist",0,1,"t.w.i.s.t",1],["swept",0,1,"s.w.e.p.t",1],["wish",0,1,"w.i.sh",0],["with",0,1,"w.i.th",0]]],["wh","wh>w",1,[["whisk",1,1,"wh.i.s.k",0],["when",0,1,"wh.e.n",0],["which",0,1,"wh.i.ch",0],["whip",0,1,"wh.i.p",0]]],["u","u>w",1,[["quilt",1,1,"q.u.i.l.t",1],["squid",1,1,"s.q.u.i.d",2],["queen",1,1,"q.u.ee.n",1],["quick",0,1,"q.u.i.ck",1],["quiz",0,1,"q.u.i.z",1],["quit",0,1,"q.u.i.t",1],["quack",0,1,"q.u.a.ck",1]]]]],["y",3,"#ffc53d","yo-yo",[["y","y>y",1,[["yak",1,1,"y.a.k",0],["yes",0,1,"y.e.s",0],["yum",0,1,"y.u.m",0],["yet",0,1,"y.e.t",0],["yap",0,1,"y.a.p",0],["yell",0,1,"y.e.ll",0]]]]],["sh",3,"#5ec8f2","ship",[["sh","sh>sh",1,[["ship",1,1,"sh.i.p",0],["shop",1,1,"sh.o.p",0],["shed",1,1,"sh.e.d",0],["shell",1,1,"sh.e.ll",0],["fish",1,1,"f.i.sh",2],["sheep",1,1,"sh.ee.p",0],["dish",0,1,"d.i.sh",2],["wish",0,1,"w.i.sh",2],["cash",0,1,"c.a.sh",2],["rush",0,1,"r.u.sh",2],["shut",0,1,"sh.u.t",0],["shock",0,1,"sh.o.ck",0]]],["ch","ch>sh",0],["ti","ti>sh",0],["ci","ci>sh",0],["ssi","ssi>sh",0],["s","s>sh",0]]],["ch",3,"#f59b2b","chick",[["ch","ch>ch",1,[["chest",1,1,"ch.e.s.t",0],["bench",1,1,"b.e.n.ch",3],["chimp",1,1,"ch.i.m.p",0],["chick",1,1,"ch.i.ck",0],["beach",1,1,"b.ea.ch",2],["chip",0,1,"ch.i.p",0],["chop",0,1,"ch.o.p",0],["chin",0,1,"ch.i.n",0],["chat",0,1,"ch.a.t",0],["rich",0,1,"r.i.ch",2],["much",0,1,"m.u.ch",2],["lunch",0,1,"l.u.n.ch",3],["munch",0,1,"m.u.n.ch",3],["which",0,1,"wh.i.ch",2],["check",0,1,"ch.e.ck",0]]],["tch","tch>ch",1,[["match",1,1,"m.a.tch",2],["witch",1,1,"w.i.tch",2],["hutch",1,1,"h.u.tch",2],["catch",0,1,"c.a.tch",2],["patch",0,1,"p.a.tch",2],["fetch",0,1,"f.e.tch",2],["itch",0,1,"i.tch",1],["ditch",0,1,"d.i.tch",2],["sketch",0,1,"s.k.e.tch",3]]]]],["th",3,"#9b6cf0","three",[["th","th>th",1,[["moth",1,1,"m.o.th",2],["thin",0,1,"th.i.n",0],["thick",0,1,"th.i.ck",0],["cloth",0,1,"c.l.o.th",3],["thud",0,1,"th.u.d",0],["thump",0,1,"th.u.m.p",0],["thing",0,1,"th.i.ng",0]]]]],["dh",3,"#6d4fd8","feather",[["th","th>dh",1,[["this",0,1,"th.i.s",0],["that",0,1,"th.a.t",0],["them",0,1,"th.e.m",0],["then",0,1,"th.e.n",0],["with",0,1,"w.i.th",2]]]]],["ng",3,"#e56bd1","ring",[["ng","ng>ng",1,[["ring",1,1,"r.i.ng",2],["king",1,1,"k.i.ng",2],["wing",1,1,"w.i.ng",2],["swing",1,1,"s.w.i.ng",3],["sing",0,1,"s.i.ng",2],["song",0,1,"s.o.ng",2],["long",0,1,"l.o.ng",2],["bang",0,1,"b.a.ng",2],["hang",0,1,"h.a.ng",2],["strong",0,1,"s.t.r.o.ng",4],["thing",0,1,"th.i.ng",2]]],["n","n>ng",0]]],["zh",3,"#c98a00","treasure",[["s","s>zh",0],["si","si>zh",0],["ge","ge>zh",0]]],["schwa",3,"#a08a74","banana",[["a","a>schwa",0],["e","e>schwa",0],["o","o>schwa",0],["u","u>schwa",0],["er","er>schwa",0],["our","our>schwa",0]]]],"L":{"flower_tap":"Tap a petal to see its gems.","petal_secret":"This sound is still a secret. You'll find it on your adventure!","gem_ready":"A gem is glowing! It's ready for a gem battle.","gem_charging":"This gem is filling up. Keep playing to fill it!","gem_hidden":"This gem is still a secret. You'll find it later!","gem_future":"This gem is far, far away. We'll find it one day!","t_practise_invite":"Shall we practise this in the dojo?","trial_win":"You won the gem! It's going into its petal!","help_flower":"Tap a petal to see its gems. A bouncing gem is ready for a gem battle!","petal_complete":"All the gems are in! The petal flies back onto the World Flower!","wf_i3":"Inside each petal are shiny gems. Each gem is a way to spell the sound.","wf_petals_you_know":"Every shining petal is a sound that you know!","trial_start":"Gem battle! Spell the words to win the gem!"}}</script>
+<script>
+"use strict";
+// ------------------------------------------------------------------ data (src/content/flower.ts, 27 Sep 2026)
+const A = "../../../../public/a/";
+const RAW = JSON.parse(document.getElementById("data").textContent);
+const LINES = RAW.L;
+const PETALS = RAW.P.map(([p, page, colour, word, gems]) => ({
+  p, page, word, colour,
+  gems: gems.map(([g, key, inPlay, words]) => ({ g, key, p, inPlay: !!inPlay,
+    words: (words || []).map(([t, pic, audio, segs, hi]) => ({ t, pic: !!pic, audio: !!audio, segs: segs.split("."), hi })) })),
+}));
+// the chart writes a word over a spelling two sounds share: "book" over /uu/'s oo; and the game's th pair
+const HINT = { uu: ["b", "oo", "k"], th: ["", "th", "in"], dh: ["", "th", "is"] };
+
+// ------------------------------------------------------------------ three children (the audit's saves)
+const U1_5 = ["a", "i", "m", "s", "t", "n", "o", "p", "b", "c", "g", "h", "d", "e", "f", "v", "k", "l", "r", "u"];
+const CHILDREN = {
+  new: { known: ["s", "a", "t"], won: [], energy: { "s>s": 3, "a>a": 2, "t>t": 1 } },
+  reception: { known: [...U1_5, "j"], won: ["a>a", "t>t", "s>s", "m>m", "i>i", "p>p", "n>n"],
+    energy: { "o>o": 5, "b>b": 6, "c>k": 3, "g>g": 8, "d>d": 8, "h>h": 2, "e>e": 4, "f>f": 1, "l>l": 7, "r>r": 8, "u>u": 3, "k>k": 2, "v>v": 1, "j>j": 1 } },
+  year1: { known: [...U1_5, "j", "w", "z", "x", "y", "ff", "ll", "ss", "zz", "sh", "ch", "th", "ck", "ng", "wh", "q", "ve", "tch", "ai", "ay", "ee", "ea", "igh", "ie", "oa", "ow"],
+    won: ["a>a", "t>t", "s>s", "m>m", "i>i", "p>p", "n>n", "o>o", "d>d", "g>g", "c>k", "k>k", "e>e", "u>u", "r>r", "h>h", "b>b", "f>f", "l>l", "ss>s", "ff>f", "ll>l", "sh>sh", "ch>ch", "ay>ae", "ee>ee"],
+    energy: { "ai>ae": 8, "ea>ee": 8, "igh>ie": 8, "oa>oe": 5, "ow>oe": 3, "ie>ie": 2, "th>th": 8, "ng>ng": 6, "ck>k": 7, "x>ks": 4, "y>y": 5, "w>w": 6, "v>v": 8, "j>j": 4, "z>z": 3, "zz>z": 2, "tch>ch": 1, "wh>w": 2, "q>k": 3, "ve>v": 2, "th>dh": 5, "u>w": 1 } },
+};
+const Q = new URLSearchParams(location.search);
+const CHILD_ID = CHILDREN[Q.get("child")] ? Q.get("child") : "year1";
+const kid = CHILDREN[CHILD_ID];
+const known = new Set(kid.known), won = new Set(kid.won);
+const SLOW = Math.max(1, +(Q.get("slow") || 1)), ms = (t) => t * SLOW;
+const WHOLE = !!Q.get("whole");
+const ENERGY_FULL = 8;
+const gemByKey = (k) => { for (const pt of PETALS) for (const g of pt.gems) if (g.key === k) return g; return null; };
+const petalOfKey = (k) => PETALS.find((pt) => pt.gems.some((g) => g.key === k));
+const spellingOf = (gem) => (gem.g === "u" && gem.p === "w" ? "q" : gem.g);
+// demo hooks: a gem just won (?land) is in the save already; a spelling just met (?unlock) joins it after a moment
+const LAND = gemByKey(Q.get("land") || "") ? Q.get("land") : null;
+const UNLOCK = gemByKey(Q.get("unlock") || "") ? Q.get("unlock") : null;
+if (LAND) { won.add(LAND); known.add(spellingOf(gemByKey(LAND))); }
+if (UNLOCK) known.delete(spellingOf(gemByKey(UNLOCK)));
+
+// engine/gems.ts gemState() (minus the trial-pool check)
+function gemState(gem) {
+  if (!gem.inPlay) return "future";
+  if (won.has(gem.key)) return "won";
+  if (!known.has(spellingOf(gem))) return "hidden";
+  return (kid.energy[gem.key] || 0) >= ENERGY_FULL ? "ready" : "charging";
+}
+const energyOf = (gem) => Math.min(1, (kid.energy[gem.key] || 0) / ENERGY_FULL);
+const isMet = (st) => st === "charging" || st === "ready" || st === "won";
+const petalMet = (pt) => pt.gems.some((g) => isMet(gemState(g)));
+const needed = (pt) => pt.gems.filter((g) => g.inPlay);
+const petalDone = (pt) => needed(pt).length > 0 && needed(pt).every((g) => won.has(g.key));
+const petalReady = (pt) => pt.gems.some((g) => gemState(g) === "ready");
+
+// ------------------------------------------------------------------ colour helpers
+const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const hex = (c) => "#" + c.map((v) => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, "0")).join("");
+const mix = (a, b, t) => hex(rgb(a).map((v, i) => v + (rgb(b)[i] - v) * t));
+const lum = (h) => { const [r, g, b] = rgb(h).map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+/** the petal's colour, darkened just enough to read as letters on white (≥ 4.5:1): the hint word's coloured letters */
+function inkOf(c) { for (let t = 0; t <= 1; t += 0.05) { const k = mix(c, "#2b1d14", t); if (contrast(k, "#fffefb") >= 4.5) return k; } return "#2b1d14"; }
+const svgUrl = (W, H, body) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} ${H}' preserveAspectRatio='none'>${body}</svg>`)}")`;
+const svgImg = (W, H, body) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${W} ${H}'>${body}</svg>`)}")`;
+/** a won gem: a small cut jewel in the petal's colour (the ink-dark /or/ gets the flower's bronze) */
+const JEWEL = (c) => svgImg(40, 36, `<path d='M10 2h20l8 10-18 22L2 12z' fill='${c}' stroke='#2b1d14' stroke-width='2.8' stroke-linejoin='round'/><path d='M2 12h36M10 2l4 10 6 22 6-22 4-10' fill='none' stroke='rgba(43,29,20,.4)' stroke-width='1.5' stroke-linejoin='round'/><path d='M12 4h6l-4 7z' fill='rgba(255,255,255,.8)'/>`);
+const GOLD_GEM = svgImg(48, 48, `<defs><radialGradient id='h'><stop offset='0' stop-color='#fff6c4'/><stop offset='.55' stop-color='#ffe27a' stop-opacity='.7'/><stop offset='1' stop-color='#ffd24a' stop-opacity='0'/></radialGradient></defs><circle cx='24' cy='27' r='23' fill='url(#h)'/><g stroke='#ffb300' stroke-width='3.2' stroke-linecap='round'><path d='M5 9l5 5M43 9l-5 5M24 2v6'/></g><path d='M14 14h20l8 10-18 22L6 24z' fill='#ffd24a' stroke='#2b1d14' stroke-width='2.8' stroke-linejoin='round'/><path d='M6 24h36M14 14l4 10 6 22 6-22 4-10' fill='none' stroke='#b8820a' stroke-width='1.5' stroke-linejoin='round'/><path d='M16 16h6l-4 7z' fill='#fffbe0'/>`);
+const STAR = svgImg(40, 40, `<path d='M20 2l5.3 11.6 12.6 1.4-9.4 8.6 2.7 12.4L20 29.7 8.8 36l2.7-12.4L2.1 15l12.6-1.4z' fill='#ffc53d' stroke='#2b1d14' stroke-width='2.8' stroke-linejoin='round'/><path d='M14 14l3-1 1 3z' fill='#fff6c8'/>`);
+function coloursOf(pt) {
+  const c = pt.colour, jc = c === "#2b1d14" ? "#7a4a24" : c; // petalColour(): /or/'s jewel is bronze; its outline stays the chart's ink
+  return { c, jewel: JEWEL(jc), jc, sil: mix(c, "#e9e3dc", 0.5), ink: inkOf(c), wash: mix(jc, "#ffffff", 0.72) };
+}
+
+// ------------------------------------------------------------------ the teardrop (the chart's petal), as masks
+function dropPath(W, H, sw) {
+  const r = (W - sw) / 2, cx = W / 2, cy = sw / 2 + r, ty = H - sw / 2 - 0.5, L = sw / 2, R = W - sw / 2;
+  const k1 = cy + 0.40 * (ty - cy), k2x = cx - 0.15 * W, k2y = ty - 0.22 * (ty - cy);
+  const f = (n) => +n.toFixed(2);
+  return { d: `M${f(cx)} ${f(ty)}C${f(k2x)} ${f(k2y)} ${f(L)} ${f(k1)} ${f(L)} ${f(cy)}A${f(r)} ${f(r)} 0 0 1 ${f(R)} ${f(cy)}C${f(R)} ${f(k1)} ${f(W - k2x)} ${f(k2y)} ${f(cx)} ${f(ty)}Z`,
+    /** the half-width of the inside at a height y (for fitting the letters) */
+    half(y) {
+      if (y <= L) return 0;
+      if (y <= cy) return Math.sqrt(Math.max(0, r * r - (cy - y) ** 2));
+      if (y >= ty) return 0;
+      let lo = 0, hi = 1;
+      const B = (t, a, b, c, d) => (1 - t) ** 3 * a + 3 * (1 - t) ** 2 * t * b + 3 * (1 - t) * t * t * c + t ** 3 * d;
+      for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; if (B(m, cy, k1, k2y, ty) < y) lo = m; else hi = m; }
+      return cx - B(lo, L, L, k2x, cx);
+    } };
+}
+/** the half-widths as a table, one per stage px (the fit asks thousands of times) */
+function tabled(shape, H) { const t = new Float32Array(H + 1); for (let y = 0; y <= H; y++) t[y] = shape.half(y); return { d: shape.d, half: (y) => t[Math.max(0, Math.min(H, Math.round(y)))] }; }
+const PW = 136, PH = 296, SW = 6;
+const DROP = tabled(dropPath(PW, PH, SW), PH);
+const BW = 250, BH = 560, BSW = 8;
+const BIG = tabled(dropPath(BW, BH, BSW), BH);
+const root = document.documentElement.style;
+root.setProperty("--m-fill", svgUrl(PW, PH, `<path d='${DROP.d}'/>`));
+root.setProperty("--m-line", svgUrl(PW, PH, `<path d='${DROP.d}' fill='none' stroke='#000' stroke-width='${SW}' stroke-linejoin='round'/>`));
+root.setProperty("--m-dots", svgUrl(PW, PH, `<path d='${DROP.d}' fill='none' stroke='#000' stroke-width='${SW + 1.5}' stroke-linecap='round' stroke-dasharray='0.01 14'/>`));
+root.setProperty("--m-bigline", svgUrl(BW, BH, `<path d='${BIG.d}' fill='none' stroke='#000' stroke-width='${BSW}' stroke-linejoin='round'/>`));
+root.setProperty("--gold-gem", GOLD_GEM);
+root.setProperty("--star", STAR);
+
+// ------------------------------------------------------------------ fitting the spellings into the petal, as the chart does:
+// one column, the chart's order, the more spellings the smaller the letters. The child's own spellings may be up to
+// 1.6× the others (never the 2–4× jumps the mockups had); the others never drop under Fmin.
+const ctx = document.createElement("canvas").getContext("2d");
+const widths = new Map();
+const textW = (s, px) => { const k = `${px}|${s}`; let w = widths.get(k);
+  if (w === undefined) { ctx.font = `400 ${px}px Andika`; w = ctx.measureText(s).width; widths.set(k, w); } return w; };
+function linesOf(pt) {
+  const out = [];
+  if (HINT[pt.p]) out.push({ hint: true, g: HINT[pt.p].join("") });
+  const seen = new Set();
+  for (const gem of pt.gems) { if (seen.has(gem.g)) continue; seen.add(gem.g); out.push({ gem, g: gem.g, st: gemState(gem) }); }
+  return out;
+}
+function fit(lines, shape, o) {
+  const H = (M, F) => Math.min(F, M * 0.6);
+  const lh = (ln, M, F) => (ln.hint ? H(M, F) * 1.3 : isMet(ln.st) ? M * 1.12 : F * 1.2);
+  const mark = (ln, M) => (ln.hint ? 0 : ln.st === "won" ? M * 0.62 : ln.st === "ready" ? Math.max(30, M * 0.66) + M * 0.03 - 4 : o.card && ln.st === "charging" ? M * 0.54 : 0);
+  // does the column fit with letter sizes M (the child's own) and F (the rest), `gap` between lines, starting at top?
+  const tryFit = (M, F, gap, top) => {
+    let y = top;
+    for (const ln of lines) {
+      const h = lh(ln, M, F), w = textW(ln.hint ? `“${ln.g}”` : ln.g, ln.hint ? H(M, F) : !isMet(ln.st) ? F : M) + (o.card ? 24 : 0);
+      const avail = Math.min(shape.half(y + h * 0.15), shape.half(y + h * 0.9)) - o.pad;
+      const right = o.picY && y < o.picY ? Math.min(avail, o.picHalf) : avail;
+      if (w / 2 > avail || w / 2 + mark(ln, M) > right) return false;
+      y += h + gap;
+    }
+    return y - gap <= o.bottom;
+  };
+  const anyMet = lines.some((l) => !l.hint && isMet(l.st));
+  for (const [lo, hi] of [[o.rLo, o.rHi], [0, 1]])
+    for (let M = o.M0; M >= o.Mmin; M -= 1)
+      for (let F = Math.min(o.F0, Math.round(M * hi)); F >= Math.max(o.Fmin, Math.round(M * lo)); F -= 1) {
+        // the column may start a little lower, where the round top is wider (a mark beside the first spelling needs room)
+        const top = [0, 6, 12, 18, 24].map((d) => o.top + d).find((t) => tryFit(M, F, 0, t));
+        if (top === undefined) continue;
+        // air between the lines, as on the chart, as long as every line still sits inside the petal
+        let gap = o.gapMax;
+        while (gap > 0 && !tryFit(M, F, gap, top + gap * 0.5)) gap -= 1;
+        return { M, F: anyMet ? F : Math.min(F, M), gap, top };
+      }
+  return { M: o.Mmin, F: o.Fmin, gap: 0, top: o.top };
+}
+const SHEET_FIT = { top: 16, bottom: PH - 30, pad: 8, M0: 58, Mmin: 26, F0: 46, Fmin: 22, rLo: 0.62, rHi: 0.85, picY: 34, picHalf: 72, gapMax: 22 };
+const CARD_FIT = { top: 44, bottom: BH - 84, pad: 12, M0: 108, Mmin: 48, F0: 72, Fmin: 34, rLo: 0.6, rHi: 0.8, card: true, gapMax: 18 };
+function layoutVars(lines, shape, o, prefix = "") {
+  const { M, F, gap, top } = fit(lines, shape, o);
+  return { M, F, css: `--${prefix}M:${M}px;--${prefix}F:${F}px;--gap:${gap}px;--top:${(top + gap * 0.5).toFixed(1)}px;` };
+}
+
+// ------------------------------------------------------------------ the sheets
+const SHEETS = [1, 2, 3].map((n) => PETALS.filter((pt) => pt.page === n));
+const PINS = [["#e8312f", "#9e1f1d"], ["#3a8fe0", "#1f5b9e"], ["#f3c74a", "#b8891a"]];
+const board = document.getElementById("board");
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const attr = (s) => s.replace(/"/g, "&quot;");
+const picUrl = (p) => `${A}i/petal_${p}.webp`;
+const petalEls = {}, halves = [];
+const halfOf = (pt) => (pt.page - 1) * 2 + (SHEETS[pt.page - 1].indexOf(pt) >= 8 ? 1 : 0);
+
+function lineHTML(pt, ln, big, i) {
+  const tag = "span"; // on the card too: the column is ONE tap target that picks the nearest spelling (small fingers never miss)
+  const d = ` style="--d:${i * 90}ms${ln.st === "charging" ? `;--e:${energyOf(ln.gem).toFixed(2)}` : ""}"`;
+  if (ln.hint) { const [a, b, c] = HINT[pt.p]; return `<${tag} class="ln hint"${d}>“${a}<b>${b}</b>${c}”</${tag}>`; }
+  const st = ln.st, g = esc(ln.g);
+  const attrs = big ? ` data-key="${ln.gem.key}" data-st="${st}" aria-label="gem ${g} ${st}"` : "";
+  if (st === "hidden") return `<${tag} class="ln f"${attrs}${d}>${g}</${tag}>`;
+  if (st === "future") return `<${tag} class="ln f x"${attrs}${d}>${g}</${tag}>`;
+  const cls = st === "won" ? "w" : st === "ready" ? "r" : "c";
+  return `<${tag} class="ln m ${cls}" data-gem-chip="${ln.gem.key}"${attrs}${d}>${g}</${tag}>`;
+}
+function renderPetal(pt) {
+  const el = petalEls[pt.p], k = coloursOf(pt);
+  let css = `--c:${k.c};--ink-c:${k.ink};--jewel:${k.jewel};`;
+  if (!petalMet(pt)) {
+    el.className = "petal mys";
+    el.style.cssText = css + `--sil:${k.sil};--pic:url(${picUrl(pt.p)});`;
+    el.innerHTML = `<i class="sil"></i>`;
+    return;
+  }
+  const lines = linesOf(pt);
+  const L = layoutVars(lines, DROP, SHEET_FIT);
+  el.className = "petal" + (petalDone(pt) ? " done" : "");
+  el.style.cssText = css + L.css;
+  el.dataset.m = L.M; el.dataset.f = L.F;
+  el.innerHTML = `<img class="pic" src="${picUrl(pt.p)}" alt="" draggable="false" decoding="async"><span class="col">${lines.map((ln, i) => lineHTML(pt, ln, false, i)).join("")}</span>`;
+}
+function keyHTML() {
+  return `<div class="key">For grown-ups: <b>black</b> = met &nbsp;·&nbsp; <s>grey</s> = still to find<br>` +
+    `<i style="background-image:${attr(JEWEL("#e8312f"))}"></i> gem won &nbsp;·&nbsp; <i style="background-image:${attr(GOLD_GEM)}"></i> ready for a gem battle &nbsp;·&nbsp; <i style="background-image:${attr(STAR)}"></i> petal complete</div>`;
+}
+function buildBoard() {
+  SHEETS.forEach((pts, n) => {
+    const s = document.createElement("section");
+    s.className = "sheet"; s.dataset.sheet = n + 1;
+    s.style.cssText = `--pin:${PINS[n][0]};--pin-d:${PINS[n][1]}`;
+    for (let h = 0; h < 2; h++) {
+      const half = document.createElement("div");
+      half.className = "half" + (h ? " lo" : ""); half.dataset.half = n * 2 + h;
+      for (const pt of pts.slice(h * 8, h * 8 + 8)) {
+        const b = document.createElement("div");
+        b.setAttribute("role", "button"); b.tabIndex = 0;
+        b.dataset.p = pt.p; b.setAttribute("aria-label", `petal ${pt.p}`);
+        petalEls[pt.p] = b; renderPetal(pt); half.appendChild(b);
+      }
+      if (n === 2 && h === 1) half.insertAdjacentHTML("beforeend", keyHTML());
+      s.appendChild(half); halves.push(half);
+    }
+    board.appendChild(s);
+  });
+}
+
+// ------------------------------------------------------------------ the map: the chart-wide progress bar, and where you are
+const map = document.getElementById("map");
+const mapMarks = {}, mapDots = {};
+const MSHEET_Y = [0, 142, 284];
+let mframe;
+function buildMap() {
+  let html = "";
+  SHEETS.forEach((pts, n) => {
+    html += `<div class="msheet" style="top:${MSHEET_Y[n]}px" data-sheet="${n + 1}"></div>`;
+    pts.forEach((pt, i) => {
+      const x = 10 + 13 + (i % 4) * 22, y = MSHEET_Y[n] + 9 + Math.floor(i / 4) * 29;
+      html += `<i class="mk" data-p="${pt.p}" style="left:${x}px;top:${y}px;--mc:${pt.colour === "#2b1d14" ? "#7a4a24" : pt.colour}"></i><b class="mdot" data-p="${pt.p}" style="left:${x + 11}px;top:${y - 3}px;display:none"></b>`;
+    });
+  });
+  html += `<div class="mframe" id="mframe"></div>`;
+  map.innerHTML = html;
+  mframe = document.getElementById("mframe");
+  map.querySelectorAll(".mk").forEach((m) => (mapMarks[m.dataset.p] = m));
+  map.querySelectorAll(".mdot").forEach((m) => (mapDots[m.dataset.p] = m));
+  PETALS.forEach(renderMark);
+}
+function renderMark(pt) {
+  mapMarks[pt.p].className = "mk" + (petalDone(pt) ? " done" : petalMet(pt) ? " met" : "");
+  mapDots[pt.p].style.display = petalReady(pt) ? "" : "none";
+}
+const frameY = (i) => MSHEET_Y[i >> 1] + (i & 1 ? 60 : -3);
+let current = -1;
+function setCurrent(i, byChild) {
+  if (i === current) return;
+  const first = current < 0;
+  current = i;
+  mframe.style.transform = `translateY(${frameY(i)}px)`;
+  halves.forEach((h, j) => h.classList.toggle("arrive", j === i));
+  if (byChild && !first) sfx.page();
+}
+const scroller = document.getElementById("scroller");
+function goHalf(i, smooth = true) { scroller.scrollTo({ top: i * 720, behavior: smooth ? "smooth" : "instant" }); }
+// tap a tiny sheet (its top or bottom half), or drag down the map
+function mapHit(e) {
+  const r = map.getBoundingClientRect(), s = r.height / 420, y = (e.clientY - r.top) / s;
+  const n = y < 136 ? 0 : y < 278 ? 1 : 2, within = y - MSHEET_Y[n];
+  return n * 2 + (within > 64 ? 1 : 0);
+}
+map.addEventListener("pointerdown", (e) => { map.setPointerCapture(e.pointerId); const i = mapHit(e); goHalf(i); map._i = i; });
+map.addEventListener("pointermove", (e) => { if (!map.hasPointerCapture(e.pointerId)) return; const i = mapHit(e); if (i !== map._i) { map._i = i; goHalf(i); } });
+
+// ------------------------------------------------------------------ Sensei's voice (the game's own lines and sounds)
+const bubble = document.getElementById("bubble");
+const CAPTIONS = Q.get("cap") !== "0";
+let audio = null, lastSaid = ["flower_tap"], bubbleT = 0;
+function play(src, caption) {
+  return new Promise((done) => {
+    if (audio) { audio.onended = null; audio.pause(); }
+    clearTimeout(bubbleT);
+    if (caption && CAPTIONS) { bubble.textContent = caption; bubble.classList.add("on"); }
+    const a = new Audio(src); audio = a;
+    const end = () => { if (audio === a) bubbleT = setTimeout(() => bubble.classList.remove("on"), 700); done(); };
+    a.onended = end; a.onerror = () => setTimeout(end, 2200);
+    a.play().catch(() => setTimeout(end, 2200));
+  });
+}
+async function say(...ids) {
+  const token = {}; say.t = token; lastSaid = ids;
+  for (const id of ids) { if (say.t !== token) return; await play(`${A}l/${id}.mp3`, LINES[id]); }
+}
+const sound = (p) => { say.t = {}; return play(`${A}p/${p}.mp3`); };
+const word = (w) => { say.t = {}; return play(`${A}w/${w}.mp3`); };
+// small synthesised effects (the game has its own sfx.* in engine/audio.ts)
+let actx = null;
+const ac = () => (actx ??= new (window.AudioContext || window.webkitAudioContext)());
+function tone(f, t0, d, type = "sine", v = 0.12) { try { const c = ac(), o = c.createOscillator(), g = c.createGain(); o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(0.0001, c.currentTime + t0); g.gain.exponentialRampToValueAtTime(v, c.currentTime + t0 + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + t0 + d);
+  o.connect(g).connect(c.destination); o.start(c.currentTime + t0); o.stop(c.currentTime + t0 + d + 0.05); } catch {} }
+const sfx = {
+  page() { try { const c = ac(), n = c.createBufferSource(), b = c.createBuffer(1, c.sampleRate * 0.14, c.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) ** 2; n.buffer = b; const f = c.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1800;
+    const g = c.createGain(); g.gain.value = 0.08; n.connect(f).connect(g).connect(c.destination); n.start(); } catch {} },
+  petal() { tone(660, 0, 0.18, "triangle", 0.08); tone(990, 0.06, 0.2, "triangle", 0.06); },
+  chime() { [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * 0.07, 0.5, "sine", 0.1)); },
+  tink() { tone(1760, 0, 0.25, "sine", 0.07); },
+};
+
+// ------------------------------------------------------------------ taps on the sheet: a tap, never the end of a swipe
+let downTop = 0, lastScrollAt = 0;
+scroller.addEventListener("pointerdown", (e) => { downTop = scroller.scrollTop; }, { passive: true });
+scroller.addEventListener("scroll", () => (lastScrollAt = performance.now()), { passive: true });
+board.addEventListener("click", (e) => {
+  const b = e.target.closest(".petal"); if (!b) return;
+  if (Math.abs(scroller.scrollTop - downTop) > 6 || performance.now() - lastScrollAt < 90) return; // the tap guard
+  const pt = PETALS.find((x) => x.p === b.dataset.p);
+  if (!petalMet(pt)) {
+    b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake");
+    sfx.petal(); say("petal_secret"); return;
+  }
+  sfx.petal(); sound(pt.p); openCard(pt, b);
+});
+// a mouse (desktop, the tweet rig): drag the sheet; the wheel scrolls by itself
+let drag = null;
+scroller.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse" || e.button) return; drag = { y: e.clientY, top: scroller.scrollTop, moved: false }; });
+addEventListener("pointermove", (e) => { if (!drag) return; const k = stageScale(); const dy = (e.clientY - drag.y) / k;
+  if (Math.abs(dy) > 6 && !drag.moved) { drag.moved = true; scroller.classList.add("dragging"); } if (drag.moved) scroller.scrollTop = drag.top - dy; });
+addEventListener("pointerup", () => { if (!drag) return; const moved = drag.moved; drag = null; if (!moved) return;
+  scroller.classList.remove("dragging"); const i = Math.round(scroller.scrollTop / 720); goHalf(Math.max(0, Math.min(halves.length - 1, i))); });
+
+// ------------------------------------------------------------------ the card: the petal up close
+const layer = document.getElementById("cardLayer");
+let cardPt = null, selKey = null;
+const I = {
+  speaker: `<svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M10 25h10l13-11v36L20 39H10z"/><path fill="none" stroke="#2b1d14" stroke-width="7" stroke-linecap="round" d="M42 22c5 5 5 15 0 20M49 15c9 9 9 25 0 34"/></svg>`,
+  check: `<svg viewBox="0 0 64 64"><path fill="none" stroke="#2b1d14" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="M12 34l13 13 27-30"/></svg>`,
+  play: `<svg viewBox="0 0 64 64"><path fill="#fff4dc" stroke="#2b1d14" stroke-width="7" stroke-linejoin="round" d="M22 12l30 20-30 20z"/></svg>`,
+  torii: `<svg viewBox="0 0 64 64"><path d="M6 14c14 4 38 4 52 0l-2 8c-13 3-35 3-48 0z" fill="#e8312f" stroke="#2b1d14" stroke-width="4" stroke-linejoin="round"/><rect x="10" y="26" width="44" height="7" rx="2" fill="#e8312f" stroke="#2b1d14" stroke-width="4"/><path d="M17 22v34M47 22v34" stroke="#2b1d14" stroke-width="11" stroke-linecap="round"/><path d="M17 22v34M47 22v34" stroke="#e8312f" stroke-width="5" stroke-linecap="round"/><rect x="28" y="22" width="8" height="11" fill="#fff4dc" stroke="#2b1d14" stroke-width="3"/></svg>`,
+};
+const metWordsOf = (gem) => gem.words.filter((w) => w.segs.every((s) => known.has(s) || s === "u" || s === "x"));
+function foundWords(pt, only, n = 6) {
+  const gems = pt.gems.filter((g) => isMet(gemState(g)) && (!only || g.key === only));
+  const lists = gems.map((g) => g.words.filter((w) => w.pic && w.segs.every((s) => known.has(s))).map((w) => ({ ...w, key: g.key })));
+  const out = [], seen = new Set();
+  for (let i = 0; out.length < n && lists.some((l) => l.length > i); i++)
+    for (const l of lists) if (l[i] && !seen.has(l[i].t) && out.length < n) { seen.add(l[i].t); out.push(l[i]); }
+  return out;
+}
+function exampleWords(pt, key) {
+  const g = pt.gems.find((x) => x.key === key) || pt.gems.find((x) => isMet(gemState(x)));
+  return g ? g.words.filter((w) => w.pic).slice(0, 3).map((w) => ({ ...w, key: g.key })) : [];
+}
+function wordHTML(w) {
+  const k = w.segs.map((s, i) => (i === w.hi ? `<b>${esc(s.replace("-", ""))}</b>` : esc(s))).join("");
+  return `<button class="wc" data-w="${w.t}" aria-label="word ${w.t}">${w.pic ? `<img src="${A}i/pic_${w.t}.webp" alt="">` : ""}<span class="wt">${k}</span></button>`;
+}
+function defaultSel(pt) {
+  const gs = pt.gems.filter((g) => g.inPlay);
+  const r = gs.find((g) => gemState(g) === "ready") || gs.filter((g) => gemState(g) === "charging").sort((a, b) => energyOf(a) - energyOf(b))[0] || gs.find((g) => isMet(gemState(g)));
+  return r ? r.key : null;
+}
+function openCard(pt, fromEl) {
+  cardPt = pt; selKey = defaultSel(pt);
+  const k = coloursOf(pt);
+  const lines = linesOf(pt);
+  const L = layoutVars(lines, BIG, CARD_FIT, "B");
+  layer.innerHTML = `<div class="scrim" id="scrim"></div>
+    <div class="card" id="card" role="dialog" aria-label="Petal ${pt.p}" style="${attr(`--c:${k.c};--ink-c:${k.ink};--jewel:${k.jewel};--wash:${k.wash};${L.css}`)}">
+      <div class="big${petalDone(pt) ? " done" : ""}" id="big" data-petal="${pt.p}" role="button" aria-label="the spellings"><div class="big-line"></div>
+        <div class="big-col" id="bigCol">${lines.map((ln, i) => lineHTML(pt, ln, true, i)).join("")}</div></div>
+      <button class="hear" data-nav="sound" data-p="${pt.p}" aria-label="Hear the sound" id="hear"><img src="${picUrl(pt.p)}" alt=""><span class="spk">${I.speaker}</span></button>
+      <button class="btn-round close" aria-label="close" id="close">${I.check}</button>
+      <button class="sensei" data-nav="again" aria-label="Sensei explains" id="sensei"><img src="${A}i/sensei_face_idle.webp" alt=""></button>
+      <div class="say-chip" id="sayChip"></div>
+      <div class="shelf" id="shelf"></div>
+      <button class="btn-round go gate" aria-label="Practise in the dojo" id="gate">${I.torii}</button><span class="gate-chip" id="gateChip"></span>
+    </div>`;
+  placeTrials(); markSel(); renderWords();
+  document.body.classList.add("card-open");
+  // the card grows out of the petal that was tapped, and goes back into it
+  const card = document.getElementById("card");
+  if (fromEl) {
+    const st = stageBox(), cr = card.getBoundingClientRect(), fr = fromEl.getBoundingClientRect(), s = st.s;
+    card.style.transformOrigin = `${((fr.left + fr.width / 2 - cr.left) / s).toFixed(0)}px ${((fr.top + fr.height * 0.4 - cr.top) / s).toFixed(0)}px`;
+  }
+  card.animate([{ transform: "scale(.22)", opacity: 0 }, { transform: "scale(1.02)", opacity: 1, offset: 0.7 }, { transform: "none", opacity: 1 }], { duration: 300, easing: "cubic-bezier(.2,.8,.3,1)" });
+  window.__snState = { scene: "tree", view: 1, open: pt.p };
+  setTimeout(() => explain(), 750);
+}
+function placeTrials() {
+  const big = document.getElementById("big");
+  big.querySelectorAll(".trial").forEach((t) => t.remove());
+  big.querySelectorAll(".ln.r").forEach((ln) => {
+    const b = document.createElement("button");
+    b.className = "btn-round go trial bob"; b.setAttribute("aria-label", "Gem battle " + ln.textContent); b.dataset.key = ln.dataset.key; b.innerHTML = I.play;
+    b.style.left = BW + 10 + "px"; b.style.top = Math.max(38, ln.offsetTop + ln.offsetHeight / 2 - 52) + "px"; // beside its spelling, clear of the picture
+    big.appendChild(b);
+  });
+}
+function markSel() {
+  layer.querySelectorAll(".big .ln").forEach((l) => l.classList.toggle("sel", !!l.dataset.key && l.dataset.key === selKey));
+  const chip = document.getElementById("gateChip"), gem = cardPt.gems.find((g) => g.key === selKey);
+  const can = gem && gemState(gem) === "charging";
+  chip.textContent = gem ? gem.g : ""; chip.style.display = can ? "" : "none";
+  document.getElementById("gate").style.display = can ? "" : "none";
+}
+function renderWords() {
+  const ex = exampleWords(cardPt, selKey), seen = new Set(ex.map((w) => w.t));
+  const rest = foundWords(cardPt, null, 6).filter((w) => !seen.has(w.t));
+  document.getElementById("shelf").innerHTML = [...ex, ...rest].slice(0, 6).map(wordHTML).join("");
+  const gem = cardPt.gems.find((g) => g.key === selKey);
+  document.getElementById("sayChip").textContent = gem ? gem.g : "";
+}
+async function explain() {
+  if (!cardPt) return;
+  const s = document.getElementById("sensei"); s.classList.add("talk");
+  const ws = exampleWords(cardPt, selKey);
+  for (const w of ws) {
+    if (!cardPt) break;
+    const el = layer.querySelector(`.shelf [data-w="${w.t}"]`); el?.classList.add("spot");
+    await word(w.t); el?.classList.remove("spot");
+  }
+  s.classList.remove("talk");
+}
+function closeCard() {
+  const card = document.getElementById("card");
+  document.body.classList.remove("card-open");
+  window.__snState = { scene: "tree", view: 1, open: null };
+  cardPt = null;
+  if (!card) return (layer.innerHTML = "");
+  card.animate([{ transform: "none", opacity: 1 }, { transform: "scale(.22)", opacity: 0 }], { duration: 200, easing: "ease-in", fill: "forwards" }).onfinish = () => { if (!cardPt) layer.innerHTML = ""; };
+}
+layer.addEventListener("click", (e) => {
+  const t = e.target;
+  if (t.id === "scrim" || t.closest("#close")) return closeCard();
+  if (t.closest("#hear")) return sound(cardPt.p);
+  if (t.closest("#sensei")) return explain();
+  if (t.closest("#gate")) return toast(`To the dojo: practise ‹${document.getElementById("gateChip").textContent}›`);
+  const tr = t.closest(".trial"); if (tr) return toast(`Gem battle! ‹${gemByKey(tr.dataset.key).g}›`);
+  const wc = t.closest(".wc"); if (wc) return word(wc.dataset.w);
+  // the column is one target: the spelling nearest the finger (a bot's event on a spelling itself picks that one)
+  let ln = t.closest(".big .ln");
+  if (!ln && t.closest(".big")) {
+    const lines = [...layer.querySelectorAll(".big .ln[data-st]")];
+    ln = lines.sort((a, b) => Math.abs(e.clientY - (a.getBoundingClientRect().top + a.getBoundingClientRect().height / 2)) - Math.abs(e.clientY - (b.getBoundingClientRect().top + b.getBoundingClientRect().height / 2)))[0] || null;
+  }
+  if (ln && ln.dataset.st) {
+    const st = ln.dataset.st;
+    if (st === "hidden") return say("gem_hidden");
+    if (st === "future") return say("gem_future");
+    selKey = ln.dataset.key; markSel(); renderWords();
+    if (st === "ready") return toast(`Gem battle! ‹${gemByKey(selKey).g}›`); // as today: a glowing gem starts its Gem Trial
+    return explain();
+  }
+  if (t.closest(".big")) return sound(cardPt.p);
+});
+// the letterbox is part of the scrim too: a tap beside the stage closes the card (the bars are a quarter of a phone)
+document.getElementById("viewport").addEventListener("pointerdown", (e) => { if (cardPt && e.target.id === "viewport") closeCard(); });
+function toast(t) { bubble.textContent = t; bubble.classList.add("on"); clearTimeout(bubbleT); bubbleT = setTimeout(() => bubble.classList.remove("on"), 1600); }
+
+// ------------------------------------------------------------------ celebrations on the sheet: sparks, rings, the landing, the unlock
+const stageEl = document.getElementById("stage");
+function stageBox() { const r = stageEl.getBoundingClientRect(); return { x: r.left, y: r.top, s: r.width / 1280 }; }
+function stageScale() { return stageBox().s; }
+function stagePos(el, fx = 0.5, fy = 0.5) { const st = stageBox(), r = el.getBoundingClientRect(); return { x: (r.left + r.width * fx - st.x) / st.s, y: (r.top + r.height * fy - st.y) / st.s }; }
+function burst(x, y, n, colours, dist) {
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement("i"); s.className = "spark";
+    s.style.left = x + "px"; s.style.top = y + "px"; s.style.setProperty("--sc", colours[i % colours.length]);
+    stageEl.appendChild(s);
+    const a = (i / n) * Math.PI * 2 + Math.random() * 0.4, d = dist * (0.55 + Math.random() * 0.6);
+    s.animate([{ transform: "translate(0,0) scale(.3) rotate(0deg)", opacity: 1 }, { transform: `translate(${Math.cos(a) * d}px,${Math.sin(a) * d}px) scale(${0.7 + Math.random() * 0.8}) rotate(${Math.random() * 180}deg)`, opacity: 0 }],
+      { duration: ms(650 + Math.random() * 400), easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => s.remove();
+  }
+}
+function ring(x, y, scale, colour) {
+  const r = document.createElement("i"); r.className = "ring"; r.style.left = x + "px"; r.style.top = y + "px"; r.style.setProperty("--rc", colour || "#ffd24a");
+  stageEl.appendChild(r);
+  r.animate([{ transform: "scale(.2)", opacity: 1 }, { transform: `scale(${scale})`, opacity: 0 }], { duration: ms(700), easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => r.remove();
+}
+const wait = (t) => new Promise((r) => setTimeout(r, t));
+/** The gem-won landing: back from the gem victory, the won jewel flies down onto the chart and settles beside its spelling. */
+async function landGem(key) {
+  const pt = petalOfKey(key), gem = gemByKey(key), k = coloursOf(pt);
+  const line = petalEls[pt.p].querySelector(`[data-gem-chip="${CSS.escape(key)}"]`);
+  if (!line) return;
+  line.classList.add("pending");
+  await wait(ms(700));
+  const M = +petalEls[pt.p].dataset.m;
+  const to = stagePos(line, 1, 0.5); to.x += M * 0.36; to.y -= M * 0.06;
+  const f = document.createElement("div"); f.className = "flyer"; f.style.setProperty("--jewel", k.jewel);
+  f.innerHTML = "<i></i>"; stageEl.appendChild(f);
+  // it comes from where the victory left it (the middle of the stage), big and glowing, rises and dives into its place
+  const from = { x: 640, y: 380 }, scaleTo = (M * 0.52) / 110, peak = { x: from.x + (to.x - from.x) * 0.45, y: Math.min(from.y, to.y) - 120 };
+  const anim = f.animate([
+    { transform: `translate(${from.x}px,${from.y}px) scale(.4) rotate(-20deg)`, opacity: 0 },
+    { transform: `translate(${from.x}px,${from.y - 20}px) scale(1.5) rotate(0deg)`, opacity: 1, offset: 0.22 },
+    { transform: `translate(${peak.x}px,${peak.y}px) scale(1.15) rotate(160deg)`, opacity: 1, offset: 0.6 },
+    { transform: `translate(${to.x}px,${to.y}px) scale(${scaleTo}) rotate(360deg)`, opacity: 1 },
+  ], { duration: ms(1300), easing: "cubic-bezier(.4,0,.3,1)", fill: "forwards" });
+  // a little trail of sparkles behind it
+  for (let i = 1; i <= 4; i++) setTimeout(() => { const m = new DOMMatrix(getComputedStyle(f).transform); burst(m.e, m.f, 3, ["#fff3b0", "#ffd24a", k.jc], 40); }, ms(360 + i * 180));
+  window.__landAnim = anim;
+  await anim.finished;
+  f.remove();
+  window.__landed = performance.now();
+  line.classList.remove("pending"); line.classList.add("landed");
+  ring(to.x, to.y, 2.4, mix(k.jc, "#2b1d14", 0.15)); ring(to.x, to.y, 1.5, "#ffd24a");
+  burst(to.x, to.y, 16, ["#fff3b0", k.jc, "#ffd24a"], 150);
+  mapMarks[pt.p].classList.add("pulse"); renderMark(pt);
+  sfx.chime();
+  if (petalDone(pt)) petalEls[pt.p].classList.add("done");
+  await wait(ms(900));
+  document.getElementById("next").classList.add("on");
+}
+/** A spelling just met (after its trip): a new sound unlocks its petal; a new spelling of a known sound is inked in. */
+async function unlockGem(key) {
+  const gem = gemByKey(key), pt = petalOfKey(key), el = petalEls[pt.p];
+  const wasMet = petalMet(pt);
+  await wait(ms(900));
+  known.add(spellingOf(gem));
+  renderPetal(pt); renderMark(pt);
+  const c = stagePos(el, 0.5, 0.35);
+  if (!wasMet) {
+    el.insertAdjacentHTML("afterbegin", `<i class="dots"></i><i class="sil"></i>`);
+    el.style.setProperty("--sil", coloursOf(pt).sil); el.style.setProperty("--pic", `url(${picUrl(pt.p)})`);
+    el.classList.add("unlock");
+    if (SLOW > 1) requestAnimationFrame(() => el.getAnimations({ subtree: true }).forEach((a) => (a.playbackRate = 1 / SLOW)));
+    sfx.tink();
+    await wait(ms(600)); ring(c.x, c.y, 2.6, pt.colour); burst(c.x, c.y, 14, ["#fff3b0", pt.colour, "#ffd24a"], 190); sfx.chime();
+    await wait(ms(1600)); el.classList.remove("unlock"); el.querySelectorAll(".dots, .sil").forEach((x) => x.remove());
+  } else {
+    const line = el.querySelector(`[data-gem-chip="${CSS.escape(key)}"]`);
+    line?.classList.add("inked");
+    const p = line ? stagePos(line) : c; burst(p.x, p.y, 10, ["#fff3b0", pt.colour, "#ffd24a"], 110); sfx.tink();
+  }
+  mapMarks[pt.p].classList.add("pulse");
+}
+
+// ------------------------------------------------------------------ the frame's buttons
+document.getElementById("home").addEventListener("click", () => toast("Home: to the map"));
+document.getElementById("flower").addEventListener("click", () => toast("Back to the World Flower"));
+document.getElementById("again").addEventListener("click", () => say(...lastSaid));
+document.getElementById("next").addEventListener("click", () => toast("Next: carry on"));
+document.getElementById("help").addEventListener("click", () => {
+  if (cardPt) return say("wf_help_petal");
+  say("help_flower");
+  // "a bouncing gem is ready": the ready gems on this half-sheet hop again
+  const h = halves[current]; if (h) { h.classList.remove("arrive"); void h.offsetWidth; h.classList.add("arrive"); }
+});
+document.getElementById("flowerIcon").innerHTML = ["#e8312f", "#f7a23b", "#f3c74a", "#2fa65a", "#2ec4b6", "#4a7dff", "#8a3be0", "#f0226b"].map((c, i) =>
+  `<path d="M0,20 C-2.88,11.2 -12,2.4 -12,-8 A12,12 0 0 1 12,-8 C12,2.4 2.88,11.2 0,20 Z" transform="rotate(${i * 45}) translate(0 -34)" fill="${c}" stroke="#2b1d14" stroke-width="4"/>`).join("") +
+  `<circle r="17" fill="#ffc53d" stroke="#2b1d14" stroke-width="5"/>`;
+
+// ------------------------------------------------------------------ the stage fit (src/ui/ui.tsx Stage)
+function fitStage() {
+  if (WHOLE) { stageEl.style.transform = `scale(${innerWidth / 1280})`; stageEl.style.left = "0"; stageEl.style.top = "0"; return; }
+  const cs = getComputedStyle(document.documentElement), inset = (v) => parseFloat(cs.getPropertyValue(v)) || 0;
+  const touch = matchMedia("(pointer: coarse)").matches;
+  const top = Math.max(inset("--sat"), touch ? 10 : 0), bottom = Math.max(inset("--sab"), touch ? 26 : 0);
+  const left = Math.max(inset("--sal"), touch ? 8 : 0), right = Math.max(inset("--sar"), touch ? 8 : 0);
+  const aw = innerWidth - left - right, ah = innerHeight - top - bottom, s = Math.min(aw / 1280, ah / 720);
+  stageEl.style.left = `${left + aw / 2}px`; stageEl.style.top = `${top + ah / 2}px`;
+  stageEl.style.transform = `scale(${s}) translate(-50%, -50%)`;
+}
+addEventListener("resize", fitStage); addEventListener("orientationchange", fitStage);
+fitStage();
+
+// ------------------------------------------------------------------ go: wait for Andika (the fit measures it), build, land on the child's own sounds
+(async () => {
+  if (WHOLE) { document.body.classList.add("whole"); document.documentElement.classList.add("whole"); }
+  try { await Promise.all([document.fonts.load("400 50px Andika"), document.fonts.load("700 40px Andika"), document.fonts.load("800 30px 'Baloo 2'")]); } catch {}
+  const t0 = performance.now(); buildBoard(); buildMap(); window.__buildMs = performance.now() - t0;
+  // where to land (set before the first paint: the chart never moves by itself): a trip's gem, a glowing gem (the
+  // thing to do next), else the child's newest sound, else the start
+  const byKey = (k) => (k && gemByKey(k) ? petalOfKey(k) : null);
+  const newest = [...kid.known].reverse().map((s) => PETALS.find((pt) => pt.gems.some((g) => g.g === s && isMet(gemState(g))))).find(Boolean);
+  const target = PETALS.find((x) => x.p === Q.get("at")) || byKey(Q.get("focus")) || byKey(LAND) || byKey(UNLOCK) || PETALS.find(petalReady) || newest || PETALS[0];
+  const hi = halfOf(target);
+  if (!WHOLE) scroller.scrollTop = hi * 720;
+  // the half-sheet on screen: the map's frame moves there, its glowing gems hop (IntersectionObserver: no work while scrolling)
+  const io = new IntersectionObserver((es) => { for (const e of es) if (e.isIntersecting) setCurrent(+e.target.dataset.half, true); }, { root: scroller, threshold: 0.6 });
+  halves.forEach((h) => io.observe(h));
+  setCurrent(hi, false);
+  const focus = Q.get("focus");
+  if (focus) petalEls[byKey(focus).p].querySelector(`[data-gem-chip="${CSS.escape(focus)}"]`)?.classList.add("focus");
+  window.__snState = { scene: "tree", view: 1, open: null };
+  document.body.dataset.ready = "1";
+  const open = PETALS.find((x) => x.p === Q.get("open"));
+  if (open) openCard(open, petalEls[open.p]);
+  else if (LAND) landGem(LAND);
+  else if (UNLOCK) unlockGem(UNLOCK);
+  else if (!WHOLE && !Q.get("quiet")) say("flower_tap");
+})();
+</script>
+</body>
+</html>

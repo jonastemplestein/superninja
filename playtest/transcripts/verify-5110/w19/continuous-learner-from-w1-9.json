@@ -1,0 +1,1319 @@
+{
+ "meta": {
+  "persona": "learner",
+  "from": "w1-9",
+  "optin": "none",
+  "fast": 4,
+  "levels": 1,
+  "base": "http://127.0.0.1:5110",
+  "at": "2026-09-28T00:21:18.213Z"
+ },
+ "evs": [
+  {
+   "t": 0,
+   "kind": "scene",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "piece",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "route",
+   "text": "title"
+  },
+  {
+   "t": 0,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 0.2,
+   "kind": "tap",
+   "text": "Start"
+  },
+  {
+   "t": 1.5,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 1.5,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 1.5,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 1.5,
+   "kind": "turn",
+   "text": "w1-9",
+   "game": null
+  },
+  {
+   "t": 1.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Welcome back, ninja! I'm so happy to see you.",
+   "id": "tv_welcome_back",
+   "dur": 3522,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 5.1,
+   "kind": "tap",
+   "text": "level w1-9",
+   "busy": false
+  },
+  {
+   "t": 5.1,
+   "kind": "piece",
+   "text": "stone 1: w1-9"
+  },
+  {
+   "t": 5.7,
+   "kind": "scene",
+   "text": "level-wait"
+  },
+  {
+   "t": 5.7,
+   "kind": "piece",
+   "text": "level w1-9"
+  },
+  {
+   "t": 5.7,
+   "kind": "route",
+   "text": "level:w1-9"
+  },
+  {
+   "t": 6.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "This game is called Ninja Run. Your ninja runs all by itself.",
+   "id": "tv_run_frame",
+   "dur": 3915,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 6.3,
+   "kind": "scene",
+   "text": "run"
+  },
+  {
+   "t": 6.3,
+   "kind": "game",
+   "text": "run"
+  },
+  {
+   "t": 10.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap anywhere to make your ninja jump. Can you try it now?",
+   "id": "tv_run_jump",
+   "dur": 3939,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 10.8,
+   "kind": "turn",
+   "text": "jump",
+   "game": "run"
+  },
+  {
+   "t": 14.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Good jumping!",
+   "id": "tv_run_jump_ok",
+   "dur": 1500,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 14.7,
+   "kind": "tap",
+   "text": "jump",
+   "busy": false
+  },
+  {
+   "t": 16.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "When the lanterns come, I'll say some sounds, and you catch the word.",
+   "id": "tv_run_lanterns_how",
+   "dur": 4368,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 20.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Are you ready? Tap the green arrow, and off we go!",
+   "id": "tv_run_ready",
+   "dur": 3593,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 20.8,
+   "kind": "hold",
+   "text": "ready:run",
+   "end": 28.5,
+   "how": "next"
+  },
+  {
+   "t": 27.9,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 31,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen for the word...",
+   "id": "tv_guess_q",
+   "dur": 1329,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 32.6,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 537,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 32.6,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 33.5,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 34,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 34.7,
+   "kind": "turn",
+   "text": "mat",
+   "game": "run"
+  },
+  {
+   "t": 34.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the lantern with my word.",
+   "id": "tv_run_which",
+   "dur": 2417,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 37.4,
+   "kind": "tap",
+   "text": "lantern \"mat\"",
+   "busy": false
+  },
+  {
+   "t": 37.9,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 38,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Let's say it the slow way...",
+   "id": "tv_fs_say_slow",
+   "dur": 2396,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 40.6,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 537,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 40.6,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 41.5,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 42,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 42.5,
+   "kind": "say",
+   "who": "sensei",
+   "text": "And now, fast...",
+   "id": "tv_fs_now_fast",
+   "dur": 1509,
+   "route": "level:w1-9",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 42.5,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "call"
+  },
+  {
+   "t": 44.2,
+   "kind": "word",
+   "text": "mat",
+   "id": "word:mat",
+   "dur": 692,
+   "route": "level:w1-9",
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 44.9,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, a gem! Each gem holds a way to spell a sound. When you get words right, it fills up.",
+   "id": "audit_gem_first",
+   "dur": 6081,
+   "route": "level:w1-9",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 51.6,
+   "kind": "hold",
+   "text": "gem-energy",
+   "end": 54.8,
+   "how": "next"
+  },
+  {
+   "t": 54.2,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next",
+   "busy": true
+  },
+  {
+   "t": 56.1,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Listen for the word...",
+   "id": "tv_guess_q",
+   "dur": 1329,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 57.7,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 57.7,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 58.2,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 537,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 59.1,
+   "kind": "turn",
+   "text": "am",
+   "game": "run"
+  },
+  {
+   "t": 59.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Tap the lantern with my word.",
+   "id": "tv_run_which",
+   "dur": 2417,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 62.4,
+   "kind": "tap",
+   "text": "lantern \"am\"",
+   "busy": false
+  },
+  {
+   "t": 62.9,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 63,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 63,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 63.5,
+   "kind": "sound",
+   "text": "/m/",
+   "id": "sound:m",
+   "dur": 537,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 64.4,
+   "kind": "word",
+   "text": "am",
+   "id": "word:am",
+   "dur": 463,
+   "route": "level:w1-9",
+   "lit": [
+    "fast",
+    "slow"
+   ]
+  },
+  {
+   "t": 64.4,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "word"
+  },
+  {
+   "t": 66.5,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 232,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 66.5,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 67.1,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 68,
+   "kind": "turn",
+   "text": "it",
+   "game": "run"
+  },
+  {
+   "t": 70.6,
+   "kind": "tap",
+   "text": "lantern \"it\"",
+   "busy": false
+  },
+  {
+   "t": 71.1,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 232,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 71.1,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 71.1,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 71.6,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 72.2,
+   "kind": "word",
+   "text": "it",
+   "id": "word:it",
+   "dur": 463,
+   "route": "level:w1-9",
+   "lit": [
+    "fast",
+    "slow"
+   ]
+  },
+  {
+   "t": 72.2,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "word"
+  },
+  {
+   "t": 72.7,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Ninja power!",
+   "id": "streak_3",
+   "dur": 1326,
+   "route": "level:w1-9",
+   "mapOn": false,
+   "lit": [
+    "fast"
+   ]
+  },
+  {
+   "t": 75.7,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 75.7,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 76.2,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 76.8,
+   "kind": "turn",
+   "text": "at",
+   "game": "run"
+  },
+  {
+   "t": 79.5,
+   "kind": "tap",
+   "text": "lantern \"at\"",
+   "busy": false
+  },
+  {
+   "t": 80,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 80.1,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 80.1,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 80.6,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 81.2,
+   "kind": "word",
+   "text": "at",
+   "id": "word:at",
+   "dur": 545,
+   "route": "level:w1-9",
+   "lit": [
+    "fast",
+    "slow"
+   ]
+  },
+  {
+   "t": 81.2,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "word"
+  },
+  {
+   "t": 83.4,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 83.4,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 84.5,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 232,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 85,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 85.7,
+   "kind": "turn",
+   "text": "sit",
+   "game": "run"
+  },
+  {
+   "t": 88.3,
+   "kind": "tap",
+   "text": "lantern \"sit\"",
+   "busy": false
+  },
+  {
+   "t": 88.7,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 88.8,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 88.8,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 89.7,
+   "kind": "sound",
+   "text": "/i/",
+   "id": "sound:i",
+   "dur": 232,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 90.2,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 90.8,
+   "kind": "word",
+   "text": "sit",
+   "id": "word:sit",
+   "dur": 656,
+   "route": "level:w1-9",
+   "lit": [
+    "fast",
+    "slow"
+   ]
+  },
+  {
+   "t": 90.8,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "word"
+  },
+  {
+   "t": 93.1,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 93.1,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 94.1,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 94.7,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "hidden",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 95.7,
+   "kind": "turn",
+   "text": "sat",
+   "game": "run"
+  },
+  {
+   "t": 98.4,
+   "kind": "tap",
+   "text": "lantern \"sat\"",
+   "busy": false
+  },
+  {
+   "t": 98.8,
+   "kind": "sound",
+   "text": "/s/",
+   "id": "sound:s",
+   "dur": 683,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 98.8,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 98.8,
+   "kind": "speed",
+   "text": "slow",
+   "which": "slow",
+   "via": "call"
+  },
+  {
+   "t": 99.8,
+   "kind": "sound",
+   "text": "/a/",
+   "id": "sound:a",
+   "dur": 209,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 100.3,
+   "kind": "sound",
+   "text": "/t/",
+   "id": "sound:t",
+   "dur": 211,
+   "show": "tile",
+   "route": "level:w1-9",
+   "lit": [
+    "slow"
+   ]
+  },
+  {
+   "t": 100.9,
+   "kind": "word",
+   "text": "sat",
+   "id": "word:sat",
+   "dur": 736,
+   "route": "level:w1-9",
+   "lit": [
+    "fast",
+    "slow"
+   ]
+  },
+  {
+   "t": 100.9,
+   "kind": "speed",
+   "text": "fast",
+   "which": "fast",
+   "via": "word"
+  },
+  {
+   "t": 103.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Bong! You made it to the gong!",
+   "id": "run_end",
+   "dur": 2601,
+   "route": "level:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 104.6,
+   "kind": "sfx",
+   "text": "great"
+  },
+  {
+   "t": 107.1,
+   "kind": "scene",
+   "text": "reward"
+  },
+  {
+   "t": 107.1,
+   "kind": "piece",
+   "text": "reward"
+  },
+  {
+   "t": 107.1,
+   "kind": "route",
+   "text": "reward:w1-9"
+  },
+  {
+   "t": 107.1,
+   "kind": "game",
+   "text": ""
+  },
+  {
+   "t": 107.4,
+   "kind": "say",
+   "who": "sensei",
+   "text": "More stickers for your Sticker Book!",
+   "id": "fm_rw_more",
+   "dur": 1831,
+   "route": "reward:w1-9",
+   "mapOn": true
+  },
+  {
+   "t": 107.7,
+   "kind": "turn",
+   "text": "new stickers",
+   "game": null
+  },
+  {
+   "t": 110.4,
+   "kind": "tap",
+   "text": "new stickers"
+  },
+  {
+   "t": 113,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Look, this gem has filled a little more.",
+   "id": "audit_gem_more",
+   "dur": 2876,
+   "route": "reward:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 116.3,
+   "kind": "say",
+   "who": "sensei",
+   "text": "Wow, you got everything right! Grown-ups, if this is too easy, you can jump ahead.",
+   "id": "tv_jump_offer",
+   "dur": 5593,
+   "route": "reward:w1-9",
+   "mapOn": false
+  },
+  {
+   "t": 122.1,
+   "kind": "hold",
+   "text": "reward",
+   "end": 125.4,
+   "how": "next"
+  },
+  {
+   "t": 124.7,
+   "kind": "tap",
+   "text": "Next",
+   "nav": "next"
+  },
+  {
+   "t": 124.8,
+   "kind": "say",
+   "who": "sensei",
+   "text": "The glowing stone is your next game. Tap it when you're ready.",
+   "id": "tv_map_hint",
+   "dur": 3860,
+   "route": "map",
+   "mapOn": true
+  },
+  {
+   "t": 125.4,
+   "kind": "scene",
+   "text": "map"
+  },
+  {
+   "t": 125.4,
+   "kind": "piece",
+   "text": "map"
+  },
+  {
+   "t": 125.4,
+   "kind": "route",
+   "text": "map"
+  },
+  {
+   "t": 125.4,
+   "kind": "turn",
+   "text": "w1-10",
+   "game": null
+  }
+ ],
+ "dom": [
+  {
+   "t": 0,
+   "nodes": 103,
+   "fx": 0
+  },
+  {
+   "t": 10.2,
+   "nodes": 85,
+   "fx": 0
+  },
+  {
+   "t": 20.2,
+   "nodes": 85,
+   "fx": 0
+  },
+  {
+   "t": 30.4,
+   "nodes": 74,
+   "fx": 0
+  },
+  {
+   "t": 40.5,
+   "nodes": 85,
+   "fx": 0
+  },
+  {
+   "t": 51,
+   "nodes": 113,
+   "fx": 0
+  },
+  {
+   "t": 61.1,
+   "nodes": 93,
+   "fx": 0
+  },
+  {
+   "t": 71.3,
+   "nodes": 74,
+   "fx": 0
+  },
+  {
+   "t": 81.3,
+   "nodes": 74,
+   "fx": 0
+  },
+  {
+   "t": 91.4,
+   "nodes": 74,
+   "fx": 0
+  },
+  {
+   "t": 101.5,
+   "nodes": 74,
+   "fx": 0
+  },
+  {
+   "t": 111.6,
+   "nodes": 324,
+   "fx": 0
+  },
+  {
+   "t": 122.1,
+   "nodes": 278,
+   "fx": 0
+  }
+ ],
+ "stones": 1,
+ "navlog": [
+  {
+   "t": 20.8,
+   "kind": "step",
+   "id": "ready:run",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 27.9,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 27.9,
+   "kind": "ready",
+   "id": "ready:run",
+   "how": "next"
+  },
+  {
+   "t": 27.9,
+   "kind": "step",
+   "id": "ready:run",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 32.6,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 40.6,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 42.5,
+   "kind": "speed",
+   "which": "fast",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 51,
+   "kind": "step",
+   "id": "gem-energy",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 54.2,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 54.2,
+   "kind": "step",
+   "id": "gem-energy",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 57.7,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 63,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 64.4,
+   "kind": "speed",
+   "which": "fast",
+   "via": "word",
+   "shown": true
+  },
+  {
+   "t": 66.5,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 71.1,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 72.2,
+   "kind": "speed",
+   "which": "fast",
+   "via": "word",
+   "shown": true
+  },
+  {
+   "t": 75.7,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 80.1,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 81.2,
+   "kind": "speed",
+   "which": "fast",
+   "via": "word",
+   "shown": true
+  },
+  {
+   "t": 83.4,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 88.8,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 90.8,
+   "kind": "speed",
+   "which": "fast",
+   "via": "word",
+   "shown": true
+  },
+  {
+   "t": 93.1,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 98.8,
+   "kind": "speed",
+   "which": "slow",
+   "via": "call",
+   "shown": true
+  },
+  {
+   "t": 100.9,
+   "kind": "speed",
+   "which": "fast",
+   "via": "word",
+   "shown": true
+  },
+  {
+   "t": 124.7,
+   "kind": "tap",
+   "nav": "next"
+  }
+ ],
+ "noSplit": [],
+ "streakLines": [
+  {
+   "t": 72.7,
+   "id": "streak_3",
+   "tier": 1,
+   "n": 3,
+   "answers": 3,
+   "levelAnswers": 3
+  }
+ ]
+}

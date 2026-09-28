@@ -1,0 +1,66 @@
+{
+ "base": "http://127.0.0.1:4723",
+ "fast": 3,
+ "secs": 45,
+ "results": {
+  "tree": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "tree-world": {
+   "ok": true,
+   "secs": 13,
+   "findings": 1
+  },
+  "idle-next": {
+   "ok": true,
+   "secs": 9,
+   "findings": 0
+  },
+  "tree-found": {
+   "ok": true,
+   "secs": 29,
+   "findings": 0
+  },
+  "finale": {
+   "ok": true,
+   "secs": 12,
+   "findings": 0
+  },
+  "home-film": {
+   "ok": true,
+   "secs": 6,
+   "findings": 0
+  },
+  "intro": {
+   "ok": true,
+   "secs": 29,
+   "findings": 0
+  },
+  "home-trip": {
+   "ok": true,
+   "secs": 6,
+   "findings": 0
+  },
+  "home-finale": {
+   "ok": true,
+   "secs": 7,
+   "findings": 0
+  }
+ },
+ "findings": [
+  {
+   "sig": "bot:tree-world:petal-too-small:/ae/ badge",
+   "source": "invariant",
+   "severity": "minor",
+   "case": "tree-world",
+   "title": "petal-too-small: /ae/ badge",
+   "detail": "The /ae/ petal's picture is 33 CSS px on the 844×390 phone, at rest (want ≥ 38; the badge is 43 px wide).",
+   "evidence": [
+    "cases/tree-world/issue_0.png"
+   ],
+   "repro": "http://127.0.0.1:4723/play/?scene=tree&visit=world:3"
+  }
+ ]
+}

@@ -1,3 +1,4 @@
+import { emptyFoundations, observeFoundation, type Foundations, type FoundationObservation } from "../core/learner/foundations";
 // Persistent game state (localStorage) + a tiny reactive store.
 import { useSyncExternalStore } from "react";
 import { gpcKey, WORDS, type Seg, type Word } from "../content/phonics";
@@ -10,6 +11,8 @@ export type Band = "W" | "R" | "Y1" | "Y2";
 /** The first session's chain: lesson 1 → Reward 1 → lesson 2 → Reward 2 → the map (App.tsx). */
 export interface FirstSession { lessons: [string, string]; step: number }
 export interface Save {
+  /** Separate direct assessments from guided/unassessed speaking practice. */
+  foundations?: Foundations;
   v: 1;
   hero: "kai" | "suki" | null;
   seenIntro: boolean;
@@ -64,7 +67,7 @@ const PROFILES = "superninja.profiles.v1";
 const LEGACY = "superninja.save.v1";
 const saveKey = (id: string) => `superninja.save.${id}`;
 const fresh = (): Save => ({
-  v: 1, hero: null, seenIntro: false, stars: {}, read: {}, spell: {}, words: {}, petals: [], energy: {}, gems: [], placed: [],
+  v: 1, foundations: emptyFoundations(), hero: null, seenIntro: false, stars: {}, read: {}, spell: {}, words: {}, petals: [], energy: {}, gems: [], placed: [],
   settings: { relaxed: false, music: 0.32, captions: false, unlockAll: false }, minutes: 0, sessions: 0,
   stickers: [], shiny: [], adjustLog: [],
 });
@@ -342,4 +345,9 @@ export function mastery(sk: Skill | undefined): number {
   const days = (Date.now() - sk.last) / 864e5;
   const decay = Math.exp(-days / (7 + sk.streak * 4));
   return p * (0.6 + 0.4 * decay) * Math.min(1, sk.n / 4 + 0.25);
+}
+
+/** Shared pure model; each child's profile persists independently with the rest of the save. */
+export function recordFoundation(observation: FoundationObservation) {
+  store.set(s => { s.foundations = observeFoundation(s.foundations, observation, Date.now(), String(s.sessions)); });
 }

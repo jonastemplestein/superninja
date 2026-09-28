@@ -26,6 +26,15 @@ const pinned = (key: string, fits: (w: Word) => boolean): string[] | null => {
   return prev?.length && prev.every((t) => { const w = BY_TEXT.get(t); return !!w && fits(w); }) ? prev : null;
 };
 
+/** A key's pinned words that still fit, in their order, topped up to `n` from `fresh` (best first): words with a
+ *  picture first (the screen shows each example as a card), and a word without one only to make two. */
+const refill = (key: string, fits: (w: Word) => boolean, fresh: string[], n = 3): string[] => {
+  const keep = (PREV[key] ?? []).filter((t) => { const w = BY_TEXT.get(t); return !!w && fits(w); });
+  const rest = fresh.filter((t) => !keep.includes(t));
+  const pictured = [...keep, ...rest.filter((t) => !!BY_TEXT.get(t)?.pic)].slice(0, n);
+  return pictured.length >= 2 ? pictured : [...pictured, ...rest.filter((t) => !pictured.includes(t))].slice(0, 2);
+};
+
 /** A spelling's first example, where the best-ranked word would repeat another spelling's in the same breath: the trip
  *  after w1-3 says /a/ and /t/ one after the other, and both would be "mat" (docs/SCRIPT_FIXES.md C3.4). */
 const FIRST: Record<string, string> = { "t>t": "tap" };
@@ -34,7 +43,15 @@ const lines: { id: string; text: string }[] = [];
 const examples: Record<string, string[]> = {};
 for (const pt of PETALS) {
   if (!pt.gems.some((g) => g.inPlay)) continue; // sounds not in the game yet stay a secret
-  const ex = pinned(`petal:${pt.p}`, (w) => w.segs.some((sg) => sg.p === pt.p)) ?? soundExamples(pt.p, { n: 3 }).map((w) => w.text);
+  // a sound's examples are spelt with its first-taught spelling (TV-F2.5, the pedagogy judge's < c > finding: tp_k_hear
+  // "cat, king and duck" came straight before "This is how we write…" /k/ showing < c >), so the one recording also
+  // serves the Dojo lesson that teaches the sound with that spelling. Other spellings get their own gem lines.
+  // The pinned words that still fit are kept, in their order, and only the others are replaced.
+  const taught = pt.gems.filter((g) => g.inPlay).sort((a, b) => a.unit - b.unit)[0].g;
+  const own = soundExamples(pt.p, { n: 6, g: taught }).map((w) => w.text);
+  const ex = own.length >= 2
+    ? refill(`petal:${pt.p}`, (w) => w.segs.some((sg) => sg.p === pt.p && sg.g === taught), own)
+    : pinned(`petal:${pt.p}`, (w) => w.segs.some((sg) => sg.p === pt.p)) ?? soundExamples(pt.p, { n: 3 }).map((w) => w.text);
   if (ex.length) {
     examples[`petal:${pt.p}`] = ex;
     lines.push({ id: `tp_${pt.p}_hear`, text: `You can hear it in ${listText(ex)}.` });

@@ -299,11 +299,13 @@ The defaults per kind are in director.md; a notion can override them.
 | `idea:` (words are made of sounds, fast and slow) | 1 | 3 | 2 beats, then the next session | ≥ 2 | short reminder at each use | 8 credited uses in ≥ 2 sessions | 14 days | 2 |
 | `concept:` (Sounds~Write 1–4) | 1 | 3 | next session, next session | ≥ 3 | short reminder ("Same sound, different spellings!") | 10 | 14 days | 2 |
 | `term:` (sound, spelling, dojo, gem) | 1 | 2 | next session | ≥ 2 | short reminder | 5 | 14 days | 2 |
-| `mech:` (how to play) | 1 (the I do demo, or an instruction with the answer glowing) | 2 | next session (demo again) | ≥ 2 | none (Help covers it) | 3 | 21 days | 1 |
+| `mech:` (how to play) | 1 (the I do demo, or an instruction with the answer glowing) | 2 | next session (demo again) | ≥ 2 | a short reminder at the first use in a session, none after that in the session (Help covers it)¹ | 3 | 21 days | 1 |
 | `obj:` (World Flower, petal, gem, Sticker Book) | 1 | 2 | 2 beats | 1 | short reminder | 3 | 30 days | 2 |
 | `char:`, `place:` | 1 | 1 | – | 1 | none | – | 3 days (recap) | 1 |
 | `fact:` (story facts) | 1 | 1 | – | 1 | none | – | 2 days (recap) | 1 |
 | `gpc:` (a new spelling) | 1 (teach moment) | 3 | next beat, next session | ≥ 2 | rotated `teach.ts` phrasings; "This is /k/. Say /k/ here." on errors | 12 | 10 days | 2 |
+
+¹ Amended 27 Sep (teacher-voice mechanics §10.5, TEACHER_SCRIPT §2.2; logged by integration): a game's telling is the frame, the show and the Ready hold (`games.ts`, `frameForm()` in `narrative.ts`): full the first two times, a recap in a later session (with a Ready hold only after 21 days or a struggle), then the game's short line once a session, and nothing on later plays in the same session.
 
 A notion retires only when all of its full explanations have been given **and** it has its credited uses **and** those uses span its minimum sessions. A quick child who uses an idea 8 times in session 1 still gets the spaced second and third explanations; none of them counts as "after retirement".
 

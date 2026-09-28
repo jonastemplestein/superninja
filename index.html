@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#f8d9c0" />
     <title>Super Ninja: a phonics adventure for UK children aged 3–8</title>
-    <meta name="description" content="Super Ninja is a phonics video game for British children aged 3–8. Rescue the 44 sounds of English, spell magic spells, beat Baron Muddle and read real stories. Play on any phone, tablet or computer." />
+    <!-- data-needs: what must be true of the build for a claim to be true (checked by `bun landing/claims.ts`, docs/midgame/MARKETING_PLAN.md §6) -->
+    <meta name="description" data-needs="!land:Cloud Town" content="Super Ninja is a phonics video game for British children aged 3–8. Rescue the sounds of English, spell magic spells and beat Baron Muddle. Playable today from pre-school to the start of Year 1; Year 1 and Year 2 are on the way. Any phone, tablet or computer." />
     <link rel="canonical" href="https://superninja.templestein.com/" />
     <meta property="og:type" content="video.other" />
     <meta property="og:site_name" content="Super Ninja" />
     <meta property="og:url" content="https://superninja.templestein.com/" />
     <meta property="og:title" content="Super Ninja: rescue the sounds, learn to read" />
-    <meta property="og:description" content="A phonics adventure for UK children aged 3–8. Spell magic spells, beat Baron Muddle, read real stories." />
+    <meta property="og:description" data-needs="!land:Cloud Town" content="A phonics adventure for UK children aged 3–8. Playable today from pre-school to the start of Year 1; Year 1 and Year 2 are on the way." />
     <meta property="og:image" content="https://superninja.templestein.com/media/og.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -24,7 +25,7 @@
     <meta property="og:video:height" content="720" />
     <meta name="twitter:card" content="player" />
     <meta name="twitter:title" content="Super Ninja: rescue the sounds, learn to read" />
-    <meta name="twitter:description" content="A phonics adventure for UK children aged 3–8. Spell magic spells, beat Baron Muddle." />
+    <meta name="twitter:description" data-needs="!land:Cloud Town" content="A phonics adventure for UK children aged 3–8. Playable today from pre-school to the start of Year 1; Year 1 and Year 2 are on the way." />
     <meta name="twitter:image" content="https://superninja.templestein.com/media/trailer-poster.jpg" />
     <meta name="twitter:player" content="https://superninja.templestein.com/watch/?v=trailer" />
     <meta name="twitter:player:width" content="1280" />
@@ -76,7 +77,7 @@
             <a class="btn btn-go" href="/play/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" /></svg>Play now</a>
             <a class="btn-link" href="#film"><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" /></svg></span>Watch the story</a>
           </div>
-          <ul class="promises"><li>Proper British sounds</li><li>44 sounds, every spelling</li><li>Phones, tablets, computers</li></ul>
+          <ul class="promises"><li>Proper British sounds</li><li>The Sounds~Write order, like school</li><li>Phones, tablets, computers</li></ul>
         </div>
       </div>
     </header>
@@ -122,7 +123,7 @@
     <section class="play torn" id="play">
       <div class="wrap">
         <div class="sec-head">
-          <p class="kicker"><span data-stat="worlds">6</span> worlds · <span data-stat="levels">54</span> levels · <span data-stat="words">412</span> words</p>
+          <p class="kicker"><span data-stat="worlds">6</span> lands · <span data-stat="levels">74</span> levels · <span data-stat="words">412</span> words</p>
           <h2>Every move is a reading move</h2>
           <p class="sec-lede">No bolted-on quiz. Hearing sounds, blending, spelling and reading <em>are</em> the controls.</p>
         </div>
@@ -131,7 +132,7 @@
             <div class="screen"><video data-src="/media/clips/battle.mp4" poster="/media/clips/battle.jpg" muted loop playsinline></video></div>
             <h3>Spell Battles</h3>
             <p>A Muddling blocks the path. Sensei says a word; tap its sounds in order and every right one throws a shuriken. <i>Kaboom.</i></p>
-            <p class="note"><b>For grown-ups:</b> dictation. Segmenting a spoken word and choosing a spelling for each sound.</p>
+            <p class="note"><b>For grown-ups:</b> dictation: hearing a word and building it sound by sound, with the spelling for each sound.</p>
           </article>
           <article class="mode reveal">
             <div class="screen"><video data-src="/media/clips/run.mp4" poster="/media/clips/run.jpg" muted loop playsinline></video></div>
@@ -155,32 +156,107 @@
             <div class="screen"><video data-src="/media/clips/story.mp4" poster="/media/landing/poster-story.webp" muted loop playsinline></video></div>
             <h3>Stories you read together</h3>
             <p>Sensei reads the exciting bits and your child reads the rest, using only sounds they’ve learned. <span data-stat="stories">6</span> stories to unlock.</p>
-            <p class="note"><b>For grown-ups:</b> fully decodable text, with sound buttons under every spelling.</p>
+            <p class="note"><b>For grown-ups:</b> fully decodable text, with sound buttons under each spelling.</p>
           </article>
           <article class="mode reveal">
             <div class="screen"><video data-src="/media/clips/boss.mp4" poster="/media/landing/poster-boss.webp" muted loop playsinline></video></div>
             <h3>Boss Battles</h3>
-            <p>Every land ends with a big one: a sumo panda, a one-horned oni, a roaring yeti, a river dragon… and finally the Baron himself.</p>
-            <p class="note"><b>For grown-ups:</b> a mixed review of everything taught in that land.</p>
+            <p>Every land ends with a big one: a sumo panda, a one-horned oni, a roaring yeti, a river dragon… and a Baron who won’t give up.</p>
+            <p class="note" data-needs="boss:w6-11=boss_baron"><b>For grown-ups:</b> a longer battle over everything the land taught.</p>
           </article>
         </div>
         <p class="swipe-hint" aria-hidden="true">Swipe for all six <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></p>
       </div>
     </section>
 
+    <!-- ============ PRE-SCHOOL TO YEAR 2: the road, with what's playable today (docs/midgame/MARKETING_PLAN.md §3, Stage A).
+         A claim ships with the slice that makes it true: each badge and block carries data-needs, which
+         `bun landing/claims.ts` checks against the build's worlds.ts, so a badge can't go stale or run ahead. ============ -->
+    <section class="years torn alt" id="years">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker">Pre-school to Year 2</p>
+          <h2>From first sounds to <em>multiplication</em></h2>
+        </div>
+        <p class="years-lede" data-needs="!kind:dragon">I’m building Super Ninja for my kids, and their school teaches Sounds~Write. So the game follows the same order, one map per stage: a garden for pre-schoolers, the Island of Sounds for Reception, the Sky Isles for Year 1 and the Muddle Isles for Year 2. The Garden and the Island are playable today. The Sky Isles and the Muddle Isles are being built now, one land at a time, and this page says exactly what’s ready.</p>
+        <ol class="road" aria-label="The road from pre-school to Year 2, with what’s playable today">
+          <li class="stop reveal" data-needs="level:w1-wu1">
+            <div class="stop-art"><img src="/media/landing/road-garden.webp" alt="" width="256" height="256" loading="lazy" /></div>
+            <div class="stop-copy">
+              <p class="stop-when">Pre-school</p>
+              <h3>Sensei’s Garden</h3>
+              <p class="badge">Playable</p>
+              <p class="stop-now">Listening games and picture reading. For now they’re the first six stones of the adventure.</p>
+              <p class="note"><b>For grown-ups:</b> listening, before any letters.</p>
+            </div>
+          </li>
+          <li class="stop reveal" data-needs="level:w5-11; !land:Rainbow Bridge">
+            <div class="stop-art"><img src="/media/landing/road-island.webp" alt="" width="256" height="256" loading="lazy" /></div>
+            <div class="stop-copy">
+              <p class="stop-when">Reception</p>
+              <h3>The Island of Sounds</h3>
+              <p class="badge">Playable</p>
+              <p class="stop-now">Five lands, from <i>mat</i> and <i>sat</i> to <i>ship</i>, <i>chop</i> and <i>quick</i>, each with a boss at the end.</p>
+              <p class="note"><b>For grown-ups:</b> Sounds~Write’s Initial Code.</p>
+            </div>
+          </li>
+          <li class="stop reveal" data-needs="level:w6-1; !level:w6-sd-ea; !land:Star Dunes">
+            <div class="stop-art"><img src="/media/landing/road-sky.webp" alt="" width="256" height="256" loading="lazy" /></div>
+            <div class="stop-copy">
+              <p class="stop-when">Year 1</p>
+              <h3>The Sky Isles</h3>
+              <p class="badge building">Being built</p>
+              <p class="stop-now">The Sky Temple’s first half is playable today, with the first long-vowel spellings: <span class="gems"><span class="g">ai</span> <span class="g">ay</span> <span class="g">ee</span> <span class="g">ea</span> <span class="g">oa</span> <span class="g">ow</span> <span class="g">igh</span> <span class="g">ie</span></span> Its second half and five more lands are being built.</p>
+              <p class="note"><b>For grown-ups:</b> the Extended Code, units 1–26, and long words.</p>
+            </div>
+          </li>
+          <li class="stop unpainted stop-muddle reveal" data-needs="!land:Echo Island">
+            <div class="stop-art"><img src="/media/landing/road-baron.webp" alt="" width="256" height="226" loading="lazy" /></div>
+            <div class="stop-copy">
+              <p class="stop-when">Year 2</p>
+              <h3>The Muddle Isles</h3>
+              <p class="badge building">Being built</p>
+              <p class="stop-now">Baron Muddle’s own islands. Designed, and built after the Sky Isles, one land at a time.</p>
+              <p class="note"><b>For grown-ups:</b> the Extended Code, units 27–49, longer words and <i>-tion</i>.</p>
+            </div>
+          </li>
+          <li class="stop unpainted stop-library reveal" data-needs="!land:~Library">
+            <div class="stop-art"><img src="/media/landing/road-book.webp" alt="" width="194" height="200" loading="lazy" /></div>
+            <div class="stop-copy">
+              <p class="stop-when">Year 2 stretch</p>
+              <h3>The Library of Long Words</h3>
+              <p class="badge building">Being built</p>
+              <p class="stop-now">Designed. It opens after the Muddle Isles.</p>
+              <p class="note"><b>For grown-ups:</b> the long words Year 3 meets at school: <i>magician, division, multiplication</i>.</p>
+            </div>
+          </li>
+        </ol>
+        <!-- Stage A: today's bosses, honestly. At Slice 1b (the Sky Magpie) this becomes "Bosses that check" (MARKETING_PLAN §5.2) -->
+        <div class="bosses reveal" data-needs="boss:w6-11=boss_baron">
+          <img src="/media/landing/boss-panda.webp" alt="The sumo panda, Bamboo Village’s boss" width="210" height="320" loading="lazy" />
+          <div>
+            <h3>How the boss battles work</h3>
+            <p>Is the panda the boss of lame sounds? It’s the boss of the first eight sounds (a, i, m, s, t, n, o, p), which is the hardest thing a four-year-old has ever done with letters.</p>
+            <p>Today every land ends with a boss like it: a longer spelling battle over seven to nine of the land’s words. The panda’s are words like <i>mat</i> and <i>pin</i>, the River Serpent’s are words like <i>frog</i> and <i>stamp</i>, and the Baron’s are the Sky Temple’s <i>rain</i>, <i>feet</i> and <i>boat</i>. That’s good practice, but it doesn’t yet check anything a normal battle doesn’t.</p>
+            <p>So the later bosses are being rebuilt as each land’s progress check, like the ones school gives every six to eight weeks: reading, spelling and, from Year 1, a long word and a sentence. They’ll arrive land by land, and the road above will say when.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ WORLD FLOWER ============ -->
-    <section class="flower torn alt" id="flower">
+    <section class="flower torn" id="flower">
       <div class="wrap flower-grid">
         <figure class="flower-art reveal"><img loading="lazy" src="/media/landing/world-flower.webp" alt="Sensei Maple gazes up at the World Flower as its jewel-coloured petals, set with gems, fly home" /></figure>
         <div class="flower-copy reveal">
           <p class="kicker">The big goal</p>
           <h2>Regrow the World Flower</h2>
-          <p>English has <b><span data-stat="sounds">44</span> sounds</b>, and most can be spelt more than one way. The sound in <i>rain</i> can be <span class="g">ai</span> <span class="g">ay</span> <span class="g">a‑e</span> <span class="g">eigh</span>…</p>
+          <p>English has <b><span data-stat="sounds">44</span> sounds</b>, and most can be spelt more than one way. The sound in <i>rain</i> can be spelt <span class="g">ai</span>, <span class="g">ay</span>, <span class="g">a</span> (as in <i>cake</i>), <span class="g">ea</span> (as in <i>great</i>), <span class="g">eigh</span> (as in <i>eight</i>)…</p>
           <p>So every sound is a <b>petal</b>, and every spelling is a <b>gem</b> inside it.</p>
           <ol class="steps">
             <li><span>1</span><div><b>Charge it.</b> Use a spelling correctly, in any game, and its gem fills with ninja energy.</div></li>
             <li><span>2</span><div><b>Prove it.</b> A full gem glows. Win it in a Gem Trial. The timer only appears once a child is ready.</div></li>
-            <li><span>3</span><div><b>Bloom it.</b> Win every gem and the petal flies back onto the World Flower. Complete it, and you’ve cracked the code of English.</div></li>
+            <li><span>3</span><div><b>Bloom it.</b> Win its gems and the petal flies back onto the World Flower. Every petal that comes home is a sound of English, in every way your child has learned to spell it.</div></li>
           </ol>
         </div>
       </div>
@@ -220,10 +296,10 @@
             <ul class="ticks">
               <li><b>Sounds first.</b> Letters are taught as ways of <i>writing sounds</i>: linguistic phonics.</li>
               <li><b>Pure British sounds.</b> Southern British English, “mmm” not “muh”, every recording checked by an automated listener.</li>
-              <li><b>Both directions.</b> Reading and spelling are tracked separately for every spelling.</li>
+              <li><b>Both directions.</b> Reading and spelling are tracked separately for each spelling.</li>
               <li><b>The school order.</b> Initial Code, then Extended Code, in the order Sounds~Write schools use.</li>
               <li><b>No mnemonics.</b> No letter mascots, songs or actions. Just sounds and spellings.</li>
-              <li><b>Spaced review.</b> Tricky spellings return in “Sensei’s Challenge” until they stick.</li>
+              <li><b>Spaced review.</b> Spellings your child finds hard come back in “Sensei’s Challenge” until they stick.</li>
               <li><b>Short sessions.</b> After about 18 minutes, Sensei suggests reading a real book together.</li>
             </ul>
           </div>
@@ -258,10 +334,11 @@
     <section class="faq torn alt">
       <div class="wrap narrow">
         <h2>Questions</h2>
-        <details><summary>What age is it for?</summary><p>3 to 8: from pre-school through Reception, Year 1 and Year 2 (and beyond for extra practice). The first land starts with five single sounds (a, i, m, s, t). The last reaches the long vowel spellings children meet in Year 1.</p></details>
+        <details data-needs="!land:Star Dunes"><summary>What age is it for?</summary><p>3 to 8. Today it’s playable from pre-school through Reception and into the start of Year 1 (the long vowel spellings like <i>rain</i> and <i>boat</i>). Year 1 and Year 2 are being built now, one land at a time; <a href="#years">the road above</a> shows what’s ready.</p></details>
+        <details data-needs="!land:Echo Island"><summary>My child is in Year 2. Is there enough for them?</summary><p>Not yet. Today a Year 2 child would mostly be revising. The Muddle Isles (Year 2) are being built after the Sky Isles; <a href="#years">the road above</a> shows where we are.</p></details>
         <details><summary>Does my child need to read already?</summary><p>No. Everything is spoken aloud, and Ninja Training teaches the controls before the adventure begins.</p></details>
         <details><summary>What devices does it work on?</summary><p>Any recent phone, tablet or computer with a modern browser. It’s designed for phones held sideways, and a keyboard works too: type the letters.</p></details>
-        <details><summary>Our school doesn’t use Sounds~Write. Is it still useful?</summary><p>Yes. The sounds and spellings are the same for every synthetic phonics programme. The order and language follow Sounds~Write, so other schemes may teach some sounds in a different order. You can unlock every level from the grown-ups area (hold the gear button).</p></details>
+        <details><summary>Our school doesn’t use Sounds~Write. Is it still useful?</summary><p>Yes. English has the same sounds and spellings whatever the programme. The order and language follow Sounds~Write, so other schemes may teach some sounds in a different order, or describe some spellings differently. You can unlock every level from the grown-ups area (hold the gear button).</p></details>
         <details><summary>Does it work offline?</summary><p>Once you’ve played a level, its pictures and sounds are saved on your device, so it keeps working on car journeys.</p></details>
       </div>
     </section>

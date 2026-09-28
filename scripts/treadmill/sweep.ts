@@ -2,23 +2,38 @@
 // Each case: a "perfect child" bot plays it to the end (or a monkey taps at random), while in-page invariant checks
 // look for things a child would trip over. Output: <runDir>/sweep.json (Finding[] + per-case stats) and
 // <runDir>/cases/<case>/{meta.json, f_*.png} filmstrips for the visual critic.
-// Usage: bun scripts/treadmill/sweep.ts [--run dir] [--only w1-4,map] [--base http://localhost:5173] [--fast 3] [--par 6] [--monkey] [--nav]
+// Usage: bun scripts/treadmill/sweep.ts [--run dir] [--only w1-4,map] [--base http://localhost:5173] [--fast 3] [--par 6] [--monkey] [--nav] [--no-petals]
 // --nav (slower): in each new waiting position the bot first taps Hear it again (and Show me again, where there is one)
 // and checks what it plays (docs/NAVIGATION.md §6.2: replay-silent, replay-stale, show-again-broken).
-// --petals: the sound display invariants (docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §4.4 F4.2), minor until integration makes
-// the first three blockers (I.2): sound-without-petal (a "petal" sound clip starts and no petal of that sound is visible,
+// The petal invariants are on by default since integration (FIX_PLAN I.2; --no-petals turns them off, and --petals is still
+// accepted): the sound display invariants (docs/FIX_PLAN_PERF_SCRIPT_SOUNDS.md §4.4 F4.2). The first three are blockers in
+// the first-session cases (FIRST_SESSION) and majors elsewhere: sound-without-petal (a "petal" sound clip starts and no petal of that sound is visible,
 // with 50 ms grace; < x > needs /k/ and /s/), petal-for-hidden (a "hidden" sound's petal is visible while it plays),
 // petal-giveaway (a visible answer card is the picture of a visible petal: the apple card beside /a/), petal-too-small
-// (the picture of a visible non-mini badge under 38 CSS px on the 844×390 phone) and sound-unclassified (a lone sound
-// with no job, §3.1).
+// (the picture of a visible non-mini badge under 38 CSS px on the 844×390 phone, at rest: a small reading is taken again
+// once its pop-in has finished), petal-overflow (a petal runs past its panel, a clipping ancestor or the stage, at rest)
+// and petal-covered (something painted lies over its picture, at rest), both major, and sound-unclassified (a lone sound
+// with no job, §3.1). With them, F4.2's perf invariants, all minor, from a once-a-second sample in the page (counted as
+// soak.ts counts them): anim-main-thread (more than 2 endless animations the compositor can't run at once, named: a
+// property like z-index or box-shadow, or an SVG target), anim-hidden (more than 2 endless animations running on hidden
+// elements, named; an opacity that is an animation's own, a fade in progress, isn't hidden), each in 2 or more samples,
+// and raf-at-rest (a screen's median rAF requests a second above 5 once nothing has been said, tapped or changed for 2 s).
+// See perf-probe.ts.
 import { chromium, type Browser, type Page } from "playwright";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { LEVELS, WORLDS } from "../../src/content/worlds";
 import { warmupScript } from "../../src/content/warmups";
-import { save, step, FLOWER_SAVE } from "./bot";
+import { save, step, FLOWER_SAVE, unlockAudio } from "./bot";
 import type { CaseMeta, Finding } from "./types";
-import { isInstruction } from "../../src/content/instructions";
+import { perfIssues, perfSampler, type PerfSample } from "./perf-probe";
+// (the lines Hear it again replays: an instruction that is not an aside, a Help clue or a fast/slow idea line, exactly
+// the register the game keeps in nav.tsx; integration, 27 Sep, after D6's tv_fs_two_ways)
+import { isRegisterable as isInstruction } from "../../src/content/instructions";
 import { LINES } from "../../src/content/lines";
+import { helpGuard } from "../lib/help";
+// the model's year1 child (SCROLL_DESIGN §8.1, playtest/runs/flower-v2/saves/export.ts), for tree-fork
+import KIDS from "../../src/ui/flower-children.fixture.json";
+helpGuard(import.meta.url); // --help prints the usage above and exits, before anything runs
 
 const arg = (k: string, d?: string) => {
   const i = process.argv.indexOf(`--${k}`);
@@ -29,15 +44,22 @@ const FAST = Number(arg("fast", "3"));
 const PAR = Number(arg("par", "6"));
 const MONKEY = process.argv.includes("--monkey");
 const NAV = process.argv.includes("--nav");
-const PETALS = process.argv.includes("--petals");
+/** the petal and perf invariants: on unless --no-petals (the default since integration, FIX_PLAN I.2) */
+const PETALS = !process.argv.includes("--no-petals");
 /** --petals: each sound's petal picture word (src/content/flower.ts CHART_PETALS), for petal-giveaway */
+/** --petals: clip lengths (ms at 1×), so the perf sampler knows when a clip is still being said */
+const DURS: Record<string, number> = PETALS ? JSON.parse(readFileSync(new URL("../../public/a/durations.json", import.meta.url), "utf8")) : {};
 const ICON: Record<string, string> = PETALS ? Object.fromEntries((await import("../../src/content/flower")).CHART_PETALS.map((c) => [c.p, c.iconWord])) : {};
 const RUN = arg("run", `playtest/runs/${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}`)!;
 const ONLY = arg("only")?.split(",");
 const VIEW = { width: 844, height: 390 }; // iPhone 13-ish, landscape: what children actually hold
-const MAX_MS = 150_000; // real time per case
+// real time per case; --nav's child replays every instruction first, so its cases get twice as long (w1-10 and w3-6
+// hit 150 s with --nav, and w3-6 finishes in 95 s without: verify round 1)
+const MAX_MS = NAV ? 300_000 : 150_000;
 const STUCK_MS = 25_000; // real time with no visible change and nothing for the bot to do
 const FRAME_EVERY = 2500;
+
+const YEAR1 = { now: (KIDS as any).year1.now as string, save: { ...(KIDS as any).year1.save, seenIntro: true, seenFlower: true, seenTraining: true, seenPlacement: true } };
 
 const INTENT: Record<string, string> = {
   listen: "Hear a word spoken slowly and tap the matching picture (sounds only, no letters).",
@@ -49,7 +71,7 @@ const INTENT: Record<string, string> = {
   run: "Endless runner: tap to jump and collect the letters that spell the word.",
   sort: "Sort words into baskets by which spelling of a sound they use.",
   story: "Interactive picture story: read along and choose what happens next.",
-  boss: "Boss battle against Baron Muddle using everything learnt so far.",
+  boss: "A boss battle: the land's guardian (the Sky Magpie at the Sky Temple), a longer spelling battle over the land's words. Baron Muddle cuts in to introduce her and to taunt; on the first win he escapes in his balloon.",
   learn: "Learn a new spelling of a sound.",
   training: "First-time tutorial: learn to tap, the gong, the help button and the speaker button.",
   placement: "Get-to-know-you quiz that places the child at the right level.",
@@ -64,6 +86,9 @@ const INTENT: Record<string, string> = {
   "tree-practise": "A practice dojo from the World Flower's green gate: build three words with one spelling (one together, then on your own), then back to the World Flower, where the gem's energy fills up.",
   "tree-trial": "A Gem Trial: spell the words before the purple bar fills to win the gem; then the World Flower's victory, where the gem dives into its petal to swelling music.",
   "tree-practised": "Back from a practice dojo: the scroll shows the practised gem's energy filling up, and a full gem opens its petal with the gem battle ready.",
+  "tree-chart": "The World Flower's petal chart: the school's sound chart as laminated sheets, half a sheet per screen, swiped up and down with a finger (one swipe, one half-sheet), with page dots to jump. Tap a petal to open its card (tap outside the card to close it); a petal not met yet shakes and stays a secret.",
+  "tree-land": "A gem won in its Gem Trial whose petal still has spellings to win: after the victory the chart opens, the jewel flies in and lands beside its spelling, and the petal's colour grows. Then the green arrow.",
+  "tree-fork": "A petal's card for a spelling that spells more than one sound (th in thin and this): the fork chip opens a panel with a petal for each sound, and the tick goes back to the card.",
   book: "The Sticker Book: a sticker for every picture the child has played with (gold ones for words read or spelt), in the order they were collected, with a big counter.",
   grownups: "Grown-ups settings page.",
   ears: "Warm-up 'Ninja Ears' for a 3-year-old who can't read: big picture cards, each named aloud and spotlit; Sensei shows one first ('Let me show you!', a paw taps), then the child tries: tap the picture, fast and slow words with the tortoise and rabbit, noticing first sounds, tap all that start with a sound. No letters.",
@@ -87,7 +112,16 @@ const INTENT: Record<string, string> = {
  *  `taps`: real taps (by aria-label) before the bot plays, e.g. the petal panel's Practise gate. `after`: once the case
  *  is done, a real tap on this button must leave exactly one scene on stage, publishing `expect` (App routes that
  *  leave the World Flower: Next at a trip's end → the map, Home → the map). */
-interface Case { name: string; url: string; kind: string; title: string; save?: object; play: boolean; optin?: string; taps?: string[]; after?: { tap: string; expect: string }; leave?: string; stopAfterMs?: number; idle?: number }
+interface Case { name: string; url: string; kind: string; title: string; save?: object; play: boolean; optin?: string; taps?: string[]; after?: { tap: string; expect: string }; leave?: string; stopAfterMs?: number; idle?: number; acts?: Act[]; watch?: Watch[]; clock?: string }
+/** `acts`: what the child does, in order, in the bot's place (the bot plays once they are done), each with real touch:
+ *  `tap` a label, `tapSel` the first visible element matching a selector, `swipe` the petal chart one half-sheet up or
+ *  down (a paced finger flick: it must turn exactly one half-sheet), `scrim` a tap on the petal card's backdrop beside
+ *  the card, `dot` a tap on a page dot (the chart must land on that half-sheet), `expect` a condition in the page that
+ *  must hold within `within` real ms. A failed act is a `scripted-step` (a swipe that turned no page, or two, a
+ *  `chart-swipe`). `watch`: conditions that must each hold at some moment while the case plays (checked on every step
+ *  of the loop). `clock`: the page's date (the flower saves' `now`: recency, dust and mastery depend on it). */
+type Act = { do: "tap"; label: string } | { do: "tapSel"; sel: string; name: string } | { do: "swipe"; dir: "up" | "down" } | { do: "scrim" } | { do: "dot"; i: number } | { do: "expect"; js: string; name: string; within?: number };
+type Watch = { name: string; js: string };
 const IS_LEVEL = new Set(LEVELS.map((l) => l.id));
 const cases: Case[] = [
   ...LEVELS.map((l) => ({ name: l.id, url: `/play/?level=${l.id}`, kind: l.kind, title: `${WORLDS[l.world - 1].name} ${l.id} (${l.kind})`, play: true })),
@@ -106,8 +140,59 @@ const cases: Case[] = [
   { name: "practise", url: "/play/?practise=ai>ae", kind: "tree-practise", title: "Practice dojo (ai), back to the World Flower, then Next to the map", save: FLOWER_SAVE, play: true, after: { tap: "Next", expect: "map" } },
   { name: "trial", url: "/play/?trial=ai>ae", kind: "tree-trial", title: "Gem Trial (ai), then its victory, then Next to the map", save: FLOWER_SAVE, play: true, after: { tap: "Next", expect: "map" } },
   // the petal panel's Practise gate, tapped for real: the panel and the flower must leave with it (they once stayed on
-  // top of the dojo: two sibling children with the same key in App.tsx); then the practice, the flower, and the map
-  { name: "tree-practise-tap", url: "/play/?scene=tree&gem=ai>ae&open=1", kind: "tree-practise", title: "Petal panel → Practise → the practice dojo → the flower → the map", save: FLOWER_SAVE, play: true, taps: ["Practise in the dojo"], after: { tap: "Next", expect: "map" } },
+  // top of the dojo: two sibling children with the same key in App.tsx); then the practice, the flower, and the map.
+  // /s/'s card on < ss > (B2's request): in FLOWER_SAVE it is met and charging (4 of 8), so the card offers the dojo gate
+  // (ai>ae's gem is ready, and its card offers the battle instead). The case failed at integration and in verify round 1
+  // because the sweep's audio-unlock click at the top of the screen landed on the card's backdrop and closed the card.
+  { name: "tree-practise-tap", url: "/play/?scene=tree&gem=ss>s&open=1", kind: "tree-practise", title: "Petal panel → Practise → the practice dojo → the flower → the map", save: FLOWER_SAVE, play: true, taps: ["Practise in the dojo"], after: { tap: "Next", expect: "map" } },
+  // SCROLL_DESIGN §8.4's new cases. The chart, by hand: "Petal chart", three swipes up and one down with a real finger
+  // (each must turn exactly one half-sheet), a petal's card, closed on its backdrop, a petal not met yet (petal_secret, no
+  // card), a page dot, then Home → the map. (FLOWER_SAVE's chart opens on half-sheet 0; after the swipes it is on 2,
+  // where /e/ is met and /j/ is not.)
+  {
+    name: "tree-chart", url: "/play/?scene=tree", kind: "tree-chart", title: "World Flower chart: swipes, a card, a secret petal, a page dot, Home", save: FLOWER_SAVE, play: true,
+    acts: [
+      { do: "tap", label: "Petal chart" },
+      { do: "expect", name: "the chart is open", js: "window.__snState?.view === 1 && window.__snState?.half != null" },
+      { do: "swipe", dir: "up" }, { do: "swipe", dir: "up" }, { do: "swipe", dir: "up" }, { do: "swipe", dir: "down" },
+      { do: "tapSel", name: "a met petal on the half-sheet", sel: `.pc-half[data-half="HALF"] .pc-petal[data-stage]:not([data-stage="missing"])` },
+      { do: "expect", name: "its card opens", js: "!!window.__snState?.open && !!document.querySelector('.pd-card')" },
+      { do: "scrim" },
+      { do: "expect", name: "the backdrop closes the card", js: "!window.__snState?.open && !document.querySelector('.pd-card')" },
+      { do: "tapSel", name: "a petal not met yet", sel: `.pc-half[data-half="HALF"] .pc-petal[data-stage="missing"]` },
+      { do: "expect", name: "a secret: petal_secret, and no card", js: "(window.__audioLog ?? []).some((a) => /\\/petal_secret\\.mp3/.test(a.url)) && !window.__snState?.open" },
+      { do: "dot", i: 0 },
+      // (a dot below the pill: the dots after the current one are drawn 24 stage px lower to make room for it)
+      { do: "dot", i: 4 },
+    ],
+    after: { tap: "Home", expect: "map" },
+  },
+  // a gem won whose petal isn't complete by it (SCROLL_DESIGN §8.4, v1 §8.2): /oe/ with < oa > and < ow > met and neither
+  // won; the victory ends on the chart, where the jewel lands beside < oa > and the colour grows, then the green arrow
+  {
+    name: "tree-land", url: "/play/?scene=tree&gem=oa>oe&celebrate=1", kind: "tree-land", title: "World Flower: a gem won lands on the chart (oa)", play: true,
+    save: { ...FLOWER_SAVE, petals: [...(FLOWER_SAVE as any).petals, "oa", "ow"], energy: { ...(FLOWER_SAVE as any).energy, "oa>oe": 8, "ow>oe": 3 } },
+    watch: [
+      { name: "the chart opens for the landing", js: "window.__snState?.landing === true && window.__snState?.view === 1" },
+      { name: "the jewel lands beside < oa >", js: "!!document.querySelector('.pc-ln.landed[data-gem-chip=\"oa>oe\"]')" },
+      { name: "/oe/'s colour grows", js: "!!document.querySelector('.pc-petal[data-p=\"oe\"] .pc-fl.rising')" },
+    ],
+  },
+  // the fork (SCROLL_DESIGN §3.7, §8.4): the year1 child (src/ui/flower-children.fixture.json, at its own date), /th/'s
+  // card, < th >, the fork chip: two petals (/th/ and /dh/) and no magnifying glass; the tick goes back to /th/'s card
+  {
+    name: "tree-fork", url: "/play/?scene=tree&gem=th>th", kind: "tree-fork", title: "World Flower: th's fork panel, and back to its card", play: true, save: YEAR1.save, clock: YEAR1.now,
+    acts: [
+      { do: "expect", name: "the chart opens on /th/", js: "window.__snState?.view === 1 && !!document.querySelector('.pc-petal[data-p=\"th\"]')" },
+      { do: "tapSel", name: "/th/'s petal", sel: `.pc-petal[data-p="th"]` },
+      { do: "expect", name: "/th/'s card opens", js: "window.__snState?.open === 'th' && !!document.querySelector('.pd-card')" },
+      { do: "tapSel", name: "< th > on the card", sel: `.pd-card [data-key="th>th"]` },
+      { do: "tapSel", name: "the fork chip", sel: `.pd-card [aria-label="th: its other sounds"]` },
+      { do: "expect", name: "the fork panel: two petals, no magnifying glass", js: "window.__snState?.fork === 'th' && document.querySelectorAll('.fk-card .fk-petal[data-p]').length === 2 && !document.querySelector('[aria-label^=\"Sound Detective\"]')" },
+      { do: "tap", label: "close" },
+      { do: "expect", name: "the tick goes back to /th/'s card", js: "window.__snState?.fork == null && window.__snState?.open === 'th' && !!document.querySelector('.pd-card:not(.fk-card)')" },
+    ],
+  },
   // Home from the World Flower: the map, and nothing of the flower left behind
   { name: "tree-home", url: "/play/?scene=tree", kind: "tree", title: "World Flower → Home → the map", save: FLOWER_SAVE, play: true, after: { tap: "Home", expect: "map" } },
   // the first minutes (docs/FIRST_MINUTES.md): the opt-in with each kind of answer (done once the first session is set
@@ -203,14 +288,16 @@ function pageChecks(opts: { level?: boolean } = {}): Issue[] {
     const sr = stage.getBoundingClientRect();
     const sc = sr.width / 1280;
     const ninjaZone = !!opts.level || !!document.querySelector(".ninja-spot");
+    const titleScreen = !!document.querySelector(".scene.title");
     for (const el of targets) {
       if (el.getAttribute("aria-label") === "Help" || el.closest("[data-tap-proxy]")) continue;
       const r = el.getBoundingClientRect();
       const x = (r.left + r.width / 2 - sr.left) / sc, y = (r.top + r.height / 2 - sr.top) / sc;
       const inNinja = ninjaZone && x >= 0 && x <= 330 && y >= 380 && y <= 720;
       const inHelp = x >= 1116 && x <= 1280 && y >= 556 && y <= 720;
-      // the Home zone (docs/NAVIGATION.md §3.1): nothing but Home with its centre in x 0-130, y 0-130
-      const inHome = x >= 0 && x <= 130 && y >= 0 && y <= 130 && el.getAttribute("data-nav") !== "home";
+      // the Home zone (docs/NAVIGATION.md §3.1): nothing but Home with its centre in x 0-130, y 0-130. Not on the title,
+      // which has no Home (TITLE_DESIGN §9.7): its "Who's playing?" chip sits there by design (integration, 27 Sep)
+      const inHome = !titleScreen && x >= 0 && x <= 130 && y >= 0 && y <= 130 && el.getAttribute("data-nav") !== "home";
       if (inNinja || inHelp || inHome)
         out.push({ kind: "zone-conflict", sel: name(el), detail: `centre at stage ${x | 0},${y | 0} is in the ${inNinja ? "ninja zone (x 0-330, y 380-720)" : inHelp ? "help zone (x 1116-1280, y 556-720)" : "Home zone (x 0-130, y 0-130)"}` });
     }
@@ -294,8 +381,8 @@ function pageChecks(opts: { level?: boolean } = {}): Issue[] {
 
 // ---------------------------------------------------------------- --petals: in-page checks on what is on screen
 type PetalIssue = { kind: string; sel: string; detail: string };
-/** Answer cards that are the picture of a visible petal, and badge pictures too small to read. */
-function petalChecks(icon: Record<string, string>): PetalIssue[] {
+/** Answer cards that are the picture of a visible petal, and badge pictures too small to read (measured at rest). */
+async function petalChecks(icon: Record<string, string>): Promise<PetalIssue[]> {
   const out: PetalIssue[] = [];
   const vis = (el: Element) => {
     const r = el.getBoundingClientRect();
@@ -312,13 +399,142 @@ function petalChecks(icon: Record<string, string>): PetalIssue[] {
     const w = icon[p];
     if (w && cards.includes(w)) out.push({ kind: "petal-giveaway", sel: `/${p}/ beside a ${w} card`, detail: `The /${p}/ petal (its picture is a ${w}) is on screen with an answer card "${w}": the petal gives the answer away (SOUND_DISPLAY A12). Cards: ${[...new Set(cards)].join(", ")}.` });
   }
+  // A petal caught mid pop-in (its own or an ancestor's transform animation) reads small (27 Sep: w1-2, w3-4, w5-3,
+  // w5-11 and the trial, none small at rest). So a small reading is measured again once the finite animations on its
+  // chain have finished (at most 1.5 s) and 300 ms more have passed (an endless loop is then at another phase), and the
+  // larger of the two readings counts. A petal that has gone by then isn't reported.
+  const size = (img: Element) => {
+    const r = img.getBoundingClientRect();
+    return Math.min(r.width, r.height);
+  };
+  const small: { el: Element; p: string; img: Element; px: number }[] = [];
   for (const { el, p } of petals) {
     if (el.classList.contains("still") || el.classList.contains("mini") || el.getAttribute("data-tier") === "mini") continue;
     const img = el.querySelector("img");
     if (!img) continue;
-    const r = img.getBoundingClientRect();
-    const px = Math.min(r.width, r.height);
-    if (px > 0 && px < 38) out.push({ kind: "petal-too-small", sel: `/${p}/ badge`, detail: `The /${p}/ petal's picture is ${Math.round(px)} CSS px on the 844×390 phone (want ≥ 38; the badge is ${Math.round(el.getBoundingClientRect().width)} px wide).` });
+    const px = size(img);
+    if (px > 0 && px < 38) small.push({ el, p, img, px });
+  }
+  // petal-overflow and petal-covered (verify round 2: the w3-6 reward's row of seven won petals ran past its panel's left
+  // edge and its last petal sat under the Sticker Book, and the sweep saw only petal-too-small). Every visible petal that
+  // isn't a caption's mini chip, at rest: its shape inside the stage, inside any ancestor that clips it, and inside its
+  // panel (the nearest ancestor that paints a box, a background, gradient or border, and is smaller than most of the
+  // stage); and nothing painted over its picture (a 3×3 grid of points on it: covered when 3 or more are under one other
+  // thing). The hit test is made with every element's pointer-events on for that instant (the Sticker Book, confetti and
+  // the ninja take no taps), and full-screen layers (the particle canvas, the vignette, a modal's dimmer) don't count as
+  // covers. A petal (partly) scrolled out of a scrolling container's view, the World Flower's chart, is fine.
+  const stageEl = document.querySelector(".stage");
+  const stageR = stageEl?.getBoundingClientRect() ?? new DOMRect(0, 0, innerWidth, innerHeight);
+  const stageArea = stageR.width * stageR.height;
+  const nm = (el: Element) => {
+    const a = el.getAttribute("aria-label");
+    const c = typeof el.className === "string" && el.className.trim() ? "." + el.className.trim().split(/\s+/).slice(0, 2).join(".") : "";
+    return `${el.tagName.toLowerCase()}${c}${a ? `[aria-label="${a}"]` : ""}`;
+  };
+  const alphaOf = (col: string) => (col === "transparent" ? 0 : /^rgba?\(/.test(col) ? Number(col.replace(/^rgba?\(|\)$/g, "").split(/[,/\s]+/).filter(Boolean)[3] ?? 1) : 1);
+  /** does this element paint something of its own over its box (not a transparent wrapper)? */
+  const paints = (el: Element) => {
+    if (el instanceof SVGElement) return el.tagName.toLowerCase() !== "svg" && el.tagName.toLowerCase() !== "g";
+    if (["IMG", "CANVAS", "VIDEO", "PICTURE"].includes(el.tagName)) return true;
+    const s = getComputedStyle(el);
+    if (alphaOf(s.backgroundColor) >= 0.5 || s.backgroundImage !== "none") return true;
+    return [...el.childNodes].some((n) => n.nodeType === 3 && (n.textContent ?? "").trim().length > 0);
+  };
+  const boxed = (el: Element) => {
+    const s = getComputedStyle(el);
+    return alphaOf(s.backgroundColor) >= 0.5 || s.backgroundImage !== "none" || (s.borderTopStyle !== "none" && parseFloat(s.borderTopWidth) >= 1 && parseFloat(s.borderLeftWidth) >= 1);
+  };
+  const shown = (el: Element) => {
+    for (let e: Element | null = el; e; e = e.parentElement) {
+      const s = getComputedStyle(e);
+      if (s.display === "none" || s.visibility === "hidden" || Number(s.opacity) < 0.25) return false;
+    }
+    return true;
+  };
+  type Place = { over?: { px: number; side: string; of: string }; cover?: { n: number; by: string } };
+  /** Where a petal sits: how far it runs past its containers, and what lies over its picture. null: scrolled out of view. */
+  const placeOf = (el: Element): Place | null => {
+    const r = el.getBoundingClientRect();
+    const tol = Math.max(4, 0.15 * Math.min(r.width, r.height));
+    const place: Place = {};
+    const past = (c: DOMRect, of: string) => {
+      const sides: [number, string][] = [[c.left - r.left, "left"], [r.right - c.right, "right"], [c.top - r.top, "top"], [r.bottom - c.bottom, "bottom"]];
+      const [px, side] = sides.sort((a, b) => b[0] - a[0])[0];
+      if (px > tol && px > (place.over?.px ?? 0)) place.over = { px, side, of };
+    };
+    let panel: Element | null = null;
+    for (let a = el.parentElement; a && a !== document.body && a !== stageEl; a = a.parentElement) {
+      const s = getComputedStyle(a);
+      const ar = a.getBoundingClientRect();
+      if (["auto", "scroll"].includes(s.overflowX) || ["auto", "scroll"].includes(s.overflowY)) {
+        if (r.left < ar.left - 1 || r.right > ar.right + 1 || r.top < ar.top - 1 || r.bottom > ar.bottom + 1) return null;
+        continue;
+      }
+      if (["hidden", "clip"].includes(s.overflowX) || ["hidden", "clip"].includes(s.overflowY)) past(ar, `a clipping ${nm(a)}`);
+      if (!panel && !a.matches(".scene") && ar.width * ar.height < 0.8 * stageArea && boxed(a)) past(ar, `its panel ${nm((panel = a))}`);
+    }
+    past(stageR, "the stage");
+    const img = el.querySelector("img") ?? el;
+    const ir = img.getBoundingClientRect();
+    const by = new Map<Element, number>();
+    for (const fx of [0.2, 0.5, 0.8])
+      for (const fy of [0.2, 0.5, 0.8]) {
+        const x = ir.left + fx * ir.width, y = ir.top + fy * ir.height;
+        if (x < 0 || y < 0 || x >= innerWidth || y >= innerHeight) continue;
+        for (const top of document.elementsFromPoint(x, y)) {
+          if (top === el || el.contains(top) || top.contains(el)) break;
+          const tr = top.getBoundingClientRect();
+          if (tr.width * tr.height > 0.5 * stageArea || !paints(top) || !shown(top)) continue;
+          by.set(top, (by.get(top) ?? 0) + 1);
+          break;
+        }
+      }
+    const worst = [...by].sort((a, b) => b[1] - a[1])[0];
+    // (named by its first class only: the Sticker Book is "div.rw-book" before and after its "thunk")
+    const top1 = worst ? worst[0].closest("[class]") ?? worst[0] : null;
+    if (worst && top1 && worst[1] >= 3) place.cover = { n: worst[1], by: `${top1.tagName.toLowerCase()}${typeof top1.className === "string" && top1.className.trim() ? "." + top1.className.trim().split(/\s+/)[0] : ""}` };
+    return place;
+  };
+  /** every petal's place, with every element's pointer-events on for the hit tests (restored at once, same task) */
+  const placesNow = (els: Element[]) => {
+    const probe = document.createElement("style");
+    probe.textContent = "*, *::before, *::after { pointer-events: auto !important; }";
+    document.head.appendChild(probe);
+    try {
+      return els.map((el) => (el.isConnected && vis(el) ? placeOf(el) : null));
+    } finally {
+      probe.remove();
+    }
+  };
+  const placed = petals.filter(({ el }) => !el.classList.contains("mini") && el.getAttribute("data-tier") !== "mini" && !el.closest(".bubble"));
+  const firstLook = placesNow(placed.map((x) => x.el));
+  const misplaced = placed.map((x, i) => ({ ...x, look: firstLook[i] })).filter((x) => x.look && (x.look.over || x.look.cover));
+  if (small.length || misplaced.length) {
+    const moving = new Set<Animation>();
+    for (const e0 of [...small.map((s) => s.img), ...misplaced.map((m) => m.el)])
+      for (let e: Element | null = e0; e && e !== document.body; e = e.parentElement)
+        for (const a of e.getAnimations()) if (a.playState === "running" && Number.isFinite(a.effect?.getComputedTiming().endTime as number)) moving.add(a);
+    if (moving.size) await Promise.race([Promise.all([...moving].map((a) => a.finished.catch(() => {}))), new Promise((r) => setTimeout(r, 1500))]);
+    await new Promise((r) => setTimeout(r, 300));
+    for (const { el, p, img, px: first } of small) {
+      if (!img.isConnected || !vis(el)) continue;
+      const px = Math.max(first, size(img));
+      if (px > 0 && px < 38) out.push({ kind: "petal-too-small", sel: `/${p}/ badge`, detail: `The /${p}/ petal's picture is ${Math.round(px)} CSS px on the 844×390 phone, at rest (want ≥ 38; the badge is ${Math.round(el.getBoundingClientRect().width)} px wide).` });
+    }
+    // (both looks must agree: a petal still flying in, or confetti passing over, is let go)
+    const again = placesNow(misplaced.map((m) => m.el));
+    for (const [i, { el, p, look }] of misplaced.entries()) {
+      const now = again[i];
+      if (!now) continue;
+      const r = el.getBoundingClientRect();
+      const box = `its box ${Math.round(r.left)},${Math.round(r.top)} ${Math.round(r.width)}×${Math.round(r.height)} CSS px`;
+      if (look!.over && now.over) {
+        const o = now.over.px <= look!.over.px ? now.over : look!.over;
+        out.push({ kind: "petal-overflow", sel: `/${p}/ petal past ${o.of.replace(/^(its panel|a clipping) /, "")}`, detail: `The /${p}/ petal runs ${Math.round(o.px)} px past the ${o.side} edge of ${o.of}, at rest (${box}): part of it is off its panel or cut off.` });
+      }
+      if (look!.cover && now.cover && now.cover.by === look!.cover.by)
+        out.push({ kind: "petal-covered", sel: `/${p}/ petal under ${now.cover.by}`, detail: `${Math.min(now.cover.n, look!.cover.n)} of 9 points on the /${p}/ petal's picture are under ${now.cover.by}, at rest (${box}): the child can't see the petal.` });
+    }
   }
   return out;
 }
@@ -332,14 +548,23 @@ const SEV: Record<string, Finding["severity"]> = {
   "home-missing": "major", "home-covered": "major", "home-misplaced": "major", "home-duplicate": "major",
   "no-replay-for-instruction": "major", "auto-advance": "major", "auto-answer": "major",
   "replay-silent": "major", "replay-stale": "major", "show-again-broken": "major", "idle-nudge": "minor",
-  // --petals (minor until integration, FIX_PLAN I.2)
-  "sound-without-petal": "minor", "petal-for-hidden": "minor", "petal-giveaway": "minor", "petal-too-small": "minor", "sound-unclassified": "minor",
+  // the petal invariants (FIX_PLAN I.2): the first three are majors here, and blockers in the first-session cases
+  // (severityOf); petal-too-small, sound-unclassified and the perf invariants stay minor
+  "sound-without-petal": "major", "petal-for-hidden": "major", "petal-giveaway": "major", "petal-too-small": "minor", "sound-unclassified": "minor",
+  // (verify round 2) a petal off its panel, cut off, or under something painted: majors
+  "petal-overflow": "major", "petal-covered": "major",
+  "anim-main-thread": "minor", "anim-hidden": "minor", "raf-at-rest": "minor",
+  // a case's own steps (Case.acts, Case.watch): the World Flower's chart and cards by hand (SCROLL_DESIGN §8.4)
+  "scripted-step": "major", "chart-swipe": "major",
 };
-/** The first session (the opt-in, the welcome, Lessons 1 and 2, the film): a child's first minutes, where a missing Home or
- *  a screen that moves on by itself is a blocker. */
+
+/** The first session (the opt-in, the welcome, Lessons 1 and 2, the film): a child's first minutes, where a missing Home,
+ *  a screen that moves on by itself, or a sound shown wrongly (no petal, a hidden sound's petal, a petal that gives the
+ *  answer away: FIX_PLAN I.2) is a blocker. */
 const FIRST_SESSION = new Set(["optin", "optin-Y1", "optin-unsure", "training", "intro", "idle-next", "choose", "home-film", "home-choose", "home-optin", "home-training", ...LEVELS.filter((l) => l.warmup === "W1" || l.warmup === "W2").map((l) => l.id)]);
+const FIRST_SESSION_BLOCKERS = /^(home-|auto-|sound-without-petal$|petal-for-hidden$|petal-giveaway$)/;
 const severityOf = (kind: string, caseName: string): Finding["severity"] =>
-  FIRST_SESSION.has(caseName) && /^(home-|auto-)/.test(kind) ? "blocker" : SEV[kind] ?? "minor";
+  FIRST_SESSION.has(caseName) && FIRST_SESSION_BLOCKERS.test(kind) ? "blocker" : SEV[kind] ?? "minor";
 
 // ---------------------------------------------------------------- run one case
 async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings: Finding[]; secs: number; ok: boolean }> {
@@ -359,6 +584,8 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
   page.on("console", (m) => m.type() === "error" && !/favicon|404|net::ERR/.test(m.text()) && add(/two children with the same key/.test(m.text()) ? "duplicate-key" : "console-error", m.text().slice(0, 80), m.text().slice(0, 400)));
   await page.goto(BASE + "/play/");
   await page.evaluate((s) => localStorage.setItem("superninja.save.v1", JSON.stringify(s)), { ...(c.save ?? save()), settings: { relaxed: false, music: 0, captions: true, unlockAll: true } });
+  // --petals: the perf invariants' sampler (perf-probe.ts), before the page's own scripts
+  if (PETALS && !monkey) await page.addInitScript(perfSampler, { dur: DURS, fast: FAST });
   await page.addInitScript(([o, petals]) => {
     const w = window as any;
     w.__audioLog = [];
@@ -386,6 +613,7 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
       let prev: string | null = null;
       const log: any[] = w.__audioLog;
       log.push = function (...items: any[]) {
+        for (const it of items) w.__perfAct?.(it?.url);
         for (const it of items) {
           const m = String(it?.url ?? "").match(/\/a\/p\/([^/]+)\.mp3/);
           if (m) {
@@ -442,9 +670,28 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
       w.__snInput.push({ t: performance.now(), nav: n?.getAttribute("data-nav") ?? null, label, grown: !!el?.closest("[data-grownups]") || /^Grown-ups/.test(label ?? ""), dialog: !!el?.closest('[role="dialog"], [data-modal]') });
     }, true);
   }, [c.optin ?? "none", PETALS && !monkey] as const);
+  // (a case's own date: Date runs from it, as the flower saves' child lives)
+  if (c.clock)
+    await page.addInitScript((t) => {
+      const real = Date, off = new real(t).getTime() - real.now();
+      class ChildDate extends real {
+        constructor(...a: any[]) {
+          if (a.length === 0) super(real.now() + off);
+          else super(...(a as [any]));
+        }
+        static now() {
+          return real.now() + off;
+        }
+      }
+      (globalThis as any).Date = ChildDate;
+    }, c.clock);
   await page.goto(`${BASE}${c.url}${c.url.includes("?") ? "&" : "?"}fast=${FAST}`);
-  await page.mouse.click(VIEW.width / 2, 4);
+  await unlockAudio(page); // (not a click at the top: it closed the petal card on its backdrop)
   const pending = [...(monkey ? [] : c.taps ?? [])];
+  const acts = [...(monkey ? [] : c.acts ?? [])];
+  const watches = (monkey ? [] : c.watch ?? []).map((w) => ({ ...w, seen: false }));
+  // real touch for the acts: CDP touch points, as a finger (the chart's native scroll and its tap guard need them)
+  const cdp = acts.length ? await ctx.newCDPSession(page) : null;
   const meta: CaseMeta = { case: tag, url: c.url, kind: c.kind, title: c.title + (monkey ? " — random tapping" : ""), intent: INTENT[c.kind] ?? c.kind, frames: [] };
   /** A real tap (pointer events at its centre, as a finger would) on the first visible element with this aria-label. */
   const realTap = async (label: string, within = 12_000) => {
@@ -465,6 +712,123 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
     await page.waitForTimeout(1000 / FAST);
     const k = await n();
     return k > 1 ? k : null;
+  };
+  // ---- a case's own acts (Case.acts): a child's hand on the World Flower, with real touch
+  const snState = () => page.evaluate(() => (window as any).__snState ?? null).catch(() => null);
+  /** The centre of the first element matching `sel` that is on screen and not covered there. */
+  const spotOf = (sel: string) =>
+    page
+      .evaluate((sel) => {
+        for (const el of document.querySelectorAll(sel)) {
+          const r = el.getBoundingClientRect();
+          if (r.width < 4 || r.height < 4 || r.bottom < 2 || r.top > innerHeight - 2 || r.right < 2 || r.left > innerWidth - 2) continue;
+          const x = Math.min(Math.max(r.x + r.width / 2, 2), innerWidth - 2), y = Math.min(Math.max(r.y + r.height / 2, 2), innerHeight - 2);
+          const top = document.elementFromPoint(x, y);
+          if (top && (top === el || el.contains(top))) return { x, y };
+        }
+        return null;
+      }, sel)
+      .catch(() => null);
+  const touchTap = async (x: number, y: number) => {
+    if (!cdp) return page.mouse.click(x, y);
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y, id: 1, radiusX: 10, radiusY: 10, force: 1 }] });
+    await page.waitForTimeout(70);
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  };
+  /** The chart's scrollTop once it has stopped moving (unchanged for 300 ms; at most 4 s). */
+  const chartAtRest = async () => {
+    let last = -2, since = Date.now();
+    for (const t = Date.now(); Date.now() - t < 4000; await page.waitForTimeout(50)) {
+      const top = await page.evaluate(() => (document.querySelector(".pc-scroller") as HTMLElement | null)?.scrollTop ?? -1).catch(() => -1);
+      if (top !== last) (last = top), (since = Date.now());
+      else if (Date.now() - since > 300) break;
+    }
+    return Math.round(last);
+  };
+  /** A finger flick on the chart, as the design's acceptance makes it (SCROLL_DESIGN §8.2, mockup/cost.ts swipe60):
+   *  250 px in 120 ms, a touch point every 16.7 ms (paced, as a phone samples a finger). Each point carries its own time,
+   *  as a phone's touch screen stamps it: without the stamps, points that reached a busy page in a burst read as a far
+   *  faster fling, and the first flick after the chart opened sometimes went three half-sheets or none (3 of 40 flicks
+   *  at --par 4 under load; 0 of 40 with the stamps: F4, verify round 1). */
+  const flick = async (dir: "up" | "down") => {
+    const r = await page.evaluate(() => { const b = document.querySelector(".pc-scroller")?.getBoundingClientRect(); return b ? { x: b.x, y: b.y, w: b.width, h: b.height } : null; }).catch(() => null);
+    if (!r || !cdp) return false;
+    const dy = Math.min(250, r.h * 0.8) * (dir === "up" ? -1 : 1);
+    const x0 = r.x + r.w * 0.42, y0 = dir === "up" ? r.y + r.h - 30 : r.y + 30;
+    const pt = (y: number) => [{ x: x0, y, id: 1, radiusX: 10, radiusY: 10, force: 1 }];
+    const steps = Math.round(120 / 16.67), s0 = performance.now(), ts0 = Date.now() / 1000;
+    const at = (i: number) => ({ timestamp: ts0 + (i * 16.67) / 1000 });
+    try {
+      await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: pt(y0), ...at(0) });
+      for (let i = 1; i <= steps; i++) {
+        const wait = s0 + i * 16.67 - performance.now();
+        if (wait > 0) await new Promise((res) => setTimeout(res, wait));
+        await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: pt(y0 + (dy * i) / steps), ...at(i) });
+      }
+      await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [], ...at(steps) });
+    } catch {
+      return false;
+    }
+    return true;
+  };
+  /** Wait (real ms) until `js` holds in the page. */
+  const until = async (js: string, within = 4000) => {
+    for (const t = Date.now(); Date.now() - t < within; await page.waitForTimeout(150)) if (await page.evaluate(js).catch(() => false)) return true;
+    return !!(await page.evaluate(js).catch(() => false));
+  };
+  const doAct = async (a: Act) => {
+    const half = (await snState())?.half;
+    const name = a.do === "tap" ? `tap ${a.label}` : a.do === "tapSel" ? a.name : a.do === "swipe" ? `swipe ${a.dir}` : a.do === "dot" ? `page dot ${a.i}` : a.do === "scrim" ? "the backdrop" : a.name;
+    const fail = async (kind: string, detail: string) => {
+      const f = await frame(`act-${name.replace(/[^a-z0-9]+/gi, "-").slice(0, 30)}`);
+      add(kind, name, `${detail} snState=${JSON.stringify(await snState())}`, f ? [`cases/${tag}/${f}`] : []);
+    };
+    if (a.do === "tap") {
+      if (!(await realTap(a.label, 6000))) await fail("scripted-step", `Nothing labelled "${a.label}" to tap.`);
+      await page.waitForTimeout(1200 / FAST + 300);
+    } else if (a.do === "tapSel") {
+      const sel = a.sel.replace(/HALF/g, String(half ?? 0));
+      const at = await spotOf(sel);
+      if (!at) return fail("scripted-step", `Nothing on screen to tap for ${sel}.`);
+      await touchTap(at.x, at.y);
+      await page.waitForTimeout(1200 / FAST + 300);
+    } else if (a.do === "scrim") {
+      // a point on the card's backdrop, beside the card (the letterbox or the dimmed chart)
+      const at = await page
+        .evaluate(() => {
+          const bd = document.querySelector(".pd-backdrop")?.getBoundingClientRect(), card = document.querySelector(".pd-card")?.getBoundingClientRect();
+          if (!bd || !card) return null;
+          for (const [x, y] of [[bd.x + 24, bd.y + bd.height / 2], [bd.right - 24, bd.y + bd.height / 2], [bd.x + bd.width / 2, bd.bottom - 12], [bd.x + bd.width / 2, bd.y + 12]]) {
+            const inCard = x >= card.left && x <= card.right && y >= card.top && y <= card.bottom;
+            const top = document.elementFromPoint(x, y);
+            if (!inCard && top?.closest(".pd-backdrop") && !top.closest(".pd-card")) return { x, y };
+          }
+          return null;
+        })
+        .catch(() => null);
+      if (!at) return fail("scripted-step", "No petal card's backdrop to tap beside the card.");
+      await touchTap(at.x, at.y);
+      await page.waitForTimeout(1200 / FAST + 300);
+    } else if (a.do === "swipe") {
+      const top0 = await chartAtRest();
+      const before = (await snState())?.half;
+      if (typeof before !== "number" || !(await flick(a.dir))) return fail("scripted-step", "No petal chart on screen to swipe.");
+      await page.waitForTimeout(200);
+      const top1 = await chartAtRest();
+      const after = (await snState())?.half;
+      const want = Math.max(0, Math.min(5, before + (a.dir === "up" ? 1 : -1)));
+      if (after !== want) await fail("chart-swipe", `A finger flick ${a.dir} (250 px in 120 ms, paced at 60 Hz) on half-sheet ${before} ended on half-sheet ${after} (scrollTop ${top0} → ${top1}), not ${want}: one swipe must turn exactly one half-sheet (SCROLL_DESIGN §4.1, §8.2).`);
+    } else if (a.do === "dot") {
+      const at = await spotOf(`.pc-dots i[data-i="${a.i}"]`);
+      if (!at) return fail("scripted-step", `No page dot ${a.i} on screen.`);
+      await touchTap(at.x, at.y);
+      await page.waitForTimeout(300);
+      await chartAtRest();
+      if (!(await until(`window.__snState?.half === ${a.i}`, 3000))) await fail("scripted-step", `Page dot ${a.i} was tapped, but the chart is on half-sheet ${(await snState())?.half}.`);
+    } else if (a.do === "expect") {
+      if (!(await until(a.js, a.within ?? 4000))) await fail("scripted-step", `Expected within ${(a.within ?? 4000) / 1000} s: ${a.js}.`);
+    }
+    await frame(`act-${name.replace(/[^a-z0-9]+/gi, "-").slice(0, 30)}`);
   };
   const t0 = Date.now();
   let lastSig = "", lastChange = Date.now(), lastFrame = -1e9, ok = false, ticks = 0;
@@ -537,7 +901,8 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
     const v = ev.v;
     if (v.capped && capT == null) capT = ev.t;
     if (openTurn && v.next !== openTurn.next) {
-      const ins = between(openTurn.t, ev.t).filter((i) => !["again", "show", "sound"].includes(i.nav ?? ""));
+      // (a tap on the turn's own answer counts even on a [data-nav="sound"] petal: the petal join-in "petal s": C2)
+      const ins = between(openTurn.t, ev.t).filter((i) => !["again", "show", "sound"].includes(i.nav ?? "") || (!!i.label && i.label === openTurn!.next));
       const capped = capT != null && between(capT, ev.t).length > 0;
       if (!ins.length && !capped) add("auto-answer", `${openTurn.scene} turn`, `The turn "${openTurn.next}" (${openTurn.scene}) ended without an answer from the child (now ${JSON.stringify(v)}).`);
       openTurn = null;
@@ -551,7 +916,10 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
   const onPres = (ev: { t: number; v: string | null }) => {
     if (pres.v && ev.v !== pres.v) {
       const ins = between(pres.t, ev.t);
-      if (!ins.some((i) => ["next", "back", "home"].includes(i.nav ?? "")))
+      // a Ready hold (holdReady) also ends on a tap on the board or a right answer (a hand-over Ready: TEACHER_SCRIPT
+      // §2.3, readyTap): any tap but Hear it again, the paw or Help ends it by the child's hand (C2's request)
+      const byChild = pres.v.startsWith("ready:") ? ins.some((i) => !["again", "show", "help"].includes(i.nav ?? "")) : ins.some((i) => ["next", "back", "home"].includes(i.nav ?? ""));
+      if (!byChild)
         add("auto-advance", `step ${pres.v.split("#")[0]}`, `The step ${pres.v} went on to ${ev.v ?? "(the end of the show)"} by itself (taps: ${said(ins)}).`);
     }
     pres = { v: ev.v, t: ev.t };
@@ -753,6 +1121,19 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
       await frame(`tapped-${label.replace(/[^a-z0-9]+/gi, "-")}`);
       continue;
     }
+    // the case's own acts, one a step (the checks below run between them), once the screen has settled
+    if (acts.length) {
+      if (Date.now() - t0 < 2500) { await page.waitForTimeout(200); continue; }
+      await doAct(acts.shift()!);
+      lastFrame = -1e9; // (check the screen the act left at once)
+    }
+    for (const w of watches) if (!w.seen && (await page.evaluate(w.js).catch(() => false))) w.seen = true;
+    // a case made of acts alone is done once they are (and any trip they started is over)
+    if (c.acts && !acts.length && !monkey && !(await page.evaluate(() => (window as any).__snState?.busy === true).catch(() => false))) {
+      await frame("done");
+      ok = true;
+      break;
+    }
     if (c.play && !monkey && (await page.locator('button[aria-label="Play again"]').count())) {
       ok = true;
       // a warm-up's time governor (docs/FIRST_MINUTES.md §3 rule 10, §14): the lesson must close by its hard cap (not
@@ -821,6 +1202,8 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
     await page.waitForTimeout(monkey ? 250 : 350);
   }
   if (c.play && !monkey && !ok && ![...findings.values()].some((f) => f.title.startsWith("stuck"))) add("did-not-finish", "timeout", `The bot did not finish within ${MAX_MS / 1000}s real time.`);
+  for (const w of watches) if (!w.seen && !(await page.evaluate(w.js).catch(() => false))) add("scripted-step", `never: ${w.name}`, `This never held while the case played: ${w.js}.`);
+  for (const a of acts) add("scripted-step", `not reached: ${a.do === "tap" ? `tap ${a.label}` : a.do === "tapSel" || a.do === "expect" ? a.name : a.do}`, "The case ended before this act.");
   // leaving: one real tap must leave exactly one scene, the one expected (and its state, not the old scene's)
   if (ok && c.after && !monkey) {
     // a petal panel left open (e.g. offering a gem that is now ready) is closed first: it covers the arrow on purpose
@@ -840,6 +1223,11 @@ async function runCase(b: Browser, c: Case, monkey: boolean): Promise<{ findings
   }
   if (!monkey) await navTick(false);
   if (PETALS && !monkey) for (const i of await petalLog()) add(i.kind, i.sel, i.detail);
+  if (PETALS && !monkey) {
+    const samples: PerfSample[] = await page.evaluate(() => (window as any).__perfSamples ?? []).catch(() => []);
+    for (const i of perfIssues(samples)) add(i.kind, i.sel, i.detail);
+    writeFileSync(`${dir}/perf.json`, JSON.stringify(samples));
+  }
   // evidence for a navigation finding: every input and every change the checks saw (performance.now() ms)
   if ([...findings.values()].some((f) => /^(auto-|replay-|show-again|idle-)/.test(f.title)))
     writeFileSync(`${dir}/navtrack.json`, JSON.stringify({ inputs, track: trackLog, speech: speech.map((e) => ({ ...e, url: e.url.replace(/^.*\/a\//, "") })) }, null, 1));

@@ -1,0 +1,16 @@
+   0.0  l/tv_story_short
+   1.3  l/tv_story_title
+   3.2  s/s5_title
+   4.7  l/tv_story_begin
+   7.3  s/s5_1
+  19.1  l/audit_special_the
+  21.7  l/story_your_turn
+  23.3  l/tv_fs_say_slow
+  25.8  p/b
+  26.4  p/l
+  27.5  p/a
+  28.1  p/k
+  28.7  l/tv_fs_now_fast
+  30.4  w/black
+  31.2  l/t_two_letters
+  34.5  p/k

@@ -3,8 +3,12 @@
 // For stills (frame checks): ?tier=0..3 opens at that tier with its aura already on (no power-up, no line), and
 // ?strike=1 (or a move name: ?strike=cast) strikes the monster once, 1.5 s in; window.__demoHit is the
 // performance.now() when that strike lands.
+// ?ready=1: a readiness hold's look (docs/TEACHER_SCRIPT.md §2.3): ▶ pops in at the nav row's Next slot and the ninja turns
+// to face it in its ready stance; tap ▶ and the ninja bows (then ▶ comes back 2.5 s later). ?ready=bow also taps it by
+// itself 2.5 s in (window.__demoBow is the performance.now() when the bow starts), for stills of the bow.
+// ?caption=1: Sensei's caption bubble with a sound in it, drawn as its petal (needs the grown-ups' captions setting on).
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { img, Tile, tapProps, useHelp, fx } from "../ui/ui";
+import { img, Tile, tapProps, useHelp, fx, Icon, SenseiDock } from "../ui/ui";
 import { NinjaSpot, ninja, MOVES, type Move } from "../ui/Ninja";
 import { GemIcon } from "../ui/Gem";
 import { streak, useStreak, TIER_AT, type Tier } from "../engine/streak";
@@ -23,6 +27,56 @@ const OPEN_AT = q.has("tier") && QT >= 0 && QT <= 3 ? TIER_AT[QT as Tier] : null
 const STRIKE = q.get("strike");
 const LOOK = q.has("look");
 const STRIKE_MOVE: Move | null = !STRIKE ? null : (MOVES as string[]).includes(STRIKE) ? (STRIKE as Move) : "kick";
+const READY = q.get("ready");
+const CAPTION = q.has("caption");
+
+/** ?ready: a stand-in ▶ at the nav row's Next slot (nav.tsx NAV_SLOTS.row.next), the ninja facing it, and the bow. */
+function ReadyDemo() {
+  const [up, setUp] = useState(false);
+  const bowNow = () => {
+    setUp(false);
+    (window as any).__demoBow = performance.now();
+    void ninja.act("bow");
+    ninja.pose(null);
+    window.setTimeout(() => {
+      setUp(true);
+      ninja.pose("ready", { face: "next" });
+    }, 2500);
+  };
+  useEffect(() => {
+    const t = [window.setTimeout(() => (setUp(true), requestAnimationFrame(() => ninja.pose("ready", { face: "next" }))), 900)];
+    if (READY === "bow") t.push(window.setTimeout(bowNow, 2500));
+    return () => (t.forEach(clearTimeout), ninja.pose(null));
+  }, []);
+  if (!up) return null;
+  return (
+    <button
+      aria-label="Next"
+      data-nav="next"
+      className="btn-round go pulse pop-in"
+      style={{ position: "absolute", left: 1030 - 66, top: 628 - 66, width: 132, height: 132, zIndex: 20 }}
+      {...tapProps(bowNow)}
+    >
+      <Icon.next />
+    </button>
+  );
+}
+
+/** ?caption: a line with sounds in it, again and again, for the caption bubble's petals. */
+function CaptionDemo() {
+  useEffect(() => {
+    let alive = true;
+    const go = async () => {
+      while (alive) {
+        await say([{ line: "t_two_letters" }, { sound: "sh", show: "petal" }, { gap: 400 }, { line: "thats" }, { sound: "s", show: "hidden" }, { line: "we_need" }, { sound: "ks", show: "petal" }]);
+        await new Promise((r) => setTimeout(r, 1200));
+      }
+    };
+    void go();
+    return () => void (alive = false);
+  }, []);
+  return <SenseiDock />;
+}
 
 /** ?look=1: the looping effects that live in styles.css and Gem.tsx, side by side, for before/after stills (a ready gem,
  *  charging gems, the reward's focused gem, hinted tiles, Baron's card). */
@@ -128,7 +182,9 @@ export function NinjaDemo() {
         <B label="carry" on={() => void ninja.carry(refs.current.tile!, refs.current.slot!)} />
         <B label="knock" on={() => void ninja.knock(refs.current.tile!)} />
         <B label="kiai" on={() => ninja.say()} />
-        <B label="blossoms" on={() => fx.burst(640, 300, "blossoms", 30, 1.2)} />
+        {/* decoration falls as blossoms ("petals" is drawn as blossoms since Dec6); "rainbow" is the all-the-sounds teardrop */}
+        <B label="petals" on={() => fx.burst(640, 300, "petals", 30, 1.2)} />
+        <B label="rainbow" on={() => fx.burst(640, 300, "rainbow", 30, 1.2)} />
         <B
           label={slow > 1 ? `slow ${slow}x` : "slow-mo"}
           on={() => {
@@ -144,6 +200,8 @@ export function NinjaDemo() {
 
       <NinjaSpot />
       {LOOK && <LookSheet />}
+      {READY && <ReadyDemo />}
+      {CAPTION && <CaptionDemo />}
     </div>
   );
 }

@@ -10,7 +10,8 @@
 //   - a clip shorter than 1.2 s is levelled 3 LU under the sentences (−19 LUFS, not −16), so a one-word clip ("Listen...",
 //     "Brilliant!") never lands at a whole sentence's loudness and sounds barked;
 //   - a take faster than 3.3 words a second is taken again (warm and unhurried); the slowest good take is kept, with a
-//     warning if even that is too fast. Words are counted by script-audit's `wordCount`, the count `fast-line` uses;
+//     warning if even that is too fast. Words are counted by scripts/lib/words.ts `wordCount`, the count script-audit's
+//     `fast-line` uses;
 //   - a lead-in ending on "..." must end cleanly (no breath or stray sound) and suspended (its pitch falls no more than
 //     2 semitones over its last 300 ms, by the larger of the gate's Praat measure and a low-floor one: tailFall()), so
 //     a pure sound or a word can follow it. A take that falls is never kept over the clip already there: the line is reported and the run exits 1.
@@ -23,9 +24,9 @@ import { LINES } from "../src/content/lines";
 import { STORIES } from "../src/content/stories";
 import { tts, finishAudio, judgeAudio, trailingBlip, checkLoudness, gainTo, measureLufs, durationOf, SPEECH_LUFS } from "./tts";
 import { pool, generate, textOf } from "./gemini";
-import { wordCount } from "./treadmill/script-audit";
+import { wordCount } from "./lib/words";
 
-export const VOICES = { sensei: "Sulafat", baron: "Algenib" } as const;
+export const VOICES = { sensei: "Erinome", baron: "Algenib" } as const;
 const args = process.argv.slice(2);
 const force = args.includes("--force");
 const argOf = (k: string) => (args.includes(k) ? args[args.indexOf(k) + 1] : undefined);
@@ -54,9 +55,9 @@ export const SHORT_LUFS = SPEECH_LUFS - 3;
 export const MAX_WPS = 3.3;
 /** This run's pace: MAX_WPS, or slower with --max-wps (a line to take more slowly than the rule asks). */
 const PACE = Math.min(MAX_WPS, Number(argOf("--max-wps") ?? MAX_WPS));
-/** Words in a line: script-audit's `wordCount` itself, the count its `fast-line` check uses, so a take this script
- *  passes also passes that check (27 Sep: the two counted "grown-up" differently, so `tv_opt_ask` was 3.25 words a
- *  second here and 3.72 there). */
+/** Words in a line: the shared `wordCount` (scripts/lib/words.ts), the count script-audit's `fast-line` check uses, so
+ *  a take this script passes also passes that check (27 Sep: the two counted "grown-up" differently, so `tv_opt_ask`
+ *  was 3.25 words a second here and 3.72 there). */
 export const wordsIn = wordCount;
 
 /** finishAudio() (trim, 25 ms fades, two-pass loudness, −1.5 dBTP limiter, 50 ms pad) with the target chosen by the

@@ -149,7 +149,7 @@ export async function genLyria(out: string, r: { prompt: string }) {
 }
 
 // ---------- voices ----------
-/** Gemini TTS (same voices as the game: Sensei = Sulafat, Baron = Algenib). Plain text only: it reads directions aloud. */
+/** Gemini TTS (same voices as the game: Sensei = Erinome, Baron = Algenib). Plain text only: it reads directions aloud. */
 export async function genGeminiTts(out: string, r: { text: string; voice: string; model?: string }) {
   const json = await retry("tts", () =>
     gemJson(`models/${r.model ?? "gemini-3.8-flash-tts"}:generateContent`, {

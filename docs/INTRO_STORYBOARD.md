@@ -35,7 +35,7 @@ Each shot is cut so its key action lands on its narration words (word times from
 | 3 | Seedance t3_2 | 0–6 s (never retimed) | 0.419 s | lip-synced: his mouth says every word; he stomps and jabs on each "words", lightning after "WORDS!", fists of purple flame on "HATE them" |
 | 4 | Seedance t4_2 | 0–7.7 s (never retimed) | 0.2 s | one continuous lip-synced take: he gloats "I am Baron Muddle! Every sound on this island is…" with the fan raised, sweeps it on "MINE!", the whirlwind rips every petal into a rainbow vortex, and he laughs over the bare flower on "Mwa-ha-ha-ha!" |
 | 5 | take 1 | 0–4 s | 0.2 s | petal ribbons burst out on "blew away", land in the lands on "island" |
-| 6 | take 1 | 0–4 s | 0.2 s | the last glow fades on "gone dark", the panda looks up from the blank book on "nobody can read" |
+| 6 | take 1 | 0–4 s + 0.06 s hold | 0.1 s | the last glow fades on "gone dark", the panda looks up from the blank book on "nobody can read" |
 | 7 | take 2 | 0–4 s | 0.3 s | glares after Baron on "We need a hero", turns to the viewer on "We need…", holds out her paw on "a Super Ninja!" |
 | 8 | take 2 | 0–2.85 s at 0.85× (3.35 s) + hold | 0.25 s | ninjas land, Sensei points out across the island on "Win back every petal" (cut before Sensei turns away at 2.9 s) |
 

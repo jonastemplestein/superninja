@@ -1,0 +1,465 @@
+{
+ "about": "Reference clips for scripts/accent-judge.ts's calibration: the same sentences read by British voices (ElevenLabs Alice; George) and an American one (OpenAI coral with no accent instruction). Copied from the accent audit (playtest/voice-picker/audit.md; its raw takes are in the gitignored playtest/runs/voice-picker/audit). Each clip lists its target words per feature: bath (the BATH vowel), r (an r after a vowel, before a consonant or a pause), flap (a t between vowels). `anchors` are the pairs of clips the r and flap questions compare against (they are not calibration items). A reference word is listed only where it carries its accent's form: the accent audit's acoustics (playtest/runs/voice-picker/audit/measures.json) put coral's \"four\" at F3 0.99 of her usual (no r), so it is left out.",
+ "refs": [
+  {
+   "file": "eleven-alice/sensei-1.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Hello, ninja! Today I'm going to show you how to read a brand new word. Are you ready?",
+   "words": {
+    "r": [
+     "word"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/sensei-2.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Can you find the car? It's by the grass, next to the bath.",
+   "words": {
+    "bath": [
+     "grass",
+     "bath"
+    ],
+    "r": [
+     "car"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/sensei-3.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Let's say it the slow way first, then the fast way. Brilliant, you did it!",
+   "words": {
+    "bath": [
+     "fast"
+    ],
+    "r": [
+     "first"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/sensei-4.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Say mat slowly. Now say it fast.",
+   "words": {
+    "bath": [
+     "fast"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/sensei-6.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Water, butter, tomato, dance, can't, half past four.",
+   "words": {
+    "bath": [
+     "dance",
+     "can't",
+     "half",
+     "past"
+    ],
+    "r": [
+     "four"
+    ],
+    "flap": [
+     "water",
+     "butter",
+     "tomato"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/narrator-1.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Once upon a time, on an island far across the sea, grew the World Flower.",
+   "words": {
+    "r": [
+     "World",
+     "Flower"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/tv_same_word.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Fast or slow, it's the same word. When I say it slowly, I can hear its sounds.",
+   "words": {
+    "bath": [
+     "Fast"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/fm_starfish_q.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Star... fish. Tap the rabbit, and say them fast.",
+   "words": {
+    "bath": [
+     "fast"
+    ],
+    "r": [
+     "Star"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/fm_opt_q2.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Which class are you in? Tap your class.",
+   "words": {
+    "bath": [
+     "class"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/audit_middle_place.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "The middle sound comes after the first sound, and before the last sound.",
+   "words": {
+    "bath": [
+     "after",
+     "last"
+    ],
+    "r": [
+     "first"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/help_name.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Ask a grown-up to help you type your name, then tap the green tick.",
+   "words": {
+    "bath": [
+     "Ask"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/jump_pick.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "How far shall we jump? Ask a grown-up to help you choose.",
+   "words": {
+    "bath": [
+     "Ask"
+    ],
+    "r": [
+     "far"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/world_5.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+   "words": {
+    "bath": [
+     "Castle"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/film_1.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "Long ago, on the Island of Sounds, there grew a magic World Flower.",
+   "words": {
+    "r": [
+     "World",
+     "Flower"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/film_6.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "The World Flower has gone dark. Now nobody can read!",
+   "words": {
+    "r": [
+     "World",
+     "dark"
+    ]
+   }
+  },
+  {
+   "file": "eleven-alice/finale.mp3",
+   "voice": "ElevenLabs v3 Alice (British female)",
+   "accent": "british",
+   "text": "You did it, Super Ninja! Every petal is back on the World Flower. The whole island can read and spell again!",
+   "words": {
+    "r": [
+     "World",
+     "Flower"
+    ],
+    "flap": [
+     "petal"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/sensei-1.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Hello, ninja! Today I'm going to show you how to read a brand new word. Are you ready?",
+   "words": {
+    "r": [
+     "word"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/sensei-2.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Can you find the car? It's by the grass, next to the bath.",
+   "words": {
+    "bath": [
+     "grass",
+     "bath"
+    ],
+    "r": [
+     "car"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/sensei-3.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Let's say it the slow way first, then the fast way. Brilliant, you did it!",
+   "words": {
+    "bath": [
+     "fast"
+    ],
+    "r": [
+     "first"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/sensei-4.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Say mat slowly. Now say it fast.",
+   "words": {
+    "bath": [
+     "fast"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/sensei-6.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Water, butter, tomato, dance, can't, half past four.",
+   "words": {
+    "bath": [
+     "dance",
+     "can't",
+     "half",
+     "past"
+    ],
+    "r": [],
+    "flap": [
+     "water",
+     "butter",
+     "tomato"
+    ]
+   },
+   "note": "No r word: the audit measured coral's \"four\" here as non-rhotic (F3 0.99 of her usual), so it is no American r reference."
+  },
+  {
+   "file": "openai-coral/narrator-1.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Once upon a time, on an island far across the sea, grew the World Flower.",
+   "words": {
+    "r": [
+     "World",
+     "Flower"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/tv_same_word.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Fast or slow, it's the same word. When I say it slowly, I can hear its sounds.",
+   "words": {
+    "bath": [
+     "Fast"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/fm_starfish_q.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Star... fish. Tap the rabbit, and say them fast.",
+   "words": {
+    "bath": [
+     "fast"
+    ],
+    "r": [
+     "Star"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/fm_opt_q2.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Which class are you in? Tap your class.",
+   "words": {
+    "bath": [
+     "class"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/audit_middle_place.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "The middle sound comes after the first sound, and before the last sound.",
+   "words": {
+    "bath": [
+     "after",
+     "last"
+    ],
+    "r": [
+     "first"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/help_name.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Ask a grown-up to help you type your name, then tap the green tick.",
+   "words": {
+    "bath": [
+     "Ask"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/jump_pick.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "How far shall we jump? Ask a grown-up to help you choose.",
+   "words": {
+    "bath": [
+     "Ask"
+    ],
+    "r": [
+     "far"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/world_5.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Welcome to Shadow Castle. Don't worry, I'm right beside you.",
+   "words": {
+    "bath": [
+     "Castle"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/film_1.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "Long ago, on the Island of Sounds, there grew a magic World Flower.",
+   "words": {
+    "r": [
+     "World",
+     "Flower"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/film_6.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "The World Flower has gone dark. Now nobody can read!",
+   "words": {
+    "r": [
+     "World",
+     "dark"
+    ]
+   }
+  },
+  {
+   "file": "openai-coral/finale.mp3",
+   "voice": "OpenAI gpt-4o-mini-tts coral, no accent instruction (American female)",
+   "accent": "american",
+   "text": "You did it, Super Ninja! Every petal is back on the World Flower. The whole island can read and spell again!",
+   "words": {
+    "r": [
+     "World",
+     "Flower"
+    ],
+    "flap": [
+     "petal"
+    ]
+   }
+  },
+  {
+   "file": "../elevenlabs/eleven-george-steady/narrator-1.mp3",
+   "voice": "ElevenLabs George, steady (British male)",
+   "accent": "british",
+   "text": "Once upon a time, on an island far across the sea, grew the World Flower.",
+   "words": {
+    "r": [
+     "World",
+     "Flower"
+    ]
+   }
+  },
+  {
+   "file": "../elevenlabs/eleven-george-steady/narrator-2.mp3",
+   "voice": "ElevenLabs George, steady (British male)",
+   "accent": "british",
+   "text": "But one stormy night, Baron Muddle crept up the mountain…",
+   "words": {
+    "r": [
+     "stormy"
+    ]
+   }
+  }
+ ],
+ "anchors": {
+  "flap": {
+   "word": "Water",
+   "text": "Water.",
+   "british": "eleven-alice/w_water.mp3",
+   "american": "openai-coral/w_water.mp3",
+   "why": "The flap is judged ABX: Alice's British \"Water.\" and coral's flapped one (in a fresh order each vote), then the clip. Asked directly, the judge called coral's flaps British in 8 of 15 votes; against these two it called 29 of 30 flaps in other voices (macOS Samantha, Sensei's shipped film_5 and finale) American and 59 of 60 British t's (macOS Daniel, Sensei's sensei-6 and film_2) British (27 Sep)."
+  },
+  "r": {
+   "word": "Bird",
+   "text": "Bird.",
+   "british": "eleven-alice/w_bird.mp3",
+   "american": "openai-coral/w_bird.mp3",
+   "why": "The r is judged ABX too, against Alice's British \"Bird.\" and coral's r-coloured one. Asked directly, it was unsure of a British word-final r said alone (\"Car.\" 2 of 4 British, \"Four.\" 3 of 4); against these two it called all 24 votes on British r-words in other voices (Sensei's shipped w_car, w_her, film_1, the Baron's baron-1, macOS Daniel) British and 18 of 20 on American ones (Sensei's shipped w_bird and finale, macOS Samantha, the Baron's baron-1 take 3) American (27 Sep)."
+  }
+ }
+}

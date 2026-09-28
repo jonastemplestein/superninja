@@ -1,0 +1,67 @@
+{
+ "what": "The ninja's bow (rei) sprites, public/a/i/hero_<kai|suki>_bow.webp (27 Sep, the read-slider judge's finding 6). Made as scripts/gen-hero-moves.ts makes a move pose (image-to-image from the raw idle, its KEEP/SPRITE/NO_FX/STYLE prompt, gemini-3-pro-image, 1:1), cut as post-art.py cuts a sprite (rembg isnet-anime, post_process_mask; alpha < 12 cleared; trimmed with a 6 px pad), and exported at the idle sprite's own pixel scale (x0.899 of the raw: 640 / the idle cut's trimmed width; the raws match idle's head, fists and feet), WebP q86 method 6.",
+ "picks": {
+  "hero_kai_bow": {
+   "raw": "raw/hero_kai_bow_7.png",
+   "cut": "cut/hero_kai_bow_7.png",
+   "size": [
+    613,
+    864
+   ],
+   "round": 2,
+   "refs": [
+    "assets-src/art/hero_kai_idle.png"
+   ],
+   "prompt": "Using the attached image as the exact character reference (same character, same outfit, same colours, same face, same art style and line weight), draw this character making a clear, deep NINJA BOW, a martial-arts dojo bow (rei), towards the right, seen in a three-quarter side view facing right: both legs straight and the heels together, the whole upper body tipped forward from the hips about 40 degrees with a straight back, so the head is clearly lower and further to the right than in a standing pose, both wrapped fists pressed together in front of the chest with the knuckles touching, the head bowed with the face still visible, eyes open and looking down at the floor ahead, a calm, proud, warm smile with the mouth closed, the headband tails hanging down behind the head. The bow must be obvious from the silhouette alone. Keep him exactly on-model: messy black top-knot, deep indigo (not blue) ninja outfit with golden trim, bright red headband with long tails, golden sash, white wrapped hands and feet, warm brown skin. A single full-body character, centred, on a plain flat pure white background, no ground, no shadow, no scenery, nothing else in the image. Draw only the character: no motion lines, no speed lines, no swoosh marks, no glow, no aura, no sparkles, no impact effects, no dust. Art style: premium hand-painted 2D children's video game art. Bold, clean, confident dark-brown ink outlines of even weight, rich saturated cel-shaded colours with soft painterly texture, warm rim light, big readable silhouettes, expressive friendly faces, charming and slightly cheeky, high production value like a top-tier mobile adventure game. Not photorealistic, no 3D render look. Absolutely no text, no letters, no numbers, no watermark, no signature, no border."
+  },
+  "hero_suki_bow": {
+   "raw": "raw/hero_suki_bow_12.png",
+   "cut": "cut/hero_suki_bow_12.png",
+   "size": [
+    549,
+    877
+   ],
+   "round": 4,
+   "refs": [
+    "raw/hero_kai_bow_5.png (the pose)",
+    "assets-src/art/hero_suki_idle.png (her looks)"
+   ],
+   "prompt": "Edit the first attached image. Keep the pose EXACTLY as it is: the respectful ninja bow (rei) towards the right, the upper body tipped forward from the hips with a straight back, the legs straight with the heels together, both wrapped fists pressed together in front of the chest, the head bowed with the face visible in a three-quarter side view facing right, eyes looking down, a calm, proud, warm smile, the headband tails hanging down behind the head; keep the same camera angle, size and position. Change only who it is: the boy becomes the girl in the second attached image (the same girl: her face, her freckles, her hair, her outfit, her colours). Keep her exactly on-model: both round bouncy auburn bunches stay on her head (never loose hair), freckles, teal ninja outfit with coral-pink trim, coral-pink headband with long tails, golden sash, white wrapped hands and feet. A single full-body character, centred, on a plain flat pure white background, no ground, no shadow, no scenery, nothing else in the image. Draw only the character: no motion lines, no speed lines, no swoosh marks, no glow, no aura, no sparkles, no impact effects, no dust. Art style: premium hand-painted 2D children's video game art. Bold, clean, confident dark-brown ink outlines of even weight, rich saturated cel-shaded colours with soft painterly texture, warm rim light, big readable silhouettes, expressive friendly faces, charming and slightly cheeky, high production value like a top-tier mobile adventure game. Not photorealistic, no 3D render look. Absolutely no text, no letters, no numbers, no watermark, no signature, no border."
+  }
+ },
+ "rounds": {
+  "1 (#0-3, both)": "a 30-degree bow, three-quarter view facing right: on-model, but most stand upright with fists together (Kai #3 is the only real bow)",
+  "2 (#4-7, both)": "'a clear, deep bow ... obvious from the silhouette alone': Kai #4, #5 and #7 bow; Suki is upright in all four",
+  "3 (Suki #8-11)": "her idle plus Kai #5 as a pose-only reference: still upright (#8, #10 lean a little)",
+  "4 (Suki #12-15)": "an edit of Kai #5, keeping the pose, with her idle for her looks: #12 bows as Kai does; #13 and #14 bow from the waist with the head up; #15 upright",
+  "3 (Kai #8-11)": "edits of Suki #13 and #14 (three-quarter bows, for their poseFit size): #8 bows but measures x1.100; #9 and #11 barely bow; #10 is off-model (no sleeves, no foot wraps)"
+ },
+ "poseFit": {
+  "note": "src/ui/poses.ts poseFit() sizes a pose by its painted area (alpha > 110 on a 96 px sample), so a pose's draw scale per sprite pixel, against idle's, is sqrt(idle.area / pose.area) at the same pixel scale; the export size can't change it. ready, think and listen measure x1.00 +/- 0.01. A bow folds the arms over the chest and covers less, so every candidate that clearly bows measures x1.08-1.15. The picks agree (x1.084, x1.102), so one TWEAK (bow: 0.915, requested from F1 in docs/fix-requests.md) brings both within 1% (x0.992, x1.008), as flip's 0.9 does.",
+  "per-pixel draw scale vs idle": {
+   "kai": {
+    "3": 1.114,
+    "4": 1.134,
+    "5": 1.145,
+    "7": 1.084,
+    "8": 1.1,
+    "9": 1.041,
+    "10": 1.105,
+    "11": 1.032
+   },
+   "suki": {
+    "8": 1.011,
+    "10": 1.038,
+    "12": 1.102,
+    "13": 1.036,
+    "14": 1.039
+   }
+  }
+ },
+ "sheets": {
+  "sheets/game-size.jpg": "idle, ready, cheer and the bow at game size (NinjaSpot size 250, feet on the stage floor, on bg_bamboo; stage px = the phone's device px at 844x390 @2x within 8%): Kai #7 untweaked, then with TWEAK 0.915, Kai #5 and Suki #12 with TWEAK 0.915",
+  "sheets/in-game.jpg": "the real move (a scratch page with <Stage> and <NinjaSpot>, ninja.act('bow') at slow motion x5, untweaked): idle, ready, four frames of the bow, back to ready",
+  "sheets/raws-kai.jpg": "Kai's raws #0-11",
+  "sheets/raws-suki.jpg": "Suki's raws #0-15"
+ }
+}

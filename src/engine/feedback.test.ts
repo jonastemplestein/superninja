@@ -16,7 +16,7 @@ test("C5: < s > for /sh/ gives the two-letter correction, on the first miss, wit
 test("C5: < t > for /sh/ keeps the listening branch; the second miss shows and hands the turn back", () => {
   const first = ids(correction("t", sh, "shop", 1));
   assert.equal(first.length, 2);
-  assert.ok(["tv_listen_here", "listen_here", "audit_listen_slowly", "audit_listen_next"].includes(first[0] as string), String(first[0]));
+  assert.ok(["tv_listen_here", "listen_here", "audit_listen_slowly", "audit_listen_next", "audit_spelling_help_plain"].includes(first[0] as string), String(first[0]));
   assert.deepEqual(ids(correction("t", sh, "shop", 2)), ["thats", "/t/", "we_need", "/sh/", "its_this_one"]);
 });
 test("C5: the same sound in another spelling is about spelling, not listening (< s > for < ss > isn't a split)", () => {
@@ -69,13 +69,14 @@ test("TS §5.3: the big words are out of the everyday rotation", () => {
   const out = run(Array.from({ length: 10 }, () => ({})), (id) => !id.startsWith("tv_")).filter(Boolean);
   for (const x of out) assert.ok(["yay_1", "yay_2", "yay_4", "yay_8"].includes(x as string), String(x));
 });
-test("A4: praiseFor keeps the rhythm across calls and resets with the level", () => {
+test("praiseFor encourages every answer by default while respecting competing feedback", () => {
   resetPraise();
-  assert.equal(praiseFor(), null);
   assert.notEqual(praiseFor(), null);
-  assert.equal(praiseFor(), null);
+  assert.notEqual(praiseFor(), null);
+  assert.equal(praiseFor({ replaced: true }), null);
+  assert.equal(praiseFor({ closingNext: true }), null);
   resetPraise();
-  assert.equal(praiseFor(), null, "a new level starts the count again");
+  assert.notEqual(praiseFor(), null, "encourage the first answer of a new level");
 });
 
 // ---------------------------------------------------------------- picture games (TEACHER_SCRIPT §5.4)
@@ -101,4 +102,35 @@ test("TS §5.4: Sound Hunt, Ninja Ears, Slow Words and Guess My Word rephrase an
 test("TS §5.4: a second miss in a picture game is done together, and hands the turn back", () => {
   const c = pictureCorrection({ game: "firstsound", tapped: "moon", target: "sun", attempt: 2, p: "s" });
   assert.deepEqual(ids(c.say), [HAS.has("tv_fix_together") ? "tv_fix_together" : "fm_its_this"]);
+});
+
+// ---------------------------------------------------------------- fast and slow (FS1, TEACHER_SCRIPT §9)
+import { listenLead, praiseBy, praiseWanted } from "./feedback";
+test("FS1: a spelling slip's first miss plays the plain word, never the gapped slow word; its lead never promises 'slowly'", () => {
+  for (let i = 0; i < 4; i++) {
+    const c = correction("t", sh, "shop", 1);
+    assert.ok(c.some((x) => "word" in x && x.word === "shop"), JSON.stringify(c));
+    assert.ok(!c.some((x) => "stretch" in x));
+    assert.notEqual(ids(c)[0], "audit_listen_slowly");
+  }
+  const leads = new Set(Array.from({ length: 6 }, () => listenLead("sun", { slow: true })));
+  assert.ok(leads.has("audit_listen_slowly"), "with the slow word, the 'slowly' lead rotates in");
+});
+test("FS-F2.1: a fast/slow line in the praise slot is the answer's praise: the rhythm starts again from it", () => {
+  resetPraise();
+  praiseFor({ every: 2 });
+  assert.equal(praiseWanted({ every: 2 }), true);
+  praiseBy("tv_fs_praise_every");
+  assert.equal(praiseWanted({ every: 2 }), false, "counted as praised");
+  const next = praiseFor({ game: "build" });
+  assert.ok(next && next !== "tv_fs_praise_every" && !next.startsWith("tv_praise_"), `a generic line next (${next})`);
+});
+
+test("verify round 1: a first miss on the word's first sound never asks for \"the next sound\"", () => {
+  const t = { g: "t", p: "t" as const }, a = { g: "a", p: "a" as const };
+  const firsts = [0, 1, 2, 3].map(() => ids(correction("s", t, "tap", 1))[0]);
+  for (const lead of firsts) assert.ok(["tv_listen_here", "listen_here", "audit_spelling_help_plain"].includes(lead as string), `the first sound: ${lead}`);
+  assert.equal(new Set(firsts).size, 2, "two sentences take turns on the first sound");
+  const later = new Set([0, 1, 2, 3].map(() => ids(correction("s", a, "tap", 1))[0]));
+  assert.ok(later.has("audit_listen_next"), "a later sound still rotates in \"What sound comes next?\"");
 });

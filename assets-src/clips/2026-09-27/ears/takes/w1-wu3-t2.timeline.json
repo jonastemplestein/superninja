@@ -1,0 +1,308 @@
+{
+ "name": "w1-wu3-t2",
+ "url": "https://superninja.templestein.com/play/?level=w1-wu3",
+ "capture": "cdp",
+ "gpu": false,
+ "width": 1920,
+ "height": 1080,
+ "fps": 30,
+ "duration": 33.967,
+ "game": {
+  "start": 2.536,
+  "end": 32.205
+ },
+ "sync": {
+  "pictureLatencyMs": [
+   37.6,
+   80.2,
+   39.4,
+   28.6,
+   33.7,
+   29.3,
+   34.9,
+   24.2,
+   30.6,
+   34
+  ],
+  "audioShiftMs": 42.5,
+  "residualMs": [
+   9.2,
+   -51.8,
+   -0.4,
+   -2.1,
+   6.9,
+   15.2,
+   -9.1,
+   11.3,
+   -10.1,
+   -7.1
+  ],
+  "residualMedianMs": -1.2,
+  "residualMaxAbsMs": 51.8
+ },
+ "frames": {
+  "frames": 1389,
+  "fps": 47.6,
+  "p50": 21.6,
+  "p95": 28.8,
+  "p99": 34.9,
+  "max": 260.3,
+  "hitches": 2,
+  "repeatedSlots": 15,
+  "slots": 874,
+  "deliveryMs": 30.9
+ },
+ "master": "w1-wu3-t2.master.mp4",
+ "audio": "w1-wu3-t2.master.wav",
+ "recordedAt": "2026-09-27T04:52:55.794Z",
+ "events": [
+  {
+   "t": 0.743,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.082,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.4,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.665,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 1.974,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 2.584,
+   "kind": "mark",
+   "id": "reload"
+  },
+  {
+   "t": 2.622,
+   "kind": "hitch",
+   "id": "206 ms",
+   "dur": 0.206
+  },
+  {
+   "t": 2.674,
+   "kind": "mark",
+   "id": "loaded"
+  },
+  {
+   "t": 3.027,
+   "kind": "scene",
+   "id": "warmup"
+  },
+  {
+   "t": 3.041,
+   "kind": "music",
+   "id": "dojo",
+   "dur": 30.954
+  },
+  {
+   "t": 3.042,
+   "kind": "speech",
+   "id": "fm_l1_hello",
+   "dur": 3.081,
+   "text": "Ninja ears on! Let's listen to some words."
+  },
+  {
+   "t": 6.251,
+   "kind": "speech",
+   "id": "fm_name_mug",
+   "dur": 0.778,
+   "text": "This is a mug."
+  },
+  {
+   "t": 7.181,
+   "kind": "speech",
+   "id": "fm_show_me",
+   "dur": 1.102,
+   "text": "Let me show you!"
+  },
+  {
+   "t": 9.035,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 9.037,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 9.038,
+   "kind": "speech",
+   "id": "word:mug",
+   "dur": 0.637
+  },
+  {
+   "t": 9.705,
+   "kind": "speech",
+   "id": "fm_slow",
+   "dur": 1.656,
+   "text": "Or I can say it slowly..."
+  },
+  {
+   "t": 10.429,
+   "kind": "sfx",
+   "id": "tap"
+  },
+  {
+   "t": 11.508,
+   "kind": "speech",
+   "id": "stretch:mug",
+   "dur": 1.063
+  },
+  {
+   "t": 12.991,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 13.023,
+   "kind": "speech",
+   "id": "fm_tap_tortoise",
+   "dur": 3.403,
+   "text": "Now you tap the tortoise, and say it slowly with me."
+  },
+  {
+   "t": 13.892,
+   "kind": "hitch",
+   "id": "260 ms",
+   "dur": 0.26
+  },
+  {
+   "t": 17.393,
+   "kind": "mark",
+   "id": "slip rabbit"
+  },
+  {
+   "t": 17.438,
+   "kind": "tap",
+   "id": "rabbit",
+   "text": "rect 946,216,128,128"
+  },
+  {
+   "t": 17.439,
+   "kind": "sfx",
+   "id": "whoosh"
+  },
+  {
+   "t": 17.44,
+   "kind": "speech",
+   "id": "word:mug",
+   "dur": 0.635
+  },
+  {
+   "t": 18.075,
+   "kind": "speech",
+   "id": "fm_tap_tortoise",
+   "dur": 3.403,
+   "text": "Now you tap the tortoise, and say it slowly with me."
+  },
+  {
+   "t": 22.881,
+   "kind": "tap",
+   "id": "tortoise",
+   "text": "rect 385,215,131,131"
+  },
+  {
+   "t": 22.882,
+   "kind": "speech",
+   "id": "stretch:mug",
+   "dur": 1.063
+  },
+  {
+   "t": 24.399,
+   "kind": "sfx",
+   "id": "tink"
+  },
+  {
+   "t": 25.166,
+   "kind": "speech",
+   "id": "fm_name_van",
+   "dur": 1.379,
+   "text": "This is a van."
+  },
+  {
+   "t": 25.247,
+   "kind": "hitch",
+   "id": "250 ms",
+   "dur": 0.25
+  },
+  {
+   "t": 26.823,
+   "kind": "speech",
+   "id": "fm_name_bag",
+   "dur": 1.331,
+   "text": "This is a bag."
+  },
+  {
+   "t": 28.306,
+   "kind": "speech",
+   "id": "fm_show_me_2",
+   "dur": 1.324,
+   "text": "Watch me first!"
+  },
+  {
+   "t": 29.662,
+   "kind": "speech",
+   "id": "fm_slow_listen",
+   "dur": 2.492,
+   "text": "Listen to my slow word..."
+  },
+  {
+   "t": 32.249,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 32.557,
+   "kind": "speech",
+   "id": "stretch:mug",
+   "dur": 1.063
+  },
+  {
+   "t": 32.558,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 32.845,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 33.157,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 33.46,
+   "kind": "slate",
+   "id": "clap"
+  },
+  {
+   "t": 33.922,
+   "kind": "speech",
+   "id": "fm_which_pic",
+   "dur": 0.073,
+   "text": "Which picture is it?"
+  },
+  {
+   "t": 36.184,
+   "kind": "mark",
+   "id": "lesson over"
+  }
+ ]
+}

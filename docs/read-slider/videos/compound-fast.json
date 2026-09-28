@@ -1,0 +1,348 @@
+{
+ "case": "compound",
+ "speed": "fast",
+ "videoStart": 1790513061986.013,
+ "frames": 4327,
+ "events": [
+  {
+   "t": 0.256,
+   "kind": "http",
+   "status": 404,
+   "url": "http://127.0.0.1:4973/a/i/hero_kai_bow.webp"
+  },
+  {
+   "t": 0.258,
+   "kind": "http",
+   "status": 404,
+   "url": "http://127.0.0.1:4973/a/i/hero_suki_bow.webp"
+  },
+  {
+   "t": 1.189,
+   "kind": "tap",
+   "why": "start"
+  },
+  {
+   "t": 21.064,
+   "kind": "tap",
+   "why": "rabbit"
+  },
+  {
+   "t": 40.734,
+   "kind": "tap",
+   "why": "ready ▶"
+  },
+  {
+   "t": 46.366,
+   "kind": "drag",
+   "why": "a fast slide",
+   "x0": 400,
+   "x1": 985,
+   "ms": 180,
+   "realMs": 259,
+   "moves": 7
+  },
+  {
+   "t": 54.685,
+   "kind": "tap",
+   "why": "rabbit"
+  },
+  {
+   "t": 63.066,
+   "kind": "drag",
+   "why": "a fast slide",
+   "x0": 400,
+   "x1": 985,
+   "ms": 180,
+   "realMs": 229,
+   "moves": 7
+  },
+  {
+   "t": 66.132,
+   "kind": "tap",
+   "why": "rabbit"
+  }
+ ],
+ "slider": [
+  {
+   "t": 1147,
+   "step": "frame"
+  },
+  {
+   "t": 12273,
+   "step": "part",
+   "i": 0
+  },
+  {
+   "t": 13856,
+   "step": "part",
+   "i": 1
+  },
+  {
+   "t": 21667,
+   "step": "demo-fast",
+   "how": "tap"
+  },
+  {
+   "t": 26479,
+   "step": "part",
+   "i": 1
+  },
+  {
+   "t": 28556,
+   "step": "part",
+   "i": 0
+  },
+  {
+   "t": 46088,
+   "step": "part",
+   "i": 0
+  },
+  {
+   "t": 47243,
+   "step": "part",
+   "i": 1
+  },
+  {
+   "t": 55406,
+   "step": "snowman",
+   "how": "tap",
+   "wrongWays": 0,
+   "middles": 0,
+   "flick": true,
+   "ms": 9317.699999988079
+  },
+  {
+   "t": 62805,
+   "step": "part",
+   "i": 0
+  },
+  {
+   "t": 63652,
+   "step": "part",
+   "i": 1
+  },
+  {
+   "t": 66771,
+   "step": "cupcake",
+   "how": "tap",
+   "wrongWays": 0,
+   "middles": 0,
+   "flick": true,
+   "ms": 3966.5999999940395
+  },
+  {
+   "t": 70685,
+   "step": "end"
+  }
+ ],
+ "nav": [
+  {
+   "t": 14771.59999999404,
+   "kind": "speed",
+   "which": "slow",
+   "via": "slider"
+  },
+  {
+   "t": 20923.5,
+   "kind": "rabbit",
+   "how": "tap"
+  },
+  {
+   "t": 34651.40000000596,
+   "kind": "step",
+   "id": "rs-ready",
+   "from": null,
+   "to": 0
+  },
+  {
+   "t": 40605.70000001788,
+   "kind": "tap",
+   "nav": "next"
+  },
+  {
+   "t": 40605.80000001192,
+   "kind": "step",
+   "id": "rs-ready",
+   "from": 0,
+   "to": null
+  },
+  {
+   "t": 48337.20000001788,
+   "kind": "speed",
+   "which": "slow",
+   "via": "slider"
+  },
+  {
+   "t": 54555.20000001788,
+   "kind": "rabbit",
+   "how": "tap"
+  },
+  {
+   "t": 64698.5,
+   "kind": "speed",
+   "which": "slow",
+   "via": "slider"
+  },
+  {
+   "t": 66003.09999999404,
+   "kind": "rabbit",
+   "how": "tap"
+  }
+ ],
+ "clips": [
+  {
+   "url": "/a/l/pr_frame.mp3",
+   "at": "0.75",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.89"
+  },
+  {
+   "url": "/a/l/pr_demo.mp3",
+   "at": "2.65",
+   "offset": 0,
+   "dur": null,
+   "cut": "8.78"
+  },
+  {
+   "url": "/a/w/rain.mp3",
+   "at": "11.43",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.58"
+  },
+  {
+   "url": "/a/w/bow.mp3",
+   "at": "13.01",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.62"
+  },
+  {
+   "url": "/a/l/rs_now_fast.mp3",
+   "at": "14.64",
+   "offset": 0,
+   "dur": null,
+   "cut": "5.44"
+  },
+  {
+   "url": "/a/w/rainbow.mp3",
+   "at": "20.08",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.44"
+  },
+  {
+   "url": "/a/l/pr_demo_back.mp3",
+   "at": "21.54",
+   "offset": 0,
+   "dur": null,
+   "cut": "4.10"
+  },
+  {
+   "url": "/a/w/bow.mp3",
+   "at": "25.64",
+   "offset": 0,
+   "dur": null,
+   "cut": "2.08"
+  },
+  {
+   "url": "/a/w/rain.mp3",
+   "at": "27.71",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.02"
+  },
+  {
+   "url": "/a/l/pr_back_rainbow.mp3",
+   "at": "28.75",
+   "offset": 0,
+   "dur": null,
+   "cut": "5.06"
+  },
+  {
+   "url": "/a/l/tv_squish_ready.mp3",
+   "at": "33.82",
+   "offset": 0,
+   "dur": null,
+   "cut": "6.39"
+  },
+  {
+   "url": "/a/l/rs_how.mp3",
+   "at": "40.22",
+   "offset": 0,
+   "dur": null,
+   "cut": "5.03"
+  },
+  {
+   "url": "/a/w/snow.mp3",
+   "at": "45.25",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.16"
+  },
+  {
+   "url": "/a/w/man.mp3",
+   "at": "46.40",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.79"
+  },
+  {
+   "url": "/a/l/rs_now_fast.mp3",
+   "at": "48.20",
+   "offset": 0,
+   "dur": null,
+   "cut": "5.52"
+  },
+  {
+   "url": "/a/w/snowman.mp3",
+   "at": "53.71",
+   "offset": 0,
+   "dur": null,
+   "cut": "0.85"
+  },
+  {
+   "url": "/a/l/rs_praise_1.mp3",
+   "at": "54.57",
+   "offset": 0,
+   "dur": null,
+   "cut": "4.59"
+  },
+  {
+   "url": "/a/l/pr_another.mp3",
+   "at": "59.16",
+   "offset": 0,
+   "dur": null,
+   "cut": "2.80"
+  },
+  {
+   "url": "/a/w/cup.mp3",
+   "at": "61.96",
+   "offset": 0,
+   "dur": null,
+   "cut": "0.85"
+  },
+  {
+   "url": "/a/w/cake.mp3",
+   "at": "62.81",
+   "offset": 0,
+   "dur": null,
+   "cut": "2.35"
+  },
+  {
+   "url": "/a/w/cupcake.mp3",
+   "at": "65.16",
+   "offset": 0,
+   "dur": null,
+   "cut": "1.37"
+  },
+  {
+   "url": "/a/l/fm_l2_done.mp3",
+   "at": "66.54",
+   "offset": 0,
+   "dur": null,
+   "cut": null
+  }
+ ]
+}
