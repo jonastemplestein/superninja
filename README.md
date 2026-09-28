@@ -8,7 +8,7 @@ A phonics adventure game for British children aged 3 to 8. Baron Muddle has scat
 
 ## How it was made
 
-Jonas described what he wanted, and Claude (Claude Code) built it: the code, art, voices, music, videos and playtesting pipelines. Codex, Gemini and other models helped along the way. **Every prompt Jonas gave is in [PROMPTS.md](PROMPTS.md), verbatim.**
+Jonas described what he wanted, and Claude (Claude Code) built it: the code, art, voices, music, videos and playtesting pipelines. Codex, Gemini and other models helped along the way.
 
 ## What's here
 
